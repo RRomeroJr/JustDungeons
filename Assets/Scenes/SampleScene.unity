@@ -136,6 +136,9 @@ GameObject:
   - component: {fileID: 92653599}
   - component: {fileID: 92653598}
   - component: {fileID: 92653602}
+  - component: {fileID: 92653604}
+  - component: {fileID: 92653605}
+  - component: {fileID: 92653603}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -189,7 +192,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &92653600
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -232,7 +235,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.08365962, g: 0.8980007, b: 0.9433962, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -270,12 +273,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e04fbaf62b0a609418eb68cacd1cbdf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MOVE_ACCELERATION: 350
-  JUMP_ACCELERATION: 300
+  body: {fileID: 0}
+  collider: {fileID: 0}
+  inputScript: {fileID: 92653604}
+  movementScript: {fileID: 92653605}
+  collisionScript: {fileID: 92653603}
   playerState: 0
-  distToGround: 0
-  jump: 0
+--- !u!114 &92653603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92653596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f432a851a72ae6040a3e674c15820c16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 92653602}
   rayColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &92653604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92653596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46378aa3b65f5e5419f3669feee59df5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 92653602}
+--- !u!114 &92653605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92653596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16e6936100ace6e4d8ebebe5f357a821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HORIZ_MOVE_ACCEL: 360
+  VERT_MOVE_ACCEL: 300
+  playerController: {fileID: 92653602}
 --- !u!1 &172564959
 GameObject:
   m_ObjectHideFlags: 0
@@ -649,7 +694,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &660875567
 SpriteRenderer:
   m_ObjectHideFlags: 0
