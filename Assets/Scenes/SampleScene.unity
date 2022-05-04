@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 92653603}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -292,6 +292,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 92653602}
+  isGrounded: 0
   rayColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &92653604
 MonoBehaviour:
@@ -321,7 +322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IN_FLIGHT_X_MOVEMENT_MODIFIER: 350
-  FALL_RATE: 1.5
+  FALL_RATE: 1.1
   MAX_JUMP_SPEED: 3
   MAX_RUN_SPEED: 3
   HORIZ_MOVE_ACCEL: 360
@@ -878,6 +879,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   source: {fileID: 660875569}
   clip: {fileID: 8300000, guid: ef3f4f1e80a57e4499f09c20bd2492bb, type: 3}
+  target: {fileID: 92653601}
+  speed: 0
 --- !u!1 &1232343085
 GameObject:
   m_ObjectHideFlags: 0
