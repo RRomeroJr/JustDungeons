@@ -273,8 +273,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e04fbaf62b0a609418eb68cacd1cbdf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 0}
-  collider: {fileID: 0}
+  body: {fileID: 92653599}
+  collider: {fileID: 92653598}
   inputScript: {fileID: 92653604}
   movementScript: {fileID: 92653605}
   collisionScript: {fileID: 92653603}
@@ -306,6 +306,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 92653602}
+  moveLeftInput: 0
+  moveRightInput: 0
 --- !u!114 &92653605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,6 +320,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e6936100ace6e4d8ebebe5f357a821, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IN_FLIGHT_X_MOVEMENT_MODIFIER: 350
+  FALL_RATE: 1.5
+  MAX_JUMP_SPEED: 3
+  MAX_RUN_SPEED: 3
   HORIZ_MOVE_ACCEL: 360
   VERT_MOVE_ACCEL: 300
   playerController: {fileID: 92653602}

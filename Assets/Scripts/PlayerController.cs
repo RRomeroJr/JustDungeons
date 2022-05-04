@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        // distToGround = collider.bounds.extents.y;
+
     }
 
     //  Player input detection goes into Update()
@@ -68,7 +68,6 @@ public class PlayerController : MonoBehaviour
     {
         movementScript.ComputeVelocity();
     }
-
 
     void UpdateStateMachine()
     {

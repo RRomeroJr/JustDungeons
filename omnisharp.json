@@ -1,6 +1,10 @@
 {
   "RoslynExtensionsOptions": {
     "EnableAnalyzersSupport": true,
-    "LocationPaths": ["./NuGet/microsoft.unity.analyzers.1.9.0"]
-  }
+    "LocationPaths": ["./NuGet/microsoft.unity.analyzers.1.9.0"],
+    "enableDecompileSupport": false
+  },
+  "projectLoadTimeout": 3000,
+  "useModernNet": true,
+  "quickload": false,
 }

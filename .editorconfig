@@ -2,3 +2,13 @@ root=true
 
 [*.cs]
 dotnet_diagnostic.IDE0051.severity = none
+
+
+{
+    "RoslynExtensionsOptions": {
+        "enableAnalyzersSupport": true
+    },
+    "FormattingOptions": {
+        "enableEditorConfigSupport": true
+    }
+}
