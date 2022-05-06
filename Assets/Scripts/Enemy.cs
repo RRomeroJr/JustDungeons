@@ -30,6 +30,17 @@ public class Enemy : MonoBehaviour
             sprite.enabled = false;
             Destroy(gameObject, 1.2f);
         }
-        
+        /*
+        else if (collision.gameObject.tag == "Projectile")
+        {
+            Getting ready to make this dank collision detection for projectiles ...
+            
+
+            Move shit here.. 
+
+            Additional edge case here ...
+        }
+
+        */
     }
 }
