@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] internal PlayerInputScript inputScript;
     [SerializeField] internal PlayerMovementScript movementScript;
     [SerializeField] internal PlayerCollisionScript collisionScript;
+    [SerializeField] internal PlayerWeaponScript weaponScript;
+    [SerializeField] internal Transform firePoint;
 
     public PlayerState_e playerState;
 
@@ -47,9 +49,9 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        playerState = PlayerState_e.Grounded;
         body = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
+        playerState = PlayerState_e.Grounded;
     }
 
     private void Start()
@@ -102,6 +104,7 @@ public class PlayerController : MonoBehaviour
                 {
                     playerState = PlayerState_e.Grounded;
                 }
+
                 break;
 
             case PlayerState_e.PreparingToJump:
@@ -112,6 +115,7 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("PreparingToJump -> InFlight");
                     playerState = PlayerState_e.InFlight;
                 }
+
                 break;
 
             case PlayerState_e.InFlight:
@@ -127,12 +131,12 @@ public class PlayerController : MonoBehaviour
                 {
                     playerState = PlayerState_e.InFlight;
                 }
+
                 break;
 
             default:
                 playerState = PlayerState_e.Grounded;
                 break;
-
         }
     }
 }

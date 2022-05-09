@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
@@ -8,39 +6,45 @@ public class Enemy : MonoBehaviour
     public AudioClip clip;
     public Transform target;
     public float speed;
+    public bool movingLeft;
+    public SpriteRenderer sprite;
+
+    private void Awake()
+    {
+        sprite = GetComponent<SpriteRenderer>();
+    }
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         speed = 1;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         var step = speed * Time.deltaTime;
+
+        //  Add additional logic to flip the sprite
         transform.position = Vector3.MoveTowards(transform.position, target.transform.position, step);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        SpriteRenderer sprite = GetComponent<SpriteRenderer>();
-        if (collision.gameObject.tag == "Player")
+        Debug.Log($"CollisionEvent with {collision.gameObject.tag:s}");
+
+        if (collision.gameObject.CompareTag("Player"))
         {
             source.PlayOneShot(clip);
             sprite.enabled = false;
             Destroy(gameObject, 1.2f);
         }
-        /*
-        else if (collision.gameObject.tag == "Projectile")
+        else if (collision.gameObject.CompareTag("Projectile"))
         {
-            Getting ready to make this dank collision detection for projectiles ...
-            
-
-            Move shit here.. 
-
-            Additional edge case here ...
+            Destroy(collision.gameObject);  //  Destroy the Projectile
+            source.PlayOneShot(clip);
+            sprite.enabled = false;
+            Destroy(gameObject, 1.2f);      //  Destroy this gameObject
         }
-
-        */
     }
 }

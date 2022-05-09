@@ -1,8 +1,9 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerCollisionScript : MonoBehaviour
 {
     [SerializeField] PlayerController playerController;
+
     private float distToGround;
     public bool isGrounded;
     private Vector3 bodyCenter;

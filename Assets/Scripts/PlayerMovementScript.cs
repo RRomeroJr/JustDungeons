@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerMovementScript : MonoBehaviour
 {
@@ -89,6 +89,5 @@ public class PlayerMovementScript : MonoBehaviour
             playerController.body.velocity = inFlightVelocity;
 
         }
-
     }
 }
