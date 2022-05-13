@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject, 1.2f);
         }
         /*
-        else if (collision.gameObject.tag == "Projectile")
+        else if (collision.gameOject.tag == "Projectile")
         {
             Getting ready to make this dank collision detection for projectiles ...
             
