@@ -1562,6 +1562,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 8733643818106028262, guid: 083167164e3be594fb6a0bfb04f46de3, type: 3}
+      propertyPath: speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8733643818106028262, guid: 083167164e3be594fb6a0bfb04f46de3, type: 3}
+      propertyPath: openHeight
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8733643818106028262, guid: 083167164e3be594fb6a0bfb04f46de3, type: 3}
       propertyPath: triggerObject
       value: 
       objectReference: {fileID: 1945671860}
