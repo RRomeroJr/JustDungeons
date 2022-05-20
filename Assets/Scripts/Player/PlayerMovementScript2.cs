@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-
+/*
+    Control for player movement. 
+    
+    *NOTE* for now there are things related to player health in here.
+    This will be changed later 
+*/
 public class PlayerMovementScript2 : MonoBehaviour
 {
     //--------------------------------------
@@ -18,7 +23,9 @@ public class PlayerMovementScript2 : MonoBehaviour
     [SerializeField] private float VERT_MOVE_ACCEL = 360;
 
     [SerializeField] private PlayerController playerController;
-
+    //--------------------------------------
+    // vvv This should not be here vvv
+    //--------------------------------------
     public float health;
     public Slider healthSlider;
 
@@ -28,11 +35,15 @@ public class PlayerMovementScript2 : MonoBehaviour
     public void takeDamage(float amount){
         healthSlider.value = healthSlider.value - amount;
     }
+    //--------------------------------------
+    // ^^^ move in future ^^^
+    //--------------------------------------
     void Start()
     {
 
     }
     void Update(){
+        //  Was testing something here
         if(Input.GetKeyDown("f")){
             takeDamage(5.0f);
         }

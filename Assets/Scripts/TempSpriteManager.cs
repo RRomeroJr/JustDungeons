@@ -1,7 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+    Richie:
+        Quick and dirty way of having the player change sprites
+        based on movement. In the future probably should do this
+        in a better way
+*/
 public class TempSpriteManager : MonoBehaviour
 {
     public Sprite up;
@@ -10,11 +15,6 @@ public class TempSpriteManager : MonoBehaviour
     public Sprite left;
 
     public SpriteRenderer spriteRenderer;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()

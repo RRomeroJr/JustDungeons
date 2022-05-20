@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+    Handler for all UI HUD elements
+*/
 public class UIManager : MonoBehaviour
 {
     public UnitFrame partyFrame;
@@ -29,9 +31,5 @@ public class UIManager : MonoBehaviour
         //  Getting apropriate healthbar color from actor
         unitFrame.healthFill.color = actor.unitColor;
     }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

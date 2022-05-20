@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-
+/*
+    Richie: 
+        This should handle clicking of characters/ objects in the world
+    as well as UI elements inorder to interact with them/ get them
+    as your current target
+*/
 public class ClickManager : MonoBehaviour
 {
     public Text targetName;
     public Slider targetHealthBar;
     public Image targetHealthBarFill;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0)) {

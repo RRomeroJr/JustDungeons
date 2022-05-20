@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*  
+    Attach to character and object in the world in order
+    to render them in the correct order
+*/
 public class SpaceOrderHandler : MonoBehaviour
 {
     public Renderer myRenderer;
