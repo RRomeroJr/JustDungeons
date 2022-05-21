@@ -6,6 +6,7 @@ using UnityEngine;
 */
 public class UIManager : MonoBehaviour
 {
+    public CastBar castBar;
     public UnitFrame partyFrame;
     public UnitFrame partyFrame1;
     public UnitFrame partyFrame2;
@@ -30,6 +31,10 @@ public class UIManager : MonoBehaviour
         unitFrame.healthBar.value = actor.health;
         //  Getting apropriate healthbar color from actor
         unitFrame.healthFill.color = actor.unitColor;
+    }
+
+    public bool castSpell(){
+        return true;
     }
 
 }

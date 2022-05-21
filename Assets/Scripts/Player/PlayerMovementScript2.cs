@@ -26,15 +26,17 @@ public class PlayerMovementScript2 : MonoBehaviour
     //--------------------------------------
     // vvv This should not be here vvv
     //--------------------------------------
+    /*
     public float health;
     public Slider healthSlider;
+    
 
     public void setHealth(float newHealth){
         healthSlider.value = newHealth;
     }
     public void takeDamage(float amount){
         healthSlider.value = healthSlider.value - amount;
-    }
+    }*/
     //--------------------------------------
     // ^^^ move in future ^^^
     //--------------------------------------
@@ -43,13 +45,8 @@ public class PlayerMovementScript2 : MonoBehaviour
 
     }
     void Update(){
-        //  Was testing something here
-        if(Input.GetKeyDown("f")){
-            takeDamage(5.0f);
-        }
-        
+       
     }
-
 
     // Update is called once per frame
     void FixedUpdate()
