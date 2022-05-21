@@ -15,4 +15,8 @@ public class Actor : MonoBehaviour
 
     public Color unitColor;
 
+    void takeDamage(float amount){
+        
+    }
+
 }
