@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /*
@@ -8,7 +8,7 @@ using UnityEngine;
 public class Actor : MonoBehaviour
 {
     public string name;
-    public float health;
+    public FloatReference health;
     public float maxHealth;
     public float mana;
     public float maxMana;
