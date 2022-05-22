@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 3544495583399109506}
   - component: {fileID: 3544495583399109505}
   - component: {fileID: 3544495583399109533}
-  - component: {fileID: 3544495583399109534}
   - component: {fileID: 3544495583399109535}
+  - component: {fileID: -5889842083167232273}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -232,27 +232,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &3544495583399109534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3544495583399109504}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df2aecd01b5658e418f53c8afe55c0db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 3544495583399109533}
-  clip: {fileID: 8300000, guid: ef3f4f1e80a57e4499f09c20bd2492bb, type: 3}
-  target: {x: 0, y: 0, z: 0}
-  parent: {fileID: 0}
-  movingLeft: 0
-  sprite: {fileID: 3544495583399109507}
-  currentHP: 0
-  enemySO: {fileID: 11400000, guid: 42b65c35860a4674e8ba31503de1aa12, type: 2}
-  aipath: {fileID: 0}
 --- !u!114 &3544495583399109535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,3 +245,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 2262674964285535028, guid: 3a9d03d37e7b36e4f97652c5bdcf0981, type: 3}
+--- !u!114 &-5889842083167232273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3544495583399109504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eada3c2499d0ff48aa4216e5bfeccd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemySO: {fileID: 11400000, guid: 42b65c35860a4674e8ba31503de1aa12, type: 2}
+  currentHP: 0
+  movementScript: {fileID: 0}
+  weaponScript: {fileID: 0}
