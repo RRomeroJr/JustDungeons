@@ -6,11 +6,20 @@ using UnityEngine;
 */
 public class UIManager : MonoBehaviour
 {
-    public CastBar castBar;
+    public GameObject canvas;
+    public GameObject castBarPrefab;
+    /*
+        Might be good to make these a list.
+        that way can just have a function which
+        up dates them all by stepping through the list
+        then calling setUpFrame() on the them
+    */
+    public UnitFrame targetFrame;
     public UnitFrame partyFrame;
     public UnitFrame partyFrame1;
     public UnitFrame partyFrame2;
     public UnitFrame partyFrame3;
+    public bool hasTarget;
     
     // Start is called before the first frame update
     void Start()
@@ -22,19 +31,28 @@ public class UIManager : MonoBehaviour
         setUpUnitFrame(partyFrame1, partyFrame1.actor);
         setUpUnitFrame(partyFrame2, partyFrame2.actor);
         setUpUnitFrame(partyFrame3, partyFrame3.actor);
+        hasTarget = false;
     }
-    void setUpUnitFrame(UnitFrame unitFrame, Actor actor){
+    public void setUpUnitFrame(UnitFrame unitFrame, Actor actor){
+        //setting Actor
+        unitFrame.actor = actor;
         //  Getting name
-        unitFrame.unitName.text = actor.name;
+        unitFrame.unitName.text = actor.actorName;
         //  Getting health current and max
         unitFrame.healthBar.maxValue = actor.maxHealth;
         unitFrame.healthBar.value = actor.health;
         //  Getting apropriate healthbar color from actor
         unitFrame.healthFill.color = actor.unitColor;
     }
-
-    public bool castSpell(){
-        return true;
+    void Update(){
+        setUpUnitFrame(partyFrame, partyFrame.actor);
+        setUpUnitFrame(partyFrame1, partyFrame1.actor);
+        setUpUnitFrame(partyFrame2, partyFrame2.actor);
+        setUpUnitFrame(partyFrame3, partyFrame3.actor);
+        if(targetFrame.actor != null){ // do this for all frames?
+            setUpUnitFrame(targetFrame, targetFrame.actor);
+            hasTarget = true;
+        }
     }
 
 }
