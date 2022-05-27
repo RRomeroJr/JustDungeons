@@ -43,9 +43,9 @@ public class Actor : MonoBehaviour
                             activeSpellEffects[i].elaspedTime += Time.deltaTime;
                             if(activeSpellEffects[i].elaspedTime % activeSpellEffects[i].getTickRate() == 0.0f){
                                 //Debug.Log("Ticking Dmg " + actorName + ": " + activeSpellEffects[i].getPower().ToString());
-                                health -= (activeSpellEffects[i].getTickRate()/ activeSpellEffects[i].getDuration()) * activeSpellEffects[i].getPower();
+                                health -= (int)((activeSpellEffects[i].getTickRate()/ activeSpellEffects[i].getDuration()) * activeSpellEffects[i].getPower());
                                 activeSpellEffects[i].elaspedTime += Time.fixedDeltaTime;
-                            }*/
+                            }
                         }
                         break;
 
