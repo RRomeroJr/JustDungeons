@@ -18,7 +18,12 @@ public class ActiveSpellEffect
 
     public float lastTick; // time since last tick
 
-    public ActiveSpellEffect(){}
+    public float remainingTime;
+    public bool start;
+
+    public ActiveSpellEffect(){
+        start = false;
+    }
     public ActiveSpellEffect(SpellEffect inSpellEffect, Actor inCaster){
         spellEffect = inSpellEffect;
         caster = inCaster;
@@ -26,7 +31,9 @@ public class ActiveSpellEffect
         effectType = inSpellEffect.getEffectType();
         power = inSpellEffect.getPower();
         duration = inSpellEffect.getDuration();
+        remainingTime = inSpellEffect.getDuration();
         tickRate = MathF.Round(inSpellEffect.getTickRate());
+        start = false;
     }
 
     public string getEffectName(){
@@ -40,7 +47,7 @@ public class ActiveSpellEffect
     }
     public float getDuration(){
         return duration;
-    }
+    }  
     public float getTickRate(){
         return tickRate;
     }

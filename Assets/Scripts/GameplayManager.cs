@@ -30,7 +30,7 @@ public class GameplayManager : MonoBehaviour
         //            (Spell Name, Spell Type, Power, Duration, Tick Rate) || 0=dmg, 1=heal, tick rate not working atm
         oneOffDamageEffect = new SpellEffect("Testerbolt Effect", 0, 7.0f, 0.0f, 0.0f);
         dotEffect = new SpellEffect("Debugger\'s Futility Effect", 2, 30.0f, 9.0f, 3.0f);// damage ^^
-        oneOffHealEffect = new SpellEffect("Quality Assured Effect", 1, 10.0f, 0.0f, 0.0f);
+        oneOffHealEffect = new SpellEffect("Quality Assured Effect", 1, 13.0f, 0.0f, 0.0f);
         hotEffect = new SpellEffect("Sisyphean Resolve Effect", 3, 25.0f, 4.0f, 1.0f);// heals ^^
 
         castedSpell = new Spell("Testerbolt", oneOffDamageEffect, 1.5f);

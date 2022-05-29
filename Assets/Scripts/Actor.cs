@@ -42,28 +42,47 @@ public class Actor : MonoBehaviour
                         handleHeal(activeSpellEffects[i]);
                         break;
                     case 2: // DoT
-                        if(activeSpellEffects[i].lastTick >= activeSpellEffects[i].getTickRate()){
-                            // if rdy to tick
+                        if(activeSpellEffects[i].start){ 
+                        // if this isn't the first frame
 
-                            handleDoT(activeSpellEffects[i]);
-                            Debug.Log("Actor: ticking" + activeSpellEffects[i].getEffectName() + " on " + actorName);
+                            //Iterate duration
+                            activeSpellEffects[i].remainingTime -= Time.deltaTime;
+                            //Iterate lastTick
+                            activeSpellEffects[i].lastTick += Time.deltaTime;
+
+                            if(activeSpellEffects[i].lastTick >= activeSpellEffects[i].getTickRate()){
+                                // if rdy to tick
+
+                                handleDoT(activeSpellEffects[i]);
+                                //Debug.Log("Actor: ticking" + activeSpellEffects[i].getEffectName() + " on " + actorName);
+                            }
+                            
                         }
-                        //Iterate duration
-                        activeSpellEffects[i].duration -= Time.deltaTime;
-                        //Iterate lastTick
-                        activeSpellEffects[i].lastTick += Time.deltaTime;
+                        else{
+                            handleDoT(activeSpellEffects[i]);
+                            activeSpellEffects[i].start = true;
+                        }
                         break;
                     case 3: // HoT
-                        if(activeSpellEffects[i].lastTick >= activeSpellEffects[i].getTickRate()){
-                            // if rdy to tick
+                        if(activeSpellEffects[i].start){
+                        // if this isn't the first frame
+                            //Iterate duration
+                            activeSpellEffects[i].remainingTime -= Time.deltaTime;
+                            //Iterate lastTick
+                            activeSpellEffects[i].lastTick += Time.deltaTime;
 
-                            handleHoT(activeSpellEffects[i]);
-                            Debug.Log("Actor: ticking" + activeSpellEffects[i].getEffectName() + " on " + actorName);
+                            if(activeSpellEffects[i].lastTick >= activeSpellEffects[i].getTickRate()){
+                                // if rdy to tick
+
+                                handleHoT(activeSpellEffects[i]);
+                               // Debug.Log("Actor: ticking" + activeSpellEffects[i].getEffectName() + " on " + actorName);
+                            }
+                            
                         }
-                        //Iterate duration
-                        activeSpellEffects[i].duration -= Time.deltaTime;
-                        //Iterate lastTick
-                        activeSpellEffects[i].lastTick += Time.deltaTime;
+                        else{
+                            handleHoT(activeSpellEffects[i]);
+                            activeSpellEffects[i].start = true;
+                        }
                         break;
                     default:
                         Debug.Log("Unknown spell type on " + actorName + "! Don't know what to do! Trying to remove..");
@@ -81,6 +100,7 @@ public class Actor : MonoBehaviour
         // This could take an extra param to indicate a different value to "damage"
         // For ex. a spell that reduces maxHealth or destroys mana
 
+        Debug.Log("damageValue: " + amount.ToString()+ " on " + actorName);
         health -= amount;
 
     }
@@ -88,6 +108,7 @@ public class Actor : MonoBehaviour
     void restoreValue(int amount){
         // This would be the opposite of damageValue(). Look at that for more details
         
+        Debug.Log("restoreValue: " + amount.ToString()+ " on " + actorName);
         health += amount;
 
     }
@@ -95,7 +116,7 @@ public class Actor : MonoBehaviour
     void checkASEToRemoveAtPos(ActiveSpellEffect inASE, int listPos){
         // Remove ActiveSpellEffect is it's duration is <= 0.0f
 
-        if(inASE.getDuration() <= 0.0f){
+        if(inASE.remainingTime <= 0.0f){
             Debug.Log(actorName + ": Removing.. "+ inASE.getEffectName());
             activeSpellEffects.RemoveAt(listPos);
         }
@@ -120,15 +141,17 @@ public class Actor : MonoBehaviour
 
         // For saftey to make sure that the effect is removed from list
         // right aft the effect finishes
-        inASE.duration = 0.0f; 
+        inASE.remainingTime = 0.0f; 
             
     }
     void handleDoT(ActiveSpellEffect inASE){// Type 2
 
         // Do any extra stuff
 
-        damageValue( (int) ( ( inASE.getTickRate() / inASE.getDuration() ) * inASE.getPower() ) );// likly will change once we have stats
-        inASE.lastTick = 0.0f;
+        damageValue( (int) ( ( inASE.getTickRate() / (inASE.getDuration() + inASE.getTickRate()) ) * inASE.getPower() ) );// likly will change once we have stats
+        //damageValue( (int) inASE.getPower()  );
+        if(inASE.lastTick >= inASE.tickRate)
+            inASE.lastTick -= inASE.tickRate;
             
     }
 
@@ -145,7 +168,7 @@ public class Actor : MonoBehaviour
 
         // For saftey to make sure that the effect is removed from list
         // right aft the effect finishes
-        inASE.duration = 0.0f; 
+        inASE.remainingTime = 0.0f; 
             
     }
 
@@ -154,7 +177,8 @@ public class Actor : MonoBehaviour
         // Do any extra stuff
 
         restoreValue( (int) ( ( inASE.getTickRate() / inASE.getDuration() ) * inASE.getPower() ) );// likly will change once we have stats
-        inASE.lastTick = 0.0f;
+        if(inASE.lastTick >= inASE.tickRate)
+            inASE.lastTick -= inASE.tickRate;
             
     }
     
