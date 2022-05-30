@@ -28,7 +28,7 @@ public class ClickManager : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
 
             if (hit.collider != null) {
-                Debug.Log("Clicked something");
+                //Debug.Log("Clicked something");
                 // set up[ UImanager's targetFrame w/ actor hit by raycast
                 UIManager.setUpUnitFrame(UIManager.targetFrame, hit.collider.gameObject.GetComponent<Actor>());
                 /*
