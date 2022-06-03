@@ -5,8 +5,9 @@ using UnityEngine;
 public class Grid : MonoBehaviour
 {
     public LayerMask unwalkableMask;
-    public Vector3 gridWorldSize;
     public float nodeRadius;
+    [Header("Only set to whole numbers")]
+    public Vector3 gridWorldSize;
     Node[,] grid;
 
     float nodeDiameter;
@@ -40,6 +41,7 @@ public class Grid : MonoBehaviour
         }
     }
 
+    //
     public List<Node> GetNeighbors(Node node)
     {
         List<Node> neighbours = new List<Node>();
@@ -65,10 +67,11 @@ public class Grid : MonoBehaviour
         return neighbours;
     }
 
+    //Calculate node that world coordinates correspond to
     public Node NodeFromWorldPoint(Vector3 worldPosition)
     {
-        float percentX = (worldPosition.x + gridWorldSize.x / 2) / gridWorldSize.x;
-        float percentY = (worldPosition.y + gridWorldSize.y / 2) / gridWorldSize.y;
+        float percentX = worldPosition.x / gridWorldSize.x + 0.5f;
+        float percentY = worldPosition.y / gridWorldSize.y + 0.5f;
         percentX = Mathf.Clamp01(percentX);
         percentY = Mathf.Clamp01(percentY);
 
