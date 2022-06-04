@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 /*
-    Container with references important to controling
+    Container with references important to controlling
     and displaying unit frames properly
 */
 public class UnitFrame : MonoBehaviour
