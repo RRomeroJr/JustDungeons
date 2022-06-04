@@ -39,23 +39,26 @@ public class GameplayManager : MonoBehaviour
         instantHeal = new Spell("Sisyphean Resolve Effect", hotEffect, 0.0f);
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     }
-
+    
+    // bool isCasting
+    // float castEnd 
     void Update()
     {
-        
+        //if(isCasting)
+            //if(Time.time >= castEnd) if it go to the end
+                //castSpell(instantSpell);
         if(Input.GetKeyDown("1")){
-                castSpell(instantSpell);
+            castSpell(instantSpell);
         }
-        if(Input.GetKeyDown("2")){
-                
-                castSpell(castedSpell);
+        if(Input.GetKeyDown("2")){       
+            castSpell(castedSpell);
         }
         if(Input.GetKeyDown("3")){
-                castSpell(castedHeal);
+            castSpell(castedHeal);
         }
         if(Input.GetKeyDown("4")){
                 
-                castSpell(instantHeal);
+            castSpell(instantHeal);
         }
     }
     void castSpell(Spell inSpell){
