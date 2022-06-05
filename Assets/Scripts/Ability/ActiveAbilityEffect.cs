@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 [System.Serializable]
-public class ActiveSpellEffect
+public class ActiveAbilityEffect
 {
     /* 
-                   Spell Effects that are currently active on some target Actor
+                   Ability Effects that are currently active on some target Actor
     */
-    public SpellEffect spellEffect;
+    public AbilityEffect AbilityEffect;
     public Actor caster;
     public string effectName;
     public int effectType; // 0=damage, 1=heal, 2=DoT, 3=Hot, 4=something else... tbd
@@ -21,18 +21,18 @@ public class ActiveSpellEffect
     public float remainingTime;
     public bool start;
 
-    public ActiveSpellEffect(){
+    public ActiveAbilityEffect(){
         start = false;
     }
-    public ActiveSpellEffect(SpellEffect inSpellEffect, Actor inCaster){
-        spellEffect = inSpellEffect;
+    public ActiveAbilityEffect(AbilityEffect inAbilityEffect, Actor inCaster){
+        AbilityEffect = inAbilityEffect;
         caster = inCaster;
-        effectName = inSpellEffect.getEffectName();
-        effectType = inSpellEffect.getEffectType();
-        power = inSpellEffect.getPower();
-        duration = inSpellEffect.getDuration();
-        remainingTime = inSpellEffect.getDuration();
-        tickRate = MathF.Round(inSpellEffect.getTickRate());
+        effectName = inAbilityEffect.getEffectName();
+        effectType = inAbilityEffect.getEffectType();
+        power = inAbilityEffect.getPower();
+        duration = inAbilityEffect.getDuration();
+        remainingTime = inAbilityEffect.getDuration();
+        tickRate = MathF.Round(inAbilityEffect.getTickRate());
         start = false;
     }
 

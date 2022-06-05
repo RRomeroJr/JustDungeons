@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class SpellEffect
+public class AbilityEffect
 {
     /*
         These are private bc they shoud be thought about as "starting points".
 
         If you want an effect but, for ex., want it to last a little longer 
 
-        you call an Actor's applySpellEffect() then manipulate the ActiveSpellEffect
+        you call an Actor's applyAbilityEffect() then manipulate the ActiveAbilityEffect
         that it generates 
         
     */
@@ -21,9 +21,9 @@ public class SpellEffect
     private float tickRate; // for now will be rounded
 
     
-public SpellEffect(){
+public AbilityEffect(){
 }
-public SpellEffect(string inEffectName, int inEffectType, float inPower, float inDuration, float inTickRate){
+public AbilityEffect(string inEffectName, int inEffectType, float inPower, float inDuration, float inTickRate){
     effectName = inEffectName;
     effectType = inEffectType;
     power = inPower;

@@ -15,90 +15,90 @@ public class Actor : MonoBehaviour
     public float maxMana;
 
     public Color unitColor;
-    public List<SpellEffect> spellEffects;
-    public List<ActiveSpellEffect> activeSpellEffects; 
+    public List<AbilityEffect> abilityEffects;
+    public List<ActiveAbilityEffect> activeAbilityEffects; 
 
     void Start(){
-        spellEffects = new List<SpellEffect>();
-        activeSpellEffects = new List<ActiveSpellEffect>(); 
+        abilityEffects = new List<AbilityEffect>();
+        activeAbilityEffects = new List<ActiveAbilityEffect>(); 
     }
     void Update(){
-        handleSpellEffects();
+        handleAbilityEffects();
     }
 
-    void handleSpellEffects(){
+    void handleAbilityEffects(){
 
-        if(activeSpellEffects.Count > 0){
+        if(activeAbilityEffects.Count > 0){
 
-            for(int i = 0; i < activeSpellEffects.Count; i++){
+            for(int i = 0; i < activeAbilityEffects.Count; i++){
 
-                switch(activeSpellEffects[i].getEffectType()){
+                switch(activeAbilityEffects[i].getEffectType()){
                     case 0: // damage
-                        handleDamage(activeSpellEffects[i]);
+                        handleDamage(activeAbilityEffects[i]);
 
                         break;
 
                     case 1: // heal
-                        handleHeal(activeSpellEffects[i]);
+                        handleHeal(activeAbilityEffects[i]);
                         break;
                     case 2: // DoT
-                        if(activeSpellEffects[i].start){ 
+                        if(activeAbilityEffects[i].start){ 
                         // if this isn't the first frame
 
                             //Iterate duration
-                            activeSpellEffects[i].remainingTime -= Time.deltaTime;
+                            activeAbilityEffects[i].remainingTime -= Time.deltaTime;
                             //Iterate lastTick
-                            activeSpellEffects[i].lastTick += Time.deltaTime;
+                            activeAbilityEffects[i].lastTick += Time.deltaTime;
 
-                            if(activeSpellEffects[i].lastTick >= activeSpellEffects[i].getTickRate()){
+                            if(activeAbilityEffects[i].lastTick >= activeAbilityEffects[i].getTickRate()){
                                 // if rdy to tick
 
-                                handleDoT(activeSpellEffects[i]);
-                                //Debug.Log("Actor: ticking" + activeSpellEffects[i].getEffectName() + " on " + actorName);
+                                handleDoT(activeAbilityEffects[i]);
+                                //Debug.Log("Actor: ticking" + activeAbilityEffects[i].getEffectName() + " on " + actorName);
                             }
                             
                         }
                         else{
-                            handleDoT(activeSpellEffects[i]);
-                            activeSpellEffects[i].start = true;
+                            handleDoT(activeAbilityEffects[i]);
+                            activeAbilityEffects[i].start = true;
                         }
                         break;
                     case 3: // HoT
-                        if(activeSpellEffects[i].start){
+                        if(activeAbilityEffects[i].start){
                         // if this isn't the first frame
                             //Iterate duration
-                            activeSpellEffects[i].remainingTime -= Time.deltaTime;
+                            activeAbilityEffects[i].remainingTime -= Time.deltaTime;
                             //Iterate lastTick
-                            activeSpellEffects[i].lastTick += Time.deltaTime;
+                            activeAbilityEffects[i].lastTick += Time.deltaTime;
 
-                            if(activeSpellEffects[i].lastTick >= activeSpellEffects[i].getTickRate()){
+                            if(activeAbilityEffects[i].lastTick >= activeAbilityEffects[i].getTickRate()){
                                 // if rdy to tick
 
-                                handleHoT(activeSpellEffects[i]);
-                               // Debug.Log("Actor: ticking" + activeSpellEffects[i].getEffectName() + " on " + actorName);
+                                handleHoT(activeAbilityEffects[i]);
+                               // Debug.Log("Actor: ticking" + activeAbilityEffects[i].getEffectName() + " on " + actorName);
                             }
                             
                         }
                         else{
-                            handleHoT(activeSpellEffects[i]);
-                            activeSpellEffects[i].start = true;
+                            handleHoT(activeAbilityEffects[i]);
+                            activeAbilityEffects[i].start = true;
                         }
                         break;
                     default:
-                        Debug.Log("Unknown spell type on " + actorName + "! Don't know what to do! Trying to remove..");
-                        activeSpellEffects[i].duration = 0.0f;
+                        Debug.Log("Unknown Ability type on " + actorName + "! Don't know what to do! Trying to remove..");
+                        activeAbilityEffects[i].duration = 0.0f;
                         break;
                 
                 }
-            checkASEToRemoveAtPos(activeSpellEffects[i], i);
+            checkASEToRemoveAtPos(activeAbilityEffects[i], i);
             }
-        //Debug.Log(actorName + " cleared all spell effects!");
+        //Debug.Log(actorName + " cleared all Ability effects!");
         }
     }
     void damageValue(int amount){
         // Right now this only damages health, but, maybe in the future,
         // This could take an extra param to indicate a different value to "damage"
-        // For ex. a spell that reduces maxHealth or destroys mana
+        // For ex. a Ability that reduces maxHealth or destroys mana
 
         Debug.Log("damageValue: " + amount.ToString()+ " on " + actorName);
         health -= amount;
@@ -113,22 +113,22 @@ public class Actor : MonoBehaviour
 
     }
 
-    void checkASEToRemoveAtPos(ActiveSpellEffect inASE, int listPos){
-        // Remove ActiveSpellEffect is it's duration is <= 0.0f
+    void checkASEToRemoveAtPos(ActiveAbilityEffect inASE, int listPos){
+        // Remove ActiveAbilityEffect is it's duration is <= 0.0f
 
         if(inASE.remainingTime <= 0.0f){
             Debug.Log(actorName + ": Removing.. "+ inASE.getEffectName());
-            activeSpellEffects.RemoveAt(listPos);
+            activeAbilityEffects.RemoveAt(listPos);
         }
     }
 
-    public void applySpellEffect(SpellEffect inSpellEffect, Actor inCaster){
+    public void applyAbilityEffect(AbilityEffect inAbilityEffect, Actor inCaster){
 
-        activeSpellEffects.Add(new ActiveSpellEffect(inSpellEffect, inCaster));
-        //Debug.Log("Actor: Applying.." + inSpellEffect.getEffectName() + " to " + actorName);  
+        activeAbilityEffects.Add(new ActiveAbilityEffect(inAbilityEffect, inCaster));
+        //Debug.Log("Actor: Applying.." + inAbilityEffect.getEffectName() + " to " + actorName);  
 
     }
-    void handleDamage(ActiveSpellEffect inASE){// Type 0
+    void handleDamage(ActiveAbilityEffect inASE){// Type 0
 
         /* 
             In here you could add interesting interactions
@@ -144,7 +144,7 @@ public class Actor : MonoBehaviour
         inASE.remainingTime = 0.0f; 
             
     }
-    void handleDoT(ActiveSpellEffect inASE){// Type 2
+    void handleDoT(ActiveAbilityEffect inASE){// Type 2
 
         // Do any extra stuff
 
@@ -155,7 +155,7 @@ public class Actor : MonoBehaviour
             
     }
 
-    void handleHeal(ActiveSpellEffect inASE){// Type 0
+    void handleHeal(ActiveAbilityEffect inASE){// Type 0
 
         /* 
             In here you could add interesting interactions
@@ -172,7 +172,7 @@ public class Actor : MonoBehaviour
             
     }
 
-    void handleHoT(ActiveSpellEffect inASE){// Type 2
+    void handleHoT(ActiveAbilityEffect inASE){// Type 2
 
         // Do any extra stuff
 

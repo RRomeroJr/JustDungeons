@@ -5,7 +5,7 @@ using UnityEngine;
 /*
 
 
-    ~~~~~ Put a bunch of predefined spells here ~~~~~
+    ~~~~~ Put a bunch of predefined abilitys here ~~~~~
 
 
 */

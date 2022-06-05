@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SpellCast : MonoBehaviour
+public class CastBar : MonoBehaviour
 {
-    public Text spellName;
+    public Text abilityName;
     public Image castFill; //  Used to make fill bar different color
     public Slider castBar;
     public float castTime;
@@ -14,14 +14,14 @@ public class SpellCast : MonoBehaviour
     public Actor target;
     public bool start = false;
 
-    public SpellEffect spellEffect;
+    public AbilityEffect AbilityEffect;
     
   void Start(){
 
   }
-  public void Init(SpellEffect spell_effect, string spell_name, Actor from_caster, Actor to_target, float cast_time){
-    spellEffect = spell_effect;
-    spellName.text = spell_name;
+  public void Init(AbilityEffect ability_effect, string ability_name, Actor from_caster, Actor to_target, float cast_time){
+    AbilityEffect = ability_effect;
+    abilityName.text = ability_name;
     caster = from_caster;
     target = to_target;
     castTime = cast_time;
@@ -39,8 +39,8 @@ public class SpellCast : MonoBehaviour
         else{
           Debug.Log("SC: cast Completed!");
 
-          // adding SpellEffect to target actor's spellEffects list
-          target.applySpellEffect(spellEffect, caster);
+          // adding AbilityEffect to target actor's abilityEffects list
+          target.applyAbilityEffect(AbilityEffect, caster);
           
           Destroy(gameObject);
           //target.health -= 15.0f;
