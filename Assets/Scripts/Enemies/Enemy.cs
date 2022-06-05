@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using Pathfinding;
+//using Pathfinding;
 
 public class Enemy : MonoBehaviour
 {
@@ -12,19 +12,19 @@ public class Enemy : MonoBehaviour
 
     public float currentHP;
     public EnemySO enemySO;
-    public AIPath aipath;
+   // public AIPath aipath;
 
     private void Start()
     {
         currentHP = enemySO.maxHP;
         sprite = GetComponent<SpriteRenderer>();
         parent = transform.parent;
-        aipath = GetComponentInParent<AIPath>();
+        //aipath = GetComponentInParent<AIPath>();
     }
 
     private void Update()
     {
-        target = aipath.steeringTarget;
+        //target = aipath.steeringTarget;
         var step = enemySO.moveSpeed * Time.deltaTime;
         if (!FacingTarget())
         {   //  Flipping enemy to face target if needed
