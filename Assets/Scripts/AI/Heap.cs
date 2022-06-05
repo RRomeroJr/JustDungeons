@@ -22,6 +22,11 @@ public class Heap<T> where T : IHeapItem<T>
         currentItemCount++;
     }
 
+    public void Clear()
+    {
+        currentItemCount = 0;
+    }
+
     // Removes the first element of array, copy last element to first element, then call SortDown() to put node in correct location in the heap
     public T RemoveFirst()
     {
@@ -45,7 +50,14 @@ public class Heap<T> where T : IHeapItem<T>
 
     public bool Contains(T item)
     {
-        return Equals(items[item.HeapIndex], item);
+        if (item.HeapIndex < currentItemCount)
+        {
+            return Equals(items[item.HeapIndex], item);
+        }
+        else
+        {
+            return false;
+        }
     }
 
     void SortDown(T item)
@@ -109,7 +121,7 @@ public class Heap<T> where T : IHeapItem<T>
         items[itemB.HeapIndex] = itemA;
         int itemAIndex = itemA.HeapIndex;
         itemA.HeapIndex = itemB.HeapIndex;
-        itemB.HeapIndex = itemA.HeapIndex;
+        itemB.HeapIndex = itemAIndex;
     }
 }
 

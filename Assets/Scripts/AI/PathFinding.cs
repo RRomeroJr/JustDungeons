@@ -5,15 +5,21 @@ using System.Diagnostics;
 
 public class PathFinding : MonoBehaviour
 {
-    public Transform seeker, target;
-
     Grid grid;
+    public Transform seeker, target;
+    private Heap<Node> openSet;
+    private HashSet<Node> closedSet;
 
     private void Awake()
     {
         grid = GetComponent<Grid>();
     }
 
+    private void Start()
+    {
+        openSet = new Heap<Node>(grid.MaxSize);
+        closedSet = new HashSet<Node>();
+    }
     private void Update()
     {
         if (Input.GetButtonDown("Jump"))
@@ -29,8 +35,8 @@ public class PathFinding : MonoBehaviour
         Node startNode = grid.NodeFromWorldPoint(startPos);
         Node targetNode = grid.NodeFromWorldPoint(targetPos);
 
-        Heap<Node> openSet = new Heap<Node>(grid.MaxSize);
-        HashSet<Node> closedSet = new HashSet<Node>();
+        openSet.Clear();
+        closedSet.Clear();
         openSet.Add(startNode);
         while (openSet.Count > 0)
         {
