@@ -90,7 +90,7 @@ public class Actor : MonoBehaviour
                         break;
                 
                 }
-            checkASEToRemoveAtPos(activeAbilityEffects[i], i);
+            checkAAEToRemoveAtPos(activeAbilityEffects[i], i);
             }
         //Debug.Log(actorName + " cleared all Ability effects!");
         }
@@ -113,11 +113,11 @@ public class Actor : MonoBehaviour
 
     }
 
-    void checkASEToRemoveAtPos(ActiveAbilityEffect inASE, int listPos){
+    void checkAAEToRemoveAtPos(ActiveAbilityEffect inAAE, int listPos){
         // Remove ActiveAbilityEffect is it's duration is <= 0.0f
 
-        if(inASE.remainingTime <= 0.0f){
-            Debug.Log(actorName + ": Removing.. "+ inASE.getEffectName());
+        if(inAAE.remainingTime <= 0.0f){
+            Debug.Log(actorName + ": Removing.. "+ inAAE.getEffectName());
             activeAbilityEffects.RemoveAt(listPos);
         }
     }
@@ -128,7 +128,7 @@ public class Actor : MonoBehaviour
         //Debug.Log("Actor: Applying.." + inAbilityEffect.getEffectName() + " to " + actorName);  
 
     }
-    void handleDamage(ActiveAbilityEffect inASE){// Type 0
+    void handleDamage(ActiveAbilityEffect inAAE){// Type 0
 
         /* 
             In here you could add interesting interactions
@@ -137,25 +137,25 @@ public class Actor : MonoBehaviour
                 then call restoreValue() instead
         */
         
-        damageValue( (int) inASE.getPower() );// likly will change once we have stats
+        damageValue( (int) inAAE.getPower() );// likly will change once we have stats
 
         // For saftey to make sure that the effect is removed from list
         // right aft the effect finishes
-        inASE.remainingTime = 0.0f; 
+        inAAE.remainingTime = 0.0f; 
             
     }
-    void handleDoT(ActiveAbilityEffect inASE){// Type 2
+    void handleDoT(ActiveAbilityEffect inAAE){// Type 2
 
         // Do any extra stuff
 
-        damageValue( (int) ( ( inASE.getTickRate() / (inASE.getDuration() + inASE.getTickRate()) ) * inASE.getPower() ) );// likly will change once we have stats
-        //damageValue( (int) inASE.getPower()  );
-        if(inASE.lastTick >= inASE.tickRate)
-            inASE.lastTick -= inASE.tickRate;
+        damageValue( (int) ( ( inAAE.getTickRate() / (inAAE.getDuration() + inAAE.getTickRate()) ) * inAAE.getPower() ) );// likly will change once we have stats
+        //damageValue( (int) inAAE.getPower()  );
+        if(inAAE.lastTick >= inAAE.tickRate)
+            inAAE.lastTick -= inAAE.tickRate;
             
     }
 
-    void handleHeal(ActiveAbilityEffect inASE){// Type 0
+    void handleHeal(ActiveAbilityEffect inAAE){// Type 0
 
         /* 
             In here you could add interesting interactions
@@ -164,21 +164,21 @@ public class Actor : MonoBehaviour
                 then call damageValue() instead
         */
         
-        restoreValue( (int) inASE.getPower() ); // likly will change once we have stats
+        restoreValue( (int) inAAE.getPower() ); // likly will change once we have stats
 
         // For saftey to make sure that the effect is removed from list
         // right aft the effect finishes
-        inASE.remainingTime = 0.0f; 
+        inAAE.remainingTime = 0.0f; 
             
     }
 
-    void handleHoT(ActiveAbilityEffect inASE){// Type 2
+    void handleHoT(ActiveAbilityEffect inAAE){// Type 2
 
         // Do any extra stuff
 
-        restoreValue( (int) ( ( inASE.getTickRate() / inASE.getDuration() ) * inASE.getPower() ) );// likly will change once we have stats
-        if(inASE.lastTick >= inASE.tickRate)
-            inASE.lastTick -= inASE.tickRate;
+        restoreValue( (int) ( ( inAAE.getTickRate() / inAAE.getDuration() ) * inAAE.getPower() ) );// likly will change once we have stats
+        if(inAAE.lastTick >= inAAE.tickRate)
+            inAAE.lastTick -= inAAE.tickRate;
             
     }
     
