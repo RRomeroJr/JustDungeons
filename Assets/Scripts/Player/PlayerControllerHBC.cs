@@ -76,7 +76,7 @@ public class PlayerControllerHBC : MonoBehaviour
 
     void castAbility(Ability inAbility){
 
-        uiManager.targetFrame.actor.applyAbilityEffect(inAbility.getEffect(), player.GetComponent<Actor>());
+        target.applyAbilityEffect(inAbility.getEffect(), player.GetComponent<Actor>());
 
     }
 
@@ -101,7 +101,7 @@ public class PlayerControllerHBC : MonoBehaviour
                     GameObject newAbilityCast = Instantiate(uiManager.castBarPrefab, uiManager.canvas.transform);
                     // v (string cast_name, Actor from_caster, Actor to_target, float cast_time) v
                     newAbilityCast.GetComponent<CastBar>().Init(inAbility.getName(), player,
-                                                                    uiManager.targetFrame.actor, inAbility.getCastTime());// change so that it is target in here later
+                                                                    target, inAbility.getCastTime());
                     
                 }
                 else{
