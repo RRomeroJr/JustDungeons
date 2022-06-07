@@ -21,6 +21,7 @@ public class Node : IHeapItem<Node>
         gridY = _gridY;
     }
 
+    // fCost is used
     public int fCost
     {
         get { return gCost + hCost; }

@@ -64,13 +64,15 @@ public class Heap<T> where T : IHeapItem<T>
     {
         while (true)
         {
-            // (n * 2) + 1 & (n * 2) + 2 allows you to calculate the child nodes of an array
+            // (n * 2) + 1 & (n * 2) + 2 allows you to calculate the child nodes of an array element
             int childIndexLeft = item.HeapIndex * 2 + 1;
             int childIndexRight = item.HeapIndex * 2 + 2;
             int swapIndex = 0;
 
+            // Checks if current location of item has any children, if not, item is in correct location
             if (childIndexLeft < currentItemCount)
             {
+                // Set swapIndex equal to child with higher priority. If item has a lower priority, it is swapped with the child with the highest priority.
                 swapIndex = childIndexLeft;
 
                 if (childIndexRight < currentItemCount)
@@ -98,10 +100,12 @@ public class Heap<T> where T : IHeapItem<T>
 
     void SortUp(T item)
     {
+        // (n - 1) / 2 allows you to calculate the parent node of an array element
         int parentIndex = (item.HeapIndex - 1) / 2;
 
         while (true)
         {
+            // If item has higher priority than parent, swap them
             T parentItem = items[parentIndex];
             if (item.CompareTo(parentItem) > 0)
             {
