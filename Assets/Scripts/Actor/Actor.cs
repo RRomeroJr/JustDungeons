@@ -13,10 +13,11 @@ public class Actor : MonoBehaviour
     public int maxHealth;
     public float mana;
     public float maxMana;
-
+    public Actor target;
     public Color unitColor;
     public List<AbilityEffect> abilityEffects;
     public List<ActiveAbilityEffect> activeAbilityEffects; 
+
 
     void Start(){
         abilityEffects = new List<AbilityEffect>();

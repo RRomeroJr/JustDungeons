@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour
     public UnitFrame partyFrame1;
     public UnitFrame partyFrame2;
     public UnitFrame partyFrame3;
-    public PlayerControllerHBC controller;
+    public Actor playerActor;
     
     // Start is called before the first frame update
     void Start()
@@ -50,8 +50,8 @@ public class UIManager : MonoBehaviour
         setUpUnitFrame(partyFrame1, partyFrame1.actor);
         setUpUnitFrame(partyFrame2, partyFrame2.actor);
         setUpUnitFrame(partyFrame3, partyFrame3.actor);
-        if(controller.target != null){ // do this for all frames?
-            setUpUnitFrame(targetFrame, controller.target);
+        if(playerActor.target != null){ // do this for all frames?
+            setUpUnitFrame(targetFrame, playerActor.target);
         }
     }
 

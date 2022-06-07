@@ -7,11 +7,9 @@ public class PlayerControllerHBC : MonoBehaviour
     // When castCompleted is true queueAbility will fire
     public bool castCompleted = false; // Will only be set TRUE by CastBar
     public bool isCasting = false; // Will only be set FALSE by CastBar 
-
     public Ability queuedAbility;
     
     public Actor player;
-    public Actor target; // Set by clickManager
     public UIManager uiManager;
 
 
@@ -30,7 +28,7 @@ public class PlayerControllerHBC : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
+    {     
 
 
         Debug.Log("Press \"1-4\" | DoT, Dmg, Heal, HoT! Careful bc you can do many at once if you spam");
@@ -76,7 +74,7 @@ public class PlayerControllerHBC : MonoBehaviour
 
     void castAbility(Ability inAbility){
 
-        target.applyAbilityEffect(inAbility.getEffect(), player.GetComponent<Actor>());
+        player.target.applyAbilityEffect(inAbility.getEffect(), player.GetComponent<Actor>());
 
     }
 
@@ -85,7 +83,7 @@ public class PlayerControllerHBC : MonoBehaviour
             Debug.Log("You are casting!");
         }
         else{
-            if(target != null){ // Change to PlayerControllerHBC?
+            if(player.target != null){ // Change to PlayerControllerHBC?
 
                 
                 if(inAbility.getCastTime() > 0.0f){ // Casted Ability
@@ -101,7 +99,7 @@ public class PlayerControllerHBC : MonoBehaviour
                     GameObject newAbilityCast = Instantiate(uiManager.castBarPrefab, uiManager.canvas.transform);
                     // v (string cast_name, Actor from_caster, Actor to_target, float cast_time) v
                     newAbilityCast.GetComponent<CastBar>().Init(inAbility.getName(), player,
-                                                                    target, inAbility.getCastTime());
+                                                                    player.target, inAbility.getCastTime());
                     
                 }
                 else{
