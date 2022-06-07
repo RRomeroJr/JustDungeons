@@ -336,8 +336,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f072dbcadf46e7a4b86ab44d937afdb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spellName: {fileID: 6233138376663313873}
+  castName: {fileID: 6233138376663313873}
   castFill: {fileID: 6233138375729435079}
   castBar: {fileID: 6233138377500794411}
   castTime: 100
   elaspedTime: 0
+  caster: {fileID: 0}
+  target: {fileID: 0}
+  start: 0

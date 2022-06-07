@@ -7,7 +7,7 @@ public class GameplayManager : MonoBehaviour
     
     public UIManager uiManager;
     public GameObject player;
-
+    /*
     // ~~~~~~~~~~~~~~~~~~~~~~For testing casting and Ability effect system~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RR: In the future these should be in a sperate file somewhere. Don't know how to do that yet
     public AbilityEffect oneOffDamageEffect;
@@ -19,10 +19,10 @@ public class GameplayManager : MonoBehaviour
     public Ability castedHeal;
     public Ability instantHeal;
     public Ability testerBolt;
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     void Start()
-    {
+    {/*
         Debug.Log("Press \"1-4\" | DoT, Dmg, Heal, HoT! Careful bc you can do many at once if you spam");
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~For testing casting and Ability effect system~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         // RR: In the future these should be in a sperate file somewhere. Don't know how to do that yet
@@ -38,12 +38,13 @@ public class GameplayManager : MonoBehaviour
         castedHeal = new Ability("Quality Assured", oneOffHealEffect, 1.5f);
         instantHeal = new Ability("Sisyphean Resolve Effect", hotEffect, 0.0f);
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        */
     }
     
     // bool isCasting
     // float castEnd 
     void Update()
-    {
+    {/*
         //if(isCasting)
             //if(Time.time >= castEnd) if it go to the end
                 //castAbility(instantAbility);
@@ -60,8 +61,9 @@ public class GameplayManager : MonoBehaviour
                 
             castAbility(instantHeal);
         }
+    */
     }
-    void castAbility(Ability inAbility){
+    /*void castAbility(Ability inAbility){
         if(uiManager.hasTarget){
             //Debug.Log("GM: Casting Ability.. " + inAbility.getName());
             if(inAbility.getCastTime() > 0.0f){
@@ -80,5 +82,5 @@ public class GameplayManager : MonoBehaviour
             Debug.Log("You don't have a target!");
         }
         
-    }
+    }*/
 }

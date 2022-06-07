@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class CastBar : MonoBehaviour
 {
-    public Text abilityName;
+    public Text castName;
     public Image castFill; //  Used to make fill bar different color
     public Slider castBar;
     public float castTime;
@@ -13,15 +13,13 @@ public class CastBar : MonoBehaviour
     public Actor caster;
     public Actor target;
     public bool start = false;
-
-    public AbilityEffect AbilityEffect;
     
   void Start(){
 
   }
-  public void Init(AbilityEffect ability_effect, string ability_name, Actor from_caster, Actor to_target, float cast_time){
-    AbilityEffect = ability_effect;
-    abilityName.text = ability_name;
+  public void Init(string cast_name, Actor from_caster, Actor to_target, float cast_time){
+
+    castName.text = cast_name;
     caster = from_caster;
     target = to_target;
     castTime = cast_time;
@@ -37,15 +35,17 @@ public class CastBar : MonoBehaviour
           elaspedTime += Time.deltaTime;
         }
         else{
-          Debug.Log("SC: cast Completed!");
+          //Debug.Log("CBar: cast Completed!");
 
-          // adding AbilityEffect to target actor's abilityEffects list
-          target.applyAbilityEffect(AbilityEffect, caster);
-          
+          //Signaling back to PlayerControllerHBC that cast completed
+          caster.gameObject.GetComponent<PlayerControllerHBC>().castCompleted = true;
           Destroy(gameObject);
-          //target.health -= 15.0f;
         }
         
       }
+    }
+    void OnDestroy(){
+      //Signaling back to PlayerControllerHBC that no longer casting
+      caster.gameObject.GetComponent<PlayerControllerHBC>().isCasting = false;
     }
 }
