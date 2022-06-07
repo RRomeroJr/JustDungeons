@@ -11,7 +11,7 @@ public class PlayerControllerHBC : MonoBehaviour
     public Ability queuedAbility;
     
     public Actor player;
-    public Actor target; // Doesn't work yet
+    public Actor target; // Set by clickManager
     public UIManager uiManager;
 
 
@@ -52,7 +52,7 @@ public class PlayerControllerHBC : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {   
         if(Input.GetKeyDown("1")){
             queueAbility(instantAbility);
         }
@@ -63,7 +63,6 @@ public class PlayerControllerHBC : MonoBehaviour
             queueAbility(castedHeal);
         }
         if(Input.GetKeyDown("4")){
-                    
             queueAbility(instantHeal);
         }
         
@@ -76,7 +75,7 @@ public class PlayerControllerHBC : MonoBehaviour
     }
 
     void castAbility(Ability inAbility){
-        
+
         uiManager.targetFrame.actor.applyAbilityEffect(inAbility.getEffect(), player.GetComponent<Actor>());
 
     }
@@ -86,7 +85,7 @@ public class PlayerControllerHBC : MonoBehaviour
             Debug.Log("You are casting!");
         }
         else{
-            if(uiManager.hasTarget){ // Change to PlayerControllerHBC?
+            if(target != null){ // Change to PlayerControllerHBC?
 
                 
                 if(inAbility.getCastTime() > 0.0f){ // Casted Ability
