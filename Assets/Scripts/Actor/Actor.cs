@@ -122,8 +122,13 @@ public class Actor : MonoBehaviour
             activeAbilityEffects.RemoveAt(listPos);
         }
     }
+    public void castAbility(Ability inAbility, Actor inTarget){
+        Debug.Log("A: " + name + " casting " + inAbility.getName() + " on " + target.name);
+        inTarget.applyAbilityEffect(inAbility.getEffect(), this);
 
+    }
     public void applyAbilityEffect(AbilityEffect inAbilityEffect, Actor inCaster){
+        //Creates an ActiveAbillityEffect and adds it to this actor's list<ActiveAbilityEffect>
 
         activeAbilityEffects.Add(new ActiveAbilityEffect(inAbilityEffect, inCaster));
         //Debug.Log("Actor: Applying.." + inAbilityEffect.getEffectName() + " to " + actorName);  

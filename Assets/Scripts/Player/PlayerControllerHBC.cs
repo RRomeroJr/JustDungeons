@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerControllerHBC : MonoBehaviour
 {
     // When castCompleted is true queueAbility will fire
-    public bool castCompleted = false; // Will only be set TRUE by CastBar
+    public bool castReady = false; // Will only be set TRUE by CastBar
     public bool isCasting = false; // Will only be set FALSE by CastBar 
     public Ability queuedAbility;
     
@@ -64,18 +64,12 @@ public class PlayerControllerHBC : MonoBehaviour
             queueAbility(instantHeal);
         }
         
-        if(castCompleted){
-            Debug.Log("castCompleted: " + queuedAbility.getName());
-            castAbility(queuedAbility);
-            castCompleted = false;
+        if(castReady){
+            //Debug.Log("castCompleted: " + queuedAbility.getName());
+            player.castAbility(queuedAbility, player.target);
+            castReady = false;
 
         }
-    }
-
-    void castAbility(Ability inAbility){
-
-        player.target.applyAbilityEffect(inAbility.getEffect(), player.GetComponent<Actor>());
-
     }
 
     void queueAbility(Ability inAbility){
@@ -92,7 +86,7 @@ public class PlayerControllerHBC : MonoBehaviour
 
                     //Preparing variables for cast
                     queuedAbility = inAbility;
-                    castCompleted = false; // for saftey
+                    castReady = false; // for saftey. Should've been set by castBar or initialized that way already
                     isCasting = true;
 
                     //Creating cast bar and setting it's parent to canvas to display it properly
@@ -105,7 +99,7 @@ public class PlayerControllerHBC : MonoBehaviour
                 else{
                     Debug.Log("GM| Instant cast: " + inAbility.getName());
                     queuedAbility = inAbility;
-                    castCompleted = true;
+                    castReady = true;
                 }
             }
             else{

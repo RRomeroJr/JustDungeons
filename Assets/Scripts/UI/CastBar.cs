@@ -38,7 +38,7 @@ public class CastBar : MonoBehaviour
           //Debug.Log("CBar: cast Completed!");
 
           //Signaling back to PlayerControllerHBC that cast completed
-          caster.gameObject.GetComponent<PlayerControllerHBC>().castCompleted = true;
+          caster.gameObject.GetComponent<PlayerControllerHBC>().castReady = true;
           Destroy(gameObject);
         }
         
