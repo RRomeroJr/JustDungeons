@@ -4,16 +4,28 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    public Transform target;
-    float speed = 10;
-    Vector3[] path;
-    int targetIndex;
+    private EnemyController controller;
 
-    // Necessary to make Start() a coroutine to wait 1 frame so PathFinding can finish it's Start()
-    private IEnumerator Start()
+    [Header("Set in inspector")]
+    public LayerMask mask;
+
+    [Header("Debug Settings")]
+    [SerializeField] private Transform target;
+    [SerializeField] private Vector3[] path;
+    [SerializeField] private int targetIndex;
+
+    private void Awake()
     {
-        yield return null;
-        PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+        controller = GetComponent<EnemyController>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (EnemyDetection())
+        {
+            PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+        }
     }
 
     public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
@@ -21,6 +33,7 @@ public class Unit : MonoBehaviour
         if (pathSuccessful)
         {
             path = newPath;
+            targetIndex = 0;
             StopCoroutine("FollowPath");
             StartCoroutine("FollowPath");
         }
@@ -29,6 +42,7 @@ public class Unit : MonoBehaviour
     IEnumerator FollowPath()
     {
         Vector3 currentWaypoint = path[0];
+
         while (true)
         {
             if (transform.position == currentWaypoint)
@@ -40,9 +54,33 @@ public class Unit : MonoBehaviour
                 }
                 currentWaypoint = path[targetIndex];
             }
-            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, controller.enemyStats.moveSpeed * Time.deltaTime);
             yield return null;
         }
+    }
+
+    // Return true if target is within aggro range and set target. If multiple are in range, closest target is set
+    public bool EnemyDetection()
+    {
+        Transform closest;
+        Collider2D[] raycastHit = raycastHit = Physics2D.OverlapCircleAll((Vector2)transform.position, controller.enemyStats.aggroRange, mask); // May need to optimize with OverlapCircleNonAlloc
+
+        if (raycastHit.Length > 0)
+        {
+            closest = raycastHit[0].transform;
+            // Find the closest target if multiple
+            for (int i = 1; i < raycastHit.Length; i++)
+            {
+                if (Vector3.Distance(transform.position, raycastHit[i].transform.position) < Vector3.Distance(transform.position, closest.position))
+                {
+                    closest = raycastHit[i].transform;
+                }
+            }
+            target = closest;
+            return true;
+        }
+        target = null;
+        return false;
     }
 
     public void OnDrawGizmos()
@@ -64,5 +102,7 @@ public class Unit : MonoBehaviour
                 }
             }
         }
+        Gizmos.color = target ? Color.green : Color.red;
+        Gizmos.DrawWireSphere(transform.position, controller.enemyStats.aggroRange);
     }
 }
