@@ -15,8 +15,9 @@ GameObject:
   - component: {fileID: 3544495583399109533}
   - component: {fileID: 3544495583399109535}
   - component: {fileID: -5889842083167232273}
+  - component: {fileID: -3543002584697789159}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Skeleton
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -102,7 +103,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 0.5
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -239,7 +240,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3544495583399109504}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fabc670a342b7e44080e9f8c7b72f07a, type: 3}
   m_Name: 
@@ -257,7 +258,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eada3c2499d0ff48aa4216e5bfeccd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySO: {fileID: 11400000, guid: 42b65c35860a4674e8ba31503de1aa12, type: 2}
+  enemyStats: {fileID: 11400000, guid: 42b65c35860a4674e8ba31503de1aa12, type: 2}
   currentHP: 0
   movementScript: {fileID: 0}
   weaponScript: {fileID: 0}
+--- !u!114 &-3543002584697789159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3544495583399109504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77a692b7e9acf7344b658cb329c71c78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mask:
+    serializedVersion: 2
+    m_Bits: 64
+  target: {fileID: 0}
+  path: []
+  targetIndex: 0
