@@ -22,3 +22,11 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 2
     Variable: {fileID: 0}
+  patrolSpeed:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  aggroRange:
+    UseConstant: 1
+    ConstantValue: 10
+    Variable: {fileID: 0}

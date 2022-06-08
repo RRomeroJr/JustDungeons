@@ -11,4 +11,5 @@ public class EnemySO : ScriptableObject
     public FloatReference maxHP;
     public FloatReference moveSpeed;
     public FloatReference patrolSpeed;
+    public FloatReference aggroRange;
 }
