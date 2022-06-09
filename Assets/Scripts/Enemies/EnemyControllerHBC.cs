@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerControllerHBC : MonoBehaviour
+public class EnemyControllerHBC : MonoBehaviour
 {
     // When castCompleted is true queueAbility will fire
     public bool castReady = false; // Will only be set TRUE by CastBar
     public bool isCasting = false; // Will only be set FALSE by CastBar 
     public Ability queuedAbility;
     
-    public Actor player;
-    public UIManager uiManager;
+    public Actor enemyActor;
+    //public UIManager uiManager;
 
 
     // ~~~~~~~~~~~~~~~~~~~~~~For testing casting and Ability effect system~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -24,63 +24,50 @@ public class PlayerControllerHBC : MonoBehaviour
     public Ability castedHeal;
     public Ability instantHeal;
     public Ability testerBolt;
-    public GameObject testParticles;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     // Start is called before the first frame update
     void Start()
-    {     
-
-
-        Debug.Log("Press \"1-4\" | DoT, Dmg, Heal, HoT! Careful bc you can do many at once if you spam");
+    {   
+        enemyActor = gameObject.GetComponent<Actor>();
+        
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~For testing casting and Ability effect system~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         // RR: In the future these should be in a sperate file somewhere. Don't know how to do that yet
         
-        // AbilityEffects
         //     (Ability Name, Ability Type, Power, Duration, Tick Rate) || 0=dmg, 1=heal, tick rate not working atm
         oneOffDamageEffect = new AbilityEffect("Testerbolt Effect", 0, 8.0f, 0.0f, 0.0f);
-        dotEffect = new AbilityEffect("Debugger\'s Futility Effect", 2, 30.0f, 9.0f, 3.0f, testParticles);// damage ^^
+        dotEffect = new AbilityEffect("Debugger\'s Futility Effect", 2, 30.0f, 9.0f, 3.0f);// damage ^^
         oneOffHealEffect = new AbilityEffect("Quality Assured Effect", 1, 13.0f, 0.0f, 0.0f);
         hotEffect = new AbilityEffect("Sisyphean Resolve Effect", 3, 25.0f, 4.0f, 1.0f);// heals ^^
 
-        // Ability
         castedAbility = new Ability("Testerbolt", oneOffDamageEffect, 1.5f);
         instantAbility = new Ability("Debugger\'s Futility", dotEffect, 0.0f);
         castedHeal = new Ability("Quality Assured", oneOffHealEffect, 1.5f);
         instantHeal = new Ability("Sisyphean Resolve Effect", hotEffect, 0.0f);
+
+        queuedAbility = castedAbility;
+        StartCoroutine(castReadyXSecs(4.20f));
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     }
 
     // Update is called once per frame
     void Update()
     {   
-        if(Input.GetKeyDown("1")){
-            queueAbility(instantAbility);
-        }
-        if(Input.GetKeyDown("2")){       
-            queueAbility(castedAbility);
-        }
-        if(Input.GetKeyDown("3")){
-            queueAbility(castedHeal);
-        }
-        if(Input.GetKeyDown("4")){
-            queueAbility(instantHeal);
-        }
         
         if(castReady){
             //Debug.Log("castCompleted: " + queuedAbility.getName());
-            player.castAbility(queuedAbility, player.target);
+            enemyActor.castAbility(queuedAbility, enemyActor.target);
             castReady = false;
 
         }
     }
-
-    void queueAbility(Ability inAbility){
+/*
+    void queueAbility(Ability inAbility){ //doesn't matter yet
         if(isCasting){
-            Debug.Log("You are casting!");
+            //Debug.Log("Enemy is casting!");
         }
         else{
-            if(player.target != null){ // Change to PlayerControllerHBC?
+            if(enemyActor.target != null){ // Change to PlayerControllerHBC?
 
                 
                 if(inAbility.getCastTime() > 0.0f){ // Casted Ability
@@ -109,5 +96,15 @@ public class PlayerControllerHBC : MonoBehaviour
                 Debug.Log("You don't have a target!");
             }
         }
+    }*/
+
+    IEnumerator castReadyXSecs(float x){
+        while(x>0){
+            yield return new WaitForSeconds(x);
+            castReady = true;
+        }
+        
     }
 }
+
+

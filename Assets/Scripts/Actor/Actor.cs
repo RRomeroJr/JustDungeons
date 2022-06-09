@@ -16,7 +16,9 @@ public class Actor : MonoBehaviour
     public Actor target;
     public Color unitColor;
     public List<AbilityEffect> abilityEffects;
-    public List<ActiveAbilityEffect> activeAbilityEffects; 
+    public List<ActiveAbilityEffect> activeAbilityEffects;
+
+    //public GameObject testParticlesPrefab;
 
 
     void Start(){
@@ -26,7 +28,7 @@ public class Actor : MonoBehaviour
     void Update(){
         handleAbilityEffects();
     }
-
+    
     void handleAbilityEffects(){
 
         if(activeAbilityEffects.Count > 0){
@@ -53,11 +55,12 @@ public class Actor : MonoBehaviour
 
                             if(activeAbilityEffects[i].lastTick >= activeAbilityEffects[i].getTickRate()){
                                 // if rdy to tick
-
+                                //Spawn particles
+                                if(activeAbilityEffects[i].particles != null)
+                                    Instantiate(activeAbilityEffects[i].particles, gameObject.transform);
                                 handleDoT(activeAbilityEffects[i]);
                                 //Debug.Log("Actor: ticking" + activeAbilityEffects[i].getEffectName() + " on " + actorName);
                             }
-                            
                         }
                         else{
                             handleDoT(activeAbilityEffects[i]);
@@ -118,13 +121,18 @@ public class Actor : MonoBehaviour
         // Remove ActiveAbilityEffect is it's duration is <= 0.0f
 
         if(inAAE.remainingTime <= 0.0f){
-            Debug.Log(actorName + ": Removing.. "+ inAAE.getEffectName());
+            //Debug.Log(actorName + ": Removing.. "+ inAAE.getEffectName());
             activeAbilityEffects.RemoveAt(listPos);
         }
     }
     public void castAbility(Ability inAbility, Actor inTarget){
-        Debug.Log("A: " + name + " casting " + inAbility.getName() + " on " + target.name);
-        inTarget.applyAbilityEffect(inAbility.getEffect(), this);
+        if(inTarget != null){
+            Debug.Log("A: " + actorName + " casting " + inAbility.getName() + " on " + target.actorName);
+            inTarget.applyAbilityEffect(inAbility.getEffect(), this);
+        }
+        else{
+            Debug.Log("Actor: " + actorName + " has no target!");
+        }
 
     }
     public void applyAbilityEffect(AbilityEffect inAbilityEffect, Actor inCaster){

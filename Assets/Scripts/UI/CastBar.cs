@@ -37,6 +37,8 @@ public class CastBar : MonoBehaviour
         else{
           //Debug.Log("CBar: cast Completed!");
 
+          //Check if player can see target?
+          
           //Signaling back to PlayerControllerHBC that cast completed
           caster.gameObject.GetComponent<PlayerControllerHBC>().castReady = true;
           Destroy(gameObject);
