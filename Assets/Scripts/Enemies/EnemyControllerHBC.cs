@@ -12,42 +12,14 @@ public class EnemyControllerHBC : MonoBehaviour
     public Actor enemyActor;
     //public UIManager uiManager;
 
-
-    // ~~~~~~~~~~~~~~~~~~~~~~For testing casting and Ability effect system~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // RR: In the future these should be in a sperate file somewhere. Don't know how to do that yet
-    public AbilityEffect oneOffDamageEffect;
-    public AbilityEffect dotEffect;
-    public AbilityEffect oneOffHealEffect;
-    public AbilityEffect hotEffect;
-    public Ability castedAbility;
-    public Ability instantAbility;
-    public Ability castedHeal;
-    public Ability instantHeal;
-    public Ability testerBolt;
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     // Start is called before the first frame update
     void Start()
     {   
         enemyActor = gameObject.GetComponent<Actor>();
         
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~For testing casting and Ability effect system~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        // RR: In the future these should be in a sperate file somewhere. Don't know how to do that yet
-        
-        //     (Ability Name, Ability Type, Power, Duration, Tick Rate) || 0=dmg, 1=heal, tick rate not working atm
-        oneOffDamageEffect = new AbilityEffect("Testerbolt Effect", 0, 8.0f, 0.0f, 0.0f);
-        dotEffect = new AbilityEffect("Debugger\'s Futility Effect", 2, 30.0f, 9.0f, 3.0f);// damage ^^
-        oneOffHealEffect = new AbilityEffect("Quality Assured Effect", 1, 13.0f, 0.0f, 0.0f);
-        hotEffect = new AbilityEffect("Sisyphean Resolve Effect", 3, 25.0f, 4.0f, 1.0f);// heals ^^
-
-        castedAbility = new Ability("Testerbolt", oneOffDamageEffect, 1.5f);
-        instantAbility = new Ability("Debugger\'s Futility", dotEffect, 0.0f);
-        castedHeal = new Ability("Quality Assured", oneOffHealEffect, 1.5f);
-        instantHeal = new Ability("Sisyphean Resolve Effect", hotEffect, 0.0f);
-
-        queuedAbility = castedAbility;
+        queuedAbility = PlayerAbilityData._castedDamage;
         StartCoroutine(castReadyXSecs(4.20f));
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       
     }
 
     // Update is called once per frame
@@ -61,8 +33,8 @@ public class EnemyControllerHBC : MonoBehaviour
 
         }
     }
-/*
-    void queueAbility(Ability inAbility){ //doesn't matter yet
+/*   //                                                        doesn't matter yet
+    void queueAbility(Ability inAbility){ 
         if(isCasting){
             //Debug.Log("Enemy is casting!");
         }

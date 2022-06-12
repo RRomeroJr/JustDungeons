@@ -104,7 +104,7 @@ public class Actor : MonoBehaviour
         // This could take an extra param to indicate a different value to "damage"
         // For ex. a Ability that reduces maxHealth or destroys mana
 
-        Debug.Log("damageValue: " + amount.ToString()+ " on " + actorName);
+        //Debug.Log("damageValue: " + amount.ToString()+ " on " + actorName);
         health -= amount;
 
     }
@@ -112,7 +112,7 @@ public class Actor : MonoBehaviour
     void restoreValue(int amount){
         // This would be the opposite of damageValue(). Look at that for more details
         
-        Debug.Log("restoreValue: " + amount.ToString()+ " on " + actorName);
+        //Debug.Log("restoreValue: " + amount.ToString()+ " on " + actorName);
         health += amount;
 
     }
@@ -127,8 +127,9 @@ public class Actor : MonoBehaviour
     }
     public void castAbility(Ability inAbility, Actor inTarget){
         if(inTarget != null){
-            Debug.Log("A: " + actorName + " casting " + inAbility.getName() + " on " + target.actorName);
+            //Debug.Log("A: " + actorName + " casting " + inAbility.getName() + " on " + target.actorName);
             inTarget.applyAbilityEffect(inAbility.getEffect(), this);
+            inAbility.setCooldownRemaining(inAbility.getCooldown());
         }
         else{
             Debug.Log("Actor: " + actorName + " has no target!");

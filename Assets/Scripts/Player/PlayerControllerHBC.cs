@@ -12,65 +12,35 @@ public class PlayerControllerHBC : MonoBehaviour
     public Actor player;
     public UIManager uiManager;
 
-
-    // ~~~~~~~~~~~~~~~~~~~~~~For testing casting and Ability effect system~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // RR: In the future these should be in a sperate file somewhere. Don't know how to do that yet
-    public AbilityEffect oneOffDamageEffect;
-    public AbilityEffect dotEffect;
-    public AbilityEffect oneOffHealEffect;
-    public AbilityEffect hotEffect;
-    public Ability castedAbility;
-    public Ability instantAbility;
-    public Ability castedHeal;
-    public Ability instantHeal;
-    public Ability testerBolt;
-    public GameObject testParticles;
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    // Start is called before the first frame update
+    public List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
+ 
     void Start()
     {     
-
-
-        Debug.Log("Press \"1-4\" | DoT, Dmg, Heal, HoT! Careful bc you can do many at once if you spam");
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~For testing casting and Ability effect system~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        // RR: In the future these should be in a sperate file somewhere. Don't know how to do that yet
-        
-        // AbilityEffects
-        //     (Ability Name, Ability Type, Power, Duration, Tick Rate) || 0=dmg, 1=heal, tick rate not working atm
-        oneOffDamageEffect = new AbilityEffect("Testerbolt Effect", 0, 8.0f, 0.0f, 0.0f);
-        dotEffect = new AbilityEffect("Debugger\'s Futility Effect", 2, 30.0f, 9.0f, 3.0f, testParticles);// damage ^^
-        oneOffHealEffect = new AbilityEffect("Quality Assured Effect", 1, 13.0f, 0.0f, 0.0f);
-        hotEffect = new AbilityEffect("Sisyphean Resolve Effect", 3, 25.0f, 4.0f, 1.0f);// heals ^^
-
-        // Ability
-        castedAbility = new Ability("Testerbolt", oneOffDamageEffect, 1.5f);
-        instantAbility = new Ability("Debugger\'s Futility", dotEffect, 0.0f);
-        castedHeal = new Ability("Quality Assured", oneOffHealEffect, 1.5f);
-        instantHeal = new Ability("Sisyphean Resolve Effect", hotEffect, 0.0f);
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     }
 
     // Update is called once per frame
     void Update()
     {   
+        updateCooldowns();
+        
         if(Input.GetKeyDown("1")){
-            queueAbility(instantAbility);
+            checkAndQueue(PlayerAbilityData._instantAbility);
         }
         if(Input.GetKeyDown("2")){       
-            queueAbility(castedAbility);
+            checkAndQueue(PlayerAbilityData._castedDamage);
         }
         if(Input.GetKeyDown("3")){
-            queueAbility(castedHeal);
+            checkAndQueue(PlayerAbilityData._castedHeal);
         }
         if(Input.GetKeyDown("4")){
-            queueAbility(instantHeal);
+            checkAndQueue(PlayerAbilityData._instantAbility2);
         }
         
         if(castReady){
-            //Debug.Log("castCompleted: " + queuedAbility.getName());
+            //Debug.Log("castCompleted: " + queuedAbility.getName()); 
             player.castAbility(queuedAbility, player.target);
             castReady = false;
+            addToCooldowns(queuedAbility);
 
         }
     }
@@ -80,9 +50,8 @@ public class PlayerControllerHBC : MonoBehaviour
             Debug.Log("You are casting!");
         }
         else{
-            if(player.target != null){ // Change to PlayerControllerHBC?
+            if(player.target != null){ 
 
-                
                 if(inAbility.getCastTime() > 0.0f){ // Casted Ability
 
                     //Debug.Log("Trying to create a castBar for " + inAbility.getName());
@@ -97,7 +66,7 @@ public class PlayerControllerHBC : MonoBehaviour
                     // v (string cast_name, Actor from_caster, Actor to_target, float cast_time) v
                     newAbilityCast.GetComponent<CastBar>().Init(inAbility.getName(), player,
                                                                     player.target, inAbility.getCastTime());
-                    
+
                 }
                 else{
                     Debug.Log("GM| Instant cast: " + inAbility.getName());
@@ -108,6 +77,37 @@ public class PlayerControllerHBC : MonoBehaviour
             else{
                 Debug.Log("You don't have a target!");
             }
+        }
+    }
+    void updateCooldowns(){
+        if(abilityCooldowns.Count > 0){
+            for(int i = 0; i < abilityCooldowns.Count; i++){
+                if(abilityCooldowns[i].remainingTime > 0)
+                    abilityCooldowns[i].remainingTime -= Time.deltaTime;
+                else
+                    abilityCooldowns.RemoveAt(i);
+            }
+        }
+    }
+    void addToCooldowns(Ability _ability){
+        abilityCooldowns.Add(new AbilityCooldown(queuedAbility));
+    }
+    bool checkOnCooldown(Ability _ability){
+        if(abilityCooldowns.Count > 0){
+            for(int i = 0; i < abilityCooldowns.Count; i++){
+                if(abilityCooldowns[i].getName() == _ability.getName()){
+                    return true;
+                }
+            }
+            return false;
+        }
+        else{
+            return false;
+        }
+    }
+    void checkAndQueue(Ability _ability){
+        if(checkOnCooldown(_ability) == false){
+            queueAbility(_ability);
         }
     }
 }
