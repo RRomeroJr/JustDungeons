@@ -14,7 +14,8 @@ public class ClickManager : MonoBehaviour
     public Text targetName;
     public Slider targetHealthBar;
     public Image targetHealthBarFill;
-    public UIManager UIManager;
+    public Actor playerActor;
+
 
     void Update()
     {
@@ -29,15 +30,9 @@ public class ClickManager : MonoBehaviour
 
             if (hit.collider != null) {
                 //Debug.Log("Clicked something");
-                // set up[ UImanager's targetFrame w/ actor hit by raycast
-                UIManager.setUpUnitFrame(UIManager.targetFrame, hit.collider.gameObject.GetComponent<Actor>());
-                /*
-                Debug.Log(hit.collider.gameObject.GetComponent<Actor>().name);
-                
-                targetName.text = hit.collider.gameObject.GetComponent<Actor>().name;
-                targetHealthBar.maxValue = hit.collider.gameObject.GetComponent<Actor>().maxHealth;
-                targetHealthBar.value = hit.collider.gameObject.GetComponent<Actor>().health;
-                targetHealthBarFill.color = hit.collider.gameObject.GetComponent<Actor>().unitColor;*/
+
+                // set controller's target w/ actor hit by raycast
+                playerActor.target = hit.collider.gameObject.GetComponent<Actor>();
                 
             }
         }

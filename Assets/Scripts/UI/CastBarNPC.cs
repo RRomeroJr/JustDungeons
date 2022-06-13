@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CastBar : MonoBehaviour
+public class CastBarNPC : MonoBehaviour
 {
-    public Text castName;
+    /*public Text castName;
     public Image castFill; //  Used to make fill bar different color
-    public Slider castBar;
+    public Slider castBar;*/
     public float castTime;
     public float elaspedTime = 0.0f;
     public Actor caster;
@@ -19,11 +19,11 @@ public class CastBar : MonoBehaviour
   }
   public void Init(string cast_name, Actor from_caster, Actor to_target, float cast_time){
 
-    castName.text = cast_name;
+    //castName.text = cast_name;
     caster = from_caster;
     target = to_target;
     castTime = cast_time;
-    castBar.maxValue = cast_time;
+    //castBar.maxValue = cast_time;
 
     elaspedTime = 0.0f;
     start = true;
@@ -31,23 +31,23 @@ public class CastBar : MonoBehaviour
     void Update(){
       if(start){
         if(elaspedTime < castTime){
-          castBar.value = elaspedTime;
+          //castBar.value = elaspedTime;
           elaspedTime += Time.deltaTime;
         }
         else{
-          //Debug.Log("CBar: cast Completed!");
+          //Debug.Log("CBarNPC: cast Completed!");
 
-          //Check if player can see target?
+          //  Check if NPC can see target?
           
-          //Signaling back to Player's Actor that cast completed
+          //Signaling back to Actor that cast completed
           caster.castReady = true;
-          Destroy(gameObject);
+          Destroy(this);
         }
         
       }
     }
     void OnDestroy(){
-      //Signaling back to PlayerControllerHBC that no longer casting
+      //Signaling back to Actor that no longer casting
       caster.isCasting = false;
     }
 }
