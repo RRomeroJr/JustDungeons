@@ -10,7 +10,7 @@ public class Ability
 
     [SerializeField] private float castTime;
     [SerializeField] private float cooldown;
-    [SerializeField] private float cooldownRemaining = 0.0f;
+
 
     public string getName(){
         return abilityName;
@@ -25,9 +25,7 @@ public class Ability
     public float getCooldown(){
         return cooldown;
     }
-    public float getCooldownRemaining(){
-        return cooldownRemaining;
-    }
+
     public void setName(string _abilityName){
         abilityName = _abilityName;
     }
@@ -41,12 +39,7 @@ public class Ability
     public void setCooldown(float _cooldown){
         cooldown = _cooldown;
     }
-    public void setCooldownRemaining(float _cooldownRemaining){
-        cooldownRemaining = _cooldownRemaining;
-    }
-    public void updateCooldownRemaining(){
-        cooldownRemaining -= Time.deltaTime;
-    }
+
 
     public Ability(string inName, AbilityEffect inAbilityEffect, float inCastTime){
         abilityName = inName;
@@ -67,17 +60,4 @@ public class Ability
         return abilityToReturn;
     }
 
-    public bool onCooldown(){
-        if(cooldownRemaining > 0.0f){
-        Debug.Log("Ability: " + abilityName + "is on cooldown!");
-        return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    public void setRemaining(){
-        cooldownRemaining = cooldown;
-    }
 }

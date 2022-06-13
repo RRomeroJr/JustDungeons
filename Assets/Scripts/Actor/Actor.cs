@@ -8,6 +8,7 @@ using System;
 
 public class Actor : MonoBehaviour
 {
+    public bool showDebug = false;
     public string actorName;
     public int health; // RR: This was changed to FloatReference had to change it back bc it caused a bunch of errors
     public int maxHealth;
@@ -15,19 +16,27 @@ public class Actor : MonoBehaviour
     public float maxMana;
     public Actor target;
     public Color unitColor;
-    public List<AbilityEffect> abilityEffects;
     public List<ActiveAbilityEffect> activeAbilityEffects;
+    
+    // When castReady is true queueAbility will fire
+    public bool castReady = false; // Will True by CastBar for abilities w/ casts. Will only be true for a freme
+    public bool isCasting = false; // Will only be set False by CastBar 
+    public Ability queuedAbility;
+    public List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
+    public UIManager uiManager;
 
     //public GameObject testParticlesPrefab;
 
 
     void Start(){
-        abilityEffects = new List<AbilityEffect>();
         activeAbilityEffects = new List<ActiveAbilityEffect>(); 
     }
     void Update(){
+        updateCooldowns();
         handleAbilityEffects();
+        handleCast();
     }
+    //------------------------------------------------------------handling Active Ability Effects-------------------------------------------------------------------------
     
     void handleAbilityEffects(){
 
@@ -89,6 +98,7 @@ public class Actor : MonoBehaviour
                         }
                         break;
                     default:
+                        if(showDebug)
                         Debug.Log("Unknown Ability type on " + actorName + "! Don't know what to do! Trying to remove..");
                         activeAbilityEffects[i].duration = 0.0f;
                         break;
@@ -125,17 +135,6 @@ public class Actor : MonoBehaviour
             activeAbilityEffects.RemoveAt(listPos);
         }
     }
-    public void castAbility(Ability inAbility, Actor inTarget){
-        if(inTarget != null){
-            //Debug.Log("A: " + actorName + " casting " + inAbility.getName() + " on " + target.actorName);
-            inTarget.applyAbilityEffect(inAbility.getEffect(), this);
-            inAbility.setCooldownRemaining(inAbility.getCooldown());
-        }
-        else{
-            Debug.Log("Actor: " + actorName + " has no target!");
-        }
-
-    }
     public void applyAbilityEffect(AbilityEffect inAbilityEffect, Actor inCaster){
         //Creates an ActiveAbillityEffect and adds it to this actor's list<ActiveAbilityEffect>
 
@@ -170,7 +169,7 @@ public class Actor : MonoBehaviour
             
     }
 
-    void handleHeal(ActiveAbilityEffect inAAE){// Type 0
+    void handleHeal(ActiveAbilityEffect inAAE){// Type 1
 
         /* 
             In here you could add interesting interactions
@@ -187,7 +186,7 @@ public class Actor : MonoBehaviour
             
     }
 
-    void handleHoT(ActiveAbilityEffect inAAE){// Type 2
+    void handleHoT(ActiveAbilityEffect inAAE){// Type 3
 
         // Do any extra stuff
 
@@ -196,10 +195,134 @@ public class Actor : MonoBehaviour
             inAAE.lastTick -= inAAE.tickRate;
             
     }
-    
 
+    //-------------------------------------------------------------------handling casts--------------------------------------------------------------------------
+
+    public void castAbility(Ability inAbility, Actor inTarget){
+            checkAndQueue(inAbility);
+    }
+    public void forceCastAbility(Ability inAbility, Actor inTarget){
+        
+        /*
+            cast that should ignore cooldowns, cast time and resources?
+        */
+        
+        if(inTarget != null){
+            //Debug.Log("A: " + actorName + " casting " + inAbility.getName() + " on " + target.actorName);
+            inTarget.applyAbilityEffect(inAbility.getEffect(), this);
+            addToCooldowns(queuedAbility);
+        }
+        else{
+            if(showDebug)
+            Debug.Log("Actor: " + actorName + " has no target!");
+        }
+
+    }
+    private void cast(Ability inAbility, Actor inTarget){
+        if(inTarget != null){
+            //Debug.Log("A: " + actorName + " casting " + inAbility.getName() + " on " + target.actorName);
+            inTarget.applyAbilityEffect(inAbility.getEffect(), this);
+            addToCooldowns(queuedAbility);
+            castReady = false;
+        }
+        else{
+            if(showDebug)
+            Debug.Log("Actor: " + actorName + " has no target!");
+        }
+
+    }
+    private void handleCast(){
+        if(castReady){
+            //Debug.Log("castCompleted: " + queuedAbility.getName()); 
+            cast(queuedAbility, target);
+        }
+    }
+    public void queueAbility(Ability inAbility){
+        if(isCasting){
+            if(showDebug)
+            Debug.Log(actorName + " is casting!");
+        }
+        else{
+            if(!castReady){
+                if(target != null){ 
+
+                    if(inAbility.getCastTime() > 0.0f){ // Casted Ability
+
+                        //Debug.Log("Trying to create a castBar for " + inAbility.getName());
+
+                        //Preparing variables for cast
+                        queuedAbility = inAbility;
+                        castReady = false; // for saftey. Should've been set by castBar or initialized that way already
+                        isCasting = true;
+
+                        
+                        if(gameObject.tag == "Player"){ // For player
+                            //Creating cast bar and setting it's parent to canvas to display it properly
+
+                            GameObject newAbilityCast = Instantiate(uiManager.castBarPrefab, uiManager.canvas.transform);
+                            // v (string cast_name, Actor from_caster, Actor to_target, float cast_time) v
+                            newAbilityCast.GetComponent<CastBar>().Init(inAbility.getName(), this,
+                                                                            target, inAbility.getCastTime());
+                        }
+                        else{// For NPCs
+                            if(showDebug)
+                            Debug.Log(actorName + " starting cast: " + inAbility.getName());
+                            gameObject.AddComponent<CastBarNPC>().Init(inAbility.getName(), this,
+                                                                            target, inAbility.getCastTime());
+                        }
+
+                    }
+                    else{
+                        if(showDebug)
+                        Debug.Log("GM| Instant cast: " + inAbility.getName());
+                        queuedAbility = inAbility;
+                        castReady = true;
+                    }
+                }
+                else{
+                    if(showDebug)
+                    Debug.Log(actorName + " doesn't have a target!");
+                }
+            }
+        }
+    }
+    void updateCooldowns(){
+        if(abilityCooldowns.Count > 0){
+            for(int i = 0; i < abilityCooldowns.Count; i++){
+                if(abilityCooldowns[i].remainingTime > 0)
+                    abilityCooldowns[i].remainingTime -= Time.deltaTime;
+                else
+                    abilityCooldowns.RemoveAt(i);
+            }
+        }
+    }
+    void addToCooldowns(Ability _ability){
+        abilityCooldowns.Add(new AbilityCooldown(queuedAbility));
+    }
+    public bool checkOnCooldown(Ability _ability){
+        if(abilityCooldowns.Count > 0){
+            for(int i = 0; i < abilityCooldowns.Count; i++){
+                if(abilityCooldowns[i].getName() == _ability.getName()){
+                    if(showDebug)
+                        Debug.Log(queuedAbility.getName() + " is on cooldown!");
+                    return true;
+                }
+            }
+            return false;
+        }
+        else{
+            return false;
+        }
+    }
+    public void checkAndQueue(Ability _ability){
+        if(checkOnCooldown(_ability) == false){
+            queueAbility(_ability);
+        }
+    }
+    //-------------------------------------------------------------------other---------------------------------------------------------------------------------------------------------
     float RoundToNearestHalf(float value)
     {
         return MathF.Round(value * 2) / 2;
     }
 }
+
