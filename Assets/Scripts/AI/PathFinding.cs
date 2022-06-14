@@ -109,7 +109,6 @@ public class PathFinding : MonoBehaviour
             currentNode = currentNode.parent;
         }
         Vector3[] waypoints = SimplifyPath(path);
-        Array.Reverse(waypoints);
         return waypoints;
     }
 
@@ -118,22 +117,16 @@ public class PathFinding : MonoBehaviour
         List<Vector3> waypoints = new List<Vector3>();
         Vector2 directionOld = Vector2.zero;
 
-        // If only one node in path, no need to simplify
-        if (path.Count == 1)
+        for (int i = path.Count - 1; i > 0; i--)
         {
-            waypoints.Add(path[0].worldPosition);
-            return waypoints.ToArray();
-        }
-
-        for (int i = 1; i < path.Count; i++)
-        {
-            Vector2 directionNew = new Vector2(path[i - 1].gridX - path[i].gridX, path[i - 1].gridY - path[i].gridY);
+            Vector2 directionNew = new Vector2(path[i].gridX - path[i - 1].gridX, path[i].gridY - path[i - 1].gridY);
             if (directionNew != directionOld)
             {
-                waypoints.Add(path[i - 1].worldPosition);
+                waypoints.Add(path[i].worldPosition);
             }
             directionOld = directionNew;
         }
+        waypoints.Add(path[0].worldPosition);
         return waypoints.ToArray();
     }
 
