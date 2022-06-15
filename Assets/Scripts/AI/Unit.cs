@@ -5,6 +5,7 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     private EnemyController controller;
+    private Coroutine coroutine;
 
     [Header("Set in inspector")]
     public LayerMask mask;
@@ -49,7 +50,10 @@ public class Unit : MonoBehaviour
 
     public void StopPathfinding()
     {
-        StopCoroutine("FollowPath");
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+        }
     }
 
     public bool targetBehindObstacle()
@@ -72,8 +76,9 @@ public class Unit : MonoBehaviour
         {
             path = newPath;
             targetIndex = 0;
-            StopCoroutine("FollowPath");
-            StartCoroutine("FollowPath");
+
+            StopPathfinding();
+            coroutine = StartCoroutine(FollowPath());
         }
     }
 
