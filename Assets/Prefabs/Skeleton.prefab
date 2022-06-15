@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 3544495583399109535}
   - component: {fileID: -5889842083167232273}
   - component: {fileID: -3543002584697789159}
+  - component: {fileID: 5200317850204623257}
   m_Layer: 0
   m_Name: Skeleton
   m_TagString: Enemy
@@ -124,7 +125,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.005718708, y: -0.4603352}
+  m_Offset: {x: 0, y: -0.4603352}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -277,6 +278,24 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 64
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 8
   target: {fileID: 0}
+  targetPrev: {x: 0, y: 0, z: 0}
+  collider: {fileID: 0}
   path: []
   targetIndex: 0
+--- !u!114 &5200317850204623257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3544495583399109504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b22f1e3f575166340b505df44ec17070, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: {fileID: 0}

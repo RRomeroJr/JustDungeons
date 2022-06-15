@@ -8,24 +8,62 @@ public class Unit : MonoBehaviour
 
     [Header("Set in inspector")]
     public LayerMask mask;
+    public LayerMask obstacleMask;
 
     [Header("Debug Settings")]
-    [SerializeField] private Transform target;
+    public Transform target;
+    public Vector3 targetPrev;
+    public BoxCollider2D collider;
     [SerializeField] private Vector3[] path;
     [SerializeField] private int targetIndex;
 
-    private void Awake()
+    void Awake()
     {
         controller = GetComponent<EnemyController>();
+        collider = GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (EnemyDetection())
+        EnemyDetection();
+    }
+
+    void LateUpdate()
+    {
+        if (target)
         {
-            PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+            targetPrev = target.position;
         }
+    }
+
+    public void RequestPath()
+    {
+        PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+    }
+
+    public void MoveTowards()
+    {
+        transform.position = Vector3.MoveTowards(transform.position, target.position, controller.enemyStats.moveSpeed * Time.deltaTime);
+    }
+
+    public void StopPathfinding()
+    {
+        StopCoroutine("FollowPath");
+    }
+
+    public bool targetBehindObstacle()
+    {
+        Vector3 colliderPos = transform.position + (Vector3)collider.offset;
+        Vector3 direction = target.position - (transform.position + (Vector3)collider.offset);
+        float distance = Vector3.Distance(colliderPos, target.position);
+        if (Physics2D.BoxCast(colliderPos, collider.size, 0f, direction, distance, obstacleMask))
+        {
+            Debug.Log("Target behind obstacle");
+            return true;
+        }
+        Debug.Log("Target not behind obstacle");
+        return false;
     }
 
     public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
@@ -63,7 +101,7 @@ public class Unit : MonoBehaviour
     public bool EnemyDetection()
     {
         Transform closest;
-        Collider2D[] raycastHit = raycastHit = Physics2D.OverlapCircleAll((Vector2)transform.position, controller.enemyStats.aggroRange, mask); // May need to optimize with OverlapCircleNonAlloc
+        Collider2D[] raycastHit = Physics2D.OverlapCircleAll((Vector2)transform.position, controller.enemyStats.aggroRange, mask); // May need to optimize with OverlapCircleNonAlloc
 
         if (raycastHit.Length > 0)
         {
