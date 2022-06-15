@@ -226,6 +226,7 @@ MonoBehaviour:
   maxHealth: 75
   mana: 0
   maxMana: 0
+  target: {fileID: 0}
   unitColor: {r: 0.12941177, g: 0.69803923, b: 0.10980392, a: 1}
   activeAbilityEffects: []
 --- !u!61 &15327746
@@ -364,7 +365,6 @@ GameObject:
   m_Component:
   - component: {fileID: 36311630}
   - component: {fileID: 36311631}
-  - component: {fileID: 36311632}
   m_Layer: 0
   m_Name: GameplayManager
   m_TagString: Untagged
@@ -401,22 +401,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiManager: {fileID: 1451345063}
   player: {fileID: 2006404819}
---- !u!114 &36311632
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 36311628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46b67545aeaa38e499016f81db77eb60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetName: {fileID: 0}
-  targetHealthBar: {fileID: 0}
-  targetHealthBarFill: {fileID: 0}
-  UIManager: {fileID: 1451345063}
 --- !u!1 &110653879
 GameObject:
   m_ObjectHideFlags: 0
@@ -2075,6 +2059,7 @@ MonoBehaviour:
   maxHealth: 500
   mana: 0
   maxMana: 0
+  target: {fileID: 0}
   unitColor: {r: 0.94509804, g: 0.47058824, b: 0.08235294, a: 1}
   activeAbilityEffects: []
 --- !u!61 &535967234
@@ -2774,6 +2759,7 @@ MonoBehaviour:
   maxHealth: 250
   mana: 0
   maxMana: 0
+  target: {fileID: 0}
   unitColor: {r: 0.19607843, g: 0.3372549, b: 0.8862745, a: 1}
   activeAbilityEffects: []
 --- !u!61 &1133986376
@@ -3037,6 +3023,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1451345064}
   - component: {fileID: 1451345063}
+  - component: {fileID: 1451345065}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -3063,7 +3050,7 @@ MonoBehaviour:
   partyFrame1: {fileID: 1537267882}
   partyFrame2: {fileID: 1441116576}
   partyFrame3: {fileID: 555352189}
-  hasTarget: 0
+  playerActor: {fileID: 2006404825}
 --- !u!4 &1451345064
 Transform:
   m_ObjectHideFlags: 0
@@ -3079,6 +3066,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1451345065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1451345062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46b67545aeaa38e499016f81db77eb60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetName: {fileID: 0}
+  targetHealthBar: {fileID: 0}
+  targetHealthBarFill: {fileID: 0}
+  playerActor: {fileID: 2006404825}
 --- !u!224 &1502917077 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7268208435114203875, guid: 2e8d72f3b1496174f814ceaa875fee18, type: 3}
@@ -3563,6 +3566,7 @@ MonoBehaviour:
   maxHealth: 100
   mana: 0
   maxMana: 0
+  target: {fileID: 0}
   unitColor: {r: 0.8117647, g: 0.08627451, b: 0.08627451, a: 1}
   activeAbilityEffects: []
 --- !u!61 &1871266378
@@ -3607,6 +3611,7 @@ GameObject:
   - component: {fileID: 2006404828}
   - component: {fileID: 2006404827}
   - component: {fileID: 2006404829}
+  - component: {fileID: 2006404830}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3717,6 +3722,7 @@ MonoBehaviour:
   maxHealth: 120
   mana: 0
   maxMana: 0
+  target: {fileID: 0}
   unitColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
   activeAbilityEffects: []
 --- !u!114 &2006404826
@@ -3796,6 +3802,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myRenderer: {fileID: 0}
+--- !u!114 &2006404830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2006404819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1736974da49c5ef40b4f3bd3590e64d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  castReady: 0
+  isCasting: 0
+  player: {fileID: 2006404825}
+  uiManager: {fileID: 1451345063}
+  testParticles: {fileID: 1935295311422274672, guid: e68af36488e76b8428c99e10a727a2d8, type: 3}
 --- !u!1001 &744315560258893701
 PrefabInstance:
   m_ObjectHideFlags: 0

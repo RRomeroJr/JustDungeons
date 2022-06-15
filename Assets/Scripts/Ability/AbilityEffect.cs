@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-
+[System.Serializable]
 public class AbilityEffect
 {
     /*
@@ -19,6 +19,7 @@ public class AbilityEffect
     private float power;
     private float duration;
     private float tickRate; // for now will be rounded
+    public GameObject particles;
 
     
 public AbilityEffect(){
@@ -34,6 +35,20 @@ public AbilityEffect(string inEffectName, int inEffectType, float inPower, float
         Debug.Log("Tried to make a damage or heal type with a durtion that isn't 0.0f. Setting duration to 0.0f");
     }
     tickRate = MathF.Round(inTickRate);
+
+}
+public AbilityEffect(string inEffectName, int inEffectType, float inPower, float inDuration, float inTickRate, GameObject inParticles){
+    effectName = inEffectName;
+    effectType = inEffectType;
+    power = inPower;
+    if((inEffectType != 0) && (inEffectType != 1))
+        duration = inDuration;
+    else{
+        duration = 0.0f;
+        Debug.Log("Tried to make a damage or heal type with a durtion that isn't 0.0f. Setting duration to 0.0f");
+    }
+    tickRate = MathF.Round(inTickRate);
+    particles = inParticles;
 
 }
 

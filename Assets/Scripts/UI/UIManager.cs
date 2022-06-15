@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour
     public UnitFrame partyFrame1;
     public UnitFrame partyFrame2;
     public UnitFrame partyFrame3;
-    public bool hasTarget;
+    public Actor playerActor;
     
     // Start is called before the first frame update
     void Start()
@@ -31,7 +31,7 @@ public class UIManager : MonoBehaviour
         setUpUnitFrame(partyFrame1, partyFrame1.actor);
         setUpUnitFrame(partyFrame2, partyFrame2.actor);
         setUpUnitFrame(partyFrame3, partyFrame3.actor);
-        hasTarget = false;
+
     }
     public void setUpUnitFrame(UnitFrame unitFrame, Actor actor){
         //setting Actor
@@ -44,14 +44,14 @@ public class UIManager : MonoBehaviour
         //  Getting apropriate healthbar color from actor
         unitFrame.healthFill.color = actor.unitColor;
     }
+    
     void Update(){
         setUpUnitFrame(partyFrame, partyFrame.actor);
         setUpUnitFrame(partyFrame1, partyFrame1.actor);
         setUpUnitFrame(partyFrame2, partyFrame2.actor);
         setUpUnitFrame(partyFrame3, partyFrame3.actor);
-        if(targetFrame.actor != null){ // do this for all frames?
-            setUpUnitFrame(targetFrame, targetFrame.actor);
-            hasTarget = true;
+        if(playerActor.target != null){ // do this for all frames?
+            setUpUnitFrame(targetFrame, playerActor.target);
         }
     }
 

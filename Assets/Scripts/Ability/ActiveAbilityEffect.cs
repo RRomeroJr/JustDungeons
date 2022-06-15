@@ -20,6 +20,7 @@ public class ActiveAbilityEffect
 
     public float remainingTime;
     public bool start;
+    public GameObject particles;
 
     public ActiveAbilityEffect(){
         start = false;
@@ -34,6 +35,8 @@ public class ActiveAbilityEffect
         remainingTime = inAbilityEffect.getDuration();
         tickRate = MathF.Round(inAbilityEffect.getTickRate());
         start = false;
+        if(inAbilityEffect.particles != null)
+            particles = inAbilityEffect.particles;
     }
 
     public string getEffectName(){
