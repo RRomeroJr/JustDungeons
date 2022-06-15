@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    private EnemyController controller;
+    private EnemyController_OLD controller;
     private Coroutine coroutine;
 
     [Header("Set in inspector")]
@@ -18,9 +18,9 @@ public class Unit : MonoBehaviour
     [SerializeField] private Vector3[] path;
     [SerializeField] private int targetIndex;
 
-    void Awake()
+    void Start()
     {
-        controller = GetComponent<EnemyController>();
+        controller = GetComponent<EnemyController_OLD>();
         collider = GetComponent<BoxCollider2D>();
     }
 
@@ -145,7 +145,10 @@ public class Unit : MonoBehaviour
                 }
             }
         }
-        Gizmos.color = target ? Color.green : Color.red;
-        Gizmos.DrawWireSphere(transform.position, controller.enemyStats.aggroRange);
+        if (controller)
+        {
+            Gizmos.color = target ? Color.green : Color.red;
+            Gizmos.DrawWireSphere(transform.position, controller.enemyStats.aggroRange);
+        }
     }
 }
