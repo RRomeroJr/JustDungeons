@@ -56,8 +56,8 @@ public class Ability
     public Ability clone(){
         // Returns a Copy of the ability with a COPY of the the name, a REF to the effect, and copy of castTime since it is just a value type
 
-        Ability abilityToReturn = new Ability(String.Copy(abilityName), abilityEffect, castTime, cooldown);
-        return abilityToReturn;
+        return new Ability(String.Copy(abilityName), abilityEffect, castTime, cooldown);
+        
     }
 
 }

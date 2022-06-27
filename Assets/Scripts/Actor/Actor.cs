@@ -24,7 +24,7 @@ public class Actor : MonoBehaviour
     public Ability queuedAbility;
     public List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
     public UIManager uiManager;
-
+    public GameObject abilityDeliveryPrefab;
     //public GameObject testParticlesPrefab;
 
 
@@ -132,13 +132,17 @@ public class Actor : MonoBehaviour
 
         if(inAAE.remainingTime <= 0.0f){
             //Debug.Log(actorName + ": Removing.. "+ inAAE.getEffectName());
+            activeAbilityEffects[listPos].abilityEffect.OnEffectFinish(activeAbilityEffects[listPos].caster, this);
             activeAbilityEffects.RemoveAt(listPos);
         }
     }
     public void applyAbilityEffect(AbilityEffect inAbilityEffect, Actor inCaster){
-        //Creates an ActiveAbillityEffect and adds it to this actor's list<ActiveAbilityEffect>
 
-        activeAbilityEffects.Add(new ActiveAbilityEffect(inAbilityEffect, inCaster));
+        //Adding ActiveAbilityEffect it to this actor's list<ActiveAbilityEffect>
+        ActiveAbilityEffect tempAAE_ref = new ActiveAbilityEffect(inAbilityEffect, inCaster);
+        activeAbilityEffects.Add(tempAAE_ref);
+
+        inAbilityEffect.OnEffectStart(tempAAE_ref.caster, this);
         //Debug.Log("Actor: Applying.." + inAbilityEffect.getEffectName() + " to " + actorName);  
 
     }
@@ -218,10 +222,12 @@ public class Actor : MonoBehaviour
         }
 
     }
-    private void cast(Ability inAbility, Actor inTarget){
+    public void cast(Ability inAbility, Actor inTarget){
         if(inTarget != null){
             //Debug.Log("A: " + actorName + " casting " + inAbility.getName() + " on " + target.actorName);
-            inTarget.applyAbilityEffect(inAbility.getEffect(), this);
+            //inTarget.applyAbilityEffect(inAbility.getEffect(), this);
+            GameObject delivery = Instantiate(abilityDeliveryPrefab);
+            delivery.GetComponent<AbilityDelivery>().init( inAbility.getEffect(), 0, this, target, 0.01f);
             addToCooldowns(queuedAbility);
             castReady = false;
         }

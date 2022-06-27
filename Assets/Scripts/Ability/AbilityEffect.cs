@@ -14,42 +14,66 @@ public class AbilityEffect
         that it generates 
         
     */
-    private string effectName;
-    private int effectType; // 0=damage, 1=heal, 2=DoT, 3=Hot, 4= something else... tbd
-    private float power;
-    private float duration;
-    private float tickRate; // for now will be rounded
+    protected string effectName;
+    protected int effectType; // 0=damage, 1=heal, 2=DoT, 3=Hot, 4= something else... tbd
+    public float power;
+    public float duration;
+    public float tickRate; // for now will be rounded
     public GameObject particles;
+    public Action<Actor, Actor> startAction;
+    public Action<Actor, Actor> hitAction;
+    public Action<Actor, Actor> finishAction;
 
     
 public AbilityEffect(){
 }
-public AbilityEffect(string inEffectName, int inEffectType, float inPower, float inDuration, float inTickRate){
-    effectName = inEffectName;
-    effectType = inEffectType;
-    power = inPower;
-    if((inEffectType != 0) && (inEffectType != 1))
-        duration = inDuration;
+public AbilityEffect(string _effectName, int _effectType, float _power, float _duration, float _tickRate){
+    effectName = _effectName;
+    effectType = _effectType;
+    power = _power;
+    if((_effectType != 0) && (_effectType != 1))
+        duration = _duration;
     else{
         duration = 0.0f;
         Debug.Log("Tried to make a damage or heal type with a durtion that isn't 0.0f. Setting duration to 0.0f");
     }
-    tickRate = MathF.Round(inTickRate);
+    tickRate = MathF.Round(_tickRate);
 
 }
-public AbilityEffect(string inEffectName, int inEffectType, float inPower, float inDuration, float inTickRate, GameObject inParticles){
-    effectName = inEffectName;
-    effectType = inEffectType;
-    power = inPower;
-    if((inEffectType != 0) && (inEffectType != 1))
-        duration = inDuration;
+public AbilityEffect(string _effectName, int _effectType, float _power, float _duration, float _tickRate, GameObject _particles){
+    effectName = _effectName;
+    effectType = _effectType;
+    power = _power;
+    if((_effectType != 0) && (_effectType != 1))
+        duration = _duration;
     else{
-        duration = 0.0f;
-        Debug.Log("Tried to make a damage or heal type with a durtion that isn't 0.0f. Setting duration to 0.0f");
+        if(_duration > 0.0f){
+            duration = 0.0f;
+            Debug.Log("Tried to make a damage or heal type with a durtion that isn't 0.0f. Setting duration to 0.0f");
+        }
     }
-    tickRate = MathF.Round(inTickRate);
-    particles = inParticles;
+    tickRate = MathF.Round(_tickRate);
+    particles = _particles;
 
+}
+public AbilityEffect(string _effectName, int _effectType, float _power, float _duration, float _tickRate, GameObject _particles,
+                     Action<Actor, Actor> _startAction, Action<Actor , Actor> _hitAction, Action<Actor, Actor> _finishAction){
+    effectName = _effectName;
+    effectType = _effectType;
+    power = _power;
+    if((_effectType != 0) && (_effectType != 1))
+        duration = _duration;
+    else{
+        if(_duration > 0.0f){
+            duration = 0.0f;
+            Debug.Log("Tried to make a damage or heal type with a durtion that isn't 0.0f. Setting duration to 0.0f");
+        }
+    }
+    tickRate = MathF.Round(_tickRate);
+    particles = _particles;
+    startAction = _startAction;
+    hitAction = _hitAction;
+    finishAction = _finishAction;
 }
 
     public string getEffectName(){
@@ -68,5 +92,41 @@ public AbilityEffect(string inEffectName, int inEffectType, float inPower, float
         return tickRate;
     }
 
+    public virtual void OnEffectFinish(Actor _caster, Actor _target){
+        if(finishAction != null){
+            //effectFinishCallback = _effectFinishCallback;
+            finishAction(_caster, _target);
+        }
+        //Debug.Log("AE: deafult finish");
+    }
+    public virtual void OnEffectHit(Actor _caster, Actor _target){          //  Make this work in actor later
+
+        if(hitAction != null){
+            //effectFinishCallback = _effectFinishCallback;
+            hitAction(_caster, _target);
+        }
+    }
+    public virtual void OnEffectStart(Actor _caster, Actor _target){
+        if(startAction != null){
+            //effectFinishCallback = _effectFinishCallback;
+            startAction(_caster, _target);
+        }
+    }
+    
+    public AbilityEffect clone(){
+        return new AbilityEffect(String.Copy(effectName), effectType, power, duration, tickRate, particles, startAction, hitAction, finishAction);
+    }
+    
+
+// -------------------------------------Start/ hit/ finish effects-------------------------------------------------------
+public void delegateboltFinish(AbilityEffect _abilityEffect){
+    Debug.Log("Delegatebolt finish!");
+}
+public void secondaryTestbolt(Actor caster, Actor target){
+    caster.cast(PlayerAbilityData._castedDamage, target);
+}
+public void secondaryDoT(Actor caster, Actor target){
+    caster.cast(PlayerAbilityData._instantAbility, target);
+}
 
 }

@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 15327743}
   - component: {fileID: 15327745}
   - component: {fileID: 15327746}
+  - component: {fileID: 15327747}
   m_Layer: 0
   m_Name: Healer
   m_TagString: Untagged
@@ -221,6 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df739c0fb2ae5ea4ea3c0e5dd2d3f75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showDebug: 0
   actorName: Disfoh
   health: 60
   maxHealth: 75
@@ -229,6 +231,20 @@ MonoBehaviour:
   target: {fileID: 0}
   unitColor: {r: 0.12941177, g: 0.69803923, b: 0.10980392, a: 1}
   activeAbilityEffects: []
+  castReady: 0
+  isCasting: 0
+  queuedAbility:
+    abilityName: 
+    abilityEffect:
+      power: 0
+      duration: 0
+      tickRate: 0
+      particles: {fileID: 0}
+    castTime: 0
+    cooldown: 0
+  abilityCooldowns: []
+  uiManager: {fileID: 0}
+  abilityDeliveryPrefab: {fileID: 0}
 --- !u!61 &15327746
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -255,6 +271,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!50 &15327747
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 15327742}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &20178321
 GameObject:
   m_ObjectHideFlags: 0
@@ -1830,6 +1867,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e8d72f3b1496174f814ceaa875fee18, type: 3}
+--- !u!1 &185959217 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8733643818106028267, guid: 083167164e3be594fb6a0bfb04f46de3, type: 3}
+  m_PrefabInstance: {fileID: 854315555}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &185959221
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 185959217}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &420936409
 GameObject:
   m_ObjectHideFlags: 0
@@ -1968,6 +2031,7 @@ GameObject:
   - component: {fileID: 535967231}
   - component: {fileID: 535967233}
   - component: {fileID: 535967234}
+  - component: {fileID: 535967235}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -2054,6 +2118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df739c0fb2ae5ea4ea3c0e5dd2d3f75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showDebug: 0
   actorName: Oranage Add
   health: 500
   maxHealth: 500
@@ -2062,6 +2127,20 @@ MonoBehaviour:
   target: {fileID: 0}
   unitColor: {r: 0.94509804, g: 0.47058824, b: 0.08235294, a: 1}
   activeAbilityEffects: []
+  castReady: 0
+  isCasting: 0
+  queuedAbility:
+    abilityName: 
+    abilityEffect:
+      power: 0
+      duration: 0
+      tickRate: 0
+      particles: {fileID: 0}
+    castTime: 0
+    cooldown: 0
+  abilityCooldowns: []
+  uiManager: {fileID: 0}
+  abilityDeliveryPrefab: {fileID: 0}
 --- !u!61 &535967234
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2088,6 +2167,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.5}
   m_EdgeRadius: 0
+--- !u!50 &535967235
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535967230}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1001 &549552956
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2668,6 +2768,7 @@ GameObject:
   - component: {fileID: 1133986373}
   - component: {fileID: 1133986375}
   - component: {fileID: 1133986376}
+  - component: {fileID: 1133986377}
   m_Layer: 0
   m_Name: Tank
   m_TagString: Untagged
@@ -2754,6 +2855,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df739c0fb2ae5ea4ea3c0e5dd2d3f75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showDebug: 0
   actorName: Some FNG
   health: 140
   maxHealth: 250
@@ -2762,6 +2864,20 @@ MonoBehaviour:
   target: {fileID: 0}
   unitColor: {r: 0.19607843, g: 0.3372549, b: 0.8862745, a: 1}
   activeAbilityEffects: []
+  castReady: 0
+  isCasting: 0
+  queuedAbility:
+    abilityName: 
+    abilityEffect:
+      power: 0
+      duration: 0
+      tickRate: 0
+      particles: {fileID: 0}
+    castTime: 0
+    cooldown: 0
+  abilityCooldowns: []
+  uiManager: {fileID: 0}
+  abilityDeliveryPrefab: {fileID: 0}
 --- !u!61 &1133986376
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2788,6 +2904,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!50 &1133986377
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133986372}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1284594323
 GameObject:
   m_ObjectHideFlags: 0
@@ -3475,6 +3612,7 @@ GameObject:
   - component: {fileID: 1871266375}
   - component: {fileID: 1871266377}
   - component: {fileID: 1871266378}
+  - component: {fileID: 1871266379}
   m_Layer: 0
   m_Name: Dps
   m_TagString: Untagged
@@ -3561,6 +3699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df739c0fb2ae5ea4ea3c0e5dd2d3f75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showDebug: 0
   actorName: Dyno
   health: 80
   maxHealth: 100
@@ -3569,6 +3708,20 @@ MonoBehaviour:
   target: {fileID: 0}
   unitColor: {r: 0.8117647, g: 0.08627451, b: 0.08627451, a: 1}
   activeAbilityEffects: []
+  castReady: 0
+  isCasting: 0
+  queuedAbility:
+    abilityName: 
+    abilityEffect:
+      power: 0
+      duration: 0
+      tickRate: 0
+      particles: {fileID: 0}
+    castTime: 0
+    cooldown: 0
+  abilityCooldowns: []
+  uiManager: {fileID: 0}
+  abilityDeliveryPrefab: {fileID: 0}
 --- !u!61 &1871266378
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3595,6 +3748,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!50 &1871266379
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871266374}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &2006404819
 GameObject:
   m_ObjectHideFlags: 0
@@ -3614,7 +3788,7 @@ GameObject:
   - component: {fileID: 2006404830}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3717,6 +3891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df739c0fb2ae5ea4ea3c0e5dd2d3f75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showDebug: 0
   actorName: Deoscillate
   health: 120
   maxHealth: 120
@@ -3725,6 +3900,20 @@ MonoBehaviour:
   target: {fileID: 0}
   unitColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
   activeAbilityEffects: []
+  castReady: 0
+  isCasting: 0
+  queuedAbility:
+    abilityName: 
+    abilityEffect:
+      power: 0
+      duration: 0
+      tickRate: 0
+      particles: {fileID: 0}
+    castTime: 0
+    cooldown: 0
+  abilityCooldowns: []
+  uiManager: {fileID: 1451345063}
+  abilityDeliveryPrefab: {fileID: 8996080988287052582, guid: a4706308c46cb1241917ac1a7cfb7176, type: 3}
 --- !u!114 &2006404826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3814,11 +4003,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1736974da49c5ef40b4f3bd3590e64d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  castReady: 0
-  isCasting: 0
   player: {fileID: 2006404825}
   uiManager: {fileID: 1451345063}
-  testParticles: {fileID: 1935295311422274672, guid: e68af36488e76b8428c99e10a727a2d8, type: 3}
+  finishbolt:
+    abilityName: 
+    abilityEffect:
+      power: 0
+      duration: 0
+      tickRate: 0
+      particles: {fileID: 0}
+    castTime: 0
+    cooldown: 0
+  secondarybolt:
+    abilityName: 
+    abilityEffect:
+      power: 0
+      duration: 0
+      tickRate: 0
+      particles: {fileID: 0}
+    castTime: 0
+    cooldown: 0
 --- !u!1001 &744315560258893701
 PrefabInstance:
   m_ObjectHideFlags: 0

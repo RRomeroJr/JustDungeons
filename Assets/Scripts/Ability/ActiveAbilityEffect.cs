@@ -8,7 +8,7 @@ public class ActiveAbilityEffect
     /* 
                    Ability Effects that are currently active on some target Actor
     */
-    public AbilityEffect AbilityEffect;
+    public AbilityEffect abilityEffect;
     public Actor caster;
     public string effectName;
     public int effectType; // 0=damage, 1=heal, 2=DoT, 3=Hot, 4=something else... tbd
@@ -26,7 +26,7 @@ public class ActiveAbilityEffect
         start = false;
     }
     public ActiveAbilityEffect(AbilityEffect inAbilityEffect, Actor inCaster){
-        AbilityEffect = inAbilityEffect;
+        abilityEffect = inAbilityEffect;
         caster = inCaster;
         effectName = inAbilityEffect.getEffectName();
         effectType = inAbilityEffect.getEffectType();

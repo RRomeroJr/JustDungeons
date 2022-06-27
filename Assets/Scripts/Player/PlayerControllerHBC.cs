@@ -9,14 +9,26 @@ public class PlayerControllerHBC : MonoBehaviour
     
     public Actor player;
     public UIManager uiManager;
-
+    public Ability finishbolt;
+    public Ability secondarybolt;
+    public Ability doubleTesterbolt;
+    public AbilityEffect doubleTesterboltEffect;
     
  
     void Start()
-    {     
+    {
+
+                //    This doesn't work without making a clone function
+        doubleTesterboltEffect = AbilityEffectData._oneOffDamageEffect.clone();
+        doubleTesterboltEffect.finishAction = AbilityEffectData._oneOffDamageEffect.secondaryTestbolt;
+
+        doubleTesterbolt = PlayerAbilityData._castedDamage.clone();
+        doubleTesterbolt.setName("Double tester!");
+        doubleTesterbolt.setEffect(doubleTesterboltEffect);
+        //AbilityEffectData._oneOffHealEffect.finishAction = AbilityEffectData._oneOffHealEffect.delegateboltFinish;
     }
 
-    // Update is called once per frame
+
     void Update()
     {    
         if(Input.GetKeyDown("1")){
@@ -31,9 +43,12 @@ public class PlayerControllerHBC : MonoBehaviour
         if(Input.GetKeyDown("4")){
             player.checkAndQueue(PlayerAbilityData._instantAbility2);
         }
-        
+        if(Input.GetKeyDown("6")){
+            player.checkAndQueue(doubleTesterbolt);
+        }
         
     }
-
-    
+    void sayAbilityEffectName(AbilityEffect _abilityEffect){
+        Debug.Log("This effect " + _abilityEffect.getEffectName() + "  finished!");
+    }
 }
