@@ -32,19 +32,19 @@ public class PlayerControllerHBC : MonoBehaviour
     void Update()
     {    
         if(Input.GetKeyDown("1")){
-            player.checkAndQueue(PlayerAbilityData._instantAbility);
+            player.checkAndQueue(PlayerAbilityData._instantAbility, player.target);
         }
         if(Input.GetKeyDown("2")){       
-            player.checkAndQueue(PlayerAbilityData._castedDamage);
+            player.checkAndQueue(PlayerAbilityData._castedDamage, player.target);
         }
         if(Input.GetKeyDown("3")){
-            player.checkAndQueue(PlayerAbilityData._castedHeal);
+            player.checkAndQueue(PlayerAbilityData._castedHeal, player.target);
         }
         if(Input.GetKeyDown("4")){
-            player.checkAndQueue(PlayerAbilityData._instantAbility2);
+            player.checkAndQueue(PlayerAbilityData._instantAbility2, player.target);
         }
         if(Input.GetKeyDown("6")){
-            player.checkAndQueue(doubleTesterbolt);
+            player.checkAndQueue(doubleTesterbolt, player.target);
         }
         
     }

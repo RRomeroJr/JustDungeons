@@ -10,6 +10,7 @@ public class Ability
 
     [SerializeField] private float castTime;
     [SerializeField] private float cooldown;
+    [SerializeField] private bool targetReq = true;
 
 
     public string getName(){
@@ -53,11 +54,21 @@ public class Ability
         castTime = inCastTime;
         cooldown = inCooldown;
     }
+    public Ability(string inName, AbilityEffect inAbilityEffect, float inCastTime, float inCooldown, bool _targetReq){
+        abilityName = inName;
+        abilityEffect = inAbilityEffect;
+        castTime = inCastTime;
+        cooldown = inCooldown;
+        targetReq = _targetReq;
+    }
     public Ability clone(){
         // Returns a Copy of the ability with a COPY of the the name, a REF to the effect, and copy of castTime since it is just a value type
 
-        return new Ability(String.Copy(abilityName), abilityEffect, castTime, cooldown);
+        return new Ability(String.Copy(abilityName), abilityEffect, castTime, cooldown, targetReq);
         
+    }
+    public bool needsTarget(){
+        return targetReq;
     }
 
 }
