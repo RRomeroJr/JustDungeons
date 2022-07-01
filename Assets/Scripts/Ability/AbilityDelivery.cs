@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AbilityDelivery : MonoBehaviour
 {
-    public AbilityEffect abilityEffect;
+    public List<AbilityEffect> abilityEffects;
     public Vector3 worldPointTarget;
     public Actor caster;
     public Actor target;
@@ -28,14 +28,14 @@ public class AbilityDelivery : MonoBehaviour
     {   
         if(type == 0){   
             if (other.gameObject.GetComponent<Actor>() == target){
-                other.gameObject.GetComponent<Actor>().applyAbilityEffect(abilityEffect, caster);
+                other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
                 Destroy(gameObject);
             }
         }
         if(type == 1){
             if (other.gameObject.GetComponent<Actor>() != caster){
                 if (other.gameObject.GetComponent<Actor>() != null){
-                    other.gameObject.GetComponent<Actor>().applyAbilityEffect(abilityEffect, caster);
+                    other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
                 }
                 Destroy(gameObject);
             }
@@ -48,7 +48,7 @@ public class AbilityDelivery : MonoBehaviour
                 if (other.gameObject.GetComponent<Actor>() != null){
                     if(checkIgnoreTarget(other.gameObject.GetComponent<Actor>()) == false){
                         
-                        other.gameObject.GetComponent<Actor>().applyAbilityEffect(abilityEffect, caster);
+                        other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
                         addToAoeIgnore(other.gameObject.GetComponent<Actor>(), tickRate);
                     }
                     //else
@@ -85,18 +85,18 @@ public class AbilityDelivery : MonoBehaviour
         type = _type;
         caster = _caster;
     }*/
-    public void init(AbilityEffect _abilityEffect, int _type, Actor _caster, Actor _target, float _speed){
+    public void init(List<AbilityEffect> _abilityEffects, int _type, Actor _caster, Actor _target, float _speed){
         
-        abilityEffect = _abilityEffect;
+        abilityEffects = _abilityEffects;
         type = _type;
         caster = _caster;
         target = _target;
         speed = _speed;
         
     }
-    public void init(AbilityEffect _abilityEffect, int _type, Actor _caster, Vector3 _worldPointTarget, float _speed){
+    public void init(List<AbilityEffect> _abilityEffects, int _type, Actor _caster, Vector3 _worldPointTarget, float _speed){
         
-        abilityEffect = _abilityEffect;
+        abilityEffects = _abilityEffects;
         type = _type;
         caster = _caster;
         worldPointTarget = _worldPointTarget;

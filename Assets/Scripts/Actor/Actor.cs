@@ -165,6 +165,14 @@ public class Actor : MonoBehaviour
         //Debug.Log("Actor: Applying.." + _abilityEffect.getEffectName() + " to " + actorName);  
 
     }
+    public void applyAbilityEffects(List<AbilityEffect> _abilityEffects, Actor inCaster){
+        if(_abilityEffects.Count > 0){
+            for(int i = 0; i < _abilityEffects.Count; i++ ){
+                applyAbilityEffect(_abilityEffects[i], inCaster);
+            }
+        } 
+
+    }
     void handleDamage(AbilityEffect _abilityEffect){// Type 0
 
         /* 
@@ -316,7 +324,7 @@ public class Actor : MonoBehaviour
         
         if(_target != null){
             //Debug.Log("A: " + actorName + " casting " + _ability.getName() + " on " + target.actorName);
-            _target.applyAbilityEffect(_ability.getEffect(), this);
+            _target.applyAbilityEffects(_ability.getEffects(), this);
             addToCooldowns(queuedAbility);
         }
         else{
@@ -408,16 +416,11 @@ public class Actor : MonoBehaviour
         // ***** WILL RETURN FALSE if DeliveryType is -1 (auto apply to target) and there is no target *****
 
 
-        AbilityEffect tempAE_Ref = _ability.getEffect().clone();
-        /*          
-                vV__Pretend below power is being modified by Actor's stats__Vv
-        */
-        tempAE_Ref.setEffectName(tempAE_Ref.getEffectName() + " ("+ actorName + ")");
-        // ============================================================================]
+        List<AbilityEffect> tempListAE_Ref = cloneListAE(_ability.getEffects());
 
         if(_ability.DeliveryType == -1){
             if(_target != null){
-                _target.applyAbilityEffect(tempAE_Ref, this);
+                _target.applyAbilityEffects(tempListAE_Ref, this);
                 return true;
             }
             else{
@@ -426,11 +429,25 @@ public class Actor : MonoBehaviour
             }
         }
         else{
-            GameObject delivery = CreateAndInitDelivery(tempAE_Ref, _ability.DeliveryType, _target, _targetWP);
+            GameObject delivery = CreateAndInitDelivery(tempListAE_Ref, _ability.DeliveryType, _target, _targetWP);
             return true;
         }
     }
-    GameObject CreateAndInitDelivery(AbilityEffect _abilityEffect, int _deliveryType, Actor _target = null, Vector3? _targetWP = null){
+    List<AbilityEffect> cloneListAE(List<AbilityEffect> _abilityEffects){
+        List<AbilityEffect> tempListAE_Ref = new List<AbilityEffect>();
+        if(_abilityEffects.Count > 0){
+            for(int i = 0; i < _abilityEffects.Count; i++ ){
+                AbilityEffect tempAE_Ref = _abilityEffects[i].clone();
+                 /*          
+                     vV__Pretend below power is being modified by Actor's stats__Vv
+                 */
+                tempAE_Ref.setEffectName(tempAE_Ref.getEffectName() + " ("+ actorName + ")");
+                tempListAE_Ref.Add(tempAE_Ref);
+            }
+        }
+        return tempListAE_Ref;
+    }
+    GameObject CreateAndInitDelivery(List<AbilityEffect> _abilityEffects, int _deliveryType, Actor _target = null, Vector3? _targetWP = null){
         // Creates and returns delivery
 
         GameObject delivery;
@@ -441,7 +458,7 @@ public class Actor : MonoBehaviour
         }
         else if(queuedAbility.NeedsTargetActor()){
             delivery = Instantiate(abilityDeliveryPrefab, gameObject.transform.position, gameObject.transform.rotation);
-            delivery.GetComponent<AbilityDelivery>().init( _abilityEffect, _deliveryType, this, _target, 0.1f);
+            delivery.GetComponent<AbilityDelivery>().init( _abilityEffects, _deliveryType, this, _target, 0.1f);
             return delivery;
         }
         else if(queuedAbility.NeedsTargetWP()){
@@ -449,11 +466,11 @@ public class Actor : MonoBehaviour
             Vector3 tempVect = _targetWP ?? Vector3.zero; // Make this ERROR instead in the future
 
             delivery = Instantiate(abilityDeliveryPrefab, gameObject.transform.position, gameObject.transform.rotation);
-            delivery.GetComponent<AbilityDelivery>().init( _abilityEffect, _deliveryType, this, tempVect, 0.1f);
+            delivery.GetComponent<AbilityDelivery>().init( _abilityEffects, _deliveryType, this, tempVect, 0.1f);
         }
         else{
             delivery = Instantiate(abilityDeliveryPrefab, gameObject.transform.position, gameObject.transform.rotation);
-            delivery.GetComponent<AbilityDelivery>().init( _abilityEffect, _deliveryType, this, _target, 0.1f);
+            delivery.GetComponent<AbilityDelivery>().init( _abilityEffects, _deliveryType, this, _target, 0.1f);
         }
         return delivery;
     }

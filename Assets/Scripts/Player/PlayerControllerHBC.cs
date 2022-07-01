@@ -9,8 +9,7 @@ public class PlayerControllerHBC : MonoBehaviour
     
     public Actor player;
     public UIManager uiManager;
-    public Ability finishbolt;
-    public Ability secondarybolt;
+    public Ability doubEffBolt;
     public Ability doubleTesterbolt;
     public Ability aoeTBolt;
     public AbilityEffect doubleTesterboltEffect;
@@ -35,6 +34,10 @@ public class PlayerControllerHBC : MonoBehaviour
         aoeTBolt = PlayerAbilityData._castedDamage.clone();
         aoeTBolt.DeliveryType = 2;
         aoeTBolt.setName("AoE TB");
+
+        doubEffBolt = PlayerAbilityData._castedHeal.clone();
+        doubEffBolt.addEffect(AbilityEffectData._dotEffect);
+        doubEffBolt.setName("Double Effect Bolt");
     }
 
 
@@ -57,6 +60,9 @@ public class PlayerControllerHBC : MonoBehaviour
         }
         if(Input.GetKeyDown("6")){
             player.castAbility(doubleTesterbolt, player.target);
+        }
+        if(Input.GetKeyDown("t")){
+            player.castAbility(doubEffBolt, player.target);
         }
         
     }

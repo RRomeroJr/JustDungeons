@@ -6,7 +6,7 @@ using System;
 public class Ability
 {
     [SerializeField] private string abilityName;
-    [SerializeField] private AbilityEffect abilityEffect;
+    [SerializeField] private List<AbilityEffect> abilityEffects = new List<AbilityEffect>();
 
     [SerializeField] private float castTime;
     [SerializeField] private float cooldown;
@@ -19,7 +19,10 @@ public class Ability
         return abilityName;
     }
     public AbilityEffect getEffect(){
-        return abilityEffect;
+        return abilityEffects[0];
+    }
+    public List<AbilityEffect> getEffects(){
+        return abilityEffects;
     }
     public float getCastTime(){
         return castTime;
@@ -33,7 +36,15 @@ public class Ability
         abilityName = _abilityName;
     }
     public void setEffect(AbilityEffect _abilityEffect){
-        abilityEffect = _abilityEffect;
+        List<AbilityEffect> temp = new List<AbilityEffect>();
+        temp.Add(_abilityEffect);
+        abilityEffects = temp;
+    }
+    public void setEffects(List<AbilityEffect> _abilityEffects){
+        abilityEffects = _abilityEffects;
+    }
+    public void addEffect(AbilityEffect _abilityEffect){
+        abilityEffects.Add(_abilityEffect);
     }
     public void setCastTime(float _castTime){
         castTime = _castTime;
@@ -46,13 +57,19 @@ public class Ability
 
     public Ability(string inName, AbilityEffect inAbilityEffect, float inCastTime){
         abilityName = inName;
-        abilityEffect = inAbilityEffect;
+        abilityEffects.Add(inAbilityEffect);
         castTime = inCastTime;
         cooldown = 0.0f;
     }
     public Ability(string inName, AbilityEffect inAbilityEffect, float inCastTime, float inCooldown){
         abilityName = inName;
-        abilityEffect = inAbilityEffect;
+        abilityEffects.Add(inAbilityEffect);
+        castTime = inCastTime;
+        cooldown = inCooldown;
+    }
+    public Ability(string inName, List<AbilityEffect> inAbilityEffects, float inCastTime, float inCooldown){
+        abilityName = inName;
+        abilityEffects = inAbilityEffects;
         castTime = inCastTime;
         cooldown = inCooldown;
     }
@@ -67,7 +84,7 @@ public class Ability
         // Returns a Copy of the ability with a COPY of the the name, a REF to the effect, and copy of castTime since it is just a value type
 
         //return new Ability(String.Copy(abilityName), abilityEffect, castTime, cooldown, needsTarget);
-        return new Ability(String.Copy(abilityName), abilityEffect, castTime, cooldown);
+        return new Ability(String.Copy(abilityName), abilityEffects, castTime, cooldown);
         
     }
     public bool NeedsTargetActor(){
