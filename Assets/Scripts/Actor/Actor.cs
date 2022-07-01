@@ -236,8 +236,10 @@ public class Actor : MonoBehaviour
             if(!readyToFire){
                 if(checkAbilityReqs(_ability, _target, _targetWP)){
                     if(_ability.getCastTime() > 0.0f){
-                        queueAbility(_ability, _target, _targetWP);
-                        prepCast();
+                        if(!isCasting){
+                            queueAbility(_ability, _target, _targetWP);
+                            prepCast();
+                        }
                     }
                     else{
                         fireCast(_ability, _target, _targetWP);
@@ -262,8 +264,10 @@ public class Actor : MonoBehaviour
                 Vector3? tempNullibleVect = _queuedTargetWP;
                 if(checkAbilityReqs(_ability, null, tempNullibleVect)){
                     if(_ability.getCastTime() > 0.0f){
-                        queueAbility(_ability, null, tempNullibleVect);
-                        prepCast();
+                        if(!isCasting){
+                            queueAbility(_ability, null, tempNullibleVect);
+                            prepCast();
+                        }
                     }
                     else{
                         fireCast(_ability, null, tempNullibleVect);

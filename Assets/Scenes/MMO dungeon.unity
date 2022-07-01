@@ -230,18 +230,16 @@ MonoBehaviour:
   maxMana: 0
   target: {fileID: 0}
   unitColor: {r: 0.12941177, g: 0.69803923, b: 0.10980392, a: 1}
-  activeAbilityEffects: []
-  castReady: 0
+  abilityEffects: []
+  readyToFire: 0
   isCasting: 0
   queuedAbility:
     abilityName: 
-    abilityEffect:
-      power: 0
-      duration: 0
-      tickRate: 0
-      particles: {fileID: 0}
+    abilityEffects: []
     castTime: 0
     cooldown: 0
+    deliveryType: 0
+  queuedTarget: {fileID: 0}
   abilityCooldowns: []
   uiManager: {fileID: 0}
   abilityDeliveryPrefab: {fileID: 0}
@@ -289,7 +287,7 @@ Rigidbody2D:
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
 --- !u!1 &20178321
@@ -2126,18 +2124,16 @@ MonoBehaviour:
   maxMana: 0
   target: {fileID: 0}
   unitColor: {r: 0.94509804, g: 0.47058824, b: 0.08235294, a: 1}
-  activeAbilityEffects: []
-  castReady: 0
+  abilityEffects: []
+  readyToFire: 0
   isCasting: 0
   queuedAbility:
     abilityName: 
-    abilityEffect:
-      power: 0
-      duration: 0
-      tickRate: 0
-      particles: {fileID: 0}
+    abilityEffects: []
     castTime: 0
     cooldown: 0
+    deliveryType: 0
+  queuedTarget: {fileID: 0}
   abilityCooldowns: []
   uiManager: {fileID: 0}
   abilityDeliveryPrefab: {fileID: 0}
@@ -2185,7 +2181,7 @@ Rigidbody2D:
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
 --- !u!1001 &549552956
@@ -2863,18 +2859,16 @@ MonoBehaviour:
   maxMana: 0
   target: {fileID: 0}
   unitColor: {r: 0.19607843, g: 0.3372549, b: 0.8862745, a: 1}
-  activeAbilityEffects: []
-  castReady: 0
+  abilityEffects: []
+  readyToFire: 0
   isCasting: 0
   queuedAbility:
     abilityName: 
-    abilityEffect:
-      power: 0
-      duration: 0
-      tickRate: 0
-      particles: {fileID: 0}
+    abilityEffects: []
     castTime: 0
     cooldown: 0
+    deliveryType: 0
+  queuedTarget: {fileID: 0}
   abilityCooldowns: []
   uiManager: {fileID: 0}
   abilityDeliveryPrefab: {fileID: 0}
@@ -2922,7 +2916,7 @@ Rigidbody2D:
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
 --- !u!1 &1284594323
@@ -3707,18 +3701,16 @@ MonoBehaviour:
   maxMana: 0
   target: {fileID: 0}
   unitColor: {r: 0.8117647, g: 0.08627451, b: 0.08627451, a: 1}
-  activeAbilityEffects: []
-  castReady: 0
+  abilityEffects: []
+  readyToFire: 0
   isCasting: 0
   queuedAbility:
     abilityName: 
-    abilityEffect:
-      power: 0
-      duration: 0
-      tickRate: 0
-      particles: {fileID: 0}
+    abilityEffects: []
     castTime: 0
     cooldown: 0
+    deliveryType: 0
+  queuedTarget: {fileID: 0}
   abilityCooldowns: []
   uiManager: {fileID: 0}
   abilityDeliveryPrefab: {fileID: 0}
@@ -3766,7 +3758,7 @@ Rigidbody2D:
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
 --- !u!1 &2006404819
@@ -3891,7 +3883,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df739c0fb2ae5ea4ea3c0e5dd2d3f75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showDebug: 0
+  showDebug: 1
   actorName: Deoscillate
   health: 120
   maxHealth: 120
@@ -3899,18 +3891,16 @@ MonoBehaviour:
   maxMana: 0
   target: {fileID: 0}
   unitColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
-  activeAbilityEffects: []
-  castReady: 0
+  abilityEffects: []
+  readyToFire: 0
   isCasting: 0
   queuedAbility:
     abilityName: 
-    abilityEffect:
-      power: 0
-      duration: 0
-      tickRate: 0
-      particles: {fileID: 0}
+    abilityEffects: []
     castTime: 0
     cooldown: 0
+    deliveryType: 0
+  queuedTarget: {fileID: 0}
   abilityCooldowns: []
   uiManager: {fileID: 1451345063}
   abilityDeliveryPrefab: {fileID: 8996080988287052582, guid: a4706308c46cb1241917ac1a7cfb7176, type: 3}
@@ -3949,7 +3939,7 @@ Rigidbody2D:
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!61 &2006404828
@@ -4005,24 +3995,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 2006404825}
   uiManager: {fileID: 1451345063}
-  finishbolt:
+  doubEffBolt:
     abilityName: 
-    abilityEffect:
-      power: 0
-      duration: 0
-      tickRate: 0
-      particles: {fileID: 0}
+    abilityEffects: []
     castTime: 0
     cooldown: 0
-  secondarybolt:
+    deliveryType: 0
+  doubleTesterbolt:
     abilityName: 
-    abilityEffect:
-      power: 0
-      duration: 0
-      tickRate: 0
-      particles: {fileID: 0}
+    abilityEffects: []
     castTime: 0
     cooldown: 0
+    deliveryType: 0
+  aoeTBolt:
+    abilityName: 
+    abilityEffects: []
+    castTime: 0
+    cooldown: 0
+    deliveryType: 0
+  doubleTesterboltEffect:
+    effectName: 
+    power: 0
+    duration: 0
+    tickRate: 0
+    particles: {fileID: 0}
+    lastTick: 0
+    remainingTime: 0
+    start: 0
+    caster: {fileID: 0}
+    dashTarget: {x: 0, y: 0, z: 0}
+  dashToPointEffect:
+    effectName: 
+    power: 0
+    duration: 0
+    tickRate: 0
+    particles: {fileID: 0}
+    lastTick: 0
+    remainingTime: 0
+    start: 0
+    caster: {fileID: 0}
+    dashTarget: {x: 0, y: 0, z: 0}
 --- !u!1001 &744315560258893701
 PrefabInstance:
   m_ObjectHideFlags: 0
