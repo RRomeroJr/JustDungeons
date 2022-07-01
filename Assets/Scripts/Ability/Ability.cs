@@ -10,7 +10,9 @@ public class Ability
 
     [SerializeField] private float castTime;
     [SerializeField] private float cooldown;
-    [SerializeField] private bool targetReq = true;
+    //[SerializeField] public bool needsTarget = true;
+    [SerializeField] public int deliveryType;
+    public int DeliveryType {get => deliveryType; set => deliveryType = value;}
 
 
     public string getName(){
@@ -54,21 +56,53 @@ public class Ability
         castTime = inCastTime;
         cooldown = inCooldown;
     }
-    public Ability(string inName, AbilityEffect inAbilityEffect, float inCastTime, float inCooldown, bool _targetReq){
+    /*public Ability(string inName, AbilityEffect inAbilityEffect, float inCastTime, float inCooldown, bool _needsTarget){
         abilityName = inName;
         abilityEffect = inAbilityEffect;
         castTime = inCastTime;
         cooldown = inCooldown;
-        targetReq = _targetReq;
-    }
+        needsTarget = _needsTarget;
+    }*/
     public Ability clone(){
         // Returns a Copy of the ability with a COPY of the the name, a REF to the effect, and copy of castTime since it is just a value type
 
-        return new Ability(String.Copy(abilityName), abilityEffect, castTime, cooldown, targetReq);
+        //return new Ability(String.Copy(abilityName), abilityEffect, castTime, cooldown, needsTarget);
+        return new Ability(String.Copy(abilityName), abilityEffect, castTime, cooldown);
         
     }
-    public bool needsTarget(){
-        return targetReq;
+    public bool NeedsTargetActor(){
+        switch(DeliveryType){
+            case 0:
+                return true;
+                break;
+            case 1:
+                return true;
+                break;
+            case 2:
+                return false;
+                break;
+            default:
+                Debug.Log("Unknown Delivery Type");
+                return false;
+                break;
+        }   
+    }
+    public bool NeedsTargetWP(){
+        switch(DeliveryType){
+            case 0:
+                return false;
+                break;
+            case 1:
+                return false;
+                break;
+            case 2:
+                return true;
+                break;
+            default:
+                Debug.Log("Unknown Delivery Type");
+                return false;
+                break;
+        }   
     }
 
 }

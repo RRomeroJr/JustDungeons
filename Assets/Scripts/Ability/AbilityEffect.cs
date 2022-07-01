@@ -29,6 +29,7 @@ public class AbilityEffect
     public float remainingTime = 0.0f;
     public bool start = false;
     public Actor caster;
+    public Vector3 dashTarget;
 
     
 public AbilityEffect(){
@@ -86,7 +87,7 @@ public AbilityEffect(string _effectName, int _effectType, float _power, float _d
     }
     
     public AbilityEffect clone(){
-        Debug.Log("vvvvvvv      Cloning.. " + effectName + "      vvvvvvv");
+        //Debug.Log("vvvvvvv      Cloning.. " + effectName + "      vvvvvvv");
         return new AbilityEffect(String.Copy(effectName), effectType, power, duration, tickRate, particles, startAction, hitAction, finishAction);
     }
     
@@ -116,5 +117,6 @@ public void secondaryTestbolt(Actor caster, Actor target){
 public void secondaryDoT(Actor caster, Actor target){
     caster.freeCast(PlayerAbilityData._instantAbility, target);
 }
+
 
 }

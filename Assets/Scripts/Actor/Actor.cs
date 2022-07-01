@@ -15,14 +15,15 @@ public class Actor : MonoBehaviour
     public float mana;
     public float maxMana;
     public Actor target;
+    public Vector3? queuedTargetWP;
     public Color unitColor;
     public List<AbilityEffect> abilityEffects;
     
-    // When castReady is true queueAbility will fire
-    public bool castReady = false; // Will True by CastBar for abilities w/ casts. Will only be true for a freme
+    // When readyToFire is true queuedAbility will fire
+    public bool readyToFire = false; // Will True by CastBar for abilities w/ casts. Will only be true for a freme
     public bool isCasting = false; // Will only be set False by CastBar 
-    public Ability queuedAbility;
-    public Actor queuedTarget;
+    public Ability queuedAbility; // Used when Ability has a cast time
+    public Actor queuedTarget; // Used when Ability has a cast time
     public List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
     public UIManager uiManager;
     public GameObject abilityDeliveryPrefab;
@@ -99,8 +100,22 @@ public class Actor : MonoBehaviour
                             abilityEffects[i].start = true;
                         }
                         break;
+                    case 4: //dash to point
+                        if(abilityEffects[i].start){
+                            //Iterate duration
+                            abilityEffects[i].remainingTime -= Time.deltaTime;
+                            //Iterate lastTick
+                            abilityEffects[i].lastTick += Time.deltaTime;
+                                                                                                                                //power == speed of dash
+                            gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, abilityEffects[i].dashTarget,  abilityEffects[i].power);
+                        }
+                        else{
+                            //handleDashToPoint()
+                            gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, abilityEffects[i].dashTarget,  abilityEffects[i].power);
+                            abilityEffects[i].start = true;
+                        }
+                        break;
                     default:
-                        if(showDebug)
                         Debug.Log("Unknown Ability type on " + actorName + "! Don't know what to do! Trying to remove..");
                         abilityEffects[i].duration = 0.0f;
                         break;
@@ -129,27 +144,28 @@ public class Actor : MonoBehaviour
 
     }
 
-    void checkabilityEffectToRemoveAtPos(AbilityEffect inabilityEffect, int listPos){
+    void checkabilityEffectToRemoveAtPos(AbilityEffect _abilityEffect, int listPos){
         // Remove AbilityEffect is it's duration is <= 0.0f
 
-        if(inabilityEffect.remainingTime <= 0.0f){
-            Debug.Log(actorName + ": Removing.. "+ inabilityEffect.getEffectName());
+        if(_abilityEffect.remainingTime <= 0.0f){
+            if(showDebug)
+            Debug.Log(actorName + ": Removing.. "+ _abilityEffect.getEffectName());
             abilityEffects[listPos].OnEffectFinish(abilityEffects[listPos].caster, this);
             abilityEffects.RemoveAt(listPos);
         }
     }
-    public void applyAbilityEffect(AbilityEffect inAbilityEffect, Actor inCaster){
+    public void applyAbilityEffect(AbilityEffect _abilityEffect, Actor inCaster){
 
         //Adding AbilityEffect it to this actor's list<AbilityEffect>
-        inAbilityEffect.caster = inCaster;
-        inAbilityEffect.remainingTime = inAbilityEffect.getDuration();
-        abilityEffects.Add(inAbilityEffect);
+        _abilityEffect.caster = inCaster;
+        _abilityEffect.remainingTime = _abilityEffect.getDuration();
+        abilityEffects.Add(_abilityEffect);
 
-        inAbilityEffect.OnEffectStart(inCaster, this);
-        //Debug.Log("Actor: Applying.." + inAbilityEffect.getEffectName() + " to " + actorName);  
+        _abilityEffect.OnEffectStart(inCaster, this);
+        //Debug.Log("Actor: Applying.." + _abilityEffect.getEffectName() + " to " + actorName);  
 
     }
-    void handleDamage(AbilityEffect inabilityEffect){// Type 0
+    void handleDamage(AbilityEffect _abilityEffect){// Type 0
 
         /* 
             In here you could add interesting interactions
@@ -158,25 +174,25 @@ public class Actor : MonoBehaviour
                 then call restoreValue() instead
         */
         
-        damageValue( (int) inabilityEffect.getPower() );// likly will change once we have stats
+        damageValue( (int) _abilityEffect.getPower() );// likly will change once we have stats
 
         // For saftey to make sure that the effect is removed from list
         // right aft the effect finishes
-        inabilityEffect.remainingTime = 0.0f; 
+        _abilityEffect.remainingTime = 0.0f; 
             
     }
-    void handleDoT(AbilityEffect inabilityEffect){// Type 2
+    void handleDoT(AbilityEffect _abilityEffect){// Type 2
 
         // Do any extra stuff
 
-        damageValue( (int) ( ( inabilityEffect.getTickRate() / (inabilityEffect.getDuration() + inabilityEffect.getTickRate()) ) * inabilityEffect.getPower() ) );// likly will change once we have stats
-        //damageValue( (int) inabilityEffect.getPower()  );
-        if(inabilityEffect.lastTick >= inabilityEffect.tickRate)
-            inabilityEffect.lastTick -= inabilityEffect.tickRate;
+        damageValue( (int) ( ( _abilityEffect.getTickRate() / (_abilityEffect.getDuration() + _abilityEffect.getTickRate()) ) * _abilityEffect.getPower() ) );// likly will change once we have stats
+        //damageValue( (int) _abilityEffect.getPower()  );
+        if(_abilityEffect.lastTick >= _abilityEffect.tickRate)
+            _abilityEffect.lastTick -= _abilityEffect.tickRate;
             
     }
 
-    void handleHeal(AbilityEffect inabilityEffect){// Type 1
+    void handleHeal(AbilityEffect _abilityEffect){// Type 1
 
         /* 
             In here you could add interesting interactions
@@ -185,156 +201,290 @@ public class Actor : MonoBehaviour
                 then call damageValue() instead
         */
         
-        restoreValue( (int) inabilityEffect.getPower() ); // likly will change once we have stats
+        restoreValue( (int) _abilityEffect.getPower() ); // likly will change once we have stats
 
         // For saftey to make sure that the effect is removed from list
         // right aft the effect finishes
-        inabilityEffect.remainingTime = 0.0f; 
+        _abilityEffect.remainingTime = 0.0f; 
             
     }
 
-    void handleHoT(AbilityEffect inabilityEffect){// Type 3
+    void handleHoT(AbilityEffect _abilityEffect){// Type 3
 
         // Do any extra stuff
 
-        restoreValue( (int) ( ( inabilityEffect.getTickRate() / inabilityEffect.getDuration() ) * inabilityEffect.getPower() ) );// likly will change once we have stats
-        if(inabilityEffect.lastTick >= inabilityEffect.tickRate)
-            inabilityEffect.lastTick -= inabilityEffect.tickRate;
+        restoreValue( (int) ( ( _abilityEffect.getTickRate() / _abilityEffect.getDuration() ) * _abilityEffect.getPower() ) );// likly will change once we have stats
+        if(_abilityEffect.lastTick >= _abilityEffect.tickRate)
+            _abilityEffect.lastTick -= _abilityEffect.tickRate;
             
     }
 
     //-------------------------------------------------------------------handling casts--------------------------------------------------------------------------
 
-    public void castAbility(Ability inAbility, Actor inTarget = null){
-            checkAndQueue(inAbility, inTarget);
-    }
-    public void forceCastAbility(Ability inAbility, Actor inTarget){
-        
-        /*
-            cast that should ignore cooldowns, cast time and resources?
-        */
-        
-        if(inTarget != null){
-            //Debug.Log("A: " + actorName + " casting " + inAbility.getName() + " on " + target.actorName);
-            inTarget.applyAbilityEffect(inAbility.getEffect(), this);
-            addToCooldowns(queuedAbility);
-        }
-        else{
-            if(showDebug)
-            Debug.Log("Actor: " + actorName + " has no target!");
-        }
+    public void castAbility(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
+        //Main way to make Acotr cast an ability
 
-    }
-    public void cast(Ability inAbility, Actor inTarget){
-        if(inTarget != null){
-            //Debug.Log("A: " + actorName + " casting " + inAbility.getName() + " on " + target.actorName);
-            //inTarget.applyAbilityEffect(inAbility.getEffect(), this);
-
-            AbilityEffect tempAE_Ref = inAbility.getEffect().clone();
-            /*          
-                 vV__Pretend below power is being modified by Actor's stats__Vv
-            */
-            tempAE_Ref.setEffectName(tempAE_Ref.getEffectName() + " (clone)");
-            // ============================================================================]
-
-            GameObject delivery = Instantiate(abilityDeliveryPrefab);
-            delivery.GetComponent<AbilityDelivery>().init( tempAE_Ref, 0, this, inTarget, 0.01f);
-            addToCooldowns(queuedAbility);
-            castReady = false;
-        }
-        else{
-            if(showDebug)
-            Debug.Log("Actor: " + actorName + " has no target!");
-        }
-
-    }
-    public void freeCast(Ability inAbility, Actor inTarget){
-        if(inTarget != null){
-            //Debug.Log("A: " + actorName + " casting " + inAbility.getName() + " on " + target.actorName);
-            //inTarget.applyAbilityEffect(inAbility.getEffect(), this);
-
-            AbilityEffect tempAE_Ref = inAbility.getEffect().clone();
-            /*          
-                 vV__Pretend below power is being modified by Actor's stats__Vv
-            */
-            tempAE_Ref.setEffectName(tempAE_Ref.getEffectName() + " (clone)");
-            // ============================================================================]
-
-            GameObject delivery = Instantiate(abilityDeliveryPrefab);
-            delivery.GetComponent<AbilityDelivery>().init( tempAE_Ref, 0, this, inTarget, 0.01f);
-            // No cd gfenerated
-            // Make not cost resources
-            castReady = false;
-        }
-        else{
-            if(showDebug)
-            Debug.Log("Actor: " + actorName + " has no target!");
-        }
-
-    }
-    private void handleCastQueue(){
-        if(castReady){
-            //Debug.Log("castCompleted: " + queuedAbility.getName()); 
-            cast(queuedAbility, queuedTarget);
-        }
-    }
-    public void queueAbility(Ability inAbility, Actor _queuedTarget = null){
-        if(isCasting){
-            if(showDebug)
-            Debug.Log(actorName + " is casting!");
-        }
-        else{
-            if(!castReady){
-                
-                if(inAbility.needsTarget()){
-                    if(_queuedTarget != null){ 
-                        
-                        startCast(inAbility, _queuedTarget);
+        if(checkOnCooldown(_ability) == false){
+            if(!readyToFire){
+                if(checkAbilityReqs(_ability, _target, _targetWP)){
+                    if(_ability.getCastTime() > 0.0f){
+                        queueAbility(_ability, _target, _targetWP);
+                        prepCast();
                     }
                     else{
-                        Debug.Log("Where are we? 222222");
-                        if(showDebug == true)
-                            Debug.Log(actorName + " doesn't have a target!");
+                        fireCast(_ability, _target, _targetWP);
                     }
                 }
                 else{
-                    startCast(inAbility, _queuedTarget);
-                }
+                    if(showDebug)
+                    Debug.Log("Ability doesn't have necessary requirments");
+                }                   
+            }
+            else{
+                if(showDebug)
+                Debug.Log("Something else is ready to fire and blocking this cast");
             }
         }
     }
-    void startCast(Ability inAbility, Actor _queuedTarget = null){
-        if(inAbility.getCastTime() > 0.0f){ // Casted Ability
+    public void castAbility(Ability _ability, Vector3 _queuedTargetWP){
+        //Main way to make Acotr cast an ability
 
-            //Debug.Log("Trying to create a castBar for " + inAbility.getName());
+        if(checkOnCooldown(_ability) == false){
+            if(!readyToFire){
+                Vector3? tempNullibleVect = _queuedTargetWP;
+                if(checkAbilityReqs(_ability, null, tempNullibleVect)){
+                    if(_ability.getCastTime() > 0.0f){
+                        queueAbility(_ability, null, tempNullibleVect);
+                        prepCast();
+                    }
+                    else{
+                        fireCast(_ability, null, tempNullibleVect);
+                    }
+                }
+                else{
+                    if(showDebug)
+                    Debug.Log("Ability doesn't have necessary requirments: A, WP");
+                }                       
+            }
+            else{
+                if(showDebug)
+                Debug.Log("Something else is ready to fire and blocking this cast: A, WP");
+            }
+        }
+    }
+    public void freeCast(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
+        //  Make Acotor cast an ability without starting a cooldown or (in the future) cost resources
+        // Maybe make this into an overload of castAbility later
 
-            //Preparing variables for cast
-            queuedAbility = inAbility;
-            queuedTarget = _queuedTarget;
-            castReady = false; // for saftey. Should've been set by castBar or initialized that way already
-            isCasting = true;
-
+        if(checkAbilityReqs(_ability, _target, _targetWP)){
+            if(handleDelivery(_ability, _target)){
+                // No cd gfenerated
+                // Make not cost resources
+                readyToFire = false;
+            }
             
-            if(gameObject.tag == "Player"){ // For player
+        }
+        else{
+            if(showDebug)
+            Debug.Log(actorName + " Free cast failed reqs");
+        }
+
+    }
+    public void freeCast(Ability _ability, Vector3 _targetWP){
+        //  Make Acotor cast an ability without starting a cooldown or (in the future) cost resources
+        // Maybe make this into an overload of castAbility later
+
+        if(checkAbilityReqs(_ability, null, _targetWP)){
+            if(handleDelivery(_ability, null, _targetWP)){
+                // No cd gfenerated
+                // Make not cost resources
+                readyToFire = false;
+            }
+            
+        }
+        else{
+            if(showDebug)
+            Debug.Log(actorName + " Free cast failed reqs: A, WP");
+        }
+
+    }
+    void forceCastAbility(Ability _ability, Actor _target){
+        
+        /*
+                                                                  ***IGNORE*** Unused for now
+        */
+        
+        if(_target != null){
+            //Debug.Log("A: " + actorName + " casting " + _ability.getName() + " on " + target.actorName);
+            _target.applyAbilityEffect(_ability.getEffect(), this);
+            addToCooldowns(queuedAbility);
+        }
+        else{
+            if(showDebug)
+            Debug.Log("Actor: " + actorName + " has no target!");
+        }
+
+    }
+
+    public void fireCast(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
+        // Main way for "Fireing" a cast by creating a delivery if needed then creating an AbilityCooldown
+        if(handleDelivery(_ability, _target, _targetWP)){
+            addToCooldowns(queuedAbility);
+            readyToFire = false;
+        }
+
+    }  
+    void queueAbility(Ability _ability, Actor _queuedTarget = null, Vector3? _queuedTargetWP = null){
+        //Preparing variables for a cast
+        queuedAbility = _ability;
+        queuedTarget = _queuedTarget;
+        queuedTargetWP = _queuedTargetWP;
+    }
+    void prepCast(){
+        //Creates castbar for abilities with cast times
+
+        //Debug.Log("Trying to create a castBar for " + _ability.getName())
+            
+        isCasting = true;   
+
+        // Creating CastBar or CastBarNPC with apropriate variables   
+        InitCastBarFromQueue();  
+    }
+    void InitCastBarFromQueue(){
+        //Makes a castbar 
+
+        if( (queuedAbility.NeedsTargetActor()) && (queuedAbility.NeedsTargetWP()) ){
+            Debug.Log("Spell that needs an Actor and WP are not yet suported");
+        }
+        else if(queuedAbility.NeedsTargetActor()){
+            initCastBarWithActor();
+        }
+        else if(queuedAbility.NeedsTargetWP()){
+            initCastBarWithWP();
+        }
+        else{
+            initCastBarWithActor();
+        }
+    }
+    void initCastBarWithActor(){
+        // Creates a CastBar with target being an Actor
+        if(gameObject.tag == "Player"){ // For player
                 //Creating cast bar and setting it's parent to canvas to display it properly
 
                 GameObject newAbilityCast = Instantiate(uiManager.castBarPrefab, uiManager.canvas.transform);
                 //                                   v (string cast_name, Actor from_caster, Actor to_target, float cast_time) v
-                newAbilityCast.GetComponent<CastBar>().Init(inAbility.getName(), this, target, inAbility.getCastTime());
-            }
-            else{// For NPCs
-                if(showDebug)
-                Debug.Log(actorName + " starting cast: " + inAbility.getName());
-                gameObject.AddComponent<CastBarNPC>().Init(inAbility.getName(), this, target, inAbility.getCastTime());
-            }
+                newAbilityCast.GetComponent<CastBar>().Init(queuedAbility.getName(), this, queuedTarget, queuedAbility.getCastTime());
+        }
+        else{// For NPCs
+            if(showDebug)
+            Debug.Log(actorName + " starting cast: " + queuedAbility.getName());
+            gameObject.AddComponent<CastBarNPC>().Init(queuedAbility.getName(), this, queuedTarget, queuedAbility.getCastTime());
+        }
+    }
+    void initCastBarWithWP(){
+        //   Creates Castbar with target being a world point Vector3
 
+        if(gameObject.tag == "Player"){ // For player
+                //Creating cast bar and setting it's parent to canvas to display it properly
+
+                GameObject newAbilityCast = Instantiate(uiManager.castBarPrefab, uiManager.canvas.transform);
+
+                Vector3 tempVect = queuedTargetWP ?? Vector3.zero; // Make this ERROR instead in the future
+
+                //                                   v (string cast_name, Actor from_caster, Actor to_target, float cast_time) v
+                newAbilityCast.GetComponent<CastBar>().Init(queuedAbility.getName(), this, tempVect, queuedAbility.getCastTime());
+        }
+        else{// For NPCs
+            if(showDebug)
+            Debug.Log(actorName + " starting cast: " + queuedAbility.getName());
+
+            Vector3 tempVect = queuedTargetWP ?? Vector3.zero; // Make this ERROR instead in the future
+
+            gameObject.AddComponent<CastBarNPC>().Init(queuedAbility.getName(), this, tempVect, queuedAbility.getCastTime());
+        }
+    }
+    bool handleDelivery(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
+        // Creates delivery if needed. Applies effects to target if not
+        // ***** WILL RETURN FALSE if DeliveryType is -1 (auto apply to target) and there is no target *****
+
+
+        AbilityEffect tempAE_Ref = _ability.getEffect().clone();
+        /*          
+                vV__Pretend below power is being modified by Actor's stats__Vv
+        */
+        tempAE_Ref.setEffectName(tempAE_Ref.getEffectName() + " ("+ actorName + ")");
+        // ============================================================================]
+
+        if(_ability.DeliveryType == -1){
+            if(_target != null){
+                _target.applyAbilityEffect(tempAE_Ref, this);
+                return true;
+            }
+            else{
+                Debug.Log(actorName + ": Direct Actor to Actor Delivery with no target");
+                return false;
+            }
         }
         else{
-            if(showDebug)
-                Debug.Log("GM| Instant cast: " + inAbility.getName());
-            queuedAbility = inAbility;
-            queuedTarget = _queuedTarget;
-            castReady = true;
+            GameObject delivery = CreateAndInitDelivery(tempAE_Ref, _ability.DeliveryType, _target, _targetWP);
+            return true;
+        }
+    }
+    GameObject CreateAndInitDelivery(AbilityEffect _abilityEffect, int _deliveryType, Actor _target = null, Vector3? _targetWP = null){
+        // Creates and returns delivery
+
+        GameObject delivery;
+
+        if( (queuedAbility.NeedsTargetActor()) && (queuedAbility.NeedsTargetWP()) ){
+            Debug.Log("Spell With Actor and WP reqs not yet suported");
+            delivery = null;
+        }
+        else if(queuedAbility.NeedsTargetActor()){
+            delivery = Instantiate(abilityDeliveryPrefab, gameObject.transform.position, gameObject.transform.rotation);
+            delivery.GetComponent<AbilityDelivery>().init( _abilityEffect, _deliveryType, this, _target, 0.1f);
+            return delivery;
+        }
+        else if(queuedAbility.NeedsTargetWP()){
+
+            Vector3 tempVect = _targetWP ?? Vector3.zero; // Make this ERROR instead in the future
+
+            delivery = Instantiate(abilityDeliveryPrefab, gameObject.transform.position, gameObject.transform.rotation);
+            delivery.GetComponent<AbilityDelivery>().init( _abilityEffect, _deliveryType, this, tempVect, 0.1f);
+        }
+        else{
+            delivery = Instantiate(abilityDeliveryPrefab, gameObject.transform.position, gameObject.transform.rotation);
+            delivery.GetComponent<AbilityDelivery>().init( _abilityEffect, _deliveryType, this, _target, 0.1f);
+        }
+        return delivery;
+    }
+    void handleCastQueue(){
+        // Called every Update() to see if queued spell is ready to fire
+
+        if(readyToFire){
+            //Debug.Log("castCompleted: " + queuedAbility.getName());
+            if(queuedAbility.NeedsTargetWP()){
+                fireCast(queuedAbility, null, queuedTargetWP);
+            }
+            else{
+                fireCast(queuedAbility, queuedTarget);
+            }
+        }
+    }
+    bool checkAbilityReqs(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
+        // Checks if the requirments of _ability are satisfied
+
+        //Debug.Log(_ability.NeedsTargetActor().ToString() + " " + _ability.NeedsTargetWP().ToString());
+        if( (_ability.NeedsTargetActor()) && (_ability.NeedsTargetWP()) ){
+            return ( (_target != null) && (_targetWP != null) );
+        }
+        else if(_ability.NeedsTargetActor()){
+            return _target != null;
+        }
+        else if(_ability.NeedsTargetWP()){
+            return _targetWP != null;
+        }
+        else{
+            return true;
         }
     }
     void updateCooldowns(){
@@ -365,14 +515,10 @@ public class Actor : MonoBehaviour
             return false;
         }
     }
-    public void checkAndQueue(Ability _ability, Actor _queuedTarget = null){
-        if(checkOnCooldown(_ability) == false){
-            queueAbility(_ability, _queuedTarget);
-        }
-    }
     //-------------------------------------------------------------------other---------------------------------------------------------------------------------------------------------
-    float RoundToNearestHalf(float value)
+    float RoundToNearestHalf(float value) 
     {
+        //   rounds to nearest x.5
         return MathF.Round(value * 2) / 2;
     }
 }
