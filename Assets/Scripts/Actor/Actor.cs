@@ -27,7 +27,6 @@ public class Actor : MonoBehaviour
     public List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
     public UIManager uiManager;
     public GameObject abilityDeliveryPrefab;
-    //public GameObject testParticlesPrefab;
 
 
 
@@ -247,7 +246,8 @@ public class Actor : MonoBehaviour
                 }
                 else{
                     if(showDebug)
-                    Debug.Log("Ability doesn't have necessary requirments");
+                        Debug.Log("Ability doesn't have necessary requirments");
+                    resetQueue();
                 }                   
             }
             else{
@@ -275,7 +275,8 @@ public class Actor : MonoBehaviour
                 }
                 else{
                     if(showDebug)
-                    Debug.Log("Ability doesn't have necessary requirments: A, WP");
+                        Debug.Log("Ability doesn't have necessary requirments: A, WP");
+                    resetQueue();
                 }                       
             }
             else{
@@ -401,18 +402,14 @@ public class Actor : MonoBehaviour
 
                 GameObject newAbilityCast = Instantiate(uiManager.castBarPrefab, uiManager.canvas.transform);
 
-                Vector3 tempVect = queuedTargetWP ?? Vector3.zero; // Make this ERROR instead in the future
-
                 //                                   v (string cast_name, Actor from_caster, Actor to_target, float cast_time) v
-                newAbilityCast.GetComponent<CastBar>().Init(queuedAbility.getName(), this, tempVect, queuedAbility.getCastTime());
+                newAbilityCast.GetComponent<CastBar>().Init(queuedAbility.getName(), this, queuedTargetWP.Value, queuedAbility.getCastTime());
         }
         else{// For NPCs
             if(showDebug)
             Debug.Log(actorName + " starting cast: " + queuedAbility.getName());
 
-            Vector3 tempVect = queuedTargetWP ?? Vector3.zero; // Make this ERROR instead in the future
-
-            gameObject.AddComponent<CastBarNPC>().Init(queuedAbility.getName(), this, tempVect, queuedAbility.getCastTime());
+            gameObject.AddComponent<CastBarNPC>().Init(queuedAbility.getName(), this, queuedTargetWP.Value, queuedAbility.getCastTime());
         }
     }
     bool handleDelivery(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
@@ -420,7 +417,8 @@ public class Actor : MonoBehaviour
         // ***** WILL RETURN FALSE if DeliveryType is -1 (auto apply to target) and there is no target *****
 
 
-        List<AbilityEffect> tempListAE_Ref = cloneListAE(_ability.getEffects());
+        //List<AbilityEffect> tempListAE_Ref = cloneListAE(_ability.getEffects());
+        List<AbilityEffect> tempListAE_Ref = _ability.getEffects().cloneEffects();
 
         if(_ability.DeliveryType == -1){
             if(_target != null){
@@ -436,20 +434,6 @@ public class Actor : MonoBehaviour
             GameObject delivery = CreateAndInitDelivery(tempListAE_Ref, _ability.DeliveryType, _target, _targetWP);
             return true;
         }
-    }
-    List<AbilityEffect> cloneListAE(List<AbilityEffect> _abilityEffects){
-        List<AbilityEffect> tempListAE_Ref = new List<AbilityEffect>();
-        if(_abilityEffects.Count > 0){
-            for(int i = 0; i < _abilityEffects.Count; i++ ){
-                AbilityEffect tempAE_Ref = _abilityEffects[i].clone();
-                 /*          
-                     vV__Pretend below power is being modified by Actor's stats__Vv
-                 */
-                tempAE_Ref.setEffectName(tempAE_Ref.getEffectName() + " ("+ actorName + ")");
-                tempListAE_Ref.Add(tempAE_Ref);
-            }
-        }
-        return tempListAE_Ref;
     }
     GameObject CreateAndInitDelivery(List<AbilityEffect> _abilityEffects, int _deliveryType, Actor _target = null, Vector3? _targetWP = null){
         // Creates and returns delivery
@@ -467,10 +451,8 @@ public class Actor : MonoBehaviour
         }
         else if(queuedAbility.NeedsTargetWP()){
 
-            Vector3 tempVect = _targetWP ?? Vector3.zero; // Make this ERROR instead in the future
-
             delivery = Instantiate(abilityDeliveryPrefab, gameObject.transform.position, gameObject.transform.rotation);
-            delivery.GetComponent<AbilityDelivery>().init( _abilityEffects, _deliveryType, this, tempVect, 0.1f);
+            delivery.GetComponent<AbilityDelivery>().init( _abilityEffects, _deliveryType, this, _targetWP.Value, 0.1f);
         }
         else{
             delivery = Instantiate(abilityDeliveryPrefab, gameObject.transform.position, gameObject.transform.rotation);
@@ -478,6 +460,20 @@ public class Actor : MonoBehaviour
         }
         return delivery;
     }
+    /*List<AbilityEffect> cloneListAE(List<AbilityEffect> _abilityEffects){
+        List<AbilityEffect> tempListAE_Ref = new List<AbilityEffect>();
+        if(_abilityEffects.Count > 0){
+            for(int i = 0; i < _abilityEffects.Count; i++ ){
+                AbilityEffect tempAE_Ref = _abilityEffects[i].clone();
+                 //          
+                 //    vV__Pretend below power is being modified by Actor's stats__Vv
+                 //
+                tempAE_Ref.setEffectName(tempAE_Ref.getEffectName() + " ("+ actorName + ")");
+                tempListAE_Ref.Add(tempAE_Ref);
+            }
+        }
+        return tempListAE_Ref;
+    }*/
     void handleCastQueue(){
         // Called every Update() to see if queued spell is ready to fire
 
@@ -535,6 +531,10 @@ public class Actor : MonoBehaviour
         else{
             return false;
         }
+    }
+    void resetQueue(){
+        queuedTarget = null;
+        queuedTargetWP = null;
     }
     //-------------------------------------------------------------------other---------------------------------------------------------------------------------------------------------
     float RoundToNearestHalf(float value) 
