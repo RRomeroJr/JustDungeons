@@ -5,24 +5,23 @@ using System;
 [System.Serializable]
 public class Ability
 {
-    [SerializeField] private string abilityName;
-    [SerializeField] private List<AbilityEffect> abilityEffects = new List<AbilityEffect>();
-
-    [SerializeField] private float castTime;
-    [SerializeField] private float cooldown;
+    [SerializeField] protected string abilityName;
+    [SerializeField] protected List<AbilityEffectPreset> abilityEffectPresets = new List<AbilityEffectPreset>();
+    
+    [SerializeField] protected float castTime;
+    [SerializeField] protected float cooldown;
     //[SerializeField] public bool needsTarget = true;
-    [SerializeField] public int deliveryType;
-    public int DeliveryType {get => deliveryType; set => deliveryType = value;}
-
+    [SerializeField] protected int deliveryType;
+    protected bool canEdit = true;
 
     public string getName(){
         return abilityName;
     }
-    public AbilityEffect getEffect(){
-        return abilityEffects[0];
+    public AbilityEffectPreset getEffectPreset(){
+        return abilityEffectPresets[0];
     }
-    public List<AbilityEffect> getEffects(){
-        return abilityEffects;
+    public List<AbilityEffectPreset> getEffectPresets(){
+        return abilityEffectPresets;
     }
     public float getCastTime(){
         return castTime;
@@ -33,62 +32,94 @@ public class Ability
     }
 
     public void setName(string _abilityName){
-        abilityName = _abilityName;
+        if(canEdit){
+            abilityName = _abilityName;        
+        }else{
+            Debug.Log("Can't edit Ability" + abilityName);
+        }
     }
-    public void setEffect(AbilityEffect _abilityEffect){
-        List<AbilityEffect> temp = new List<AbilityEffect>();
-        temp.Add(_abilityEffect);
-        abilityEffects = temp;
+    public void setEffectPreset(AbilityEffectPreset _abilityEffectPreset){
+        if(canEdit){
+            List<AbilityEffectPreset> temp = new List<AbilityEffectPreset>();
+            temp.Add(_abilityEffectPreset);
+            abilityEffectPresets = temp;       
+        }else{
+            Debug.Log("Can't edit Ability" + abilityName);
+        }
     }
-    public void setEffects(List<AbilityEffect> _abilityEffects){
-        abilityEffects = _abilityEffects;
+    public void setEffectPresets(List<AbilityEffectPreset> _abilityEffectPresets){
+        if(canEdit){
+            abilityEffectPresets = _abilityEffectPresets;        
+        }else{
+            Debug.Log("Can't edit Ability" + abilityName);
+        }
     }
-    public void addEffect(AbilityEffect _abilityEffect){
-        abilityEffects.Add(_abilityEffect);
+    public void addEffect(AbilityEffectPreset _abilityEffectPreset){
+        if(canEdit){
+            abilityEffectPresets.Add(_abilityEffectPreset);      
+        }else{
+            Debug.Log("Can't edit Ability" + abilityName);
+        }
     }
+    public List<AbilityEffect> createEffects(){
+        List<AbilityEffect> tempList_ref = abilityEffectPresets.createEffects();
+        return tempList_ref;
+    }
+
     public void setCastTime(float _castTime){
-        castTime = _castTime;
+        if(canEdit){
+            castTime = _castTime;      
+        }else{
+            Debug.Log("Can't edit Ability" + abilityName);
+        }
     }
 
     public void setCooldown(float _cooldown){
-        cooldown = _cooldown;
+        if(canEdit){
+            cooldown = _cooldown;        
+        }else{
+            Debug.Log("Can't edit Ability" + abilityName);
+        }
     }
-
-
-    public Ability(string inName, AbilityEffect inAbilityEffect, float inCastTime){
-        abilityName = inName;
-        abilityEffects.Add(inAbilityEffect);
-        castTime = inCastTime;
+    
+    public int getDeliveryType(){
+    
+        return deliveryType;
+    
+    }
+    public void setDeliveryType(int _deliveryType){
+        if(canEdit){
+            deliveryType = _deliveryType;        
+        }else{
+            Debug.Log("Can't edit Ability" + abilityName);
+        }
+    }
+    public Ability(string _abilityName, AbilityEffectPreset _abilityEffectPreset, int _deliveryType = 0, float _castTime = 0.0f, float _cooldown = 0.0f){
+        abilityName = _abilityName;
+        abilityEffectPresets.Add(_abilityEffectPreset);
+        deliveryType = _deliveryType;
+        castTime = _castTime;
         cooldown = 0.0f;
     }
-    public Ability(string inName, AbilityEffect inAbilityEffect, float inCastTime, float inCooldown){
-        abilityName = inName;
-        abilityEffects.Add(inAbilityEffect);
-        castTime = inCastTime;
-        cooldown = inCooldown;
+    public Ability(string _abilityName, List<AbilityEffectPreset> _abilityEffectPresets, int _deliveryType = 0, float _castTime = 0.0f, float _cooldown = 0.0f){
+        abilityName = _abilityName;
+        abilityEffectPresets = _abilityEffectPresets;
+        deliveryType = _deliveryType;
+        castTime = _castTime;
+        cooldown = _cooldown;
     }
-    public Ability(string inName, List<AbilityEffect> inAbilityEffects, float inCastTime, float inCooldown){
-        abilityName = inName;
-        abilityEffects = inAbilityEffects;
-        castTime = inCastTime;
-        cooldown = inCooldown;
-    }
-    /*public Ability(string inName, AbilityEffect inAbilityEffect, float inCastTime, float inCooldown, bool _needsTarget){
-        abilityName = inName;
-        abilityEffect = inAbilityEffect;
-        castTime = inCastTime;
-        cooldown = inCooldown;
-        needsTarget = _needsTarget;
-    }*/
     public Ability clone(){
         // Returns a Copy of the ability with a COPY of the the name, a REF to the effect, and copy of castTime since it is just a value type
 
-        //return new Ability(String.Copy(abilityName), abilityEffect, castTime, cooldown, needsTarget);
-        return new Ability(String.Copy(abilityName), abilityEffects, castTime, cooldown);
-        
+        //return new Ability(String.Copy(abilityName), abilityEffectPreset, castTime, cooldown, needsTarget);
+        return new Ability(String.Copy(abilityName), new List<AbilityEffectPreset>(abilityEffectPresets), deliveryType, castTime, cooldown);
+
     }
     public bool NeedsTargetActor(){
-        switch(DeliveryType){
+        switch(deliveryType){
+            case -1:
+                return true;
+                break;
             case 0:
                 return true;
                 break;
@@ -102,10 +133,13 @@ public class Ability
                 Debug.Log("Unknown Delivery Type");
                 return false;
                 break;
-        }   
+        }
     }
     public bool NeedsTargetWP(){
-        switch(DeliveryType){
+        switch(deliveryType){
+            case -1:
+                return false;
+                break;
             case 0:
                 return false;
                 break;
@@ -119,7 +153,7 @@ public class Ability
                 Debug.Log("Unknown Delivery Type");
                 return false;
                 break;
-        }   
+        }
     }
 
 }

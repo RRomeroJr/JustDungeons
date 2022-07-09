@@ -224,8 +224,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showDebug: 0
   actorName: Disfoh
-  health: 60
-  maxHealth: 75
+  health: 85
+  maxHealth: 85
   mana: 0
   maxMana: 0
   target: {fileID: 0}
@@ -235,7 +235,6 @@ MonoBehaviour:
   isCasting: 0
   queuedAbility:
     abilityName: 
-    abilityEffects: []
     castTime: 0
     cooldown: 0
     deliveryType: 0
@@ -2129,7 +2128,6 @@ MonoBehaviour:
   isCasting: 0
   queuedAbility:
     abilityName: 
-    abilityEffects: []
     castTime: 0
     cooldown: 0
     deliveryType: 0
@@ -2853,7 +2851,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showDebug: 0
   actorName: Some FNG
-  health: 140
+  health: 200
   maxHealth: 250
   mana: 0
   maxMana: 0
@@ -2864,7 +2862,6 @@ MonoBehaviour:
   isCasting: 0
   queuedAbility:
     abilityName: 
-    abilityEffects: []
     castTime: 0
     cooldown: 0
     deliveryType: 0
@@ -3695,8 +3692,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showDebug: 0
   actorName: Dyno
-  health: 80
-  maxHealth: 100
+  health: 100
+  maxHealth: 120
   mana: 0
   maxMana: 0
   target: {fileID: 0}
@@ -3706,7 +3703,6 @@ MonoBehaviour:
   isCasting: 0
   queuedAbility:
     abilityName: 
-    abilityEffects: []
     castTime: 0
     cooldown: 0
     deliveryType: 0
@@ -3885,8 +3881,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showDebug: 1
   actorName: Deoscillate
-  health: 120
-  maxHealth: 120
+  health: 0
+  maxHealth: 0
   mana: 0
   maxMana: 0
   target: {fileID: 0}
@@ -3896,7 +3892,6 @@ MonoBehaviour:
   isCasting: 0
   queuedAbility:
     abilityName: 
-    abilityEffects: []
     castTime: 0
     cooldown: 0
     deliveryType: 0
@@ -3995,46 +3990,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 2006404825}
   uiManager: {fileID: 1451345063}
-  doubEffBolt:
-    abilityName: 
-    abilityEffects: []
-    castTime: 0
-    cooldown: 0
-    deliveryType: 0
-  doubleTesterbolt:
-    abilityName: 
-    abilityEffects: []
-    castTime: 0
-    cooldown: 0
-    deliveryType: 0
-  aoeTBolt:
-    abilityName: 
-    abilityEffects: []
-    castTime: 0
-    cooldown: 0
-    deliveryType: 0
-  doubleTesterboltEffect:
-    effectName: 
-    power: 0
-    duration: 0
-    tickRate: 0
-    particles: {fileID: 0}
-    lastTick: 0
-    remainingTime: 0
-    start: 0
-    caster: {fileID: 0}
-    dashTarget: {x: 0, y: 0, z: 0}
-  dashToPointEffect:
-    effectName: 
-    power: 0
-    duration: 0
-    tickRate: 0
-    particles: {fileID: 0}
-    lastTick: 0
-    remainingTime: 0
-    start: 0
-    caster: {fileID: 0}
-    dashTarget: {x: 0, y: 0, z: 0}
 --- !u!1001 &744315560258893701
 PrefabInstance:
   m_ObjectHideFlags: 0

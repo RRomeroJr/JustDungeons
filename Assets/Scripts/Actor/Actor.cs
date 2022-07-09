@@ -9,22 +9,23 @@ using System;
 public class Actor : MonoBehaviour
 {
     public bool showDebug = false;
-    public string actorName;
-    public int health;
-    public int maxHealth;
-    public float mana;
-    public float maxMana;
+    [SerializeField]protected string actorName;
+    [SerializeField]protected int health; // 0
+    [SerializeField]protected int maxHealth; // 1
+    [SerializeField]protected int mana; // 2
+    [SerializeField]protected int maxMana; // 3
     public Actor target;
-    public Vector3? queuedTargetWP;
+    
     public Color unitColor;
-    public List<AbilityEffect> abilityEffects;
+    [SerializeField]protected List<AbilityEffect> abilityEffects;
     
     // When readyToFire is true queuedAbility will fire
     public bool readyToFire = false; // Will True by CastBar for abilities w/ casts. Will only be true for a freme
-    public bool isCasting = false; // Will only be set False by CastBar 
-    public Ability queuedAbility; // Used when Ability has a cast time
-    public Actor queuedTarget; // Used when Ability has a cast time
-    public List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
+    public bool isCasting = false; // Will be set False by CastBar 
+    [SerializeField]protected Ability queuedAbility; // Used when Ability has a cast time
+    [SerializeField]protected Actor queuedTarget; // Used when Ability has a cast time
+    [SerializeField]protected Vector3? queuedTargetWP;
+    [SerializeField]protected List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
     public UIManager uiManager;
     public GameObject abilityDeliveryPrefab;
 
@@ -45,122 +46,112 @@ public class Actor : MonoBehaviour
         if(abilityEffects.Count > 0){
 
             for(int i = 0; i < abilityEffects.Count; i++){
-
-                switch(abilityEffects[i].getEffectType()){
-                    case 0: // damage
-                        handleDamage(abilityEffects[i]);
-
-                        break;
-
-                    case 1: // heal
-                        handleHeal(abilityEffects[i]);
-                        break;
-                    case 2: // DoT
-                        if(abilityEffects[i].start){ 
-                        // if this isn't the first frame
-
-                            //Iterate duration
-                            abilityEffects[i].remainingTime -= Time.deltaTime;
-                            //Iterate lastTick
-                            abilityEffects[i].lastTick += Time.deltaTime;
-
-                            if(abilityEffects[i].lastTick >= abilityEffects[i].getTickRate()){
-                                // if rdy to tick
-                                //Spawn particles
-                                if(abilityEffects[i].particles != null)
-                                    Instantiate(abilityEffects[i].particles, gameObject.transform);
-                                handleDoT(abilityEffects[i]);
-                                //Debug.Log("Actor: ticking" + abilityEffects[i].getEffectName() + " on " + actorName);
-                            }
-                        }
-                        else{
-                            handleDoT(abilityEffects[i]);
-                            abilityEffects[i].start = true;
-                        }
-                        break;
-                    case 3: // HoT
-                        if(abilityEffects[i].start){
-                        // if this isn't the first frame
-                            //Iterate duration
-                            abilityEffects[i].remainingTime -= Time.deltaTime;
-                            //Iterate lastTick
-                            abilityEffects[i].lastTick += Time.deltaTime;
-
-                            if(abilityEffects[i].lastTick >= abilityEffects[i].getTickRate()){
-                                // if rdy to tick
-
-                                handleHoT(abilityEffects[i]);
-                               // Debug.Log("Actor: ticking" + abilityEffects[i].getEffectName() + " on " + actorName);
-                            }
-                            
-                        }
-                        else{
-                            handleHoT(abilityEffects[i]);
-                            abilityEffects[i].start = true;
-                        }
-                        break;
-                    case 4: //dash to point
-                        if(abilityEffects[i].start){
-                            //Iterate duration
-                            abilityEffects[i].remainingTime -= Time.deltaTime;
-                            //Iterate lastTick
-                            abilityEffects[i].lastTick += Time.deltaTime;
-                                                                                                                                //power == speed of dash
-                            gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, abilityEffects[i].dashTarget,  abilityEffects[i].power);
-                        }
-                        else{
-                            //handleDashToPoint()
-                            gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, abilityEffects[i].dashTarget,  abilityEffects[i].power);
-                            abilityEffects[i].start = true;
-                        }
-                        break;
-                    default:
-                        Debug.Log("Unknown Ability type on " + actorName + "! Don't know what to do! Trying to remove..");
-                        abilityEffects[i].duration = 0.0f;
-                        break;
-                
-                }
-            checkabilityEffectToRemoveAtPos(abilityEffects[i], i);
+                abilityEffects[i].update();
+                checkAbilityEffectToRemoveAtPos(abilityEffects[i], i);
             }
         //Debug.Log(actorName + " cleared all Ability effects!");
         }
     }
-    void damageValue(int amount){
+    public void damageValue(int amount, int valueType = 0){
         // Right now this only damages health, but, maybe in the future,
         // This could take an extra param to indicate a different value to "damage"
         // For ex. a Ability that reduces maxHealth or destroys mana
 
         //Debug.Log("damageValue: " + amount.ToString()+ " on " + actorName);
-        health -= amount;
-
+        if(amount >= 0){
+            switch (valueType){
+                case 0:
+                    health -= amount;
+                    if(health < 0){
+                        health = 0;
+                    }
+                    break;
+                case 1:
+                    maxHealth -= amount;
+                    if(maxHealth < 1){      // Making this 0 might cause a divide by 0 error. Check later
+                        maxHealth = 1;
+                    }
+                    break;
+                case 2:
+                    mana -= amount;
+                    if(mana < 0){
+                        mana = 0;
+                    }
+                    break;
+                case 3:
+                    maxMana -= amount;
+                    if(maxMana < 1){     // Making this 0 might cause a divide by 0 error. Check later
+                        maxMana = 1;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        else{
+            restoreValue(-1 * amount, valueType); //if negative call restore instead with amount's sign flipped
+        }
     }
 
-    void restoreValue(int amount){
+    public void restoreValue(int amount, int valueType = 0){
         // This would be the opposite of damageValue(). Look at that for more details
+        //  Maybe in the future calcing healing may have diff formula to calcing damage taken
         
         //Debug.Log("restoreValue: " + amount.ToString()+ " on " + actorName);
-        health += amount;
-
+        if(amount >= 0){
+            switch (valueType){
+                case 0:
+                    health += amount;
+                    if(health > maxHealth){
+                        health = maxHealth;
+                    }
+                    break;
+                case 1:
+                    if(maxHealth + amount > maxHealth){ // if int did not wrap around max int
+                        maxHealth += amount;    
+                    }
+                    break;
+                case 2:
+                    mana += amount;
+                    if(mana > maxMana){
+                        mana = maxMana;
+                    }
+                    break;
+                case 3:
+                    if(maxHealth + amount > maxHealth){ // if int did not wrap around max int
+                        maxHealth += amount;    
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        else{
+            damageValue( -1 * amount, valueType); // if negative call damage instead with amount's sign flipped
+        }
     }
 
-    void checkabilityEffectToRemoveAtPos(AbilityEffect _abilityEffect, int listPos){
+    void checkAbilityEffectToRemoveAtPos(AbilityEffect _abilityEffect, int listPos){
         // Remove AbilityEffect is it's duration is <= 0.0f
 
-        if(_abilityEffect.remainingTime <= 0.0f){
+        if(_abilityEffect.getRemainingTime() <= 0.0f){
             if(showDebug)
             Debug.Log(actorName + ": Removing.. "+ _abilityEffect.getEffectName());
-            abilityEffects[listPos].OnEffectFinish(abilityEffects[listPos].caster, this);
+            abilityEffects[listPos].OnEffectFinish(abilityEffects[listPos].getCaster(), this); // AE has a caster and target now so the args could be null?
             abilityEffects.RemoveAt(listPos);
         }
     }
     public void applyAbilityEffect(AbilityEffect _abilityEffect, Actor inCaster){
 
         //Adding AbilityEffect it to this actor's list<AbilityEffect>
-        _abilityEffect.caster = inCaster;
-        _abilityEffect.remainingTime = _abilityEffect.getDuration();
+        _abilityEffect.setCaster(inCaster);
+        _abilityEffect.setTarget(this);
+        _abilityEffect.setRemainingTime(_abilityEffect.getDuration());
+        //Debug.Log(_abilityEffect.getRemainingTime().ToString() + " " + _abilityEffect.getDuration().ToString());
+        _abilityEffect.setStart(true);
         abilityEffects.Add(_abilityEffect);
 
-        _abilityEffect.OnEffectStart(inCaster, this);
+        _abilityEffect.OnEffectStart(inCaster, this);// AE has a caster and target now so the args could be null?
         //Debug.Log("Actor: Applying.." + _abilityEffect.getEffectName() + " to " + actorName);  
 
     }
@@ -171,59 +162,6 @@ public class Actor : MonoBehaviour
             }
         } 
 
-    }
-    void handleDamage(AbilityEffect _abilityEffect){// Type 0
-
-        /* 
-            In here you could add interesting interactions
-            Maybe something like 
-            if(ReverseDamageAndHealing)
-                then call restoreValue() instead
-        */
-        
-        damageValue( (int) _abilityEffect.getPower() );// likly will change once we have stats
-
-        // For saftey to make sure that the effect is removed from list
-        // right aft the effect finishes
-        _abilityEffect.remainingTime = 0.0f; 
-            
-    }
-    void handleDoT(AbilityEffect _abilityEffect){// Type 2
-
-        // Do any extra stuff
-
-        damageValue( (int) ( ( _abilityEffect.getTickRate() / (_abilityEffect.getDuration() + _abilityEffect.getTickRate()) ) * _abilityEffect.getPower() ) );// likly will change once we have stats
-        //damageValue( (int) _abilityEffect.getPower()  );
-        if(_abilityEffect.lastTick >= _abilityEffect.tickRate)
-            _abilityEffect.lastTick -= _abilityEffect.tickRate;
-            
-    }
-
-    void handleHeal(AbilityEffect _abilityEffect){// Type 1
-
-        /* 
-            In here you could add interesting interactions
-            Maybe something like 
-            if(ReverseDamageAndHealing)
-                then call damageValue() instead
-        */
-        
-        restoreValue( (int) _abilityEffect.getPower() ); // likly will change once we have stats
-
-        // For saftey to make sure that the effect is removed from list
-        // right aft the effect finishes
-        _abilityEffect.remainingTime = 0.0f; 
-            
-    }
-
-    void handleHoT(AbilityEffect _abilityEffect){// Type 3
-
-        // Do any extra stuff
-
-        restoreValue( (int) ( ( _abilityEffect.getTickRate() / _abilityEffect.getDuration() ) * _abilityEffect.getPower() ) );// likly will change once we have stats
-        if(_abilityEffect.lastTick >= _abilityEffect.tickRate)
-            _abilityEffect.lastTick -= _abilityEffect.tickRate;
-            
     }
 
     //-------------------------------------------------------------------handling casts--------------------------------------------------------------------------
@@ -329,7 +267,7 @@ public class Actor : MonoBehaviour
         
         if(_target != null){
             //Debug.Log("A: " + actorName + " casting " + _ability.getName() + " on " + target.actorName);
-            _target.applyAbilityEffects(_ability.getEffects(), this);
+            _target.applyAbilityEffects(_ability.createEffects(), this);
             addToCooldowns(queuedAbility);
         }
         else{
@@ -418,9 +356,9 @@ public class Actor : MonoBehaviour
 
 
         //List<AbilityEffect> tempListAE_Ref = cloneListAE(_ability.getEffects());
-        List<AbilityEffect> tempListAE_Ref = _ability.getEffects().cloneEffects();
+        List<AbilityEffect> tempListAE_Ref = _ability.createEffects();
 
-        if(_ability.DeliveryType == -1){
+        if(_ability.getDeliveryType() == -1){
             if(_target != null){
                 _target.applyAbilityEffects(tempListAE_Ref, this);
                 return true;
@@ -431,7 +369,7 @@ public class Actor : MonoBehaviour
             }
         }
         else{
-            GameObject delivery = CreateAndInitDelivery(tempListAE_Ref, _ability.DeliveryType, _target, _targetWP);
+            GameObject delivery = CreateAndInitDelivery(tempListAE_Ref, _ability.getDeliveryType(), _target, _targetWP);
             return true;
         }
     }
@@ -479,7 +417,11 @@ public class Actor : MonoBehaviour
 
         if(readyToFire){
             //Debug.Log("castCompleted: " + queuedAbility.getName());
-            if(queuedAbility.NeedsTargetWP()){
+            if((queuedAbility.NeedsTargetActor()) && (queuedAbility.NeedsTargetWP())){
+                Debug.Log("Cast that requires Actor and WP not yet supported. clearing queue.");
+                resetQueue();
+            }
+            else if(queuedAbility.NeedsTargetWP()){
                 fireCast(queuedAbility, null, queuedTargetWP);
             }
             else{
@@ -536,11 +478,46 @@ public class Actor : MonoBehaviour
         queuedTarget = null;
         queuedTargetWP = null;
     }
-    //-------------------------------------------------------------------other---------------------------------------------------------------------------------------------------------
-    float RoundToNearestHalf(float value) 
-    {
-        //   rounds to nearest x.5
-        return MathF.Round(value * 2) / 2;
+    //------------------------------------------------------------------Setters/ getters---------------------------------------------------------------------------------
+    public Ability getQueuedAbility(){
+        return queuedAbility;
     }
+    public int getHealth(){
+        return health;
+    }
+    public void setHealth(int _health){
+        health = _health;
+    }
+    public int getMaxHealth(){
+        return maxHealth;
+    }
+    public void setMaxHealth(int _maxHealth){
+        maxHealth = _maxHealth;
+    }
+    public int getMana(){
+        return mana;
+    }
+    public void setMana(int _mana){
+        mana = _mana;
+    }
+    public int getMaxMana(){
+        return mana;
+    }
+    public void setMaxMana(int _mana){
+        mana = _mana;
+    }
+    public string getActorName(){
+        return actorName;
+    }
+    public void setActorName(string _actorName){
+        actorName = _actorName;
+    }
+
+
+
+
+
+    //-------------------------------------------------------------------other---------------------------------------------------------------------------------------------------------
+    
 }
 

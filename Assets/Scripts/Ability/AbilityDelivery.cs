@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AbilityDelivery : MonoBehaviour
 {
-    public List<AbilityEffect> abilityEffects;
+    [SerializeField]public List<AbilityEffect> abilityEffects;
     public Vector3 worldPointTarget;
     public Actor caster;
     public Actor target;
