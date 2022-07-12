@@ -9,7 +9,7 @@ public static class PlayerAbilityData
     */
     public static Ability CastedDamage = new Ability("Testerbolt", AbilityEffectData.oneOffDamageEffect, _castTime: 1.5f);
     public static Ability DoT = new Ability("Debugger\'s Futility", AbilityEffectData.dotEffect, 0, 0.0f, 3.5f);
-    public static Ability CastedHeal = new Ability("Quality Assured", AbilityEffectData.oneOffDamageEffect, 0, 1.5f, 4.2f);
+    public static Ability CastedHeal = new Ability("Quality Assured", AbilityEffectData.oneOffHealEffect, 0, 1.5f, 4.2f);
     public static Ability HoT = new Ability("Sisyphean Resolve", AbilityEffectData.hotEffect, -1, 0.0f);
 
     public static Ability DoubleEffectAbility = new Ability("Double Effect-Bolt",

@@ -17,9 +17,7 @@ public class AbilityDelivery : MonoBehaviour
     
     void Start()
     {   
-        if(type == 1){
-            worldPointTarget = getWorldPointTarget();
-        }
+        
         if(type == 2){ // aoe no target
             gameObject.transform.position = worldPointTarget;
         }

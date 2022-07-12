@@ -15,9 +15,12 @@ public class AbilityEffectPreset //rename to presets
     protected Action<Actor, Actor> hitAction;
     protected Action<Actor, Actor> finishAction;
     protected int id; // Should be a positive unique identifer
+    protected bool stackable;
+    protected bool refreshable;
     public AbilityEffectPreset(string _effectName, int _effectType, float _power, float _duration = 0.0f,
                                 float _tickRate = 0.0f, GameObject _particles = null, Action<Actor, Actor> _startAction = null,
-                                Action<Actor, Actor> _hitAction = null, Action<Actor, Actor> _finishAction = null, int _id = -1){
+                                Action<Actor, Actor> _hitAction = null, Action<Actor, Actor> _finishAction = null, int _id = -1,
+                                bool _stackable = false, bool _refreshable = true){
         effectName = _effectName;
         effectType = _effectType;
         power = _power;
@@ -28,6 +31,9 @@ public class AbilityEffectPreset //rename to presets
         hitAction = _hitAction;
         finishAction = _finishAction;
         id = _id;
+        stackable = _stackable;
+        refreshable = _refreshable;
+
     }
     public string getEffectName(){
         return effectName;
@@ -58,6 +64,12 @@ public class AbilityEffectPreset //rename to presets
     }
     public int getID(){
         return id;
+    }
+    public bool isStackable(){
+        return stackable;
+    }
+    public bool isRefreshable(){
+        return refreshable;
     }
     
 }

@@ -14,7 +14,6 @@ public class AbilityEffect
         that it generates 
         
     */
-    [SerializeField]protected AbilityEffectPreset AEPreset; // used as a way to ID effects
     [SerializeField]protected string effectName;
     [SerializeField]protected int effectType; // 0=damage, 1=heal, 2=DoT, 3=Hot, 4= something else... tbd
     [SerializeField]protected float power;
@@ -24,6 +23,8 @@ public class AbilityEffect
     [SerializeField]protected Action<Actor, Actor> startAction;
     [SerializeField]protected Action<Actor, Actor> hitAction; // Doesn't work yet
     [SerializeField] protected Action<Actor, Actor> finishAction; 
+    [SerializeField]protected bool stackable;
+    [SerializeField]protected bool refreshable;
 
     [SerializeField]protected float lastTick = 0.0f; // time since last tick
     [SerializeField]protected float remainingTime = 0.0f;
@@ -34,31 +35,35 @@ public class AbilityEffect
     [SerializeField]protected Vector3 dashTarget;
     [SerializeField]protected bool canEdit = true; // Can only be set with constructor
     [SerializeField]protected int id; // Should be a positive unique identifer
+    [SerializeField]protected uint stacks; // Should be a positive unique identifer
     
     public AbilityEffect(){
     }
     public AbilityEffect(string _effectName, int _effectType, float _power, float _duration = 0.0f,
                                 float _tickRate = 0.0f, GameObject _particles = null, Action<Actor, Actor> _startAction = null,
-                                Action<Actor, Actor> _hitAction = null, Action<Actor, Actor> _finishAction = null, bool _canEdit = true, int _id = -1){
-        baseInit(_effectName, _effectType, _power, _duration,_tickRate);
-        particles = _particles;
-        startAction = _startAction;
-        hitAction = _hitAction;
-        finishAction = _finishAction;
-        canEdit = _canEdit;
-        id = _id;
+                                Action<Actor, Actor> _hitAction = null, Action<Actor, Actor> _finishAction = null, bool _canEdit = true,
+                                int _id = -1, bool _stackable = false, bool _refreshable = true){
+
+
+        baseInit(_effectName, _effectType, _power, _duration,_tickRate, _particles, _startAction,
+                     _hitAction, _finishAction, _canEdit, _id, _stackable, _refreshable);
+
+
     }
     public AbilityEffect(string _effectName, int _effectType, float _power, Vector3 _dashTarget, float _duration = 0.0f,
                                 float _tickRate = 0.0f, GameObject _particles = null, Action<Actor, Actor> _startAction = null,
-                                Action<Actor, Actor> _hitAction = null, Action<Actor, Actor> _finishAction = null, bool _canEdit = true, int _id = -1){
-        baseInit(_effectName, _effectType, _power, _duration,_tickRate);
-        particles = _particles;
-        startAction = _startAction;
-        hitAction = _hitAction;
-        finishAction = _finishAction;
+                                Action<Actor, Actor> _hitAction = null, Action<Actor, Actor> _finishAction = null, bool _canEdit = true
+                                , int _id = -1, bool _stackable = false, bool _refreshable = true){
+
+                //The idea behind this constructor was to make a dash ability effect type
+                // but I don't think that a dash would ever be stackable or refreshable?
+                // sort this out in the future
+      
+                
+        baseInit(_effectName, _effectType, _power, _duration,_tickRate, _particles, _startAction,
+                     _hitAction, _finishAction, _canEdit, _id, _stackable, _refreshable);
         dashTarget = _dashTarget;
-        canEdit = _canEdit;
-        id = _id;
+        
     }
     public AbilityEffect(AbilityEffectPreset _aep, bool _canEdit = true){
         baseInit2(_aep);
@@ -69,7 +74,6 @@ public class AbilityEffect
         dashTarget = _dashTarget;
         canEdit = _canEdit;
     }
-
 
     public string getEffectName(){
         return effectName;
@@ -238,6 +242,24 @@ public class AbilityEffect
     public int getID(){
         return id;
     }
+    public bool isStackable(){
+        return stackable;
+    }
+    public bool isRefreshable(){
+        return refreshable;
+    }
+    public uint getStacks(){
+        return stacks;
+    }
+    public void setStacks(uint _stacks){
+        stacks = _stacks;
+    }
+    public void addStacks(uint amount){
+        stacks += amount;
+    }
+    public void removeStacks(uint amount){
+        stacks -= amount;
+    }
     public virtual void OnEffectFinish(Actor _caster, Actor _target){
         if(finishAction != null){
             finishAction(_caster, _target);
@@ -258,7 +280,7 @@ public class AbilityEffect
     public AbilityEffect clone(){
         // Creates an editable version of the input Ability Effect
         return new AbilityEffect(String.Copy(effectName), effectType, power, dashTarget, duration, tickRate, particles,
-                                startAction, hitAction, finishAction);
+                                startAction, hitAction, finishAction, true, id, stackable, refreshable);
     }
         
     public void update(){
@@ -317,20 +339,32 @@ public class AbilityEffect
         }
     }
     // ------------------------------------------Start/ hit/ finish effects-------------------------------------------------------
-    void baseInit(string _effectName, int _effectType, float _power, float _duration, float _tickRate){
+    void baseInit(string _effectName, int _effectType, float _power, float _duration = 0.0f,
+                                float _tickRate = 0.0f, GameObject _particles = null, Action<Actor, Actor> _startAction = null,
+                                Action<Actor, Actor> _hitAction = null, Action<Actor, Actor> _finishAction = null, bool _canEdit = true,
+                                int _id = -1, bool _stackable = false, bool _refreshable = true){
         //Debug.Log("Creating AbilityEffect: " + _effectName);
         effectName = _effectName;
         effectType = _effectType;
         power = _power;
         duration = _duration;
+        tickRate = RoundToNearestHalf(_tickRate);
+        particles = _particles;
+        startAction = _startAction;
+        hitAction = _hitAction;
+        finishAction = _finishAction;
+        canEdit = _canEdit;
+        id = _id;
+        stackable = _stackable;
+        refreshable = _refreshable;
         
-        tickRate = MathF.Round(_tickRate);
+        
     }
     void baseInit2(AbilityEffectPreset _aep){
         //Debug.Log("Creating AbilityEffect: " + _effectName);
         effectName = _aep.getEffectName();
         effectType = _aep.getEffectType();
-        power = _aep.getPower();;
+        power = _aep.getPower();
         duration = _aep.getDuration();
         tickRate = RoundToNearestHalf(_aep.getTickRate());
         particles = _aep.getParticles();
@@ -338,6 +372,8 @@ public class AbilityEffect
         hitAction = _aep.getHitAction();
         finishAction = _aep.getFinishAction();
         id = _aep.getID();
+        stackable = _aep.isStackable();
+        refreshable = _aep.isRefreshable();
     }
     
     float DotHotPower(){

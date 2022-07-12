@@ -124,7 +124,7 @@ public class Ability
                 return true;
                 break;
             case 1:
-                return true;
+                return false;
                 break;
             case 2:
                 return false;
@@ -144,7 +144,7 @@ public class Ability
                 return false;
                 break;
             case 1:
-                return false;
+                return true;
                 break;
             case 2:
                 return true;

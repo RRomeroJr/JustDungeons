@@ -89,6 +89,7 @@ public class Actor : MonoBehaviour
             }
         }
         else{
+            Debug.Log("Amount was Neg calling to restoreValue instead");
             restoreValue(-1 * amount, valueType); //if negative call restore instead with amount's sign flipped
         }
     }
@@ -127,6 +128,7 @@ public class Actor : MonoBehaviour
             }
         }
         else{
+            Debug.Log("Amount was Neg calling to damageValue instead");
             damageValue( -1 * amount, valueType); // if negative call damage instead with amount's sign flipped
         }
     }
@@ -144,6 +146,26 @@ public class Actor : MonoBehaviour
     public void applyAbilityEffect(AbilityEffect _abilityEffect, Actor inCaster){
 
         //Adding AbilityEffect it to this actor's list<AbilityEffect>
+        if(_abilityEffect.getDuration() > 0.0f){
+            //Debug.Log("Effect has dur. Checking to stack/ refresh");
+            AbilityEffect tempAE_Ref = abilityEffects.Find(ae => ae.getID() == _abilityEffect.getID());
+            if(tempAE_Ref != null){
+                if( (tempAE_Ref.isStackable())&&(tempAE_Ref.isRefreshable()) ){ // if stackable and refreshable
+                    tempAE_Ref.addStacks(1);
+                    tempAE_Ref.setRemainingTime(tempAE_Ref.getDuration());
+                    return;
+                }
+                else if(tempAE_Ref.isStackable()){
+                    tempAE_Ref.addStacks(1);
+                    return;
+                }
+                else if(tempAE_Ref.isRefreshable()){
+                    //Debug.Log("Refreshable");
+                    tempAE_Ref.setRemainingTime(tempAE_Ref.getDuration()); // Add pandemic time?
+                    return;
+                }
+            }
+        }
         _abilityEffect.setCaster(inCaster);
         _abilityEffect.setTarget(this);
         _abilityEffect.setRemainingTime(_abilityEffect.getDuration());
@@ -356,11 +378,11 @@ public class Actor : MonoBehaviour
 
 
         //List<AbilityEffect> tempListAE_Ref = cloneListAE(_ability.getEffects());
-        List<AbilityEffect> tempListAE_Ref = _ability.createEffects();
+        
 
         if(_ability.getDeliveryType() == -1){
             if(_target != null){
-                _target.applyAbilityEffects(tempListAE_Ref, this);
+                _target.applyAbilityEffects(_ability.createEffects(), this);
                 return true;
             }
             else{
@@ -369,49 +391,36 @@ public class Actor : MonoBehaviour
             }
         }
         else{
-            GameObject delivery = CreateAndInitDelivery(tempListAE_Ref, _ability.getDeliveryType(), _target, _targetWP);
+            GameObject delivery = CreateAndInitDelivery(_ability, _target, _targetWP);
             return true;
         }
     }
-    GameObject CreateAndInitDelivery(List<AbilityEffect> _abilityEffects, int _deliveryType, Actor _target = null, Vector3? _targetWP = null){
+    GameObject CreateAndInitDelivery(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
         // Creates and returns delivery
 
         GameObject delivery;
 
-        if( (queuedAbility.NeedsTargetActor()) && (queuedAbility.NeedsTargetWP()) ){
+        if( (_ability.NeedsTargetActor()) && (_ability.NeedsTargetWP()) ){
             Debug.Log("Spell With Actor and WP reqs not yet suported");
             delivery = null;
         }
-        else if(queuedAbility.NeedsTargetActor()){
+        else if(_ability.NeedsTargetActor()){
             delivery = Instantiate(abilityDeliveryPrefab, gameObject.transform.position, gameObject.transform.rotation);
-            delivery.GetComponent<AbilityDelivery>().init( _abilityEffects, _deliveryType, this, _target, 0.1f);
+            delivery.GetComponent<AbilityDelivery>().init( modEffects(_ability.createEffects()), _ability.getDeliveryType(), this, _target, 0.1f);
             return delivery;
         }
-        else if(queuedAbility.NeedsTargetWP()){
+        else if(_ability.NeedsTargetWP()){
 
             delivery = Instantiate(abilityDeliveryPrefab, gameObject.transform.position, gameObject.transform.rotation);
-            delivery.GetComponent<AbilityDelivery>().init( _abilityEffects, _deliveryType, this, _targetWP.Value, 0.1f);
+            delivery.GetComponent<AbilityDelivery>().init( modEffects(_ability.createEffects()), _ability.getDeliveryType(), this, _targetWP.Value, 0.1f);
         }
         else{
             delivery = Instantiate(abilityDeliveryPrefab, gameObject.transform.position, gameObject.transform.rotation);
-            delivery.GetComponent<AbilityDelivery>().init( _abilityEffects, _deliveryType, this, _target, 0.1f);
+            delivery.GetComponent<AbilityDelivery>().init( modEffects(_ability.createEffects()), _ability.getDeliveryType(), this, _target, 0.1f);
         }
         return delivery;
     }
-    /*List<AbilityEffect> cloneListAE(List<AbilityEffect> _abilityEffects){
-        List<AbilityEffect> tempListAE_Ref = new List<AbilityEffect>();
-        if(_abilityEffects.Count > 0){
-            for(int i = 0; i < _abilityEffects.Count; i++ ){
-                AbilityEffect tempAE_Ref = _abilityEffects[i].clone();
-                 //          
-                 //    vV__Pretend below power is being modified by Actor's stats__Vv
-                 //
-                tempAE_Ref.setEffectName(tempAE_Ref.getEffectName() + " ("+ actorName + ")");
-                tempListAE_Ref.Add(tempAE_Ref);
-            }
-        }
-        return tempListAE_Ref;
-    }*/
+    
     void handleCastQueue(){
         // Called every Update() to see if queued spell is ready to fire
 
@@ -434,12 +443,15 @@ public class Actor : MonoBehaviour
 
         //Debug.Log(_ability.NeedsTargetActor().ToString() + " " + _ability.NeedsTargetWP().ToString());
         if( (_ability.NeedsTargetActor()) && (_ability.NeedsTargetWP()) ){
+            //Debug.Log(_ability.getName() + " Needs BOTH a target and WP");
             return ( (_target != null) && (_targetWP != null) );
         }
         else if(_ability.NeedsTargetActor()){
+            //Debug.Log(_ability.getName() + " Needs only a target");
             return _target != null;
         }
         else if(_ability.NeedsTargetWP()){
+            //Debug.Log(_ability.getName() + " Needs only a WP");
             return _targetWP != null;
         }
         else{
@@ -464,7 +476,7 @@ public class Actor : MonoBehaviour
             for(int i = 0; i < abilityCooldowns.Count; i++){
                 if(abilityCooldowns[i].getName() == _ability.getName()){
                     if(showDebug)
-                        Debug.Log(queuedAbility.getName() + " is on cooldown!");
+                        Debug.Log(_ability.getName() + " is on cooldown!");
                     return true;
                 }
             }
@@ -473,6 +485,26 @@ public class Actor : MonoBehaviour
         else{
             return false;
         }
+    }
+    AbilityEffect modEffects(AbilityEffect _ae){
+
+
+        //
+        //       *** _ae's effects stats get modified here***
+        //             Based on stats and/ or certain buffs
+        //                      this actor has
+
+        return _ae;
+    }
+    List<AbilityEffect> modEffects(List<AbilityEffect> _listAE){
+
+
+        //
+        //       *** _listAE's effects stats get modified here***
+        //             Based on stats and/ or certain buffs
+        //                      this actor has
+
+        return _listAE;
     }
     void resetQueue(){
         queuedTarget = null;

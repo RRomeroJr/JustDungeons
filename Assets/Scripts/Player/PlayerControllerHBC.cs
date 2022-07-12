@@ -17,6 +17,7 @@ public class PlayerControllerHBC : MonoBehaviour
     Ability ability6;
     Ability ability7;
     Ability ability8;
+
     void Start()
     {
         ability1 = PlayerAbilityData.DoT;
@@ -56,7 +57,7 @@ public class PlayerControllerHBC : MonoBehaviour
             player.castAbility(ability5, getWorldPointTarget());
         }
         if(Input.GetKeyDown("6")){
-            player.castAbility(ability6, player.target);
+            player.castAbility(ability6, getWorldPointTarget());
         }
         if(Input.GetKeyDown("7")){
             player.castAbility(ability7, player.target);
