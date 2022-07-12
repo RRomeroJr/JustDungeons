@@ -32,7 +32,7 @@ public class AbilityEffect
     [SerializeField]protected bool firstFrame = true;
     [SerializeField]protected Actor caster;
     [SerializeField]protected Actor target; // Actor that this effect is attached to
-    [SerializeField]protected Vector3 dashTarget;
+    [SerializeField]protected Vector3 targetWP;
     [SerializeField]protected bool canEdit = true; // Can only be set with constructor
     [SerializeField]protected int id; // Should be a positive unique identifer
     [SerializeField]protected uint stacks; // Should be a positive unique identifer
@@ -50,7 +50,7 @@ public class AbilityEffect
 
 
     }
-    public AbilityEffect(string _effectName, int _effectType, float _power, Vector3 _dashTarget, float _duration = 0.0f,
+    public AbilityEffect(string _effectName, int _effectType, float _power, Vector3 _targetWP, float _duration = 0.0f,
                                 float _tickRate = 0.0f, GameObject _particles = null, Action<Actor, Actor> _startAction = null,
                                 Action<Actor, Actor> _hitAction = null, Action<Actor, Actor> _finishAction = null, bool _canEdit = true
                                 , int _id = -1, bool _stackable = false, bool _refreshable = true){
@@ -62,16 +62,16 @@ public class AbilityEffect
                 
         baseInit(_effectName, _effectType, _power, _duration,_tickRate, _particles, _startAction,
                      _hitAction, _finishAction, _canEdit, _id, _stackable, _refreshable);
-        dashTarget = _dashTarget;
+        targetWP = _targetWP;
         
     }
     public AbilityEffect(AbilityEffectPreset _aep, bool _canEdit = true){
         baseInit2(_aep);
         canEdit = _canEdit;
     }
-    public AbilityEffect(AbilityEffectPreset _aep, Vector3 _dashTarget, bool _canEdit = true){
+    public AbilityEffect(AbilityEffectPreset _aep, Vector3 _targetWP, bool _canEdit = true){
         baseInit2(_aep);
-        dashTarget = _dashTarget;
+        targetWP = _targetWP;
         canEdit = _canEdit;
     }
 
@@ -228,12 +228,12 @@ public class AbilityEffect
     public void setTarget(Actor _target){
         target = _target;
     }
-    public Vector3 getDashTarget(){
-        return dashTarget;
+    public Vector3 getTargetWP(){
+        return targetWP;
     }
-    public void setDashTarget(Vector3 _dashTarget){
+    public void setTargetWP(Vector3 _targetWP){
         if(canEdit){
-            dashTarget = _dashTarget;
+            targetWP = _targetWP;
         }else{
             Debug.Log("Can't edit effect" + effectName);
         }
@@ -279,7 +279,7 @@ public class AbilityEffect
 
     public AbilityEffect clone(){
         // Creates an editable version of the input Ability Effect
-        return new AbilityEffect(String.Copy(effectName), effectType, power, dashTarget, duration, tickRate, particles,
+        return new AbilityEffect(String.Copy(effectName), effectType, power, targetWP, duration, tickRate, particles,
                                 startAction, hitAction, finishAction, true, id, stackable, refreshable);
     }
         

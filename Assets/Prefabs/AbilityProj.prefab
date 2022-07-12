@@ -134,7 +134,7 @@ MonoBehaviour:
     remainingTime: 0
     start: 0
     caster: {fileID: 0}
-    dashTarget: {x: 0, y: 0, z: 0}
+    targetWP: {x: 0, y: 0, z: 0}
   worldPointTarget: {x: 0, y: 0, z: 0}
   caster: {fileID: 0}
   target: {fileID: 0}
