@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyControllerHBC : MonoBehaviour
 {
-    // When castCompleted is true queueAbility will fire
-    public bool castReady = false; // Will only be set TRUE by CastBar
+    // When castCompleted is true queuedAbility will fire
+    public bool readyToFire = false; // Will only be set TRUE by CastBar
     public bool isCasting = false; // Will only be set FALSE by CastBar 
     public Ability queuedAbility;
     public Actor actor;
@@ -20,7 +20,7 @@ public class EnemyControllerHBC : MonoBehaviour
         actor = gameObject.GetComponent<Actor>();
         enemyActor = gameObject.GetComponent<Actor>();
         
-        queuedAbility = PlayerAbilityData._instantAbility;
+        queuedAbility = PlayerAbilityData.CastedDamage;
         StartCoroutine(tryCastEveryXSecs(queuedAbility, 9.5f));
        
     }
