@@ -12,6 +12,12 @@ public class Ability
     [SerializeField] protected float cooldown;
     //[SerializeField] public bool needsTarget = true;
     [SerializeField] protected int deliveryType;
+    [SerializeField] protected float speed;
+    [SerializeField] protected float duration;
+    [SerializeField] protected float aoeTickRate;
+    [SerializeField] protected int aoeCap;
+    [SerializeField] protected bool ignoreDuration;
+
     protected bool canEdit = true;
 
     public string getName(){
@@ -65,6 +71,13 @@ public class Ability
         List<AbilityEffect> tempList_ref = abilityEffectPresets.createEffects();
         return tempList_ref;
     }
+    public List<AbilityEffect> createEffects(Vector3 _targetWP){
+        List<AbilityEffect> tempList_ref = abilityEffectPresets.createEffects();
+        for(int i = 0; i < tempList_ref.Count; i++){
+            tempList_ref[i].setTargetWP(_targetWP);
+        }
+        return tempList_ref;
+    }
 
     public void setCastTime(float _castTime){
         if(canEdit){
@@ -94,19 +107,63 @@ public class Ability
             Debug.Log("Can't edit Ability" + abilityName);
         }
     }
-    public Ability(string _abilityName, AbilityEffectPreset _abilityEffectPreset, int _deliveryType = 0, float _castTime = 0.0f, float _cooldown = 0.0f){
+    public float getSpeed(){
+        return speed;
+    }
+    public void setSpeed(float _speed){
+        speed = _speed;
+    }
+    public float getDuration(){
+        return duration;
+    }
+    public void setDuration(float _duration){
+        duration = _duration;
+    }
+    public float getAoeTickRate(){
+        return aoeTickRate;
+    }
+    public void setAoeTickRate(float _aoeTickRate){
+        aoeTickRate = _aoeTickRate;
+    }
+    public int getAoeCap(){
+        return aoeCap;
+    }
+    public void setAoeCap(int _aoeCap){
+        aoeCap = _aoeCap;
+    }
+    public bool getIgnoreDuration(){
+        return ignoreDuration;
+    }
+    public void setIgnoreDuration(bool _ignoreDuration){
+        ignoreDuration = _ignoreDuration;
+    }
+    public Ability(string _abilityName, AbilityEffectPreset _abilityEffectPreset, int _deliveryType = 0, float _castTime = 0.0f,
+                    float _cooldown = 0.0f, float _speed = 0.1f, float _duration = 8.0f, float _aoeTickRate = 1.5f, int _aoeCap = -1,
+                     bool _ignoreDuration = false){
         abilityName = _abilityName;
         abilityEffectPresets.Add(_abilityEffectPreset);
         deliveryType = _deliveryType;
         castTime = _castTime;
         cooldown = 0.0f;
+        speed = _speed;
+        duration =_duration;
+        aoeTickRate = _aoeTickRate;
+        aoeCap = _aoeCap;
+        ignoreDuration = _ignoreDuration;
     }
-    public Ability(string _abilityName, List<AbilityEffectPreset> _abilityEffectPresets, int _deliveryType = 0, float _castTime = 0.0f, float _cooldown = 0.0f){
+    public Ability(string _abilityName, List<AbilityEffectPreset> _abilityEffectPresets, int _deliveryType = 0, float _castTime = 0.0f,
+                     float _cooldown = 0.0f, float _speed = 0.1f, float _duration = 8.0f, float _aoeTickRate = 1.5f, int _aoeCap = -1,
+                     bool _ignoreDuration = false){
         abilityName = _abilityName;
         abilityEffectPresets = _abilityEffectPresets;
         deliveryType = _deliveryType;
         castTime = _castTime;
         cooldown = _cooldown;
+        speed = _speed;
+        duration =_duration;
+        aoeTickRate = _aoeTickRate;
+        aoeCap = _aoeCap;
+        ignoreDuration = _ignoreDuration;
     }
     public Ability clone(){
         // Returns a Copy of the ability with a COPY of the the name, a REF to the effect, and copy of castTime since it is just a value type
@@ -117,6 +174,9 @@ public class Ability
     }
     public bool NeedsTargetActor(){
         switch(deliveryType){
+            case -2:
+                return false;
+                break;
             case -1:
                 return true;
                 break;
@@ -137,6 +197,9 @@ public class Ability
     }
     public bool NeedsTargetWP(){
         switch(deliveryType){
+            case -2:
+                return true;
+                break;
             case -1:
                 return false;
                 break;

@@ -386,7 +386,17 @@ public class Actor : MonoBehaviour
                 return true;
             }
             else{
-                Debug.Log(actorName + ": Direct Actor to Actor Delivery with no target");
+                Debug.Log(actorName + ": Type -1 Actor to Actor Delivery with no target");
+                return false;
+            }
+        }
+        else if(_ability.getDeliveryType() == -2){
+            if(_targetWP != null){
+                this.applyAbilityEffects(_ability.createEffects(_targetWP.Value), this);
+                return true;
+            }
+            else{
+                Debug.Log(actorName + ": Type -2 Actor to WP with no WP");
                 return false;
             }
         }
@@ -406,18 +416,16 @@ public class Actor : MonoBehaviour
         }
         else if(_ability.NeedsTargetActor()){
             delivery = Instantiate(abilityDeliveryPrefab, gameObject.transform.position, gameObject.transform.rotation);
-            delivery.GetComponent<AbilityDelivery>().init( modEffects(_ability.createEffects()), _ability.getDeliveryType(), this, _target, 0.1f);
+            delivery.GetComponent<AbilityDelivery>().init( modEffects(_ability.createEffects()), _target, _ability.getDeliveryType(), this, _ability.getSpeed());
             return delivery;
         }
         else if(_ability.NeedsTargetWP()){
 
             delivery = Instantiate(abilityDeliveryPrefab, gameObject.transform.position, gameObject.transform.rotation);
-            delivery.GetComponent<AbilityDelivery>().init( modEffects(_ability.createEffects()), _ability.getDeliveryType(), this, _targetWP.Value, 0.1f);
+            delivery.GetComponent<AbilityDelivery>().init( modEffects(_ability.createEffects()), _targetWP.Value, _ability.getDeliveryType(), this, _ability.getSpeed(), _ability.getDuration());
+            return delivery;
         }
-        else{
-            delivery = Instantiate(abilityDeliveryPrefab, gameObject.transform.position, gameObject.transform.rotation);
-            delivery.GetComponent<AbilityDelivery>().init( modEffects(_ability.createEffects()), _ability.getDeliveryType(), this, _target, 0.1f);
-        }
+        delivery = null;
         return delivery;
     }
     

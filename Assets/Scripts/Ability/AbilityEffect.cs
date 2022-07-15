@@ -293,6 +293,7 @@ public class AbilityEffect
                     if(particles !=  null)
                         GameObject.Instantiate(particles, target.gameObject.transform);
                     firstFrame = false;
+                    
                 }
                 else{
                     remainingTime -= Time.deltaTime;
@@ -327,6 +328,27 @@ public class AbilityEffect
                                         GameObject.Instantiate(particles, target.gameObject.transform);
                                     target.restoreValue((int) DotHotPower());
                                     lastTick -= tickRate;
+                                }
+                                break;
+                            case 4: //  Teleport
+                                if(remainingTime <= 0.0f){
+                                    if(particles !=  null)
+                                        GameObject.Instantiate(particles, target.gameObject.transform);
+                                    target.transform.position = targetWP;
+                                }
+                                break;
+                            case 5: //  dash
+                                if(remainingTime <= 0.0f){
+                                    if(particles !=  null)
+                                        GameObject.Instantiate(particles, target.gameObject.transform);
+                                    if(target.gameObject.tag == "Player"){
+                                        target.gameObject.GetComponent<PlayerMovementScript2>().setLastMovementEffect(this);
+                                        target.gameObject.GetComponent<PlayerMovementScript2>().setDashing(true);
+                                    }
+                                    else{
+                                        Debug.Log("NPCs can't dash yet");
+                                    }
+
                                 }
                                 break;
                             default:

@@ -19,4 +19,7 @@ public static class PlayerAbilityData
     public static Ability AoE = new Ability("TB as AoE", AbilityEffectData.oneOffDamageEffect, 2, 0.5f);
     public static Ability DelayedDamage = new Ability("Hits aft 4.0s", AbilityEffectData.DelayedOneOffEffect, _castTime: 1.5f);
 
+    public static Ability Teleport = new Ability("Teleport", AbilityEffectData.TeleportEffect, -2);
+    public static Ability Dash = new Ability("Dash", AbilityEffectData.DashEffect, -2);
+
 }

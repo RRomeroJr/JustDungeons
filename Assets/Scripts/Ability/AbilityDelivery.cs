@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class AbilityDelivery : MonoBehaviour
 {
+    /*
+        0 = Regular tracking delivery
+        1 = Skill shot
+        2 = AoE w/ time duration
+
+
+    */
     [SerializeField]public List<AbilityEffect> abilityEffects;
     public Vector3 worldPointTarget;
     public Actor caster;
@@ -14,6 +21,8 @@ public class AbilityDelivery : MonoBehaviour
 
     public float duration;
     public float tickRate = 1.5f; // an AoE type will hit you every tickRate secs
+    public int aoeCap;
+    public bool ignoreDuration;
     
     void Start()
     {   
@@ -49,9 +58,6 @@ public class AbilityDelivery : MonoBehaviour
                         other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
                         addToAoeIgnore(other.gameObject.GetComponent<Actor>(), tickRate);
                     }
-                    //else
-                        //Debug.Log("Trigger not working right");
-                //make actor immune to aoe for a few secs
                     
                 }
                 // make version that has a set number for ticks?
@@ -74,7 +80,11 @@ public class AbilityDelivery : MonoBehaviour
     {
         if(type == 2){
             updateTargetCooldowns();
-            // Make disappear when duration is 0
+            duration -= Time.deltaTime;
+            if(duration <= 0){
+                Debug.Log("Destroying AoE");        
+                Destroy(gameObject);
+            }
         }
     }
 
@@ -83,23 +93,32 @@ public class AbilityDelivery : MonoBehaviour
         type = _type;
         caster = _caster;
     }*/
-    public void init(List<AbilityEffect> _abilityEffects, int _type, Actor _caster, Actor _target, float _speed){
+    public void init(List<AbilityEffect> _abilityEffects, Actor _target, int _type, Actor _caster = null, float _speed = 0.1f,
+                        float _duration = 8.0f, float _tickRate = 1.5f, int _aoeCap = -1, bool _ignoreDuration = false){
         
         abilityEffects = _abilityEffects;
         type = _type;
         caster = _caster;
         target = _target;
         speed = _speed;
+        duration = _duration;
+        aoeCap = _aoeCap;
+        ignoreDuration = _ignoreDuration;
         
     }
-    public void init(List<AbilityEffect> _abilityEffects, int _type, Actor _caster, Vector3 _worldPointTarget, float _speed){
+    public void init(List<AbilityEffect> _abilityEffects, Vector3 _worldPointTarget, int _type,  Actor _caster = null, float _speed = 0.1f,
+                     float _duration = 8.0f, float _tickRate = 1.5f, int _aoeCap = -1, bool _ignoreDuration = false){
         
         abilityEffects = _abilityEffects;
         type = _type;
         caster = _caster;
         worldPointTarget = _worldPointTarget;
         speed = _speed;
+        duration = _duration;
+        aoeCap = _aoeCap;
+        ignoreDuration = _ignoreDuration;
     }
+    
     
     Vector3 getWorldPointTarget(){
         Vector3 scrnPos = Input.mousePosition;

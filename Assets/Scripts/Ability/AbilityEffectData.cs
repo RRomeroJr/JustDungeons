@@ -16,6 +16,8 @@ public static class AbilityEffectData
         public static AbilityEffectPreset hotEffect = new AbilityEffectPreset("HoT Effect", 3, 25.0f, 4.0f, 1.0f, Resources.Load<GameObject>("HoT_Particles"));// heals ^^
         public static AbilityEffectPreset DmgWithFollowUpEffect = new AbilityEffectPreset("1 off x2 Effect", 0, 8.0f, 0.0f, _finishAction: secondaryTestboltFinish);
         public static AbilityEffectPreset DelayedOneOffEffect = new AbilityEffectPreset("Delayed 1 off Effect", 0, 20.0f, 4.0f);
+        public static AbilityEffectPreset TeleportEffect = new AbilityEffectPreset("Teleport effect", 4, 0.0f);
+        public static AbilityEffectPreset DashEffect = new AbilityEffectPreset("Dash effect", 5, 0.2f);
 
 /*
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~vV*****Start/ Hit/ Finish Actions*****Vv~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

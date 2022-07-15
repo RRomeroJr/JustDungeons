@@ -6,8 +6,7 @@ using UnityEngine.UI;
     *NOTE* for now there are things related to player health in here.
     This will be changed later 
 */
-public class PlayerMovementScript2 : MonoBehaviour
-{
+public class PlayerMovementScript2 : MonoBehaviour{
     //--------------------------------------
     //  CONSTANTS
     //--------------------------------------
@@ -22,55 +21,51 @@ public class PlayerMovementScript2 : MonoBehaviour
     [SerializeField] private float HORIZ_MOVE_ACCEL = 360;
     [SerializeField] private float VERT_MOVE_ACCEL = 360;
 
-    [SerializeField] private PlayerController playerController;
-    //--------------------------------------
-    // vvv This should not be here vvv
-    //--------------------------------------
-    /*
-    public float health;
-    public Slider healthSlider;
+    [SerializeField] private AbilityEffect lastMovementEffect;
+    //  Checking if this ^ was null to controll movment was really buggy.
+    //  for some reason if (__ == null) would be true after a = null
+    [SerializeField] private bool dashing = false;
+    //public bool canMove = true;
     
-
-    public void setHealth(float newHealth){
-        healthSlider.value = newHealth;
-    }
-    public void takeDamage(float amount){
-        healthSlider.value = healthSlider.value - amount;
-    }*/
-    //--------------------------------------
-    // ^^^ move in future ^^^
-    //--------------------------------------
-    void Start()
-    {
-
+    void Start(){
+        
     }
     void Update(){
        
     }
 
     // Update is called once per frame
-    void FixedUpdate()
-    {
-        Vector2 newVect = new Vector2(Input.GetAxis("Horizontal") * HORIZ_MOVE_ACCEL * Time.deltaTime,
+    void FixedUpdate(){
+        //Debug.Log(getDashing().ToString());
+        if(dashing == false){
+            Vector2 newVect = new Vector2(Input.GetAxis("Horizontal") * HORIZ_MOVE_ACCEL * Time.deltaTime,
                 Input.GetAxis("Vertical") * VERT_MOVE_ACCEL * Time.deltaTime);
-
-        gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
-
-    }
-
-    public void ComputeVelocity()
-    {
-        //  Based upon the current state of the Player calculate their their velocity
-
-        //  We're currently on the ground one x-direction movement should change
-        if (playerController.playerState == PlayerController.PlayerState_e.Grounded)
-        {
-            playerController.body.velocity = new Vector2(
-                Input.GetAxis("Horizontal") * HORIZ_MOVE_ACCEL * Time.deltaTime,
-                playerController.body.velocity.y
-            );
-
+            gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
         }
+        else{
+            
+            transform.position = Vector2.MoveTowards(transform.position, lastMovementEffect.getTargetWP(), lastMovementEffect.getPower());
+            if(transform.position == lastMovementEffect.getTargetWP()){
+                lastMovementEffect = null;
+                dashing = false;
+            }
+            
+        }
+        //Debug.Log(lastMovementEffect.getEffectName());
         
     }
+    public AbilityEffect getLastMovementEffect(){
+        return lastMovementEffect;
+    }
+    public void setLastMovementEffect(AbilityEffect _lastMovementEffect){
+    lastMovementEffect  = _lastMovementEffect;
+    }
+
+    public bool getDashing(){
+        return dashing;
+    }
+    public void setDashing(bool _dashing){
+        dashing = _dashing;
+    }
+    
 }
