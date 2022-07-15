@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyController_OLD : MonoBehaviour
 {
     [Header("Enemy Settings")]
-    public EnemySO enemySO;
+    public EnemySO enemyStats;
 
     [Header("Debug Settings")]
     public float currentHP;
