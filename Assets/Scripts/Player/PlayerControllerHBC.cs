@@ -19,6 +19,7 @@ public class PlayerControllerHBC : MonoBehaviour
     Ability ability8;
     Ability ability9;
     Ability ability10;
+    Ability ability11;
 
     void Start()
     {
@@ -32,16 +33,18 @@ public class PlayerControllerHBC : MonoBehaviour
         ability8 = PlayerAbilityData.DelayedDamage;
         ability9 = PlayerAbilityData.Teleport;
         ability10 = PlayerAbilityData.Dash;
-        Debug.Log(" 1 = DoT");
-        Debug.Log(" 2 = One off Dmg");
-        Debug.Log(" 3 = One off Heal");
-        Debug.Log(" 4 = HoT");
-        Debug.Log(" 5 = AoE (Doesn't disapear yet)");
-        Debug.Log(" 6 = Skill Shot that fires off a 2nd 1 off if it hits an Actor");
-        Debug.Log(" 7 = Ability with 2 effects (1 off heal then DoT)");
-        Debug.Log(" 8 = 1 off Dmg that hits after a delay (4s)");
-        Debug.Log(" R = Teleport");
-        Debug.Log(" T = Dash");
+        ability11 = PlayerAbilityData.DmgBuffBolt;
+        
+        // Debug.Log(" 1 = DoT");
+        // Debug.Log(" 2 = One off Dmg");
+        // Debug.Log(" 3 = One off Heal");
+        // Debug.Log(" 4 = HoT");
+        // Debug.Log(" 5 = AoE (Doesn't disapear yet)");
+        // Debug.Log(" 6 = Skill Shot that fires off a 2nd 1 off if it hits an Actor");
+        // Debug.Log(" 7 = Ability with 2 effects (1 off heal then DoT)");
+        // Debug.Log(" 8 = 1 off Dmg that hits after a delay (4s)");
+        // Debug.Log(" R = Teleport");
+        // Debug.Log(" F = Dash");
     }
 
 
@@ -76,6 +79,9 @@ public class PlayerControllerHBC : MonoBehaviour
         }
         if(Input.GetKeyDown("f")){
             player.castAbility(ability10, getWorldPointTarget());
+        }
+        if(Input.GetKeyDown("x")){
+            player.castAbility(ability11, player);
         }
         
     }

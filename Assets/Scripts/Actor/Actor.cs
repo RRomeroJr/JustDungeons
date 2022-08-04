@@ -28,13 +28,19 @@ public class Actor : MonoBehaviour
     [SerializeField]protected List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
     public UIManager uiManager;
     public GameObject abilityDeliveryPrefab;
-
+    public AEFireEvent aeFireEvent;
 
 
     void Start(){
+        if (aeFireEvent == null)
+            aeFireEvent = new AEFireEvent();
         abilityEffects = new List<AbilityEffect>();
+        //gameObject.GetComponent<Renderer>().Color = unitColor;
     }
     void Update(){
+        if(health <= 0){
+            Destroy(gameObject);
+        }
         updateCooldowns();
         handleAbilityEffects();
         handleCastQueue();
@@ -139,13 +145,27 @@ public class Actor : MonoBehaviour
         if(_abilityEffect.getRemainingTime() <= 0.0f){
             if(showDebug)
             Debug.Log(actorName + ": Removing.. "+ _abilityEffect.getEffectName());
-            abilityEffects[listPos].OnEffectFinish(abilityEffects[listPos].getCaster(), this); // AE has a caster and target now so the args could be null?
+            abilityEffects[listPos].OnEffectFinish(); // AE has a caster and target now so the args could be null?
             abilityEffects.RemoveAt(listPos);
+        }
+    }
+    public void RemoveActiveEffect(Predicate<AbilityEffect> pred){
+        // Remove AbilityEffect is it's duration is <= 0.0f
+        int temp = abilityEffects.FindIndex(pred);
+        
+        if(temp >= 0){
+            Debug.Log(actorName + ": Manually removing at.. "+ temp.ToString());
+            abilityEffects[temp].OnEffectFinish(); // AE has a caster and target now so the args could be null?
+            abilityEffects.RemoveAt(temp);
+        }
+        else{
+            Debug.Log("ae was not found:");
         }
     }
     public void applyAbilityEffect(AbilityEffect _abilityEffect, Actor inCaster){
 
         //Adding AbilityEffect it to this actor's list<AbilityEffect>
+        
         if(_abilityEffect.getDuration() > 0.0f){
             //Debug.Log("Effect has dur. Checking to stack/ refresh");
             AbilityEffect tempAE_Ref = abilityEffects.Find(ae => ae.getID() == _abilityEffect.getID());
@@ -166,14 +186,15 @@ public class Actor : MonoBehaviour
                 }
             }
         }
-        _abilityEffect.setCaster(inCaster);
+        //_abilityEffect.setCaster(inCaster);
         _abilityEffect.setTarget(this);
         _abilityEffect.setRemainingTime(_abilityEffect.getDuration());
         //Debug.Log(_abilityEffect.getRemainingTime().ToString() + " " + _abilityEffect.getDuration().ToString());
-        _abilityEffect.setStart(true);
+        _abilityEffect.OnEffectStart();
         abilityEffects.Add(_abilityEffect);
+        _abilityEffect.setStart(true);
 
-        _abilityEffect.OnEffectStart(inCaster, this);// AE has a caster and target now so the args could be null?
+        // AE has a caster and target now so the args could be null?
         //Debug.Log("Actor: Applying.." + _abilityEffect.getEffectName() + " to " + actorName);  
 
     }
@@ -375,14 +396,11 @@ public class Actor : MonoBehaviour
     bool handleDelivery(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
         // Creates delivery if needed. Applies effects to target if not
         // ***** WILL RETURN FALSE if DeliveryType is -1 (auto apply to target) and there is no target *****
-
-
-        //List<AbilityEffect> tempListAE_Ref = cloneListAE(_ability.getEffects());
         
-
+        // for(every effect in _ability)
         if(_ability.getDeliveryType() == -1){
             if(_target != null){
-                _target.applyAbilityEffects(_ability.createEffects(), this);
+                _target.applyAbilityEffects(createEffects(_ability), this);
                 return true;
             }
             else{
@@ -413,16 +431,17 @@ public class Actor : MonoBehaviour
         if( (_ability.NeedsTargetActor()) && (_ability.NeedsTargetWP()) ){
             Debug.Log("Spell With Actor and WP reqs not yet suported");
             delivery = null;
+            
         }
         else if(_ability.NeedsTargetActor()){
             delivery = Instantiate(abilityDeliveryPrefab, gameObject.transform.position, gameObject.transform.rotation);
-            delivery.GetComponent<AbilityDelivery>().init( modEffects(_ability.createEffects()), _target, _ability.getDeliveryType(), this, _ability.getSpeed());
+            delivery.GetComponent<AbilityDelivery>().init( modEffects(createEffects(_ability)), _target, _ability.getDeliveryType(), this, _ability.getSpeed());
             return delivery;
         }
         else if(_ability.NeedsTargetWP()){
 
             delivery = Instantiate(abilityDeliveryPrefab, gameObject.transform.position, gameObject.transform.rotation);
-            delivery.GetComponent<AbilityDelivery>().init( modEffects(_ability.createEffects()), _targetWP.Value, _ability.getDeliveryType(), this, _ability.getSpeed(), _ability.getDuration());
+            delivery.GetComponent<AbilityDelivery>().init( modEffects(createEffects(_ability)), _targetWP.Value, _ability.getDeliveryType(), this, _ability.getSpeed(), _ability.getDuration());
             return delivery;
         }
         delivery = null;
@@ -494,6 +513,14 @@ public class Actor : MonoBehaviour
             return false;
         }
     }
+    List<AbilityEffect> createEffects(Ability _ability){
+        List<AbilityEffect> temp;
+        temp = _ability.createEffects(this);
+        if(aeFireEvent != null){
+            aeFireEvent.Invoke(temp);
+        }
+        return temp;
+    }
     AbilityEffect modEffects(AbilityEffect _ae){
 
 
@@ -552,7 +579,12 @@ public class Actor : MonoBehaviour
     public void setActorName(string _actorName){
         actorName = _actorName;
     }
-
+    public List<AbilityEffect> getActiveEffects(){
+        return abilityEffects;
+    }
+    public void setActiveEffects(List<AbilityEffect> _abilityEffects){
+        abilityEffects = _abilityEffects;
+    }
 
 
 
