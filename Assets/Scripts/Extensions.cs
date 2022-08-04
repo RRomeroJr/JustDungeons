@@ -31,4 +31,19 @@ public static class Extensions
             return listToReturn;
         }
     }
+    public static List<AbilityEffect> createEffects(this List<AbilityEffectPreset> AEP_list, Actor _caster, bool can_edit = true){
+        List<AbilityEffect> listToReturn = new List<AbilityEffect>();
+        if(AEP_list.Count > 0){
+            for(int i=0; i < AEP_list.Count; i++){
+                AbilityEffect temp = new AbilityEffect(AEP_list[i], can_edit);
+                temp.setCaster(_caster);
+                listToReturn.Add(temp);
+            }
+            return listToReturn;
+        }
+        else{
+            return listToReturn;
+        }
+    }
+    
 }

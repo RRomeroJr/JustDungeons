@@ -58,7 +58,9 @@ public class PlayerMovementScript2 : MonoBehaviour{
         return lastMovementEffect;
     }
     public void setLastMovementEffect(AbilityEffect _lastMovementEffect){
+    gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
     lastMovementEffect  = _lastMovementEffect;
+
     }
 
     public bool getDashing(){

@@ -9,7 +9,7 @@ public class EnemyControllerHBC : MonoBehaviour
     public bool isCasting = false; // Will only be set FALSE by CastBar 
     public Ability queuedAbility;
     public Actor actor;
-    public Actor enemyActor;
+    public EnemySO enemyStats;
 
     
     //public UIManager uiManager;
@@ -18,10 +18,9 @@ public class EnemyControllerHBC : MonoBehaviour
     void Start()
     {   
         actor = gameObject.GetComponent<Actor>();
-        enemyActor = gameObject.GetComponent<Actor>();
         
         queuedAbility = PlayerAbilityData.CastedDamage;
-        StartCoroutine(tryCastEveryXSecs(queuedAbility, 9.5f));
+        //StartCoroutine(tryCastEveryXSecs(queuedAbility, 9.5f));
        
     }
     void Update()

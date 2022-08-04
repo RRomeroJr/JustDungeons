@@ -11,15 +11,15 @@ public class AbilityEffectPreset //rename to presets
     protected float duration;
     protected float tickRate; // for now will be rounded
     protected GameObject particles;
-    protected Action<Actor, Actor> startAction;
-    protected Action<Actor, Actor> hitAction;
-    protected Action<Actor, Actor> finishAction;
+    protected Action<AbilityEffect> startAction;
+    protected Action<AbilityEffect> hitAction;
+    protected Action<AbilityEffect> finishAction;
     protected int id; // Should be a positive unique identifer
     protected bool stackable;
     protected bool refreshable;
     public AbilityEffectPreset(string _effectName, int _effectType, float _power, float _duration = 0.0f,
-                                float _tickRate = 0.0f, GameObject _particles = null, Action<Actor, Actor> _startAction = null,
-                                Action<Actor, Actor> _hitAction = null, Action<Actor, Actor> _finishAction = null, int _id = -1,
+                                float _tickRate = 0.0f, GameObject _particles = null, Action<AbilityEffect> _startAction = null,
+                                Action<AbilityEffect> _hitAction = null, Action<AbilityEffect> _finishAction = null, int _id = -1,
                                 bool _stackable = false, bool _refreshable = true){
         effectName = _effectName;
         effectType = _effectType;
@@ -53,13 +53,13 @@ public class AbilityEffectPreset //rename to presets
     public GameObject getParticles(){
         return particles;
     }
-    public Action<Actor, Actor> getStartAction(){
+    public Action<AbilityEffect> getStartAction(){
         return startAction;
     }
-    public Action<Actor, Actor> getHitAction(){
+    public Action<AbilityEffect> getHitAction(){
         return hitAction;
     }
-    public Action<Actor, Actor> getFinishAction(){
+    public Action<AbilityEffect> getFinishAction(){
         return finishAction;
     }
     public int getID(){
@@ -70,6 +70,9 @@ public class AbilityEffectPreset //rename to presets
     }
     public bool isRefreshable(){
         return refreshable;
+    }
+    public AbilityEffect createEffect(){
+        return new AbilityEffect(this);
     }
     
 }

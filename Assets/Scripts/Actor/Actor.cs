@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -217,11 +217,13 @@ public class Actor : MonoBehaviour
                 if(checkAbilityReqs(_ability, _target, _targetWP)){
                     if(_ability.getCastTime() > 0.0f){
                         if(!isCasting){
+                            // ActorCstingAbilityEvent()
                             queueAbility(_ability, _target, _targetWP);
                             prepCast();
                         }
                     }
                     else{
+                        // ActorCastingAbilityEvent.Invoke(_ability)
                         fireCast(_ability, _target, _targetWP);
                     }
                 }
@@ -397,31 +399,30 @@ public class Actor : MonoBehaviour
         // Creates delivery if needed. Applies effects to target if not
         // ***** WILL RETURN FALSE if DeliveryType is -1 (auto apply to target) and there is no target *****
         
-        // for(every effect in _ability)
-        if(_ability.getDeliveryType() == -1){
-            if(_target != null){
-                _target.applyAbilityEffects(createEffects(_ability), this);
-                return true;
+            if(_ability.getDeliveryType() == -1){
+                if(_target != null){
+                    _target.applyAbilityEffects(createEffects(_ability), this);
+                    return true;
+                }
+                else{
+                    Debug.Log(actorName + ": Type -1 Actor to Actor Delivery with no target");
+                    return false;
+                }
+            }
+            else if(_ability.getDeliveryType() == -2){
+                if(_targetWP != null){
+                    this.applyAbilityEffects(_ability.createEffects(_targetWP.Value), this);
+                    return true;
+                }
+                else{
+                    Debug.Log(actorName + ": Type -2 Actor to WP with no WP");
+                    return false;
+                }
             }
             else{
-                Debug.Log(actorName + ": Type -1 Actor to Actor Delivery with no target");
-                return false;
-            }
-        }
-        else if(_ability.getDeliveryType() == -2){
-            if(_targetWP != null){
-                this.applyAbilityEffects(_ability.createEffects(_targetWP.Value), this);
+                GameObject delivery = CreateAndInitDelivery(_ability, _target, _targetWP);
                 return true;
-            }
-            else{
-                Debug.Log(actorName + ": Type -2 Actor to WP with no WP");
-                return false;
-            }
-        }
-        else{
-            GameObject delivery = CreateAndInitDelivery(_ability, _target, _targetWP);
-            return true;
-        }
+            }        
     }
     GameObject CreateAndInitDelivery(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
         // Creates and returns delivery
@@ -431,7 +432,6 @@ public class Actor : MonoBehaviour
         if( (_ability.NeedsTargetActor()) && (_ability.NeedsTargetWP()) ){
             Debug.Log("Spell With Actor and WP reqs not yet suported");
             delivery = null;
-            
         }
         else if(_ability.NeedsTargetActor()){
             delivery = Instantiate(abilityDeliveryPrefab, gameObject.transform.position, gameObject.transform.rotation);

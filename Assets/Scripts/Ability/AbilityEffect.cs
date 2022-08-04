@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+namespace UnityEngine{
+    public enum aeTypes{
+        Damage, Heal, DoT, HoT, Teleport, Dash
+    }
+}
 [System.Serializable]
 public class AbilityEffect
 {
@@ -14,17 +19,20 @@ public class AbilityEffect
         that it generates 
         
     */
+    
     [SerializeField]protected string effectName;
     [SerializeField]protected int effectType; // 0=damage, 1=heal, 2=DoT, 3=Hot, 4= something else... tbd
     [SerializeField]protected float power;
     [SerializeField]protected float duration;
     [SerializeField]protected float tickRate; // for now will be rounded
-    [SerializeField] protected GameObject particles;
-    [SerializeField]protected Action<Actor, Actor> startAction;
-    [SerializeField]protected Action<Actor, Actor> hitAction; // Doesn't work yet
-    [SerializeField] protected Action<Actor, Actor> finishAction; 
+    [SerializeField]protected GameObject particles;
+    protected Func<AbilityEffect, float> powerCalc;
+    [SerializeField]protected Action<AbilityEffect> startAction;
+    [SerializeField]protected Action<AbilityEffect> hitAction; // Doesn't work yet
+    [SerializeField]protected Action<AbilityEffect> finishAction; 
     [SerializeField]protected bool stackable;
     [SerializeField]protected bool refreshable;
+    [SerializeField]protected List<aeTypes> typeTags;
 
     [SerializeField]protected float lastTick = 0.0f; // time since last tick
     [SerializeField]protected float remainingTime = 0.0f;
@@ -35,13 +43,14 @@ public class AbilityEffect
     [SerializeField]protected Vector3 targetWP;
     [SerializeField]protected bool canEdit = true; // Can only be set with constructor
     [SerializeField]protected int id; // Should be a positive unique identifer
-    [SerializeField]protected uint stacks; // Should be a positive unique identifer
+    [SerializeField]protected uint stacks;
+     
     
     public AbilityEffect(){
     }
     public AbilityEffect(string _effectName, int _effectType, float _power, float _duration = 0.0f,
-                                float _tickRate = 0.0f, GameObject _particles = null, Action<Actor, Actor> _startAction = null,
-                                Action<Actor, Actor> _hitAction = null, Action<Actor, Actor> _finishAction = null, bool _canEdit = true,
+                                float _tickRate = 0.0f, GameObject _particles = null, Action<AbilityEffect> _startAction = null,
+                                Action<AbilityEffect> _hitAction = null, Action<AbilityEffect> _finishAction = null, bool _canEdit = true,
                                 int _id = -1, bool _stackable = false, bool _refreshable = true){
 
 
@@ -51,8 +60,8 @@ public class AbilityEffect
 
     }
     public AbilityEffect(string _effectName, int _effectType, float _power, Vector3 _targetWP, float _duration = 0.0f,
-                                float _tickRate = 0.0f, GameObject _particles = null, Action<Actor, Actor> _startAction = null,
-                                Action<Actor, Actor> _hitAction = null, Action<Actor, Actor> _finishAction = null, bool _canEdit = true
+                                float _tickRate = 0.0f, GameObject _particles = null, Action<AbilityEffect> _startAction = null,
+                                Action<AbilityEffect> _hitAction = null, Action<AbilityEffect> _finishAction = null, bool _canEdit = true
                                 , int _id = -1, bool _stackable = false, bool _refreshable = true){
 
                 //The idea behind this constructor was to make a dash ability effect type
@@ -96,6 +105,10 @@ public class AbilityEffect
         }
     }
     public float getPower(){
+        // acessingEvent.Invoke()
+        if(powerCalc != null){
+            powerCalc(this);
+        }
         return power;
     }
     public void setPower(float _power){
@@ -133,10 +146,10 @@ public class AbilityEffect
         particles = _particles;
     }
     
-    public Action<Actor,Actor> getStartAction(){
+    public Action<AbilityEffect> getStartAction(){
         return startAction;
     }
-    public void setStartAction(Action<Actor,Actor> _startAction){
+    public void setStartAction(Action<AbilityEffect> _startAction){
         if(canEdit){
             startAction = _startAction;
         }else{
@@ -144,10 +157,10 @@ public class AbilityEffect
         }
         
     }
-    public Action<Actor, Actor> getHitAction(){
+    public Action<AbilityEffect> getHitAction(){
         return hitAction;
     }
-    public void setHitAction(Action<Actor, Actor> _hitAction){
+    public void setHitAction(Action<AbilityEffect> _hitAction){
         if(canEdit){
             hitAction = _hitAction;
         }else{
@@ -155,10 +168,10 @@ public class AbilityEffect
         }
         
     }
-    public Action<Actor, Actor> getFinishAction(){
+    public Action<AbilityEffect> getFinishAction(){
         return finishAction;
     }
-    public void setFinishAction(Action<Actor, Actor> _finishAction){
+    public void setFinishAction(Action<AbilityEffect> _finishAction){
         if(canEdit){
             finishAction = _finishAction;
         }else{
@@ -260,22 +273,23 @@ public class AbilityEffect
     public void removeStacks(uint amount){
         stacks -= amount;
     }
-    public virtual void OnEffectFinish(Actor _caster, Actor _target){
+    public virtual void OnEffectFinish(){
         if(finishAction != null){
-            finishAction(_caster, _target);
+            finishAction(this);
         }
         //Debug.Log("AE: deafult finish");
     }
-    public virtual void OnEffectHit(Actor _caster, Actor _target){          //  Make this work in actor later
+    public virtual void OnEffectHit(){          //  Make this work in actor later
         if(hitAction != null){
-            hitAction(_caster, _target);
+            hitAction(this);
         }
     }
-    public virtual void OnEffectStart(Actor _caster, Actor _target){
+    public virtual void OnEffectStart(){
         if(startAction != null){
-            startAction(_caster, _target);
+            startAction(this);
         }
     }
+    
 
     public AbilityEffect clone(){
         // Creates an editable version of the input Ability Effect
@@ -284,6 +298,14 @@ public class AbilityEffect
     }
         
     public void update(){
+        /*
+                NOTE: 
+                    Make sure to call hitAction(this) before doing anything in the switch!
+                    hitAction is defined as something that happens when & before the effect
+                    of the AbilityEffect
+        */
+        // checkConditionals()
+
         if(canEdit == false){
             Debug.Log("Can't update " + effectName + ". Not editable" );
             return;
@@ -302,50 +324,82 @@ public class AbilityEffect
                 switch(effectType){
                             case 0: // damage
                                 if(remainingTime <= 0.0f){
-                                    if(particles !=  null)
+                                    if(particles !=  null){
                                         GameObject.Instantiate(particles, target.gameObject.transform);
-                                    target.damageValue((int) power);
+                                    }
+                                    if(hitAction != null){
+                                        hitAction(this);
+                                    }
+                                    else{
+                                        Debug.Log("no hitAction");
+                                        target.damageValue((int) power);
+                                    }
                                 }
                                 break;
                             case 1: // heal
                                 if(remainingTime <= 0.0f){
-                                    if(particles !=  null)
+                                    if(particles !=  null){
                                         GameObject.Instantiate(particles, target.gameObject.transform);
+                                    }
+                                    if(hitAction != null){
+                                        hitAction(this);
+                                    }
                                     target.restoreValue((int) power);
                                 }
                                 break;
                             case 2: // DoT
                                 if(lastTick >= tickRate){ 
-                                    if(particles !=  null)
+                                    if(particles !=  null){
                                         GameObject.Instantiate(particles, target.gameObject.transform);
-                                    target.damageValue((int) DotHotPower());
+                                    }
+                                    if(hitAction != null){
+                                        hitAction(this);
+                                    }
+                                    else{
+                                        target.damageValue((int) DotHotPower());
+                                    }
                                     lastTick -= tickRate;
                                 }
                                 break;
                             case 3: // HoT
                                 if(lastTick >= tickRate){
-                                    if(particles !=  null)
+                                    if(particles !=  null){
                                         GameObject.Instantiate(particles, target.gameObject.transform);
+                                    }
+                                    if(hitAction != null){
+                                        hitAction(this);
+                                    }
                                     target.restoreValue((int) DotHotPower());
                                     lastTick -= tickRate;
                                 }
                                 break;
                             case 4: //  Teleport
                                 if(remainingTime <= 0.0f){
-                                    if(particles !=  null)
+                                    if(particles !=  null){
                                         GameObject.Instantiate(particles, target.gameObject.transform);
+                                    }
+                                    if(hitAction != null){
+                                        hitAction(this);
+                                    }
                                     target.transform.position = targetWP;
                                 }
                                 break;
                             case 5: //  dash
                                 if(remainingTime <= 0.0f){
-                                    if(particles !=  null)
+                                    if(particles !=  null){
                                         GameObject.Instantiate(particles, target.gameObject.transform);
+                                    }
                                     if(target.gameObject.tag == "Player"){
+                                    if(hitAction != null){
+                                        hitAction(this);
+                                    }
                                         target.gameObject.GetComponent<PlayerMovementScript2>().setLastMovementEffect(this);
                                         target.gameObject.GetComponent<PlayerMovementScript2>().setDashing(true);
                                     }
                                     else{
+                                        if(hitAction != null){
+                                        hitAction(this);
+                                    }
                                         Debug.Log("NPCs can't dash yet");
                                     }
 
@@ -362,8 +416,8 @@ public class AbilityEffect
     }
     // ------------------------------------------Start/ hit/ finish effects-------------------------------------------------------
     void baseInit(string _effectName, int _effectType, float _power, float _duration = 0.0f,
-                                float _tickRate = 0.0f, GameObject _particles = null, Action<Actor, Actor> _startAction = null,
-                                Action<Actor, Actor> _hitAction = null, Action<Actor, Actor> _finishAction = null, bool _canEdit = true,
+                                float _tickRate = 0.0f, GameObject _particles = null, Action<AbilityEffect> _startAction = null,
+                                Action<AbilityEffect> _hitAction = null, Action<AbilityEffect> _finishAction = null, bool _canEdit = true,
                                 int _id = -1, bool _stackable = false, bool _refreshable = true){
         //Debug.Log("Creating AbilityEffect: " + _effectName);
         effectName = _effectName;

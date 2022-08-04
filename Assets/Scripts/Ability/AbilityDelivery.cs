@@ -7,18 +7,20 @@ public class AbilityDelivery : MonoBehaviour
     /*
         0 = Regular tracking delivery
         1 = Skill shot
-        2 = AoE w/ time duration
+        2 = AoE w/ time duration WP
+        3 = AoE w/ duration target
 
 
     */
-    [SerializeField]public List<AbilityEffect> abilityEffects;
-    public Vector3 worldPointTarget;
     public Actor caster;
     public Actor target;
-    public int type; // 0 detroys when reaches target, 1 = skill shot
-    public float speed;
+    public Vector3 worldPointTarget;
     public List<TargetCooldown> aoeActorIgnore;
 
+    [SerializeField]public List<AbilityEffect> abilityEffects;
+    
+    public int type; // 0 detroys when reaches target, 1 = skill shot
+    public float speed;
     public float duration;
     public float tickRate = 1.5f; // an AoE type will hit you every tickRate secs
     public int aoeCap;
@@ -29,6 +31,9 @@ public class AbilityDelivery : MonoBehaviour
         
         if(type == 2){ // aoe no target
             gameObject.transform.position = worldPointTarget;
+        }
+        if(type == 3){ // aoe no target
+            gameObject.transform.position = target.transform.position;
         }
     }
     private void OnTriggerEnter2D(Collider2D other)
@@ -54,9 +59,9 @@ public class AbilityDelivery : MonoBehaviour
             if (other.gameObject.GetComponent<Actor>() != caster){
                 if (other.gameObject.GetComponent<Actor>() != null){
                     if(checkIgnoreTarget(other.gameObject.GetComponent<Actor>()) == false){
-                        
                         other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
                         addToAoeIgnore(other.gameObject.GetComponent<Actor>(), tickRate);
+
                     }
                     
                 }
@@ -80,7 +85,9 @@ public class AbilityDelivery : MonoBehaviour
     {
         if(type == 2){
             updateTargetCooldowns();
-            duration -= Time.deltaTime;
+            if(!ignoreDuration){
+                duration -= Time.deltaTime;
+            }
             if(duration <= 0){
                 Debug.Log("Destroying AoE");        
                 Destroy(gameObject);

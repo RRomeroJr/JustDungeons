@@ -8,8 +8,7 @@ public class Ability
     [SerializeField] protected string abilityName;
     [SerializeField] protected List<AbilityEffectPreset> abilityEffectPresets = new List<AbilityEffectPreset>();
     
-    [SerializeField] protected float castTime;
-    [SerializeField] protected float cooldown;
+    
     //[SerializeField] public bool needsTarget = true;
     [SerializeField] protected int deliveryType;
     [SerializeField] protected float speed;
@@ -18,6 +17,8 @@ public class Ability
     [SerializeField] protected int aoeCap;
     [SerializeField] protected bool ignoreDuration;
 
+    [SerializeField] protected float castTime;
+    [SerializeField] protected float cooldown;
     protected bool canEdit = true;
 
     public string getName(){
@@ -69,6 +70,10 @@ public class Ability
     }
     public List<AbilityEffect> createEffects(){
         List<AbilityEffect> tempList_ref = abilityEffectPresets.createEffects();
+        return tempList_ref;
+    }
+    public List<AbilityEffect> createEffects(Actor _caster){
+        List<AbilityEffect> tempList_ref = abilityEffectPresets.createEffects(_caster);
         return tempList_ref;
     }
     public List<AbilityEffect> createEffects(Vector3 _targetWP){
@@ -140,11 +145,13 @@ public class Ability
     public Ability(string _abilityName, AbilityEffectPreset _abilityEffectPreset, int _deliveryType = 0, float _castTime = 0.0f,
                     float _cooldown = 0.0f, float _speed = 0.1f, float _duration = 8.0f, float _aoeTickRate = 1.5f, int _aoeCap = -1,
                      bool _ignoreDuration = false){
+       
         abilityName = _abilityName;
-        abilityEffectPresets.Add(_abilityEffectPreset);
+        abilityEffectPresets = new List<AbilityEffectPreset>() {_abilityEffectPreset};
+        //if abilityEffectPresets.Count != deliveryTypes.Count ERROR
         deliveryType = _deliveryType;
         castTime = _castTime;
-        cooldown = 0.0f;
+        cooldown = _cooldown;
         speed = _speed;
         duration =_duration;
         aoeTickRate = _aoeTickRate;
@@ -154,6 +161,7 @@ public class Ability
     public Ability(string _abilityName, List<AbilityEffectPreset> _abilityEffectPresets, int _deliveryType = 0, float _castTime = 0.0f,
                      float _cooldown = 0.0f, float _speed = 0.1f, float _duration = 8.0f, float _aoeTickRate = 1.5f, int _aoeCap = -1,
                      bool _ignoreDuration = false){
+        
         abilityName = _abilityName;
         abilityEffectPresets = _abilityEffectPresets;
         deliveryType = _deliveryType;

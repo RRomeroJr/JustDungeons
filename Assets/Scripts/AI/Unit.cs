@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    private EnemyController_OLD controller;
+    private EnemyControllerHBC controller;
     private Coroutine coroutine;
 
     [Header("Set in inspector")]
@@ -20,7 +20,7 @@ public class Unit : MonoBehaviour
 
     void Start()
     {
-        controller = GetComponent<EnemyController_OLD>();
+        controller = GetComponent<EnemyControllerHBC>();
         collider = GetComponent<BoxCollider2D>();
     }
 
@@ -110,6 +110,7 @@ public class Unit : MonoBehaviour
 
         if (raycastHit.Length > 0)
         {
+            Debug.Log("Enemy Detected");
             closest = raycastHit[0].transform;
             // Find the closest target if multiple
             for (int i = 1; i < raycastHit.Length; i++)
