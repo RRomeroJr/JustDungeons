@@ -304,7 +304,6 @@ public class AbilityEffect
                     hitAction is defined as something that happens when & before the effect
                     of the AbilityEffect
         */
-        // checkConditionals()
 
         if(canEdit == false){
             Debug.Log("Can't update " + effectName + ". Not editable" );
