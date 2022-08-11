@@ -20,7 +20,7 @@ public class MoveTowardsState : EnemyBaseState
             enemy.SwitchState(enemy.pathfindingState);
             return;
         }
-
+        Debug.Log("here");
         enemy.unit.MoveTowards();
     }
 }

@@ -37,10 +37,10 @@ public class UIManager : MonoBehaviour
         //setting Actor
         unitFrame.actor = actor;
         //  Getting name
-        unitFrame.unitName.text = actor.actorName;
+        unitFrame.unitName.text = actor.getActorName();
         //  Getting health current and max
-        unitFrame.healthBar.maxValue = actor.maxHealth;
-        unitFrame.healthBar.value = actor.health;
+        unitFrame.healthBar.maxValue = actor.getMaxHealth();
+        unitFrame.healthBar.value = actor.getHealth();
         //  Getting apropriate healthbar color from actor
         unitFrame.healthFill.color = actor.unitColor;
     }

@@ -11,17 +11,28 @@ public class CastBar : MonoBehaviour
     public float castTime;
     public float elaspedTime = 0.0f;
     public Actor caster;
-    public Actor target;
+    public Actor targetActor;
+    public Vector3 targetWP;
+    public Vector3 target;
     public bool start = false;
     
   void Start(){
 
   }
-  public void Init(string cast_name, Actor from_caster, Actor to_target, float cast_time){
+  public void Init(string cast_name, Actor from_caster, Actor to_targetActor, float cast_time){
+    castName.text = cast_name;
+    caster = from_caster;
+    targetActor = to_targetActor;
+    castTime = cast_time;
+    castBar.maxValue = cast_time;
+
+    elaspedTime = 0.0f;
+    start = true;
+  }public void Init(string cast_name, Actor from_caster, Vector3 to_targetWP, float cast_time){
 
     castName.text = cast_name;
     caster = from_caster;
-    target = to_target;
+    targetWP = to_targetWP;
     castTime = cast_time;
     castBar.maxValue = cast_time;
 
@@ -40,7 +51,7 @@ public class CastBar : MonoBehaviour
           //Check if player can see target?
           
           //Signaling back to Player's Actor that cast completed
-          caster.castReady = true;
+          caster.readyToFire = true;
           Destroy(gameObject);
         }
         

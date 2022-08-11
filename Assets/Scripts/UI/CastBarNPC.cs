@@ -11,13 +11,17 @@ public class CastBarNPC : MonoBehaviour
     public float castTime;
     public float elaspedTime = 0.0f;
     public Actor caster;
-    public Actor target;
+    public Actor targetOLD;
+    public Vector3 target;
     public bool start = false;
     
   void Start(){
 
   }
   public void Init(string cast_name, Actor from_caster, Actor to_target, float cast_time){
+    Init(cast_name, from_caster, to_target.gameObject.transform.position, cast_time);
+  }
+  public void Init(string cast_name, Actor from_caster, Vector3 to_target, float cast_time){
 
     //castName.text = cast_name;
     caster = from_caster;
@@ -40,7 +44,7 @@ public class CastBarNPC : MonoBehaviour
           //  Check if NPC can see target?
           
           //Signaling back to Actor that cast completed
-          caster.castReady = true;
+          caster.readyToFire = true;
           Destroy(this);
         }
         
