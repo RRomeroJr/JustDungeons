@@ -5,7 +5,7 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     private EnemyControllerHBC controller;
-    private Coroutine coroutine;
+    public Coroutine coroutine;
 
     [Header("Set in inspector")]
     public LayerMask mask;
@@ -15,9 +15,14 @@ public class Unit : MonoBehaviour
     public Transform target;
     public Vector3 targetPrev;
     public BoxCollider2D collider;
+    public Vector3 spawnLocation;
     [SerializeField] private Vector3[] path;
     [SerializeField] private int targetIndex;
 
+    private void Awake()
+    {
+        spawnLocation = transform.position;
+    }
     void Start()
     {
         controller = GetComponent<EnemyControllerHBC>();
@@ -40,11 +45,19 @@ public class Unit : MonoBehaviour
 
     public void RequestPath()
     {
+        StopPathfinding();
         PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+    }
+
+    public void RequestPath(Vector3 targetLocation)
+    {
+        StopPathfinding();
+        PathRequestManager.RequestPath(transform.position, targetLocation, OnPathFound);
     }
 
     public void MoveTowards()
     {
+        StopPathfinding();
         transform.position = Vector3.MoveTowards(transform.position, target.position, controller.enemyStats.moveSpeed * Time.deltaTime);
     }
 
@@ -53,6 +66,7 @@ public class Unit : MonoBehaviour
         if (coroutine != null)
         {
             StopCoroutine(coroutine);
+            coroutine = null;
         }
     }
 
@@ -97,6 +111,8 @@ public class Unit : MonoBehaviour
                 }
                 currentWaypoint = path[targetIndex];
             }
+            Debug.Log("Coroutine");
+
             transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, controller.enemyStats.moveSpeed * Time.deltaTime);
             yield return null;
         }
