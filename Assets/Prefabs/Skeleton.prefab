@@ -17,7 +17,8 @@ GameObject:
   - component: {fileID: -5889842083167232273}
   - component: {fileID: -3543002584697789159}
   - component: {fileID: 5200317850204623257}
-  m_Layer: 0
+  - component: {fileID: -2477976573771871067}
+  m_Layer: 7
   m_Name: Skeleton
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -284,6 +285,7 @@ MonoBehaviour:
   target: {fileID: 0}
   targetPrev: {x: 0, y: 0, z: 0}
   collider: {fileID: 0}
+  spawnLocation: {x: 0, y: 0, z: 0}
   path: []
   targetIndex: 0
 --- !u!114 &5200317850204623257
@@ -299,3 +301,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 0}
+--- !u!114 &-2477976573771871067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3544495583399109504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afd35200df6bbde438edc9548a8d0a76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  readyToFire: 0
+  isCasting: 0
+  queuedAbility:
+    abilityName: 
+    deliveryType: 0
+    speed: 0
+    duration: 0
+    aoeTickRate: 0
+    aoeCap: 0
+    ignoreDuration: 0
+    castTime: 0
+    cooldown: 0
+  actor: {fileID: 0}
+  enemyStats: {fileID: 11400000, guid: 42b65c35860a4674e8ba31503de1aa12, type: 2}

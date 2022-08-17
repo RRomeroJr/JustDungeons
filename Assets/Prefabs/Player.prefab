@@ -17,9 +17,9 @@ GameObject:
   - component: {fileID: 2667633042290302715}
   - component: {fileID: 2667633042290302716}
   - component: {fileID: 2667633042290302714}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -109,9 +109,27 @@ MonoBehaviour:
   MAX_RUN_SPEED: 3
   HORIZ_MOVE_ACCEL: 360
   VERT_MOVE_ACCEL: 360
-  playerController: {fileID: 0}
-  health: 0
-  healthSlider: {fileID: 0}
+  lastMovementEffect:
+    effectName: 
+    effectType: 0
+    power: 0
+    duration: 0
+    tickRate: 0
+    particles: {fileID: 0}
+    stackable: 0
+    refreshable: 0
+    typeTags: 
+    lastTick: 0
+    remainingTime: 0
+    start: 0
+    firstFrame: 1
+    caster: {fileID: 0}
+    target: {fileID: 0}
+    targetWP: {x: 0, y: 0, z: 0}
+    canEdit: 1
+    id: 0
+    stacks: 0
+  dashing: 0
 --- !u!114 &2667633042290302719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,6 +145,7 @@ MonoBehaviour:
   targetName: {fileID: 0}
   targetHealthBar: {fileID: 0}
   targetHealthBarFill: {fileID: 0}
+  playerActor: {fileID: 0}
 --- !u!114 &2667633042290302718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,15 +158,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df739c0fb2ae5ea4ea3c0e5dd2d3f75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Deoscilate
-  health:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
+  showDebug: 0
+  actorName: 
+  health: 0
   maxHealth: 75
   mana: 0
   maxMana: 0
+  target: {fileID: 0}
   unitColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
+  abilityEffects: []
+  readyToFire: 0
+  isCasting: 0
+  queuedAbility:
+    abilityName: 
+    deliveryType: 0
+    speed: 0
+    duration: 0
+    aoeTickRate: 0
+    aoeCap: 0
+    ignoreDuration: 0
+    castTime: 0
+    cooldown: 0
+  queuedTarget: {fileID: 0}
+  abilityCooldowns: []
+  uiManager: {fileID: 0}
+  abilityDeliveryPrefab: {fileID: 0}
 --- !u!114 &2667633042290302717
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -28,5 +28,5 @@ MonoBehaviour:
     Variable: {fileID: 0}
   aggroRange:
     UseConstant: 1
-    ConstantValue: 10
+    ConstantValue: 5
     Variable: {fileID: 0}
