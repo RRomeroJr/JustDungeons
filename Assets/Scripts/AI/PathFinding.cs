@@ -46,7 +46,7 @@ public class PathFinding : MonoBehaviour
             yield break;
         }
 
-        if (startNode.walkable && targetNode.walkable)
+        if (targetNode.walkable)
         {
             openSet.Clear();
             closedSet.Clear();
