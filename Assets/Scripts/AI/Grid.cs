@@ -38,7 +38,7 @@ public class Grid : MonoBehaviour
             {
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.up * (y * nodeDiameter + nodeRadius);
                 bool walkable = true;
-                if (Physics2D.OverlapCircle(worldPoint, nodeRadius, unwalkableMask) != null)
+                if (Physics2D.OverlapCircle(worldPoint, nodeRadius - 0.02f, unwalkableMask) != null)
                 {
                     walkable = false;
                 }
