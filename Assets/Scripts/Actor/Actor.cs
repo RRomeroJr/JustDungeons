@@ -18,6 +18,7 @@ public class Actor : MonoBehaviour
     
     public Color unitColor;
     [SerializeField]protected List<AbilityEffect> abilityEffects;
+    [SerializeField]protected List<Buff> buffs;
     
     // When readyToFire is true queuedAbility will fire
     public bool readyToFire = false; // Will True by CastBar for abilities w/ casts. Will only be true for a freme
@@ -56,6 +57,14 @@ public class Actor : MonoBehaviour
                 checkAbilityEffectToRemoveAtPos(abilityEffects[i], i);
             }
         //Debug.Log(actorName + " cleared all Ability effects!");
+        }
+        if(buffs.Count > 0){
+
+            for(int i = 0; i < buffs.Count; i++){
+                buffs[i].update();
+                //checkAbilityEffectToRemoveAtPos(buffs[i], i);
+            }
+        
         }
     }
     public void damageValue(int amount, int valueType = 0){
@@ -149,6 +158,16 @@ public class Actor : MonoBehaviour
             abilityEffects.RemoveAt(listPos);
         }
     }
+    void checkAbilityEffectToRemoveAtPos(Buff _buff, int listPos){
+        // Remove AbilityEffect is it's duration is <= 0.0f
+
+        if(_buff.getRemainingTime() <= 0.0f){
+            if(showDebug)
+            Debug.Log(actorName + ": Removing.. "+ _buff.getEffectName());
+            //buffs[listPos].OnEffectFinish(); // AE has a caster and target now so the args could be null?
+            buffs.RemoveAt(listPos);
+        }
+    }
     public void RemoveActiveEffect(Predicate<AbilityEffect> pred){
         // Remove AbilityEffect is it's duration is <= 0.0f
         int temp = abilityEffects.FindIndex(pred);
@@ -198,6 +217,48 @@ public class Actor : MonoBehaviour
         //Debug.Log("Actor: Applying.." + _abilityEffect.getEffectName() + " to " + actorName);  
 
     }
+    public void applyBuff(Buff _buff, Actor _caster = null){
+
+        //Adding Buff it to this actor's list<Buff>
+        
+        if(_buff.getID() >= 0){
+
+            Buff tempBuff_Ref = buffs.Find(b => b.getID() == _buff.getID());
+
+            if(tempBuff_Ref  != null){
+                if( (tempBuff_Ref.isStackable())&&(tempBuff_Ref.isRefreshable()) ){ // if stackable and refreshable
+                    tempBuff_Ref.addStacks(1);
+                    tempBuff_Ref.setRemainingTime(tempBuff_Ref.getDuration());
+                    //Debug.Log("stting remaing to "+ tempBuff_Ref.getDuration().ToString());
+                    return;
+                }
+                else if(tempBuff_Ref.isStackable()){
+                    tempBuff_Ref.addStacks(1);
+                    return;
+                }
+                else if(tempBuff_Ref.isRefreshable()){
+                    //Debug.Log("Refreshable");
+                    tempBuff_Ref.setRemainingTime(tempBuff_Ref.getDuration()); // Add pandemic time?
+                    return;
+                }
+            }
+        }
+        else{
+
+        }
+        
+        _buff.setCaster(_caster);
+        _buff.setActor(this);
+        _buff.setRemainingTime(_buff.getDuration());
+        //Debug.Log(_abilityEffect.getRemainingTime().ToString() + " " + _abilityEffect.getDuration().ToString());
+        //_buff.OnEffectStart();
+        buffs.Add(_buff);
+        //_buff.setStart(true);
+
+
+    }
+    // public void applyBuff(){}
+
     public void applyAbilityEffects(List<AbilityEffect> _abilityEffects, Actor inCaster){
         if(_abilityEffects.Count > 0){
             for(int i = 0; i < _abilityEffects.Count; i++ ){
@@ -205,6 +266,54 @@ public class Actor : MonoBehaviour
             }
         } 
 
+    }
+    public void castAbility2(Ability_V2 _ability, Actor _target = null, Vector3? _targetWP =null){
+        
+        checkAndFire(_ability, _target, _targetWP);
+
+    }
+    void checkAndFire(Ability_V2 _ability, Actor _target = null, Vector3? _targetWP =null){
+        /*
+        
+            Logic to check if target reqirments can be met and/ or implied
+
+            Not fully implemented
+
+        */
+        if (_target == null){
+            Debug.Log("No target given. Trying to find one");
+            _target = tryFindTarget(_ability);
+            if(_target != null){
+                Debug.Log("Target Found!" + _target.getActorName());
+                foreach (AbilityEff eff in _ability.getEffects()){
+                    eff.effectStart(_target, _targetWP, this);
+                }
+            }
+            else{
+                Debug.Log(actorName + ": could not imply a target for " + _ability.getName());
+            }
+        }
+        else{
+            foreach (AbilityEff eff in _ability.getEffects()){
+                eff.effectStart(_target, _targetWP, this);
+            }
+        }
+
+    }
+    Actor tryFindTarget(Ability_V2 _ability){
+        /*
+            run function from Ability that returns a code for how to find a target
+            ex.  1 == this actor's target so..
+                    _target = target
+        */
+        if(target != null){ //This actor's target
+            Debug.Log(_ability.getName() + " using current target as target");
+            
+            return target;
+        }
+        else{
+            return null;
+        }
     }
 
     //-------------------------------------------------------------------handling casts--------------------------------------------------------------------------
@@ -578,6 +687,12 @@ public class Actor : MonoBehaviour
     }
     public void setActorName(string _actorName){
         actorName = _actorName;
+    }
+    public List<Buff> getBuffs(){
+        return buffs;
+    }
+    public void setBuffs(List<Buff> _buffs){
+        buffs = _buffs;
     }
     public List<AbilityEffect> getActiveEffects(){
         return abilityEffects;

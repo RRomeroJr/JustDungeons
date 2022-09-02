@@ -8,7 +8,8 @@ namespace UnityEngine{
     }
 }
 [System.Serializable]
-public class AbilityEffect
+[CreateAssetMenu(fileName="Ability")]
+public class AbilityEffect : ScriptableObject
 {
     /*
         These are private bc they shoud be thought about as "starting points".

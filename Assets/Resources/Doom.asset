@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8c893311ec16b744b77cf9683178ae3, type: 3}
+  m_Name: Doom
+  m_EditorClassIdentifier: 
+  effectName: Doom
+  duration: 10
+  tickRate: 3
+  particles: {fileID: 0}
+  stackable: 1
+  refreshable: 0
+  lastTick: 0
+  remainingTime: 10
+  start: 0
+  firstFrame: 1
+  caster: {fileID: 0}
+  actor: {fileID: 0}
+  id: -1
+  stacks: 1
+  effects:
+  - {fileID: 11400000, guid: a5ee7114c98b6d441a29908a8a4e8501, type: 2}

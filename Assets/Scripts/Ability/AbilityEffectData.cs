@@ -21,6 +21,12 @@ public static class AbilityEffectData
         public static AbilityEffectPreset dmgBonusEffect = new AbilityEffectPreset("BonusIfDoT Effect", 0, 8.0f, 0.0f, 0.0f, _hitAction: dotDmgBonus, _id: 8);
         public static AbilityEffectPreset BuffNextTB = new AbilityEffectPreset("Buff next TB", 0, 0.0f, 10.0f, _startAction:buffNextTB_add, _finishAction: buffNextTB_remove, _id: 9);
 
+        public static AbilityEff shadowBoltEffect = new MagicDamage("shadowBoltEffect", _power: 10);
+        public static AbilityEff mindBlastEffect = new MagicDamage("mindBlastEffect", _power: 10);
+        public static AbilityEff autoAttackEffect = new PhysicalDamage("autoAttackEffect", _power: 14);
+        public static AbilityEff igniteEffect = new ApplyBuff();
+        public static AbilityEff genericMagicEffect = new MagicDamage("genericMagicEffect", _power: 14);
+        public static Buff Doom = Resources.Load<Buff>("Assets/Resources/Doom.asset");
 /*
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~vV*****Start/ Hit/ Finish Actions*****Vv~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */

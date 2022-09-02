@@ -231,6 +231,7 @@ MonoBehaviour:
   target: {fileID: 0}
   unitColor: {r: 0.12941177, g: 0.69803923, b: 0.10980392, a: 1}
   abilityEffects: []
+  buffs: []
   readyToFire: 0
   isCasting: 0
   queuedAbility:
@@ -403,8 +404,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 36311630}
+  - component: {fileID: 36311631}
   m_Layer: 0
-  m_Name: GameplayManager
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -425,6 +427,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &36311631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 36311628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 298b18d454c890241bb6fbe7eb9b4bd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiManager: {fileID: 0}
+  player: {fileID: 0}
 --- !u!1 &110653879
 GameObject:
   m_ObjectHideFlags: 0
@@ -2175,6 +2191,7 @@ MonoBehaviour:
   target: {fileID: 0}
   unitColor: {r: 0.94509804, g: 0.47058824, b: 0.08235294, a: 1}
   abilityEffects: []
+  buffs: []
   readyToFire: 0
   isCasting: 0
   queuedAbility:
@@ -2979,6 +2996,7 @@ MonoBehaviour:
   target: {fileID: 0}
   unitColor: {r: 0.19607843, g: 0.3372549, b: 0.8862745, a: 1}
   abilityEffects: []
+  buffs: []
   readyToFire: 0
   isCasting: 0
   queuedAbility:
@@ -3886,6 +3904,7 @@ MonoBehaviour:
   target: {fileID: 0}
   unitColor: {r: 0.8117647, g: 0.08627451, b: 0.08627451, a: 1}
   abilityEffects: []
+  buffs: []
   readyToFire: 0
   isCasting: 0
   queuedAbility:
@@ -3991,26 +4010,7 @@ MonoBehaviour:
   MAX_RUN_SPEED: 3
   HORIZ_MOVE_ACCEL: 360
   VERT_MOVE_ACCEL: 360
-  lastMovementEffect:
-    effectName: 
-    effectType: 0
-    power: 0
-    duration: 0
-    tickRate: 0
-    particles: {fileID: 0}
-    stackable: 0
-    refreshable: 0
-    typeTags: 
-    lastTick: 0
-    remainingTime: 0
-    start: 0
-    firstFrame: 1
-    caster: {fileID: 0}
-    target: {fileID: 0}
-    targetWP: {x: 0, y: 0, z: 0}
-    canEdit: 1
-    id: 0
-    stacks: 0
+  lastMovementEffect: {fileID: 0}
   dashing: 0
 --- !u!212 &2006404822
 SpriteRenderer:
@@ -4100,6 +4100,7 @@ MonoBehaviour:
   target: {fileID: 0}
   unitColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
   abilityEffects: []
+  buffs: []
   readyToFire: 0
   isCasting: 0
   queuedAbility:
@@ -4207,6 +4208,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 2006404825}
   uiManager: {fileID: 1451345063}
+  ability1a: {fileID: 11400000, guid: 6f1e83bd16b15204c869d14952139722, type: 2}
+  ability2a: {fileID: 11400000, guid: 42286307fe5c006409021a3dc69efbfc, type: 2}
+  ability3a: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
+  ability4a: {fileID: 11400000, guid: 722fa7e69c249d740829674736b49962, type: 2}
+  ability5a: {fileID: 0}
+  ability6a: {fileID: 0}
+  ability7a: {fileID: 0}
+  ability8a: {fileID: 0}
+  ability9a: {fileID: 0}
 --- !u!1001 &744315560258893701
 PrefabInstance:
   m_ObjectHideFlags: 0

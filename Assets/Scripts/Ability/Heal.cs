@@ -1,0 +1,31 @@
+using System.Collections;
+using System.Collections.Generic;
+using System;
+using UnityEngine;
+
+[System.Serializable]
+[CreateAssetMenu(fileName="Ability")]
+public class Heal : AbilityEff
+{   
+    public int school;
+    public override void effectStart(Actor _target = null, Vector3? _targetWP = null, Actor _caster = null){
+       _target.restoreValue((int)power);
+    }
+    public Heal(string _effectName, int _id = -1, float _power = 0, int _school = -1){
+        effectName = _effectName;
+        id = _id;
+        power = _power;
+        school = _school;
+    }
+    public Heal(){}
+    public override AbilityEff clone()
+    {
+        Heal temp_ref = ScriptableObject.CreateInstance(typeof (Heal)) as Heal;
+        temp_ref.effectName = effectName;
+        temp_ref.id = id;
+        temp_ref.power = power;
+        temp_ref.school = school;
+
+        return temp_ref;
+    }
+}

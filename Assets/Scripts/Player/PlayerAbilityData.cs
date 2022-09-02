@@ -29,4 +29,12 @@ public static class PlayerAbilityData
     public static Ability DoubleEffectAbility = new Ability("Double Effect-Bolt",
                                                         new List<AbilityEffectPreset>(){AbilityEffectData.oneOffDamageEffect, AbilityEffectData.dotEffect},
                                                             0, 1.5f);
+    public static Ability_V2 shadowBolt = new Ability_V2("Shadowbolt", AbilityEffectData.shadowBoltEffect, _castTime : 1.5f);
+    public static Ability_V2 mindBlast = new Ability_V2("Mind Blast", AbilityEffectData.mindBlastEffect, _castTime : 1.5f);
+    public static Ability_V2 autoAttack = new Ability_V2("Auto attack", AbilityEffectData.autoAttackEffect);
+    public static Ability_V2 ingite = new Ability_V2("Ignite", AbilityEffectData.igniteEffect, _castTime : 1.0f);
+    public static Ability_V2 shadowFire = new Ability_V2("Shadowfire",
+                     new List<AbilityEff>(){AbilityEffectData.shadowBoltEffect, AbilityEffectData.igniteEffect}, _castTime : 1.5f);
+    public static Ability_V2 magicMissle = new Ability_V2("Magic Missle", AbilityEffectData.genericMagicEffect, _castTime : 1.0f);
+
 }

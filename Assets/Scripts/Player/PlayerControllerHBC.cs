@@ -20,21 +20,33 @@ public class PlayerControllerHBC : MonoBehaviour
     Ability ability9;
     Ability ability10;
     Ability ability11;
+    public Ability_V2 ability1a;
+    public Ability_V2 ability2a;
+    public Ability_V2 ability3a;
+    public Ability_V2 ability4a;
+    public Ability_V2 ability5a;
+    public Ability_V2 ability6a;
+    public Ability_V2 ability7a;
+    public Ability_V2 ability8a;
+    public Ability_V2 ability9a;
 
     void Start()
-    {
-        ability1 = PlayerAbilityData.DoT;
-        ability2 = PlayerAbilityData.CastedDamage;
-        ability3 = PlayerAbilityData.CastedHeal;
-        ability4 = PlayerAbilityData.HoT;
-        ability5 = PlayerAbilityData.AoE;
-        ability6 = PlayerAbilityData.FreeAbilityIfHit;
-        ability7 = PlayerAbilityData.DoubleEffectAbility;
-        ability8 = PlayerAbilityData.DelayedDamage;
-        ability9 = PlayerAbilityData.Teleport;
-        ability10 = PlayerAbilityData.Dash;
-        ability11 = PlayerAbilityData.DmgBuffBolt;
+    {   
         
+        // ability1 = PlayerAbilityData.DoT;
+        // ability2 = PlayerAbilityData.CastedDamage;
+        // ability3 = PlayerAbilityData.CastedHeal;
+        // ability4 = PlayerAbilityData.HoT;
+        // ability5 = PlayerAbilityData.AoE;
+        // ability6 = PlayerAbilityData.FreeAbilityIfHit;
+        // ability7 = PlayerAbilityData.DoubleEffectAbility;
+        // ability8 = PlayerAbilityData.DelayedDamage;
+        // ability9 = PlayerAbilityData.Teleport;
+        // ability10 = PlayerAbilityData.Dash;
+        // ability11 = PlayerAbilityData.DmgBuffBolt;
+        
+        
+
         // Debug.Log(" 1 = DoT");
         // Debug.Log(" 2 = One off Dmg");
         // Debug.Log(" 3 = One off Heal");
@@ -51,37 +63,40 @@ public class PlayerControllerHBC : MonoBehaviour
     void Update()
     {    
         if(Input.GetKeyDown("1")){
-            player.castAbility(ability1, player.target);
+            if(ability1a != null)
+            player.castAbility2(ability1a);
         }
-        if(Input.GetKeyDown("2")){       
-            player.castAbility(ability2, player.target);
+        if(Input.GetKeyDown("2")){
+            if(ability2a != null)
+            player.castAbility2(ability2a);
         }
         if(Input.GetKeyDown("3")){
-            player.castAbility(ability3, player.target);
+            if(ability3a != null)
+            player.castAbility2(ability3a);
         }
         if(Input.GetKeyDown("4")){
-            player.castAbility(ability4, player.target);
+            if(ability4a != null)
+            player.castAbility2(ability4a);
         }
         if(Input.GetKeyDown("5")){
-            player.castAbility(ability5, getWorldPointTarget());
+            if(ability5a != null)
+            player.castAbility2(ability5a);
         }
         if(Input.GetKeyDown("6")){
-            player.castAbility(ability6, getWorldPointTarget());
+            if(ability6a != null)
+            player.castAbility2(ability6a);
         }
         if(Input.GetKeyDown("7")){
-            player.castAbility(ability7, player.target);
+            if(ability7a != null)
+            player.castAbility2(ability7a);
         }
         if(Input.GetKeyDown("8")){
-            player.castAbility(ability8, player.target);
+            if(ability8a != null)
+            player.castAbility2(ability8a);
         }
-        if(Input.GetKeyDown("r")){
-            player.castAbility(ability9, getWorldPointTarget());
-        }
-        if(Input.GetKeyDown("f")){
-            player.castAbility(ability10, getWorldPointTarget());
-        }
-        if(Input.GetKeyDown("x")){
-            player.castAbility(ability11, player);
+        if(Input.GetKeyDown("9")){
+            if(ability9a != null)
+            player.castAbility2(ability9a);
         }
         
     }

@@ -40,6 +40,17 @@ public class AbilityDelivery : MonoBehaviour
     {   
         if(type == 0){   
             if (other.gameObject.GetComponent<Actor>() == target){
+                
+                if(abilityEffects.Count > 0){
+                    Actor target_ref = other.gameObject.GetComponent<Actor>();
+                    foreach (AbilityEffect eff in abilityEffects){
+                        eff.setTarget(target_ref);
+                    }
+                    
+                    GameManager.instance.actorCastedAbility_Event.Invoke(abilityEffects);
+                }
+
+                
                 other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
                 Destroy(gameObject);
             }

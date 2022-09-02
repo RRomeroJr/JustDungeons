@@ -19,6 +19,18 @@ public static class Extensions
             return listToReturn;
         }
     }
+    public static List<AbilityEff> cloneEffects(this List<AbilityEff> AE_list){
+        List<AbilityEff> listToReturn = new List<AbilityEff>();
+        if(AE_list.Count > 0){
+            for(int i=0; i < AE_list.Count; i++){
+                listToReturn.Add(AE_list[i].clone());
+            }
+            return listToReturn;
+        }
+        else{
+            return listToReturn;
+        }
+    }
     public static List<AbilityEffect> createEffects(this List<AbilityEffectPreset> AEP_list, bool can_edit = true){
         List<AbilityEffect> listToReturn = new List<AbilityEffect>();
         if(AEP_list.Count > 0){
