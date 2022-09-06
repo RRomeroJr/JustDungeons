@@ -18,6 +18,7 @@ public class AbilityDelivery : MonoBehaviour
     public List<TargetCooldown> aoeActorIgnore;
 
     [SerializeField]public List<AbilityEffect> abilityEffects;
+    [SerializeField]public List<AbilityEff> effects;
     
     public int type; // 0 detroys when reaches target, 1 = skill shot
     public float speed;
@@ -41,6 +42,8 @@ public class AbilityDelivery : MonoBehaviour
         if(type == 0){   
             if (other.gameObject.GetComponent<Actor>() == target){
                 
+                /* Old system
+
                 if(abilityEffects.Count > 0){
                     Actor target_ref = other.gameObject.GetComponent<Actor>();
                     foreach (AbilityEffect eff in abilityEffects){
@@ -49,9 +52,15 @@ public class AbilityDelivery : MonoBehaviour
                     
                     GameManager.instance.actorCastedAbility_Event.Invoke(abilityEffects);
                 }
-
-                
                 other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
+                */
+
+                if(effects.Count > 0){
+                    Actor target_ref = other.gameObject.GetComponent<Actor>();
+                    foreach (AbilityEff eff in effects){
+                        eff.effectStart(_target: target, _caster: caster);
+                    }
+                }
                 Destroy(gameObject);
             }
         }
@@ -171,5 +180,17 @@ public class AbilityDelivery : MonoBehaviour
                     aoeActorIgnore.RemoveAt(i);
             }
         }
+    }
+    public Actor getTarget(){
+        return target;
+    }
+    public void setTarget(Actor _target){
+        target = _target;
+    }
+    public Actor getCaster(){
+        return caster;
+    }
+    public void setCaster(Actor _caster){
+        caster = _caster;
     }
 }

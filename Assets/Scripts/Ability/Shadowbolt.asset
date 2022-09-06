@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: Shadowbolt
   m_EditorClassIdentifier: 
   abilityName: ShadowBolt
+  eInstructs:
+  - effect: {fileID: 11400000, guid: 883f486425a9a0f4287b6d0bdbec1692, type: 2}
+    targetArg: 0
   effects:
   - {fileID: 11400000, guid: efb6f4943ac2ee74aa23d5c3d1f5ec38, type: 2}
+  targetArgs: 
   deliveryType: 0
   castTime: 1.5
   cooldown: 0

@@ -23,7 +23,8 @@ public class Actor : MonoBehaviour
     // When readyToFire is true queuedAbility will fire
     public bool readyToFire = false; // Will True by CastBar for abilities w/ casts. Will only be true for a freme
     public bool isCasting = false; // Will be set False by CastBar 
-    [SerializeField]protected Ability queuedAbility; // Used when Ability has a cast time
+    //[SerializeField]protected Ability queuedAbility; // Used when Ability has a cast time
+    [SerializeField]protected Ability_V2 queuedAbility; // Used when Ability has a cast time
     [SerializeField]protected Actor queuedTarget; // Used when Ability has a cast time
     [SerializeField]protected Vector3? queuedTargetWP;
     [SerializeField]protected List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
@@ -269,7 +270,37 @@ public class Actor : MonoBehaviour
     }
     public void castAbility2(Ability_V2 _ability, Actor _target = null, Vector3? _targetWP =null){
         
-        checkAndFire(_ability, _target, _targetWP);
+        //checkAndFire(_ability, _target, _targetWP);
+        //Debug.Log("CastV2");
+        if(checkOnCooldown(_ability) == false){
+            if(!readyToFire){
+                if(!isCasting){
+                    if(_target == null){
+                        //Debug.Log("Try find target..");
+                        _target = tryFindTarget(_ability);
+                    }
+                    
+                    if(_ability.getCastTime() > 0.0f){
+                        
+                            // ActorCstingAbilityEvent()
+                            queueAbility(_ability, _target, _targetWP);
+                            prepCast();
+                        
+                    }
+                    else{
+                        // ActorCastingAbilityEvent.Invoke(_ability)
+                        fireCast(_ability, _target, _targetWP);
+                    }
+                }
+                else{
+                    Debug.Log(actorName + " is casting!");
+                }         
+            }
+            else{
+                if(showDebug)
+                Debug.Log("Something else is ready to fire and blocking this cast");
+            }
+        }
 
     }
     void checkAndFire(Ability_V2 _ability, Actor _target = null, Vector3? _targetWP =null){
@@ -280,13 +311,15 @@ public class Actor : MonoBehaviour
             Not fully implemented
 
         */
-        if (_target == null){
+        if (_target == null){ 
             Debug.Log("No target given. Trying to find one");
             _target = tryFindTarget(_ability);
+            //_targetWP = tryFindTargetTP(_ability); ?????
             if(_target != null){
                 Debug.Log("Target Found!" + _target.getActorName());
-                foreach (AbilityEff eff in _ability.getEffects()){
-                    eff.effectStart(_target, _targetWP, this);
+                foreach (EffectInstruction eInstruct in _ability.getEffectInstructions()){
+                    
+                    eInstruct.startEffect(_target, _targetWP, this);
                 }
             }
             else{
@@ -294,8 +327,9 @@ public class Actor : MonoBehaviour
             }
         }
         else{
-            foreach (AbilityEff eff in _ability.getEffects()){
-                eff.effectStart(_target, _targetWP, this);
+            foreach (EffectInstruction eInstruct in _ability.getEffectInstructions()){
+                _target = tryFindTarget(eInstruct);
+                eInstruct.startEffect(_target, _targetWP, this);
             }
         }
 
@@ -312,134 +346,32 @@ public class Actor : MonoBehaviour
             return target;
         }
         else{
+            Debug.Log("No target found");
+            return null;
+        }
+    }
+    Actor tryFindTarget(EffectInstruction _eInstruct){
+        if(_eInstruct.targetArg == 0){
+            return target;
+        }
+        else if(_eInstruct.targetArg == 1){
+            return this;
+        }
+        else{
             return null;
         }
     }
 
-    //-------------------------------------------------------------------handling casts--------------------------------------------------------------------------
-
-    public void castAbility(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
-        //Main way to make Acotr cast an ability
-
-        if(checkOnCooldown(_ability) == false){
-            if(!readyToFire){
-                if(checkAbilityReqs(_ability, _target, _targetWP)){
-                    if(_ability.getCastTime() > 0.0f){
-                        if(!isCasting){
-                            // ActorCstingAbilityEvent()
-                            queueAbility(_ability, _target, _targetWP);
-                            prepCast();
-                        }
-                    }
-                    else{
-                        // ActorCastingAbilityEvent.Invoke(_ability)
-                        fireCast(_ability, _target, _targetWP);
-                    }
-                }
-                else{
-                    if(showDebug)
-                        Debug.Log("Ability doesn't have necessary requirments");
-                    resetQueue();
-                }                   
-            }
-            else{
-                if(showDebug)
-                Debug.Log("Something else is ready to fire and blocking this cast");
-            }
-        }
-    }
-    public void castAbility(Ability _ability, Vector3 _queuedTargetWP){
-        //Main way to make Acotr cast an ability
-
-        if(checkOnCooldown(_ability) == false){
-            if(!readyToFire){
-                Vector3? tempNullibleVect = _queuedTargetWP;
-                if(checkAbilityReqs(_ability, null, tempNullibleVect)){
-                    if(_ability.getCastTime() > 0.0f){
-                        if(!isCasting){
-                            queueAbility(_ability, null, tempNullibleVect);
-                            prepCast();
-                        }
-                    }
-                    else{
-                        fireCast(_ability, null, tempNullibleVect);
-                    }
-                }
-                else{
-                    if(showDebug)
-                        Debug.Log("Ability doesn't have necessary requirments: A, WP");
-                    resetQueue();
-                }                       
-            }
-            else{
-                if(showDebug)
-                Debug.Log("Something else is ready to fire and blocking this cast: A, WP");
-            }
-        }
-    }
-    public void freeCast(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
-        //  Make Acotor cast an ability without starting a cooldown or (in the future) cost resources
-        // Maybe make this into an overload of castAbility later
-
-        if(checkAbilityReqs(_ability, _target, _targetWP)){
-            if(handleDelivery(_ability, _target)){
-                // No cd gfenerated
-                // Make not cost resources
-                readyToFire = false;
-            }
-            
-        }
-        else{
-            if(showDebug)
-            Debug.Log(actorName + " Free cast failed reqs");
-        }
-
-    }
-    public void freeCast(Ability _ability, Vector3 _targetWP){
-        //  Make Acotor cast an ability without starting a cooldown or (in the future) cost resources
-        // Maybe make this into an overload of castAbility later
-
-        if(checkAbilityReqs(_ability, null, _targetWP)){
-            if(handleDelivery(_ability, null, _targetWP)){
-                // No cd gfenerated
-                // Make not cost resources
-                readyToFire = false;
-            }
-            
-        }
-        else{
-            if(showDebug)
-            Debug.Log(actorName + " Free cast failed reqs: A, WP");
-        }
-
-    }
-    void forceCastAbility(Ability _ability, Actor _target){
-        
-        /*
-                                                                  ***IGNORE*** Unused for now
-        */
-        
-        if(_target != null){
-            //Debug.Log("A: " + actorName + " casting " + _ability.getName() + " on " + target.actorName);
-            _target.applyAbilityEffects(_ability.createEffects(), this);
-            addToCooldowns(queuedAbility);
-        }
-        else{
-            if(showDebug)
-            Debug.Log("Actor: " + actorName + " has no target!");
-        }
-
-    }
-
-    public void fireCast(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
+    public void fireCast(Ability_V2 _ability, Actor _target = null, Vector3? _targetWP = null){
         // Main way for "Fireing" a cast by creating a delivery if needed then creating an AbilityCooldown
-        if(handleDelivery(_ability, _target, _targetWP)){
-            addToCooldowns(queuedAbility);
-            readyToFire = false;
+        foreach (EffectInstruction eInstruct in _ability.getEffectInstructions()){
+                    eInstruct.startEffect(_target, _targetWP, this);
         }
+        readyToFire = false;
+        
 
-    }  
-    void queueAbility(Ability _ability, Actor _queuedTarget = null, Vector3? _queuedTargetWP = null){
+    }
+    void queueAbility(Ability_V2 _ability, Actor _queuedTarget = null, Vector3? _queuedTargetWP = null){
         //Preparing variables for a cast
         queuedAbility = _ability;
         queuedTarget = _queuedTarget;
@@ -504,6 +436,288 @@ public class Actor : MonoBehaviour
             gameObject.AddComponent<CastBarNPC>().Init(queuedAbility.getName(), this, queuedTargetWP.Value, queuedAbility.getCastTime());
         }
     }
+    void handleCastQueue(){
+        // Called every Update() to see if queued spell is ready to fire
+
+        if(readyToFire){
+            //Debug.Log("castCompleted: " + queuedAbility.getName());
+            if((queuedAbility.NeedsTargetActor()) && (queuedAbility.NeedsTargetWP())){
+                Debug.Log("Cast that requires Actor and WP not yet supported. clearing queue.");
+                resetQueue();
+            }
+            else if(queuedAbility.NeedsTargetWP()){
+                fireCast(queuedAbility, null, queuedTargetWP);
+            }
+            else{
+                fireCast(queuedAbility, queuedTarget);
+            }
+        }
+    }
+    //-------------------------------------------------------------------handling casts--------------------------------------------------------------------------
+    
+    void updateCooldowns(){
+        if(abilityCooldowns.Count > 0){
+            for(int i = 0; i < abilityCooldowns.Count; i++){
+                if(abilityCooldowns[i].remainingTime > 0)
+                    abilityCooldowns[i].remainingTime -= Time.deltaTime;
+                else
+                    abilityCooldowns.RemoveAt(i);
+            }
+        }
+    }
+    void addToCooldowns(Ability_V2 _ability){
+        abilityCooldowns.Add(new AbilityCooldown(queuedAbility));
+    }
+    public bool checkOnCooldown(Ability_V2 _ability){
+        if(abilityCooldowns.Count > 0){
+            for(int i = 0; i < abilityCooldowns.Count; i++){
+                if(abilityCooldowns[i].getName() == _ability.getName()){
+                    if(showDebug)
+                        Debug.Log(_ability.getName() + " is on cooldown!");
+                    return true;
+                }
+            }
+            return false;
+        }
+        else{
+            return false;
+        }
+    }
+    void addToCooldowns(Ability _ability){
+        abilityCooldowns.Add(new AbilityCooldown(queuedAbility));
+    }
+    
+    public bool checkOnCooldown(Ability _ability){
+        if(abilityCooldowns.Count > 0){
+            for(int i = 0; i < abilityCooldowns.Count; i++){
+                if(abilityCooldowns[i].getName() == _ability.getName()){
+                    if(showDebug)
+                        Debug.Log(_ability.getName() + " is on cooldown!");
+                    return true;
+                }
+            }
+            return false;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    List<AbilityEffect> createEffects(Ability _ability){
+        List<AbilityEffect> temp;
+        temp = _ability.createEffects(this);
+        if(aeFireEvent != null){
+            aeFireEvent.Invoke(temp);
+        }
+        return temp;
+    }
+    AbilityEffect modEffects(AbilityEffect _ae){
+
+
+        //
+        //       *** _ae's effects stats get modified here***
+        //             Based on stats and/ or certain buffs
+        //                      this actor has
+
+        return _ae;
+    }
+    List<AbilityEffect> modEffects(List<AbilityEffect> _listAE){
+
+
+        //
+        //       *** _listAE's effects stats get modified here***
+        //             Based on stats and/ or certain buffs
+        //                      this actor has
+
+        return _listAE;
+    }
+    void resetQueue(){
+        queuedTarget = null;
+        queuedTargetWP = null;
+    }
+    //------------------------------------------------------------------Setters/ getters---------------------------------------------------------------------------------
+    /*public Ability getQueuedAbility(){
+        return queuedAbility;
+    }*/
+    public Ability_V2 getQueuedAbility(){
+        return queuedAbility;
+    }
+    public int getHealth(){
+        return health;
+    }
+    public void setHealth(int _health){
+        health = _health;
+    }
+    public int getMaxHealth(){
+        return maxHealth;
+    }
+    public void setMaxHealth(int _maxHealth){
+        maxHealth = _maxHealth;
+    }
+    public int getMana(){
+        return mana;
+    }
+    public void setMana(int _mana){
+        mana = _mana;
+    }
+    public int getMaxMana(){
+        return mana;
+    }
+    public void setMaxMana(int _mana){
+        mana = _mana;
+    }
+    public string getActorName(){
+        return actorName;
+    }
+    public void setActorName(string _actorName){
+        actorName = _actorName;
+    }
+    public List<Buff> getBuffs(){
+        return buffs;
+    }
+    public void setBuffs(List<Buff> _buffs){
+        buffs = _buffs;
+    }
+    public List<AbilityEffect> getActiveEffects(){
+        return abilityEffects;
+    }
+    public void setActiveEffects(List<AbilityEffect> _abilityEffects){
+        abilityEffects = _abilityEffects;
+    }
+
+    //----------------------------------------------------------------old code no longer used------------------------------------------------------------------------------------
+    /*
+    public void castAbility(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
+        //Main way to make Acotr cast an ability
+
+        if(checkOnCooldown(_ability) == false){
+            if(!readyToFire){
+                if(checkAbilityReqs(_ability, _target, _targetWP)){
+                    if(_ability.getCastTime() > 0.0f){
+                        if(!isCasting){
+                            // ActorCstingAbilityEvent()
+                            queueAbility(_ability, _target, _targetWP);
+                            prepCast();
+                        }
+                    }
+                    else{
+                        // ActorCastingAbilityEvent.Invoke(_ability)
+                        fireCast(_ability, _target, _targetWP);
+                    }
+                }
+                else{
+                    if(showDebug)
+                        Debug.Log("Ability doesn't have necessary requirments");
+                    resetQueue();
+                }                   
+            }
+            else{
+                if(showDebug)
+                Debug.Log("Something else is ready to fire and blocking this cast");
+            }
+        }
+    }
+    public void castAbility(Ability _ability, Vector3 _queuedTargetWP){
+        //Main way to make Acotr cast an ability
+
+        if(checkOnCooldown(_ability) == false){
+            if(!readyToFire){
+                Vector3? tempNullibleVect = _queuedTargetWP;
+                if(checkAbilityReqs(_ability, null, tempNullibleVect)){
+                    if(_ability.getCastTime() > 0.0f){
+                        if(!isCasting){
+                            queueAbility(_ability, null, tempNullibleVect);
+                            prepCast();
+                        }
+                    }
+                    else{
+                        fireCast(_ability, null, tempNullibleVect);
+                    }
+                }
+                else{
+                    if(showDebug)
+                        Debug.Log("Ability doesn't have necessary requirments: A, WP");
+                    resetQueue();
+                }                       
+            }
+            else{
+                if(showDebug)
+                Debug.Log("Something else is ready to fire and blocking this cast: A, WP");
+            }
+        }
+    }*/
+    public void freeCast(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
+        //  Make Acotor cast an ability without starting a cooldown or (in the future) cost resources
+        // Maybe make this into an overload of castAbility later
+
+        if(checkAbilityReqs(_ability, _target, _targetWP)){
+            if(handleDelivery(_ability, _target)){
+                // No cd gfenerated
+                // Make not cost resources
+                readyToFire = false;
+            }
+            
+        }
+        else{
+            if(showDebug)
+            Debug.Log(actorName + " Free cast failed reqs");
+        }
+
+    }
+    public void freeCast(Ability _ability, Vector3 _targetWP){
+        //  Make Acotor cast an ability without starting a cooldown or (in the future) cost resources
+        // Maybe make this into an overload of castAbility later
+
+        if(checkAbilityReqs(_ability, null, _targetWP)){
+            if(handleDelivery(_ability, null, _targetWP)){
+                // No cd gfenerated
+                // Make not cost resources
+                readyToFire = false;
+            }
+            
+        }
+        else{
+            if(showDebug)
+            Debug.Log(actorName + " Free cast failed reqs: A, WP");
+        }
+
+    }
+    void forceCastAbility(Ability _ability, Actor _target){
+        
+        /*
+                                                                  ***IGNORE*** Unused for now
+        */
+        
+        if(_target != null){
+            //Debug.Log("A: " + actorName + " casting " + _ability.getName() + " on " + target.actorName);
+            _target.applyAbilityEffects(_ability.createEffects(), this);
+            addToCooldowns(queuedAbility);
+        }
+        else{
+            if(showDebug)
+            Debug.Log("Actor: " + actorName + " has no target!");
+        }
+
+    }
+
+    public void fireCast(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
+        // Main way for "Fireing" a cast by creating a delivery if needed then creating an AbilityCooldown
+        if(handleDelivery(_ability, _target, _targetWP)){
+            addToCooldowns(queuedAbility);
+            readyToFire = false;
+        }
+
+    }  
+    
+    /*
+    void queueAbility(Ability _ability, Actor _queuedTarget = null, Vector3? _queuedTargetWP = null){
+        //Preparing variables for a cast
+        queuedAbility = _ability;
+        queuedTarget = _queuedTarget;
+        queuedTargetWP = _queuedTargetWP;
+    }*/
+    
+    
     bool handleDelivery(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
         // Creates delivery if needed. Applies effects to target if not
         // ***** WILL RETURN FALSE if DeliveryType is -1 (auto apply to target) and there is no target *****
@@ -557,23 +771,7 @@ public class Actor : MonoBehaviour
         return delivery;
     }
     
-    void handleCastQueue(){
-        // Called every Update() to see if queued spell is ready to fire
-
-        if(readyToFire){
-            //Debug.Log("castCompleted: " + queuedAbility.getName());
-            if((queuedAbility.NeedsTargetActor()) && (queuedAbility.NeedsTargetWP())){
-                Debug.Log("Cast that requires Actor and WP not yet supported. clearing queue.");
-                resetQueue();
-            }
-            else if(queuedAbility.NeedsTargetWP()){
-                fireCast(queuedAbility, null, queuedTargetWP);
-            }
-            else{
-                fireCast(queuedAbility, queuedTarget);
-            }
-        }
-    }
+    
     bool checkAbilityReqs(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
         // Checks if the requirments of _ability are satisfied
 
@@ -594,117 +792,5 @@ public class Actor : MonoBehaviour
             return true;
         }
     }
-    void updateCooldowns(){
-        if(abilityCooldowns.Count > 0){
-            for(int i = 0; i < abilityCooldowns.Count; i++){
-                if(abilityCooldowns[i].remainingTime > 0)
-                    abilityCooldowns[i].remainingTime -= Time.deltaTime;
-                else
-                    abilityCooldowns.RemoveAt(i);
-            }
-        }
-    }
-    void addToCooldowns(Ability _ability){
-        abilityCooldowns.Add(new AbilityCooldown(queuedAbility));
-    }
-    public bool checkOnCooldown(Ability _ability){
-        if(abilityCooldowns.Count > 0){
-            for(int i = 0; i < abilityCooldowns.Count; i++){
-                if(abilityCooldowns[i].getName() == _ability.getName()){
-                    if(showDebug)
-                        Debug.Log(_ability.getName() + " is on cooldown!");
-                    return true;
-                }
-            }
-            return false;
-        }
-        else{
-            return false;
-        }
-    }
-    List<AbilityEffect> createEffects(Ability _ability){
-        List<AbilityEffect> temp;
-        temp = _ability.createEffects(this);
-        if(aeFireEvent != null){
-            aeFireEvent.Invoke(temp);
-        }
-        return temp;
-    }
-    AbilityEffect modEffects(AbilityEffect _ae){
-
-
-        //
-        //       *** _ae's effects stats get modified here***
-        //             Based on stats and/ or certain buffs
-        //                      this actor has
-
-        return _ae;
-    }
-    List<AbilityEffect> modEffects(List<AbilityEffect> _listAE){
-
-
-        //
-        //       *** _listAE's effects stats get modified here***
-        //             Based on stats and/ or certain buffs
-        //                      this actor has
-
-        return _listAE;
-    }
-    void resetQueue(){
-        queuedTarget = null;
-        queuedTargetWP = null;
-    }
-    //------------------------------------------------------------------Setters/ getters---------------------------------------------------------------------------------
-    public Ability getQueuedAbility(){
-        return queuedAbility;
-    }
-    public int getHealth(){
-        return health;
-    }
-    public void setHealth(int _health){
-        health = _health;
-    }
-    public int getMaxHealth(){
-        return maxHealth;
-    }
-    public void setMaxHealth(int _maxHealth){
-        maxHealth = _maxHealth;
-    }
-    public int getMana(){
-        return mana;
-    }
-    public void setMana(int _mana){
-        mana = _mana;
-    }
-    public int getMaxMana(){
-        return mana;
-    }
-    public void setMaxMana(int _mana){
-        mana = _mana;
-    }
-    public string getActorName(){
-        return actorName;
-    }
-    public void setActorName(string _actorName){
-        actorName = _actorName;
-    }
-    public List<Buff> getBuffs(){
-        return buffs;
-    }
-    public void setBuffs(List<Buff> _buffs){
-        buffs = _buffs;
-    }
-    public List<AbilityEffect> getActiveEffects(){
-        return abilityEffects;
-    }
-    public void setActiveEffects(List<AbilityEffect> _abilityEffects){
-        abilityEffects = _abilityEffects;
-    }
-
-
-
-
-    //-------------------------------------------------------------------other---------------------------------------------------------------------------------------------------------
-    
 }
 

@@ -17,14 +17,14 @@ MonoBehaviour:
   tickRate: 3
   particles: {fileID: 0}
   stackable: 1
-  refreshable: 0
+  refreshable: 1
   lastTick: 0
   remainingTime: 10
   start: 0
   firstFrame: 1
   caster: {fileID: 0}
   actor: {fileID: 0}
-  id: -1
+  id: 13
   stacks: 1
   effects:
-  - {fileID: 11400000, guid: a5ee7114c98b6d441a29908a8a4e8501, type: 2}
+  - {fileID: 11400000, guid: 1a92bd7aa6b65e847a564476e29e9bde, type: 2}

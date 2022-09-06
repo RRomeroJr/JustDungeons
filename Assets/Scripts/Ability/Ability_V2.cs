@@ -6,13 +6,19 @@ using System;
 [CreateAssetMenu(fileName="Ability")]
 public class Ability_V2 : ScriptableObject{
     [SerializeField] protected string abilityName;
+    [SerializeField] protected List<EffectInstruction> eInstructs;
     [SerializeField] protected List<AbilityEff> effects;
+    [SerializeField] protected List<int> targetArgs; //if theres an arg here I will use it if not assumed 0
+
 
     //[SerializeField] public bool needsTarget = true;
     [SerializeField] protected int deliveryType;
     [SerializeField] protected float castTime;
     [SerializeField] protected float cooldown;
+    public bool needsActor;
+    public bool needsWP;
     protected bool canEdit = true;
+    
 
     public string getName(){
         return abilityName;
@@ -105,7 +111,18 @@ public class Ability_V2 : ScriptableObject{
             Debug.Log("Can't edit Ability" + abilityName);
         }
     }
-    
+    public List<EffectInstruction> getEffectInstructions(){
+        return eInstructs;
+    }
+    public void setEffectInstructions(List<EffectInstruction> _eInstructs){
+        eInstructs = _eInstructs;
+    }
+
+    // public virtual GameObject createDeliveries(){
+    //     GameObject delivery = Intantiate(abilityDeliveryPrefab);
+    //     delivery.effects = effects.cloneEffects();
+
+    // }
     public Ability_V2(string _abilityName, AbilityEff _abilityEff, int _deliveryType = 0, float _castTime = 0.0f,
                     float _cooldown = 0.0f){
        
@@ -127,6 +144,9 @@ public class Ability_V2 : ScriptableObject{
         cooldown = _cooldown;
         
     }
+    public void cast(){
+        
+    }
     public Ability_V2 clone(){
         // Returns a Copy of the ability with a COPY of the the name, a REF to the effect, and copy of castTime since it is just a value type
 
@@ -135,50 +155,18 @@ public class Ability_V2 : ScriptableObject{
 
     }
     public bool NeedsTargetActor(){
-        switch(deliveryType){
-            case -2:
-                return false;
-                break;
-            case -1:
-                return true;
-                break;
-            case 0:
-                return true;
-                break;
-            case 1:
-                return false;
-                break;
-            case 2:
-                return false;
-                break;
-            default:
-                Debug.Log("Unknown Delivery Type");
-                return false;
-                break;
-        }
+        //In future I might be able to make the ability
+        // auto matically update what target it needs based on the effects you
+        // give it BUT for now this is what it's got to be
+        return needsActor;
     }
     public bool NeedsTargetWP(){
-        switch(deliveryType){
-            case -2:
-                return true;
-                break;
-            case -1:
-                return false;
-                break;
-            case 0:
-                return false;
-                break;
-            case 1:
-                return true;
-                break;
-            case 2:
-                return true;
-                break;
-            default:
-                Debug.Log("Unknown Delivery Type");
-                return false;
-                break;
-        }
+
+        //In future I might be able to make the ability
+        // auto matically update what target it needs based on the effects you
+        // give it BUT for now this is what it's got to be
+
+        return needsWP;
     }
 
 }

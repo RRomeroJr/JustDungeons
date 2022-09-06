@@ -234,16 +234,7 @@ MonoBehaviour:
   buffs: []
   readyToFire: 0
   isCasting: 0
-  queuedAbility:
-    abilityName: 
-    deliveryType: 0
-    speed: 0
-    duration: 0
-    aoeTickRate: 0
-    aoeCap: 0
-    ignoreDuration: 0
-    castTime: 0
-    cooldown: 0
+  queuedAbility: {fileID: 0}
   queuedTarget: {fileID: 0}
   abilityCooldowns: []
   uiManager: {fileID: 0}
@@ -2194,16 +2185,7 @@ MonoBehaviour:
   buffs: []
   readyToFire: 0
   isCasting: 0
-  queuedAbility:
-    abilityName: 
-    deliveryType: 0
-    speed: 0
-    duration: 0
-    aoeTickRate: 0
-    aoeCap: 0
-    ignoreDuration: 0
-    castTime: 0
-    cooldown: 0
+  queuedAbility: {fileID: 0}
   queuedTarget: {fileID: 0}
   abilityCooldowns: []
   uiManager: {fileID: 0}
@@ -2999,16 +2981,7 @@ MonoBehaviour:
   buffs: []
   readyToFire: 0
   isCasting: 0
-  queuedAbility:
-    abilityName: 
-    deliveryType: 0
-    speed: 0
-    duration: 0
-    aoeTickRate: 0
-    aoeCap: 0
-    ignoreDuration: 0
-    castTime: 0
-    cooldown: 0
+  queuedAbility: {fileID: 0}
   queuedTarget: {fileID: 0}
   abilityCooldowns: []
   uiManager: {fileID: 0}
@@ -3907,16 +3880,7 @@ MonoBehaviour:
   buffs: []
   readyToFire: 0
   isCasting: 0
-  queuedAbility:
-    abilityName: 
-    deliveryType: 0
-    speed: 0
-    duration: 0
-    aoeTickRate: 0
-    aoeCap: 0
-    ignoreDuration: 0
-    castTime: 0
-    cooldown: 0
+  queuedAbility: {fileID: 0}
   queuedTarget: {fileID: 0}
   abilityCooldowns: []
   uiManager: {fileID: 0}
@@ -4094,7 +4058,7 @@ MonoBehaviour:
   showDebug: 1
   actorName: Deoscillate
   health: 21
-  maxHealth: 21
+  maxHealth: 104
   mana: 0
   maxMana: 0
   target: {fileID: 0}
@@ -4103,16 +4067,7 @@ MonoBehaviour:
   buffs: []
   readyToFire: 0
   isCasting: 0
-  queuedAbility:
-    abilityName: 
-    deliveryType: 0
-    speed: 0
-    duration: 0
-    aoeTickRate: 0
-    aoeCap: 0
-    ignoreDuration: 0
-    castTime: 0
-    cooldown: 0
+  queuedAbility: {fileID: 0}
   queuedTarget: {fileID: 0}
   abilityCooldowns: []
   uiManager: {fileID: 1451345063}
@@ -4212,8 +4167,8 @@ MonoBehaviour:
   ability2a: {fileID: 11400000, guid: 42286307fe5c006409021a3dc69efbfc, type: 2}
   ability3a: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
   ability4a: {fileID: 11400000, guid: 722fa7e69c249d740829674736b49962, type: 2}
-  ability5a: {fileID: 0}
-  ability6a: {fileID: 0}
+  ability5a: {fileID: 11400000, guid: 34ab314d89f37aa4fb81b458a4f883ba, type: 2}
+  ability6a: {fileID: 11400000, guid: 288de58e0ce8a4a45b0bbfd2faf86635, type: 2}
   ability7a: {fileID: 0}
   ability8a: {fileID: 0}
   ability9a: {fileID: 0}

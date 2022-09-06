@@ -15,6 +15,10 @@ public class AbilityCooldown
         abilityName = _ability.getName();
         remainingTime = _ability.getCooldown();
     }
+    public AbilityCooldown(Ability_V2 _ability){
+        abilityName = _ability.getName();
+        remainingTime = _ability.getCooldown();
+    }
     public string getName(){
         return abilityName;
     }

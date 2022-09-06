@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db0b38a9ff31192458a544fe2d749b56, type: 3}
   m_Name: DoomEffect
   m_EditorClassIdentifier: 
-  effectName: 
+  effectName: DoomEffect
   id: -1
-  power: 0
+  power: 7
   parentBuff: {fileID: 0}
-  school: 0
+  school: -1

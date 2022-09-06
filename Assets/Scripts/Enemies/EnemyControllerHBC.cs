@@ -7,7 +7,7 @@ public class EnemyControllerHBC : MonoBehaviour
     // When castCompleted is true queuedAbility will fire
     public bool readyToFire = false; // Will only be set TRUE by CastBar
     public bool isCasting = false; // Will only be set FALSE by CastBar 
-    public Ability queuedAbility;
+    public Ability_V2 queuedAbility;
     public Actor actor;
     public EnemySO enemyStats;
 
@@ -19,7 +19,7 @@ public class EnemyControllerHBC : MonoBehaviour
     {   
         actor = gameObject.GetComponent<Actor>();
         
-        queuedAbility = PlayerAbilityData.CastedDamage;
+        //queuedAbility = PlayerAbilityData.CastedDamage;
         //StartCoroutine(tryCastEveryXSecs(queuedAbility, 9.5f));
        
     }
@@ -31,14 +31,14 @@ public class EnemyControllerHBC : MonoBehaviour
     IEnumerator tryCastEveryXSecs(Ability _ability, float x){
         while(x>0){
             yield return new WaitForSeconds(x);
-            actor.castAbility(queuedAbility, actor.target);
+            actor.castAbility2(queuedAbility, actor.target);
         }
         
     }
     IEnumerator tryCastOnCooldown(Ability _ability){
         while(_ability.getCooldown()>0){
             yield return new WaitForSeconds(_ability.getCooldown()+_ability.getCastTime() + 0.02f);
-             actor.castAbility(queuedAbility, actor.target);
+             actor.castAbility2(queuedAbility, actor.target);
         }
         
     }
