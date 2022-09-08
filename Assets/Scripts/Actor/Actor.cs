@@ -31,21 +31,26 @@ public class Actor : MonoBehaviour
     public UIManager uiManager;
     public GameObject abilityDeliveryPrefab;
     public AEFireEvent aeFireEvent;
+    public float castTime;
+    public CastBar castBar;
 
 
     void Start(){
         if (aeFireEvent == null)
             aeFireEvent = new AEFireEvent();
         abilityEffects = new List<AbilityEffect>();
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         //gameObject.GetComponent<Renderer>().Color = unitColor;
     }
     void Update(){
         if(health <= 0){
             Destroy(gameObject);
         }
+        updateCast();
         updateCooldowns();
         handleAbilityEffects();
         handleCastQueue();
+        
     }
     //------------------------------------------------------------handling Active Ability Effects-------------------------------------------------------------------------
     
@@ -367,6 +372,7 @@ public class Actor : MonoBehaviour
         foreach (EffectInstruction eInstruct in _ability.getEffectInstructions()){
                     eInstruct.startEffect(_target, _targetWP, this);
         }
+        
         readyToFire = false;
         
 
@@ -447,9 +453,13 @@ public class Actor : MonoBehaviour
             }
             else if(queuedAbility.NeedsTargetWP()){
                 fireCast(queuedAbility, null, queuedTargetWP);
+                resetQueue();
+                resetCastTime();
             }
             else{
                 fireCast(queuedAbility, queuedTarget);
+                resetQueue();
+                resetCastTime();
             }
         }
     }
@@ -791,6 +801,18 @@ public class Actor : MonoBehaviour
         else{
             return true;
         }
+    }
+    void updateCast(){
+        if(isCasting){
+           castTime += Time.deltaTime;
+           if(castTime >= queuedAbility.getCastTime()){
+                readyToFire = true;
+           }
+        }
+    }
+    void resetCastTime(){
+        isCasting = false;
+        castTime = 0.0f;
     }
 }
 

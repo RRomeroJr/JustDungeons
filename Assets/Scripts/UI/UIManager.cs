@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour
     public UnitFrame partyFrame3;
     public Actor playerActor;
     
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -34,15 +35,17 @@ public class UIManager : MonoBehaviour
 
     }
     public void setUpUnitFrame(UnitFrame unitFrame, Actor actor){
-        //setting Actor
-        unitFrame.actor = actor;
-        //  Getting name
-        unitFrame.unitName.text = actor.getActorName();
-        //  Getting health current and max
-        unitFrame.healthBar.maxValue = actor.getMaxHealth();
-        unitFrame.healthBar.value = actor.getHealth();
-        //  Getting apropriate healthbar color from actor
-        unitFrame.healthFill.color = actor.unitColor;
+        if(actor != null){
+            //setting Actor
+            unitFrame.actor = actor;
+            //  Getting name
+            unitFrame.unitName.text = actor.getActorName();
+            //  Getting health current and max
+            unitFrame.healthBar.maxValue = actor.getMaxHealth();
+            unitFrame.healthBar.value = actor.getHealth();
+            //  Getting apropriate healthbar color from actor
+            unitFrame.healthFill.color = actor.unitColor;
+        }
     }
     
     void Update(){
@@ -50,7 +53,7 @@ public class UIManager : MonoBehaviour
         setUpUnitFrame(partyFrame1, partyFrame1.actor);
         setUpUnitFrame(partyFrame2, partyFrame2.actor);
         setUpUnitFrame(partyFrame3, partyFrame3.actor);
-        if(playerActor.target != null){ // do this for all frames?
+        if(playerActor != null){ 
             setUpUnitFrame(targetFrame, playerActor.target);
         }
     }
