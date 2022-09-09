@@ -25,7 +25,7 @@ public class ClickManager : MonoBehaviour
             */
 
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
+            //Debug.Log("mousePos " + mousePos.ToString());
             RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
 
             if (hit.collider != null) {
