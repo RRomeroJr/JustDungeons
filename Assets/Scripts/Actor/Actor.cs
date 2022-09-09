@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Mirror;
 /*
      Container many for any RPG related elements
 */
 
-public class Actor : MonoBehaviour
+public class Actor : NetworkBehaviour
 {
     public bool showDebug = false;
     [SerializeField]protected string actorName;
@@ -40,6 +41,12 @@ public class Actor : MonoBehaviour
             aeFireEvent = new AEFireEvent();
         abilityEffects = new List<AbilityEffect>();
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+        if(isLocalPlayer){
+            uiManager.playerActor = this;
+            GameObject cameraTemp = Instantiate(uiManager.cameraPrefab, gameObject.transform);
+            cameraTemp.GetComponent<CameraController>().target = gameObject.transform;
+           
+        }
         //gameObject.GetComponent<Renderer>().Color = unitColor;
     }
     void Update(){
@@ -369,8 +376,12 @@ public class Actor : MonoBehaviour
 
     public void fireCast(Ability_V2 _ability, Actor _target = null, Vector3? _targetWP = null){
         // Main way for "Fireing" a cast by creating a delivery if needed then creating an AbilityCooldown
-        foreach (EffectInstruction eInstruct in _ability.getEffectInstructions()){
-                    eInstruct.startEffect(_target, _targetWP, this);
+        if(isServer){
+            foreach (EffectInstruction eInstruct in _ability.getEffectInstructions()){
+                        eInstruct.startEffect(_target, _targetWP, this);
+            }
+        }else{
+            //request to firecast on server. Which will then affect vars and spawn things appropriatly
         }
         
         readyToFire = false;

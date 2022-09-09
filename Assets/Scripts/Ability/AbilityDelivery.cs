@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class AbilityDelivery : MonoBehaviour
+public class AbilityDelivery : NetworkBehaviour
 {
     /*
         0 = Regular tracking delivery
@@ -12,6 +13,7 @@ public class AbilityDelivery : MonoBehaviour
 
 
     */
+    
     public Actor caster;
     public Actor target;
     public Vector3 worldPointTarget;
@@ -29,88 +31,96 @@ public class AbilityDelivery : MonoBehaviour
     
     void Start()
     {   
-        
-        if(type == 2){ // aoe no target
-            gameObject.transform.position = worldPointTarget;
-        }
-        if(type == 3){ // aoe no target
-            gameObject.transform.position = target.transform.position;
+        if(isServer){
+            if(type == 2){ // aoe no target
+                gameObject.transform.position = worldPointTarget;
+            }
+            if(type == 3){ // aoe no target
+                gameObject.transform.position = target.transform.position;
+            }
         }
     }
     private void OnTriggerEnter2D(Collider2D other)
-    {   
-        if(type == 0){   
-            if (other.gameObject.GetComponent<Actor>() == target){
-                
-                /* Old system
-
-                if(abilityEffects.Count > 0){
-                    Actor target_ref = other.gameObject.GetComponent<Actor>();
-                    foreach (AbilityEffect eff in abilityEffects){
-                        eff.setTarget(target_ref);
-                    }
+    {   if(isServer){
+            if(type == 0){   
+                if (other.gameObject.GetComponent<Actor>() == target){
                     
-                    GameManager.instance.actorCastedAbility_Event.Invoke(abilityEffects);
-                }
-                other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
-                */
+                    /* Old system
 
-                if(effects.Count > 0){
-                    Actor target_ref = other.gameObject.GetComponent<Actor>();
-                    foreach (AbilityEff eff in effects){
-                        eff.effectStart(_target: target, _caster: caster);
+                    if(abilityEffects.Count > 0){
+                        Actor target_ref = other.gameObject.GetComponent<Actor>();
+                        foreach (AbilityEffect eff in abilityEffects){
+                            eff.setTarget(target_ref);
+                        }
+                        
+                        GameManager.instance.actorCastedAbility_Event.Invoke(abilityEffects);
                     }
-                }
-                Destroy(gameObject);
-            }
-        }
-        if(type == 1){
-            if (other.gameObject.GetComponent<Actor>() != caster){
-                if (other.gameObject.GetComponent<Actor>() != null){
                     other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
+                    */
+
+                    if(effects.Count > 0){
+                        Actor target_ref = other.gameObject.GetComponent<Actor>();
+                        foreach (AbilityEff eff in effects){
+                            eff.effectStart(_target: target, _caster: caster);
+                        }
+                    }
+                    Destroy(gameObject);
                 }
-                Destroy(gameObject);
+            }
+            if(type == 1){
+                if (other.gameObject.GetComponent<Actor>() != caster){
+                    if (other.gameObject.GetComponent<Actor>() != null){
+                        other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
+                    }
+                    Destroy(gameObject);
+                }
             }
         }
         
     }
     private void OnTriggerStay2D(Collider2D other){
-        if(type == 2){
-            if (other.gameObject.GetComponent<Actor>() != caster){
-                if (other.gameObject.GetComponent<Actor>() != null){
-                    if(checkIgnoreTarget(other.gameObject.GetComponent<Actor>()) == false){
-                        other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
-                        addToAoeIgnore(other.gameObject.GetComponent<Actor>(), tickRate);
+        if(isServer){
+            if(type == 2){
+                if (other.gameObject.GetComponent<Actor>() != caster){
+                    if (other.gameObject.GetComponent<Actor>() != null){
+                        if(checkIgnoreTarget(other.gameObject.GetComponent<Actor>()) == false){
+                            other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
+                            addToAoeIgnore(other.gameObject.GetComponent<Actor>(), tickRate);
 
+                        }
+                        
                     }
-                    
+                    // make version that has a set number for ticks?
                 }
-                // make version that has a set number for ticks?
             }
         }
     }
     void FixedUpdate()
     {
-        if(type == 0){
-            transform.position = Vector2.MoveTowards(transform.position, target.gameObject.transform.position, speed);
-        }
-        else if(type == 1){
-            transform.position = Vector2.MoveTowards(transform.position, worldPointTarget, speed);
-            if(transform.position == worldPointTarget){
-                Destroy(gameObject);
+        if(isServer){
+            if(type == 0){
+                transform.position = Vector2.MoveTowards(transform.position, target.gameObject.transform.position, speed);
+            }
+            else if(type == 1){
+                transform.position = Vector2.MoveTowards(transform.position, worldPointTarget, speed);
+                if(transform.position == worldPointTarget){
+                    Destroy(gameObject);
+                }
             }
         }
     }
     void Update()
     {
-        if(type == 2){
-            updateTargetCooldowns();
-            if(!ignoreDuration){
-                duration -= Time.deltaTime;
-            }
-            if(duration <= 0){
-                Debug.Log("Destroying AoE");        
-                Destroy(gameObject);
+        if(isServer){
+            if(type == 2){
+                updateTargetCooldowns();
+                if(!ignoreDuration){
+                    duration -= Time.deltaTime;
+                }
+                if(duration <= 0){
+                    Debug.Log("Destroying AoE");        
+                    Destroy(gameObject);
+                }
             }
         }
     }

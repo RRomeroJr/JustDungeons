@@ -38,8 +38,7 @@ Transform:
   m_LocalPosition: {x: -1.07, y: 0.53, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 8673107933268025126}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -127,6 +126,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df739c0fb2ae5ea4ea3c0e5dd2d3f75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   showDebug: 1
   actorName: Deoscillate
   health: 21
@@ -144,6 +145,8 @@ MonoBehaviour:
   abilityCooldowns: []
   uiManager: {fileID: 0}
   abilityDeliveryPrefab: {fileID: 8996080988287052582, guid: a4706308c46cb1241917ac1a7cfb7176, type: 3}
+  castTime: 0
+  castBar: {fileID: 0}
 --- !u!114 &3602611100074717273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,73 +310,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46b67545aeaa38e499016f81db77eb60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   targetName: {fileID: 0}
   targetHealthBar: {fileID: 0}
   targetHealthBarFill: {fileID: 0}
   playerActor: {fileID: 3602611100074717274}
---- !u!1001 &7374237295209492216
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 3602611100074717268}
-    m_Modifications:
-    - target: {fileID: 2164995610287419867, guid: 06a8bba7feee03346af1989cd8654e6e, type: 3}
-      propertyPath: m_Name
-      value: PlayerCamera
-      objectReference: {fileID: 0}
-    - target: {fileID: 2164995610287419870, guid: 06a8bba7feee03346af1989cd8654e6e, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2164995610287419870, guid: 06a8bba7feee03346af1989cd8654e6e, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2164995610287419870, guid: 06a8bba7feee03346af1989cd8654e6e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2164995610287419870, guid: 06a8bba7feee03346af1989cd8654e6e, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2164995610287419870, guid: 06a8bba7feee03346af1989cd8654e6e, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2164995610287419870, guid: 06a8bba7feee03346af1989cd8654e6e, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2164995610287419870, guid: 06a8bba7feee03346af1989cd8654e6e, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2164995610287419870, guid: 06a8bba7feee03346af1989cd8654e6e, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2164995610287419870, guid: 06a8bba7feee03346af1989cd8654e6e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2164995610287419870, guid: 06a8bba7feee03346af1989cd8654e6e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2164995610287419870, guid: 06a8bba7feee03346af1989cd8654e6e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2164995610287419871, guid: 06a8bba7feee03346af1989cd8654e6e, type: 3}
-      propertyPath: target
-      value: 
-      objectReference: {fileID: 3602611100074717268}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 06a8bba7feee03346af1989cd8654e6e, type: 3}
---- !u!4 &8673107933268025126 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2164995610287419870, guid: 06a8bba7feee03346af1989cd8654e6e, type: 3}
-  m_PrefabInstance: {fileID: 7374237295209492216}
-  m_PrefabAsset: {fileID: 0}

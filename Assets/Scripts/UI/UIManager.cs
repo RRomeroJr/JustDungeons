@@ -20,11 +20,15 @@ public class UIManager : MonoBehaviour
     public UnitFrame partyFrame2;
     public UnitFrame partyFrame3;
     public Actor playerActor;
+    public GameObject cameraPrefab;
     
     
     // Start is called before the first frame update
     void Start()
     {
+        if(cameraPrefab == null){
+            Debug.LogError("Please add a camera prefab to UIManager.cameraPrefab");
+        }
         /* Not sure if unit frames should have refences to actors
            like this. Later I might change this so the UIManager
          v   has refs to unitframes and correponding actors      v*/

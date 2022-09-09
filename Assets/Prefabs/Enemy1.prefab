@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 6569267623682333740}
   - component: {fileID: 6569267623682333738}
   - component: {fileID: 6569267623682333781}
+  - component: {fileID: 6083710982085013301}
+  - component: {fileID: 5391231985131415138}
   m_Layer: 0
   m_Name: Enemy1
   m_TagString: Untagged
@@ -102,6 +104,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df739c0fb2ae5ea4ea3c0e5dd2d3f75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   showDebug: 0
   actorName: Darne
   health: 15
@@ -111,22 +115,16 @@ MonoBehaviour:
   target: {fileID: 0}
   unitColor: {r: 0.7254902, g: 0.19215687, b: 0.90588236, a: 1}
   abilityEffects: []
+  buffs: []
   readyToFire: 0
   isCasting: 0
-  queuedAbility:
-    abilityName: 
-    castTime: 0
-    cooldown: 0
-    deliveryType: 0
-    speed: 0
-    duration: 0
-    aoeTickRate: 0
-    aoeCap: 0
-    ignoreDuration: 0
+  queuedAbility: {fileID: 0}
   queuedTarget: {fileID: 0}
   abilityCooldowns: []
   uiManager: {fileID: 0}
   abilityDeliveryPrefab: {fileID: 0}
+  castTime: 0
+  castBar: {fileID: 0}
 --- !u!61 &6569267623682333742
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -195,6 +193,7 @@ MonoBehaviour:
   target: {fileID: 0}
   targetPrev: {x: 0, y: 0, z: 0}
   collider: {fileID: 0}
+  spawnLocation: {x: 0, y: 0, z: 0}
   path: []
   targetIndex: 0
 --- !u!114 &6569267623682333738
@@ -210,6 +209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 0}
+  myState: 
 --- !u!114 &6569267623682333781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,15 +224,57 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   readyToFire: 0
   isCasting: 0
-  queuedAbility:
-    abilityName: 
-    castTime: 0
-    cooldown: 0
-    deliveryType: 0
-    speed: 0
-    duration: 0
-    aoeTickRate: 0
-    aoeCap: 0
-    ignoreDuration: 0
+  queuedAbility: {fileID: 0}
   actor: {fileID: 6569267623682333737}
   enemyStats: {fileID: 11400000, guid: 42b65c35860a4674e8ba31503de1aa12, type: 2}
+--- !u!114 &6083710982085013301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6569267623682333730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 6b6b57cfd4401ee44bb65a89278b66fb
+  hasSpawned: 0
+--- !u!114 &5391231985131415138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6569267623682333730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 0
+  sendInterval: 0.05
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 0
+  bufferTimeMultiplier: 1
+  bufferSizeLimit: 64
+  catchupThreshold: 4
+  catchupMultiplier: 0.1
+  onlySyncOnChange: 1
+  bufferResetMultiplier: 5
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
