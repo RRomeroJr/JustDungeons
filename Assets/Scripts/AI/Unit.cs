@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Unit : MonoBehaviour
 {
-    private EnemyControllerHBC controller;
+    private EnemyController controller;
     public Coroutine coroutine;
 
     [Header("Set in inspector")]
@@ -16,6 +17,7 @@ public class Unit : MonoBehaviour
     public Vector3 targetPrev;
     public BoxCollider2D collider;
     public Vector3 spawnLocation;
+    public NavMeshAgent agent;
     [SerializeField] private Vector3[] path;
     [SerializeField] private int targetIndex;
 
@@ -25,8 +27,12 @@ public class Unit : MonoBehaviour
     }
     void Start()
     {
-        controller = GetComponent<EnemyControllerHBC>();
+        agent = GetComponent<NavMeshAgent>();
+        controller = GetComponent<EnemyController>();
         collider = GetComponent<BoxCollider2D>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
+        agent.speed = controller.enemyStats.moveSpeed;
     }
 
     // Update is called once per frame
@@ -45,29 +51,19 @@ public class Unit : MonoBehaviour
 
     public void RequestPath()
     {
-        StopPathfinding();
-        PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+        agent.SetDestination(target.position);
     }
 
-    public void RequestPath(Vector3 targetLocation)
+    public void RequestPath(Vector3 location)
     {
-        StopPathfinding();
-        PathRequestManager.RequestPath(transform.position, targetLocation, OnPathFound);
+        agent.SetDestination(location);
     }
+
 
     public void MoveTowards()
     {
-        StopPathfinding();
+        agent.ResetPath();
         transform.position = Vector3.MoveTowards(transform.position, target.position, controller.enemyStats.moveSpeed * Time.deltaTime);
-    }
-
-    public void StopPathfinding()
-    {
-        if (coroutine != null)
-        {
-            StopCoroutine(coroutine);
-            coroutine = null;
-        }
     }
 
     public bool targetBehindObstacle()
@@ -82,40 +78,6 @@ public class Unit : MonoBehaviour
         }
         Debug.Log("Target not behind obstacle");
         return false;
-    }
-
-    public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
-    {
-        if (pathSuccessful)
-        {
-            path = newPath;
-            targetIndex = 0;
-
-            StopPathfinding();
-            coroutine = StartCoroutine(FollowPath());
-        }
-    }
-
-    IEnumerator FollowPath()
-    {
-        Vector3 currentWaypoint = path[0];
-
-        while (true)
-        {
-            if (transform.position == currentWaypoint)
-            {
-                targetIndex++;
-                if (targetIndex >= path.Length)
-                {
-                    yield break;
-                }
-                currentWaypoint = path[targetIndex];
-            }
-            Debug.Log("Coroutine");
-
-            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, controller.enemyStats.moveSpeed * Time.deltaTime);
-            yield return null;
-        }
     }
 
     // Return true if target is within aggro range and set target. If multiple are in range, closest target is set
