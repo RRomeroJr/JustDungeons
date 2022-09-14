@@ -36,14 +36,13 @@ public class Actor : NetworkBehaviour
     [SerializeField]protected List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
     public UIManager uiManager;
     public GameObject abilityDeliveryPrefab;
-    public AEFireEvent aeFireEvent;
+   
     public float castTime;
     public CastBar castBar;
 
 
     void Start(){
-        if (aeFireEvent == null)
-            aeFireEvent = new AEFireEvent();
+        
         abilityEffects = new List<AbilityEffect>();
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         if(isLocalPlayer){
@@ -68,25 +67,7 @@ public class Actor : NetworkBehaviour
     }
     //------------------------------------------------------------handling Active Ability Effects-------------------------------------------------------------------------
     
-    void handleAbilityEffects(){
-
-        if(abilityEffects.Count > 0){
-
-            for(int i = 0; i < abilityEffects.Count; i++){
-                abilityEffects[i].update();
-                checkAbilityEffectToRemoveAtPos(abilityEffects[i], i);
-            }
-        //Debug.Log(actorName + " cleared all Ability effects!");
-        }
-        if(buffs.Count > 0){
-
-            for(int i = 0; i < buffs.Count; i++){
-                buffs[i].update();
-                //checkAbilityEffectToRemoveAtPos(buffs[i], i);
-            }
-        
-        }
-    }
+    
     public void damageValue(int amount, int valueType = 0){
         // Right now this only damages health, but, maybe in the future,
         // This could take an extra param to indicate a different value to "damage"
@@ -168,16 +149,7 @@ public class Actor : NetworkBehaviour
         }
     }
 
-    void checkAbilityEffectToRemoveAtPos(AbilityEffect _abilityEffect, int listPos){
-        // Remove AbilityEffect is it's duration is <= 0.0f
-
-        if(_abilityEffect.getRemainingTime() <= 0.0f){
-            if(showDebug)
-            Debug.Log(actorName + ": Removing.. "+ _abilityEffect.getEffectName());
-            abilityEffects[listPos].OnEffectFinish(); // AE has a caster and target now so the args could be null?
-            abilityEffects.RemoveAt(listPos);
-        }
-    }
+    
     void checkAbilityEffectToRemoveAtPos(Buff _buff, int listPos){
         // Remove AbilityEffect is it's duration is <= 0.0f
 
@@ -188,55 +160,7 @@ public class Actor : NetworkBehaviour
             buffs.RemoveAt(listPos);
         }
     }
-    public void RemoveActiveEffect(Predicate<AbilityEffect> pred){
-        // Remove AbilityEffect is it's duration is <= 0.0f
-        int temp = abilityEffects.FindIndex(pred);
-        
-        if(temp >= 0){
-            Debug.Log(actorName + ": Manually removing at.. "+ temp.ToString());
-            abilityEffects[temp].OnEffectFinish(); // AE has a caster and target now so the args could be null?
-            abilityEffects.RemoveAt(temp);
-        }
-        else{
-            Debug.Log("ae was not found:");
-        }
-    }
-    public void applyAbilityEffect(AbilityEffect _abilityEffect, Actor inCaster){
-
-        //Adding AbilityEffect it to this actor's list<AbilityEffect>
-        
-        if(_abilityEffect.getDuration() > 0.0f){
-            //Debug.Log("Effect has dur. Checking to stack/ refresh");
-            AbilityEffect tempAE_Ref = abilityEffects.Find(ae => ae.getID() == _abilityEffect.getID());
-            if(tempAE_Ref != null){
-                if( (tempAE_Ref.isStackable())&&(tempAE_Ref.isRefreshable()) ){ // if stackable and refreshable
-                    tempAE_Ref.addStacks(1);
-                    tempAE_Ref.setRemainingTime(tempAE_Ref.getDuration());
-                    return;
-                }
-                else if(tempAE_Ref.isStackable()){
-                    tempAE_Ref.addStacks(1);
-                    return;
-                }
-                else if(tempAE_Ref.isRefreshable()){
-                    //Debug.Log("Refreshable");
-                    tempAE_Ref.setRemainingTime(tempAE_Ref.getDuration()); // Add pandemic time?
-                    return;
-                }
-            }
-        }
-        //_abilityEffect.setCaster(inCaster);
-        _abilityEffect.setTarget(this);
-        _abilityEffect.setRemainingTime(_abilityEffect.getDuration());
-        //Debug.Log(_abilityEffect.getRemainingTime().ToString() + " " + _abilityEffect.getDuration().ToString());
-        _abilityEffect.OnEffectStart();
-        abilityEffects.Add(_abilityEffect);
-        _abilityEffect.setStart(true);
-
-        // AE has a caster and target now so the args could be null?
-        //Debug.Log("Actor: Applying.." + _abilityEffect.getEffectName() + " to " + actorName);  
-
-    }
+    
     public void applyBuff(Buff _buff, Actor _caster = null){
 
         //Adding Buff it to this actor's list<Buff>
@@ -277,63 +201,6 @@ public class Actor : NetworkBehaviour
 
 
     }
-    // public void applyBuff(){}
-
-    public void applyAbilityEffects(List<AbilityEffect> _abilityEffects, Actor inCaster){
-        if(_abilityEffects.Count > 0){
-            for(int i = 0; i < _abilityEffects.Count; i++ ){
-                applyAbilityEffect(_abilityEffects[i], inCaster);
-            }
-        } 
-
-    }
-    public void castAbility2(Ability_V2 _ability, Actor _target = null, Vector3? _targetWP =null){
-        
-        //checkAndFire(_ability, _target, _targetWP);
-        //Debug.Log("CastV2");
-        /*
-        if(checkOnCooldown(_ability) == false){
-            if(!readyToFire){
-                if(!isCasting){
-                    if(_target == null){
-                        //Debug.Log("Try find target..");
-                        _target = tryFindTarget(_ability);
-                    }
-                    
-                    if(_ability.getCastTime() > 0.0f){
-                        
-                            // ActorCstingAbilityEvent()
-                            queueAbility(_ability, _target, _targetWP);
-                            prepCast();
-                        
-                    }
-                    else{
-                        // ActorCastingAbilityEvent.Invoke(_ability)
-                        fireCast(_ability, _target, _targetWP);
-                    }
-                }
-                else{
-                    Debug.Log(actorName + " is casting!");
-                }         
-            }
-            else{
-                if(showDebug)
-                Debug.Log("Something else is ready to fire and blocking this cast");
-            }
-        }*/
-        
-        _target = tryFindTarget(_ability);
-        if(_target == null){
-            Debug.Log("Could not find suitable target");
-        }
-        else{
-            castReqToServer(_ability, _target);
-            
-            
-        }
-
-
-    }
     
     public void castAbility3(Ability_V2 _ability, Actor _target = null, Vector3? _targetWP =null){
         
@@ -352,10 +219,8 @@ public class Actor : NetworkBehaviour
                         //     serverSays(_ability);
                         // }
                         cmdStartCast(_ability, _target);
-
                         //Debug.Log("after Ability_V2 command reached");
-                    }
-                    
+                    }     
                 }
                 else{
                     Debug.Log(actorName + " is casting!");
@@ -366,7 +231,6 @@ public class Actor : NetworkBehaviour
                 Debug.Log("Something else is ready to fire and blocking this cast");
             }
         }
-
     }
     [ClientRpc]
     public void rpcStartCast(Ability_V2 _ability, Actor _target){
@@ -554,14 +418,32 @@ public class Actor : NetworkBehaviour
             }
             else if(queuedAbility.NeedsTargetWP()){
                 fireCast(queuedAbility, null, queuedTargetWP);
-                
             }
             else{
                 fireCast(queuedAbility, queuedTarget);
-                
             }
         }
     }
+    void handleAbilityEffects(){
+
+        /*if(abilityEffects.Count > 0){
+
+            for(int i = 0; i < abilityEffects.Count; i++){
+                abilityEffects[i].update();
+                checkAbilityEffectToRemoveAtPos(abilityEffects[i], i);
+            }
+        //Debug.Log(actorName + " cleared all Ability effects!");
+        }*/
+        if(buffs.Count > 0){
+
+            for(int i = 0; i < buffs.Count; i++){
+                buffs[i].update();
+                //checkAbilityEffectToRemoveAtPos(buffs[i], i);
+            }
+        
+        }
+    }
+    
     //-------------------------------------------------------------------handling casts--------------------------------------------------------------------------
     
     void updateCooldowns(){
@@ -592,54 +474,7 @@ public class Actor : NetworkBehaviour
             return false;
         }
     }
-    void addToCooldowns(Ability _ability){
-        abilityCooldowns.Add(new AbilityCooldown(queuedAbility));
-    }
     
-    public bool checkOnCooldown(Ability _ability){
-        if(abilityCooldowns.Count > 0){
-            for(int i = 0; i < abilityCooldowns.Count; i++){
-                if(abilityCooldowns[i].getName() == _ability.getName()){
-                    if(showDebug)
-                        Debug.Log(_ability.getName() + " is on cooldown!");
-                    return true;
-                }
-            }
-            return false;
-        }
-        else{
-            return false;
-        }
-    }
-    
-    List<AbilityEffect> createEffects(Ability _ability){
-        List<AbilityEffect> temp;
-        temp = _ability.createEffects(this);
-        if(aeFireEvent != null){
-            aeFireEvent.Invoke(temp);
-        }
-        return temp;
-    }
-    AbilityEffect modEffects(AbilityEffect _ae){
-
-
-        //
-        //       *** _ae's effects stats get modified here***
-        //             Based on stats and/ or certain buffs
-        //                      this actor has
-
-        return _ae;
-    }
-    List<AbilityEffect> modEffects(List<AbilityEffect> _listAE){
-
-
-        //
-        //       *** _listAE's effects stats get modified here***
-        //             Based on stats and/ or certain buffs
-        //                      this actor has
-
-        return _listAE;
-    }
     void resetQueue(){
         queuedTarget = null;
         queuedTargetWP = null;
@@ -710,9 +545,23 @@ public class Actor : NetworkBehaviour
         rpcSetQueuedTarget(_queuedTarget);
     }
     
-    
+    void updateCast(){
+        if(isCasting){
+            castTime += Time.deltaTime;
+            if(isServer)
+                if(castTime >= queuedAbility.getCastTime()){
+                    readyToFire = true;
+            }
+        }
+    }
+    void resetCastTime(){
+        isCasting = false;
+        castTime = 0.0f;
+    }
 
     //----------------------------------------------------------------old code no longer used------------------------------------------------------------------------------------
+    
+    //Old ability stuff-------------------------------------------------------------------------------------------------------------------------
     /*
     public void castAbility(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
         //Main way to make Acotr cast an ability
@@ -772,7 +621,7 @@ public class Actor : NetworkBehaviour
                 Debug.Log("Something else is ready to fire and blocking this cast: A, WP");
             }
         }
-    }*/
+    }
     public void freeCast(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
         //  Make Acotor cast an ability without starting a cooldown or (in the future) cost resources
         // Maybe make this into an overload of castAbility later
@@ -811,9 +660,9 @@ public class Actor : NetworkBehaviour
     }
     void forceCastAbility(Ability _ability, Actor _target){
         
-        /*
-                                                                  ***IGNORE*** Unused for now
-        */
+        
+        //                                                          ***IGNORE*** Unused for now
+        
         
         if(_target != null){
             //Debug.Log("A: " + actorName + " casting " + _ability.getName() + " on " + target.actorName);
@@ -836,13 +685,13 @@ public class Actor : NetworkBehaviour
 
     }  
     
-    /*
+    
     void queueAbility(Ability _ability, Actor _queuedTarget = null, Vector3? _queuedTargetWP = null){
         //Preparing variables for a cast
         queuedAbility = _ability;
         queuedTarget = _queuedTarget;
         queuedTargetWP = _queuedTargetWP;
-    }*/
+    }
     
     
     bool handleDelivery(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
@@ -919,20 +768,122 @@ public class Actor : NetworkBehaviour
             return true;
         }
     }
-
+    void addToCooldowns(Ability _ability){
+        abilityCooldowns.Add(new AbilityCooldown(queuedAbility));
+    }
     
-    void updateCast(){
-        if(isCasting){
-            castTime += Time.deltaTime;
-            if(isServer)
-                if(castTime >= queuedAbility.getCastTime()){
-                    readyToFire = true;
+    public bool checkOnCooldown(Ability _ability){
+        if(abilityCooldowns.Count > 0){
+            for(int i = 0; i < abilityCooldowns.Count; i++){
+                if(abilityCooldowns[i].getName() == _ability.getName()){
+                    if(showDebug)
+                        Debug.Log(_ability.getName() + " is on cooldown!");
+                    return true;
+                }
             }
+            return false;
+        }
+        else{
+            return false;
         }
     }
-    void resetCastTime(){
-        isCasting = false;
-        castTime = 0.0f;
+    
+    List<AbilityEffect> createEffects(Ability _ability){
+        List<AbilityEffect> temp;
+        temp = _ability.createEffects(this);
+        if(aeFireEvent != null){
+            aeFireEvent.Invoke(temp);
+        }
+        return temp;
     }
+    AbilityEffect modEffects(AbilityEffect _ae){
+
+
+        //
+        //       *** _ae's effects stats get modified here***
+        //             Based on stats and/ or certain buffs
+        //                      this actor has
+
+        return _ae;
+    }
+    List<AbilityEffect> modEffects(List<AbilityEffect> _listAE){
+
+
+        //
+        //       *** _listAE's effects stats get modified here***
+        //             Based on stats and/ or certain buffs
+        //                      this actor has
+
+        return _listAE;
+    }
+    //Old AbilityEffect stuff--------------------------------------------------------------------------------------------------------------------
+    
+    void checkAbilityEffectToRemoveAtPos(AbilityEffect _abilityEffect, int listPos){
+        // Remove AbilityEffect is it's duration is <= 0.0f
+
+        if(_abilityEffect.getRemainingTime() <= 0.0f){
+            if(showDebug)
+            Debug.Log(actorName + ": Removing.. "+ _abilityEffect.getEffectName());
+            abilityEffects[listPos].OnEffectFinish(); // AE has a caster and target now so the args could be null?
+            abilityEffects.RemoveAt(listPos);
+        }
+    }
+    public void RemoveActiveEffect(Predicate<AbilityEffect> pred){
+        // Remove AbilityEffect is it's duration is <= 0.0f
+        int temp = abilityEffects.FindIndex(pred);
+        
+        if(temp >= 0){
+            Debug.Log(actorName + ": Manually removing at.. "+ temp.ToString());
+            abilityEffects[temp].OnEffectFinish(); // AE has a caster and target now so the args could be null?
+            abilityEffects.RemoveAt(temp);
+        }
+        else{
+            Debug.Log("ae was not found:");
+        }
+    }
+    public void applyAbilityEffect(AbilityEffect _abilityEffect, Actor inCaster){
+
+        //Adding AbilityEffect it to this actor's list<AbilityEffect>
+        
+        if(_abilityEffect.getDuration() > 0.0f){
+            //Debug.Log("Effect has dur. Checking to stack/ refresh");
+            AbilityEffect tempAE_Ref = abilityEffects.Find(ae => ae.getID() == _abilityEffect.getID());
+            if(tempAE_Ref != null){
+                if( (tempAE_Ref.isStackable())&&(tempAE_Ref.isRefreshable()) ){ // if stackable and refreshable
+                    tempAE_Ref.addStacks(1);
+                    tempAE_Ref.setRemainingTime(tempAE_Ref.getDuration());
+                    return;
+                }
+                else if(tempAE_Ref.isStackable()){
+                    tempAE_Ref.addStacks(1);
+                    return;
+                }
+                else if(tempAE_Ref.isRefreshable()){
+                    //Debug.Log("Refreshable");
+                    tempAE_Ref.setRemainingTime(tempAE_Ref.getDuration()); // Add pandemic time?
+                    return;
+                }
+            }
+        }
+        //_abilityEffect.setCaster(inCaster);
+        _abilityEffect.setTarget(this);
+        _abilityEffect.setRemainingTime(_abilityEffect.getDuration());
+        //Debug.Log(_abilityEffect.getRemainingTime().ToString() + " " + _abilityEffect.getDuration().ToString());
+        _abilityEffect.OnEffectStart();
+        abilityEffects.Add(_abilityEffect);
+        _abilityEffect.setStart(true);
+
+        // AE has a caster and target now so the args could be null?
+        //Debug.Log("Actor: Applying.." + _abilityEffect.getEffectName() + " to " + actorName);  
+
+    }
+    public void applyAbilityEffects(List<AbilityEffect> _abilityEffects, Actor inCaster){
+        if(_abilityEffects.Count > 0){
+            for(int i = 0; i < _abilityEffects.Count; i++ ){
+                applyAbilityEffect(_abilityEffects[i], inCaster);
+            }
+        } 
+
+    }*/
 }
 

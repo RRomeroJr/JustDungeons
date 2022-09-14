@@ -66,7 +66,8 @@ public class AbilityDelivery : NetworkBehaviour
                     }
                     Destroy(gameObject);
                 }
-            }
+            }/*
+                Old System
             if(type == 1){
                 if (other.gameObject.GetComponent<Actor>() != caster){
                     if (other.gameObject.GetComponent<Actor>() != null){
@@ -74,13 +75,14 @@ public class AbilityDelivery : NetworkBehaviour
                     }
                     Destroy(gameObject);
                 }
-            }
+            }*/
         }
         
     }
     private void OnTriggerStay2D(Collider2D other){
         if(isServer){
             if(type == 2){
+                /* Old System
                 if (other.gameObject.GetComponent<Actor>() != caster){
                     if (other.gameObject.GetComponent<Actor>() != null){
                         if(checkIgnoreTarget(other.gameObject.GetComponent<Actor>()) == false){
@@ -91,7 +93,7 @@ public class AbilityDelivery : NetworkBehaviour
                         
                     }
                     // make version that has a set number for ticks?
-                }
+                }*/
             }
         }
     }

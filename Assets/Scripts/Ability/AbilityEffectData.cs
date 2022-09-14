@@ -11,7 +11,7 @@ public class AbilityEffectData : ScriptableObject
     */
         public static AbilityEffectData instance;
         //                           (AbilityEffect effectName, Ability Type, Power, Duration, Tick Rate, GameObject particles) || 0=dmg, 1=heal
-        public static AbilityEffectPreset oneOffDamageEffect = new AbilityEffectPreset("1 Off Dmg Effect", 0, 8.0f, 0.0f, 0.0f, _hitAction: standardDamage, _id: 0);
+        /*public static AbilityEffectPreset oneOffDamageEffect = new AbilityEffectPreset("1 Off Dmg Effect", 0, 8.0f, 0.0f, 0.0f, _hitAction: standardDamage, _id: 0);
         public static AbilityEffectPreset dotEffect = new AbilityEffectPreset("DoT Effect", 2, 30.0f, 9.0f, 3.0f,  _id: 1);// damage ^^
         public static AbilityEffectPreset oneOffHealEffect = new AbilityEffectPreset("1 Off Heal Effect", 1, 13.0f, 0.0f, 0.0f, _id: 2);
         public static AbilityEffectPreset hotEffect = new AbilityEffectPreset("HoT Effect", 3, 25.0f, 4.0f, 1.0f, _id: 3);// heals ^^
@@ -21,7 +21,7 @@ public class AbilityEffectData : ScriptableObject
         public static AbilityEffectPreset DashEffect = new AbilityEffectPreset("Dash effect", 5, 0.2f, _id: 7);
         public static AbilityEffectPreset dmgBonusEffect = new AbilityEffectPreset("BonusIfDoT Effect", 0, 8.0f, 0.0f, 0.0f, _hitAction: dotDmgBonus, _id: 8);
         public static AbilityEffectPreset BuffNextTB = new AbilityEffectPreset("Buff next TB", 0, 0.0f, 10.0f, _startAction:buffNextTB_add, _finishAction: buffNextTB_remove, _id: 9);
-    
+        */
         public static AbilityEff shadowBoltEffect;
         public static AbilityEff mindBlastEffect;
         public static AbilityEff autoAttackEffect;
@@ -59,6 +59,7 @@ public class AbilityEffectData : ScriptableObject
 /*
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~vV*****Start/ Hit/ Finish Actions*****Vv~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
+    /* OLD
         public static void secondaryTestboltFinish(AbilityEffect _ae){
             _ae.getCaster().freeCast(PlayerAbilityData.CastedDamage, _ae.getTarget());
         }
@@ -100,7 +101,7 @@ public class AbilityEffectData : ScriptableObject
         }
         public static void buffNextTB_remove(AbilityEffect _ae){
             _ae.getCaster().aeFireEvent.RemoveListener(buffTBInList);
-        }
+        }*/
         
         /*public static void exampleHookIn(Actor caster, ref Ability AbilityToCast){
             
