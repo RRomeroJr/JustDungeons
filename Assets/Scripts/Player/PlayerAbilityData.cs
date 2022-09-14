@@ -24,7 +24,7 @@ public class PlayerAbilityData : ScriptableObject
         }
         return _inst;
     }}
-
+    /*
     public static Ability CastedDamage = new Ability("Testerbolt", AbilityEffectData.oneOffDamageEffect, 0, _castTime: 1.5f);
     public static Ability DoT = new Ability("Debugger\'s Futility", AbilityEffectData.dotEffect, 0, 0.0f, 3.5f);
     public static Ability CastedHeal = new Ability("Quality Assured", AbilityEffectData.oneOffHealEffect, 0, 1.5f, 4.2f);
@@ -33,7 +33,7 @@ public class PlayerAbilityData : ScriptableObject
     /*public static Ability DoubleEffectAbility = new Ability("Double Effect-Bolt",
                                                         new List<AbilityEffectPreset>{AbilityEffectData.oneOffDamageEffect, AbilityEffectData.dotEffect},
                                                             0, 1.5f);
-                                                        */
+                                                        
     public static Ability FreeAbilityIfHit = new Ability("Testerbolt x2", AbilityEffectData.DmgWithFollowUpEffect, 1, 2.5f);
     public static Ability AoE = new Ability("TB as AoE", AbilityEffectData.oneOffDamageEffect, 2, 0.5f, _duration: 5.0f);
     public static Ability DelayedDamage = new Ability("Hits aft 4.0s", AbilityEffectData.DelayedOneOffEffect, 0, _castTime: 1.5f);
@@ -46,7 +46,7 @@ public class PlayerAbilityData : ScriptableObject
     public static Ability DoubleEffectAbility = new Ability("Double Effect-Bolt",
                                                         new List<AbilityEffectPreset>(){AbilityEffectData.oneOffDamageEffect, AbilityEffectData.dotEffect},
                                                             0, 1.5f);
-    public List<Ability_V2> abilityList;
+   */ public List<Ability_V2> abilityList;
     public void OnValidate(){
         _inst = this;
         Debug.Log("PAD validate"); // This won't show up out of play mode for some reason

@@ -27,7 +27,7 @@ public class EnemyControllerHBC : MonoBehaviour
     {   
         //actor.castAbility(queuedAbility, actor.target);
     }
-
+    /*
     IEnumerator tryCastEveryXSecs(Ability _ability, float x){
         while(x>0){
             yield return new WaitForSeconds(x);
@@ -41,7 +41,7 @@ public class EnemyControllerHBC : MonoBehaviour
              actor.castAbility2(queuedAbility, actor.target);
         }
         
-    }
+    }*/
 }
 
 
