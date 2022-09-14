@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using Mirror;
 
 [System.Serializable]
 public abstract class AbilityEff: ScriptableObject
@@ -10,7 +11,7 @@ public abstract class AbilityEff: ScriptableObject
     public int id = -1;
     public float power;
     public Buff parentBuff; //Do not set this inthe editor!
-    
+
     //public int targetArg = 0; //0 = target, 1 = self
 
     //public List<Actor> specificTargets;

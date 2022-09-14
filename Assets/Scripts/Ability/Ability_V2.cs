@@ -18,6 +18,7 @@ public class Ability_V2 : ScriptableObject{
     public bool needsActor;
     public bool needsWP;
     protected bool canEdit = true;
+    public int id;
     
 
     public string getName(){

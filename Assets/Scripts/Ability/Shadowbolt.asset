@@ -22,3 +22,6 @@ MonoBehaviour:
   deliveryType: 0
   castTime: 1.5
   cooldown: 0
+  needsActor: 0
+  needsWP: 0
+  id: 2

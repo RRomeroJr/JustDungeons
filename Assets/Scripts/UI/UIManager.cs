@@ -20,10 +20,15 @@ public class UIManager : MonoBehaviour
     public UnitFrame partyFrame2;
     public UnitFrame partyFrame3;
     public Actor playerActor;
+    public GameObject cameraPrefab;
+    
     
     // Start is called before the first frame update
     void Start()
     {
+        if(cameraPrefab == null){
+            Debug.LogError("Please add a camera prefab to UIManager.cameraPrefab");
+        }
         /* Not sure if unit frames should have refences to actors
            like this. Later I might change this so the UIManager
          v   has refs to unitframes and correponding actors      v*/
@@ -34,15 +39,17 @@ public class UIManager : MonoBehaviour
 
     }
     public void setUpUnitFrame(UnitFrame unitFrame, Actor actor){
-        //setting Actor
-        unitFrame.actor = actor;
-        //  Getting name
-        unitFrame.unitName.text = actor.getActorName();
-        //  Getting health current and max
-        unitFrame.healthBar.maxValue = actor.getMaxHealth();
-        unitFrame.healthBar.value = actor.getHealth();
-        //  Getting apropriate healthbar color from actor
-        unitFrame.healthFill.color = actor.unitColor;
+        if(actor != null){
+            //setting Actor
+            unitFrame.actor = actor;
+            //  Getting name
+            unitFrame.unitName.text = actor.getActorName();
+            //  Getting health current and max
+            unitFrame.healthBar.maxValue = actor.getMaxHealth();
+            unitFrame.healthBar.value = actor.getHealth();
+            //  Getting apropriate healthbar color from actor
+            unitFrame.healthFill.color = actor.unitColor;
+        }
     }
     
     void Update(){
@@ -50,7 +57,7 @@ public class UIManager : MonoBehaviour
         setUpUnitFrame(partyFrame1, partyFrame1.actor);
         setUpUnitFrame(partyFrame2, partyFrame2.actor);
         setUpUnitFrame(partyFrame3, partyFrame3.actor);
-        if(playerActor.target != null){ // do this for all frames?
+        if(playerActor != null){ 
             setUpUnitFrame(targetFrame, playerActor.target);
         }
     }

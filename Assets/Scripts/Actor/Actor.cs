@@ -2,18 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Mirror;
 /*
      Container many for any RPG related elements
 */
 
-public class Actor : MonoBehaviour
+public class Actor : NetworkBehaviour
 {
     public bool showDebug = false;
     [SerializeField]protected string actorName;
+    [SyncVar]
     [SerializeField]protected int health; // 0
+    [SyncVar]
     [SerializeField]protected int maxHealth; // 1
     [SerializeField]protected int mana; // 2
     [SerializeField]protected int maxMana; // 3
+    
     public Actor target;
     
     public Color unitColor;
@@ -24,50 +28,46 @@ public class Actor : MonoBehaviour
     public bool readyToFire = false; // Will True by CastBar for abilities w/ casts. Will only be true for a freme
     public bool isCasting = false; // Will be set False by CastBar 
     //[SerializeField]protected Ability queuedAbility; // Used when Ability has a cast time
+    //[SyncVar]
     [SerializeField]protected Ability_V2 queuedAbility; // Used when Ability has a cast time
+    //[SyncVar]
     [SerializeField]protected Actor queuedTarget; // Used when Ability has a cast time
     [SerializeField]protected Vector3? queuedTargetWP;
     [SerializeField]protected List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
     public UIManager uiManager;
     public GameObject abilityDeliveryPrefab;
-    public AEFireEvent aeFireEvent;
+   
+    public float castTime;
+    public CastBar castBar;
 
 
     void Start(){
-        if (aeFireEvent == null)
-            aeFireEvent = new AEFireEvent();
+        
         abilityEffects = new List<AbilityEffect>();
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+        if(isLocalPlayer){
+            uiManager.playerActor = this;
+            GameObject cameraTemp = Instantiate(uiManager.cameraPrefab, gameObject.transform);
+            cameraTemp.GetComponent<CameraController>().target = gameObject.transform;
+           
+        }
         //gameObject.GetComponent<Renderer>().Color = unitColor;
     }
     void Update(){
         if(health <= 0){
             Destroy(gameObject);
         }
+        updateCast();
         updateCooldowns();
         handleAbilityEffects();
-        handleCastQueue();
+        if(isServer){
+            handleCastQueue();
+        }
+        
     }
     //------------------------------------------------------------handling Active Ability Effects-------------------------------------------------------------------------
     
-    void handleAbilityEffects(){
-
-        if(abilityEffects.Count > 0){
-
-            for(int i = 0; i < abilityEffects.Count; i++){
-                abilityEffects[i].update();
-                checkAbilityEffectToRemoveAtPos(abilityEffects[i], i);
-            }
-        //Debug.Log(actorName + " cleared all Ability effects!");
-        }
-        if(buffs.Count > 0){
-
-            for(int i = 0; i < buffs.Count; i++){
-                buffs[i].update();
-                //checkAbilityEffectToRemoveAtPos(buffs[i], i);
-            }
-        
-        }
-    }
+    
     public void damageValue(int amount, int valueType = 0){
         // Right now this only damages health, but, maybe in the future,
         // This could take an extra param to indicate a different value to "damage"
@@ -149,16 +149,7 @@ public class Actor : MonoBehaviour
         }
     }
 
-    void checkAbilityEffectToRemoveAtPos(AbilityEffect _abilityEffect, int listPos){
-        // Remove AbilityEffect is it's duration is <= 0.0f
-
-        if(_abilityEffect.getRemainingTime() <= 0.0f){
-            if(showDebug)
-            Debug.Log(actorName + ": Removing.. "+ _abilityEffect.getEffectName());
-            abilityEffects[listPos].OnEffectFinish(); // AE has a caster and target now so the args could be null?
-            abilityEffects.RemoveAt(listPos);
-        }
-    }
+    
     void checkAbilityEffectToRemoveAtPos(Buff _buff, int listPos){
         // Remove AbilityEffect is it's duration is <= 0.0f
 
@@ -169,55 +160,7 @@ public class Actor : MonoBehaviour
             buffs.RemoveAt(listPos);
         }
     }
-    public void RemoveActiveEffect(Predicate<AbilityEffect> pred){
-        // Remove AbilityEffect is it's duration is <= 0.0f
-        int temp = abilityEffects.FindIndex(pred);
-        
-        if(temp >= 0){
-            Debug.Log(actorName + ": Manually removing at.. "+ temp.ToString());
-            abilityEffects[temp].OnEffectFinish(); // AE has a caster and target now so the args could be null?
-            abilityEffects.RemoveAt(temp);
-        }
-        else{
-            Debug.Log("ae was not found:");
-        }
-    }
-    public void applyAbilityEffect(AbilityEffect _abilityEffect, Actor inCaster){
-
-        //Adding AbilityEffect it to this actor's list<AbilityEffect>
-        
-        if(_abilityEffect.getDuration() > 0.0f){
-            //Debug.Log("Effect has dur. Checking to stack/ refresh");
-            AbilityEffect tempAE_Ref = abilityEffects.Find(ae => ae.getID() == _abilityEffect.getID());
-            if(tempAE_Ref != null){
-                if( (tempAE_Ref.isStackable())&&(tempAE_Ref.isRefreshable()) ){ // if stackable and refreshable
-                    tempAE_Ref.addStacks(1);
-                    tempAE_Ref.setRemainingTime(tempAE_Ref.getDuration());
-                    return;
-                }
-                else if(tempAE_Ref.isStackable()){
-                    tempAE_Ref.addStacks(1);
-                    return;
-                }
-                else if(tempAE_Ref.isRefreshable()){
-                    //Debug.Log("Refreshable");
-                    tempAE_Ref.setRemainingTime(tempAE_Ref.getDuration()); // Add pandemic time?
-                    return;
-                }
-            }
-        }
-        //_abilityEffect.setCaster(inCaster);
-        _abilityEffect.setTarget(this);
-        _abilityEffect.setRemainingTime(_abilityEffect.getDuration());
-        //Debug.Log(_abilityEffect.getRemainingTime().ToString() + " " + _abilityEffect.getDuration().ToString());
-        _abilityEffect.OnEffectStart();
-        abilityEffects.Add(_abilityEffect);
-        _abilityEffect.setStart(true);
-
-        // AE has a caster and target now so the args could be null?
-        //Debug.Log("Actor: Applying.." + _abilityEffect.getEffectName() + " to " + actorName);  
-
-    }
+    
     public void applyBuff(Buff _buff, Actor _caster = null){
 
         //Adding Buff it to this actor's list<Buff>
@@ -258,39 +201,26 @@ public class Actor : MonoBehaviour
 
 
     }
-    // public void applyBuff(){}
-
-    public void applyAbilityEffects(List<AbilityEffect> _abilityEffects, Actor inCaster){
-        if(_abilityEffects.Count > 0){
-            for(int i = 0; i < _abilityEffects.Count; i++ ){
-                applyAbilityEffect(_abilityEffects[i], inCaster);
-            }
-        } 
-
-    }
-    public void castAbility2(Ability_V2 _ability, Actor _target = null, Vector3? _targetWP =null){
+    
+    public void castAbility3(Ability_V2 _ability, Actor _target = null, Vector3? _targetWP =null){
         
-        //checkAndFire(_ability, _target, _targetWP);
-        //Debug.Log("CastV2");
-        if(checkOnCooldown(_ability) == false){
+        if(true){ //Will be check on cd later
             if(!readyToFire){
                 if(!isCasting){
                     if(_target == null){
                         //Debug.Log("Try find target..");
                         _target = tryFindTarget(_ability);
                     }
-                    
-                    if(_ability.getCastTime() > 0.0f){
-                        
-                            // ActorCstingAbilityEvent()
-                            queueAbility(_ability, _target, _targetWP);
-                            prepCast();
-                        
-                    }
-                    else{
-                        // ActorCastingAbilityEvent.Invoke(_ability)
-                        fireCast(_ability, _target, _targetWP);
-                    }
+                    if(_target == null){
+                        Debug.Log("No suitable target found");
+                    }else{
+                        Debug.Log("Staring cmdStartCast..");
+                        // if(isServer){
+                        //     serverSays(_ability);
+                        // }
+                        cmdStartCast(_ability, _target);
+                        //Debug.Log("after Ability_V2 command reached");
+                    }     
                 }
                 else{
                     Debug.Log(actorName + " is casting!");
@@ -301,7 +231,41 @@ public class Actor : MonoBehaviour
                 Debug.Log("Something else is ready to fire and blocking this cast");
             }
         }
-
+    }
+    [ClientRpc]
+    public void rpcStartCast(Ability_V2 _ability, Actor _target){
+               
+        Debug.Log("rpcStartCast");
+        if(_ability.getCastTime() > 0.0f){
+                        
+            queueAbility(_ability, _target);
+            prepCast();
+            
+        }
+        else{
+            // ActorCastingAbilityEvent.Invoke(_ability)
+            if(isServer){
+                fireCast(_ability, _target);
+            }else{
+                Debug.Log("Client ignoring fireCast");
+            }
+        }
+        
+    }
+    [Command]
+    public void cmdStartCast(Ability_V2 _ability, Actor _target){
+        Debug.Log("cmdStartCast");
+        
+        rpcStartCast(_ability, _target);
+    }
+    [ClientRpc]
+    public void serverSays(Ability_V2 _in){
+        Debug.Log(_in.getName());
+    }
+    [Command]
+    void castReqToServer(Ability_V2 _ability, Actor _target){
+        Debug.Log("Client reqed a cast returning true");
+    
     }
     void checkAndFire(Ability_V2 _ability, Actor _target = null, Vector3? _targetWP =null){
         /*
@@ -361,15 +325,25 @@ public class Actor : MonoBehaviour
             return null;
         }
     }
-
+    [Server]
     public void fireCast(Ability_V2 _ability, Actor _target = null, Vector3? _targetWP = null){
         // Main way for "Fireing" a cast by creating a delivery if needed then creating an AbilityCooldown
-        foreach (EffectInstruction eInstruct in _ability.getEffectInstructions()){
-                    eInstruct.startEffect(_target, _targetWP, this);
+        if(isServer){
+            foreach (EffectInstruction eInstruct in _ability.getEffectInstructions()){
+                        eInstruct.startEffect(_target, _targetWP, this);
+            }
         }
-        readyToFire = false;
+        
+        resetClientCastVars();
         
 
+    }
+    [ClientRpc]
+    void resetClientCastVars(){
+        resetQueue();
+        readyToFire = false;
+        isCasting = false;
+        resetCastTime();
     }
     void queueAbility(Ability_V2 _ability, Actor _queuedTarget = null, Vector3? _queuedTargetWP = null){
         //Preparing variables for a cast
@@ -385,13 +359,9 @@ public class Actor : MonoBehaviour
         isCasting = true;   
 
         // Creating CastBar or CastBarNPC with apropriate variables   
-        InitCastBarFromQueue();  
-    }
-    void InitCastBarFromQueue(){
-        //Makes a castbar 
-
         if( (queuedAbility.NeedsTargetActor()) && (queuedAbility.NeedsTargetWP()) ){
             Debug.Log("Spell that needs an Actor and WP are not yet suported");
+            isCasting = false; 
         }
         else if(queuedAbility.NeedsTargetActor()){
             initCastBarWithActor();
@@ -401,7 +371,7 @@ public class Actor : MonoBehaviour
         }
         else{
             initCastBarWithActor();
-        }
+        } 
     }
     void initCastBarWithActor(){
         // Creates a CastBar with target being an Actor
@@ -436,6 +406,7 @@ public class Actor : MonoBehaviour
             gameObject.AddComponent<CastBarNPC>().Init(queuedAbility.getName(), this, queuedTargetWP.Value, queuedAbility.getCastTime());
         }
     }
+    [Server]
     void handleCastQueue(){
         // Called every Update() to see if queued spell is ready to fire
 
@@ -443,7 +414,7 @@ public class Actor : MonoBehaviour
             //Debug.Log("castCompleted: " + queuedAbility.getName());
             if((queuedAbility.NeedsTargetActor()) && (queuedAbility.NeedsTargetWP())){
                 Debug.Log("Cast that requires Actor and WP not yet supported. clearing queue.");
-                resetQueue();
+                resetClientCastVars();
             }
             else if(queuedAbility.NeedsTargetWP()){
                 fireCast(queuedAbility, null, queuedTargetWP);
@@ -453,6 +424,26 @@ public class Actor : MonoBehaviour
             }
         }
     }
+    void handleAbilityEffects(){
+
+        /*if(abilityEffects.Count > 0){
+
+            for(int i = 0; i < abilityEffects.Count; i++){
+                abilityEffects[i].update();
+                checkAbilityEffectToRemoveAtPos(abilityEffects[i], i);
+            }
+        //Debug.Log(actorName + " cleared all Ability effects!");
+        }*/
+        if(buffs.Count > 0){
+
+            for(int i = 0; i < buffs.Count; i++){
+                buffs[i].update();
+                //checkAbilityEffectToRemoveAtPos(buffs[i], i);
+            }
+        
+        }
+    }
+    
     //-------------------------------------------------------------------handling casts--------------------------------------------------------------------------
     
     void updateCooldowns(){
@@ -483,54 +474,7 @@ public class Actor : MonoBehaviour
             return false;
         }
     }
-    void addToCooldowns(Ability _ability){
-        abilityCooldowns.Add(new AbilityCooldown(queuedAbility));
-    }
     
-    public bool checkOnCooldown(Ability _ability){
-        if(abilityCooldowns.Count > 0){
-            for(int i = 0; i < abilityCooldowns.Count; i++){
-                if(abilityCooldowns[i].getName() == _ability.getName()){
-                    if(showDebug)
-                        Debug.Log(_ability.getName() + " is on cooldown!");
-                    return true;
-                }
-            }
-            return false;
-        }
-        else{
-            return false;
-        }
-    }
-    
-    List<AbilityEffect> createEffects(Ability _ability){
-        List<AbilityEffect> temp;
-        temp = _ability.createEffects(this);
-        if(aeFireEvent != null){
-            aeFireEvent.Invoke(temp);
-        }
-        return temp;
-    }
-    AbilityEffect modEffects(AbilityEffect _ae){
-
-
-        //
-        //       *** _ae's effects stats get modified here***
-        //             Based on stats and/ or certain buffs
-        //                      this actor has
-
-        return _ae;
-    }
-    List<AbilityEffect> modEffects(List<AbilityEffect> _listAE){
-
-
-        //
-        //       *** _listAE's effects stats get modified here***
-        //             Based on stats and/ or certain buffs
-        //                      this actor has
-
-        return _listAE;
-    }
     void resetQueue(){
         queuedTarget = null;
         queuedTargetWP = null;
@@ -584,8 +528,40 @@ public class Actor : MonoBehaviour
     public void setActiveEffects(List<AbilityEffect> _abilityEffects){
         abilityEffects = _abilityEffects;
     }
+    [ClientRpc]
+    public void rpcSetTarget(Actor _target){
+        target = _target;
+    }
+    [Command]
+    public void cmdReqSetTarget(Actor _target){ //in future this should be some sort of actor id or something
+        rpcSetTarget(_target);
+    }
+    [ClientRpc]
+    public void rpcSetQueuedTarget(Actor _queuedTarget){
+        queuedTarget = _queuedTarget;
+    }
+    [Command]
+    public void cmdReqSetQueuedTarget(Actor _queuedTarget){ 
+        rpcSetQueuedTarget(_queuedTarget);
+    }
+    
+    void updateCast(){
+        if(isCasting){
+            castTime += Time.deltaTime;
+            if(isServer)
+                if(castTime >= queuedAbility.getCastTime()){
+                    readyToFire = true;
+            }
+        }
+    }
+    void resetCastTime(){
+        isCasting = false;
+        castTime = 0.0f;
+    }
 
     //----------------------------------------------------------------old code no longer used------------------------------------------------------------------------------------
+    
+    //Old ability stuff-------------------------------------------------------------------------------------------------------------------------
     /*
     public void castAbility(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
         //Main way to make Acotr cast an ability
@@ -645,7 +621,7 @@ public class Actor : MonoBehaviour
                 Debug.Log("Something else is ready to fire and blocking this cast: A, WP");
             }
         }
-    }*/
+    }
     public void freeCast(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
         //  Make Acotor cast an ability without starting a cooldown or (in the future) cost resources
         // Maybe make this into an overload of castAbility later
@@ -684,9 +660,9 @@ public class Actor : MonoBehaviour
     }
     void forceCastAbility(Ability _ability, Actor _target){
         
-        /*
-                                                                  ***IGNORE*** Unused for now
-        */
+        
+        //                                                          ***IGNORE*** Unused for now
+        
         
         if(_target != null){
             //Debug.Log("A: " + actorName + " casting " + _ability.getName() + " on " + target.actorName);
@@ -709,13 +685,13 @@ public class Actor : MonoBehaviour
 
     }  
     
-    /*
+    
     void queueAbility(Ability _ability, Actor _queuedTarget = null, Vector3? _queuedTargetWP = null){
         //Preparing variables for a cast
         queuedAbility = _ability;
         queuedTarget = _queuedTarget;
         queuedTargetWP = _queuedTargetWP;
-    }*/
+    }
     
     
     bool handleDelivery(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
@@ -792,5 +768,122 @@ public class Actor : MonoBehaviour
             return true;
         }
     }
+    void addToCooldowns(Ability _ability){
+        abilityCooldowns.Add(new AbilityCooldown(queuedAbility));
+    }
+    
+    public bool checkOnCooldown(Ability _ability){
+        if(abilityCooldowns.Count > 0){
+            for(int i = 0; i < abilityCooldowns.Count; i++){
+                if(abilityCooldowns[i].getName() == _ability.getName()){
+                    if(showDebug)
+                        Debug.Log(_ability.getName() + " is on cooldown!");
+                    return true;
+                }
+            }
+            return false;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    List<AbilityEffect> createEffects(Ability _ability){
+        List<AbilityEffect> temp;
+        temp = _ability.createEffects(this);
+        if(aeFireEvent != null){
+            aeFireEvent.Invoke(temp);
+        }
+        return temp;
+    }
+    AbilityEffect modEffects(AbilityEffect _ae){
+
+
+        //
+        //       *** _ae's effects stats get modified here***
+        //             Based on stats and/ or certain buffs
+        //                      this actor has
+
+        return _ae;
+    }
+    List<AbilityEffect> modEffects(List<AbilityEffect> _listAE){
+
+
+        //
+        //       *** _listAE's effects stats get modified here***
+        //             Based on stats and/ or certain buffs
+        //                      this actor has
+
+        return _listAE;
+    }
+    //Old AbilityEffect stuff--------------------------------------------------------------------------------------------------------------------
+    
+    void checkAbilityEffectToRemoveAtPos(AbilityEffect _abilityEffect, int listPos){
+        // Remove AbilityEffect is it's duration is <= 0.0f
+
+        if(_abilityEffect.getRemainingTime() <= 0.0f){
+            if(showDebug)
+            Debug.Log(actorName + ": Removing.. "+ _abilityEffect.getEffectName());
+            abilityEffects[listPos].OnEffectFinish(); // AE has a caster and target now so the args could be null?
+            abilityEffects.RemoveAt(listPos);
+        }
+    }
+    public void RemoveActiveEffect(Predicate<AbilityEffect> pred){
+        // Remove AbilityEffect is it's duration is <= 0.0f
+        int temp = abilityEffects.FindIndex(pred);
+        
+        if(temp >= 0){
+            Debug.Log(actorName + ": Manually removing at.. "+ temp.ToString());
+            abilityEffects[temp].OnEffectFinish(); // AE has a caster and target now so the args could be null?
+            abilityEffects.RemoveAt(temp);
+        }
+        else{
+            Debug.Log("ae was not found:");
+        }
+    }
+    public void applyAbilityEffect(AbilityEffect _abilityEffect, Actor inCaster){
+
+        //Adding AbilityEffect it to this actor's list<AbilityEffect>
+        
+        if(_abilityEffect.getDuration() > 0.0f){
+            //Debug.Log("Effect has dur. Checking to stack/ refresh");
+            AbilityEffect tempAE_Ref = abilityEffects.Find(ae => ae.getID() == _abilityEffect.getID());
+            if(tempAE_Ref != null){
+                if( (tempAE_Ref.isStackable())&&(tempAE_Ref.isRefreshable()) ){ // if stackable and refreshable
+                    tempAE_Ref.addStacks(1);
+                    tempAE_Ref.setRemainingTime(tempAE_Ref.getDuration());
+                    return;
+                }
+                else if(tempAE_Ref.isStackable()){
+                    tempAE_Ref.addStacks(1);
+                    return;
+                }
+                else if(tempAE_Ref.isRefreshable()){
+                    //Debug.Log("Refreshable");
+                    tempAE_Ref.setRemainingTime(tempAE_Ref.getDuration()); // Add pandemic time?
+                    return;
+                }
+            }
+        }
+        //_abilityEffect.setCaster(inCaster);
+        _abilityEffect.setTarget(this);
+        _abilityEffect.setRemainingTime(_abilityEffect.getDuration());
+        //Debug.Log(_abilityEffect.getRemainingTime().ToString() + " " + _abilityEffect.getDuration().ToString());
+        _abilityEffect.OnEffectStart();
+        abilityEffects.Add(_abilityEffect);
+        _abilityEffect.setStart(true);
+
+        // AE has a caster and target now so the args could be null?
+        //Debug.Log("Actor: Applying.." + _abilityEffect.getEffectName() + " to " + actorName);  
+
+    }
+    public void applyAbilityEffects(List<AbilityEffect> _abilityEffects, Actor inCaster){
+        if(_abilityEffects.Count > 0){
+            for(int i = 0; i < _abilityEffects.Count; i++ ){
+                applyAbilityEffect(_abilityEffects[i], inCaster);
+            }
+        } 
+
+    }*/
 }
 

@@ -41,9 +41,8 @@ public class CastBar : MonoBehaviour
   }
     void Update(){
       if(start){
-        if(elaspedTime < castTime){
-          castBar.value = elaspedTime;
-          elaspedTime += Time.deltaTime;
+        if(caster.isCasting){
+          castBar.value = caster.castTime;
         }
         else{
           //Debug.Log("CBar: cast Completed!");
@@ -51,14 +50,13 @@ public class CastBar : MonoBehaviour
           //Check if player can see target?
           
           //Signaling back to Player's Actor that cast completed
-          caster.readyToFire = true;
+          
           Destroy(gameObject);
         }
         
       }
     }
     void OnDestroy(){
-      //Signaling back to PlayerControllerHBC that no longer casting
-      caster.isCasting = false;
+      
     }
 }
