@@ -43,17 +43,24 @@ public class ClickManager : NetworkBehaviour
                     Debug.Log("Clicked something");
 
                     // set controller's target w/ actor hit by raycast
-                    playerActor.target = hit.collider.gameObject.GetComponent<Actor>();
-                    updateTargetToClients(hit.collider.gameObject);
                     
+                    if(isServer){
+                        playerActor.rpcSetTarget(hit.collider.gameObject.GetComponent<Actor>());
+                    }else{
+                        playerActor.cmdReqSetTarget(hit.collider.gameObject.GetComponent<Actor>());
+                    }
                 }else{
-                    Debug.Log("Clicked nothing");
+                    Debug.Log("Nothing clicked");
                 }
             }
         }
     }
     [ClientRpc]
-    void updateTargetToClients(GameObject target_GmObj){
-        playerActor.target = target_GmObj.GetComponent<Actor>();
+    void updateTargetToClients(Actor target){
+        playerActor.target = target;
+    }
+    [Command]
+    void reqTargetUpdate(Actor _actor){ //in future this should be some sort of act id or something
+        updateTargetToClients(_actor);
     }
 }

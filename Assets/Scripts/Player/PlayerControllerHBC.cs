@@ -30,7 +30,7 @@ public class PlayerControllerHBC : NetworkBehaviour
     public Ability_V2 ability7a;
     public Ability_V2 ability8a;
     public Ability_V2 ability9a;
-
+    public AbilityEff test;
     void Start()
     {   
         
@@ -66,42 +66,49 @@ public class PlayerControllerHBC : NetworkBehaviour
         if(isLocalPlayer){
             if(Input.GetKeyDown("1")){
                 if(ability1a != null)
-                player.castAbility2(ability1a);
+                player.castAbility3(ability1a);
             }
             if(Input.GetKeyDown("2")){
                 if(ability2a != null)
-                player.castAbility2(ability2a);
+                player.castAbility3(ability2a);
             }
             if(Input.GetKeyDown("3")){
                 if(ability3a != null)
-                player.castAbility2(ability3a);
+                player.castAbility3(ability3a);
             }
             if(Input.GetKeyDown("4")){
                 if(ability4a != null)
-                player.castAbility2(ability4a);
+                player.castAbility3(ability4a);
             }
             if(Input.GetKeyDown("5")){
                 if(ability5a != null)
-                player.castAbility2(ability5a);
+                player.castAbility3(ability5a);
             }
             if(Input.GetKeyDown("6")){
                 if(ability6a != null)
-                player.castAbility2(ability6a);
+                player.castAbility3(ability6a);
             }
             if(Input.GetKeyDown("7")){
                 if(ability7a != null)
-                player.castAbility2(ability7a);
+                player.castAbility3(ability7a);
             }
             if(Input.GetKeyDown("8")){
                 if(ability8a != null)
-                player.castAbility2(ability8a);
+                player.castAbility3(ability8a);
             }
             if(Input.GetKeyDown("9")){
                 if(ability9a != null)
-                player.castAbility2(ability9a);
+                player.castAbility3(ability9a);
+            }
+            if(Input.GetKeyDown("k")){
+                reqAbilityEff(test);
             }
         }
         
+    }
+    [Command]
+    void reqAbilityEff(AbilityEff eff){
+        Debug.Log("A client reqed an AbilityEff " + eff.effectName);
     }
     void sayAbilityEffectName(AbilityEffect _abilityEffect){
         Debug.Log("This effect " + _abilityEffect.getEffectName() + "  finished!");

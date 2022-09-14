@@ -20,5 +20,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: efb6f4943ac2ee74aa23d5c3d1f5ec38, type: 2}
   targetArgs: 
   deliveryType: 0
-  castTime: 0
+  castTime: 1.5
   cooldown: 0
+  needsActor: 0
+  needsWP: 0
+  id: 1

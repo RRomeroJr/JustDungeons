@@ -11,10 +11,13 @@ public class Actor : NetworkBehaviour
 {
     public bool showDebug = false;
     [SerializeField]protected string actorName;
+    [SyncVar]
     [SerializeField]protected int health; // 0
+    [SyncVar]
     [SerializeField]protected int maxHealth; // 1
     [SerializeField]protected int mana; // 2
     [SerializeField]protected int maxMana; // 3
+    
     public Actor target;
     
     public Color unitColor;
@@ -25,7 +28,9 @@ public class Actor : NetworkBehaviour
     public bool readyToFire = false; // Will True by CastBar for abilities w/ casts. Will only be true for a freme
     public bool isCasting = false; // Will be set False by CastBar 
     //[SerializeField]protected Ability queuedAbility; // Used when Ability has a cast time
+    //[SyncVar]
     [SerializeField]protected Ability_V2 queuedAbility; // Used when Ability has a cast time
+    //[SyncVar]
     [SerializeField]protected Actor queuedTarget; // Used when Ability has a cast time
     [SerializeField]protected Vector3? queuedTargetWP;
     [SerializeField]protected List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
@@ -56,7 +61,9 @@ public class Actor : NetworkBehaviour
         updateCast();
         updateCooldowns();
         handleAbilityEffects();
-        handleCastQueue();
+        if(isServer){
+            handleCastQueue();
+        }
         
     }
     //------------------------------------------------------------handling Active Ability Effects-------------------------------------------------------------------------
@@ -284,6 +291,7 @@ public class Actor : NetworkBehaviour
         
         //checkAndFire(_ability, _target, _targetWP);
         //Debug.Log("CastV2");
+        /*
         if(checkOnCooldown(_ability) == false){
             if(!readyToFire){
                 if(!isCasting){
@@ -312,8 +320,88 @@ public class Actor : NetworkBehaviour
                 if(showDebug)
                 Debug.Log("Something else is ready to fire and blocking this cast");
             }
+        }*/
+        
+        _target = tryFindTarget(_ability);
+        if(_target == null){
+            Debug.Log("Could not find suitable target");
+        }
+        else{
+            castReqToServer(_ability, _target);
+            
+            
         }
 
+
+    }
+    
+    public void castAbility3(Ability_V2 _ability, Actor _target = null, Vector3? _targetWP =null){
+        
+        if(true){ //Will be check on cd later
+            if(!readyToFire){
+                if(!isCasting){
+                    if(_target == null){
+                        //Debug.Log("Try find target..");
+                        _target = tryFindTarget(_ability);
+                    }
+                    if(_target == null){
+                        Debug.Log("No suitable target found");
+                    }else{
+                        Debug.Log("Staring cmdStartCast..");
+                        // if(isServer){
+                        //     serverSays(_ability);
+                        // }
+                        cmdStartCast(_ability, _target);
+
+                        //Debug.Log("after Ability_V2 command reached");
+                    }
+                    
+                }
+                else{
+                    Debug.Log(actorName + " is casting!");
+                }         
+            }
+            else{
+                if(showDebug)
+                Debug.Log("Something else is ready to fire and blocking this cast");
+            }
+        }
+
+    }
+    [ClientRpc]
+    public void rpcStartCast(Ability_V2 _ability, Actor _target){
+               
+        Debug.Log("rpcStartCast");
+        if(_ability.getCastTime() > 0.0f){
+                        
+            queueAbility(_ability, _target);
+            prepCast();
+            
+        }
+        else{
+            // ActorCastingAbilityEvent.Invoke(_ability)
+            if(isServer){
+                fireCast(_ability, _target);
+            }else{
+                Debug.Log("Client ignoring fireCast");
+            }
+        }
+        
+    }
+    [Command]
+    public void cmdStartCast(Ability_V2 _ability, Actor _target){
+        Debug.Log("cmdStartCast");
+        
+        rpcStartCast(_ability, _target);
+    }
+    [ClientRpc]
+    public void serverSays(Ability_V2 _in){
+        Debug.Log(_in.getName());
+    }
+    [Command]
+    void castReqToServer(Ability_V2 _ability, Actor _target){
+        Debug.Log("Client reqed a cast returning true");
+    
     }
     void checkAndFire(Ability_V2 _ability, Actor _target = null, Vector3? _targetWP =null){
         /*
@@ -373,20 +461,25 @@ public class Actor : NetworkBehaviour
             return null;
         }
     }
-
+    [Server]
     public void fireCast(Ability_V2 _ability, Actor _target = null, Vector3? _targetWP = null){
         // Main way for "Fireing" a cast by creating a delivery if needed then creating an AbilityCooldown
         if(isServer){
             foreach (EffectInstruction eInstruct in _ability.getEffectInstructions()){
                         eInstruct.startEffect(_target, _targetWP, this);
             }
-        }else{
-            //request to firecast on server. Which will then affect vars and spawn things appropriatly
         }
         
-        readyToFire = false;
+        resetClientCastVars();
         
 
+    }
+    [ClientRpc]
+    void resetClientCastVars(){
+        resetQueue();
+        readyToFire = false;
+        isCasting = false;
+        resetCastTime();
     }
     void queueAbility(Ability_V2 _ability, Actor _queuedTarget = null, Vector3? _queuedTargetWP = null){
         //Preparing variables for a cast
@@ -402,13 +495,9 @@ public class Actor : NetworkBehaviour
         isCasting = true;   
 
         // Creating CastBar or CastBarNPC with apropriate variables   
-        InitCastBarFromQueue();  
-    }
-    void InitCastBarFromQueue(){
-        //Makes a castbar 
-
         if( (queuedAbility.NeedsTargetActor()) && (queuedAbility.NeedsTargetWP()) ){
             Debug.Log("Spell that needs an Actor and WP are not yet suported");
+            isCasting = false; 
         }
         else if(queuedAbility.NeedsTargetActor()){
             initCastBarWithActor();
@@ -418,7 +507,7 @@ public class Actor : NetworkBehaviour
         }
         else{
             initCastBarWithActor();
-        }
+        } 
     }
     void initCastBarWithActor(){
         // Creates a CastBar with target being an Actor
@@ -453,6 +542,7 @@ public class Actor : NetworkBehaviour
             gameObject.AddComponent<CastBarNPC>().Init(queuedAbility.getName(), this, queuedTargetWP.Value, queuedAbility.getCastTime());
         }
     }
+    [Server]
     void handleCastQueue(){
         // Called every Update() to see if queued spell is ready to fire
 
@@ -460,17 +550,15 @@ public class Actor : NetworkBehaviour
             //Debug.Log("castCompleted: " + queuedAbility.getName());
             if((queuedAbility.NeedsTargetActor()) && (queuedAbility.NeedsTargetWP())){
                 Debug.Log("Cast that requires Actor and WP not yet supported. clearing queue.");
-                resetQueue();
+                resetClientCastVars();
             }
             else if(queuedAbility.NeedsTargetWP()){
                 fireCast(queuedAbility, null, queuedTargetWP);
-                resetQueue();
-                resetCastTime();
+                
             }
             else{
                 fireCast(queuedAbility, queuedTarget);
-                resetQueue();
-                resetCastTime();
+                
             }
         }
     }
@@ -605,6 +693,24 @@ public class Actor : NetworkBehaviour
     public void setActiveEffects(List<AbilityEffect> _abilityEffects){
         abilityEffects = _abilityEffects;
     }
+    [ClientRpc]
+    public void rpcSetTarget(Actor _target){
+        target = _target;
+    }
+    [Command]
+    public void cmdReqSetTarget(Actor _target){ //in future this should be some sort of actor id or something
+        rpcSetTarget(_target);
+    }
+    [ClientRpc]
+    public void rpcSetQueuedTarget(Actor _queuedTarget){
+        queuedTarget = _queuedTarget;
+    }
+    [Command]
+    public void cmdReqSetQueuedTarget(Actor _queuedTarget){ 
+        rpcSetQueuedTarget(_queuedTarget);
+    }
+    
+    
 
     //----------------------------------------------------------------old code no longer used------------------------------------------------------------------------------------
     /*
@@ -813,12 +919,15 @@ public class Actor : NetworkBehaviour
             return true;
         }
     }
+
+    
     void updateCast(){
         if(isCasting){
-           castTime += Time.deltaTime;
-           if(castTime >= queuedAbility.getCastTime()){
-                readyToFire = true;
-           }
+            castTime += Time.deltaTime;
+            if(isServer)
+                if(castTime >= queuedAbility.getCastTime()){
+                    readyToFire = true;
+            }
         }
     }
     void resetCastTime(){
