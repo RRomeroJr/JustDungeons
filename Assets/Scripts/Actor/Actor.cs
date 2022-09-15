@@ -198,23 +198,43 @@ public class Actor : NetworkBehaviour
         //_buff.OnEffectStart();
         buffs.Add(_buff);
         //_buff.setStart(true);
-
-
     }
-    
+    void handleAbilityEffects(){
+
+        /*if(abilityEffects.Count > 0){
+
+            for(int i = 0; i < abilityEffects.Count; i++){
+                abilityEffects[i].update();
+                checkAbilityEffectToRemoveAtPos(abilityEffects[i], i);
+            }
+        //Debug.Log(actorName + " cleared all Ability effects!");
+        }*/
+        if(buffs.Count > 0){
+
+            for(int i = 0; i < buffs.Count; i++){
+                buffs[i].update();
+                //checkAbilityEffectToRemoveAtPos(buffs[i], i);
+            }
+        
+        }
+    }
+    //Casting----------------------------------------------------------------------------------------------
     public void castAbility3(Ability_V2 _ability, Actor _target = null, Vector3? _targetWP =null){
         
         if(true){ //Will be check on cd later
             if(!readyToFire){
                 if(!isCasting){
-                    if(_target == null){
+                    if(_ability.NeedsTargetActor()){
+                        if(_target == null){
                         //Debug.Log("Try find target..");
-                        _target = tryFindTarget(_ability);
+                            _target = tryFindTarget(_ability);
+                        }
                     }
+                    
                     if(_target == null){
                         Debug.Log("No suitable target found");
                     }else{
-                        Debug.Log("Staring cmdStartCast..");
+                        
                         // if(isServer){
                         //     serverSays(_ability);
                         // }
@@ -254,50 +274,17 @@ public class Actor : NetworkBehaviour
     }
     [Command]
     public void cmdStartCast(Ability_V2 _ability, Actor _target){
-        Debug.Log("cmdStartCast");
+        //Debug.Log("cmdStartCast");
         
         rpcStartCast(_ability, _target);
     }
-    [ClientRpc]
-    public void serverSays(Ability_V2 _in){
-        Debug.Log(_in.getName());
-    }
+    
     [Command]
     void castReqToServer(Ability_V2 _ability, Actor _target){
         Debug.Log("Client reqed a cast returning true");
     
     }
-    void checkAndFire(Ability_V2 _ability, Actor _target = null, Vector3? _targetWP =null){
-        /*
-        
-            Logic to check if target reqirments can be met and/ or implied
-
-            Not fully implemented
-
-        */
-        if (_target == null){ 
-            Debug.Log("No target given. Trying to find one");
-            _target = tryFindTarget(_ability);
-            //_targetWP = tryFindTargetTP(_ability); ?????
-            if(_target != null){
-                Debug.Log("Target Found!" + _target.getActorName());
-                foreach (EffectInstruction eInstruct in _ability.getEffectInstructions()){
-                    
-                    eInstruct.startEffect(_target, _targetWP, this);
-                }
-            }
-            else{
-                Debug.Log(actorName + ": could not imply a target for " + _ability.getName());
-            }
-        }
-        else{
-            foreach (EffectInstruction eInstruct in _ability.getEffectInstructions()){
-                _target = tryFindTarget(eInstruct);
-                eInstruct.startEffect(_target, _targetWP, this);
-            }
-        }
-
-    }
+    
     Actor tryFindTarget(Ability_V2 _ability){
         /*
             run function from Ability that returns a code for how to find a target
@@ -333,10 +320,7 @@ public class Actor : NetworkBehaviour
                         eInstruct.startEffect(_target, _targetWP, this);
             }
         }
-        
         resetClientCastVars();
-        
-
     }
     [ClientRpc]
     void resetClientCastVars(){
@@ -422,25 +406,6 @@ public class Actor : NetworkBehaviour
             else{
                 fireCast(queuedAbility, queuedTarget);
             }
-        }
-    }
-    void handleAbilityEffects(){
-
-        /*if(abilityEffects.Count > 0){
-
-            for(int i = 0; i < abilityEffects.Count; i++){
-                abilityEffects[i].update();
-                checkAbilityEffectToRemoveAtPos(abilityEffects[i], i);
-            }
-        //Debug.Log(actorName + " cleared all Ability effects!");
-        }*/
-        if(buffs.Count > 0){
-
-            for(int i = 0; i < buffs.Count; i++){
-                buffs[i].update();
-                //checkAbilityEffectToRemoveAtPos(buffs[i], i);
-            }
-        
         }
     }
     

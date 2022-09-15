@@ -9,10 +9,10 @@ public class EffectInstruction
     public void startEffect(Actor inTarget = null, Vector3? inTargetWP = null, Actor inCaster = null){
         switch(targetArg){
             case(0):
-                effect.effectStart(_target: inTarget, _caster: inCaster);
+                effect.startEffect(_target: inTarget, _caster: inCaster);
                 break;
             case(1):
-                effect.effectStart(_target: inCaster, _caster: inCaster);
+                effect.startEffect(_target: inCaster, _caster: inCaster);
                 break;
             default:
                 Debug.Log("EI: Could not start effect: " + effect.effectName);
