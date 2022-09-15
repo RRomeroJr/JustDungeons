@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 
 [System.Serializable]
-[CreateAssetMenu(fileName="Ability")]
+[CreateAssetMenu(fileName="ApplyBuff", menuName = "HBCsystem/ApplyBuff")]
 public class ApplyBuff : AbilityEff
 {
     //Maybe this should just be an id instead of the whole buff but

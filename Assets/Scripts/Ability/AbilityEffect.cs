@@ -8,7 +8,7 @@ namespace UnityEngine{
     }
 }
 [System.Serializable]
-[CreateAssetMenu(fileName="Ability")]
+
 public class AbilityEffect : ScriptableObject
 {
     /*

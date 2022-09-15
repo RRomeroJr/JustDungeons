@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 
 [System.Serializable]
-[CreateAssetMenu(fileName="Ability")]
+[CreateAssetMenu(fileName="MagicDamage", menuName = "HBCsystem/MagicDamage")]
 public class MagicDamage : AbilityEff
 {   
     public int school;

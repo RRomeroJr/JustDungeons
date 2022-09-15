@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 
 [System.Serializable]
-[CreateAssetMenu(fileName="Ability")]
+[CreateAssetMenu(fileName="StackingDmgBuff", menuName = "HBCsystem/StackingDmgBuff")]
 public class StackingDmgBuff : AbilityEff
 {   
     public int school;
