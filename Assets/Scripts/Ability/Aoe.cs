@@ -10,7 +10,7 @@ public class Aoe : AbilityEff
     public int school;
     public GameObject aoePrefab;
     public override void effectStart(Actor _target = null, Vector3? _targetWP = null, Actor _caster = null){
-        //Debug.Log("Actor " + _caster.getActorName() + ": casting Missle at " + _target.getActorName());
+        //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
         //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
         GameObject delivery = Instantiate(aoePrefab, _caster.gameObject.transform.position, _caster.gameObject.transform.rotation);
         delivery.GetComponent<AbilityDelivery>().setTarget(_target);
