@@ -17,21 +17,21 @@ public static class CustomReadWriteFuctions
         return AbilityEffectData.instance.find(reader.ReadInt());
     }
     public static void WriteAbility(this NetworkWriter writer, Ability_V2 ability){
-       Debug.Log("Writting ability: " + (ability != null ? (ability.getName() + " id: " + ability.id.ToString()) : "NULL"));
+       //Debug.Log("Writting ability: " + (ability != null ? (ability.getName() + " id: " + ability.id.ToString()) : "NULL"));
        writer.WriteInt(ability.id);
-       Debug.Log("Leaving WriteAbility");
+       //Debug.Log("Leaving WriteAbility");
     }
     public static Ability_V2 ReadAbility(this NetworkReader reader){
-        Debug.Log("ReadAbility");
-        Debug.Log(PlayerAbilityData.instance == null ? "No PAD" : "Read Ability: PAD found");
-        Debug.Log(reader == null ? "reader null" : "reader OK");
+        //Debug.Log("ReadAbility");
+        //Debug.Log(PlayerAbilityData.instance == null ? "No PAD" : "Read Ability: PAD found");
+        //Debug.Log(reader == null ? "reader null" : "reader OK");
         int abilityID = reader.ReadInt();
         Ability_V2 result = null;
         if(PlayerAbilityData.instance != null){
             if(PlayerAbilityData.instance.abilityList != null){
                 if(abilityID < PlayerAbilityData.instance.abilityList.Count){
                     result = PlayerAbilityData.instance.find(abilityID);
-                    Debug.Log("PAD result: " + (result != null ? (result.getName() + " id: " + result.id.ToString()) : "NULL"));
+                    
                 }
                 else{
                     Debug.LogError("abilityID > than the length of abilityaList");
@@ -43,7 +43,7 @@ public static class CustomReadWriteFuctions
             Debug.LogError("PAD instance == NULL");
         }
 
-        Debug.Log("PAD result: " + (result != null ? (result.getName() + " id: " + result.id.ToString()) : "NULL"));
+        //Debug.Log("PAD result: " + (result != null ? (result.getName() + " id: " + result.id.ToString()) : "NULL"));
         return result;
     }
     

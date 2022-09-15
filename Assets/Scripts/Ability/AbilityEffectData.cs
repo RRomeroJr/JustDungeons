@@ -40,6 +40,9 @@ public class AbilityEffectData : ScriptableObject
         }
         
         public void setIDs(){
+            if(effectsList ==null){
+                Debug.Log("AED has null effectsList");
+            }
             if(effectsList.Count > 0){
                 for (int i = 0; i < effectsList.Count; i++)
                 {

@@ -20,7 +20,7 @@ public class AbilityDelivery : NetworkBehaviour
     public List<TargetCooldown> aoeActorIgnore;
 
     [SerializeField]public List<AbilityEffect> abilityEffects;
-    [SerializeField]public List<AbilityEff> effects;
+    [SerializeField]public List<EffectInstruction> eInstructs;
     
     public int type; // 0 detroys when reaches target, 1 = skill shot
     public float speed;
@@ -58,10 +58,10 @@ public class AbilityDelivery : NetworkBehaviour
                     other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
                     */
 
-                    if(effects.Count > 0){
+                    if(eInstructs.Count > 0){
                         Actor target_ref = other.gameObject.GetComponent<Actor>();
-                        foreach (AbilityEff eff in effects){
-                            eff.effectStart(_target: target, _caster: caster);
+                        foreach (EffectInstruction eI in eInstructs){
+                            eI.startEffect(inTarget: target, inCaster: caster);
                         }
                     }
                     Destroy(gameObject);
@@ -82,18 +82,20 @@ public class AbilityDelivery : NetworkBehaviour
     private void OnTriggerStay2D(Collider2D other){
         if(isServer){
             if(type == 2){
-                /* Old System
+                
                 if (other.gameObject.GetComponent<Actor>() != caster){
                     if (other.gameObject.GetComponent<Actor>() != null){
                         if(checkIgnoreTarget(other.gameObject.GetComponent<Actor>()) == false){
-                            other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
                             addToAoeIgnore(other.gameObject.GetComponent<Actor>(), tickRate);
 
+                            /* Old System
+                            other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
+                            */
                         }
                         
                     }
                     // make version that has a set number for ticks?
-                }*/
+                }
             }
         }
     }

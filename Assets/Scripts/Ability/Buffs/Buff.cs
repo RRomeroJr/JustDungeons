@@ -55,7 +55,7 @@ public class Buff: ScriptableObject
     }
     public virtual void OnTick(){
         foreach(AbilityEff eff in effects){
-            eff.effectStart(_target: actor, _caster: caster);
+            eff.startEffect(_target: actor, _caster: caster);
         }
     }
 
