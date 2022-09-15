@@ -32,5 +32,11 @@ public class EffectInstruction
                 break;
         }
     }
-    
+    public EffectInstruction(){
+
+    }
+    public EffectInstruction(AbilityEff _effect, int _targetArg){
+        effect = _effect;
+        targetArg = _targetArg;
+    }
 }

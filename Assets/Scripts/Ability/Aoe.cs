@@ -5,14 +5,14 @@ using UnityEngine;
 using Mirror;
 [System.Serializable]
 [CreateAssetMenu(fileName="Ability")]
-public class Missle : AbilityEff
+public class Aoe : AbilityEff
 {   
     public int school;
-    public GameObject misslePrefab;
+    public GameObject aoePrefab;
     public override void effectStart(Actor _target = null, Vector3? _targetWP = null, Actor _caster = null){
         //Debug.Log("Actor " + _caster.getActorName() + ": casting Missle at " + _target.getActorName());
         //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
-        GameObject delivery = Instantiate(misslePrefab, _caster.gameObject.transform.position, _caster.gameObject.transform.rotation);
+        GameObject delivery = Instantiate(aoePrefab, _caster.gameObject.transform.position, _caster.gameObject.transform.rotation);
         delivery.GetComponent<AbilityDelivery>().setTarget(_target);
         delivery.GetComponent<AbilityDelivery>().setCaster(_caster);
         NetworkServer.Spawn(delivery);
@@ -23,23 +23,23 @@ public class Missle : AbilityEff
         */
        
     }
-    public Missle(string _effectName, GameObject _misslePrefab, int _id = -1, float _power = 0, int _school = -1){
+    public Aoe(string _effectName, GameObject _aoePrefab, int _id = -1, float _power = 0, int _school = -1){
         effectName = _effectName;
 
-        misslePrefab = _misslePrefab;
+        aoePrefab = _aoePrefab;
 
         id = _id;
         power = _power;
         school = _school;
     }
-    public Missle(){}
+    public Aoe(){}
     public override AbilityEff clone()
     {
-        Missle temp_ref = ScriptableObject.CreateInstance(typeof (Missle)) as Missle;
+        Aoe temp_ref = ScriptableObject.CreateInstance(typeof (Aoe)) as Aoe;
         temp_ref.effectName = effectName;
         temp_ref.id = id;
         temp_ref.power = power;
-        temp_ref.misslePrefab = misslePrefab;
+        temp_ref.aoePrefab = aoePrefab;
         
 
         return temp_ref;
