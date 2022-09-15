@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 
 [System.Serializable]
-[CreateAssetMenu(fileName="Ability")]
+[CreateAssetMenu(fileName="PhysicalDamage", menuName = "HBCsystem/PhysicalDamage")]
 public class PhysicalDamage : AbilityEff
 {
     public override void effectStart(Actor _target = null, Vector3? _targetWP = null, Actor _caster = null){

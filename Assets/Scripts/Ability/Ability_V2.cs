@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 [System.Serializable]
-[CreateAssetMenu(fileName="Ability")]
+[CreateAssetMenu(fileName="Ability_V2", menuName = "HBCsystem/Ability_V2")]
 public class Ability_V2 : ScriptableObject{
     [SerializeField] protected string abilityName;
     [SerializeField] protected List<EffectInstruction> eInstructs;

@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using Mirror;
 [System.Serializable]
-[CreateAssetMenu(fileName="Ability")]
+[CreateAssetMenu(fileName="Missle", menuName = "HBCsystem/Missle")]
 public class Missle : AbilityEff
 {   
     public int school;

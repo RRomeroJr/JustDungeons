@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 
 [System.Serializable]
-[CreateAssetMenu(fileName="Ability")]
+[CreateAssetMenu(fileName="Buff", menuName = "HBCsystem/Buff")]
 public class Buff: ScriptableObject
 {
     
