@@ -32,7 +32,8 @@ public class Actor : NetworkBehaviour
     [SerializeField]protected Ability_V2 queuedAbility; // Used when Ability has a cast time
     //[SyncVar]
     [SerializeField]protected Actor queuedTarget; // Used when Ability has a cast time
-    [SerializeField]protected Vector3? queuedTargetWP;
+    [SerializeField]protected NullibleVector3 queuedTargetWP;
+    [SerializeField]protected NullibleVector3 nVectTest;
     [SerializeField]protected List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
     public UIManager uiManager;
     public GameObject abilityDeliveryPrefab;
@@ -49,6 +50,7 @@ public class Actor : NetworkBehaviour
             uiManager.playerActor = this;
             GameObject cameraTemp = Instantiate(uiManager.cameraPrefab, gameObject.transform);
             cameraTemp.GetComponent<CameraController>().target = gameObject.transform;
+            
            
         }
         //gameObject.GetComponent<Renderer>().Color = unitColor;
@@ -219,7 +221,7 @@ public class Actor : NetworkBehaviour
         }
     }
     //Casting----------------------------------------------------------------------------------------------
-    public void castAbility3(Ability_V2 _ability, Actor _target = null, Vector3? _targetWP =null){
+    public void castAbility3(Ability_V2 _ability, Actor _target = null, NullibleVector3 _targetWP = null){
         
         if(true){ //Will be check on cd later
             if(!readyToFire){
@@ -229,18 +231,27 @@ public class Actor : NetworkBehaviour
                         //Debug.Log("Try find target..");
                             _target = tryFindTarget(_ability);
                         }
+                        if(_target == null){
+                            Debug.Log("No suitable target found");
+                            return;
+                        }
                     }
-                    
-                    if(_target == null){
-                        Debug.Log("No suitable target found");
-                    }else{
+                    if(_ability.NeedsTargetWP()){
+                        if(_targetWP == null){
+                        //Debug.Log("Try find target..");
+                            _targetWP = tryFindTargetWP(_ability);
+                        }
+                        if(_targetWP == null){
+                            Debug.Log("No suitable WP found");
+                            return;
+                        }
+                    }
                         
-                        // if(isServer){
-                        //     serverSays(_ability);
-                        // }
-                        cmdStartCast(_ability, _target);
-                        //Debug.Log("after Ability_V2 command reached");
-                    }     
+                    // if(isServer){
+                    //     serverSays(_ability);
+                    // }
+                    cmdStartCast(_ability, _target, _targetWP);
+                    //Debug.Log("after Ability_V2 command reached");  
                 }
                 else{
                     Debug.Log(actorName + " is casting!");
@@ -253,19 +264,19 @@ public class Actor : NetworkBehaviour
         }
     }
     [ClientRpc]
-    public void rpcStartCast(Ability_V2 _ability, Actor _target){
+    public void rpcStartCast(Ability_V2 _ability, Actor _target, NullibleVector3 _targetWP){
                
-        Debug.Log("rpcStartCast");
+        //Debug.Log("rpcStartCast");
         if(_ability.getCastTime() > 0.0f){
                         
-            queueAbility(_ability, _target);
+            queueAbility(_ability, _target, _targetWP);
             prepCast();
             
         }
         else{
             // ActorCastingAbilityEvent.Invoke(_ability)
             if(isServer){
-                fireCast(_ability, _target);
+                fireCast(_ability, _target, _targetWP);
             }else{
                 Debug.Log("Client ignoring fireCast");
             }
@@ -273,10 +284,10 @@ public class Actor : NetworkBehaviour
         
     }
     [Command]
-    public void cmdStartCast(Ability_V2 _ability, Actor _target){
+    public void cmdStartCast(Ability_V2 _ability, Actor _target, NullibleVector3 _targetWP){
         //Debug.Log("cmdStartCast");
         
-        rpcStartCast(_ability, _target);
+        rpcStartCast(_ability, _target, _targetWP);
     }
     
     [Command]
@@ -312,12 +323,21 @@ public class Actor : NetworkBehaviour
             return null;
         }
     }
+    NullibleVector3 tryFindTargetWP(Ability_V2 _ability){
+        /* In the future I might make a method in the player controller
+            to display a graphic and wait for a mouse click to get the 
+            world point target but for now I'll just immediately */
+        NullibleVector3 toReturn = new NullibleVector3();
+        toReturn.Value = gameObject.GetComponent<PlayerControllerHBC>().getWorldPointTarget();
+        return toReturn;
+         
+    }
     [Server]
-    public void fireCast(Ability_V2 _ability, Actor _target = null, Vector3? _targetWP = null){
+    public void fireCast(Ability_V2 _ability, Actor _target = null, NullibleVector3 _targetWP = null){
         // Main way for "Fireing" a cast by creating a delivery if needed then creating an AbilityCooldown
         if(isServer){
             foreach (EffectInstruction eInstruct in _ability.getEffectInstructions()){
-                        eInstruct.startEffect(_target, _targetWP, this);
+                eInstruct.startEffect(_target, _targetWP, this);
             }
         }
         resetClientCastVars();
@@ -329,7 +349,7 @@ public class Actor : NetworkBehaviour
         isCasting = false;
         resetCastTime();
     }
-    void queueAbility(Ability_V2 _ability, Actor _queuedTarget = null, Vector3? _queuedTargetWP = null){
+    void queueAbility(Ability_V2 _ability, Actor _queuedTarget = null, NullibleVector3 _queuedTargetWP = null){
         //Preparing variables for a cast
         queuedAbility = _ability;
         queuedTarget = _queuedTarget;
@@ -339,11 +359,10 @@ public class Actor : NetworkBehaviour
         //Creates castbar for abilities with cast times
 
         //Debug.Log("Trying to create a castBar for " + _ability.getName())
-            
-        isCasting = true;   
+        isCasting = true;
 
         // Creating CastBar or CastBarNPC with apropriate variables   
-        if( (queuedAbility.NeedsTargetActor()) && (queuedAbility.NeedsTargetWP()) ){
+        if( queuedAbility.NeedsTargetActor() && queuedAbility.NeedsTargetWP() ){
             Debug.Log("Spell that needs an Actor and WP are not yet suported");
             isCasting = false; 
         }
@@ -528,7 +547,7 @@ public class Actor : NetworkBehaviour
     
     //Old ability stuff-------------------------------------------------------------------------------------------------------------------------
     /*
-    public void castAbility(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
+    public void castAbility(Ability _ability, Actor _target = null, NullibleVector3 _targetWP = null){
         //Main way to make Acotr cast an ability
 
         if(checkOnCooldown(_ability) == false){
@@ -563,7 +582,7 @@ public class Actor : NetworkBehaviour
 
         if(checkOnCooldown(_ability) == false){
             if(!readyToFire){
-                Vector3? tempNullibleVect = _queuedTargetWP;
+                NullibleVector3 tempNullibleVect = _queuedTargetWP;
                 if(checkAbilityReqs(_ability, null, tempNullibleVect)){
                     if(_ability.getCastTime() > 0.0f){
                         if(!isCasting){
@@ -587,7 +606,7 @@ public class Actor : NetworkBehaviour
             }
         }
     }
-    public void freeCast(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
+    public void freeCast(Ability _ability, Actor _target = null, NullibleVector3 _targetWP = null){
         //  Make Acotor cast an ability without starting a cooldown or (in the future) cost resources
         // Maybe make this into an overload of castAbility later
 
@@ -641,7 +660,7 @@ public class Actor : NetworkBehaviour
 
     }
 
-    public void fireCast(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
+    public void fireCast(Ability _ability, Actor _target = null, NullibleVector3 _targetWP = null){
         // Main way for "Fireing" a cast by creating a delivery if needed then creating an AbilityCooldown
         if(handleDelivery(_ability, _target, _targetWP)){
             addToCooldowns(queuedAbility);
@@ -651,7 +670,7 @@ public class Actor : NetworkBehaviour
     }  
     
     
-    void queueAbility(Ability _ability, Actor _queuedTarget = null, Vector3? _queuedTargetWP = null){
+    void queueAbility(Ability _ability, Actor _queuedTarget = null, NullibleVector3 _queuedTargetWP = null){
         //Preparing variables for a cast
         queuedAbility = _ability;
         queuedTarget = _queuedTarget;
@@ -659,7 +678,7 @@ public class Actor : NetworkBehaviour
     }
     
     
-    bool handleDelivery(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
+    bool handleDelivery(Ability _ability, Actor _target = null, NullibleVector3 _targetWP = null){
         // Creates delivery if needed. Applies effects to target if not
         // ***** WILL RETURN FALSE if DeliveryType is -1 (auto apply to target) and there is no target *****
         
@@ -688,7 +707,7 @@ public class Actor : NetworkBehaviour
                 return true;
             }        
     }
-    GameObject CreateAndInitDelivery(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
+    GameObject CreateAndInitDelivery(Ability _ability, Actor _target = null, NullibleVector3 _targetWP = null){
         // Creates and returns delivery
 
         GameObject delivery;
@@ -713,7 +732,7 @@ public class Actor : NetworkBehaviour
     }
     
     
-    bool checkAbilityReqs(Ability _ability, Actor _target = null, Vector3? _targetWP = null){
+    bool checkAbilityReqs(Ability _ability, Actor _target = null, NullibleVector3 _targetWP = null){
         // Checks if the requirments of _ability are satisfied
 
         //Debug.Log(_ability.NeedsTargetActor().ToString() + " " + _ability.NeedsTargetWP().ToString());
