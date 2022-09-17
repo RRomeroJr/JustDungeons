@@ -9,12 +9,14 @@ public class Aoe : AbilityEff
 {   
     public int school;
     public GameObject aoePrefab;
-    public override void startEffect(Actor _target = null, Vector3? _targetWP = null, Actor _caster = null){
+    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null){
         //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
         //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
-        GameObject delivery = Instantiate(aoePrefab, _caster.gameObject.transform.position, _caster.gameObject.transform.rotation);
+        Debug.Log(_targetWP == null ? "Aoe: No targetWP" : ("Aoe: wp = " + _targetWP.Value.ToString()));
+        GameObject delivery = Instantiate(aoePrefab, _targetWP.Value, Quaternion.identity);
         delivery.GetComponent<AbilityDelivery>().setTarget(_target);
         delivery.GetComponent<AbilityDelivery>().setCaster(_caster);
+        delivery.GetComponent<AbilityDelivery>().worldPointTarget = _targetWP.Value;
         NetworkServer.Spawn(delivery);
         
         /*

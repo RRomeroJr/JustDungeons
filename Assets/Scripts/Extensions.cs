@@ -84,5 +84,17 @@ public static class Extensions
             }
         }
     }
+    public static List<EffectInstruction> cloneInstructs(this List<EffectInstruction> eI_list){
+        List<EffectInstruction> listToReturn = new List<EffectInstruction>();
+        if(eI_list.Count > 0){
+            for(int i=0; i < eI_list.Count; i++){
+                listToReturn.Add(eI_list[i].clone());
+            }
+            return listToReturn;
+        }
+        else{
+            return listToReturn;
+        }
+    }
     
 }

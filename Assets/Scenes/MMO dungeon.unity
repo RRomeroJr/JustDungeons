@@ -239,6 +239,7 @@ MonoBehaviour:
   isCasting: 0
   queuedAbility: {fileID: 0}
   queuedTarget: {fileID: 0}
+  nVectTest: {fileID: 0}
   abilityCooldowns: []
   uiManager: {fileID: 0}
   abilityDeliveryPrefab: {fileID: 0}
@@ -2170,6 +2171,7 @@ MonoBehaviour:
   isCasting: 0
   queuedAbility: {fileID: 0}
   queuedTarget: {fileID: 0}
+  nVectTest: {fileID: 0}
   abilityCooldowns: []
   uiManager: {fileID: 0}
   abilityDeliveryPrefab: {fileID: 0}
@@ -2988,6 +2990,7 @@ MonoBehaviour:
   isCasting: 0
   queuedAbility: {fileID: 0}
   queuedTarget: {fileID: 0}
+  nVectTest: {fileID: 0}
   abilityCooldowns: []
   uiManager: {fileID: 0}
   abilityDeliveryPrefab: {fileID: 0}
@@ -3730,6 +3733,7 @@ GameObject:
   - component: {fileID: 1871266378}
   - component: {fileID: 1871266379}
   - component: {fileID: 1871266380}
+  - component: {fileID: 1871266381}
   m_Layer: 0
   m_Name: Dps
   m_TagString: Untagged
@@ -3832,6 +3836,7 @@ MonoBehaviour:
   isCasting: 0
   queuedAbility: {fileID: 0}
   queuedTarget: {fileID: 0}
+  nVectTest: {fileID: 1871266381}
   abilityCooldowns: []
   uiManager: {fileID: 0}
   abilityDeliveryPrefab: {fileID: 0}
@@ -3901,6 +3906,20 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 
   hasSpawned: 0
+--- !u!114 &1871266381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871266374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f4a442d42eaffc4facf6aeaf1e194a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vect: {fileID: 0}
+  hasValue: 0
 --- !u!1001 &744315560258893701
 PrefabInstance:
   m_ObjectHideFlags: 0
