@@ -61,7 +61,7 @@ public class AbilityDelivery : NetworkBehaviour
                     if(eInstructs.Count > 0){
                         Actor target_ref = other.gameObject.GetComponent<Actor>();
                         foreach (EffectInstruction eI in eInstructs){
-                            eI.startEffect(inTarget: target, inCaster: caster);
+                            eI.startEffect(other.gameObject.GetComponent<Actor>(), null, caster);
                         }
                     }
                     Destroy(gameObject);
@@ -91,6 +91,12 @@ public class AbilityDelivery : NetworkBehaviour
                             /* Old System
                             other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
                             */
+                            if(eInstructs.Count > 0){
+                                Actor target_ref = other.gameObject.GetComponent<Actor>();
+                                foreach (EffectInstruction eI in eInstructs){
+                                    eI.startEffect(target_ref, null, caster);
+                            }
+                        }
                         }
                         
                     }

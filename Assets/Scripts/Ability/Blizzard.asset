@@ -10,15 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 630dbee7393b5314ab79662f009e6568, type: 3}
-  m_Name: Shadowbolt
+  m_Name: Blizzard
   m_EditorClassIdentifier: 
-  abilityName: ShadowBolt
-  eInstructs:
-  - effect: {fileID: 11400000, guid: c69a0d906dd16c741abf7922e231957d, type: 2}
-    targetArg: 0
+  abilityName: 
+  eInstructs: []
   deliveryType: 0
-  castTime: 1.5
+  castTime: 0
   cooldown: 0
-  needsActor: 1
+  needsActor: 0
   needsWP: 0
-  id: 2
+  id: 0

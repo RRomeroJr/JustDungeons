@@ -8,7 +8,7 @@ using UnityEngine;
 public class MagicDamage : AbilityEff
 {   
     public int school;
-    public override void startEffect(Actor _target = null, Vector3? _targetWP = null, Actor _caster = null){
+    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null){
        _target.damageValue((int)power);
     }
     public MagicDamage(string _effectName, int _id = -1, float _power = 0, int _school = -1){

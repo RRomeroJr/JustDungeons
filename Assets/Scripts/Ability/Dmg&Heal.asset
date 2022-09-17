@@ -14,17 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Dmg&Heal
   eInstructs:
-  - effect: {fileID: 11400000, guid: 883f486425a9a0f4287b6d0bdbec1692, type: 2}
+  - effect: {fileID: 0}
     targetArg: 0
   - effect: {fileID: 11400000, guid: ededd9096a4453447b45e4ddb6382b55, type: 2}
     targetArg: 1
-  effects:
-  - {fileID: 11400000, guid: 09c5e600fbf9b6148892edb228809891, type: 2}
-  - {fileID: 11400000, guid: ededd9096a4453447b45e4ddb6382b55, type: 2}
-  targetArgs: 
   deliveryType: 0
   castTime: 1.5
   cooldown: 0
-  needsActor: 0
+  needsActor: 1
   needsWP: 0
   id: 4

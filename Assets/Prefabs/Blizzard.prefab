@@ -133,8 +133,9 @@ MonoBehaviour:
   worldPointTarget: {x: 0, y: 0, z: 0}
   aoeActorIgnore: []
   abilityEffects: []
-  effects:
-  - {fileID: 11400000, guid: 09c5e600fbf9b6148892edb228809891, type: 2}
+  eInstructs:
+  - effect: {fileID: 11400000, guid: 09c5e600fbf9b6148892edb228809891, type: 2}
+    targetArg: 0
   type: 2
   speed: 0.1
   duration: 8
