@@ -334,10 +334,14 @@ public class Actor : NetworkBehaviour
     }
     [Server]
     public void fireCast(Ability_V2 _ability, Actor _target = null, NullibleVector3 _targetWP = null){
-        // Main way for "Fireing" a cast by creating a delivery if needed then creating an AbilityCooldown
+        // EI_Clones will be passed into an event that will allow them to be modified as need by other effects, stats, Buffs, etc.
+        List<EffectInstruction> EI_clones = _ability.getEffectInstructions().cloneInstructs();
+
+        
+
         if(isServer){
-            foreach (EffectInstruction eInstruct in _ability.getEffectInstructions()){
-                eInstruct.startEffect(_target, _targetWP, this);
+            foreach (EffectInstruction eI in EI_clones){
+                eI.startEffect(_target, _targetWP, this);
             }
         }
         resetClientCastVars();

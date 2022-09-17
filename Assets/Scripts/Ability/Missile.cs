@@ -7,14 +7,16 @@ using Mirror;
 [CreateAssetMenu(fileName="Missile", menuName = "HBCsystem/Missile")]
 public class Missile : AbilityEff
 {   
-    public int school;
+    public int school = -1;
     public GameObject misslePrefab;
+    public List<EffectInstruction> eInstructs;
     public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null){
         //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
         //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
         GameObject delivery = Instantiate(misslePrefab, _caster.gameObject.transform.position, _caster.gameObject.transform.rotation);
         delivery.GetComponent<AbilityDelivery>().setTarget(_target);
         delivery.GetComponent<AbilityDelivery>().setCaster(_caster);
+        delivery.GetComponent<AbilityDelivery>().eInstructs = eInstructs;
         NetworkServer.Spawn(delivery);
         
         /*
@@ -40,7 +42,10 @@ public class Missile : AbilityEff
         temp_ref.id = id;
         temp_ref.power = power;
         temp_ref.misslePrefab = misslePrefab;
-        
+        temp_ref.eInstructs = new List<EffectInstruction>();
+        foreach (EffectInstruction eI in eInstructs){
+            temp_ref.eInstructs.Add(eI.clone());
+        }
 
         return temp_ref;
     }
