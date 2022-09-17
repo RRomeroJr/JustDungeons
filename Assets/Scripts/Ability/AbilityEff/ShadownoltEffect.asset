@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: ShadownoltEffect
   m_EditorClassIdentifier: 
   effectName: 
-  id: -1
+  id: 3
   power: 0
   parentBuff: {fileID: 0}
   school: 0
-  misslePrefab: {fileID: 0}
+  misslePrefab: {fileID: 8996080988287052582, guid: f001407721b25a0449cded0b467c60d5, type: 3}

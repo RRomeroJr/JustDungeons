@@ -26,5 +26,6 @@ MonoBehaviour:
   actor: {fileID: 0}
   id: 13
   stacks: 1
-  effects:
-  - {fileID: 11400000, guid: 1a92bd7aa6b65e847a564476e29e9bde, type: 2}
+  eInstructs:
+  - effect: {fileID: 11400000, guid: 1a92bd7aa6b65e847a564476e29e9bde, type: 2}
+    targetArg: 0
