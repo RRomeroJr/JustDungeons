@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 [System.Serializable]
 [CreateAssetMenu(fileName="Buff", menuName = "HBCsystem/Buff")]
@@ -26,6 +27,7 @@ public class Buff: ScriptableObject
     [SerializeField]public uint stacks;
     
     public List<EffectInstruction> eInstructs;
+    [SerializeField]public List<UnityEvent<Buff, EffectInstruction>> onCastHooks;
     
     
     public virtual void update(){
@@ -52,6 +54,7 @@ public class Buff: ScriptableObject
 
             //Find this buff in actor's List<> and remove it
             list_ref.Remove(list_ref.Find(x => this)); //This needs to be tested
+
         }
     }
     public virtual void OnTick(){
@@ -59,7 +62,9 @@ public class Buff: ScriptableObject
             eI.startEffect(actor, null, caster);
         }
     }
-
+    public virtual void OnRemove(){
+        
+    }
     public string getEffectName(){
         return effectName;
     }
@@ -205,6 +210,7 @@ public class Buff: ScriptableObject
         
         temp_ref.Init(String.Copy(effectName), duration, eInstructs.cloneInstructs(),  
          tickRate, id, stackable, refreshable, stacks, particles);
+         temp_ref.onCastHooks = onCastHooks;
         return temp_ref;
     }
 }

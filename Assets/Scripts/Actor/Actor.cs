@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using System;
 using Mirror;
 /*
@@ -40,6 +41,7 @@ public class Actor : NetworkBehaviour
    
     public float castTime;
     public CastBar castBar;
+    public List<UnityEvent<EffectInstruction>> onCastHooks = new List<UnityEvent<EffectInstruction>>();
 
 
     void Start(){
@@ -75,7 +77,7 @@ public class Actor : NetworkBehaviour
         // This could take an extra param to indicate a different value to "damage"
         // For ex. a Ability that reduces maxHealth or destroys mana
 
-        //Debug.Log("damageValue: " + amount.ToString()+ " on " + actorName);
+        Debug.Log("damageValue: " + amount.ToString()+ " on " + actorName);
         if(amount >= 0){
             switch (valueType){
                 case 0:
@@ -199,6 +201,15 @@ public class Actor : NetworkBehaviour
         //Debug.Log(_abilityEffect.getRemainingTime().ToString() + " " + _abilityEffect.getDuration().ToString());
         //_buff.OnEffectStart();
         buffs.Add(_buff);
+        // if(_buff.onCastHooks != null){
+        //     Debug.Log("apply hooks to actor: " + actorName);
+        //     foreach (UnityEvent<EffectInstruction> hook in _buff.onCastHooks){
+        //         onCastHooks.Add(hook);
+        //     }
+        // }else{
+        //     Debug.Log("Buff had no hooks");
+        // }
+        
         //_buff.setStart(true);
     }
     void handleAbilityEffects(){
@@ -220,6 +231,13 @@ public class Actor : NetworkBehaviour
         
         }
     }
+    // public void applyAbilityEffs(List<EffectInstruction> _eInstructs, Actor _caster = null){
+    //     if(isServer){
+    //         foreach (EffectInstruction eI in _eInstructs){
+    //             eI.startEffect(inTarget: this, inCaster: _caster);
+    //         }
+    //     }
+    // }
     //Casting----------------------------------------------------------------------------------------------
     public void castAbility3(Ability_V2 _ability, Actor _target = null, NullibleVector3 _targetWP = null){
         
@@ -290,12 +308,6 @@ public class Actor : NetworkBehaviour
         rpcStartCast(_ability, _target, _targetWP);
     }
     
-    [Command]
-    void castReqToServer(Ability_V2 _ability, Actor _target){
-        Debug.Log("Client reqed a cast returning true");
-    
-    }
-    
     Actor tryFindTarget(Ability_V2 _ability){
         /*
             run function from Ability that returns a code for how to find a target
@@ -336,8 +348,27 @@ public class Actor : NetworkBehaviour
     public void fireCast(Ability_V2 _ability, Actor _target = null, NullibleVector3 _targetWP = null){
         // EI_Clones will be passed into an event that will allow them to be modified as need by other effects, stats, Buffs, etc.
         List<EffectInstruction> EI_clones = _ability.getEffectInstructions().cloneInstructs();
+        if(buffs != null){
+            foreach(EffectInstruction eI in EI_clones){
+                int i = 0;
+                int lastBuffCount = buffs.Count;
+                while(i < buffs.Count)
+                {
+                    var buffCastHooks = buffs[i].onCastHooks;
+                    if(buffCastHooks != null){
+                        if(buffCastHooks.Count > 0){
+                            foreach (var hook in buffCastHooks){
+                                hook.Invoke(buffs[i], eI);
+                            }
+                        }
+                    }
 
-        
+                    if(lastBuffCount == buffs.Count)
+                        i++;
+
+                }
+            }
+        }
 
         if(isServer){
             foreach (EffectInstruction eI in EI_clones){

@@ -58,7 +58,46 @@ public class AbilityEffectData : ScriptableObject
             }
             return null;
     }
-        
+    // public void buffNextShadowbolt(EffectInstruction _eInstruct){
+    //     if(_eInstruct.effect.id == 3){ //try to do this by a find later
+    //         Missile missile = _eInstruct.effect as Missile;
+    //         Debug.Log(missile.effectName + " Missile found!");
+            
+    //         EffectInstruction effectToBuff = missile.eInstructs.Find(eI => eI.effect.id == 2); //try to do this by a find later
+
+    //         if(effectToBuff != null){
+    //             Debug.Log(effectToBuff.effect.effectName + " EI Found! Multiplying power by 5");
+    //             effectToBuff.effect.power *= 5;
+    //         }else{
+    //             Debug.Log("Could not find desired effect in Missile: " + missile.effectName);
+    //         }
+            
+    //     }else{
+    //         Debug.Log("Effect was not shadowbolt");
+    //     }
+    // }
+    public void buffNextShadowbolt(Buff _callingBuff, EffectInstruction outGoingEI){
+        //Finding Correct ID
+        if(outGoingEI.effect.id == 3){ //try to do this by a find later
+            Missile missile = outGoingEI.effect as Missile;
+            Debug.Log(missile.effectName + " Missile found!");
+            EffectInstruction effectToBuff = missile.eInstructs.Find(eI => eI.effect.id == 2); //try to do this by a find later
+            
+            if(effectToBuff != null){
+                Debug.Log(effectToBuff.effect.effectName + " EI Found! Multiplying power by 5");
+                effectToBuff.effect.power *= 5;
+
+                var callingActorBuffs = _callingBuff.getActor().getBuffs();
+                callingActorBuffs.Remove(callingActorBuffs.Find(buff => buff.getID() == _callingBuff.getID()));
+
+            }else{
+                Debug.Log("Could not find desired effect in Missile: " + missile.effectName);
+            }
+            
+        }else{
+            Debug.Log("Effect was not shadowbolt");
+        }
+    }
 /*
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~vV*****Start/ Hit/ Finish Actions*****Vv~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
