@@ -28,6 +28,7 @@ public class Buff: ScriptableObject
     
     public List<EffectInstruction> eInstructs;
     [SerializeField]public List<UnityEvent<Buff, EffectInstruction>> onCastHooks;
+    [SerializeField]public UnityEvent<Buff, EffectInstruction> onHitHooks;
     
     
     public virtual void update(){
@@ -211,6 +212,7 @@ public class Buff: ScriptableObject
         temp_ref.Init(String.Copy(effectName), duration, eInstructs.cloneInstructs(),  
          tickRate, id, stackable, refreshable, stacks, particles);
          temp_ref.onCastHooks = onCastHooks;
+         temp_ref.onHitHooks = onHitHooks;
         return temp_ref;
     }
 }

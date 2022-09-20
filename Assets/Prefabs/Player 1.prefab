@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 90a2eacc3748df644a336726b79c842f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 11bcfaeb85dcf06489ffe2d6500f3719, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -106,6 +106,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6383fb961e0d44347b40c17235d86073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   IN_FLIGHT_X_MOVEMENT_MODIFIER: 350
   FALL_RATE: 1.1
   MAX_JUMP_SPEED: 3
@@ -151,6 +153,7 @@ MonoBehaviour:
   abilityDeliveryPrefab: {fileID: 8996080988287052582, guid: a4706308c46cb1241917ac1a7cfb7176, type: 3}
   castTime: 0
   castBar: {fileID: 0}
+  onCastHooks: []
 --- !u!114 &3602611100074717273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,10 +166,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f9d1d7bed21ae1409ac31d1d11703eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  up: {fileID: 21300000, guid: 08215cb1ec3241c4aa3c44cc7903c8b4, type: 3}
-  down: {fileID: 21300000, guid: 90a2eacc3748df644a336726b79c842f, type: 3}
-  right: {fileID: 21300000, guid: 90a2eacc3748df644a336726b79c842f, type: 3}
-  left: {fileID: 21300000, guid: 08215cb1ec3241c4aa3c44cc7903c8b4, type: 3}
+  up: {fileID: 21300000, guid: 0b1f95060910de843a73f7290a82d293, type: 3}
+  down: {fileID: 21300000, guid: 11bcfaeb85dcf06489ffe2d6500f3719, type: 3}
+  right: {fileID: 21300000, guid: 56dc974e75594024a838cdf209d69e00, type: 3}
+  left: {fileID: 21300000, guid: 67a86bc4bd6426e429076b6ab3b000d6, type: 3}
   spriteRenderer: {fileID: 3602611100074717269}
 --- !u!61 &3602611100074717279
 BoxCollider2D:
@@ -185,7 +188,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.25, y: 1.75}
+    oldSize: {x: 1.25, y: 2.25}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

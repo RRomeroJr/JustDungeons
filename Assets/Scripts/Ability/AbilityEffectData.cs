@@ -98,6 +98,16 @@ public class AbilityEffectData : ScriptableObject
             Debug.Log("Effect was not shadowbolt");
         }
     }
+    public void onHitTest(Buff _callingBuff, EffectInstruction inComingEI){
+        //Finding Correct ID
+        if(inComingEI.effect.id == 2){ //try to do this by a find later
+            
+            Debug.Log(inComingEI.effect.effectName + " Bam! On hit effect tiggered!");
+
+        }else{
+            Debug.Log("Effect was not not correct:" + inComingEI.effect.id.ToString() + " != 2");
+        }
+    }
 /*
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~vV*****Start/ Hit/ Finish Actions*****Vv~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */

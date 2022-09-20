@@ -164,9 +164,33 @@ public class Actor : NetworkBehaviour
             buffs.RemoveAt(listPos);
         }
     }
-    
-    public void applyBuff(Buff _buff, Actor _caster = null){
+    public void applyEffects(EffectInstruction _eInstruct, NullibleVector3 _targetWP, Actor _caster){
+        // foreach (var eI in _eInstructs){
+        //     eI.startEffect(this, _targetWP, _caster);
+        // }
+                int i = 0;
+                int lastBuffCount = buffs.Count;
+                while(i < buffs.Count)
+                {
+                    var buffhitHooks = buffs[i].onHitHooks;
+                    if(buffhitHooks != null){
+                        if(buffhitHooks.GetPersistentEventCount() > 0){
+                            Debug.Log("Invokeing onHitHooks: " + buffs[i].getEffectName());
+                            buffhitHooks.Invoke(buffs[i], _eInstruct);
+                        }else{
+                            Debug.Log("Buff has no hooks");
+                        }
+                    }
 
+                    if(lastBuffCount == buffs.Count)
+                        i++;
+
+                }
+        Debug.Log(actorName + " is starting eI for effect (" + _eInstruct.effect.effectName + ") From: " + (_caster != null ? _caster.actorName : "none"));
+        _eInstruct.startEffect(this, _targetWP, _caster);
+    }
+    public void applyBuff(Buff _buff, Actor _caster = null){
+        
         //Adding Buff it to this actor's list<Buff>
         
         if(_buff.getID() >= 0){
@@ -338,7 +362,7 @@ public class Actor : NetworkBehaviour
     NullibleVector3 tryFindTargetWP(Ability_V2 _ability){
         /* In the future I might make a method in the player controller
             to display a graphic and wait for a mouse click to get the 
-            world point target but for now I'll just immediately */
+            world point target but for now I'll just do it immediately */
         NullibleVector3 toReturn = new NullibleVector3();
         toReturn.Value = gameObject.GetComponent<PlayerControllerHBC>().getWorldPointTarget();
         return toReturn;
@@ -372,7 +396,7 @@ public class Actor : NetworkBehaviour
 
         if(isServer){
             foreach (EffectInstruction eI in EI_clones){
-                eI.startEffect(_target, _targetWP, this);
+                eI.startApply(_target, _targetWP, this);
             }
         }
         resetClientCastVars();
