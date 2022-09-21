@@ -14,7 +14,10 @@ public class EnemyController : MonoBehaviour
 
     // Storage container object to hold game object subsystems
     Context context;
+    public Transform target;
     public Vector3 spawnLocation;
+    public BoxCollider2D collider;
+    public LayerMask obstacleMask;
     private Dictionary<string, object> extra = new Dictionary<string, object>();
 
     // Start is called before the first frame update
@@ -27,6 +30,7 @@ public class EnemyController : MonoBehaviour
         tree.Bind(context);
         spawnLocation = transform.position;
         actor = gameObject.GetComponent<Actor>();
+        collider = GetComponent<BoxCollider2D>();
     }
 
     // Any extra values you want the behavior tree to have access to should be added here
@@ -65,4 +69,54 @@ public class EnemyController : MonoBehaviour
     //void onRanged()
     //void onMelee()
     //void onTank()
+
+    public bool TargetDetection(LayerMask targetMask)
+    {
+        Transform closest;
+        Collider2D[] raycastHit = Physics2D.OverlapCircleAll((Vector2)transform.position, enemyStats.aggroRange, targetMask); // May need to optimize with OverlapCircleNonAlloc
+
+        if (raycastHit.Length > 0)
+        {
+            closest = raycastHit[0].transform;
+            // Find the closest target if multiple
+            for (int i = 1; i < raycastHit.Length; i++)
+            {
+                if (Vector3.Distance(transform.position, raycastHit[i].transform.position) < Vector3.Distance(transform.position, closest.position))
+                {
+                    closest = raycastHit[i].transform;
+                }
+            }
+            target = closest;
+            return true;
+        }
+        target = null;
+        return false;
+    }
+
+    public bool TargetInRange(float range)
+    {
+        if (target == null)
+        {
+            return false;
+        }
+        if (Vector3.Distance(transform.position, target.position) < range)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool targetBehindObstacle()
+    {
+        Vector3 colliderPos = transform.position + (Vector3)collider.offset;
+        Vector3 direction = target.position - (transform.position + (Vector3)collider.offset);
+        float distance = Vector3.Distance(colliderPos, target.position);
+        if (Physics2D.BoxCast(colliderPos, collider.size, 0f, direction, distance, obstacleMask))
+        {
+            Debug.Log("Target behind obstacle");
+            return true;
+        }
+        Debug.Log("Target not behind obstacle");
+        return false;
+    }
 }

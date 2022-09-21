@@ -5,7 +5,7 @@ using TheKiwiCoder;
 
 public class TargetInAttackRange : ActionNode
 {
-    public float attackRange;
+    public float range;
     protected override void OnStart()
     {
     }
@@ -16,11 +16,7 @@ public class TargetInAttackRange : ActionNode
 
     protected override State OnUpdate()
     {
-        if (blackboard.target == null)
-        {
-            return State.Failure;
-        }
-        if (Vector3.Distance(context.transform.position, blackboard.target.position) < attackRange)
+        if (context.controller.TargetInRange(range))
         {
             return State.Success;
         }
