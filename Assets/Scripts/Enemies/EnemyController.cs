@@ -35,7 +35,7 @@ public class EnemyController : MonoBehaviour
         collider = GetComponent<BoxCollider2D>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        agent.speed = controller.enemyStats.moveSpeed;
+        agent.speed = enemyStats.moveSpeed;
     }
 
     // Any extra values you want the behavior tree to have access to should be added here
