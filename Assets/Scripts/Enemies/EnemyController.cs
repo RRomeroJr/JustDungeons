@@ -25,6 +25,9 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
         spawnLocation = transform.position;
         ExtraValues();
         context = Context.CreateFromGameObject(gameObject, extra, enemyStats);
@@ -33,8 +36,6 @@ public class EnemyController : MonoBehaviour
         spawnLocation = transform.position;
         actor = gameObject.GetComponent<Actor>();
         collider = GetComponent<BoxCollider2D>();
-        agent.updateRotation = false;
-        agent.updateUpAxis = false;
         agent.speed = enemyStats.moveSpeed;
     }
 
