@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TheKiwiCoder;
+using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class EnemyController : MonoBehaviour
     public BoxCollider2D collider;
     public LayerMask obstacleMask;
     private Dictionary<string, object> extra = new Dictionary<string, object>();
+    public NavMeshAgent agent;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +33,8 @@ public class EnemyController : MonoBehaviour
         spawnLocation = transform.position;
         actor = gameObject.GetComponent<Actor>();
         collider = GetComponent<BoxCollider2D>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
     }
 
     // Any extra values you want the behavior tree to have access to should be added here
