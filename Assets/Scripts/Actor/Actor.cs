@@ -186,7 +186,7 @@ public class Actor : NetworkBehaviour
                         i++;
 
                 }
-        Debug.Log(actorName + " is starting eI for effect (" + _eInstruct.effect.effectName + ") From: " + (_caster != null ? _caster.actorName : "none"));
+//        Debug.Log(actorName + " is starting eI for effect (" + _eInstruct.effect.effectName + ") From: " + (_caster != null ? _caster.actorName : "none"));
         _eInstruct.startEffect(this, _targetWP, _caster);
     }
     public void applyBuff(Buff _buff, Actor _caster = null){
@@ -264,6 +264,7 @@ public class Actor : NetworkBehaviour
     // }
     //Casting----------------------------------------------------------------------------------------------
     public void castAbility3(Ability_V2 _ability, Actor _target = null, NullibleVector3 _targetWP = null){
+        //Debug.Log("castAbility3");
         
         if(true){ //Will be check on cd later
             if(!readyToFire){
@@ -288,15 +289,22 @@ public class Actor : NetworkBehaviour
                             return;
                         }
                     }
-                        
+                    Debug.Log("castAbility3 inner if");
                     // if(isServer){
                     //     serverSays(_ability);
                     // }
-                    cmdStartCast(_ability, _target, _targetWP);
+                    if(isLocalPlayer){
+                            cmdStartCast(_ability, _target, _targetWP);
+                        
+                    }
+                    else if(isServer){
+                            rpcStartCast(_ability, _target, _targetWP);
+                        }
+                    
                     //Debug.Log("after Ability_V2 command reached");  
                 }
                 else{
-                    Debug.Log(actorName + " is casting!");
+                    //Debug.Log(actorName + " is casting!");
                 }         
             }
             else{
@@ -308,7 +316,7 @@ public class Actor : NetworkBehaviour
     [ClientRpc]
     public void rpcStartCast(Ability_V2 _ability, Actor _target, NullibleVector3 _targetWP){
                
-        //Debug.Log("rpcStartCast");
+        Debug.Log("rpcStartCast");
         if(_ability.getCastTime() > 0.0f){
                         
             queueAbility(_ability, _target, _targetWP);
@@ -325,12 +333,14 @@ public class Actor : NetworkBehaviour
         }
         
     }
+    //[Command (requiresAuthority=false)]
     [Command]
     public void cmdStartCast(Ability_V2 _ability, Actor _target, NullibleVector3 _targetWP){
-        //Debug.Log("cmdStartCast");
+        Debug.Log("cmdStartCast");
         
         rpcStartCast(_ability, _target, _targetWP);
     }
+    
     
     Actor tryFindTarget(Ability_V2 _ability){
         /*
@@ -589,10 +599,12 @@ public class Actor : NetworkBehaviour
     }
     
     void updateCast(){
+        
         if(isCasting){
             castTime += Time.deltaTime;
             if(isServer)
                 if(castTime >= queuedAbility.getCastTime()){
+                    Debug.Log("updateCast: readyToFire = true");
                     readyToFire = true;
             }
         }

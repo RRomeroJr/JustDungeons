@@ -16,7 +16,8 @@ public class Attack : ActionNode
 
     protected override State OnUpdate()
     {
-        context.actor.castAbility3(ability, blackboard.target.GetComponent<Actor>());
+        //Debug.Log(context.controller.target.GetComponent<Actor>().getActorName());
+        context.actor.castAbility3(ability, context.controller.target.GetComponent<Actor>());
         return State.Success;
     }
 }

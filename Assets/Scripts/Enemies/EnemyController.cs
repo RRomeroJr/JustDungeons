@@ -22,12 +22,14 @@ public class EnemyController : MonoBehaviour
     private Dictionary<string, object> extra = new Dictionary<string, object>();
     public NavMeshAgent agent;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    void Awake(){
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
         spawnLocation = transform.position;
         ExtraValues();
         context = Context.CreateFromGameObject(gameObject, extra, enemyStats);

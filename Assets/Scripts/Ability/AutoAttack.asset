@@ -17,7 +17,7 @@ MonoBehaviour:
   - effect: {fileID: 11400000, guid: a4436d9c6ccc15149b609cb6c4ce7842, type: 2}
     targetArg: 0
   deliveryType: 0
-  castTime: 1.5
+  castTime: 5
   cooldown: 0
   needsActor: 1
   needsWP: 0

@@ -132,8 +132,8 @@ MonoBehaviour:
   syncInterval: 0.1
   showDebug: 1
   actorName: Deoscillate
-  health: 21
-  maxHealth: 104
+  health: 700
+  maxHealth: 700
   mana: 0
   maxMana: 0
   target: {fileID: 0}
