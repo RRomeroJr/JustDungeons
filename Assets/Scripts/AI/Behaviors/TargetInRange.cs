@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TheKiwiCoder;
 
-public class TargetInAttackRange : ActionNode
+public class TargetInRange : ActionNode
 {
+    public LayerMask targetMask;
     public float range;
     protected override void OnStart()
     {
@@ -16,7 +17,7 @@ public class TargetInAttackRange : ActionNode
 
     protected override State OnUpdate()
     {
-        if (context.controller.TargetInRange(range))
+        if (context.controller.TargetInRange(targetMask, range))
         {
             return State.Success;
         }

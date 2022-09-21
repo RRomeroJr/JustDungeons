@@ -22,12 +22,16 @@ public class EnemyController : MonoBehaviour
     private Dictionary<string, object> extra = new Dictionary<string, object>();
     public NavMeshAgent agent;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
         spawnLocation = transform.position;
         ExtraValues();
         context = Context.CreateFromGameObject(gameObject, extra, enemyStats);
@@ -76,11 +80,12 @@ public class EnemyController : MonoBehaviour
     //void onMelee()
     //void onTank()
 
-    public bool TargetDetection(LayerMask targetMask)
+    public bool TargetInRange(LayerMask targetMask, float range)
     {
         Transform closest;
-        Collider2D[] raycastHit = Physics2D.OverlapCircleAll((Vector2)transform.position, enemyStats.aggroRange, targetMask); // May need to optimize with OverlapCircleNonAlloc
+        Collider2D[] raycastHit = Physics2D.OverlapCircleAll((Vector2)transform.position, range, targetMask); // May need to optimize with OverlapCircleNonAlloc
 
+        // If a target is found by raycastHit
         if (raycastHit.Length > 0)
         {
             closest = raycastHit[0].transform;
@@ -96,33 +101,6 @@ public class EnemyController : MonoBehaviour
             return true;
         }
         target = null;
-        return false;
-    }
-
-    public bool TargetInRange(float range)
-    {
-        if (target == null)
-        {
-            return false;
-        }
-        if (Vector3.Distance(transform.position, target.position) < range)
-        {
-            return true;
-        }
-        return false;
-    }
-
-    public bool targetBehindObstacle()
-    {
-        Vector3 colliderPos = transform.position + (Vector3)collider.offset;
-        Vector3 direction = target.position - (transform.position + (Vector3)collider.offset);
-        float distance = Vector3.Distance(colliderPos, target.position);
-        if (Physics2D.BoxCast(colliderPos, collider.size, 0f, direction, distance, obstacleMask))
-        {
-            Debug.Log("Target behind obstacle");
-            return true;
-        }
-        Debug.Log("Target not behind obstacle");
         return false;
     }
 }
