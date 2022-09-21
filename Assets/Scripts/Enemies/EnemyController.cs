@@ -31,6 +31,8 @@ public class EnemyController : MonoBehaviour
         spawnLocation = transform.position;
         actor = gameObject.GetComponent<Actor>();
         collider = GetComponent<BoxCollider2D>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
     }
 
     // Any extra values you want the behavior tree to have access to should be added here
