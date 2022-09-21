@@ -15,9 +15,9 @@ public class FollowTarget : ActionNode
 
     protected override State OnUpdate()
     {
-        if (context.agent.destination != blackboard.target.position)
+        if (context.agent.destination != context.controller.target.position)
         {
-            context.agent.destination = blackboard.target.position;
+            context.agent.destination = context.controller.target.position;
         }
 
         if (context.agent.pathPending)
