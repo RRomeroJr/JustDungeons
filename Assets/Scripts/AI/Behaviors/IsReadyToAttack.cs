@@ -16,17 +16,10 @@ public class IsReadyToAttack : ActionNode
 
     protected override State OnUpdate()
     {
-        bool test;
-        test = context.actor.checkOnCooldown(ability);
-        Debug.Log(test);
-
-        if (test)
+        if (context.actor.checkOnCooldown(ability))
         {
-            Debug.Log("here10");
-
             return State.Failure;
         }
-        Debug.Log("here10");
         return State.Success;
     }
 }
