@@ -16,9 +16,11 @@ MonoBehaviour:
   eInstructs:
   - effect: {fileID: 11400000, guid: ededd9096a4453447b45e4ddb6382b55, type: 2}
     targetArg: 0
-  effects:
-  - {fileID: 11400000, guid: ededd9096a4453447b45e4ddb6382b55, type: 2}
-  targetArgs: 
+  - effect: {fileID: 11400000, guid: 4aa4085e7bb5ea946bace863c1839d41, type: 2}
+    targetArg: 0
   deliveryType: 0
   castTime: 1.5
   cooldown: 0
+  needsActor: 1
+  needsWP: 0
+  id: 3

@@ -4,17 +4,19 @@ using System;
 using UnityEngine;
 using Mirror;
 [System.Serializable]
-[CreateAssetMenu(fileName="Ability")]
-public class Missle : AbilityEff
+[CreateAssetMenu(fileName="Missile", menuName = "HBCsystem/Missile")]
+public class Missile : AbilityEff
 {   
-    public int school;
+    public int school = -1;
     public GameObject misslePrefab;
-    public override void effectStart(Actor _target = null, Vector3? _targetWP = null, Actor _caster = null){
-        Debug.Log("Actor " + _caster.getActorName() + ": casting Missle at " + _target.getActorName());
-        Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
+    public List<EffectInstruction> eInstructs;
+    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null){
+        //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
+        //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
         GameObject delivery = Instantiate(misslePrefab, _caster.gameObject.transform.position, _caster.gameObject.transform.rotation);
         delivery.GetComponent<AbilityDelivery>().setTarget(_target);
         delivery.GetComponent<AbilityDelivery>().setCaster(_caster);
+        delivery.GetComponent<AbilityDelivery>().eInstructs = eInstructs;
         NetworkServer.Spawn(delivery);
         
         /*
@@ -23,7 +25,7 @@ public class Missle : AbilityEff
         */
        
     }
-    public Missle(string _effectName, GameObject _misslePrefab, int _id = -1, float _power = 0, int _school = -1){
+    public Missile(string _effectName, GameObject _misslePrefab, int _id = -1, float _power = 0, int _school = -1){
         effectName = _effectName;
 
         misslePrefab = _misslePrefab;
@@ -32,15 +34,18 @@ public class Missle : AbilityEff
         power = _power;
         school = _school;
     }
-    public Missle(){}
+    public Missile(){}
     public override AbilityEff clone()
     {
-        Missle temp_ref = ScriptableObject.CreateInstance(typeof (Missle)) as Missle;
+        Missile temp_ref = ScriptableObject.CreateInstance(typeof (Missile)) as Missile;
         temp_ref.effectName = effectName;
         temp_ref.id = id;
         temp_ref.power = power;
         temp_ref.misslePrefab = misslePrefab;
-        
+        temp_ref.eInstructs = new List<EffectInstruction>();
+        foreach (EffectInstruction eI in eInstructs){
+            temp_ref.eInstructs.Add(eI.clone());
+        }
 
         return temp_ref;
     }

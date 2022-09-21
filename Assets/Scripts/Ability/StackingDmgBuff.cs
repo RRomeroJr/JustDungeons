@@ -4,13 +4,13 @@ using System;
 using UnityEngine;
 
 [System.Serializable]
-[CreateAssetMenu(fileName="Ability")]
+[CreateAssetMenu(fileName="StackingDmgBuff", menuName = "HBCsystem/StackingDmgBuff")]
 public class StackingDmgBuff : AbilityEff
 {   
     public int school;
 
     //                          in this case target is the actor the buff is on
-    public override void effectStart(Actor _target = null, Vector3? _targetWP = null, Actor _caster = null){
+    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null){
         if(parentBuff != null){
             //Debug.Log("Increased dmg: " + ((int)((power) * (float)parentBuff.stacks)).ToString());
             _target.damageValue((int)((power) * (float)parentBuff.stacks));

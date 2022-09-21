@@ -57,5 +57,44 @@ public static class Extensions
             return listToReturn;
         }
     }
+    public static void addEffect(this List<EffectInstruction> _eInstruct_list, AbilityEff _effect){
+        EffectInstruction tempRef = new EffectInstruction(_effect, 0);
+        _eInstruct_list.Add(tempRef);
+    }
+    public static void addEffect(this List<EffectInstruction> _eInstruct_list, AbilityEff _effect, int _targetArg){
+        EffectInstruction tempRef = new EffectInstruction(_effect, _targetArg);
+        _eInstruct_list.Add(tempRef);
+    }
+    public static void addEffects(this List<EffectInstruction> _eInstruct_list, List<AbilityEff> _effects){
+        foreach (AbilityEff eff in _effects){
+            _eInstruct_list.addEffect(eff);
+        }
+    }
+    public static void addEffects(this List<EffectInstruction> _eInstruct_list, List<AbilityEff> _effects, List<int> _targetArgs){
+        if(_effects.Count == _targetArgs.Count){
+            Debug.LogWarning("addEffects called with less tartgetArgs than effects. Remainder will be set to 0");
+        }
+        for (int i = 0; i < _effects.Count; i++)
+        {
+            if(i <_targetArgs.Count){
+                _eInstruct_list.addEffect(_effects[i], _targetArgs[i]);
+            }
+            else{
+                _eInstruct_list.addEffect(_effects[i], 0);
+            }
+        }
+    }
+    public static List<EffectInstruction> cloneInstructs(this List<EffectInstruction> eI_list){
+        List<EffectInstruction> listToReturn = new List<EffectInstruction>();
+        if(eI_list.Count > 0){
+            for(int i=0; i < eI_list.Count; i++){
+                listToReturn.Add(eI_list[i].clone());
+            }
+            return listToReturn;
+        }
+        else{
+            return listToReturn;
+        }
+    }
     
 }

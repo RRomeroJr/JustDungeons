@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using Mirror;
 /*
     Control for player movement. 
     
     *NOTE* for now there are things related to player health in here.
     This will be changed later 
 */
-public class PlayerMovementScript2 : MonoBehaviour{
+public class PlayerMovementScript2 : NetworkBehaviour{
     //--------------------------------------
     //  CONSTANTS
     //--------------------------------------
@@ -36,22 +37,24 @@ public class PlayerMovementScript2 : MonoBehaviour{
 
     // Update is called once per frame
     void FixedUpdate(){
-        //Debug.Log(getDashing().ToString());
-        if(dashing == false){
-            Vector2 newVect = new Vector2(Input.GetAxis("Horizontal") * HORIZ_MOVE_ACCEL * Time.deltaTime,
-                Input.GetAxis("Vertical") * VERT_MOVE_ACCEL * Time.deltaTime);
-            gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
-        }
-        else{
-            
-            transform.position = Vector2.MoveTowards(transform.position, lastMovementEffect.getTargetWP(), lastMovementEffect.getPower());
-            if(transform.position == lastMovementEffect.getTargetWP()){
-                lastMovementEffect = null;
-                dashing = false;
+        if(isLocalPlayer){
+        
+            if(dashing == false){
+                Vector2 newVect = new Vector2(Input.GetAxis("Horizontal") * HORIZ_MOVE_ACCEL * Time.deltaTime,
+                    Input.GetAxis("Vertical") * VERT_MOVE_ACCEL * Time.deltaTime);
+                gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
+            }
+            else{
+                
+                transform.position = Vector2.MoveTowards(transform.position, lastMovementEffect.getTargetWP(), lastMovementEffect.getPower());
+                if(transform.position == lastMovementEffect.getTargetWP()){
+                    lastMovementEffect = null;
+                    dashing = false;
+                }
+                
             }
             
         }
-        //Debug.Log(lastMovementEffect.getEffectName());
         
     }
     public AbilityEffect getLastMovementEffect(){

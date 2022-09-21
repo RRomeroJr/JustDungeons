@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 [System.Serializable]
-[CreateAssetMenu(fileName="Ability")]
+[CreateAssetMenu(fileName="Ability_V2", menuName = "HBCsystem/Ability_V2")]
 public class Ability_V2 : ScriptableObject{
     [SerializeField] protected string abilityName;
     [SerializeField] protected List<EffectInstruction> eInstructs;
-    [SerializeField] protected List<AbilityEff> effects;
-    [SerializeField] protected List<int> targetArgs; //if theres an arg here I will use it if not assumed 0
+    //[SerializeField] protected List<AbilityEff> effects;
+    //[SerializeField] protected List<int> targetArgs; //if theres an arg here I will use it if not assumed 0
 
 
     //[SerializeField] public bool needsTarget = true;
@@ -23,13 +23,13 @@ public class Ability_V2 : ScriptableObject{
 
     public string getName(){
         return abilityName;
-    }
+    }/*
     public AbilityEff getEffect(){
         return effects[0];
     }
     public List<AbilityEff> getEffects(){
         return effects;
-    }
+    }*/
     public float getCastTime(){
         return castTime;
     }
@@ -44,7 +44,7 @@ public class Ability_V2 : ScriptableObject{
         }else{
             Debug.Log("Can't edit Ability" + abilityName);
         }
-    }
+    }/*
     public void setEffect(AbilityEff _abilityEffectPreset){
         if(canEdit){
             List<AbilityEff> temp = new List<AbilityEff>();
@@ -67,7 +67,7 @@ public class Ability_V2 : ScriptableObject{
         }else{
             Debug.Log("Can't edit Ability" + abilityName);
         }
-    }
+    }*/
     /*public List<AbilityEffect> createEffects(){
         List<AbilityEffect> tempList_ref = effects.createEffects();
         return tempList_ref;
@@ -128,7 +128,8 @@ public class Ability_V2 : ScriptableObject{
                     float _cooldown = 0.0f){
        
         abilityName = _abilityName;
-        effects = new List<AbilityEff>() {_abilityEff};
+        eInstructs = new List<EffectInstruction>();
+        eInstructs.addEffect(_abilityEff);
         //if effects.Count != deliveryTypes.Count ERROR
         deliveryType = _deliveryType;
         castTime = _castTime;
@@ -139,20 +140,29 @@ public class Ability_V2 : ScriptableObject{
                      float _cooldown = 0.0f){
         
         abilityName = _abilityName;
-        effects = _effects;
+        eInstructs = new List<EffectInstruction>();
+        eInstructs.addEffects(_effects);
         deliveryType = _deliveryType;
         castTime = _castTime;
         cooldown = _cooldown;
         
     }
-    public void cast(){
+    public Ability_V2(string _abilityName, List<EffectInstruction> _eInstucts, int _deliveryType = 0, float _castTime = 0.0f,
+                     float _cooldown = 0.0f){
+        
+        abilityName = _abilityName;
+        eInstructs = _eInstucts;
+        deliveryType = _deliveryType;
+        castTime = _castTime;
+        cooldown = _cooldown;
         
     }
+    
     public Ability_V2 clone(){
         // Returns a Copy of the ability with a COPY of the the name, a REF to the effect, and copy of castTime since it is just a value type
 
         //return new Ability(String.Copy(abilityName), abilityEffectPreset, castTime, cooldown, needsTarget);
-        return new Ability_V2(String.Copy(abilityName), new List<AbilityEff>(effects), deliveryType, castTime, cooldown);
+        return new Ability_V2(String.Copy(abilityName), new List<EffectInstruction>(eInstructs), deliveryType, castTime, cooldown);
 
     }
     public bool NeedsTargetActor(){

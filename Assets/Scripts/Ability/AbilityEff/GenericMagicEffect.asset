@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: GenericMagicEffect
   m_EditorClassIdentifier: 
   effectName: GenericMagicEffect
-  id: -1
-  power: 14
+  id: 1
+  power: 7
+  parentBuff: {fileID: 0}
   school: -1

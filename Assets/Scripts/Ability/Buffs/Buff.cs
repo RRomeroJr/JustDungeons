@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 [System.Serializable]
-[CreateAssetMenu(fileName="Ability")]
+[CreateAssetMenu(fileName="Buff", menuName = "HBCsystem/Buff")]
 public class Buff: ScriptableObject
 {
     
@@ -24,7 +25,9 @@ public class Buff: ScriptableObject
    
     [SerializeField]protected int id; // Should be a positive unique identifer
     [SerializeField]public uint stacks;
-    public List<AbilityEff> effects;
+    
+    public List<EffectInstruction> eInstructs;
+    [SerializeField]public List<UnityEvent<Buff, EffectInstruction>> onCastHooks;
     
     
     public virtual void update(){
@@ -51,19 +54,22 @@ public class Buff: ScriptableObject
 
             //Find this buff in actor's List<> and remove it
             list_ref.Remove(list_ref.Find(x => this)); //This needs to be tested
+
         }
     }
     public virtual void OnTick(){
-        foreach(AbilityEff eff in effects){
-            eff.effectStart(_target: actor, _caster: caster);
+        foreach(EffectInstruction eI in eInstructs){
+            eI.startEffect(actor, null, caster);
         }
     }
-
+    public virtual void OnRemove(){
+        
+    }
     public string getEffectName(){
         return effectName;
     }
     public void setEffectName(string _effectName){
-        effectName = _effectName;        
+        effectName = _effectName;
     }
     
     // public float getPower(){
@@ -154,30 +160,13 @@ public class Buff: ScriptableObject
     }
     public Buff(){
     }
-    public Buff(string _effectName, float _duration, float _tickRate = 3.0f, int _id = -1,
-                      bool _stackable = false, bool _refreshable = true, uint _stacks = 1, GameObject _particles = null){
-
-
-        effectName = _effectName;
-        duration = _duration;
-
-        remainingTime = duration;
-
-        tickRate = _tickRate;
-        id = _id;
-        stackable = _stackable;
-        refreshable = _refreshable;
-        stacks = _stacks;
-        particles = _particles;
-
-    }
+    
     public void Init(string _effectName, float _duration, List<AbilityEff> _effects, float _tickRate = 3.0f, int _id = -1,
                       bool _stackable = false, bool _refreshable = true, uint _stacks = 1, GameObject _particles = null){
 
-
         effectName = _effectName;
         duration = _duration;
-        effects = _effects;
+        //effects = _effects;
 
         //remainingTime = duration;
 
@@ -187,8 +176,29 @@ public class Buff: ScriptableObject
         refreshable = _refreshable;
         stacks = _stacks;
         particles = _particles;
-        foreach (AbilityEff eff in effects){
+        foreach (AbilityEff eff in _effects){
             eff.parentBuff = this;
+        }
+        eInstructs = new List<EffectInstruction>();
+        eInstructs.addEffects(_effects);
+
+    }public void Init(string _effectName, float _duration, List<EffectInstruction> _eInstructs, float _tickRate = 3.0f, int _id = -1,
+                      bool _stackable = false, bool _refreshable = true, uint _stacks = 1, GameObject _particles = null){
+
+        effectName = _effectName;
+        duration = _duration;
+
+        eInstructs = _eInstructs;
+        //remainingTime = duration;
+
+        tickRate = _tickRate;
+        id = _id;
+        stackable = _stackable;
+        refreshable = _refreshable;
+        stacks = _stacks;
+        particles = _particles;
+        foreach(EffectInstruction eI in eInstructs){
+            eI.effect.parentBuff = this;
         }
 
     }
@@ -198,8 +208,9 @@ public class Buff: ScriptableObject
 
         Buff temp_ref = ScriptableObject.CreateInstance(typeof (Buff)) as Buff;
         
-        temp_ref.Init(String.Copy(effectName), duration, effects.cloneEffects(), //<- fix this garbage
-         tickRate, id, stackable,refreshable, stacks, particles);
+        temp_ref.Init(String.Copy(effectName), duration, eInstructs.cloneInstructs(),  
+         tickRate, id, stackable, refreshable, stacks, particles);
+         temp_ref.onCastHooks = onCastHooks;
         return temp_ref;
     }
 }

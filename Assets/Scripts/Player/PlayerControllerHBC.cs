@@ -74,7 +74,7 @@ public class PlayerControllerHBC : NetworkBehaviour
             }
             if(Input.GetKeyDown("3")){
                 if(ability3a != null)
-                player.castAbility3(ability3a);
+                    player.castAbility3(ability3a);
             }
             if(Input.GetKeyDown("4")){
                 if(ability4a != null)
@@ -113,7 +113,7 @@ public class PlayerControllerHBC : NetworkBehaviour
     void sayAbilityEffectName(AbilityEffect _abilityEffect){
         Debug.Log("This effect " + _abilityEffect.getEffectName() + "  finished!");
     }
-    Vector3 getWorldPointTarget(){
+    public Vector3 getWorldPointTarget(){
         Vector3 scrnPos = Input.mousePosition;
         Vector3 worldPoint = Camera.main.ScreenToWorldPoint(scrnPos);
         worldPoint.z = 0.0f;

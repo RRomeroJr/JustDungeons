@@ -9,16 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 630dbee7393b5314ab79662f009e6568, type: 3}
-  m_Name: MindBlast
+  m_Script: {fileID: 11500000, guid: c4ba702e811b1084d846a149e79883e2, type: 3}
+  m_Name: ShadownoltEffect
   m_EditorClassIdentifier: 
-  abilityName: Mind Blast
+  effectName: 
+  id: 3
+  power: 0
+  parentBuff: {fileID: 0}
+  school: 0
+  misslePrefab: {fileID: 8996080988287052582, guid: f001407721b25a0449cded0b467c60d5, type: 3}
   eInstructs:
   - effect: {fileID: 11400000, guid: efb6f4943ac2ee74aa23d5c3d1f5ec38, type: 2}
     targetArg: 0
-  deliveryType: 0
-  castTime: 1.5
-  cooldown: 0
-  needsActor: 1
-  needsWP: 0
-  id: 1

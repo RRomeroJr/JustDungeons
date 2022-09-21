@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 
 [System.Serializable]
-[CreateAssetMenu(fileName="Ability")]
+[CreateAssetMenu(fileName="ApplyBuff", menuName = "HBCsystem/ApplyBuff")]
 public class ApplyBuff : AbilityEff
 {
     //Maybe this should just be an id instead of the whole buff but
@@ -12,7 +12,7 @@ public class ApplyBuff : AbilityEff
 
     [SerializeField]protected Buff buffID; //Make this actually an id in the future
     //[SerializeField]protected int buffID;
-    public override void effectStart(Actor _target = null, Vector3? _targetWP = null, Actor _caster = null){
+    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null){
         Debug.Log("Apply Buff! To " + _target.getActorName() + "| " + _caster.getActorName());
         // Copy buff id __ and atatch it to target's buffs List<>
         /*
