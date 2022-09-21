@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class Unit : MonoBehaviour
 {
     private EnemyController controller;
-    public Coroutine coroutine;
 
     [Header("Set in inspector")]
     public LayerMask mask;
@@ -18,8 +17,8 @@ public class Unit : MonoBehaviour
     public BoxCollider2D collider;
     public Vector3 spawnLocation;
     public NavMeshAgent agent;
-    [SerializeField] private Vector3[] path;
-    [SerializeField] private int targetIndex;
+    [SerializeField] private Vector3[] path;    // Not used currently,
+    [SerializeField] private int targetIndex;   // might integrate with Navmeshplus for debugging purposes
 
     private void Awake()
     {
