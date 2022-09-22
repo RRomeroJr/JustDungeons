@@ -152,7 +152,7 @@ public class CustomNetworkManager : NetworkManager
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
         base.OnServerAddPlayer(conn);
-        //uiManager.partyFrame2.actor = conn.identity.GetComponent<Actor>();
+        uiManager.partyFrame2.actor = conn.identity.GetComponent<Actor>();
     }
 
     /// <summary>

@@ -168,24 +168,24 @@ public class Actor : NetworkBehaviour
         // foreach (var eI in _eInstructs){
         //     eI.startEffect(this, _targetWP, _caster);
         // }
-                int i = 0;
-                int lastBuffCount = buffs.Count;
-                while(i < buffs.Count)
-                {
-                    var buffhitHooks = buffs[i].onHitHooks;
-                    if(buffhitHooks != null){
-                        if(buffhitHooks.GetPersistentEventCount() > 0){
-                            Debug.Log("Invokeing onHitHooks: " + buffs[i].getEffectName());
-                            buffhitHooks.Invoke(buffs[i], _eInstruct);
-                        }else{
-                            Debug.Log("Buff has no hooks");
-                        }
-                    }
-
-                    if(lastBuffCount == buffs.Count)
-                        i++;
-
+        int i = 0;
+        int lastBuffCount = buffs.Count;
+        while(i < buffs.Count)
+        {
+            var buffhitHooks = buffs[i].onHitHooks;
+            if(buffhitHooks != null){
+                if(buffhitHooks.GetPersistentEventCount() > 0){
+                    Debug.Log("Invokeing onHitHooks: " + buffs[i].getEffectName());
+                    buffhitHooks.Invoke(buffs[i], _eInstruct);
+                }else{
+                    Debug.Log("Buff has no hooks");
                 }
+            }
+
+        if(lastBuffCount == buffs.Count)
+            i++;
+
+        }
 //        Debug.Log(actorName + " is starting eI for effect (" + _eInstruct.effect.effectName + ") From: " + (_caster != null ? _caster.actorName : "none"));
         _eInstruct.startEffect(this, _targetWP, _caster);
     }
@@ -457,7 +457,7 @@ public class Actor : NetworkBehaviour
         else{// For NPCs
             if(showDebug)
             Debug.Log(actorName + " starting cast: " + queuedAbility.getName());
-            gameObject.AddComponent<CastBarNPC>().Init(queuedAbility.getName(), this, queuedTarget, queuedAbility.getCastTime());
+            //gameObject.AddComponent<CastBarNPC>().Init(queuedAbility.getName(), this, queuedTarget, queuedAbility.getCastTime());
         }
     }
     void initCastBarWithWP(){
@@ -475,7 +475,7 @@ public class Actor : NetworkBehaviour
             if(showDebug)
             Debug.Log(actorName + " starting cast: " + queuedAbility.getName());
 
-            gameObject.AddComponent<CastBarNPC>().Init(queuedAbility.getName(), this, queuedTargetWP.Value, queuedAbility.getCastTime());
+            //gameObject.AddComponent<CastBarNPC>().Init(queuedAbility.getName(), this, queuedTargetWP.Value, queuedAbility.getCastTime());
         }
     }
     [Server]
@@ -606,6 +606,8 @@ public class Actor : NetworkBehaviour
                 if(castTime >= queuedAbility.getCastTime()){
                     Debug.Log("updateCast: readyToFire = true");
                     readyToFire = true;
+            }else{
+                //Debug.Log(actorName + "Failed isServer check");
             }
         }
     }
