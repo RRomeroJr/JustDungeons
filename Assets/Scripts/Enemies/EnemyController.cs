@@ -16,17 +16,21 @@ public class EnemyController : MonoBehaviour
     // Storage container object to hold game object subsystems
     Context context;
     public Transform target;
+    public List<Transform> multiTargets;
     public Vector3 spawnLocation;
     public BoxCollider2D collider;
     public LayerMask obstacleMask;
     private Dictionary<string, object> extra = new Dictionary<string, object>();
     public NavMeshAgent agent;
 
-    void Awake(){
+    void Awake()
+    {
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        multiTargets = new List<Transform>();
     }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -78,18 +82,31 @@ public class EnemyController : MonoBehaviour
     //void onMelee()
     //void onTank()
 
-    public bool TargetDetection(LayerMask targetMask)
+    // Returns true if target is in range and false if no targets are in range
+    // Sets the target to the closest target if multiple or a random enemy if random = true
+    // Uses a circle raycast centered on the enemy and checks if any gameobjects on the target layer are hit
+    public bool FindTargets(LayerMask targetMask, float range, bool random = false)
     {
         Transform closest;
-        Collider2D[] raycastHit = Physics2D.OverlapCircleAll((Vector2)transform.position, enemyStats.aggroRange, targetMask); // May need to optimize with OverlapCircleNonAlloc
+        Collider2D[] raycastHit = Physics2D.OverlapCircleAll((Vector2)transform.position, range, targetMask); // May need to optimize with OverlapCircleNonAlloc
+        multiTargets.Clear();
 
+        // If a target is found by raycastHit
         if (raycastHit.Length > 0)
         {
+            // Set target to a random target within range
+            if (random)
+            {
+                target = raycastHit[Random.Range(0, raycastHit.Length)].transform;
+                return true;
+            }
+
             closest = raycastHit[0].transform;
             // Find the closest target if multiple
             for (int i = 1; i < raycastHit.Length; i++)
             {
-                if (Vector3.Distance(transform.position, raycastHit[i].transform.position) < Vector3.Distance(transform.position, closest.position))
+                multiTargets.Add(raycastHit[i].transform);
+                if (Vector2.Distance(transform.position, raycastHit[i].transform.position) < Vector2.Distance(transform.position, closest.position))
                 {
                     closest = raycastHit[i].transform;
                 }
@@ -98,33 +115,6 @@ public class EnemyController : MonoBehaviour
             return true;
         }
         target = null;
-        return false;
-    }
-
-    public bool TargetInRange(float range)
-    {
-        if (target == null)
-        {
-            return false;
-        }
-        if (Vector3.Distance(transform.position, target.position) < range)
-        {
-            return true;
-        }
-        return false;
-    }
-
-    public bool targetBehindObstacle()
-    {
-        Vector3 colliderPos = transform.position + (Vector3)collider.offset;
-        Vector3 direction = target.position - (transform.position + (Vector3)collider.offset);
-        float distance = Vector3.Distance(colliderPos, target.position);
-        if (Physics2D.BoxCast(colliderPos, collider.size, 0f, direction, distance, obstacleMask))
-        {
-            Debug.Log("Target behind obstacle");
-            return true;
-        }
-        Debug.Log("Target not behind obstacle");
         return false;
     }
 }

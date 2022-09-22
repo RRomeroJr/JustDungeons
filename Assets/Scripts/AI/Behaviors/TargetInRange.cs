@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using TheKiwiCoder;
 
-public class TargetInAggroRange : ActionNode
+// Used to check if the set target is within a defined range
+// Does not set a target, target has to be set by another behavior; FindTarget()
+public class TargetInRange : ActionNode
 {
-    public LayerMask targetMask;
+    public float range;
     protected override void OnStart()
     {
     }
@@ -16,7 +18,7 @@ public class TargetInAggroRange : ActionNode
 
     protected override State OnUpdate()
     {
-        if (context.controller.TargetDetection(targetMask))
+        if (Vector2.Distance(context.controller.target.position, context.controller.transform.position) <= range)
         {
             return State.Success;
         }
