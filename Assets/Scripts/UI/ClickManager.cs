@@ -37,10 +37,10 @@ public class ClickManager : NetworkBehaviour
                 Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
                 RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
-                Debug.Log("mousePos "+ mousePos.ToString());
+                //Debug.Log("mousePos "+ mousePos.ToString());
 
                 if (hit.collider != null) {
-                    Debug.Log("Clicked something");
+                    //Debug.Log("Clicked something");
 
                     // set controller's target w/ actor hit by raycast
                     
@@ -50,7 +50,7 @@ public class ClickManager : NetworkBehaviour
                         playerActor.cmdReqSetTarget(hit.collider.gameObject.GetComponent<Actor>());
                     }
                 }else{
-                    Debug.Log("Nothing clicked");
+                    //Debug.Log("Nothing clicked");
                 }
             }
         }

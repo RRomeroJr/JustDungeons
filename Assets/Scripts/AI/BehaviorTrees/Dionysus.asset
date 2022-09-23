@@ -15,7 +15,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: e8c7f1290a8d0fd439910f0df3f5dece
-  position: {x: -314.2, y: -16}
+  position: {x: -175.20001, y: -15.999939}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -64,7 +64,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 1d01e0c30326e9d47881c5cb1532328e
-  position: {x: -42.200012, y: -16}
+  position: {x: 70.599976, y: -16}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
