@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using TheKiwiCoder;
 
-public class TargetInAttackRange : ActionNode
+public class HasResource : ActionNode
 {
-    public float range;
+    public Ability_V2 ability;
+    float resourceCost;
+    // store resourcetype
     protected override void OnStart()
     {
+        // set resourcecost and resourcetype
     }
 
     protected override void OnStop()
@@ -16,10 +19,7 @@ public class TargetInAttackRange : ActionNode
 
     protected override State OnUpdate()
     {
-        if (context.controller.TargetInRange(range))
-        {
-            return State.Success;
-        }
-        return State.Failure;
+        // call checkforresource
+        return State.Success;
     }
 }
