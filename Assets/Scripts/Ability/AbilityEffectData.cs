@@ -113,10 +113,10 @@ public class AbilityEffectData : ScriptableObject
 */
     /* OLD
         public static void secondaryTestboltFinish(AbilityEffect _ae){
-            _ae.getCaster().freeCast(PlayerAbilityData.CastedDamage, _ae.getTarget());
+            _ae.getCaster().freeCast(AbilityData.CastedDamage, _ae.getTarget());
         }
         public static void secondaryDoT(AbilityEffect _ae){
-            _ae.getCaster().freeCast(PlayerAbilityData.DoT, _ae.getTarget());
+            _ae.getCaster().freeCast(AbilityData.DoT, _ae.getTarget());
         }
         
         public static void dotDmgBonus(AbilityEffect _ae){

@@ -34,17 +34,17 @@ public class PlayerControllerHBC : NetworkBehaviour
     void Start()
     {   
         
-        // ability1 = PlayerAbilityData.DoT;
-        // ability2 = PlayerAbilityData.CastedDamage;
-        // ability3 = PlayerAbilityData.CastedHeal;
-        // ability4 = PlayerAbilityData.HoT;
-        // ability5 = PlayerAbilityData.AoE;
-        // ability6 = PlayerAbilityData.FreeAbilityIfHit;
-        // ability7 = PlayerAbilityData.DoubleEffectAbility;
-        // ability8 = PlayerAbilityData.DelayedDamage;
-        // ability9 = PlayerAbilityData.Teleport;
-        // ability10 = PlayerAbilityData.Dash;
-        // ability11 = PlayerAbilityData.DmgBuffBolt;
+        // ability1 = AbilityData.DoT;
+        // ability2 = AbilityData.CastedDamage;
+        // ability3 = AbilityData.CastedHeal;
+        // ability4 = AbilityData.HoT;
+        // ability5 = AbilityData.AoE;
+        // ability6 = AbilityData.FreeAbilityIfHit;
+        // ability7 = AbilityData.DoubleEffectAbility;
+        // ability8 = AbilityData.DelayedDamage;
+        // ability9 = AbilityData.Teleport;
+        // ability10 = AbilityData.Dash;
+        // ability11 = AbilityData.DmgBuffBolt;
         
         
 

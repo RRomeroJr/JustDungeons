@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac942c1e37f62a747963a76d3f19d80d, type: 3}
-  m_Name: PlayerAbilityData
+  m_Name: AbilityData
   m_EditorClassIdentifier: 
   abilityList:
   - {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}

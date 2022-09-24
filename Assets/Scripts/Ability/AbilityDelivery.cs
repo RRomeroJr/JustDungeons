@@ -28,7 +28,7 @@ public class AbilityDelivery : NetworkBehaviour
     public float tickRate = 1.5f; // an AoE type will hit you every tickRate secs
     public int aoeCap;
     public bool ignoreDuration;
-    
+    public float innerCircleRadius;
     void Start()
     {   
         if(isServer){
@@ -99,6 +99,29 @@ public class AbilityDelivery : NetworkBehaviour
                         }
                         }
                         
+                    }
+                    // make version that has a set number for ticks?
+                }
+            }
+            if(type == 4){
+                if (other.gameObject.GetComponent<Actor>() != caster){
+                    if (other.gameObject.GetComponent<Actor>() != null){
+
+                        float dist = Vector2.Distance
+                                (other.GetComponent<Renderer>().bounds.center, GetComponent<Renderer>().bounds.center);
+                        
+                        if(dist >= innerCircleRadius){
+                            if(checkIgnoreTarget(other.gameObject.GetComponent<Actor>()) == false){
+                                addToAoeIgnore(other.gameObject.GetComponent<Actor>(), tickRate);
+
+                                if(eInstructs.Count > 0){
+                                    Actor target_ref = other.gameObject.GetComponent<Actor>();
+                                    foreach (EffectInstruction eI in eInstructs){
+                                        eI.startEffect(target_ref, null, caster);
+                                    }
+                                }
+                            }
+                        }
                     }
                     // make version that has a set number for ticks?
                 }

@@ -8,6 +8,7 @@ using Mirror;
 public class Aoe : AbilityEff
 {   
     public int school;
+    public Vector3 prefabScale;
     public GameObject aoePrefab;
     public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null){
         //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
@@ -41,6 +42,7 @@ public class Aoe : AbilityEff
         temp_ref.effectName = effectName;
         temp_ref.id = id;
         temp_ref.power = power;
+        temp_ref.prefabScale = prefabScale;
         temp_ref.aoePrefab = aoePrefab;
         
 
