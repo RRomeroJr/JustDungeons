@@ -254,7 +254,7 @@ MonoBehaviour:
   ability5a: {fileID: 11400000, guid: 931d5445f8f32e341babe5f6fce3450b, type: 2}
   ability6a: {fileID: 11400000, guid: 288de58e0ce8a4a45b0bbfd2faf86635, type: 2}
   ability7a: {fileID: 11400000, guid: 21c29030a131d374bb022274c6677cb9, type: 2}
-  ability8a: {fileID: 0}
+  ability8a: {fileID: 11400000, guid: 4ab42603cefb69643b9deea4be861e99, type: 2}
   ability9a: {fileID: 0}
   test: {fileID: 11400000, guid: 09c5e600fbf9b6148892edb228809891, type: 2}
 --- !u!114 &568127742855530159

@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 7870898434327554640}
   m_LocalRotation: {x: -0, y: 0, z: 0.0000002810266, w: -1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4553, y: 0.4442, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8927114768485141093}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 7343147572883861924}
   - component: {fileID: 3926534262364259519}
   - component: {fileID: 4116171392838694478}
-  - component: {fileID: 6805784929251495949}
+  - component: {fileID: 3000838572065864135}
   m_Layer: 0
   m_Name: DonutAoe
   m_TagString: Untagged
@@ -114,7 +114,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5790396481059438554}
   m_Father: {fileID: 0}
@@ -252,8 +252,8 @@ MonoBehaviour:
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
---- !u!70 &6805784929251495949
-CapsuleCollider2D:
+--- !u!58 &3000838572065864135
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -262,9 +262,9 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 1}
-  m_Direction: 0
+  serializedVersion: 2
+  m_Radius: 0.5
