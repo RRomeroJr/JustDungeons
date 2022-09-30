@@ -12,22 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c893311ec16b744b77cf9683178ae3, type: 3}
   m_Name: ChargeBuff
   m_EditorClassIdentifier: 
-  effectName: 
-  duration: 0
+  effectName: Charge
+  duration: 5
   tickRate: 0
   particles: {fileID: 0}
   stackable: 0
   refreshable: 0
   lastTick: 0
-  remainingTime: 0
+  remainingTime: 5
   start: 0
   firstFrame: 1
   caster: {fileID: 0}
   actor: {fileID: 0}
   target: {fileID: 0}
-  id: 0
-  stacks: 0
-  eInstructs: []
+  id: -1
+  stacks: 1
+  eInstructs:
+  - effect: {fileID: 11400000, guid: 7e1f1dbe4d3b21d42a3f1d2e5598d493, type: 2}
+    targetArg: 0
   onCastHooks: []
   onHitHooks:
     m_PersistentCalls:

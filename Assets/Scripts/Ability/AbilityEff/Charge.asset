@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a95cb5e48dd9a16429464b3da3414924, type: 3}
   m_Name: Charge
   m_EditorClassIdentifier: 
-  effectName: 
-  id: -1
-  power: 0
+  effectName: Charge
+  id: 9
+  power: 0.1
   parentBuff: {fileID: 0}
   targetIsSecondary: 0
   school: -1

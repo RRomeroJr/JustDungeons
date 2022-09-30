@@ -10,11 +10,13 @@ public class Missile : AbilityEff
     public int school = -1;
     public GameObject misslePrefab;
     public List<EffectInstruction> eInstructs;
+
+    
     public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
         //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
         //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
         GameObject delivery = Instantiate(misslePrefab, _caster.gameObject.transform.position, _caster.gameObject.transform.rotation);
-        delivery.GetComponent<AbilityDelivery>().setTarget(_target);
+        delivery.GetComponent<AbilityDelivery>().setTarget(_secondaryTarget);
         delivery.GetComponent<AbilityDelivery>().setCaster(_caster);
         delivery.GetComponent<AbilityDelivery>().eInstructs = eInstructs;
         NetworkServer.Spawn(delivery);
@@ -34,7 +36,9 @@ public class Missile : AbilityEff
         power = _power;
         school = _school;
     }
-    public Missile(){}
+    public Missile(){
+        targetIsSecondary = true;
+    }
     public override AbilityEff clone()
     {
         Missile temp_ref = ScriptableObject.CreateInstance(typeof (Missile)) as Missile;

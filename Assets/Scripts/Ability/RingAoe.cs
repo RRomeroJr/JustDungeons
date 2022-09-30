@@ -42,7 +42,9 @@ public class RingAoe : Aoe
         power = _power;
         school = _school;
     }
-    public RingAoe(){}
+    public RingAoe(){
+        targetIsSecondary = true;
+    }
     public override AbilityEff clone()
     {
         RingAoe temp_ref = ScriptableObject.CreateInstance(typeof (RingAoe)) as RingAoe;

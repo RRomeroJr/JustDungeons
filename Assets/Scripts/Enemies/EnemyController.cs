@@ -4,14 +4,14 @@ using UnityEngine;
 using TheKiwiCoder;
 using UnityEngine.AI;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : Controller
 {
     public EnemySO enemyStats;
     // The main behaviour tree asset
     public BehaviourTree tree;
     public List<Ability_V2> abilities;
 
-    private Actor actor;
+    
 
     // Storage container object to hold game object subsystems
     Context context;
@@ -21,7 +21,7 @@ public class EnemyController : MonoBehaviour
     public BoxCollider2D collider;
     public LayerMask obstacleMask;
     private Dictionary<string, object> extra = new Dictionary<string, object>();
-    public NavMeshAgent agent;
+    
 
     void Awake()
     {

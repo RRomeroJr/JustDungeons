@@ -35,7 +35,9 @@ public class Aoe : AbilityEff
         power = _power;
         school = _school;
     }
-    public Aoe(){}
+    public Aoe(){
+        targetIsSecondary = true;
+    }
     public override AbilityEff clone()
     {
         Aoe temp_ref = ScriptableObject.CreateInstance(typeof (Aoe)) as Aoe;

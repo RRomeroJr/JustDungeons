@@ -31,12 +31,15 @@ public class Buff: ScriptableObject
     [SerializeField]public UnityEvent<Buff, EffectInstruction> onHitHooks;
     
     
+    
+    
     public virtual void update(){
         if(firstFrame){
             if(particles !=  null)
                 GameObject.Instantiate(particles, actor.gameObject.transform);
             
             firstFrame = false;
+            onStart();
             
         }
         else{
@@ -51,17 +54,27 @@ public class Buff: ScriptableObject
             lastTick -= tickRate;
         }
         if(remainingTime <= 0 ){
-            List<Buff> list_ref = actor.getBuffs();
-
-            //Find this buff in actor's List<> and remove it
-            list_ref.Remove(list_ref.Find(x => this)); //This needs to be tested
-
+            onFinish();
         }
     }
     public virtual void OnTick(){
         foreach(EffectInstruction eI in eInstructs){
             eI.startEffect(actor, null, caster);
         }
+    }
+    public virtual void onStart(){
+        foreach(EffectInstruction eI in eInstructs){
+            eI.effect.buffStartEffect();
+        }
+    }
+    public virtual void onFinish(){
+        foreach(EffectInstruction eI in eInstructs){
+            eI.effect.buffEndEffect();
+        }
+        List<Buff> list_ref = actor.getBuffs();
+
+        //Find this buff in actor's List<> and remove it
+        list_ref.Remove(list_ref.Find(x => this)); //This needs to be tested
     }
     public virtual void OnRemove(){
         

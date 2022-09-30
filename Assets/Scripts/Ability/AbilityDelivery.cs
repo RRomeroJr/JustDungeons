@@ -32,6 +32,9 @@ public class AbilityDelivery : NetworkBehaviour
     void Start()
     {   
         if(isServer){
+            foreach(EffectInstruction eI in eInstructs){
+                eI.effect.parentDelivery = this;
+            }
             if(type == 2){ // aoe no target
                 gameObject.transform.position = worldPointTarget;
             }
