@@ -10,7 +10,7 @@ public class Aoe : AbilityEff
     public int school =-1;
     public Vector3 prefabScale = Vector3.one;
     public GameObject aoePrefab;
-    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null){
+    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
         //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
         //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
         Debug.Log(_targetWP == null ? "Aoe: No targetWP" : ("Aoe: wp = " + _targetWP.Value.ToString()));
@@ -44,7 +44,7 @@ public class Aoe : AbilityEff
         temp_ref.power = power;
         temp_ref.prefabScale = prefabScale;
         temp_ref.aoePrefab = aoePrefab;
-        
+        temp_ref.targetIsSecondary = targetIsSecondary;
 
         return temp_ref;
     }

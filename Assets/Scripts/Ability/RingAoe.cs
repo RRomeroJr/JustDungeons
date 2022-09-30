@@ -12,7 +12,7 @@ public class RingAoe : Aoe
     public Vector3 innerCirclePosistion; //relative to parent
     public bool usePosition = false;
     
-    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null){
+    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
         //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
         //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
         Debug.Log(_targetWP == null ? "RingAoe: No targetWP" : ("RingAoe: wp = " + _targetWP.Value.ToString()));
@@ -55,6 +55,7 @@ public class RingAoe : Aoe
         temp_ref.innerCirclePosistion = innerCirclePosistion;
         temp_ref.usePosition = usePosition;
         temp_ref.aoePrefab = aoePrefab;
+        temp_ref.targetIsSecondary = targetIsSecondary;
         
 
         return temp_ref;

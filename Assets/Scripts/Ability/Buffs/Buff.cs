@@ -20,9 +20,9 @@ public class Buff: ScriptableObject
     [SerializeField]protected float remainingTime = 0.0f;
     [SerializeField]protected bool start = false;
     [SerializeField]protected bool firstFrame = true;
-    [SerializeField]protected Actor caster;
-    [SerializeField]protected Actor actor; // Actor that this effect is attached to
-   
+    [SerializeField]public Actor caster;
+    [SerializeField]public Actor actor; // Actor that this effect is attached to
+    [SerializeField]public Actor target;
     [SerializeField]protected int id; // Should be a positive unique identifer
     [SerializeField]public uint stacks;
     
@@ -213,6 +213,8 @@ public class Buff: ScriptableObject
          tickRate, id, stackable, refreshable, stacks, particles);
          temp_ref.onCastHooks = onCastHooks;
          temp_ref.onHitHooks = onHitHooks;
+        //  temp_ref.caster = caster;
+        //  temp_ref.target = target;
         return temp_ref;
     }
 }

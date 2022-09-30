@@ -164,7 +164,8 @@ public class Actor : NetworkBehaviour
             buffs.RemoveAt(listPos);
         }
     }
-    public void applyEffects(EffectInstruction _eInstruct, NullibleVector3 _targetWP, Actor _caster){
+    public void recieveEffect(EffectInstruction _eInstruct, NullibleVector3 _targetWP, Actor _caster, Actor _secondaryTarget = null){
+        
         // foreach (var eI in _eInstructs){
         //     eI.startEffect(this, _targetWP, _caster);
         // }
@@ -186,10 +187,11 @@ public class Actor : NetworkBehaviour
             i++;
 
         }
-//        Debug.Log(actorName + " is starting eI for effect (" + _eInstruct.effect.effectName + ") From: " + (_caster != null ? _caster.actorName : "none"));
-        _eInstruct.startEffect(this, _targetWP, _caster);
+        //Debug.Log(actorName + " is starting eI for effect (" + _eInstruct.effect.effectName + ") From: " + (_caster != null ? _caster.actorName : "none"));
+        //Debug.Log("recieveEffect " + _eInstruct.effect.effectName +"| caster:" + (_caster != null ? _caster.getActorName() : "_caster is null"));
+        _eInstruct.startEffect(this, _targetWP, _caster, _secondaryTarget);
     }
-    public void applyBuff(Buff _buff, Actor _caster = null){
+    public void applyBuff(Buff _buff){
         
         //Adding Buff it to this actor's list<Buff>
         
@@ -219,7 +221,7 @@ public class Actor : NetworkBehaviour
 
         }
         
-        _buff.setCaster(_caster);
+        //_buff.setCaster(_caster);
         _buff.setActor(this);
         _buff.setRemainingTime(_buff.getDuration());
         //Debug.Log(_abilityEffect.getRemainingTime().ToString() + " " + _abilityEffect.getDuration().ToString());

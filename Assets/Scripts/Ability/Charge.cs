@@ -4,23 +4,24 @@ using System;
 using UnityEngine;
 
 [System.Serializable]
-[CreateAssetMenu(fileName="Heal", menuName = "HBCsystem/Heal")]
-public class Heal : AbilityEff
+[CreateAssetMenu(fileName="Charge", menuName = "HBCsystem/Charge")]
+public class Charge : AbilityEff
 {   
-    public int school;
+    public int school = -1;
     public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
-       _target.restoreValue((int)power);
+       parentBuff.actor.transform.position = Vector2.MoveTowards(parentBuff.actor.transform.position, parentBuff.target.transform.position, power);
     }
-    public Heal(string _effectName, int _id = -1, float _power = 0, int _school = -1){
+    public Charge(string _effectName, int _id = -1, float _power = 0, int _school = -1){
         effectName = _effectName;
         id = _id;
         power = _power;
         school = _school;
+        targetIsSecondary = true;
     }
-    public Heal(){}
+    public Charge(){}
     public override AbilityEff clone()
     {
-        Heal temp_ref = ScriptableObject.CreateInstance(typeof (Heal)) as Heal;
+        Charge temp_ref = ScriptableObject.CreateInstance(typeof (Charge)) as Charge;
         temp_ref.effectName = effectName;
         temp_ref.id = id;
         temp_ref.power = power;
