@@ -9,13 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73ffaacd21b2ea24b8193df7fa736ca7, type: 3}
-  m_Name: DeliveryKnockback
+  m_Script: {fileID: 11500000, guid: c4ba702e811b1084d846a149e79883e2, type: 3}
+  m_Name: RedBoltEffect
   m_EditorClassIdentifier: 
   effectName: 
-  id: 11
-  power: 2000
+  id: 16
+  power: 0
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
-  targetIsSecondary: 0
-  school: -1
+  targetIsSecondary: 1
+  school: 0
+  misslePrefab: {fileID: 8996080988287052582, guid: 21d077f02007c604892137a553ae8ffe, type: 3}
+  eInstructs:
+  - effect: {fileID: 11400000, guid: 09c5e600fbf9b6148892edb228809891, type: 2}
+    targetArg: 0

@@ -9,7 +9,8 @@ public class PlayerControllerHBC : Controller
     
     
     
-   
+    [SerializeField] private float HORIZ_MOVE_ACCEL = 360;
+    [SerializeField] private float VERT_MOVE_ACCEL = 360;
     public UIManager uiManager;
     Ability ability1;
     Ability ability2;
@@ -66,7 +67,15 @@ public class PlayerControllerHBC : Controller
         // Debug.Log(" R = Teleport");
         // Debug.Log(" F = Dash");
     }
-
+    void FixedUpdate(){
+        if(isLocalPlayer){
+            if(actor.canMove){
+                Vector2 newVect = new Vector2(Input.GetAxis("Horizontal") * HORIZ_MOVE_ACCEL * Time.deltaTime,
+                    Input.GetAxis("Vertical") * VERT_MOVE_ACCEL * Time.deltaTime);
+                gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
+            }
+        }
+    }
 
     void Update()
     {    

@@ -9,12 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e704cf0d5e7d7f4f9682dbffa48de18, type: 3}
-  m_Name: ChargeApplyBuff
+  m_Script: {fileID: 11500000, guid: 630dbee7393b5314ab79662f009e6568, type: 3}
+  m_Name: Dizzy
   m_EditorClassIdentifier: 
-  effectName: ChargeApplyBuff
+  abilityName: Dizzy
+  eInstructs:
+  - effect: {fileID: 11400000, guid: f5d86c5f92dee814f82332a42c41f826, type: 2}
+    targetArg: 0
+  deliveryType: 0
+  castTime: 1
+  cooldown: 0
+  needsActor: 1
+  needsWP: 0
   id: 10
-  power: 0
-  parentBuff: {fileID: 0}
-  targetIsSecondary: 1
-  buffID: {fileID: 11400000, guid: 7050de3dd0b791e4bad35aa020af0515, type: 2}

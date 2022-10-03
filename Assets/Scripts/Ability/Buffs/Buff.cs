@@ -23,8 +23,8 @@ public class Buff: ScriptableObject
     [SerializeField]public Actor caster;
     [SerializeField]public Actor actor; // Actor that this effect is attached to
     [SerializeField]public Actor target;
-    [SerializeField]protected int id; // Should be a positive unique identifer
-    [SerializeField]public uint stacks;
+    [SerializeField]protected int id = -1; // Should be a positive unique identifer
+    [SerializeField]public uint stacks = 1;
     
     public List<EffectInstruction> eInstructs;
     [SerializeField]public List<UnityEvent<Buff, EffectInstruction>> onCastHooks;

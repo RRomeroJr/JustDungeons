@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3602611100074717268}
   - component: {fileID: 3602611100074717269}
-  - component: {fileID: 3602611100074717270}
   - component: {fileID: 3602611100074717274}
   - component: {fileID: 3602611100074717273}
   - component: {fileID: 3602611100074717279}
@@ -95,28 +94,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3602611100074717270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3602611100074717264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6383fb961e0d44347b40c17235d86073, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  IN_FLIGHT_X_MOVEMENT_MODIFIER: 350
-  FALL_RATE: 1.1
-  MAX_JUMP_SPEED: 3
-  MAX_RUN_SPEED: 3
-  HORIZ_MOVE_ACCEL: 360
-  VERT_MOVE_ACCEL: 360
-  lastMovementEffect: {fileID: 0}
-  dashing: 0
 --- !u!114 &3602611100074717274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,6 +116,7 @@ MonoBehaviour:
   maxMana: 0
   target: {fileID: 0}
   unitColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
+  canMove: 1
   abilityEffects: []
   buffs: []
   readyToFire: 0
@@ -248,9 +226,11 @@ MonoBehaviour:
   syncInterval: 0.1
   actor: {fileID: 0}
   agent: {fileID: 0}
+  HORIZ_MOVE_ACCEL: 360
+  VERT_MOVE_ACCEL: 360
   uiManager: {fileID: 0}
   ability1a: {fileID: 11400000, guid: 6f1e83bd16b15204c869d14952139722, type: 2}
-  ability2a: {fileID: 11400000, guid: 42286307fe5c006409021a3dc69efbfc, type: 2}
+  ability2a: {fileID: 11400000, guid: a89e255900be0224aaba9347c9adea30, type: 2}
   ability3a: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
   ability4a: {fileID: 11400000, guid: 722fa7e69c249d740829674736b49962, type: 2}
   ability5a: {fileID: 11400000, guid: 931d5445f8f32e341babe5f6fce3450b, type: 2}

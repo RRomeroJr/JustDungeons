@@ -14,10 +14,10 @@ public class Aoe : AbilityEff
         //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
         //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
         Debug.Log(_targetWP == null ? "Aoe: No targetWP" : ("Aoe: wp = " + _targetWP.Value.ToString()));
-        GameObject delivery = Instantiate(aoePrefab, getWP(_target, _targetWP), Quaternion.identity);
-        delivery.GetComponent<AbilityDelivery>().setTarget(_target);
+        GameObject delivery = Instantiate(aoePrefab, getWP(_secondaryTarget, _targetWP), Quaternion.identity);
+        delivery.GetComponent<AbilityDelivery>().setTarget(_secondaryTarget);
         delivery.GetComponent<AbilityDelivery>().setCaster(_caster);
-        delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_target, _targetWP);
+        delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_secondaryTarget, _targetWP);
         NetworkServer.Spawn(delivery);
         
         /*

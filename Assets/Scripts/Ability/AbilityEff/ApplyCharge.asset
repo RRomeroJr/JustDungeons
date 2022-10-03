@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73ffaacd21b2ea24b8193df7fa736ca7, type: 3}
-  m_Name: DeliveryKnockback
+  m_Script: {fileID: 11500000, guid: 2e704cf0d5e7d7f4f9682dbffa48de18, type: 3}
+  m_Name: ApplyCharge
   m_EditorClassIdentifier: 
-  effectName: 
-  id: 11
-  power: 2000
+  effectName: ApplyCharge
+  id: 10
+  power: 0
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
-  targetIsSecondary: 0
-  school: -1
+  targetIsSecondary: 1
+  buffID: {fileID: 11400000, guid: 7050de3dd0b791e4bad35aa020af0515, type: 2}

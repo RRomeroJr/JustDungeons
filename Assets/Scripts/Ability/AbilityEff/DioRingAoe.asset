@@ -16,9 +16,11 @@ MonoBehaviour:
   id: 8
   power: 0
   parentBuff: {fileID: 0}
+  parentDelivery: {fileID: 0}
+  targetIsSecondary: 1
   school: -1
-  prefabScale: {x: 5, y: 5, z: 5}
+  prefabScale: {x: 6, y: 6, z: 6}
   aoePrefab: {fileID: 8996080988287052582, guid: bf67b0839c63eeb4e9bbc7ee94492e0d, type: 3}
-  innerCircleRadius: 0
-  innerCircleScale: {x: 0.2, y: 0.2, z: 0.2}
-  innerCirclePosistion: {x: 0, y: 0, z: 0}
+  innerCircleRadius: 1.5
+  innerCirclePosistion: {x: 0, y: 0}
+  usePosition: 0

@@ -22,6 +22,7 @@ public class Actor : NetworkBehaviour
     public Actor target;
     
     public Color unitColor;
+    public bool canMove = true;
     [SerializeField]protected List<AbilityEffect> abilityEffects;
     [SerializeField]protected List<Buff> buffs;
     
@@ -38,7 +39,7 @@ public class Actor : NetworkBehaviour
     [SerializeField]protected List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
     public UIManager uiManager;
     public GameObject abilityDeliveryPrefab;
-   
+    
     public float castTime;
     public CastBar castBar;
     public List<UnityEvent<EffectInstruction>> onCastHooks = new List<UnityEvent<EffectInstruction>>();
@@ -616,6 +617,9 @@ public class Actor : NetworkBehaviour
     void resetCastTime(){
         isCasting = false;
         castTime = 0.0f;
+    }
+    public float getHealthPercent(){
+        return (float)health / (float)maxHealth;
     }
 
     //----------------------------------------------------------------old code no longer used------------------------------------------------------------------------------------
