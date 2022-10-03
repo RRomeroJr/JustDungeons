@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEngine.AI;
 
-public class PlayerControllerHBC : NetworkBehaviour
+public class PlayerControllerHBC : Controller
 {
     
     
     
-    public Actor player;
+    [SerializeField] private float HORIZ_MOVE_ACCEL = 360;
+    [SerializeField] private float VERT_MOVE_ACCEL = 360;
     public UIManager uiManager;
     Ability ability1;
     Ability ability2;
@@ -31,6 +33,12 @@ public class PlayerControllerHBC : NetworkBehaviour
     public Ability_V2 ability8a;
     public Ability_V2 ability9a;
     public AbilityEff test;
+    void Awake(){
+        actor = GetComponent<Actor>();
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
+    }
     void Start()
     {   
         
@@ -59,46 +67,54 @@ public class PlayerControllerHBC : NetworkBehaviour
         // Debug.Log(" R = Teleport");
         // Debug.Log(" F = Dash");
     }
-
+    void FixedUpdate(){
+        if(isLocalPlayer){
+            if(actor.canMove){
+                Vector2 newVect = new Vector2(Input.GetAxis("Horizontal") * HORIZ_MOVE_ACCEL * Time.deltaTime,
+                    Input.GetAxis("Vertical") * VERT_MOVE_ACCEL * Time.deltaTime);
+                gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
+            }
+        }
+    }
 
     void Update()
     {    
         if(isLocalPlayer){
             if(Input.GetKeyDown("1")){
                 if(ability1a != null)
-                player.castAbility3(ability1a);
+                actor.castAbility3(ability1a);
             }
             if(Input.GetKeyDown("2")){
                 if(ability2a != null)
-                player.castAbility3(ability2a);
+                actor.castAbility3(ability2a);
             }
             if(Input.GetKeyDown("3")){
                 if(ability3a != null)
-                    player.castAbility3(ability3a);
+                    actor.castAbility3(ability3a);
             }
             if(Input.GetKeyDown("4")){
                 if(ability4a != null)
-                player.castAbility3(ability4a);
+                actor.castAbility3(ability4a);
             }
             if(Input.GetKeyDown("5")){
                 if(ability5a != null)
-                player.castAbility3(ability5a);
+                actor.castAbility3(ability5a);
             }
             if(Input.GetKeyDown("6")){
                 if(ability6a != null)
-                player.castAbility3(ability6a);
+                actor.castAbility3(ability6a);
             }
             if(Input.GetKeyDown("7")){
                 if(ability7a != null)
-                player.castAbility3(ability7a);
+                actor.castAbility3(ability7a);
             }
             if(Input.GetKeyDown("8")){
                 if(ability8a != null)
-                player.castAbility3(ability8a);
+                actor.castAbility3(ability8a);
             }
             if(Input.GetKeyDown("9")){
                 if(ability9a != null)
-                player.castAbility3(ability9a);
+                actor.castAbility3(ability9a);
             }
             if(Input.GetKeyDown("k")){
                 reqAbilityEff(test);

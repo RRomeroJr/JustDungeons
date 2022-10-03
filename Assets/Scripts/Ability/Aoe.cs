@@ -10,14 +10,14 @@ public class Aoe : AbilityEff
     public int school =-1;
     public Vector3 prefabScale = Vector3.one;
     public GameObject aoePrefab;
-    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null){
+    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
         //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
         //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
         Debug.Log(_targetWP == null ? "Aoe: No targetWP" : ("Aoe: wp = " + _targetWP.Value.ToString()));
-        GameObject delivery = Instantiate(aoePrefab, getWP(_target, _targetWP), Quaternion.identity);
-        delivery.GetComponent<AbilityDelivery>().setTarget(_target);
+        GameObject delivery = Instantiate(aoePrefab, getWP(_secondaryTarget, _targetWP), Quaternion.identity);
+        delivery.GetComponent<AbilityDelivery>().setTarget(_secondaryTarget);
         delivery.GetComponent<AbilityDelivery>().setCaster(_caster);
-        delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_target, _targetWP);
+        delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_secondaryTarget, _targetWP);
         NetworkServer.Spawn(delivery);
         
         /*
@@ -35,7 +35,9 @@ public class Aoe : AbilityEff
         power = _power;
         school = _school;
     }
-    public Aoe(){}
+    public Aoe(){
+        targetIsSecondary = true;
+    }
     public override AbilityEff clone()
     {
         Aoe temp_ref = ScriptableObject.CreateInstance(typeof (Aoe)) as Aoe;
@@ -44,7 +46,7 @@ public class Aoe : AbilityEff
         temp_ref.power = power;
         temp_ref.prefabScale = prefabScale;
         temp_ref.aoePrefab = aoePrefab;
-        
+        temp_ref.targetIsSecondary = targetIsSecondary;
 
         return temp_ref;
     }

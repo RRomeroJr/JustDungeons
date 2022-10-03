@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3602611100074717268}
   - component: {fileID: 3602611100074717269}
-  - component: {fileID: 3602611100074717270}
   - component: {fileID: 3602611100074717274}
   - component: {fileID: 3602611100074717273}
   - component: {fileID: 3602611100074717279}
@@ -20,6 +19,7 @@ GameObject:
   - component: {fileID: 568127742855530159}
   - component: {fileID: 4071298855410542102}
   - component: {fileID: 6993748326980265517}
+  - component: {fileID: -121281515293638722}
   m_Layer: 6
   m_Name: Player 1
   m_TagString: Player
@@ -94,28 +94,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3602611100074717270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3602611100074717264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6383fb961e0d44347b40c17235d86073, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  IN_FLIGHT_X_MOVEMENT_MODIFIER: 350
-  FALL_RATE: 1.1
-  MAX_JUMP_SPEED: 3
-  MAX_RUN_SPEED: 3
-  HORIZ_MOVE_ACCEL: 360
-  VERT_MOVE_ACCEL: 360
-  lastMovementEffect: {fileID: 0}
-  dashing: 0
 --- !u!114 &3602611100074717274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,6 +116,7 @@ MonoBehaviour:
   maxMana: 0
   target: {fileID: 0}
   unitColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
+  canMove: 1
   abilityEffects: []
   buffs: []
   readyToFire: 0
@@ -210,7 +189,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 10
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -245,17 +224,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  player: {fileID: 3602611100074717274}
+  actor: {fileID: 0}
+  agent: {fileID: 0}
+  HORIZ_MOVE_ACCEL: 360
+  VERT_MOVE_ACCEL: 360
   uiManager: {fileID: 0}
   ability1a: {fileID: 11400000, guid: 6f1e83bd16b15204c869d14952139722, type: 2}
-  ability2a: {fileID: 11400000, guid: 42286307fe5c006409021a3dc69efbfc, type: 2}
+  ability2a: {fileID: 11400000, guid: a89e255900be0224aaba9347c9adea30, type: 2}
   ability3a: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
   ability4a: {fileID: 11400000, guid: 722fa7e69c249d740829674736b49962, type: 2}
   ability5a: {fileID: 11400000, guid: 931d5445f8f32e341babe5f6fce3450b, type: 2}
   ability6a: {fileID: 11400000, guid: 288de58e0ce8a4a45b0bbfd2faf86635, type: 2}
   ability7a: {fileID: 11400000, guid: 21c29030a131d374bb022274c6677cb9, type: 2}
   ability8a: {fileID: 11400000, guid: 4ab42603cefb69643b9deea4be861e99, type: 2}
-  ability9a: {fileID: 0}
+  ability9a: {fileID: 11400000, guid: 9721977442b9f7e489170b36a4ffc80b, type: 2}
   test: {fileID: 11400000, guid: 09c5e600fbf9b6148892edb228809891, type: 2}
 --- !u!114 &568127742855530159
 MonoBehaviour:
@@ -326,3 +308,25 @@ MonoBehaviour:
   targetHealthBar: {fileID: 0}
   targetHealthBarFill: {fileID: 0}
   playerActor: {fileID: 3602611100074717274}
+--- !u!195 &-121281515293638722
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3602611100074717264}
+  m_Enabled: 0
+  m_AgentTypeID: 0
+  m_Radius: 0.625
+  m_Speed: 16
+  m_Acceleration: 900
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 0
+  m_AutoRepath: 1
+  m_Height: 2.25
+  m_BaseOffset: 1.125
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4

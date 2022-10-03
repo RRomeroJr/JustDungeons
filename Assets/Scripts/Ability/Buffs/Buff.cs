@@ -20,15 +20,17 @@ public class Buff: ScriptableObject
     [SerializeField]protected float remainingTime = 0.0f;
     [SerializeField]protected bool start = false;
     [SerializeField]protected bool firstFrame = true;
-    [SerializeField]protected Actor caster;
-    [SerializeField]protected Actor actor; // Actor that this effect is attached to
-   
-    [SerializeField]protected int id; // Should be a positive unique identifer
-    [SerializeField]public uint stacks;
+    [SerializeField]public Actor caster;
+    [SerializeField]public Actor actor; // Actor that this effect is attached to
+    [SerializeField]public Actor target;
+    [SerializeField]protected int id = -1; // Should be a positive unique identifer
+    [SerializeField]public uint stacks = 1;
     
     public List<EffectInstruction> eInstructs;
     [SerializeField]public List<UnityEvent<Buff, EffectInstruction>> onCastHooks;
     [SerializeField]public UnityEvent<Buff, EffectInstruction> onHitHooks;
+    
+    
     
     
     public virtual void update(){
@@ -37,6 +39,7 @@ public class Buff: ScriptableObject
                 GameObject.Instantiate(particles, actor.gameObject.transform);
             
             firstFrame = false;
+            onStart();
             
         }
         else{
@@ -51,17 +54,27 @@ public class Buff: ScriptableObject
             lastTick -= tickRate;
         }
         if(remainingTime <= 0 ){
-            List<Buff> list_ref = actor.getBuffs();
-
-            //Find this buff in actor's List<> and remove it
-            list_ref.Remove(list_ref.Find(x => this)); //This needs to be tested
-
+            onFinish();
         }
     }
     public virtual void OnTick(){
         foreach(EffectInstruction eI in eInstructs){
             eI.startEffect(actor, null, caster);
         }
+    }
+    public virtual void onStart(){
+        foreach(EffectInstruction eI in eInstructs){
+            eI.effect.buffStartEffect();
+        }
+    }
+    public virtual void onFinish(){
+        foreach(EffectInstruction eI in eInstructs){
+            eI.effect.buffEndEffect();
+        }
+        List<Buff> list_ref = actor.getBuffs();
+
+        //Find this buff in actor's List<> and remove it
+        list_ref.Remove(list_ref.Find(x => this)); //This needs to be tested
     }
     public virtual void OnRemove(){
         
@@ -213,6 +226,8 @@ public class Buff: ScriptableObject
          tickRate, id, stackable, refreshable, stacks, particles);
          temp_ref.onCastHooks = onCastHooks;
          temp_ref.onHitHooks = onHitHooks;
+        //  temp_ref.caster = caster;
+        //  temp_ref.target = target;
         return temp_ref;
     }
 }
