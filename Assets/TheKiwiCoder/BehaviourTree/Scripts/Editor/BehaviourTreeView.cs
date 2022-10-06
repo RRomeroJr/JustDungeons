@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -22,7 +22,7 @@ namespace TheKiwiCoder {
         }
 
         public ScriptTemplate[] scriptFileAssets = {
-            
+
             new ScriptTemplate{ templateFile=BehaviourTreeSettings.GetOrCreateSettings().scriptTemplateActionNode, defaultFileName="NewActionNode.cs", subFolder="Actions" },
             new ScriptTemplate{ templateFile=BehaviourTreeSettings.GetOrCreateSettings().scriptTemplateCompositeNode, defaultFileName="NewCompositeNode.cs", subFolder="Composites" },
             new ScriptTemplate{ templateFile=BehaviourTreeSettings.GetOrCreateSettings().scriptTemplateDecoratorNode, defaultFileName="NewDecoratorNode.cs", subFolder="Decorators" },
@@ -57,6 +57,27 @@ namespace TheKiwiCoder {
         internal void PopulateView(BehaviourTree tree) {
             this.tree = tree;
 
+            // Remove all null nodes
+            foreach (Node n in tree.nodes)
+            {
+                if (n == null)
+                {
+                    tree.DeleteNode(n);
+                }
+            }
+
+            // Remove all null children from composite nodes
+            foreach (CompositeNode c in tree.nodes.Where(node => node.GetType().IsSubclassOf(typeof(CompositeNode))))
+            {
+                foreach (Node n in c.children)
+                {
+                    if (n == null)
+                    {
+                        tree.RemoveChild(c, n);
+                    }
+                }
+            }
+
             graphViewChanged -= OnGraphViewChanged;
             DeleteElements(graphElements.ToList());
             graphViewChanged += OnGraphViewChanged;
@@ -72,8 +93,16 @@ namespace TheKiwiCoder {
 
             // Create edges
             tree.nodes.ForEach(n => {
+                if (n == null)
+                {
+                    return;
+                }
                 var children = BehaviourTree.GetChildren(n);
                 children.ForEach(c => {
+                    if (c == null)
+                    {
+                        return;
+                    }
                     NodeView parentView = FindNodeView(n);
                     NodeView childView = FindNodeView(c);
 
@@ -115,6 +144,10 @@ namespace TheKiwiCoder {
             }
 
             nodes.ForEach((n) => {
+                if (n == null)
+                {
+                    return;
+                }
                 NodeView view = n as NodeView;
                 view.SortChildren();
             });
@@ -182,12 +215,20 @@ namespace TheKiwiCoder {
         }
 
         void CreateNode(System.Type type, Vector2 position) {
+            if (type == null)
+            {
+                return;
+            }
             Node node = tree.CreateNode(type);
             node.position = position;
             CreateNodeView(node);
         }
 
         void CreateNodeView(Node node) {
+            if (node == null)
+            {
+                return;
+            }
             NodeView nodeView = new NodeView(node);
             nodeView.OnNodeSelected = OnNodeSelected;
             AddElement(nodeView);
