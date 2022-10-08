@@ -13,11 +13,12 @@ public class Aoe : AbilityEff
     public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
         //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
         //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
-        Debug.Log(_targetWP == null ? "Aoe: No targetWP" : ("Aoe: wp = " + _targetWP.Value.ToString()));
+        //Debug.Log(_targetWP == null ? "Aoe: No targetWP" : ("Aoe: wp = " + _targetWP.Value.ToString()));
         GameObject delivery = Instantiate(aoePrefab, getWP(_secondaryTarget, _targetWP), Quaternion.identity);
         delivery.GetComponent<AbilityDelivery>().setTarget(_secondaryTarget);
         delivery.GetComponent<AbilityDelivery>().setCaster(_caster);
         delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_secondaryTarget, _targetWP);
+        delivery.transform.localScale = Vector3.Scale(delivery.transform.localScale, prefabScale);
         NetworkServer.Spawn(delivery);
         
         /*
@@ -51,11 +52,12 @@ public class Aoe : AbilityEff
         return temp_ref;
     }
     public Vector3 getWP(Actor _target = null, NullibleVector3 _targetWP = null){
-        if((_targetWP == null)&&(_target != null)){
-            return _target.transform.position;
-        }
-        else if((_targetWP != null)&&(_target == null)){
+        if(_targetWP != null){
             return _targetWP.Value;
+            
+        }
+        else if(_target != null){
+            return _target.transform.position;
         }
         else{
             throw new NullReferenceException();

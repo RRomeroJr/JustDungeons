@@ -9,18 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc9f193e603e12441b6582736aeedff2, type: 3}
-  m_Name: DioRingAoe
+  m_Script: {fileID: 11500000, guid: 9c9767288b02b0d45a755010f77359df, type: 3}
+  m_Name: VomitDisableMoevement
   m_EditorClassIdentifier: 
-  effectName: DioRingAoe
-  id: 8
+  effectName: VomitDisableMoevement
+  id: -1
   power: 0
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
-  targetIsSecondary: 1
+  targetIsSecondary: 0
   school: -1
-  prefabScale: {x: 6, y: 6, z: 6}
-  aoePrefab: {fileID: 8996080988287052582, guid: bf67b0839c63eeb4e9bbc7ee94492e0d, type: 3}
-  innerCircleRadius: 1.5
-  innerCirclePosistion: {x: 0, y: 0}
-  usePosition: 0

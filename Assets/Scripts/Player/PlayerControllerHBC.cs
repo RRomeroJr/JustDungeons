@@ -33,15 +33,18 @@ public class PlayerControllerHBC : Controller
     public Ability_V2 ability8a;
     public Ability_V2 ability9a;
     public AbilityEff test;
+    public Vector3 posTest;
+    //public Vector2 newVect_;
     void Awake(){
         actor = GetComponent<Actor>();
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        posTest = transform.position;
     }
-    void Start()
+    public override void Start()
     {   
-        
+        base.Start();
         // ability1 = AbilityData.DoT;
         // ability2 = AbilityData.CastedDamage;
         // ability3 = AbilityData.CastedHeal;
@@ -70,15 +73,25 @@ public class PlayerControllerHBC : Controller
     void FixedUpdate(){
         if(isLocalPlayer){
             if(actor.canMove){
-                Vector2 newVect = new Vector2(Input.GetAxis("Horizontal") * HORIZ_MOVE_ACCEL * Time.deltaTime,
-                    Input.GetAxis("Vertical") * VERT_MOVE_ACCEL * Time.deltaTime);
-                gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
+                Vector2 newVect = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            
+                if(Mathf.Abs(newVect.magnitude) > 0.2){
+                    newVect.x *= (HORIZ_MOVE_ACCEL * Time.deltaTime);
+                    newVect.y *= (VERT_MOVE_ACCEL * Time.deltaTime);
+                    gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
+                }
+                //if(not in deadzone)
+                // Vector2 newVect = new Vector2(Input.GetAxis("Horizontal") * HORIZ_MOVE_ACCEL * Time.deltaTime,
+                //     Input.GetAxis("Vertical") * VERT_MOVE_ACCEL * Time.deltaTime);
+                // gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
+                
             }
         }
     }
 
-    void Update()
+    public override void Update()
     {    
+        base.Update();
         if(isLocalPlayer){
             if(Input.GetKeyDown("1")){
                 if(ability1a != null)

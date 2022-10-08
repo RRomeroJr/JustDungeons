@@ -76,7 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c5f8f91ca31594408ce744e8fd86b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  padSingleton: {fileID: 11400000, guid: e4a324d6a97f3ed4ca35aae24e1eba31, type: 2}
+  adSingleton: {fileID: 11400000, guid: e4a324d6a97f3ed4ca35aae24e1eba31, type: 2}
   aedSingleton: {fileID: 11400000, guid: 05f702353c4ce0740bbec34a6703ccf0, type: 2}
 --- !u!114 &4602065914186662412
 MonoBehaviour:

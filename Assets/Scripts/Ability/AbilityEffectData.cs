@@ -58,6 +58,7 @@ public class AbilityEffectData : ScriptableObject
             }
             return null;
     }
+    
     // public void buffNextShadowbolt(EffectInstruction _eInstruct){
     //     if(_eInstruct.effect.id == 3){ //try to do this by a find later
     //         Missile missile = _eInstruct.effect as Missile;

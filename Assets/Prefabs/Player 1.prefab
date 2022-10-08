@@ -110,7 +110,7 @@ MonoBehaviour:
   syncInterval: 0.1
   showDebug: 1
   actorName: Deoscillate
-  health: 700
+  health: 30000
   maxHealth: 700
   mana: 0
   maxMana: 0
@@ -132,7 +132,9 @@ MonoBehaviour:
   abilityDeliveryPrefab: {fileID: 8996080988287052582, guid: a4706308c46cb1241917ac1a7cfb7176, type: 3}
   castTime: 0
   castBar: {fileID: 0}
-  onCastHooks: []
+  onAbilityCastHooks:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3602611100074717273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,8 +190,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 10
+  m_Mass: 0.5
+  m_LinearDrag: 14.4
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -226,8 +228,11 @@ MonoBehaviour:
   syncInterval: 0.1
   actor: {fileID: 0}
   agent: {fileID: 0}
-  HORIZ_MOVE_ACCEL: 360
-  VERT_MOVE_ACCEL: 360
+  autoAttacking: 0
+  autoAttackClone: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
+  followTarget: {fileID: 0}
+  HORIZ_MOVE_ACCEL: 420
+  VERT_MOVE_ACCEL: 420
   uiManager: {fileID: 0}
   ability1a: {fileID: 11400000, guid: 6f1e83bd16b15204c869d14952139722, type: 2}
   ability2a: {fileID: 11400000, guid: a89e255900be0224aaba9347c9adea30, type: 2}
@@ -239,6 +244,7 @@ MonoBehaviour:
   ability8a: {fileID: 11400000, guid: 4ab42603cefb69643b9deea4be861e99, type: 2}
   ability9a: {fileID: 11400000, guid: 9721977442b9f7e489170b36a4ffc80b, type: 2}
   test: {fileID: 11400000, guid: 09c5e600fbf9b6148892edb228809891, type: 2}
+  posTest: {x: 0, y: 0, z: 0}
 --- !u!114 &568127742855530159
 MonoBehaviour:
   m_ObjectHideFlags: 0

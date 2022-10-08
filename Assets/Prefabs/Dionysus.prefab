@@ -105,7 +105,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.10035217, y: -1.771394}
+  m_Offset: {x: 0.07683039, y: -1.6255583}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -116,7 +116,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.2838228, y: 0.9637828}
+  m_Size: {x: 1.8980637, y: 0.6721113}
   m_EdgeRadius: 0
 --- !u!50 &2096029720338020589
 Rigidbody2D:
@@ -168,7 +168,7 @@ NavMeshAgent:
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 4
   m_BaseOffset: 2
@@ -186,16 +186,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d39e721ed52146f4f80637fca265b2ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  actor: {fileID: 0}
+  agent: {fileID: 0}
+  autoAttacking: 0
+  autoAttackClone: {fileID: 0}
   enemyStats: {fileID: 11400000, guid: 3176dadcd08b7f745b62870f626a14cb, type: 2}
-  tree: {fileID: 11400000, guid: bf0ccd0f7fa011b4d9200ffa2543ecc5, type: 2}
+  tree: {fileID: 11400000, guid: 21e51056fafc71f47b081827bd54ff8e, type: 2}
   abilities: []
   target: {fileID: 0}
+  multiTargets: []
   spawnLocation: {x: 0, y: 0, z: 0}
   collider: {fileID: 0}
   obstacleMask:
     serializedVersion: 2
     m_Bits: 8
-  agent: {fileID: 0}
+  arenaObject: {fileID: 0}
 --- !u!114 &2096029720338020585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,6 +276,7 @@ MonoBehaviour:
   maxMana: 0
   target: {fileID: 0}
   unitColor: {r: 0, g: 0, b: 0, a: 0}
+  canMove: 1
   abilityEffects: []
   buffs: []
   readyToFire: 0

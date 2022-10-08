@@ -8,6 +8,7 @@ public class AbilityData : ScriptableObject
         Container for all abilities used by players? Maybe this will be broken up into classes later
     */
     public static AbilityData _inst;
+    public Ability_V2 AutoAttack;
     public static AbilityData instance{ get { 
         if(!_inst){
             AbilityData[] findResult = (Resources.FindObjectsOfTypeAll(typeof (AbilityData)) as AbilityData[]);

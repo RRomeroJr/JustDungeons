@@ -42,7 +42,11 @@ public class Actor : NetworkBehaviour
     
     public float castTime;
     public CastBar castBar;
-    public List<UnityEvent<EffectInstruction>> onCastHooks = new List<UnityEvent<EffectInstruction>>();
+
+    // Intentionally made this only pass in the id of the ability bc it shouldn't be
+    // used for buffing any effects at the moment. Only, "Did this actor cast the desired ability?"
+    // then, do something
+    public UnityEvent<int> onAbilityCastHooks = new UnityEvent<int>();
 
 
     void Start(){
@@ -78,7 +82,7 @@ public class Actor : NetworkBehaviour
         // This could take an extra param to indicate a different value to "damage"
         // For ex. a Ability that reduces maxHealth or destroys mana
 
-        Debug.Log("damageValue: " + amount.ToString()+ " on " + actorName);
+        //Debug.Log("damageValue: " + amount.ToString()+ " on " + actorName);
         if(amount >= 0){
             switch (valueType){
                 case 0:
@@ -180,7 +184,7 @@ public class Actor : NetworkBehaviour
                     Debug.Log("Invokeing onHitHooks: " + buffs[i].getEffectName());
                     buffhitHooks.Invoke(buffs[i], _eInstruct);
                 }else{
-                    Debug.Log("Buff has no hooks");
+                    //Debug.Log("Buff has no hooks");
                 }
             }
 
@@ -251,9 +255,22 @@ public class Actor : NetworkBehaviour
         }*/
         if(buffs.Count > 0){
 
-            for(int i = 0; i < buffs.Count; i++){
+            // for(int i = 0; i < buffs.Count; i++){
+            //     buffs[i].update();
+            //     //checkAbilityEffectToRemoveAtPos(buffs[i], i);
+            // }
+            int i = 0;
+            int lastBuffCount = buffs.Count;
+            while(i < buffs.Count){
+                Debug.Log("Buffs[" + i.ToString() + "] = " + buffs[i].getEffectName());
                 buffs[i].update();
-                //checkAbilityEffectToRemoveAtPos(buffs[i], i);
+                if(lastBuffCount == buffs.Count){
+                    
+                    i++;
+                }
+                else{
+                    Debug.Log("After RM Buffs[" + (i - 1).ToString() + "] = " + buffs[i-1].getEffectName());
+                }
             }
         
         }
@@ -266,10 +283,15 @@ public class Actor : NetworkBehaviour
     //     }
     // }
     //Casting----------------------------------------------------------------------------------------------
+    public void castRelativeToGmObj(Ability_V2 _ability, GameObject _obj, Vector2 _point){
+        NullibleVector3 nVect = new NullibleVector3();
+        nVect.Value = _obj.transform.position + (Vector3)_point;
+        castAbility3(_ability, _targetWP: nVect);
+    }
     public void castAbility3(Ability_V2 _ability, Actor _target = null, NullibleVector3 _targetWP = null){
         //Debug.Log("castAbility3");
         
-        if(true){ //Will be check on cd later
+        if(checkOnCooldown(_ability) == false){ //Will be check on cd later
             if(!readyToFire){
                 if(!isCasting){
                     if(_ability.NeedsTargetActor()){
@@ -292,7 +314,7 @@ public class Actor : NetworkBehaviour
                             return;
                         }
                     }
-                    Debug.Log("castAbility3 inner if");
+                    //Debug.Log("castAbility3 inner if");
                     // if(isServer){
                     //     serverSays(_ability);
                     // }
@@ -319,7 +341,7 @@ public class Actor : NetworkBehaviour
     [ClientRpc]
     public void rpcStartCast(Ability_V2 _ability, Actor _target, NullibleVector3 _targetWP){
                
-        Debug.Log("rpcStartCast");
+        //Debug.Log("rpcStartCast");
         if(_ability.getCastTime() > 0.0f){
                         
             queueAbility(_ability, _target, _targetWP);
@@ -330,6 +352,7 @@ public class Actor : NetworkBehaviour
             // ActorCastingAbilityEvent.Invoke(_ability)
             if(isServer){
                 fireCast(_ability, _target, _targetWP);
+                
             }else{
                 Debug.Log("Client ignoring fireCast");
             }
@@ -339,11 +362,13 @@ public class Actor : NetworkBehaviour
     //[Command (requiresAuthority=false)]
     [Command]
     public void cmdStartCast(Ability_V2 _ability, Actor _target, NullibleVector3 _targetWP){
-        Debug.Log("cmdStartCast");
+        //Debug.Log("cmdStartCast");
+        if(checkOnCooldown(_ability) == false){
+            rpcStartCast(_ability, _target, _targetWP);
+        }
         
-        rpcStartCast(_ability, _target, _targetWP);
     }
-    
+
     
     Actor tryFindTarget(Ability_V2 _ability){
         /*
@@ -352,7 +377,7 @@ public class Actor : NetworkBehaviour
                     _target = target
         */
         if(target != null){ //This actor's target
-            Debug.Log(_ability.getName() + " using current target as target");
+            //Debug.Log(_ability.getName() + " using current target as target");
             
             return target;
         }
@@ -404,15 +429,37 @@ public class Actor : NetworkBehaviour
                         i++;
 
                 }
+                // i = 0;
+                // int lastOnCastCount = onCastHooks.GetPersistentEventCount();
+                // while(i < onCastHooks.GetPersistentEventCount() )
+                // {
+                    
+                //     if(onCastHooks != null){
+                        
+                //         onCastHooks.Invoke(eI);
+                        
+                //     }
+
+                // if(lastOnCastCount == onCastHooks.GetPersistentEventCount())
+                //     i++;
+
+                // }
+                
             }
         }
+        
 
         if(isServer){
             foreach (EffectInstruction eI in EI_clones){
                 eI.startApply(_target, _targetWP, this);
             }
         }
+        addToCooldowns(_ability);
+        if(onAbilityCastHooks != null){
+            onAbilityCastHooks.Invoke(_ability.id);
+        }
         resetClientCastVars();
+        
     }
     [ClientRpc]
     void resetClientCastVars(){
@@ -513,7 +560,7 @@ public class Actor : NetworkBehaviour
         }
     }
     void addToCooldowns(Ability_V2 _ability){
-        abilityCooldowns.Add(new AbilityCooldown(queuedAbility));
+        abilityCooldowns.Add(new AbilityCooldown(_ability));
     }
     public bool checkOnCooldown(Ability_V2 _ability){
         if(abilityCooldowns.Count > 0){
@@ -607,7 +654,7 @@ public class Actor : NetworkBehaviour
             castTime += Time.deltaTime;
             if(isServer)
                 if(castTime >= queuedAbility.getCastTime()){
-                    Debug.Log("updateCast: readyToFire = true");
+                    //Debug.Log("updateCast: readyToFire = true");
                     readyToFire = true;
             }else{
                 //Debug.Log(actorName + "Failed isServer check");

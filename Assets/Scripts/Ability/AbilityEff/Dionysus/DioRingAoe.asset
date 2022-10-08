@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc9f193e603e12441b6582736aeedff2, type: 3}
+  m_Name: DioRingAoe
+  m_EditorClassIdentifier: 
+  effectName: DioRingAoe
+  id: 26
+  power: 0
+  parentBuff: {fileID: 0}
+  parentDelivery: {fileID: 0}
+  targetIsSecondary: 1
+  school: -1
+  prefabScale: {x: 25, y: 25, z: 25}
+  aoePrefab: {fileID: 8996080988287052582, guid: de75acaee2617ea4fb730d3324628ade, type: 3}
+  innerCircleRadius: 4
+  innerCirclePosistion: {x: 0, y: 0}
+  usePosition: 0

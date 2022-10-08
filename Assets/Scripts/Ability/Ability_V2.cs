@@ -35,6 +35,7 @@ public class Ability_V2 : ScriptableObject{
     }
 
     public float getCooldown(){
+        //Debug.Log(abilityName + " cd: " + cooldown.ToString());
         return cooldown;
     }
 

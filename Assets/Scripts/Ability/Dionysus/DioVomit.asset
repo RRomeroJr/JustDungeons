@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 630dbee7393b5314ab79662f009e6568, type: 3}
-  m_Name: DioRindAoe
+  m_Name: DioVomit
   m_EditorClassIdentifier: 
-  abilityName: DioRindAoe
+  abilityName: Dio Vomit
   eInstructs:
-  - effect: {fileID: 11400000, guid: 2630fc2bc061b854da8701961297402b, type: 2}
+  - effect: {fileID: 11400000, guid: 52d3f760ba3530647be0033f8c83ec14, type: 2}
     targetArg: 0
   deliveryType: 0
-  castTime: 1.5
+  castTime: 3.5
   cooldown: 0
   needsActor: 1
   needsWP: 0
-  id: 7
+  id: 14

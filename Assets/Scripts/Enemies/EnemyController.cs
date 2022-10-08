@@ -21,6 +21,7 @@ public class EnemyController : Controller
     public BoxCollider2D collider;
     public LayerMask obstacleMask;
     private Dictionary<string, object> extra = new Dictionary<string, object>();
+    public Arena arenaObject;
     
 
     void Awake()
@@ -32,8 +33,9 @@ public class EnemyController : Controller
     }
 
     // Start is called before the first frame update
-    void Start()
+    public override void Start()
     {
+        base.Start();
         spawnLocation = transform.position;
         ExtraValues();
         context = Context.CreateFromGameObject(gameObject, extra, enemyStats);
@@ -52,8 +54,9 @@ public class EnemyController : Controller
     }
 
     // Update is called once per frame
-    void Update()
+    public override void Update()
     {
+        base.Update();
         if (tree)
         {
             tree.Update();
@@ -98,6 +101,7 @@ public class EnemyController : Controller
             if (random)
             {
                 target = raycastHit[Random.Range(0, raycastHit.Length)].transform;
+                actor.target = target.GetComponent<Actor>();
                 return true;
             }
 
@@ -112,9 +116,11 @@ public class EnemyController : Controller
                 }
             }
             target = closest;
+            actor.target = target.GetComponent<Actor>();
             return true;
         }
         target = null;
+        actor.target = target.GetComponent<Actor>();
         return false;
     }
 }

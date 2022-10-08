@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac942c1e37f62a747963a76d3f19d80d, type: 3}
   m_Name: AbilityData
   m_EditorClassIdentifier: 
+  AutoAttack: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
   abilityList:
   - {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
   - {fileID: 11400000, guid: 931d5445f8f32e341babe5f6fce3450b, type: 2}
@@ -27,3 +28,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0be588aa3cf4cba49be09ec3c7eedf8e, type: 2}
   - {fileID: 11400000, guid: 7321b3009123a0445b1a2854893c5e88, type: 2}
   - {fileID: 11400000, guid: 9cb454ea2eaea2a4b9e749f9872a1d8e, type: 2}
+  - {fileID: 11400000, guid: 794222b41b160d344a1822a6d5a2972a, type: 2}
+  - {fileID: 11400000, guid: 47eac81710823d14287df1aea7f4eae6, type: 2}
+  - {fileID: 11400000, guid: c8fe0564ad0dc6741b4c5ea84703eeff, type: 2}
+  - {fileID: 11400000, guid: 23a4ba6541746fa4fa24633e44ffc337, type: 2}
+  - {fileID: 11400000, guid: 4ab42603cefb69643b9deea4be861e99, type: 2}
+  - {fileID: 11400000, guid: 486a5b2b6e71cfc4595eb0d45a7e0456, type: 2}

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8c893311ec16b744b77cf9683178ae3, type: 3}
+  m_Name: DioIntoxicated
+  m_EditorClassIdentifier: 
+  effectName: Intoxicated
+  duration: 10
+  tickRate: 0
+  particles: {fileID: 0}
+  stackable: 0
+  refreshable: 1
+  lastTick: 0
+  remainingTime: 14
+  start: 0
+  firstFrame: 1
+  caster: {fileID: 0}
+  actor: {fileID: 0}
+  target: {fileID: 0}
+  id: -1
+  stacks: 1
+  eInstructs:
+  - effect: {fileID: 11400000, guid: 6fa30c889b24b25429f1dca3e8007d62, type: 2}
+    targetArg: 0
+  onCastHooks: []
+  onHitHooks:
+    m_PersistentCalls:
+      m_Calls: []

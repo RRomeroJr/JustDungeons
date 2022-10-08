@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class AbilityCooldown 
 {
-    private string abilityName;
+    public string abilityName;
     public float remainingTime;  
 
     public AbilityCooldown(){

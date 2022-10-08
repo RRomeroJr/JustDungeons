@@ -21,34 +21,44 @@ public class AbilityDelivery : NetworkBehaviour
 
     [SerializeField]public List<AbilityEffect> abilityEffects;
     [SerializeField]public List<EffectInstruction> eInstructs;
-    
+    public bool connectedToCaster = false;
+    public float delayTimer = 0.0f;
+    public bool start = true;
     public int type; // 0 detroys when reaches target, 1 = skill shot
     public float speed;
     public float duration;
     public float tickRate = 1.5f; // an AoE type will hit you every tickRate secs
     public int aoeCap;
+    public bool followTarget;
     public bool ignoreDuration = true;
     public float innerCircleRadius;
     public Vector2 safeZoneCenter;
     void Start()
     {   
         if(isServer){
+            
             foreach(EffectInstruction eI in eInstructs){
                 eI.effect.parentDelivery = this;
             }
             if(type == 2){ // aoe no target
                 gameObject.transform.position = worldPointTarget;
             }
-            if(type == 3){ // aoe no target
+            if(type == 3){ 
                 gameObject.transform.position = target.transform.position;
             }
-            if(type == 4){ // aoe no target
+            if(type == 4){ 
                 gameObject.transform.position = worldPointTarget;
+            }
+            if(connectedToCaster){
+                float tempDist = GetComponent<Renderer>().bounds.size.x / 2.0f;
+                gameObject.transform.position = Vector2.MoveTowards(caster.transform.position,
+                                                                        worldPointTarget, tempDist);
             }
         }
     }
     private void OnTriggerEnter2D(Collider2D other)
     {   if(isServer){
+        if(start){
             if(type == 0){   
                 if (other.gameObject.GetComponent<Actor>() == target){
                     
@@ -84,11 +94,13 @@ public class AbilityDelivery : NetworkBehaviour
                 }
             }*/
         }
+        }
         
     }
     private void OnTriggerStay2D(Collider2D other){
         if(isServer){
-            if(type == 2){
+            if(start){
+            if((type == 2)||(type == 3)){
                 
                 if (other.gameObject.GetComponent<Actor>() != caster){
                     if (other.gameObject.GetComponent<Actor>() != null){
@@ -100,8 +112,9 @@ public class AbilityDelivery : NetworkBehaviour
                             */
                             if(eInstructs.Count > 0){
                                 Actor target_ref = other.gameObject.GetComponent<Actor>();
+                                Debug.Log("AD aoe hit with target_ref: " + target_ref.getActorName());
                                 foreach (EffectInstruction eI in eInstructs){
-                                    eI.startEffect(target_ref, null, caster);
+                                    eI.startApply(target_ref, null, caster);
                             }
                         }
                         }
@@ -127,7 +140,7 @@ public class AbilityDelivery : NetworkBehaviour
                                 if(eInstructs.Count > 0){
                                     Actor target_ref = other.gameObject.GetComponent<Actor>();
                                     foreach (EffectInstruction eI in eInstructs){
-                                        eI.startEffect(target_ref, null, caster);
+                                        eI.startApply(target_ref, null, caster);
                                     }
                                 }
                             }
@@ -141,11 +154,13 @@ public class AbilityDelivery : NetworkBehaviour
                     // make version that has a set number for ticks?
                 }
             }
+            }
         }
     }
     void FixedUpdate()
     {
         if(isServer){
+            if(start){
             if(type == 0){
                 transform.position = Vector2.MoveTowards(transform.position, target.gameObject.transform.position, speed);
             }
@@ -155,27 +170,43 @@ public class AbilityDelivery : NetworkBehaviour
                     Destroy(gameObject);
                 }
             }
+            }
         }
     }
     void Update()
     {
         if(isServer){
-            if(aoeActorIgnore.Count > 0){
-                updateTargetCooldowns();
-                
-            }
-            if(!ignoreDuration){
-                duration -= Time.deltaTime;
-                if(duration <= 0){
-                    Debug.Log("Destroying AoE");        
-                    Destroy(gameObject);
+            if(type == 3){
+                if(followTarget){
+                    transform.position = target.transform.position;
                 }
             }
-            if(type == 4){
-                safeZoneCenter = transform.GetChild(0).transform.position;
+            if(start){
+                if(aoeActorIgnore.Count > 0){
+                    updateTargetCooldowns();
+                    
+                }
+                if(!ignoreDuration){
+                    duration -= Time.deltaTime;
+                    if(duration <= 0){
+                        //Debug.Log("Destroying AoE");        
+                        Destroy(gameObject);
+                    }
+                }
+                
+                if(type == 4){
+                    safeZoneCenter = transform.GetChild(0).transform.position;
+                }
+                }
+                else{
+
+                    delayTimer -= 1.0f * Time.deltaTime;
+                    if(delayTimer <= 0.0f){
+                        start = true;
+                    }
+                }
             }
         }
-    }
 
     /*public AbilityDelivery(ActiveAbilityEffect _abilityEffect, int _type, Actor _caster){
         abilityEffect = _abilityEffect;

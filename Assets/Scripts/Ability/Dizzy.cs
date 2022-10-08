@@ -34,6 +34,7 @@ public class Dizzy : AbilityEff
     }
     public override void buffEndEffect()
     {
+        Debug.Log(effectName + ": canMove = true;");
      parentBuff.actor.canMove = true;
     }
     public Dizzy(string _effectName, int _id = -1, float _power = 0, int _school = -1){

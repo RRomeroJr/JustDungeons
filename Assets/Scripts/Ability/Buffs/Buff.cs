@@ -39,6 +39,7 @@ public class Buff: ScriptableObject
                 GameObject.Instantiate(particles, actor.gameObject.transform);
             
             firstFrame = false;
+            //Debug.Log(effectName + "onStart()");
             onStart();
             
         }
@@ -71,10 +72,12 @@ public class Buff: ScriptableObject
         foreach(EffectInstruction eI in eInstructs){
             eI.effect.buffEndEffect();
         }
+        Debug.Log(effectName + ": onFinish complete");
         List<Buff> list_ref = actor.getBuffs();
 
         //Find this buff in actor's List<> and remove it
-        list_ref.Remove(list_ref.Find(x => this)); //This needs to be tested
+        // Debug.Log(effectName+ ": list rm");
+        list_ref.Remove(list_ref.Find(x => x ==  this)); //This needs to be tested
     }
     public virtual void OnRemove(){
         

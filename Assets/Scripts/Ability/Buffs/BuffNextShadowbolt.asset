@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BuffNextShadowbolt
   m_EditorClassIdentifier: 
   effectName: BuffNextShadowbolt
-  duration: 10
+  duration: 5.08
   tickRate: 0
   particles: {fileID: 0}
   stackable: 0
@@ -24,6 +24,7 @@ MonoBehaviour:
   firstFrame: 1
   caster: {fileID: 0}
   actor: {fileID: 0}
+  target: {fileID: 0}
   id: -1
   stacks: 1
   eInstructs: []
@@ -42,3 +43,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onHitHooks:
+    m_PersistentCalls:
+      m_Calls: []
