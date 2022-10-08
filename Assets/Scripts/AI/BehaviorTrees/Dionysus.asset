@@ -919,7 +919,7 @@ MonoBehaviour:
   drawGizmos: 0
   child: {fileID: -5391588442248254115}
   restartOnSuccess: 1
-  restartOnFailure: 0
+  restartOnFailure: 1
 --- !u!114 &8916140886151053736
 MonoBehaviour:
   m_ObjectHideFlags: 0
