@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 /*
     Handler for all UI HUD elements
 */
@@ -32,13 +33,14 @@ public class UIManager : MonoBehaviour
         /* Not sure if unit frames should have refences to actors
            like this. Later I might change this so the UIManager
          v   has refs to unitframes and correponding actors      v*/
-        setUpUnitFrame(partyFrame, partyFrame.actor);
-        setUpUnitFrame(partyFrame1, partyFrame1.actor);
-        setUpUnitFrame(partyFrame2, partyFrame2.actor);
-        setUpUnitFrame(partyFrame3, partyFrame3.actor);
+        updateUnitFrame(partyFrame, partyFrame.actor);
+        updateUnitFrame(partyFrame1, partyFrame1.actor);
+        updateUnitFrame(partyFrame2, partyFrame2.actor);
+        updateUnitFrame(partyFrame3, partyFrame3.actor);
+        //setUpUnitFrame(partyFrame, partyFrame.actor);
 
     }
-    public void setUpUnitFrame(UnitFrame unitFrame, Actor actor){
+    public void updateUnitFrame(UnitFrame unitFrame, Actor actor){
         if(actor != null){
             //setting Actor
             unitFrame.actor = actor;
@@ -51,15 +53,39 @@ public class UIManager : MonoBehaviour
             unitFrame.healthFill.color = actor.unitColor;
         }
     }
+    // public void setUpUnitFrame(PointerEventData data){
+    //     Debug.Log("Test");
+    // }
+    // public void setUpUnitFrame(UnitFrame unitFrame, Actor actor){   
+    //     EventTrigger trigger = unitFrame.GetComponent<EventTrigger>();
+    //     EventTrigger.Entry entry = trigger.triggers.Find(ent => ent.eventID == EventTriggerType.PointerClick);
+    //     if(entry != null){
+    //         Debug.LogError("UnitFrame has no PointerClick entry trigger.triggers.Count: " + trigger.triggers.Count.ToString());
+    //     }
+    //     entry.callback.AddListener((methodIWant) => { setTarget(); });
+        
+    // }
     
     void Update(){
-        setUpUnitFrame(partyFrame, partyFrame.actor);
-        setUpUnitFrame(partyFrame1, partyFrame1.actor);
-        setUpUnitFrame(partyFrame2, partyFrame2.actor);
-        setUpUnitFrame(partyFrame3, partyFrame3.actor);
+        updateUnitFrame(partyFrame, partyFrame.actor);
+        updateUnitFrame(partyFrame1, partyFrame1.actor);
+        updateUnitFrame(partyFrame2, partyFrame2.actor);
+        updateUnitFrame(partyFrame3, partyFrame3.actor);
         if(playerActor != null){ 
-            setUpUnitFrame(targetFrame, playerActor.target);
+            updateUnitFrame(targetFrame, playerActor.target);
         }
+    }
+    public void setTarget(){
+        Debug.Log("Test");
+    }
+    public void setTargetGmObj(GameObject input){
+        UnitFrame uF = input.GetComponent<UnitFrame>();
+        //Debug.Log(uF != null ? "uF found" : "uF NULL");
+
+        //Debug.Log(temp != null ? "temp actor found" : "temp actor NULL");
+        //Debug.Log(playerActor != null ? "playerActor assigned" : "playerActor NULL");
+        //playerActor.target = (temp != null ? temp : null);
+        playerActor.target = (uF != null ? uF.actor : null);
     }
 
 }

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectName: GenericMagicEffect
   id: 1
-  power: 7
+  power: 1
   parentBuff: {fileID: 0}
+  parentDelivery: {fileID: 0}
+  targetIsSecondary: 0
   school: -1

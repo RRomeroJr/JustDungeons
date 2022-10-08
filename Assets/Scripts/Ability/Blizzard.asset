@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 630dbee7393b5314ab79662f009e6568, type: 3}
   m_Name: Blizzard
   m_EditorClassIdentifier: 
-  abilityName: 
-  eInstructs: []
+  abilityName: Blizzard
+  eInstructs:
+  - effect: {fileID: 11400000, guid: 43a595418caa2ee449e7c391c8b30616, type: 2}
+    targetArg: 0
   deliveryType: 0
-  castTime: 0
+  castTime: 1.5
   cooldown: 0
   needsActor: 0
-  needsWP: 0
-  id: 0
+  needsWP: 1
+  id: 6

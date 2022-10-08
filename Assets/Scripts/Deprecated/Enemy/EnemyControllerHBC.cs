@@ -19,7 +19,7 @@ public class EnemyControllerHBC : MonoBehaviour
     {   
         actor = gameObject.GetComponent<Actor>();
         
-        //queuedAbility = PlayerAbilityData.CastedDamage;
+        //queuedAbility = AbilityData.CastedDamage;
         //StartCoroutine(tryCastEveryXSecs(queuedAbility, 9.5f));
        
     }

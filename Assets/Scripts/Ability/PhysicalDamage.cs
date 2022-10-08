@@ -7,7 +7,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName="PhysicalDamage", menuName = "HBCsystem/PhysicalDamage")]
 public class PhysicalDamage : AbilityEff
 {
-    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null){
+    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
         _target.damageValue((int)power);
     }
     public PhysicalDamage(string _effectName, int _id = -1, float _power = 0){
@@ -22,6 +22,7 @@ public class PhysicalDamage : AbilityEff
         temp_ref.effectName = effectName;
         temp_ref.id = id;
         temp_ref.power = power;
+        temp_ref.targetIsSecondary = targetIsSecondary;
         
 
         return temp_ref;

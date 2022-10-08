@@ -23,27 +23,27 @@ public static class CustomReadWriteFuctions
     }
     public static Ability_V2 ReadAbility(this NetworkReader reader){
         //Debug.Log("ReadAbility");
-        //Debug.Log(PlayerAbilityData.instance == null ? "No PAD" : "Read Ability: PAD found");
+        //Debug.Log(AbilityData.instance == null ? "No ad" : "Read Ability: ad found");
         //Debug.Log(reader == null ? "reader null" : "reader OK");
         int abilityID = reader.ReadInt();
         Ability_V2 result = null;
-        if(PlayerAbilityData.instance != null){
-            if(PlayerAbilityData.instance.abilityList != null){
-                if(abilityID < PlayerAbilityData.instance.abilityList.Count){
-                    result = PlayerAbilityData.instance.find(abilityID);
+        if(AbilityData.instance != null){
+            if(AbilityData.instance.abilityList != null){
+                if(abilityID < AbilityData.instance.abilityList.Count){
+                    result = AbilityData.instance.find(abilityID);
                     
                 }
                 else{
                     Debug.LogError("abilityID > than the length of abilityaList");
                 }
             }else{
-                Debug.LogError("No abilityList in PAD");
+                Debug.LogError("No abilityList in ad");
             }
         }else{
-            Debug.LogError("PAD instance == NULL");
+            Debug.LogError("ad instance == NULL");
         }
 
-        //Debug.Log("PAD result: " + (result != null ? (result.getName() + " id: " + result.id.ToString()) : "NULL"));
+        //Debug.Log("ad result: " + (result != null ? (result.getName() + " id: " + result.id.ToString()) : "NULL"));
         return result;
     }
     

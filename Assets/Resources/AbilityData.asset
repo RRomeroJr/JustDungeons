@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac942c1e37f62a747963a76d3f19d80d, type: 3}
-  m_Name: PlayerAbilityData
+  m_Name: AbilityData
   m_EditorClassIdentifier: 
   abilityList:
   - {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
@@ -20,3 +20,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 288de58e0ce8a4a45b0bbfd2faf86635, type: 2}
   - {fileID: 11400000, guid: 42286307fe5c006409021a3dc69efbfc, type: 2}
   - {fileID: 11400000, guid: 21c29030a131d374bb022274c6677cb9, type: 2}
+  - {fileID: 11400000, guid: 4ab42603cefb69643b9deea4be861e99, type: 2}
+  - {fileID: 11400000, guid: 9721977442b9f7e489170b36a4ffc80b, type: 2}
+  - {fileID: 11400000, guid: 7493daf4b75b8fe469464683c386b6b8, type: 2}
+  - {fileID: 11400000, guid: a89e255900be0224aaba9347c9adea30, type: 2}
+  - {fileID: 11400000, guid: 0be588aa3cf4cba49be09ec3c7eedf8e, type: 2}
+  - {fileID: 11400000, guid: 7321b3009123a0445b1a2854893c5e88, type: 2}
+  - {fileID: 11400000, guid: 9cb454ea2eaea2a4b9e749f9872a1d8e, type: 2}

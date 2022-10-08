@@ -16,8 +16,10 @@ MonoBehaviour:
   id: 3
   power: 0
   parentBuff: {fileID: 0}
+  parentDelivery: {fileID: 0}
+  targetIsSecondary: 1
   school: 0
   misslePrefab: {fileID: 8996080988287052582, guid: f001407721b25a0449cded0b467c60d5, type: 3}
   eInstructs:
-  - effect: {fileID: 11400000, guid: efb6f4943ac2ee74aa23d5c3d1f5ec38, type: 2}
+  - effect: {fileID: 11400000, guid: c7c9be1a671c95647a17f110d0bff9e2, type: 2}
     targetArg: 0

@@ -27,16 +27,23 @@ public class AbilityDelivery : NetworkBehaviour
     public float duration;
     public float tickRate = 1.5f; // an AoE type will hit you every tickRate secs
     public int aoeCap;
-    public bool ignoreDuration;
-    
+    public bool ignoreDuration = true;
+    public float innerCircleRadius;
+    public Vector2 safeZoneCenter;
     void Start()
     {   
         if(isServer){
+            foreach(EffectInstruction eI in eInstructs){
+                eI.effect.parentDelivery = this;
+            }
             if(type == 2){ // aoe no target
                 gameObject.transform.position = worldPointTarget;
             }
             if(type == 3){ // aoe no target
                 gameObject.transform.position = target.transform.position;
+            }
+            if(type == 4){ // aoe no target
+                gameObject.transform.position = worldPointTarget;
             }
         }
     }
@@ -103,6 +110,37 @@ public class AbilityDelivery : NetworkBehaviour
                     // make version that has a set number for ticks?
                 }
             }
+            if(type == 4){
+                //Debug.Log("type 4 onTiggerStay");
+                if (other.gameObject.GetComponent<Actor>() != caster){
+                    if (other.gameObject.GetComponent<Actor>() != null){
+                        //Debug.Log("Actor found and not caster");
+                        float dist = Vector2.Distance
+                                (other.GetComponent<Collider2D>().bounds.center, safeZoneCenter);
+                        
+                        if(dist > innerCircleRadius){
+                            Debug.DrawLine(other.GetComponent<Collider2D>().bounds.center, safeZoneCenter, Color.red);
+                            if(checkIgnoreTarget(other.gameObject.GetComponent<Actor>()) == false){
+                                
+                                addToAoeIgnore(other.gameObject.GetComponent<Actor>(), tickRate);
+                                
+                                if(eInstructs.Count > 0){
+                                    Actor target_ref = other.gameObject.GetComponent<Actor>();
+                                    foreach (EffectInstruction eI in eInstructs){
+                                        eI.startEffect(target_ref, null, caster);
+                                    }
+                                }
+                            }
+                        }
+                        else{
+                            Debug.DrawLine(other.GetComponent<Collider2D>().bounds.center, safeZoneCenter, Color.green);
+                            // Debug.Log(other.gameObject.GetComponent<Actor>().getActorName() + "| Ring miss: dist " +  
+                            //     dist.ToString() + " radius:" + innerCircleRadius.ToString());
+                        }
+                    }
+                    // make version that has a set number for ticks?
+                }
+            }
         }
     }
     void FixedUpdate()
@@ -122,15 +160,19 @@ public class AbilityDelivery : NetworkBehaviour
     void Update()
     {
         if(isServer){
-            if(type == 2){
+            if(aoeActorIgnore.Count > 0){
                 updateTargetCooldowns();
-                if(!ignoreDuration){
-                    duration -= Time.deltaTime;
-                }
+                
+            }
+            if(!ignoreDuration){
+                duration -= Time.deltaTime;
                 if(duration <= 0){
                     Debug.Log("Destroying AoE");        
                     Destroy(gameObject);
                 }
+            }
+            if(type == 4){
+                safeZoneCenter = transform.GetChild(0).transform.position;
             }
         }
     }

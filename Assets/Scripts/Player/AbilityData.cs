@@ -1,26 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(fileName="PlayerAbilityData", menuName = "HBCsystem/PlayerAbilityData")]
-public class PlayerAbilityData : ScriptableObject
+[CreateAssetMenu(fileName="AbilityData", menuName = "HBCsystem/AbilityData")]
+public class AbilityData : ScriptableObject
 {
     /*   
         Container for all abilities used by players? Maybe this will be broken up into classes later
     */
-    public static PlayerAbilityData _inst;
-    public static PlayerAbilityData instance{ get { 
+    public static AbilityData _inst;
+    public static AbilityData instance{ get { 
         if(!_inst){
-            PlayerAbilityData[] findResult = (Resources.FindObjectsOfTypeAll(typeof (PlayerAbilityData)) as PlayerAbilityData[]);
+            AbilityData[] findResult = (Resources.FindObjectsOfTypeAll(typeof (AbilityData)) as AbilityData[]);
             if(findResult.Length > 0){
                 Debug.Log("Assigning 1st instance to _inst");
                 _inst = findResult[0];
             }
             if(findResult.Length > 1)
-                Debug.LogWarning("Mutiple PlayerAbilityData objects found");
+                Debug.LogWarning("Mutiple AbilityData objects found");
         }
         if(!_inst){
-            Debug.LogError("PAD: No PAD instance found.");
-            _inst = CreateInstance<PlayerAbilityData>();
+            Debug.LogError("ad: No ad instance found.");
+            _inst = CreateInstance<AbilityData>();
         }
         return _inst;
     }}
@@ -49,7 +49,7 @@ public class PlayerAbilityData : ScriptableObject
    */ public List<Ability_V2> abilityList;
     public void OnValidate(){
         _inst = this;
-        Debug.Log("PAD validate"); // This won't show up out of play mode for some reason
+        Debug.Log("ad validate"); // This won't show up out of play mode for some reason
         setIDs();
     }
     public void setIDs(){

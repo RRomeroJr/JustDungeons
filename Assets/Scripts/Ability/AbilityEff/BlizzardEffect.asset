@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cc173cef4ea5f34bbbad702c7bf8db0, type: 3}
   m_Name: BlizzardEffect
   m_EditorClassIdentifier: 
-  effectName: 
+  effectName: Blizzard
   id: -1
   power: 0
   parentBuff: {fileID: 0}
+  targetIsSecondary: 1
   school: 0
-  aoePrefab: {fileID: 0}
+  prefabScale: {x: 1, y: 1, z: 1}
+  aoePrefab: {fileID: 8996080988287052582, guid: 0fd52b27fca62db40bd2332cf3000182, type: 3}

@@ -12,7 +12,7 @@ public class ApplyBuff : AbilityEff
 
     [SerializeField]protected Buff buffID; //Make this actually an id in the future
     //[SerializeField]protected int buffID;
-    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null){
+    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
         Debug.Log("Apply Buff! To " + _target.getActorName() + "| " + _caster.getActorName());
         // Copy buff id __ and atatch it to target's buffs List<>
         /*
@@ -23,6 +23,9 @@ public class ApplyBuff : AbilityEff
         
         */
         Buff tempBuff_ref = buffID.clone();
+        //Debug.Log("ApplyBuff caster: " + (_caster != null ? _caster.getActorName() : "caster is null"));
+        tempBuff_ref.target = _secondaryTarget;
+        tempBuff_ref.caster = _caster;
         
         _target.applyBuff(tempBuff_ref);
         //target.getBuffs().Add( _____.findBuff(buffID) );
@@ -46,6 +49,7 @@ public class ApplyBuff : AbilityEff
         temp_ref.id = id;
         temp_ref.power = power;
         temp_ref.buffID = buffID;
+        temp_ref.targetIsSecondary = targetIsSecondary;
 
         return temp_ref;
     }
