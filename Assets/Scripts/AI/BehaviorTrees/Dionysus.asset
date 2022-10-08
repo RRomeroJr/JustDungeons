@@ -247,7 +247,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 8ffa8bab91ba47b4a9fb5ee53e75e535
-  position: {x: -1967, y: 847.0001}
+  position: {x: -1964.9003, y: 726.4}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -358,7 +358,7 @@ MonoBehaviour:
   children:
   - {fileID: -7330126254191807548}
   - {fileID: 662109425032271069}
-  - {fileID: 3882144792544083673}
+  - {fileID: -3380523066604734364}
   - {fileID: 4217187957018065170}
   - {fileID: 5651732014465007334}
   - {fileID: 6716564507927858684}
@@ -488,7 +488,6 @@ MonoBehaviour:
   - {fileID: 3142971763800929560}
   - {fileID: 6716564507927858684}
   - {fileID: -3878410268986458378}
-  - {fileID: 3882144792544083673}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -667,31 +666,6 @@ MonoBehaviour:
   randomRange: 0
   plusMinusX: 0
   plusMinusY: 0
---- !u!114 &3882144792544083673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7686c24e8315a794ba230eb7671005ef, type: 3}
-  m_Name: AboveHealthPercent
-  m_EditorClassIdentifier: 
-  state: 0
-  started: 0
-  guid: e129289dcb438dd419132eb658963373
-  position: {x: -1966.9998, y: 726.99994}
-  blackboard:
-    moveToPosition: {x: 0, y: 0, z: 0}
-    target: {fileID: 0}
-    targetPrev: {fileID: 0}
-  description: 
-  drawGizmos: 0
-  child: {fileID: -3380523066604734364}
-  percentage: 0.7
-  mustComplete: 0
 --- !u!114 &4217187957018065170
 MonoBehaviour:
   m_ObjectHideFlags: 0
