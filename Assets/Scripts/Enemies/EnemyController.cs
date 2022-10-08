@@ -120,7 +120,7 @@ public class EnemyController : Controller
             return true;
         }
         target = null;
-        actor.target = target.GetComponent<Actor>();
+        actor.target = null;
         return false;
     }
 }
