@@ -11,8 +11,6 @@ public class EnemyController : Controller
     public BehaviourTree tree;
     public List<Ability_V2> abilities;
 
-    
-
     // Storage container object to hold game object subsystems
     Context context;
     public Transform target;
@@ -22,7 +20,6 @@ public class EnemyController : Controller
     public LayerMask obstacleMask;
     private Dictionary<string, object> extra = new Dictionary<string, object>();
     public Arena arenaObject;
-    
 
     void Awake()
     {
@@ -106,7 +103,7 @@ public class EnemyController : Controller
             }
 
             closest = raycastHit[0].transform;
-            // Find the closest target if multiple
+            // Find the closest target if multiple and save all targets in range
             for (int i = 1; i < raycastHit.Length; i++)
             {
                 multiTargets.Add(raycastHit[i].transform);
@@ -115,10 +112,12 @@ public class EnemyController : Controller
                     closest = raycastHit[i].transform;
                 }
             }
+            // Set target to closest
             target = closest;
             actor.target = target.GetComponent<Actor>();
             return true;
         }
+        // Sets target to null. No targets in range
         target = null;
         actor.target = null;
         return false;
