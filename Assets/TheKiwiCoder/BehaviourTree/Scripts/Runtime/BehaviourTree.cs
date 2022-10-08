@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 #if UNITY_EDITOR
@@ -91,7 +91,10 @@ namespace TheKiwiCoder {
             Undo.RecordObject(this, "Behaviour Tree (DeleteNode)");
             nodes.Remove(node);
 
-            //AssetDatabase.RemoveObjectFromAsset(node);
+            if (node != null)
+            {
+                AssetDatabase.RemoveObjectFromAsset(node);
+            }
             Undo.DestroyObjectImmediate(node);
 
             AssetDatabase.SaveAssets();
