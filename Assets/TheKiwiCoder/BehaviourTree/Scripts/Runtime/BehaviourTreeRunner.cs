@@ -12,20 +12,24 @@ namespace TheKiwiCoder {
         Context context;
 
         // Start is called before the first frame update
-        void Start() {
+        void Awake()
+        {
             context = CreateBehaviourTreeContext();
             tree = tree.Clone();
             tree.Bind(context);
         }
 
         // Update is called once per frame
-        void Update() {
-            if (tree) {
+        void Update()
+        {
+            if (tree)
+            {
                 tree.Update();
             }
         }
 
-        Context CreateBehaviourTreeContext() {
+        Context CreateBehaviourTreeContext()
+        {
             return Context.CreateFromGameObject(gameObject);
         }
 
