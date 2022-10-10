@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Repeat
   m_EditorClassIdentifier: 
   state: 0
-  started: 0
+  started: 1
   guid: e37bfc8a2b7af334cafeb1a6108bc586
   position: {x: -22, y: 4}
   blackboard:
@@ -38,7 +38,7 @@ MonoBehaviour:
   m_Name: Sequencer
   m_EditorClassIdentifier: 
   state: 0
-  started: 0
+  started: 1
   guid: 74a286b60eaf8ea45b9bd84db9ce177b
   position: {x: -22, y: 118}
   blackboard:
@@ -51,6 +51,29 @@ MonoBehaviour:
   - {fileID: 6402316061889451186}
   - {fileID: -2247863421084346560}
   - {fileID: -4755641854017797634}
+--- !u!114 &-4937376018662913240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 163c147d123e4a945b688eddc64e3ea5, type: 3}
+  m_Name: RootNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 1
+  guid: b9f86333c5872364784aa3abb683f962
+  position: {x: -11, y: -143.56001}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  child: {fileID: -8754077107127582826}
 --- !u!114 &-4755641854017797634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,7 +96,7 @@ MonoBehaviour:
     targetPrev: {fileID: 0}
   description: 
   drawGizmos: 0
-  duration: 1
+  duration: 3
 --- !u!114 &-2247863421084346560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,7 +110,7 @@ MonoBehaviour:
   m_Name: MoveToPosition
   m_EditorClassIdentifier: 
   state: 0
-  started: 0
+  started: 1
   guid: 6bc6981b00778a744bc6d4097134e636
   position: {x: -22, y: 289}
   blackboard:
@@ -108,15 +131,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d285eb63c2cdd74180de7cfceaa96ad, type: 3}
   m_Name: BasicRoaming
   m_EditorClassIdentifier: 
-  rootNode: {fileID: 0}
+  rootNode: {fileID: -4937376018662913240}
   treeState: 0
   nodes:
-  - {fileID: 0}
   - {fileID: -8754077107127582826}
   - {fileID: -5660333016957678146}
   - {fileID: -4755641854017797634}
   - {fileID: 6402316061889451186}
   - {fileID: -2247863421084346560}
+  - {fileID: -4937376018662913240}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -138,7 +161,7 @@ MonoBehaviour:
   guid: e8b7b3236babb5b45a8c128a30261cab
   position: {x: -194, y: 289}
   blackboard:
-    moveToPosition: {x: 12.5854025, y: 0, z: 1.0974617}
+    moveToPosition: {x: -5.8543224, y: 0, z: -18.090725}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
   description: 
