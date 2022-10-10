@@ -15,9 +15,14 @@ public class MoveToPosition : ActionNode
 
     protected override State OnUpdate()
     {
-        if (context.agent.destination != context.controller.target.position)
+        if (context.agent.destination != blackboard.moveToPosition)
         {
-            context.agent.destination = context.controller.target.position;
+            context.agent.destination = blackboard.moveToPosition;
+        }
+
+        if (context.agent.remainingDistance < 0.1)
+        {
+            return State.Success;
         }
 
         if (context.agent.pathPending)
@@ -27,7 +32,7 @@ public class MoveToPosition : ActionNode
 
         if (context.agent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathComplete)
         {
-            return State.Success;
+            return State.Running;
         }
 
         if (context.agent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathInvalid)
@@ -35,6 +40,6 @@ public class MoveToPosition : ActionNode
             return State.Failure;
         }
 
-        return State.Running;
+        return State.Success;
     }
 }
