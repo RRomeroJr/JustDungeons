@@ -36,30 +36,16 @@ namespace TheKiwiCoder
             context.agent = gameObject.GetComponent<NavMeshAgent>();
             context.boxCollider = gameObject.GetComponent<BoxCollider2D>();
             context.characterController = gameObject.GetComponent<CharacterController>();
-            context.actor = gameObject.GetComponent<Actor>();
-            context.controller = gameObject.GetComponent<EnemyController>();
 
             // Add whatever else you need here...
             return context;
         }
 
-        public static Context CreateFromGameObject(GameObject gameObject, Dictionary<string, object> e, EnemySO s)
+        public static Context AddEnemyContext(GameObject gameObject, Context c)
         {
-            // Fetch all commonly used components
-            Context context = new Context();
-            context.gameObject = gameObject;
-            context.transform = gameObject.transform;
-            context.animator = gameObject.GetComponent<Animator>();
-            context.physics = gameObject.GetComponent<Rigidbody>();
-            context.agent = gameObject.GetComponent<NavMeshAgent>();
-            context.boxCollider = gameObject.GetComponent<BoxCollider2D>();
-            context.characterController = gameObject.GetComponent<CharacterController>();
-            context.actor = gameObject.GetComponent<Actor>();
-            context.controller = gameObject.GetComponent<EnemyController>();
-            context.extra = e;
-            context.stats = s;
-            // Add whatever else you need here...
-            return context;
+            c.actor = gameObject.GetComponent<Actor>();
+            c.controller = gameObject.GetComponent<EnemyController>();
+            return c;
         }
     }
 }
