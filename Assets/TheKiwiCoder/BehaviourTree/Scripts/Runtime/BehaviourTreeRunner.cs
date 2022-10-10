@@ -33,6 +33,11 @@ namespace TheKiwiCoder {
             return Context.CreateFromGameObject(gameObject);
         }
 
+        public void UpdateContext(Context c)
+        {
+            tree.Bind(context);
+        }
+
         /*private void OnDrawGizmosSelected() {
             if (!tree) {
                 return;
