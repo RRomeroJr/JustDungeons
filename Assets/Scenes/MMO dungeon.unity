@@ -22195,6 +22195,24 @@ MonoBehaviour:
   m_Area: 0
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
+--- !u!1 &135705465 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2096029720338020577, guid: dd923e74212956d448682a636e7b1bf0, type: 3}
+  m_PrefabInstance: {fileID: 2096029719692067639}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &135705476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135705465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58c6f9b140a52a14881ec09eaebb66eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tree: {fileID: 11400000, guid: f0a55e3af83915549a203510ed3c196f, type: 2}
 --- !u!114 &151856305 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4457653117952653269, guid: c7e4a99de813fd24bbf47fc0af0bc5d6, type: 3}
@@ -24143,6 +24161,10 @@ PrefabInstance:
     - target: {fileID: 6016776025728188433, guid: 6c1a4f2e750f3ef449400e0399fafa5a, type: 3}
       propertyPath: m_Name
       value: Vase
+      objectReference: {fileID: 0}
+    - target: {fileID: 6016776025728188433, guid: 6c1a4f2e750f3ef449400e0399fafa5a, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 6016776025728188445, guid: 6c1a4f2e750f3ef449400e0399fafa5a, type: 3}
       propertyPath: m_RootOrder
