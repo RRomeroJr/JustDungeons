@@ -73,7 +73,7 @@ public class EnemyController : Controller
     // Returns true if target is in range and false if no targets are in range
     // Sets the target to the closest target if multiple or a random enemy if random = true
     // Uses a circle raycast centered on the enemy and checks if any gameobjects on the target layer are hit
-    public bool FindTargets(LayerMask targetMask, float range, bool random = false)
+    public bool FindTargets(LayerMask targetMask, float range)
     {
         Transform closest;
         Collider2D[] raycastHit = Physics2D.OverlapCircleAll((Vector2)transform.position, range, targetMask); // May need to optimize with OverlapCircleNonAlloc
@@ -82,14 +82,6 @@ public class EnemyController : Controller
         // If a target is found by raycastHit
         if (raycastHit.Length > 0)
         {
-            // Set target to a random target within range
-            if (random)
-            {
-                target = raycastHit[Random.Range(0, raycastHit.Length)].transform;
-                actor.target = target.GetComponent<Actor>();
-                return true;
-            }
-
             closest = raycastHit[0].transform;
             multiTargets.Add(raycastHit[0].transform);
             // Find the closest target if multiple and save all targets in range
@@ -137,6 +129,19 @@ public class EnemyController : Controller
             target = closest;
         }
         return target == null ? false : true;
+    }
+
+    // Sets target to random within multiTarget list
+    // Return true if a random target is selected, false if no target is found
+    public bool TargetRandom()
+    {
+        if (multiTargets.Count > 0)
+        {
+            target = multiTargets[Random.Range(0, multiTargets.Count)].transform;
+            actor.target = target.GetComponent<Actor>();
+            return true;
+        }
+        return false;
     }
 
     public float DistanceTo(Transform pos)
