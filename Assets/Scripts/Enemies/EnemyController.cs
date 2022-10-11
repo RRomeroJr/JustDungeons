@@ -95,7 +95,7 @@ public class EnemyController : Controller
             for (int i = 1; i < raycastHit.Length; i++)
             {
                 multiTargets.Add(raycastHit[i].transform);
-                if (Vector2.Distance(transform.position, raycastHit[i].transform.position) < Vector2.Distance(transform.position, closest.position))
+                if (DistanceTo(raycastHit[i].transform) < DistanceTo(closest))
                 {
                     closest = raycastHit[i].transform;
                 }
