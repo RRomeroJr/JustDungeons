@@ -10,7 +10,6 @@ public class FindTargets : ActionNode
 {
     public LayerMask targetMask;
     public float range;
-    public bool random = false;
     protected override void OnStart()
     {
     }
@@ -21,7 +20,7 @@ public class FindTargets : ActionNode
 
     protected override State OnUpdate()
     {
-        if (context.controller.FindTargets(targetMask, range, random))
+        if (context.controller.FindTargets(targetMask, range))
         {
             return State.Success;
         }
