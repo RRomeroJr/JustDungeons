@@ -110,6 +110,34 @@ public class EnemyController : Controller
         actor.target = null;
         return false;
     }
+
+    public bool TargetRole(Role r)
+    {
+        Transform closest = null;
+        target = null;
+        if (multiTargets.Count > 0)
+        {
+            for (int i = multiTargets.Count - 1; i >= 0; i--)
+            {
+                if (multiTargets[i].GetComponent<Actor>().getRole() != r)
+                {
+                    if (multiTargets[i] == closest)
+                    {
+                        closest = null;
+                    }
+                    multiTargets.RemoveAt(i);
+                }
+                else if (closest == null ||
+                         DistanceTo(multiTargets[i]) < DistanceTo(closest))
+                {
+                    closest = multiTargets[i];
+                }
+            }
+            target = closest;
+        }
+        return target == null ? false : true;
+    }
+
     public float DistanceTo(Transform pos)
     {
         float distance = Vector2.Distance(transform.position, pos.transform.position);
