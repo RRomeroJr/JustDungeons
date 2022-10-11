@@ -7,6 +7,7 @@ namespace TheKiwiCoder {
 
         // The main behaviour tree asset
         public BehaviourTree tree;
+        public bool controllerReady;
 
         // Storage container object to hold game object subsystems
         Context context;
@@ -14,6 +15,7 @@ namespace TheKiwiCoder {
         // Start is called before the first frame update
         void Awake()
         {
+            controllerReady = false;
             context = CreateBehaviourTreeContext();
             tree = tree.Clone();
             tree.Bind(context);
@@ -22,7 +24,7 @@ namespace TheKiwiCoder {
         // Update is called once per frame
         void Update()
         {
-            if (tree)
+            if (controllerReady)
             {
                 tree.Update();
             }
@@ -36,6 +38,7 @@ namespace TheKiwiCoder {
         public void UpdateContext(Context c)
         {
             tree.Bind(c);
+            controllerReady = true;
         }
 
         /*private void OnDrawGizmosSelected() {
