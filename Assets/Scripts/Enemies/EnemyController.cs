@@ -8,17 +8,14 @@ public class EnemyController : Controller
 {
     public EnemySO enemyStats;
     // The main behaviour tree asset
-    public BehaviourTree tree;
+    public BehaviourTreeRunner treeRunner;
     public List<Ability_V2> abilities;
 
-    // Storage container object to hold game object subsystems
-    Context context;
     public Transform target;
     public List<Transform> multiTargets;
     public Vector3 spawnLocation;
     public BoxCollider2D collider;
     public LayerMask obstacleMask;
-    private Dictionary<string, object> extra = new Dictionary<string, object>();
     public Arena arenaObject;
 
     void Awake()
@@ -26,6 +23,9 @@ public class EnemyController : Controller
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        actor = GetComponent<Actor>();
+        collider = GetComponent<BoxCollider2D>();
+        treeRunner = GetComponent<BehaviourTreeRunner>();
         multiTargets = new List<Transform>();
     }
 
@@ -34,30 +34,18 @@ public class EnemyController : Controller
     {
         base.Start();
         spawnLocation = transform.position;
-        ExtraValues();
-        context = Context.CreateFromGameObject(gameObject, extra, enemyStats);
-        tree = tree.Clone();
-        tree.Bind(context);
-        spawnLocation = transform.position;
-        actor = gameObject.GetComponent<Actor>();
-        collider = GetComponent<BoxCollider2D>();
         agent.speed = enemyStats.moveSpeed;
-    }
 
-    // Any extra values you want the behavior tree to have access to should be added here
-    void ExtraValues()
-    {
-        extra["spawnLocation"] = spawnLocation;
+        // Update context for behavior tree
+        Context context = Context.CreateFromGameObject(gameObject);
+        context = Context.AddEnemyContext(gameObject, context);
+        treeRunner.UpdateContext(context);
     }
 
     // Update is called once per frame
     public override void Update()
     {
         base.Update();
-        if (tree)
-        {
-            tree.Update();
-        }
         /*for(i = 0; i < AbilityList.Count(); i++){
             if(AbilityList[i].CD is ready?){
                 
