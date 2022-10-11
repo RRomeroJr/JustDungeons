@@ -110,4 +110,9 @@ public class EnemyController : Controller
         actor.target = null;
         return false;
     }
+    public float DistanceTo(Transform pos)
+    {
+        float distance = Vector2.Distance(transform.position, pos.transform.position);
+        return distance;
+    }
 }
