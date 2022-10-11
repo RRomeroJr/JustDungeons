@@ -24,9 +24,9 @@ public class Actor : NetworkBehaviour
     [SerializeField]protected int health; // 0
     [SyncVar]
     [SerializeField]protected int maxHealth; // 1
-    [SerializeField]protected int mana; // 2
+    [SerializeField]protected int mana; // 2 
     [SerializeField]protected int maxMana; // 3
-    public Role Role { get; private set; }
+    [SerializeField]protected Role role;
 
     public Actor target;
     
@@ -639,6 +639,14 @@ public class Actor : NetworkBehaviour
     }
     public void setActiveEffects(List<AbilityEffect> _abilityEffects){
         abilityEffects = _abilityEffects;
+    }
+    public Role getRole()
+    {
+        return role;
+    }
+    public void setRole(Role _role)
+    {
+        role = _role;
     }
     [ClientRpc]
     public void rpcSetTarget(Actor _target){
