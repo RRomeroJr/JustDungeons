@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,6 +7,14 @@ using Mirror;
 /*
      Container many for any RPG related elements
 */
+
+public enum Role
+{
+    Healer,
+    Tank,
+    Melee,
+    Ranged
+}
 
 public class Actor : NetworkBehaviour
 {
@@ -18,7 +26,8 @@ public class Actor : NetworkBehaviour
     [SerializeField]protected int maxHealth; // 1
     [SerializeField]protected int mana; // 2
     [SerializeField]protected int maxMana; // 3
-    
+    public Role Role { get; private set; }
+
     public Actor target;
     
     public Color unitColor;
