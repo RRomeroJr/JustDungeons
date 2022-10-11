@@ -35,7 +35,7 @@ namespace TheKiwiCoder {
 
         public void UpdateContext(Context c)
         {
-            tree.Bind(context);
+            tree.Bind(c);
         }
 
         /*private void OnDrawGizmosSelected() {
