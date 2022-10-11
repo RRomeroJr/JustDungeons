@@ -91,6 +91,7 @@ public class EnemyController : Controller
             }
 
             closest = raycastHit[0].transform;
+            multiTargets.Add(raycastHit[0].transform);
             // Find the closest target if multiple and save all targets in range
             for (int i = 1; i < raycastHit.Length; i++)
             {
