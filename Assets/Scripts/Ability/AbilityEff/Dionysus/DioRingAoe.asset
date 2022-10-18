@@ -19,7 +19,7 @@ MonoBehaviour:
   parentDelivery: {fileID: 0}
   targetIsSecondary: 1
   school: -1
-  prefabScale: {x: 25, y: 25, z: 25}
+  prefabScale: {x: 30, y: 30, z: 30}
   aoePrefab: {fileID: 8996080988287052582, guid: de75acaee2617ea4fb730d3324628ade, type: 3}
   innerCircleRadius: 4
   innerCirclePosistion: {x: 0, y: 0}

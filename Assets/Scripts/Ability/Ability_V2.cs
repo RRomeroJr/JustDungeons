@@ -2,23 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+
+
+public enum AbilityTags{
+        Weapon,
+        SpecialWeapon,
+        Spell,
+        SpecialSpell
+
+    }
+
+
 [System.Serializable]
 [CreateAssetMenu(fileName="Ability_V2", menuName = "HBCsystem/Ability_V2")]
 public class Ability_V2 : ScriptableObject{
+    
     [SerializeField] protected string abilityName;
-    [SerializeField] protected List<EffectInstruction> eInstructs;
+    
+    [SerializeField] public List<EffectInstruction> eInstructs;
     //[SerializeField] protected List<AbilityEff> effects;
     //[SerializeField] protected List<int> targetArgs; //if theres an arg here I will use it if not assumed 0
 
 
     //[SerializeField] public bool needsTarget = true;
-    [SerializeField] protected int deliveryType;
+    
     [SerializeField] protected float castTime;
     [SerializeField] protected float cooldown;
     public bool needsActor;
     public bool needsWP;
     protected bool canEdit = true;
     public int id;
+    public AbilityTags abilityTag = AbilityTags.Weapon;
+    //public List<DeliveryInstruction> deliveryInstructs = new List<DeliveryInstruction>();
     
 
     public string getName(){
@@ -40,11 +55,9 @@ public class Ability_V2 : ScriptableObject{
     }
 
     public void setName(string _abilityName){
-        if(canEdit){
-            abilityName = _abilityName;        
-        }else{
-            Debug.Log("Can't edit Ability" + abilityName);
-        }
+       
+        abilityName = _abilityName;        
+        
     }/*
     public void setEffect(AbilityEff _abilityEffectPreset){
         if(canEdit){
@@ -101,18 +114,18 @@ public class Ability_V2 : ScriptableObject{
         }
     }
     
-    public int getDeliveryType(){
+    // public int getDeliveryType(){
     
-        return deliveryType;
+    //     return deliveryType;
     
-    }
-    public void setDeliveryType(int _deliveryType){
-        if(canEdit){
-            deliveryType = _deliveryType;        
-        }else{
-            Debug.Log("Can't edit Ability" + abilityName);
-        }
-    }
+    // }
+    // public void setDeliveryType(int _deliveryType){
+    //     if(canEdit){
+    //         deliveryType = _deliveryType;        
+    //     }else{
+    //         Debug.Log("Can't edit Ability" + abilityName);
+    //     }
+    // }
     public List<EffectInstruction> getEffectInstructions(){
         return eInstructs;
     }
@@ -125,35 +138,35 @@ public class Ability_V2 : ScriptableObject{
     //     delivery.effects = effects.cloneEffects();
 
     // }
-    public Ability_V2(string _abilityName, AbilityEff _abilityEff, int _deliveryType = 0, float _castTime = 0.0f,
+    public Ability_V2(string _abilityName, AbilityEff _abilityEff, float _castTime = 0.0f,
                     float _cooldown = 0.0f){
        
         abilityName = _abilityName;
         eInstructs = new List<EffectInstruction>();
         eInstructs.addEffect(_abilityEff);
         //if effects.Count != deliveryTypes.Count ERROR
-        deliveryType = _deliveryType;
+        
         castTime = _castTime;
         cooldown = _cooldown;
         
     }
-    public Ability_V2(string _abilityName, List<AbilityEff> _effects, int _deliveryType = 0, float _castTime = 0.0f,
+    public Ability_V2(string _abilityName, List<AbilityEff> _effects, float _castTime = 0.0f,
                      float _cooldown = 0.0f){
         
         abilityName = _abilityName;
         eInstructs = new List<EffectInstruction>();
         eInstructs.addEffects(_effects);
-        deliveryType = _deliveryType;
+        
         castTime = _castTime;
         cooldown = _cooldown;
         
     }
-    public Ability_V2(string _abilityName, List<EffectInstruction> _eInstucts, int _deliveryType = 0, float _castTime = 0.0f,
+    public Ability_V2(string _abilityName, List<EffectInstruction> _eInstucts, float _castTime = 0.0f,
                      float _cooldown = 0.0f){
         
         abilityName = _abilityName;
         eInstructs = _eInstucts;
-        deliveryType = _deliveryType;
+        
         castTime = _castTime;
         cooldown = _cooldown;
         
@@ -163,7 +176,7 @@ public class Ability_V2 : ScriptableObject{
         // Returns a Copy of the ability with a COPY of the the name, a REF to the effect, and copy of castTime since it is just a value type
 
         //return new Ability(String.Copy(abilityName), abilityEffectPreset, castTime, cooldown, needsTarget);
-        return new Ability_V2(String.Copy(abilityName), new List<EffectInstruction>(eInstructs), deliveryType, castTime, cooldown);
+        return new Ability_V2(String.Copy(abilityName), new List<EffectInstruction>(eInstructs), castTime, cooldown);
 
     }
     public bool NeedsTargetActor(){

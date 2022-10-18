@@ -112,7 +112,7 @@ public class AbilityDelivery : NetworkBehaviour
                             */
                             if(eInstructs.Count > 0){
                                 Actor target_ref = other.gameObject.GetComponent<Actor>();
-                                Debug.Log("AD aoe hit with target_ref: " + target_ref.getActorName());
+                                //Debug.Log("AD aoe hit with target_ref: " + target_ref.getActorName());
                                 foreach (EffectInstruction eI in eInstructs){
                                     eI.startApply(target_ref, null, caster);
                             }

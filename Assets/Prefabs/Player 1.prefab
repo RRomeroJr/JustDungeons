@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 4071298855410542102}
   - component: {fileID: 6993748326980265517}
   - component: {fileID: -121281515293638722}
+  - component: {fileID: 3747133552387403488}
   m_Layer: 6
   m_Name: Player 1
   m_TagString: Player
@@ -136,6 +137,7 @@ MonoBehaviour:
   onAbilityCastHooks:
     m_PersistentCalls:
       m_Calls: []
+  animator: {fileID: 0}
 --- !u!114 &3602611100074717273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,10 +150,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f9d1d7bed21ae1409ac31d1d11703eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  up: {fileID: 21300000, guid: 0b1f95060910de843a73f7290a82d293, type: 3}
+  up: {fileID: 21300000, guid: 56dc974e75594024a838cdf209d69e00, type: 3}
   down: {fileID: 21300000, guid: 11bcfaeb85dcf06489ffe2d6500f3719, type: 3}
   right: {fileID: 21300000, guid: 56dc974e75594024a838cdf209d69e00, type: 3}
   left: {fileID: 21300000, guid: 67a86bc4bd6426e429076b6ab3b000d6, type: 3}
+  facingRight: 1
+  facingDown: 1
   spriteRenderer: {fileID: 3602611100074717269}
 --- !u!61 &3602611100074717279
 BoxCollider2D:
@@ -337,3 +341,23 @@ NavMeshAgent:
   m_BaseOffset: 1.125
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!95 &3747133552387403488
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3602611100074717264}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0a544e4182f38d24face54108391717d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

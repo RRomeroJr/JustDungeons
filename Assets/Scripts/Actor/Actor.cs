@@ -56,6 +56,7 @@ public class Actor : NetworkBehaviour
     // used for buffing any effects at the moment. Only, "Did this actor cast the desired ability?"
     // then, do something
     public UnityEvent<int> onAbilityCastHooks = new UnityEvent<int>();
+    public Animator animator;
 
 
     void Start(){
@@ -69,6 +70,7 @@ public class Actor : NetworkBehaviour
             
            
         }
+        animator = GetComponent<Animator>();
         //gameObject.GetComponent<Renderer>().Color = unitColor;
     }
     void Update(){
@@ -467,7 +469,19 @@ public class Actor : NetworkBehaviour
         if(onAbilityCastHooks != null){
             onAbilityCastHooks.Invoke(_ability.id);
         }
+        if(gameObject.tag == "Player"){
+            animateAbility(_ability);
+        }
+        
         resetClientCastVars();
+        
+    }
+    [ClientRpc]
+    void animateAbility(Ability_V2 _ability){
+        //animator.SetInteger("abilityType", ((int)_ability.abilityTag));
+        if(_ability.abilityTag == AbilityTags.Weapon){
+            animator.SetTrigger("abilityCast");
+        }
         
     }
     [ClientRpc]
