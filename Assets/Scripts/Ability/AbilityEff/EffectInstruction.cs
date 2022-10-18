@@ -70,4 +70,12 @@ public class EffectInstruction
         toReturn.targetArg = targetArg;
         return toReturn;
     }
+    public EffectInstruction cloneNoEffectClone(){
+        EffectInstruction toReturn = new EffectInstruction();
+        if(effect != null){
+            toReturn.effect = effect;
+        }
+        toReturn.targetArg = targetArg;
+        return toReturn;
+    }
 }

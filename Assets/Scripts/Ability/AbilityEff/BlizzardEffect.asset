@@ -18,6 +18,9 @@ MonoBehaviour:
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 1
+  eInstructs:
+  - effect: {fileID: 11400000, guid: 09c5e600fbf9b6148892edb228809891, type: 2}
+    targetArg: 0
   school: 0
   prefabScale: {x: 1, y: 1, z: 1}
   aoePrefab: {fileID: 8996080988287052582, guid: 0fd52b27fca62db40bd2332cf3000182, type: 3}

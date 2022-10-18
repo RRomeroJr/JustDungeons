@@ -5,11 +5,11 @@ using UnityEngine;
 using Mirror;
 [System.Serializable]
 [CreateAssetMenu(fileName="Missile", menuName = "HBCsystem/Missile")]
-public class Missile : AbilityEff
+public class Missile : DeliveryEff
 {   
     public int school = -1;
     public GameObject misslePrefab;
-    public List<EffectInstruction> eInstructs;
+    
 
     
     public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
@@ -41,6 +41,7 @@ public class Missile : AbilityEff
     }
     public override AbilityEff clone()
     {
+        Debug.Log("Missile clone called");
         Missile temp_ref = ScriptableObject.CreateInstance(typeof (Missile)) as Missile;
         temp_ref.effectName = effectName;
         temp_ref.id = id;
@@ -51,7 +52,7 @@ public class Missile : AbilityEff
         foreach (EffectInstruction eI in eInstructs){
             temp_ref.eInstructs.Add(eI.clone());
         }
-
+    
         return temp_ref;
     }
 }

@@ -96,5 +96,17 @@ public static class Extensions
             return listToReturn;
         }
     }
+    public static List<EffectInstruction> cloneInstructsNoEffectClone(this List<EffectInstruction> eI_list){
+        List<EffectInstruction> listToReturn = new List<EffectInstruction>();
+        if(eI_list.Count > 0){
+            for(int i=0; i < eI_list.Count; i++){
+                listToReturn.Add(eI_list[i].cloneNoEffectClone());
+            }
+            return listToReturn;
+        }
+        else{
+            return listToReturn;
+        }
+    }
     
 }

@@ -5,11 +5,13 @@ using UnityEngine;
 using Mirror;
 [System.Serializable]
 [CreateAssetMenu(fileName="Aoe", menuName = "HBCsystem/Aoe")]
-public class Aoe : AbilityEff
+public class Aoe : DeliveryEff
 {   
     public int school =-1;
     public Vector3 prefabScale = Vector3.one;
     public GameObject aoePrefab;
+    
+    
     public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
         //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
         //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
@@ -38,6 +40,7 @@ public class Aoe : AbilityEff
     }
     public Aoe(){
         targetIsSecondary = true;
+        
     }
     public override AbilityEff clone()
     {

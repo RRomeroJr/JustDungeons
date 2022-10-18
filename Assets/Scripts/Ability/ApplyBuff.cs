@@ -5,7 +5,7 @@ using UnityEngine;
 
 [System.Serializable]
 [CreateAssetMenu(fileName="ApplyBuff", menuName = "HBCsystem/ApplyBuff")]
-public class ApplyBuff : AbilityEff
+public class ApplyBuff : DeliveryEff
 {
     //Maybe this should just be an id instead of the whole buff but
     // for now this will work

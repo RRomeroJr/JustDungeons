@@ -16,9 +16,9 @@ MonoBehaviour:
   eInstructs:
   - effect: {fileID: 11400000, guid: c69a0d906dd16c741abf7922e231957d, type: 2}
     targetArg: 0
-  deliveryType: 0
   castTime: 1.5
   cooldown: 0
   needsActor: 1
   needsWP: 0
   id: 2
+  abilityTag: 0
