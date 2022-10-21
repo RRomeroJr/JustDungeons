@@ -6,7 +6,7 @@ using Mirror;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] private NetworkManagerLobby networkManager = null;
+    [SerializeField] private CustomNetworkManager networkManager = null;
 
     [Header("UI")]
     [SerializeField] private GameObject landingPagePanel = null;

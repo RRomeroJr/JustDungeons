@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -78,9 +78,9 @@ public class UIManager : MonoBehaviour
     //         Debug.LogError("UnitFrame has no PointerClick entry trigger.triggers.Count: " + trigger.triggers.Count.ToString());
     //     }
     //     entry.callback.AddListener((methodIWant) => { setTarget(); });
-        
+
     // }
-    
+
     void Update(){
         UpdateAllyFrames();
         /*updateUnitFrame(partyFrame, partyFrame.actor);
