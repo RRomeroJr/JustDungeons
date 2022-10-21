@@ -554,32 +554,28 @@ public class Actor : NetworkBehaviour
 
         if(isServer){
             //Debug.Log("firecast -> isServer");
+            if(hasResources(_ability)){
+                foreach(AbilityResource ar in _ability.resourceCosts){
+                    damageResource(ar.crType, ar.amount);
+                }
+                foreach (EffectInstruction eI in EI_clones){
+                    eI.startApply(_target, _targetWP, this);
+                }
+                addToCooldowns(_ability);
+                if(onAbilityCastHooks != null){
+                    onAbilityCastHooks.Invoke(_ability.id);
+                }
+                if(gameObject.tag == "Player"){
+                    animateAbility(_ability);
+                }
+            }
             
-            if(_ability.resourceCosts != null){
-                if(_ability.resourceCosts.Count > 0){
-                    if(hasResources(_ability)){
-                        foreach(AbilityResource ar in _ability.resourceCosts){
-                            damageResource(ar.crType, ar.amount);
-                        }
-                        foreach (EffectInstruction eI in EI_clones){
-                            eI.startApply(_target, _targetWP, this);
-                        }
-                        addToCooldowns(_ability);
-                        if(onAbilityCastHooks != null){
-                            onAbilityCastHooks.Invoke(_ability.id);
-                        }
-                        if(gameObject.tag == "Player"){
-                            animateAbility(_ability);
-                        }
-                    }
-                }
-                else{
-                    Debug.Log("Ability has no resourceCosts");
-                }
-            }
             else{
-                Debug.LogWarning("Ability resourceCosts was null");
+                Debug.Log("Ability has no resourceCosts");
             }
+
+
+            
             
         } 
         
@@ -825,8 +821,8 @@ public class Actor : NetworkBehaviour
                 }
             }
         }
-        Debug.LogWarning("No resource found");
-        return false;
+        Debug.LogWarning("Class Resources are null");
+        return true;
     }
     public bool hasResources(Ability_V2 _ability){
         if(_ability != null){

@@ -133,16 +133,19 @@ MonoBehaviour:
   worldPointTarget: {x: 0, y: 0, z: 0}
   aoeActorIgnore: []
   abilityEffects: []
-  eInstructs:
-  - effect: {fileID: 11400000, guid: 09c5e600fbf9b6148892edb228809891, type: 2}
-    targetArg: 0
+  eInstructs: []
+  connectedToCaster: 0
+  delayTimer: 0
+  start: 1
   type: 2
   speed: 0.1
   duration: 8
   tickRate: 1.5
   aoeCap: 0
+  followTarget: 0
   ignoreDuration: 0
   innerCircleRadius: 0
+  safeZoneCenter: {x: 0, y: 0}
 --- !u!114 &3926534262364259519
 MonoBehaviour:
   m_ObjectHideFlags: 0

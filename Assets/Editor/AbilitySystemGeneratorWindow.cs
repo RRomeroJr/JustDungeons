@@ -47,7 +47,7 @@ public class AbilitySystemGeneratorWindow : EditorWindow
             //{"Magic Damage", "Missile", "AoE", "Ring Aoe", "Apply Buff", "Dizzy", "Heal"}
             switch(effectSelection){
                case(0):
-                  aeRef = CreateInstance(typeof(MagicDamage)) as AbilityEff;
+                  aeRef = CreateInstance(typeof(SchoolDamage)) as AbilityEff;
                   Debug.Log("Build Magic Damage");
                   break;
                case(1):

@@ -141,9 +141,7 @@ MonoBehaviour:
   worldPointTarget: {x: 0, y: 0, z: 0}
   aoeActorIgnore: []
   abilityEffects: []
-  eInstructs:
-  - effect: {fileID: 11400000, guid: c593c5d84da837343abef0f6402caee5, type: 2}
-    targetArg: 0
+  eInstructs: []
   connectedToCaster: 0
   delayTimer: 10
   start: 0
@@ -152,6 +150,7 @@ MonoBehaviour:
   duration: 0.2
   tickRate: 0.2
   aoeCap: 0
+  followTarget: 0
   ignoreDuration: 0
   innerCircleRadius: 0
   safeZoneCenter: {x: 0, y: 0}
@@ -170,7 +169,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 27a7d1ddee1be8840bd214bda728ccdd
+  m_AssetId: 44b556a48d3b10a418aa2c1c41ef738c
   hasSpawned: 0
 --- !u!114 &4116171392838694478
 MonoBehaviour:

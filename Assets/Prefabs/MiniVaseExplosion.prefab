@@ -142,7 +142,7 @@ MonoBehaviour:
   aoeActorIgnore: []
   abilityEffects: []
   eInstructs:
-  - effect: {fileID: 11400000, guid: 003a091634896874a92d5e2f01d12268, type: 2}
+  - effect: {fileID: 11400000, guid: 9f0e561e6d71e9b4db2fc80cd8c54d27, type: 2}
     targetArg: 0
   connectedToCaster: 0
   delayTimer: 3
