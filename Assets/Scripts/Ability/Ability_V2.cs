@@ -11,7 +11,12 @@ public enum AbilityTags{
         SpecialSpell
 
     }
+public enum AbilityResourceTypes{
+    Health,
+    Mana,
+    Rage
 
+}
 
 [System.Serializable]
 [CreateAssetMenu(fileName="Ability_V2", menuName = "HBCsystem/Ability_V2")]
@@ -34,7 +39,7 @@ public class Ability_V2 : ScriptableObject{
     public int id;
     public AbilityTags abilityTag = AbilityTags.Weapon;
     //public List<DeliveryInstruction> deliveryInstructs = new List<DeliveryInstruction>();
-    
+    public List<AbilityResource> resourceCosts;
 
     public string getName(){
         return abilityName;

@@ -21,9 +21,5 @@ MonoBehaviour:
   eInstructs:
   - effect: {fileID: 11400000, guid: efb6f4943ac2ee74aa23d5c3d1f5ec38, type: 2}
     targetArg: 0
-  - effect: {fileID: 11400000, guid: 09c5e600fbf9b6148892edb228809891, type: 2}
-    targetArg: 0
-  - effect: {fileID: 11400000, guid: ededd9096a4453447b45e4ddb6382b55, type: 2}
-    targetArg: 0
   school: 0
   misslePrefab: {fileID: 8996080988287052582, guid: f001407721b25a0449cded0b467c60d5, type: 3}

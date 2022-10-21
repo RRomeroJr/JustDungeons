@@ -16,9 +16,14 @@ MonoBehaviour:
   eInstructs:
   - effect: {fileID: 11400000, guid: efb6f4943ac2ee74aa23d5c3d1f5ec38, type: 2}
     targetArg: 0
-  deliveryType: 0
+  - effect: {fileID: 11400000, guid: 7614f0f3f7478bd4a8e5339537fdb99f, type: 2}
+    targetArg: 1
   castTime: 1.5
   cooldown: 0
   needsActor: 1
   needsWP: 0
   id: 1
+  abilityTag: 0
+  resourceCosts:
+  - amount: 0
+    crType: {fileID: 11400000, guid: 55f627c33b30c14489770a8e971ecee4, type: 2}

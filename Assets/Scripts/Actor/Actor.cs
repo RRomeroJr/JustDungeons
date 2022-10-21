@@ -57,8 +57,67 @@ public class Actor : NetworkBehaviour
     // then, do something
     public UnityEvent<int> onAbilityCastHooks = new UnityEvent<int>();
     public Animator animator;
+    
+    [SerializeField]protected List<ClassResource> classResources;
 
-
+    [ClientRpc]
+    public void updateClassResourceAmount(int index, int _amount){
+        classResources[index].amount = _amount;
+    }
+    [ClientRpc]
+    public void updateClassResourceMax(int index, int _max){
+        classResources[index].max = _max;
+    }
+    public bool damageResource(ClassResourceType _crt, int _amount){
+         if(_crt != null){
+            // if(_crt == AbilityResourceTypes.Health){
+            //     setHealth(actor.getHealth() - _cost.amount);
+            //     return true;
+            // }
+            // else{
+                int index = 0;
+                foreach(ClassResource cr in classResources){
+                    if(_crt == cr.crType){
+                        int temp = cr.amount - _amount;
+                        if(temp >= 0){
+                            updateClassResourceAmount(index, temp);
+                        }
+                        else{
+                            updateClassResourceAmount(index, 0);
+                        }
+                        return true;
+                    }
+                    index++;
+                }
+            // }
+        }
+        return false;
+    }
+    public bool restoreResource(ClassResourceType _crt, int _amount){
+         if(_crt != null){
+            // if(_crt == AbilityResourceTypes.Health){
+            //     setHealth(actor.getHealth() - _cost.amount);
+            //     return true;
+            // }
+            // else{
+                int index = 0;
+                foreach(ClassResource cr in classResources){
+                    if(_crt == cr.crType){
+                        int temp = cr.amount + _amount;
+                        if(temp >= 0){
+                            updateClassResourceAmount(index, temp);
+                        }
+                        else{
+                            updateClassResourceAmount(index, 0);
+                        }
+                        return true;
+                    }
+                    index++;
+                }
+            // }
+        }
+        return false;
+    }
     void Start(){
         
         abilityEffects = new List<AbilityEffect>();
@@ -129,6 +188,39 @@ public class Actor : NetworkBehaviour
             restoreValue(-1 * amount, valueType); //if negative call restore instead with amount's sign flipped
         }
     }
+    // public bool damageResource(AbilityResourceTypes _arType, int amount){
+    //     foreach(ActorResource ar in resources){
+    //         if(ar.arType == _arType){
+    //             ar.amount -= amount;
+    //             if(ar.amount < 0){
+    //                 ar.amount = 0;
+    //             }
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+    // public bool damageResource(AbilityResource _cost){
+    //     if(_cost != null){
+    //         if(_cost.arType == AbilityResourceTypes.Health){
+    //             health -= _cost.amount;
+    //             return true;
+    //         }
+    //         else{
+    //             foreach(ActorResource ar in resources){
+    //                 if(ar.arType == _cost.arType){
+    //                     ar.amount -= _cost.amount;
+    //                     if(ar.amount < 0){
+    //                         ar.amount = 0;
+    //                     }
+    //                     return true;
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return false;
+    // }
+
 
     public void restoreValue(int amount, int valueType = 0){
         // This would be the opposite of damageValue(). Look at that for more details
@@ -461,17 +553,35 @@ public class Actor : NetworkBehaviour
         
 
         if(isServer){
-            foreach (EffectInstruction eI in EI_clones){
-                eI.startApply(_target, _targetWP, this);
+            //Debug.Log("firecast -> isServer");
+            
+            if(_ability.resourceCosts != null){
+                if(_ability.resourceCosts.Count > 0){
+                    if(hasResources(_ability)){
+                        foreach(AbilityResource ar in _ability.resourceCosts){
+                            damageResource(ar.crType, ar.amount);
+                        }
+                        foreach (EffectInstruction eI in EI_clones){
+                            eI.startApply(_target, _targetWP, this);
+                        }
+                        addToCooldowns(_ability);
+                        if(onAbilityCastHooks != null){
+                            onAbilityCastHooks.Invoke(_ability.id);
+                        }
+                        if(gameObject.tag == "Player"){
+                            animateAbility(_ability);
+                        }
+                    }
+                }
+                else{
+                    Debug.Log("Ability has no resourceCosts");
+                }
             }
-        }
-        addToCooldowns(_ability);
-        if(onAbilityCastHooks != null){
-            onAbilityCastHooks.Invoke(_ability.id);
-        }
-        if(gameObject.tag == "Player"){
-            animateAbility(_ability);
-        }
+            else{
+                Debug.LogWarning("Ability resourceCosts was null");
+            }
+            
+        } 
         
         resetClientCastVars();
         
@@ -698,6 +808,46 @@ public class Actor : NetworkBehaviour
     }
     public float getHealthPercent(){
         return (float)health / (float)maxHealth;
+    }
+    public bool hasResource(ClassResourceType _crType, int _amount){
+        if(classResources != null){
+            foreach(ClassResource cr in classResources){
+                if(cr.crType == _crType){
+                    if(_amount <= cr.amount ){
+                        Debug.Log("Has resource AND amount");
+                        return true;
+                    }
+                    else{
+                        Debug.LogWarning("Has resource but not amount" + cr.amount + " < " + _amount);
+                        return false;
+                    }
+                    
+                }
+            }
+        }
+        Debug.LogWarning("No resource found");
+        return false;
+    }
+    public bool hasResources(Ability_V2 _ability){
+        if(_ability != null){
+            if(_ability.resourceCosts == null){
+                return true;
+            }
+            else{
+                if(_ability.resourceCosts.Count == 0){
+                    return true;
+                }
+                foreach(AbilityResource ar in _ability.resourceCosts){
+                    if(hasResource(ar.crType, ar.amount) == false){
+                        return false;
+                        
+                    }
+                }
+            } 
+            
+        }
+        
+        return true;
     }
 
     //----------------------------------------------------------------old code no longer used------------------------------------------------------------------------------------

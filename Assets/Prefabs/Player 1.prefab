@@ -138,6 +138,14 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   animator: {fileID: 0}
+  resources:
+  - max: 10000
+    amount: 10000
+    arType: 0
+  classResources:
+  - max: 100
+    amount: 10
+    crType: {fileID: 11400000, guid: 55f627c33b30c14489770a8e971ecee4, type: 2}
 --- !u!114 &3602611100074717273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,11 +160,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   up: {fileID: 21300000, guid: 56dc974e75594024a838cdf209d69e00, type: 3}
   down: {fileID: 21300000, guid: 11bcfaeb85dcf06489ffe2d6500f3719, type: 3}
-  right: {fileID: 21300000, guid: 56dc974e75594024a838cdf209d69e00, type: 3}
-  left: {fileID: 21300000, guid: 67a86bc4bd6426e429076b6ab3b000d6, type: 3}
   facingRight: 1
   facingDown: 1
   spriteRenderer: {fileID: 3602611100074717269}
+  animator: {fileID: 0}
 --- !u!61 &3602611100074717279
 BoxCollider2D:
   m_ObjectHideFlags: 0

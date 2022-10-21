@@ -22,3 +22,4 @@ MonoBehaviour:
   needsWP: 1
   id: 6
   abilityTag: 0
+  resourceCosts: []

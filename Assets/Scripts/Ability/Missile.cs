@@ -41,7 +41,7 @@ public class Missile : DeliveryEff
     }
     public override AbilityEff clone()
     {
-        Debug.Log("Missile clone called");
+        //Debug.Log("Missile clone called");
         Missile temp_ref = ScriptableObject.CreateInstance(typeof (Missile)) as Missile;
         temp_ref.effectName = effectName;
         temp_ref.id = id;
