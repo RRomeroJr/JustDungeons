@@ -16,10 +16,11 @@ public class UIManager : MonoBehaviour
         then calling setUpFrame() on the them
     */
     public UnitFrame targetFrame;
-    public UnitFrame partyFrame;
+    public List<UnitFrame> frames = new List<UnitFrame>();
+    /*public UnitFrame partyFrame;
     public UnitFrame partyFrame1;
     public UnitFrame partyFrame2;
-    public UnitFrame partyFrame3;
+    public UnitFrame partyFrame3;*/
     public Actor playerActor;
     public GameObject cameraPrefab;
     
