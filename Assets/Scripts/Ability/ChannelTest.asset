@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 630dbee7393b5314ab79662f009e6568, type: 3}
+  m_Name: ChannelTest
+  m_EditorClassIdentifier: 
+  abilityName: ChannelTest
+  eInstructs:
+  - effect: {fileID: 11400000, guid: 0637e38db12ffb34298391d1acba0854, type: 2}
+    targetArg: 0
+  castTime: 0
+  cooldown: 0
+  needsActor: 0
+  needsWP: 0
+  id: 0
+  abilityTag: 0
+  resourceCosts: []

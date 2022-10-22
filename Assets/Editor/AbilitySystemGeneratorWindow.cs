@@ -8,7 +8,7 @@ public class AbilitySystemGeneratorWindow : EditorWindow
    private string abilityName = "";
    private string abilityEffectName = "";
    int effectSelection;
-   string[] abilityEffectTypes = new string[]{"Magic Damage", "Missile", "AoE", "Ring Aoe", "Apply Buff", "Dizzy", "Heal"};
+   string[] abilityEffectTypes = new string[]{nameof(SchoolDamage), nameof(Missile), nameof(Aoe), nameof(RingAoe), nameof(ApplyBuff), nameof(Dizzy), nameof(Heal)};
 
    bool createWithAbility = false;
    bool addToDatabases = false;
@@ -26,6 +26,7 @@ public class AbilitySystemGeneratorWindow : EditorWindow
          
         
         effectSelection = EditorGUILayout.Popup(effectSelection, abilityEffectTypes);
+        addToDatabases = EditorGUILayout.Toggle("Add To Databases", addToDatabases);
         if (GUILayout.Button("Build Effect")){
          // abilityEffectName = EditorGUILayout.TextField("Effect Name", abilityEffectName);
             GenerateSOs();
@@ -35,6 +36,7 @@ public class AbilitySystemGeneratorWindow : EditorWindow
             createWithAbility = true;
             GenerateSOs();
         }
+        
         EditorGUILayout.HelpBox(
          "\n> ~~~~~ ~~~~~WARNING!~~~~~ ~~~~~ <\n\n This does not yet add created Abilities or effects into AbilityDatabase or AbilityEffectDatabase!",
                       MessageType.Warning); 
@@ -80,6 +82,9 @@ public class AbilitySystemGeneratorWindow : EditorWindow
             }
             aeRef.effectName = abilityEffectName;
             AssetDatabase.CreateAsset(aeRef, "Assets/Scripts/Ability/AbilityEff/" + abilityEffectName + ".asset");
+            if(addToDatabases){
+               addEffectToDatabase(aeRef);
+            }
             // Directory.CreateDirectory($"Assets/{abilityName}");
             if(createWithAbility){
                Ability_V2 abilityRef;
@@ -89,6 +94,12 @@ public class AbilitySystemGeneratorWindow : EditorWindow
                temp.Add(new EffectInstruction(aeRef, 0));
                abilityRef.setEffectInstructions(temp);
                AssetDatabase.CreateAsset(abilityRef, "Assets/Scripts/Ability/" + abilityName + ".asset");
+
+               if(addToDatabases){
+                  addAbilityToDatabase(abilityRef);
+               }
+               
+
                createWithAbility = false;
                temp = null;
 
@@ -98,7 +109,12 @@ public class AbilitySystemGeneratorWindow : EditorWindow
             Debug.LogError("Ability already exists with that name");
         }
             
-
+      	void addEffectToDatabase(AbilityEff _effect){
+            AbilityEffectData.instance.effectsList.Add(_effect);
+         }
+         void addAbilityToDatabase(Ability_V2 _ability){
+            AbilityData.instance.abilityList.Add(_ability);
+         }
       //   foreach (GameObject go in Selection.gameObjects)
       //   {
       //       string localPath = AssetDatabase.GenerateUniqueAssetPath($"Assets/{pathName}{go.name}.prefab");
