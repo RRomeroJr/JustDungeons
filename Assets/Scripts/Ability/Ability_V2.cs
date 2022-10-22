@@ -40,6 +40,10 @@ public class Ability_V2 : ScriptableObject{
     public AbilityTags abilityTag = AbilityTags.Weapon;
     //public List<DeliveryInstruction> deliveryInstructs = new List<DeliveryInstruction>();
     public List<AbilityResource> resourceCosts;
+    public bool isChannel = false;
+    public float channelDuration;
+    public int numberOfTicks;
+
 
     public string getName(){
         return abilityName;

@@ -24,3 +24,6 @@ MonoBehaviour:
   needsWP: 0
   id: 4
   abilityTag: 0
+  resourceCosts: []
+  isChannel: 0
+  numberOfTicks: 0

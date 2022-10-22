@@ -23,3 +23,5 @@ MonoBehaviour:
   id: 0
   abilityTag: 0
   resourceCosts: []
+  isChannel: 0
+  numberOfTicks: 0

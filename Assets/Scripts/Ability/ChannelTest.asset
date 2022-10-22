@@ -16,10 +16,12 @@ MonoBehaviour:
   eInstructs:
   - effect: {fileID: 11400000, guid: 0637e38db12ffb34298391d1acba0854, type: 2}
     targetArg: 0
-  castTime: 0
+  castTime: 1.5
   cooldown: 0
-  needsActor: 0
+  needsActor: 1
   needsWP: 0
-  id: 0
+  id: 20
   abilityTag: 0
   resourceCosts: []
+  isChannel: 1
+  numberOfTicks: 3

@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: ChannelTestEffect
   m_EditorClassIdentifier: 
   effectName: ChannelTestEffect
-  id: -1
+  id: 32
   power: 0
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 1
   eInstructs: []
   school: -1
-  misslePrefab: {fileID: 0}
+  misslePrefab: {fileID: 8996080988287052582, guid: f001407721b25a0449cded0b467c60d5, type: 3}
