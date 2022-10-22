@@ -1,7 +1,11 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Mirror;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using DapperDino;
 
 /*
 	Documentation: https://mirror-networking.gitbook.io/docs/components/network-manager
@@ -14,6 +18,21 @@ public class CustomNetworkManager : NetworkManager
     // have to cast to this type everywhere.
     public static new CustomNetworkManager singleton { get; private set; }
     public UIManager uiManager;
+    [SerializeField] private int minPlayers = 1;
+    [Scene][SerializeField] private string menuScene = string.Empty;
+
+    [Header("Room")]
+    [SerializeField] private PlayerLobby roomPlayerPrefab = null;
+
+    [Header("Game")]
+    [SerializeField] private PlayerGame gamePlayerPrefab = null;
+    [SerializeField] private GameObject playerSpawnSystem = null;
+    [SerializeField] private GameObject roundSystem = null;
+
+    public static event Action OnClientConnected;
+    public static event Action OnClientDisconnected;
+    public List<PlayerLobby> RoomPlayers { get; } = new List<PlayerLobby>();
+    public List<PlayerGame> GamePlayers { get; } = new List<PlayerGame>();
 
     #region Unity Callbacks
 
@@ -89,6 +108,7 @@ public class CustomNetworkManager : NetworkManager
     /// <param name="newSceneName"></param>
     public override void ServerChangeScene(string newSceneName)
     {
+        // From menu to game
         base.ServerChangeScene(newSceneName);
     }
 
@@ -103,7 +123,25 @@ public class CustomNetworkManager : NetworkManager
     /// Called on the server when a scene is completed loaded, when the scene load was initiated by the server with ServerChangeScene().
     /// </summary>
     /// <param name="sceneName">The name of the new scene.</param>
-    public override void OnServerSceneChanged(string sceneName) { }
+    public override void OnServerSceneChanged(string sceneName)
+    {
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+        for (int i = RoomPlayers.Count - 1; i >= 0; i--)
+        {
+            var conn = RoomPlayers[i].connectionToClient;
+            var gameplayerInstance = Instantiate(gamePlayerPrefab);
+
+            gameplayerInstance.SetDisplayName("Dude");
+            gameplayerInstance.GetComponent<Actor>().setActorName("Dude");
+
+            //gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
+            uiManager.updateUnitFrame(uiManager.frames[i], gameplayerInstance.GetComponent<Actor>());
+
+            NetworkServer.Destroy(conn.identity.gameObject);
+
+            NetworkServer.ReplacePlayerForConnection(conn, gameplayerInstance.gameObject);
+        }
+    }
 
     /// <summary>
     /// Called from ClientChangeScene immediately before SceneManager.LoadSceneAsync is executed
@@ -132,7 +170,20 @@ public class CustomNetworkManager : NetworkManager
     /// <para>Unity calls this on the Server when a Client connects to the Server. Use an override to tell the NetworkManager what to do when a client connects to the server.</para>
     /// </summary>
     /// <param name="conn">Connection from client.</param>
-    public override void OnServerConnect(NetworkConnectionToClient conn) { }
+    public override void OnServerConnect(NetworkConnectionToClient conn) 
+    {
+        if (numPlayers >= maxConnections)
+        {
+            conn.Disconnect();
+            return;
+        }
+
+        if (SceneManager.GetActiveScene().path != menuScene)
+        {
+            conn.Disconnect();
+            return;
+        }
+    }
 
     /// <summary>
     /// Called on the server when a client is ready.
@@ -151,8 +202,13 @@ public class CustomNetworkManager : NetworkManager
     /// <param name="conn">Connection from client.</param>
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
-        base.OnServerAddPlayer(conn);
-        uiManager.partyFrame2.actor = conn.identity.GetComponent<Actor>();
+        if (SceneManager.GetActiveScene().path == menuScene)
+        {
+            bool isLeader = RoomPlayers.Count == 0;
+            PlayerLobby roomPlayerInstance = Instantiate(roomPlayerPrefab);
+            roomPlayerInstance.IsLeader = isLeader;
+            NetworkServer.AddPlayerForConnection(conn, roomPlayerInstance.gameObject);
+        }
     }
 
     /// <summary>
@@ -162,6 +218,12 @@ public class CustomNetworkManager : NetworkManager
     /// <param name="conn">Connection from client.</param>
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
+        if (conn.identity != null)
+        {
+            var player = conn.identity.GetComponent<PlayerLobby>();
+            RoomPlayers.Remove(player);
+            NotifyPlayersOfReadyState();
+        }
         base.OnServerDisconnect(conn);
     }
 
@@ -184,6 +246,7 @@ public class CustomNetworkManager : NetworkManager
     public override void OnClientConnect()
     {
         base.OnClientConnect();
+        OnClientConnected?.Invoke();
     }
 
     /// <summary>
@@ -193,6 +256,7 @@ public class CustomNetworkManager : NetworkManager
     public override void OnClientDisconnect()
     {
         base.OnClientDisconnect();
+        OnClientDisconnected?.Invoke();
     }
 
     /// <summary>
@@ -225,12 +289,20 @@ public class CustomNetworkManager : NetworkManager
     /// This is invoked when a server is started - including when a host is started.
     /// <para>StartServer has multiple signatures, but they all cause this hook to be called.</para>
     /// </summary>
-    public override void OnStartServer() { }
+    public override void OnStartServer() => spawnPrefabs = Resources.LoadAll<GameObject>("").ToList();
 
     /// <summary>
     /// This is invoked when the client is started.
     /// </summary>
-    public override void OnStartClient() { }
+    public override void OnStartClient()
+    {
+        var spawnablePrefabs = Resources.LoadAll<GameObject>("");
+
+        foreach (var prefab in spawnablePrefabs)
+        {
+            NetworkClient.RegisterPrefab(prefab);
+        }
+    }
 
     /// <summary>
     /// This is called when a host is stopped.
@@ -240,7 +312,10 @@ public class CustomNetworkManager : NetworkManager
     /// <summary>
     /// This is called when a server is stopped - including when a host is stopped.
     /// </summary>
-    public override void OnStopServer() { }
+    public override void OnStopServer()
+    {
+        RoomPlayers.Clear();
+    }
 
     /// <summary>
     /// This is called when a client is stopped.
@@ -248,4 +323,41 @@ public class CustomNetworkManager : NetworkManager
     public override void OnStopClient() { }
 
     #endregion
+
+    public void NotifyPlayersOfReadyState()
+    {
+        foreach (var player in RoomPlayers)
+        {
+            player.HandleReadyToStart(IsReadyToStart());
+        }
+    }
+
+    private bool IsReadyToStart()
+    {
+        if (numPlayers < minPlayers)
+        {
+            return false;
+        }
+
+        foreach (var player in RoomPlayers)
+        {
+            if (!player.IsReady)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void StartGame()
+    {
+        if (SceneManager.GetActiveScene().path == menuScene)
+        {
+            if (!IsReadyToStart())
+            {
+                return;
+            }
+            ServerChangeScene("MMO dungeon");
+        }
+    }
 }

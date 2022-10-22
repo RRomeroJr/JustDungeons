@@ -23964,6 +23964,26 @@ PrefabInstance:
       propertyPath: targetFrame
       value: 
       objectReference: {fileID: 1502917079}
+    - target: {fileID: 808402555786052939, guid: 883e8f8943859224e84ef35ed734a1ce, type: 3}
+      propertyPath: frames.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 808402555786052939, guid: 883e8f8943859224e84ef35ed734a1ce, type: 3}
+      propertyPath: frames.Array.data[0]
+      value: 
+      objectReference: {fileID: 501178252}
+    - target: {fileID: 808402555786052939, guid: 883e8f8943859224e84ef35ed734a1ce, type: 3}
+      propertyPath: frames.Array.data[1]
+      value: 
+      objectReference: {fileID: 1537267882}
+    - target: {fileID: 808402555786052939, guid: 883e8f8943859224e84ef35ed734a1ce, type: 3}
+      propertyPath: frames.Array.data[2]
+      value: 
+      objectReference: {fileID: 1441116576}
+    - target: {fileID: 808402555786052939, guid: 883e8f8943859224e84ef35ed734a1ce, type: 3}
+      propertyPath: frames.Array.data[3]
+      value: 
+      objectReference: {fileID: 555352189}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 883e8f8943859224e84ef35ed734a1ce, type: 3}
 --- !u!1001 &2096029719692067639

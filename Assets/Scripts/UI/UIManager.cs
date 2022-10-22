@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -16,10 +16,11 @@ public class UIManager : MonoBehaviour
         then calling setUpFrame() on the them
     */
     public UnitFrame targetFrame;
-    public UnitFrame partyFrame;
+    public List<UnitFrame> frames = new List<UnitFrame>();
+    /*public UnitFrame partyFrame;
     public UnitFrame partyFrame1;
     public UnitFrame partyFrame2;
-    public UnitFrame partyFrame3;
+    public UnitFrame partyFrame3;*/
     public Actor playerActor;
     public GameObject cameraPrefab;
     
@@ -33,13 +34,27 @@ public class UIManager : MonoBehaviour
         /* Not sure if unit frames should have refences to actors
            like this. Later I might change this so the UIManager
          v   has refs to unitframes and correponding actors      v*/
-        updateUnitFrame(partyFrame, partyFrame.actor);
+        /*updateUnitFrame(partyFrame, partyFrame.actor);
         updateUnitFrame(partyFrame1, partyFrame1.actor);
         updateUnitFrame(partyFrame2, partyFrame2.actor);
-        updateUnitFrame(partyFrame3, partyFrame3.actor);
+        updateUnitFrame(partyFrame3, partyFrame3.actor);*/
         //setUpUnitFrame(partyFrame, partyFrame.actor);
 
     }
+
+    // Update the max health and current health of all ally frames
+    public void UpdateAllyFrames()
+    {
+        foreach (UnitFrame frame in frames)
+        {
+            if (frame.actor != null)
+            {
+                frame.healthBar.maxValue = frame.actor.getMaxHealth();
+                frame.healthBar.value = frame.actor.getHealth();
+            }
+        }
+    }
+
     public void updateUnitFrame(UnitFrame unitFrame, Actor actor){
         if(actor != null){
             //setting Actor
@@ -63,14 +78,15 @@ public class UIManager : MonoBehaviour
     //         Debug.LogError("UnitFrame has no PointerClick entry trigger.triggers.Count: " + trigger.triggers.Count.ToString());
     //     }
     //     entry.callback.AddListener((methodIWant) => { setTarget(); });
-        
+
     // }
-    
+
     void Update(){
-        updateUnitFrame(partyFrame, partyFrame.actor);
+        UpdateAllyFrames();
+        /*updateUnitFrame(partyFrame, partyFrame.actor);
         updateUnitFrame(partyFrame1, partyFrame1.actor);
         updateUnitFrame(partyFrame2, partyFrame2.actor);
-        updateUnitFrame(partyFrame3, partyFrame3.actor);
+        updateUnitFrame(partyFrame3, partyFrame3.actor);*/
         if(playerActor != null){ 
             updateUnitFrame(targetFrame, playerActor.target);
         }
