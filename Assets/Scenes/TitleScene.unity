@@ -389,7 +389,7 @@ PrefabInstance:
     - target: {fileID: 4602065914186662412, guid: f3e961304dfd74d4982f34862a2b321d, type: 3}
       propertyPath: gamePlayerPrefab
       value: 
-      objectReference: {fileID: 1219926777202803443, guid: 46fe8384d424d64458f11b67b01917b4, type: 3}
+      objectReference: {fileID: 7805083521186877322, guid: 46fe8384d424d64458f11b67b01917b4, type: 3}
     - target: {fileID: 4602065914186662412, guid: f3e961304dfd74d4982f34862a2b321d, type: 3}
       propertyPath: roomPlayerPrefab
       value: 
