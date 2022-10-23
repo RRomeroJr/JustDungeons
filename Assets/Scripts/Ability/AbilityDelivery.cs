@@ -33,12 +33,19 @@ public class AbilityDelivery : NetworkBehaviour
     public bool ignoreDuration = true;
     public float innerCircleRadius;
     public Vector2 safeZoneCenter;
+    public Vector2 skillshotvector;
     void Start()
     {   
         if(isServer){
             
             foreach(EffectInstruction eI in eInstructs){
                 eI.effect.parentDelivery = this;
+            }
+            if(type == 1){
+                skillshotvector = worldPointTarget - transform.position;
+                skillshotvector.Normalize();
+                skillshotvector = speed * skillshotvector;
+                
             }
             if(type == 2){ // aoe no target
                 gameObject.transform.position = worldPointTarget;
@@ -93,7 +100,43 @@ public class AbilityDelivery : NetworkBehaviour
                     Destroy(gameObject);
                 }
             }*/
-        }
+            }
+            if(type == 1){   
+                if (other.gameObject.GetComponent<Actor>() != null){
+                    if(other.gameObject.GetComponent<Actor>() != caster){
+                    /* Old system
+
+                    if(abilityEffects.Count > 0){
+                        Actor target_ref = other.gameObject.GetComponent<Actor>();
+                        foreach (AbilityEffect eff in abilityEffects){
+                            eff.setTarget(target_ref);
+                        }
+                        
+                        GameManager.instance.actorCastedAbility_Event.Invoke(abilityEffects);
+                    }
+                    other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
+                    */
+
+                    if(eInstructs.Count > 0){
+                        Actor target_ref = other.gameObject.GetComponent<Actor>();
+                        foreach (EffectInstruction eI in eInstructs){
+                            eI.startApply(other.gameObject.GetComponent<Actor>(), null, caster);
+                        }
+                    }
+                    Destroy(gameObject);
+                    }
+                }
+            }/*
+                Old System
+            if(type == 1){
+                if (other.gameObject.GetComponent<Actor>() != caster){
+                    if (other.gameObject.GetComponent<Actor>() != null){
+                        other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
+                    }
+                    Destroy(gameObject);
+                }
+            }*/
+            
         }
         
     }
@@ -104,6 +147,7 @@ public class AbilityDelivery : NetworkBehaviour
                 
                 if (other.gameObject.GetComponent<Actor>() != caster){
                     if (other.gameObject.GetComponent<Actor>() != null){
+                        //Debug.Log("type 2 and 3 spam");
                         if(checkIgnoreTarget(other.gameObject.GetComponent<Actor>()) == false){
                             addToAoeIgnore(other.gameObject.GetComponent<Actor>(), tickRate);
 
@@ -165,10 +209,11 @@ public class AbilityDelivery : NetworkBehaviour
                 transform.position = Vector2.MoveTowards(transform.position, target.gameObject.transform.position, speed);
             }
             else if(type == 1){
-                transform.position = Vector2.MoveTowards(transform.position, worldPointTarget, speed);
-                if(transform.position == worldPointTarget){
-                    Destroy(gameObject);
-                }
+                
+                transform.position = (Vector2)transform.position + skillshotvector;
+                
+
+                
             }
             }
         }
