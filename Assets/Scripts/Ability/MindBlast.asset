@@ -27,3 +27,5 @@ MonoBehaviour:
   resourceCosts:
   - amount: 0
     crType: {fileID: 11400000, guid: 55f627c33b30c14489770a8e971ecee4, type: 2}
+  isChannel: 0
+  numberOfTicks: 0

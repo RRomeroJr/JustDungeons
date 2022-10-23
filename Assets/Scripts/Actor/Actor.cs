@@ -37,7 +37,9 @@ public class Actor : NetworkBehaviour
     
     // When readyToFire is true queuedAbility will fire
     public bool readyToFire = false; // Will True by CastBar for abilities w/ casts. Will only be true for a freme
-    public bool isCasting = false; // Will be set False by CastBar 
+    public bool isCasting = false; // Will be set False by CastBar
+    public bool isChanneling = false;
+    public float lastChannelTick = 0.0f;
     //[SerializeField]protected Ability queuedAbility; // Used when Ability has a cast time
     //[SyncVar]
     [SerializeField]protected Ability_V2 queuedAbility; // Used when Ability has a cast time
@@ -141,6 +143,9 @@ public class Actor : NetworkBehaviour
         handleAbilityEffects();
         if(isServer){
             handleCastQueue();
+            if(isChanneling){
+                checkChannel();
+            }
         }
         
     }
@@ -512,7 +517,12 @@ public class Actor : NetworkBehaviour
     [Server]
     public void fireCast(Ability_V2 _ability, Actor _target = null, NullibleVector3 _targetWP = null){
         // EI_Clones will be passed into an event that will allow them to be modified as need by other effects, stats, Buffs, etc.
-        List<EffectInstruction> EI_clones = _ability.getEffectInstructions().cloneInstructs();
+        
+        if(_ability.isChannel){
+            startChannel(_ability, _target, _targetWP);
+        }
+        else{
+            List<EffectInstruction> EI_clones = _ability.getEffectInstructions().cloneInstructs();
         if(buffs != null){
             foreach(EffectInstruction eI in EI_clones){
                 int i = 0;
@@ -554,7 +564,7 @@ public class Actor : NetworkBehaviour
 
         if(isServer){
             //Debug.Log("firecast -> isServer");
-            if(hasResources(_ability)){
+            if(hasTheResources(_ability)){
                 foreach(AbilityResource ar in _ability.resourceCosts){
                     damageResource(ar.crType, ar.amount);
                 }
@@ -575,11 +585,108 @@ public class Actor : NetworkBehaviour
             }
 
 
+            resetClientCastVars();
+            
+        } 
+        
+        }
+        
+        
+    }
+    public void startChannel(Ability_V2 _ability, Actor _target = null, NullibleVector3 _targetWP = null){
+        // EI_Clones will be passed into an event that will allow them to be modified as need by other effects, stats, Buffs, etc.
+        
+        queueAbility(_ability, _target, _targetWP);
+        isChanneling = true;
+        lastChannelTick = 0.0f;
+        readyToFire = false;
+        castTime = _ability.channelDuration;
+        isCasting = true;
+        fireChannel(queuedAbility, queuedTarget, queuedTargetWP);
+        
+    }
+    //2nd part
+    public void checkChannel(){
+        if(!isCasting){
+            isChanneling = false;
+            resetClientCastVars();
+        }
+        else{
+            //check for first hit
+
+
+
+            //check for middle hits
+            if(queuedAbility.channelDuration / (queuedAbility.numberOfTicks - 1) <= lastChannelTick){
+                fireChannel(queuedAbility, queuedTarget, queuedTargetWP);
+                lastChannelTick = 0.0f;
+            }
+            //check for final hit
+            else if(castTime <= 0.0f){
+                fireChannel(queuedAbility, queuedTarget, queuedTargetWP);
+                lastChannelTick = 0.0f;
+                resetClientCastVars();
+            }
+        }
+        
+    }
+    [Server]
+    public void fireChannel(Ability_V2 _ability, Actor _target = null, NullibleVector3 _targetWP = null){
+        // EI_Clones will be passed into an event that will allow them to be modified as need by other effects, stats, Buffs, etc.
+        
+        
+        List<EffectInstruction> EI_clones = _ability.getEffectInstructions().cloneInstructs();
+        if(buffs != null){
+            foreach(EffectInstruction eI in EI_clones){
+                int i = 0;
+                int lastBuffCount = buffs.Count;
+                while(i < buffs.Count)
+                {
+                    var buffCastHooks = buffs[i].onCastHooks;
+                    if(buffCastHooks != null){
+                        if(buffCastHooks.Count > 0){
+                            foreach (var hook in buffCastHooks){
+                                hook.Invoke(buffs[i], eI);
+                            }
+                        }
+                    }
+
+                    if(lastBuffCount == buffs.Count)
+                        i++;
+
+                }
+            
+                
+            }
+        }
+        
+        if(isServer){
+            //Debug.Log("firecast -> isServer");
+            if(hasTheResources(_ability)){
+                foreach(AbilityResource ar in _ability.resourceCosts){
+                    damageResource(ar.crType, ar.amount);
+                }
+                foreach (EffectInstruction eI in EI_clones){
+                    eI.startApply(_target, _targetWP, this);
+                }
+                //addToCooldowns(_ability);
+                // if(onAbilityCastHooks != null){
+                //     onAbilityCastHooks.Invoke(_ability.id);
+                // }
+                if(gameObject.tag == "Player"){
+                    animateAbility(_ability);
+                }
+            }
+            
+            else{
+                Debug.Log("Ability has no resourceCosts");
+            }
+
+
             
             
         } 
         
-        resetClientCastVars();
         
     }
     [ClientRpc]
@@ -788,14 +895,22 @@ public class Actor : NetworkBehaviour
     void updateCast(){
         
         if(isCasting){
-            castTime += Time.deltaTime;
-            if(isServer)
-                if(castTime >= queuedAbility.getCastTime()){
-                    //Debug.Log("updateCast: readyToFire = true");
-                    readyToFire = true;
-            }else{
-                //Debug.Log(actorName + "Failed isServer check");
+            if(isChanneling){
+                castTime -= Time.deltaTime;
+                lastChannelTick += Time.deltaTime;
             }
+            else{
+                castTime += Time.deltaTime;
+                if(isServer)
+                    if(castTime >= queuedAbility.getCastTime()){
+                        //Debug.Log("updateCast: readyToFire = true");
+                        readyToFire = true;
+                    }
+            }
+            
+            
+                
+            
         }
     }
     void resetCastTime(){
@@ -824,7 +939,7 @@ public class Actor : NetworkBehaviour
         Debug.LogWarning("Class Resources are null");
         return true;
     }
-    public bool hasResources(Ability_V2 _ability){
+    public bool hasTheResources(Ability_V2 _ability){
         if(_ability != null){
             if(_ability.resourceCosts == null){
                 return true;

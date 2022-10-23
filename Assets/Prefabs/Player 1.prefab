@@ -124,6 +124,8 @@ MonoBehaviour:
   buffs: []
   readyToFire: 0
   isCasting: 0
+  isChanneling: 0
+  lastChannelTick: 0
   queuedAbility: {fileID: 0}
   queuedTarget: {fileID: 0}
   queuedTargetWP:
@@ -157,9 +159,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   up: {fileID: 21300000, guid: 0b1f95060910de843a73f7290a82d293, type: 3}
   down: {fileID: 21300000, guid: 11bcfaeb85dcf06489ffe2d6500f3719, type: 3}
-  right: {fileID: 21300000, guid: 56dc974e75594024a838cdf209d69e00, type: 3}
-  left: {fileID: 21300000, guid: 67a86bc4bd6426e429076b6ab3b000d6, type: 3}
+  facingRight: 1
+  facingDown: 1
   spriteRenderer: {fileID: 3602611100074717269}
+  animator: {fileID: 0}
 --- !u!61 &3602611100074717279
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -249,7 +252,7 @@ MonoBehaviour:
   ability5a: {fileID: 11400000, guid: 931d5445f8f32e341babe5f6fce3450b, type: 2}
   ability6a: {fileID: 11400000, guid: 288de58e0ce8a4a45b0bbfd2faf86635, type: 2}
   ability7a: {fileID: 11400000, guid: 21c29030a131d374bb022274c6677cb9, type: 2}
-  ability8a: {fileID: 11400000, guid: 4ab42603cefb69643b9deea4be861e99, type: 2}
+  ability8a: {fileID: 11400000, guid: 8fc01d425cdca1a4ab8f6a0e64387f07, type: 2}
   ability9a: {fileID: 11400000, guid: 9721977442b9f7e489170b36a4ffc80b, type: 2}
   test: {fileID: 11400000, guid: 09c5e600fbf9b6148892edb228809891, type: 2}
   posTest: {x: 0, y: 0, z: 0}
@@ -322,6 +325,9 @@ MonoBehaviour:
   targetHealthBar: {fileID: 0}
   targetHealthBarFill: {fileID: 0}
   playerActor: {fileID: 3602611100074717274}
+  mask:
+    serializedVersion: 2
+    m_Bits: 192
 --- !u!195 &-121281515293638722
 NavMeshAgent:
   m_ObjectHideFlags: 0

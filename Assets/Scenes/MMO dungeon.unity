@@ -24068,6 +24068,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dionysus
       objectReference: {fileID: 0}
+    - target: {fileID: 2096029720338020577, guid: dd923e74212956d448682a636e7b1bf0, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 2096029720338020585, guid: dd923e74212956d448682a636e7b1bf0, type: 3}
       propertyPath: sceneId
       value: 782099284

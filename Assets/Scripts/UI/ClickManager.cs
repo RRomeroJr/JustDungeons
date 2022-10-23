@@ -24,7 +24,7 @@ public class ClickManager : NetworkBehaviour
     public Slider targetHealthBar;
     public Image targetHealthBarFill;
     public Actor playerActor;
-
+    public LayerMask mask;
 
     void Update()
     {   
@@ -36,11 +36,12 @@ public class ClickManager : NetworkBehaviour
 
                 Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-                RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+                RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, mask);
                 //Debug.Log("mousePos "+ mousePos.ToString());
 
                 if (hit.collider != null) {
-                    //Debug.Log("Clicked something");
+                    
+                    Debug.Log("Clicked something: " + hit.collider.gameObject.name);
 
                     // set controller's target w/ actor hit by raycast
                     
@@ -50,7 +51,7 @@ public class ClickManager : NetworkBehaviour
                         playerActor.cmdReqSetTarget(hit.collider.gameObject.GetComponent<Actor>());
                     }
                 }else{
-                    //Debug.Log("Nothing clicked");
+                    Debug.Log("Nothing clicked");
                 }
             }
         }

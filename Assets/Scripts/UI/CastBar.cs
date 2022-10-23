@@ -42,7 +42,11 @@ public class CastBar : MonoBehaviour
     void Update(){
       if(start){
         if(caster.isCasting){
+          if(caster.isChanneling){
+            castBar.maxValue = caster.getQueuedAbility().channelDuration;
+          }
           castBar.value = caster.castTime;
+          
         }
         else{
           //Debug.Log("CBar: cast Completed!");
