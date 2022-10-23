@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Style.uss?fileID=7433441132597879392&amp;guid=c8244eabc1e6b6a45b5a9dc27d6b6fee&amp;type=3#Style" />
+    <ui:VisualElement name="background" style="flex-grow: 1; justify-content: center; align-items: center; -unity-background-image-tint-color: rgb(255, 255, 255);">
+        <ui:VisualElement name="title-screen" style="height: 542px; width: 513px; align-items: center; justify-content: center; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; left: auto; right: 30%;">
+            <ui:Label text="Title" display-tooltip-when-elided="true" style="font-size: 120px; top: auto; bottom: auto;" />
+            <ui:Button text="HOST GAME" display-tooltip-when-elided="true" name="button-host" class="title-button" />
+            <ui:Button text="JOIN GAME" display-tooltip-when-elided="true" name="button-join" class="title-button" />
+            <ui:Button text="OPTIONS" display-tooltip-when-elided="true" name="button-options" class="title-button" />
+            <ui:Button text="QUIT" display-tooltip-when-elided="true" name="button-quit" class="title-button" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
