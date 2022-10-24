@@ -23,3 +23,7 @@ MonoBehaviour:
     targetArg: 0
   school: 0
   misslePrefab: {fileID: 8996080988287052582, guid: f001407721b25a0449cded0b467c60d5, type: 3}
+  isSkillshot: 0
+  speed: 0
+  ignoreDuration: 1
+  duration: 0

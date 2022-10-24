@@ -23,8 +23,13 @@ public class UIManager : MonoBehaviour
     public UnitFrame partyFrame3;*/
     public Actor playerActor;
     public GameObject cameraPrefab;
+    public static GameObject nameplatePrefab;
+    public static GameObject damageTextPrefab;
     
-    
+    void Awake(){
+        nameplatePrefab = Resources.Load("Nameplate") as GameObject;
+        damageTextPrefab = Resources.Load("DamageText") as GameObject;
+    } 
     // Start is called before the first frame update
     void Start()
     {

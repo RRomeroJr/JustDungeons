@@ -133,6 +133,7 @@ public class Actor : NetworkBehaviour
         }
         animator = GetComponent<Animator>();
         //gameObject.GetComponent<Renderer>().Color = unitColor;
+        Nameplate.Create(this);
     }
     void Update(){
         if(health <= 0){
@@ -162,6 +163,7 @@ public class Actor : NetworkBehaviour
             switch (valueType){
                 case 0:
                     health -= amount;
+                    DamageText.Create(transform.position, amount);
                     if(health < 0){
                         health = 0;
                     }
@@ -377,7 +379,7 @@ public class Actor : NetworkBehaviour
                     i++;
                 }
                 else{
-                    Debug.Log("After RM Buffs[" + (i - 1).ToString() + "] = " + buffs[i-1].getEffectName());
+                    ///Debug.Log("After RM Buffs[" + (i - 1).ToString() + "] = " + buffs[i-1].getEffectName());
                 }
             }
         
@@ -848,6 +850,18 @@ public class Actor : NetworkBehaviour
     }
     public void setMaxMana(int _mana){
         mana = _mana;
+    }
+    public int getResourceAmount(int index){
+        return classResources[index].amount;
+    }
+    public int getResourceMax(int index){
+        return classResources[index].max;
+    }
+    public ClassResourceType getResourceType(int index){
+        return classResources[index].crType;
+    }
+    public int ResourceTypeCount(){
+        return classResources.Count;
     }
     public string getActorName(){
         return actorName;

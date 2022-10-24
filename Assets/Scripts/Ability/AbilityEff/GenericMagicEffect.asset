@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: GenericMagicEffect
   m_EditorClassIdentifier: 
   effectName: GenericMagicEffect
-  id: -1
-  power: 1
+  id: 1
+  power: 14
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 0

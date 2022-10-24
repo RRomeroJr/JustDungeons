@@ -18,10 +18,13 @@ MonoBehaviour:
     targetArg: 0
   castTime: 1.5
   cooldown: 0
-  needsActor: 1
-  needsWP: 0
+  needsActor: 0
+  needsWP: 1
   id: 2
   abilityTag: 0
   resourceCosts:
-  - amount: 10
+  - amount: 0
     crType: {fileID: 11400000, guid: 55f627c33b30c14489770a8e971ecee4, type: 2}
+  isChannel: 0
+  channelDuration: 0
+  numberOfTicks: 0
