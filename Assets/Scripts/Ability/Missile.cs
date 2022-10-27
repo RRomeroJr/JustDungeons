@@ -66,6 +66,7 @@ public class Missile : DeliveryEff
         temp_ref.effectName = effectName;
         temp_ref.id = id;
         temp_ref.power = power;
+        temp_ref.powerScale = powerScale;
         temp_ref.misslePrefab = misslePrefab;
         temp_ref.eInstructs = new List<EffectInstruction>();
         temp_ref.targetIsSecondary = targetIsSecondary;
