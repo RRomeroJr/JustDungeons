@@ -18,6 +18,23 @@ MonoBehaviour:
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 1
+  target: {fileID: 0}
+  caster: {fileID: 0}
+  targetWP:
+    Value: {x: 0, y: 0, z: 0}
+  eInstructs:
+  - effect: {fileID: 11400000, guid: f5d86c5f92dee814f82332a42c41f826, type: 2}
+    targetArg: 0
+    powerMod: 1
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
+  - effect: {fileID: 11400000, guid: 09c5e600fbf9b6148892edb228809891, type: 2}
+    targetArg: 0
+    powerMod: 1
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
   school: -1
   prefabScale: {x: 1, y: 1, z: 1}
   aoePrefab: {fileID: 8996080988287052582, guid: 64b0b49d7bf32f843b9a65baed889b7e, type: 3}

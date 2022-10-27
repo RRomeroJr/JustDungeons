@@ -45,6 +45,10 @@ public class PlayerControllerHBC : Controller
     public override void Start()
     {   
         base.Start();
+        if(isLocalPlayer){
+            UIManager.playerController = this;
+
+        }
         // ability1 = AbilityData.DoT;
         // ability2 = AbilityData.CastedDamage;
         // ability3 = AbilityData.CastedHeal;
@@ -113,25 +117,23 @@ public class PlayerControllerHBC : Controller
                 if(ability5a != null)
                 actor.castAbility3(ability5a);
             }
-            if(Input.GetKeyDown("6")){
+            if(Input.GetKeyDown("q")){
                 if(ability6a != null)
                 actor.castAbility3(ability6a);
             }
-            if(Input.GetKeyDown("7")){
+            if(Input.GetKeyDown("e")){
                 if(ability7a != null)
                 actor.castAbility3(ability7a);
             }
-            if(Input.GetKeyDown("8")){
+            if(Input.GetKeyDown("r")){
                 if(ability8a != null)
                 actor.castAbility3(ability8a);
             }
-            if(Input.GetKeyDown("9")){
+            if(Input.GetKeyDown("f")){
                 if(ability9a != null)
                 actor.castAbility3(ability9a);
             }
-            if(Input.GetKeyDown("k")){
-                reqAbilityEff(test);
-            }
+            
         }
         
     }

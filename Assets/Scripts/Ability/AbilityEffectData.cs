@@ -109,6 +109,19 @@ public class AbilityEffectData : ScriptableObject
             Debug.Log("Effect was not not correct:" + inComingEI.effect.id.ToString() + " != 2");
         }
     }
+    public static void positionalDmgBuffTest(EffectInstruction _ei){
+        // if behind or on side or in front w/e 
+        // ei.effect.power *= some val
+        // if(HBCTools.checkIfBehind(_ei.effect.caster, _ei.effect.target)){
+            
+        // }
+        //Debug.Log("positional check reached in AED");
+        Debug.Log(HBCTools.checkIfBehind(_ei.effect.caster, _ei.effect.target).ToString());
+        if(HBCTools.checkIfBehind(_ei.effect.caster, _ei.effect.target)){
+            _ei.effect.power *= 1.1f;
+        }
+        
+    }
 /*
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~vV*****Start/ Hit/ Finish Actions*****Vv~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */

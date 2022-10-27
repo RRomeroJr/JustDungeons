@@ -142,9 +142,11 @@ MonoBehaviour:
       m_Calls: []
   animator: {fileID: 0}
   classResources:
-  - max: 100
-    amount: 10
-    crType: {fileID: 11400000, guid: 55f627c33b30c14489770a8e971ecee4, type: 2}
+  - max: 5
+    amount: 0
+    crType: {fileID: 11400000, guid: f99af011e29c85f4686d63a179cf33d8, type: 2}
+  globalCooldown: 0
+  mainStat: 100
 --- !u!114 &3602611100074717273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,16 +244,17 @@ MonoBehaviour:
   autoAttacking: 0
   autoAttackClone: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
   followTarget: {fileID: 0}
+  facingDirection: {x: 0, y: 0}
   HORIZ_MOVE_ACCEL: 420
   VERT_MOVE_ACCEL: 420
   uiManager: {fileID: 0}
-  ability1a: {fileID: 11400000, guid: 6f1e83bd16b15204c869d14952139722, type: 2}
-  ability2a: {fileID: 11400000, guid: a89e255900be0224aaba9347c9adea30, type: 2}
-  ability3a: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
-  ability4a: {fileID: 11400000, guid: 722fa7e69c249d740829674736b49962, type: 2}
-  ability5a: {fileID: 11400000, guid: 931d5445f8f32e341babe5f6fce3450b, type: 2}
-  ability6a: {fileID: 11400000, guid: 288de58e0ce8a4a45b0bbfd2faf86635, type: 2}
-  ability7a: {fileID: 11400000, guid: 21c29030a131d374bb022274c6677cb9, type: 2}
+  ability1a: {fileID: 11400000, guid: 25892cafc51da1741bfc1ed0ae709125, type: 2}
+  ability2a: {fileID: 11400000, guid: d9cf312441b110944872f8ce388f759c, type: 2}
+  ability3a: {fileID: 11400000, guid: bc0b9b13d7683204abb40cf45658cf81, type: 2}
+  ability4a: {fileID: 11400000, guid: 78029697a7165884bb5087a570c34d2c, type: 2}
+  ability5a: {fileID: 11400000, guid: 367e1748df70f084fa1aeca95939995c, type: 2}
+  ability6a: {fileID: 11400000, guid: 9721977442b9f7e489170b36a4ffc80b, type: 2}
+  ability7a: {fileID: 11400000, guid: 8df7b41371839cf40a06f4cad97dca7e, type: 2}
   ability8a: {fileID: 11400000, guid: 8fc01d425cdca1a4ab8f6a0e64387f07, type: 2}
   ability9a: {fileID: 11400000, guid: 9721977442b9f7e489170b36a4ffc80b, type: 2}
   test: {fileID: 11400000, guid: 09c5e600fbf9b6148892edb228809891, type: 2}

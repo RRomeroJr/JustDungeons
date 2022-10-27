@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 630dbee7393b5314ab79662f009e6568, type: 3}
+  m_Name: Filler
+  m_EditorClassIdentifier: 
+  abilityName: Filler
+  eInstructs:
+  - effect: {fileID: 11400000, guid: 1f05fe3c1e5d8c4499e3c0e1986cd507, type: 2}
+    targetArg: 0
+    powerMod: 1
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 11400000, guid: 05f702353c4ce0740bbec34a6703ccf0, type: 2}
+          m_TargetAssemblyTypeName: AbilityEffectData, Assembly-CSharp
+          m_MethodName: positionalDmgBuffTest
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  castTime: 0
+  cooldown: 0
+  needsActor: 1
+  needsWP: 0
+  id: 25
+  abilityTag: 0
+  resourceCosts: []
+  isChannel: 0
+  channelDuration: 0
+  numberOfTicks: 0

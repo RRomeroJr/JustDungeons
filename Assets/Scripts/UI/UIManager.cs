@@ -21,7 +21,8 @@ public class UIManager : MonoBehaviour
     public UnitFrame partyFrame1;
     public UnitFrame partyFrame2;
     public UnitFrame partyFrame3;*/
-    public Actor playerActor;
+    public static Actor playerActor;
+    public static Controller playerController;
     public GameObject cameraPrefab;
     public static GameObject nameplatePrefab;
     public static GameObject damageTextPrefab;

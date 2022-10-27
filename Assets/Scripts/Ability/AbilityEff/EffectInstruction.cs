@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
 [System.Serializable]
 public class EffectInstruction
 {
     [SerializeField]public AbilityEff effect;
     [SerializeField]public int targetArg = 0;
+    [SerializeField]public float powerMod = 1.0f;
+    public UnityEvent<EffectInstruction> onSendHooks;
+    
     public void startEffect(Actor inTarget = null, NullibleVector3 inTargetWP = null, Actor inCaster = null, Actor inSecondaryTarget = null){
         //Debug.Log(inTargetWP == null ? "eInstruct: No targetWP" : ("eInstruct: wp = " + inTargetWP.Value.ToString()));
         effect.startEffect(inTarget, inTargetWP, inCaster, inSecondaryTarget);
@@ -53,6 +58,12 @@ public class EffectInstruction
         //         break;
         // }
         //Debug.Log("startApply caster" + (inCaster != null ? inCaster.getActorName() : "caster is null"));
+        effect.target = inTarget;
+        effect.targetWP = inTargetWP;
+        effect.caster = inCaster;
+        if(onSendHooks != null){
+            onSendHooks.Invoke(this);
+        }
         inTarget.recieveEffect(this, inTargetWP, inCaster, inSecondaryTarget);
     }
     public EffectInstruction(){
@@ -68,6 +79,8 @@ public class EffectInstruction
             toReturn.effect = effect.clone();
         }
         toReturn.targetArg = targetArg;
+        toReturn.onSendHooks = onSendHooks;
+        //toReturn.powerMod = powerMod;
         return toReturn;
     }
     public EffectInstruction cloneNoEffectClone(){
@@ -75,7 +88,10 @@ public class EffectInstruction
         if(effect != null){
             toReturn.effect = effect;
         }
+        //toReturn.effect.power *= powerMod;
         toReturn.targetArg = targetArg;
+        toReturn.onSendHooks = onSendHooks;
+        //toReturn.powerMod = powerMod;
         return toReturn;
     }
 }

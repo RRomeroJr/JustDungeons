@@ -9,7 +9,7 @@ public class Heal : AbilityEff
 {   
     public int school;
     public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
-       _target.restoreValue((int)power);
+       target.damageValue((int)power + (int)(caster.mainStat * powerScale), fromActor: caster);
     }
     public Heal(string _effectName, int _id = -1, float _power = 0, int _school = -1){
         effectName = _effectName;

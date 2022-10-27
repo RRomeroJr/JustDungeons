@@ -11,8 +11,12 @@ public class Controller : NetworkBehaviour
     public bool autoAttacking;
     public Ability_V2 autoAttackClone;
     public GameObject followTarget;
+    public Vector2 facingDirection;
+     public float globalCooldown = 0.0f;
+    public const float gcdBase = 2.0f;
     public virtual void Start(){
         //autoAttackClone = AbilityData.instance.AutoAttack.clone();
+        facingDirection = Vector2.down;
     }
     
     public void MoveTowards(Vector3 pos){
@@ -20,6 +24,9 @@ public class Controller : NetworkBehaviour
     }
     
     public virtual void Update(){
+        if(globalCooldown > 0.0f){
+            globalCooldown -= Time.deltaTime;
+        }
         if(autoAttacking){
             
             if(actor.target != null){
@@ -34,4 +41,5 @@ public class Controller : NetworkBehaviour
             GetComponent<NavMeshAgent>().SetDestination(followTarget.transform.position);
         }
     }
+    
 }

@@ -47,7 +47,7 @@ public class Actor : NetworkBehaviour
     [SerializeField]protected Actor queuedTarget; // Used when Ability has a cast time
     [SerializeField]protected NullibleVector3 queuedTargetWP;
     [SerializeField]protected NullibleVector3 nVectTest;
-    [SerializeField]protected List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
+    [SerializeField]public List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
     public UIManager uiManager;
     public GameObject abilityDeliveryPrefab;
     
@@ -61,6 +61,8 @@ public class Actor : NetworkBehaviour
     public Animator animator;
     
     [SerializeField]protected List<ClassResource> classResources;
+    [SyncVar]
+    public float mainStat = 100.0f;
 
     [ClientRpc]
     public void updateClassResourceAmount(int index, int _amount){
@@ -107,6 +109,7 @@ public class Actor : NetworkBehaviour
                     if(_crt == cr.crType){
                         int temp = cr.amount + _amount;
                         if(temp >= 0){
+                            Debug.Log("Adding " + _amount.ToString() + " " + _crt.GetType().ToString());
                             updateClassResourceAmount(index, temp);
                         }
                         else{
@@ -125,15 +128,17 @@ public class Actor : NetworkBehaviour
         abilityEffects = new List<AbilityEffect>();
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         if(isLocalPlayer){
-            uiManager.playerActor = this;
+            UIManager.playerActor = this;
             GameObject cameraTemp = Instantiate(uiManager.cameraPrefab, gameObject.transform);
             cameraTemp.GetComponent<CameraController>().target = gameObject.transform;
             
-           
+           Nameplate.Create(this);
         }
         animator = GetComponent<Animator>();
         //gameObject.GetComponent<Renderer>().Color = unitColor;
-        Nameplate.Create(this);
+        //Nameplate.Create(this);
+
+
     }
     void Update(){
         if(health <= 0){
@@ -153,7 +158,7 @@ public class Actor : NetworkBehaviour
     //------------------------------------------------------------handling Active Ability Effects-------------------------------------------------------------------------
     
     
-    public void damageValue(int amount, int valueType = 0){
+    public void damageValue(int amount, int valueType = 0, Actor fromActor = null){
         // Right now this only damages health, but, maybe in the future,
         // This could take an extra param to indicate a different value to "damage"
         // For ex. a Ability that reduces maxHealth or destroys mana
@@ -164,6 +169,9 @@ public class Actor : NetworkBehaviour
                 case 0:
                     health -= amount;
                     DamageText.Create(transform.position, amount);
+                    if(fromActor != null){
+                        TempDamageMeter.addToEntry(fromActor, amount);
+                    }
                     if(health < 0){
                         health = 0;
                     }
@@ -372,7 +380,7 @@ public class Actor : NetworkBehaviour
             int i = 0;
             int lastBuffCount = buffs.Count;
             while(i < buffs.Count){
-                Debug.Log("Buffs[" + i.ToString() + "] = " + buffs[i].getEffectName());
+                //Debug.Log("Buffs[" + i.ToString() + "] = " + buffs[i].getEffectName());
                 buffs[i].update();
                 if(lastBuffCount == buffs.Count){
                     
@@ -398,6 +406,8 @@ public class Actor : NetworkBehaviour
         nVect.Value = _obj.transform.position + (Vector3)_point;
         castAbility3(_ability, _targetWP: nVect);
     }
+    
+    
     public void castAbility3(Ability_V2 _ability, Actor _target = null, NullibleVector3 _targetWP = null){
         //Debug.Log("castAbility3");
         
@@ -450,7 +460,9 @@ public class Actor : NetworkBehaviour
     }
     [ClientRpc]
     public void rpcStartCast(Ability_V2 _ability, Actor _target, NullibleVector3 _targetWP){
-               
+        if(!_ability.offGDC){
+                GetComponent<Controller>().globalCooldown = Controller.gcdBase; 
+            }
         //Debug.Log("rpcStartCast");
         if(_ability.getCastTime() > 0.0f){
                         
@@ -589,6 +601,7 @@ public class Actor : NetworkBehaviour
 
             resetClientCastVars();
             
+                
         } 
         
         }
@@ -801,6 +814,10 @@ public class Actor : NetworkBehaviour
         abilityCooldowns.Add(new AbilityCooldown(_ability));
     }
     public bool checkOnCooldown(Ability_V2 _ability){
+        if(GetComponent<Controller>().globalCooldown > 0.0f){
+            //Debug.Log(actorName + " is on gcd");
+            return true;
+        }
         if(abilityCooldowns.Count > 0){
             for(int i = 0; i < abilityCooldowns.Count; i++){
                 if(abilityCooldowns[i].getName() == _ability.getName()){
