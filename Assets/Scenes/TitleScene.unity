@@ -144,6 +144,9 @@ GameObject:
   m_Component:
   - component: {fileID: 406092675}
   - component: {fileID: 406092674}
+  - component: {fileID: 406092676}
+  - component: {fileID: 406092678}
+  - component: {fileID: 406092677}
   m_Layer: 5
   m_Name: UIDocument
   m_TagString: Untagged
@@ -182,6 +185,49 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &406092676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 406092673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42db93db67397674ba368ebf895650ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lobby: {fileID: 9197481963319205126, guid: 6c02b74dc8051f247957110715ebb6d3, type: 3}
+  title: {fileID: 9197481963319205126, guid: 4add468214afc9b4cbe36e7f0678b8e0, type: 3}
+  networkManager: {fileID: 97696517}
+--- !u!114 &406092677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 406092673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2f6abebb0c6fff408bb808c3653c5e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  document: {fileID: 0}
+  lobby: {fileID: 9197481963319205126, guid: 6c02b74dc8051f247957110715ebb6d3, type: 3}
+--- !u!114 &406092678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 406092673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8959f8a1b93b76e4c844e98686c1378e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  document: {fileID: 0}
+  title: {fileID: 9197481963319205126, guid: 4add468214afc9b4cbe36e7f0678b8e0, type: 3}
 --- !u!1 &559450477
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,6 +319,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 29525751677426242, guid: d68550adfc0deb243a1806a2bde6e04d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 279836080878158927, guid: d68550adfc0deb243a1806a2bde6e04d, type: 3}
       propertyPath: networkManager
       value: 

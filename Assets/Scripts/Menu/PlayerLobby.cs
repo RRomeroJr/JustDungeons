@@ -7,7 +7,7 @@ using DapperDino;
 public class PlayerLobby : NetworkBehaviour
 {
     [Header("UI")]
-    [SerializeField] private GameObject lobbyUI = null;
+    private UIController uiController;
     [SerializeField] private TMP_Text[] playerNameTexts = new TMP_Text[4];
     [SerializeField] private TMP_Text[] playerReadyTexts = new TMP_Text[4];
     [SerializeField] private Button startGameButton = null;
@@ -40,43 +40,38 @@ public class PlayerLobby : NetworkBehaviour
         }
     }
 
+    void Awake()
+    {
+        uiController = GameObject.Find("UIDocument").GetComponent<UIController>();
+    }
+
     public override void OnStartAuthority()
     {
         CmdSetDisplayName(PlayerNameInput.DisplayName);
-        lobbyUI.SetActive(true);
     }
 
     public override void OnStartClient()
     {
         DontDestroyOnLoad(this);
         Room.RoomPlayers.Add(this);
-        UpdateDisplay();
+        uiController.uiLobby.buttonLobbyReady.clicked += CmdReadyUp;
+        uiController.uiLobby.buttonLobbyLeave.clicked += CmdLeaveGame;
+        uiController.uiLobby.buttonLobbyStart.clicked += CmdStartGame;
+
+        uiController.UpdateUI();
     }
 
     public override void OnStopClient()
     {
         Room.RoomPlayers.Remove(this);
-        UpdateDisplay();
+        uiController.UpdateUI();
     }
 
-    public void HandleReadyStatusChanged(bool oldValue, bool newValue) => UpdateDisplay();
-    public void HandleDisplayNameChanged(string oldValue, string newValue) => UpdateDisplay();
+    public void HandleReadyStatusChanged(bool oldValue, bool newValue) => uiController.UpdateUI();
+    public void HandleDisplayNameChanged(string oldValue, string newValue) => uiController.UpdateUI();
 
-    private void UpdateDisplay()
+    /*private void UpdateDisplay()
     {
-        if (!hasAuthority)
-        {
-            foreach (var player in Room.RoomPlayers)
-            {
-                if (player.hasAuthority)
-                {
-                    player.UpdateDisplay();
-                    break;
-                }
-            }
-            return;
-        }
-
         for (int i = 0; i < playerNameTexts.Length; i++)
         {
             playerNameTexts[i].text = "Waiting For Player...";
@@ -90,7 +85,7 @@ public class PlayerLobby : NetworkBehaviour
                 "<color=green>Ready</color>" :
                 "<color=red>Not Ready</color>";
         }
-    }
+    }*/
 
     public void HandleReadyToStart(bool readyToStart)
     {
@@ -114,7 +109,21 @@ public class PlayerLobby : NetworkBehaviour
     [Command]
     public void CmdStartGame()
     {
-        if (Room.RoomPlayers[0].connectionToClient != connectionToClient) { return; }
+        if (Room.RoomPlayers[0].connectionToClient != connectionToClient)
+        {
+            return;
+        }
         Room.StartGame();
+    }
+
+    [Command]
+    public void CmdLeaveGame()
+    {
+        if (Room.RoomPlayers[0].connectionToClient == connectionToClient)
+        {
+            Room.StopHost();
+            return;
+        }
+        Room.StopClient();
     }
 }
