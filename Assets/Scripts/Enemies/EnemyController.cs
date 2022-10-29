@@ -114,10 +114,6 @@ public class EnemyController : Controller
             {
                 if (multiTargets[i].GetComponent<Actor>().getRole() != r)
                 {
-                    if (multiTargets[i] == closest)
-                    {
-                        closest = null;
-                    }
                     multiTargets.RemoveAt(i);
                 }
                 else if (closest == null ||
