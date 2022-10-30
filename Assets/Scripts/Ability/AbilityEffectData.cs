@@ -96,7 +96,7 @@ public class AbilityEffectData : ScriptableObject
             }
             
         }else{
-            Debug.Log("Effect was not shadowbolt");
+            // Debug.Log("Effect was not shadowbolt");
         }
     }
     public void onHitTest(Buff _callingBuff, EffectInstruction inComingEI){
@@ -106,7 +106,7 @@ public class AbilityEffectData : ScriptableObject
             Debug.Log(inComingEI.effect.effectName + " Bam! On hit effect tiggered!");
 
         }else{
-            Debug.Log("Effect was not not correct:" + inComingEI.effect.id.ToString() + " != 2");
+            Debug.Log("Effect was not correct:" + inComingEI.effect.id.ToString() + " != 2");
         }
     }
     public static void positionalDmgBuffTest(EffectInstruction _ei){

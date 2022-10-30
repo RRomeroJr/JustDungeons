@@ -149,6 +149,7 @@ public class Actor : NetworkBehaviour
         handleAbilityEffects();
         if(isServer){
             handleCastQueue();
+            
             if(isChanneling){
                 checkChannel();
             }
@@ -412,6 +413,7 @@ public class Actor : NetworkBehaviour
         //Debug.Log("castAbility3");
         
         if(checkOnCooldown(_ability) == false){ //Will be check on cd later
+            // MirrorTestTools._inst.ClientDebugLog(_ability.getName() + "| Not on cool down or GCD");
             if(!readyToFire){
                 if(!isCasting){
                     if(_ability.NeedsTargetActor()){
@@ -443,6 +445,7 @@ public class Actor : NetworkBehaviour
                         
                     }
                     else if(isServer){
+                             //MirrorTestTools._inst.ClientDebugLog("Starting RPC");
                             rpcStartCast(_ability, _target, _targetWP);
                         }
                     
@@ -460,6 +463,9 @@ public class Actor : NetworkBehaviour
     }
     [ClientRpc]
     public void rpcStartCast(Ability_V2 _ability, Actor _target, NullibleVector3 _targetWP){
+        //Debug.Log(actorName + " casted " + _ability.getName());
+        // if(MirrorTestTools._inst != null)
+        //     MirrorTestTools._inst.ClientDebugLog(_ability.getName()+ "| Host Starting RPCStartCast");
         if(!_ability.offGDC){
                 GetComponent<Controller>().globalCooldown = Controller.gcdBase; 
             }
@@ -476,7 +482,7 @@ public class Actor : NetworkBehaviour
                 fireCast(_ability, _target, _targetWP);
                 
             }else{
-                Debug.Log("Client ignoring fireCast");
+                //Debug.Log("Client ignoring fireCast");
             }
         }
         
@@ -536,6 +542,8 @@ public class Actor : NetworkBehaviour
             startChannel(_ability, _target, _targetWP);
         }
         else{
+            // if(MirrorTestTools._inst != null)
+            //     MirrorTestTools._inst.ClientDebugLog(_ability.getName()+ "| Host Starting fireCast");
             List<EffectInstruction> EI_clones = _ability.getEffectInstructions().cloneInstructs();
         if(buffs != null){
             foreach(EffectInstruction eI in EI_clones){
@@ -582,6 +590,7 @@ public class Actor : NetworkBehaviour
                 foreach(AbilityResource ar in _ability.resourceCosts){
                     damageResource(ar.crType, ar.amount);
                 }
+                // MirrorTestTools._inst.ClientDebugLog(_ability.getName() + " sending effects in fireCast");
                 foreach (EffectInstruction eI in EI_clones){
                     eI.startApply(_target, _targetWP, this);
                 }
@@ -598,8 +607,13 @@ public class Actor : NetworkBehaviour
                 Debug.Log("Ability has no resourceCosts");
             }
 
+            if(_ability.getCastTime() > 0.0f){
+                //When the game is running a window seems to break if an instant ability (Like autoattack)
+                //goes off closely before a casted ability. So this check was implemented to fix it
 
-            resetClientCastVars();
+                resetClientCastVars();
+            }
+                
             
                 
         } 
@@ -724,13 +738,15 @@ public class Actor : NetworkBehaviour
         queuedAbility = _ability;
         queuedTarget = _queuedTarget;
         queuedTargetWP = _queuedTargetWP;
+        
     }
     void prepCast(){
         //Creates castbar for abilities with cast times
 
         //Debug.Log("Trying to create a castBar for " + _ability.getName())
         isCasting = true;
-
+        // if(MirrorTestTools._inst != null)
+        //             MirrorTestTools._inst.ClientDebugLog("prepcast() isCasting = " + isCasting.ToString());
         // Creating CastBar or CastBarNPC with apropriate variables   
         if( queuedAbility.NeedsTargetActor() && queuedAbility.NeedsTargetWP() ){
             Debug.Log("Spell that needs an Actor and WP are not yet suported");
