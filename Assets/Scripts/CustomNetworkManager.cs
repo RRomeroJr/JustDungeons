@@ -130,9 +130,8 @@ public class CustomNetworkManager : NetworkManager
         {
             var conn = RoomPlayers[i].connectionToClient;
             var gameplayerInstance = Instantiate(gamePlayerPrefab);
-
-            gameplayerInstance.SetDisplayName("Dude");
-            gameplayerInstance.GetComponent<Actor>().setActorName("Dude");
+            gameplayerInstance.SetDisplayName("Dude " + i);
+            gameplayerInstance.GetComponent<Actor>().setActorName("Dude " + i);
 
             //gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
             uiManager.updateUnitFrame(uiManager.frames[i], gameplayerInstance.GetComponent<Actor>());

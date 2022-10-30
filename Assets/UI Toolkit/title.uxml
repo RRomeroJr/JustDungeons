@@ -4,7 +4,7 @@
         <ui:VisualElement name="window-title" class="screen-container" style="padding-bottom: 10%;">
             <ui:Label text="Title" display-tooltip-when-elided="true" name="title-main" style="font-size: 120px; top: auto; bottom: auto; -unity-text-align: upper-center;" />
             <ui:VisualElement name="button-container" class="button-container" style="bottom: auto;">
-                <ui:Button text="HOST GAME" display-tooltip-when-elided="true" name="button-host" class="title-button" style="height: 25%;" />
+                <ui:Button text="HOST GAME" display-tooltip-when-elided="true" name="button-host" class="title-button" style="height: 85px;" />
                 <ui:Button text="JOIN GAME" display-tooltip-when-elided="true" name="button-join" class="title-button" />
                 <ui:Button text="OPTIONS" display-tooltip-when-elided="true" name="button-options" class="title-button" />
                 <ui:Button text="QUIT" display-tooltip-when-elided="true" name="button-quit" class="title-button" />
@@ -12,13 +12,13 @@
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="join-game-container" style="position: absolute; flex-grow: 1; left: 0; top: 0; bottom: 0; right: 0; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, 0.71); display: flex; visibility: hidden; overflow: visible;">
-        <ui:VisualElement name="window-join-game" style="background-color: rgb(223, 230, 233); width: 40%; height: auto; border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; padding-left: 2%; padding-right: 2%; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-top: 2%; padding-bottom: 2%;">
+        <ui:VisualElement name="window-join-game" style="background-color: rgb(223, 230, 233); width: 40%; height: auto; border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; padding-left: 2%; padding-right: 2%; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-top: 2%; padding-bottom: 2%; visibility: visible;">
             <ui:VisualElement name="horizontal-group" style="flex-direction: row;">
                 <ui:Label text="Join Game" display-tooltip-when-elided="true" name="title-join-game" style="-unity-text-align: middle-center; font-size: 80px; flex-grow: 1;" />
-                <ui:Button text="X" name="button-quit-ip" class="title-button" style="background-color: rgb(214, 48, 49); height: 60px; width: 60px; font-size: 50px; border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; margin-bottom: 0; margin-left: 0; margin-right: 0; margin-top: 0;" />
+                <ui:Button text="X" name="button-quit-ip" class="title-button" style="background-color: rgb(214, 48, 49); height: 60px; width: 60px; font-size: 50px; border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; margin-bottom: 0; margin-left: 0; margin-right: 0; margin-top: 0; flex-grow: 0;" />
             </ui:VisualElement>
             <ui:VisualElement name="enter-ip-container" style="flex-grow: 1; align-items: stretch; justify-content: center; padding-top: 2%; padding-bottom: 2%;">
-                <ui:TextField picking-mode="Ignore" label="Enter IP" name="field-enter-ip" style="font-size: 32px; height: 85px; -unity-text-align: middle-left;" />
+                <ui:TextField picking-mode="Ignore" label="Enter IP" name="field-enter-ip" style="font-size: 40px; height: 85px; -unity-text-align: middle-left; margin-bottom: 4px; margin-top: 0; margin-right: 0; margin-left: 0;" />
                 <ui:Button text="JOIN" display-tooltip-when-elided="true" name="button-join-ip" class="title-button" />
             </ui:VisualElement>
         </ui:VisualElement>

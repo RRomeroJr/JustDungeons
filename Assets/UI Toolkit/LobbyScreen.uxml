@@ -1,32 +1,32 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Style.uss?fileID=7433441132597879392&amp;guid=c8244eabc1e6b6a45b5a9dc27d6b6fee&amp;type=3#Style" />
-    <ui:VisualElement name="background" style="align-items: center; justify-content: center; flex-grow: 1;">
-        <ui:VisualElement name="lobby-container" class="screen-container">
-            <ui:Label text="Lobby" display-tooltip-when-elided="true" name="lobby-title" style="font-size: 120px; top: auto; bottom: auto; -unity-text-align: upper-center; color: rgb(0, 0, 0);" />
-            <ui:VisualElement name="player-list-container" style="flex-grow: 1; flex-direction: column; flex-wrap: nowrap; justify-content: center; align-items: center; margin-left: 5%; margin-right: 5%;">
-                <ui:VisualElement name="player-1" style="background-color: rgb(99, 110, 114); flex-grow: 0; flex-direction: row; width: 100%; flex-shrink: 1; margin-bottom: 5%; border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; height: 85px;">
-                    <ui:Label text="Empty" display-tooltip-when-elided="true" name="player-name" style="font-size: 54px; color: rgb(0, 0, 0); margin-left: 20px; flex-grow: 1; flex-direction: column; -unity-text-align: middle-left;" />
+    <ui:VisualElement name="background" style="align-items: center; justify-content: center; flex-grow: 1; height: 943px; width: auto;">
+        <ui:VisualElement name="lobby-container" class="screen-container" style="height: 100%;">
+            <ui:Label text="Lobby" display-tooltip-when-elided="true" name="lobby-title" style="font-size: 120px; top: auto; bottom: auto; -unity-text-align: upper-center; color: rgb(0, 0, 0); margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; flex-shrink: 1;" />
+            <ui:VisualElement name="player-list-container" class="content-container" style="flex-grow: 1; flex-direction: column; flex-wrap: nowrap; justify-content: center; align-items: center;">
+                <ui:VisualElement name="player-1" class="player-container">
+                    <ui:Label text="Empty" display-tooltip-when-elided="true" name="player-name" class="player-label" />
                     <ui:Label text="not ready" display-tooltip-when-elided="true" name="ready-status" style="-unity-text-align: middle-center; font-size: 32px; color: rgb(214, 48, 49);" />
                 </ui:VisualElement>
-                <ui:VisualElement name="player-2" style="background-color: rgb(99, 110, 114); flex-grow: 0; flex-direction: row; width: 100%; flex-shrink: 1; margin-bottom: 5%; border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; height: 85px; flex-basis: auto;">
-                    <ui:Label text="Empty" display-tooltip-when-elided="true" name="player-name" style="font-size: 54px; color: rgb(0, 0, 0); margin-left: 20px; flex-grow: 1; flex-direction: column; -unity-text-align: middle-left;" />
+                <ui:VisualElement name="player-2" class="player-container">
+                    <ui:Label text="Empty" display-tooltip-when-elided="true" name="player-name" class="player-label" style="font-size: 48px; color: rgb(0, 0, 0); margin-left: 20px; flex-grow: 1; flex-direction: column; -unity-text-align: middle-left;" />
                     <ui:Label text="not ready" display-tooltip-when-elided="true" name="ready-status" style="-unity-text-align: middle-center; font-size: 32px; color: rgb(214, 48, 49);" />
                 </ui:VisualElement>
-                <ui:VisualElement name="player-3" style="background-color: rgb(99, 110, 114); flex-grow: 0; flex-direction: row; width: 100%; flex-shrink: 1; margin-bottom: 5%; border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; height: 85px;">
-                    <ui:Label text="Empty" display-tooltip-when-elided="true" name="player-name" style="font-size: 54px; color: rgb(0, 0, 0); margin-left: 20px; flex-grow: 1; flex-direction: column; -unity-text-align: middle-left;" />
+                <ui:VisualElement name="player-3" class="player-container">
+                    <ui:Label text="Empty" display-tooltip-when-elided="true" name="player-name" class="player-label" style="font-size: 48px; color: rgb(0, 0, 0); margin-left: 20px; flex-direction: column; -unity-text-align: middle-left; flex-shrink: 1; flex-grow: 1;" />
                     <ui:Label text="not ready" display-tooltip-when-elided="true" name="ready-status" style="-unity-text-align: middle-center; font-size: 32px; color: rgb(214, 48, 49);" />
                 </ui:VisualElement>
-                <ui:VisualElement name="player-4" style="background-color: rgb(99, 110, 114); flex-grow: 0; flex-direction: row; width: 100%; flex-shrink: 1; margin-bottom: 5%; border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; height: 85px;">
-                    <ui:Label text="Empty" display-tooltip-when-elided="true" name="player-name" style="font-size: 54px; color: rgb(0, 0, 0); margin-left: 20px; flex-grow: 1; flex-direction: column; -unity-text-align: middle-left;" />
+                <ui:VisualElement name="player-4" class="player-container">
+                    <ui:Label text="Empty" display-tooltip-when-elided="true" name="player-name" class="player-label" style="font-size: 48px; color: rgb(0, 0, 0); margin-left: 20px; flex-grow: 1; flex-direction: column; -unity-text-align: middle-left;" />
                     <ui:Label text="not ready" display-tooltip-when-elided="true" name="ready-status" style="-unity-text-align: middle-center; font-size: 32px; color: rgb(214, 48, 49);" />
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="buttons-container" class="button-container">
-                <ui:VisualElement name="horizontal-button-container" style="flex-direction: row; flex-wrap: nowrap; flex-grow: 1; flex-shrink: 1; width: 100%;">
-                    <ui:Button text="READY" display-tooltip-when-elided="true" name="button-ready" class="title-button" style="background-color: rgb(0, 184, 148);" />
-                    <ui:Button text="START " display-tooltip-when-elided="true" name="button-start" class="title-button" style="background-color: rgb(9, 132, 227);" />
+            <ui:VisualElement name="buttons-container" class="content-container">
+                <ui:VisualElement name="horizontal-button-container" style="flex-direction: row; flex-wrap: nowrap; flex-grow: 1; flex-shrink: 1; width: 100%; flex-basis: auto; height: 85px; padding-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; margin-bottom: 4px; margin-left: 0; margin-right: 0; margin-top: 0;">
+                    <ui:Button text="READY" display-tooltip-when-elided="true" name="button-ready" class="title-button ready-button" style="height: 100%; margin-right: 4px; margin-bottom: 0; margin-top: 0;" />
+                    <ui:Button text="START " display-tooltip-when-elided="true" name="button-start" class="title-button start-button" style="height: 100%; margin-left: 4px; margin-top: 0; margin-bottom: 0;" />
                 </ui:VisualElement>
-                <ui:Button text="LEAVE LOBBY" display-tooltip-when-elided="true" name="button-leave" class="title-button" style="background-color: rgb(214, 48, 49);" />
+                <ui:Button text="LEAVE LOBBY" display-tooltip-when-elided="true" name="button-leave" class="title-button leave-button" style="height: 85px; flex-basis: auto;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
