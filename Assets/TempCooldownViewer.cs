@@ -9,7 +9,7 @@ public class TempCooldownViewer : MonoBehaviour
     // interate over player's cooldowns
     // display them in the textmeshpro.SetText
     public TextMeshProUGUI tmp;
-    public bool acFound = false;
+    bool acFound = false;
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +24,7 @@ public class TempCooldownViewer : MonoBehaviour
         string toDisplay = "";
         
         if(acFound){
-           
+            
             foreach(AbilityCooldown ac in UIManager.playerActor.abilityCooldowns){
             
                 toDisplay = toDisplay + ac.abilityName + "| " + ((int)ac.remainingTime + 1).ToString() + "\n";
@@ -46,4 +46,5 @@ public class TempCooldownViewer : MonoBehaviour
         }
         
     }
+    
 }
