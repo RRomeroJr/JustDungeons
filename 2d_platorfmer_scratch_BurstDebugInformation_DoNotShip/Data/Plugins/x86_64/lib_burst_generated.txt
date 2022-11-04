@@ -161,6 +161,7 @@ Library: lib_burst_generated
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\UnityEngine.UI.dll
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Unity.VisualScripting.Flow.dll
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Unity.Mathematics.dll
+--root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Assembly-CSharp.dll
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\SimpleWebTransport.dll
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Unity.VisualScripting.State.dll
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Unity.VisualScripting.Core.dll
@@ -169,7 +170,6 @@ Library: lib_burst_generated
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Mirror.Components.dll
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Unity.2D.Animation.Runtime.dll
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Unity.TextMeshPro.dll
---root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Assembly-CSharp.dll
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Unity.Timeline.dll
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Telepathy.dll
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Unity.2D.SpriteShape.Runtime.dll
@@ -350,6 +350,7 @@ Library: lib_burst_generated
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\UnityEngine.UI.dll
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Unity.VisualScripting.Flow.dll
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Unity.Mathematics.dll
+--root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Assembly-CSharp.dll
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\SimpleWebTransport.dll
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Unity.VisualScripting.State.dll
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Unity.VisualScripting.Core.dll
@@ -358,7 +359,6 @@ Library: lib_burst_generated
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Mirror.Components.dll
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Unity.2D.Animation.Runtime.dll
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Unity.TextMeshPro.dll
---root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Assembly-CSharp.dll
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Unity.Timeline.dll
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Telepathy.dll
 --root-assembly=D:\DocumentsHDD\Unity Stuff\2d_platorfmer_scratch\2d_platformer_scratch\Temp\StagingArea\Data\Managed\Unity.2D.SpriteShape.Runtime.dll

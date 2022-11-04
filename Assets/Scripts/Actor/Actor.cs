@@ -158,13 +158,21 @@ public class Actor : NetworkBehaviour
     }
     //------------------------------------------------------------handling Active Ability Effects-------------------------------------------------------------------------
     
+    
+    [TargetRpc]
+    void TRpcUpdateCooldowns(List<AbilityCooldown> hostListACs){
+
+        Debug.Log("Updating cooldows hostListACs count: " +  hostListACs.Count.ToString());
+        abilityCooldowns = hostListACs;
+    }
     [TargetRpc]
     void TRpcCreateDamageTextSelf(int amount){
         DamageText.Create(transform.position, amount);
     }
     [TargetRpc]
     void TRpcCreateDamageTextOffensive(NetworkConnection attackingPlayer, int amount){
-        MirrorTestTools._inst.TargetClientDebugLog(attackingPlayer, "trying to display amount: " + amount);
+        Debug.Log("disiplaying Damage numbers");
+        
         DamageText.Create(transform.position, amount);
     }
     public void damageValue(int amount, int valueType = 0, Actor fromActor = null){
@@ -842,6 +850,8 @@ public class Actor : NetworkBehaviour
     }
     void addToCooldowns(Ability_V2 _ability){
         abilityCooldowns.Add(new AbilityCooldown(_ability));
+        Debug.Log("Host: Updating client cooldowns. Length of list: " + abilityCooldowns.Count);
+        TRpcUpdateCooldowns(abilityCooldowns);
     }
     public bool checkOnCooldown(Ability_V2 _ability){
         if(GetComponent<Controller>().globalCooldown > 0.0f){
