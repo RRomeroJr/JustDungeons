@@ -43,6 +43,7 @@ public class Ability_V2 : ScriptableObject{
     public bool isChannel = false;
     public float channelDuration;
     public int numberOfTicks;
+    public bool offGDC= false;
 
 
     public string getName(){

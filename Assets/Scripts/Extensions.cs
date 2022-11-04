@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 
 //May need a namespace here in the future but for now it seems to work fine
@@ -108,5 +109,9 @@ public static class Extensions
             return listToReturn;
         }
     }
+    public static NetworkConnection GetNetworkConnection(this MonoBehaviour _mo){
+        return _mo.GetComponent<NetworkIdentity>().connectionToClient;
+    }
+    
     
 }

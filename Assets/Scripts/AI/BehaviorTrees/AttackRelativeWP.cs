@@ -16,6 +16,7 @@ public class AttackRelativeWP : ActionNode
         //castStarted = false;
         castFinished = false;
         context.actor.onAbilityCastHooks.AddListener(checkCastedAbility);
+        // MirrorTestTools._inst.ClientDebugLog("AttackRelativeWP OnStart()");
         
     }
 
@@ -33,6 +34,7 @@ public class AttackRelativeWP : ActionNode
                 
             }
             //Debug.Log(context.controller.target.GetComponent<Actor>().getActorName());
+            
             if(randomRange){
                 Vector2 temp = new Vector2(Random.Range(-plusMinusX, plusMinusX), Random.Range(-plusMinusY, plusMinusY));
                 context.actor.castRelativeToGmObj(ability, (context.gameObject.GetComponent<Controller>() as EnemyController).arenaObject.gameObject, relativePoint + temp);
@@ -58,7 +60,11 @@ public class AttackRelativeWP : ActionNode
     }
     void checkCastedAbility(int _id){
         if(_id == ability.id){
+            // MirrorTestTools._inst.ClientDebugLog("cast fired MATCH FOUND");
             castFinished = true;
+        }
+        else{
+            //MirrorTestTools._inst.RpcDebugLog("cast fired no match found");
         }
     }
 }

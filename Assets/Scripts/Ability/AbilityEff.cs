@@ -10,9 +10,15 @@ public abstract class AbilityEff: ScriptableObject
     public string effectName;
     public int id = -1;
     public float power;
+    public float powerScale = 1.0f;
     public Buff parentBuff; //Do not set this inthe editor!
     public AbilityDelivery parentDelivery;
     public bool targetIsSecondary = false;
+    
+    public Actor target;
+    public Actor caster;
+    public NullibleVector3 targetWP;
+    
 
     //public int targetArg = 0; //0 = target, 1 = self
 

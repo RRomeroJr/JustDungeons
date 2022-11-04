@@ -12,13 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 630dbee7393b5314ab79662f009e6568, type: 3}
   m_Name: Charge
   m_EditorClassIdentifier: 
-  abilityName: 
+  abilityName: Charge
   eInstructs:
   - effect: {fileID: 11400000, guid: 083c3c009860b454ca5de71a9040f1c9, type: 2}
     targetArg: 0
-  deliveryType: 0
+    powerMod: 1
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
   castTime: 0
   cooldown: 0
   needsActor: 1
   needsWP: 0
   id: 8
+  abilityTag: 0
+  resourceCosts: []
+  isChannel: 0
+  channelDuration: 0
+  numberOfTicks: 0

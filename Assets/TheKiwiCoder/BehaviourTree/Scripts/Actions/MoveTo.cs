@@ -8,13 +8,7 @@ public class MoveTo : ActionNode
     public GameObject targetHolder;
     protected override void OnStart()
     {
-        context.agent.destination = pos;
-            
-        context.agent.stoppingDistance = 0;
-        
-        targetHolder = context.controller.followTarget;
-        context.controller.followTarget = null;
-        context.agent.isStopped = false;
+        context.controller.moveToPoint(pos);
     }
 
     protected override void OnStop()
@@ -35,9 +29,7 @@ public class MoveTo : ActionNode
             return State.Running;
         }
         else{
-            context.agent.isStopped = true;
-            context.controller.followTarget = targetHolder;
-            context.agent.stoppingDistance = getStoppingDistance(context.controller.followTarget);
+            
             return State.Success;
         }
     }

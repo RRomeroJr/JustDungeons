@@ -53,6 +53,7 @@ public class Dizzy : AbilityEff
         temp_ref.effectName = effectName;
         temp_ref.id = id;
         temp_ref.power = power;
+        temp_ref.powerScale = powerScale;
         temp_ref.school = school;
         temp_ref.targetIsSecondary = targetIsSecondary;
 
