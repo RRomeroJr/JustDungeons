@@ -158,7 +158,15 @@ public class Actor : NetworkBehaviour
     }
     //------------------------------------------------------------handling Active Ability Effects-------------------------------------------------------------------------
     
-    
+    [TargetRpc]
+    void TRpcCreateDamageTextSelf(int amount){
+        DamageText.Create(transform.position, amount);
+    }
+    [TargetRpc]
+    void TRpcCreateDamageTextOffensive(NetworkConnection attackingPlayer, int amount){
+        MirrorTestTools._inst.TargetClientDebugLog(attackingPlayer, "trying to display amount: " + amount);
+        DamageText.Create(transform.position, amount);
+    }
     public void damageValue(int amount, int valueType = 0, Actor fromActor = null){
         // Right now this only damages health, but, maybe in the future,
         // This could take an extra param to indicate a different value to "damage"
@@ -169,7 +177,13 @@ public class Actor : NetworkBehaviour
             switch (valueType){
                 case 0:
                     health -= amount;
-                    DamageText.Create(transform.position, amount);
+                    if(fromActor != null){
+                        if(fromActor.tag == "Player"){
+                            TRpcCreateDamageTextOffensive(fromActor.GetNetworkConnection(), amount);
+                        }
+                    }
+                    TRpcCreateDamageTextSelf(amount);
+                    
                     if(fromActor != null){
                         TempDamageMeter.addToEntry(fromActor, amount);
                     }

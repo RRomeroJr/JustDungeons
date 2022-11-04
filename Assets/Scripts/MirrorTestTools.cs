@@ -14,6 +14,15 @@ public class MirrorTestTools : NetworkBehaviour
         
         Debug.Log(_output);
    }
+   public void TargetClientDebugLog(NetworkConnection client, string _output){
+        if(isServer)
+            TRpcDebugLog(client, _output);
+   }
+   [TargetRpc]
+   void TRpcDebugLog(NetworkConnection client, string _output){
+        
+        Debug.Log(_output);
+   }
    public static MirrorTestTools _inst;
    void Start(){
     _inst = this;
