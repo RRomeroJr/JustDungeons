@@ -175,6 +175,10 @@ public class Actor : NetworkBehaviour
         
         DamageText.Create(transform.position, amount);
     }
+    [ClientRpc]
+    void addDamamgeToMeter(Actor fromActor, int amount){
+        TempDamageMeter.addToEntry(fromActor, amount);
+    }
     public void damageValue(int amount, int valueType = 0, Actor fromActor = null){
         // Right now this only damages health, but, maybe in the future,
         // This could take an extra param to indicate a different value to "damage"
@@ -193,7 +197,7 @@ public class Actor : NetworkBehaviour
                     TRpcCreateDamageTextSelf(amount);
                     
                     if(fromActor != null){
-                        TempDamageMeter.addToEntry(fromActor, amount);
+                        addDamamgeToMeter(fromActor, amount);
                     }
                     if(health < 0){
                         health = 0;
