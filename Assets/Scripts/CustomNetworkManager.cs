@@ -301,7 +301,7 @@ public class CustomNetworkManager : NetworkManager
     /// </summary>
     public override void OnStartClient()
     {
-        var spawnablePrefabs = Resources.LoadAll<GameObject>("");
+        var spawnablePrefabs = Resources.LoadAll<GameObject>("Networked/").ToList();
 
         foreach (var prefab in spawnablePrefabs)
         {
