@@ -288,7 +288,13 @@ public class CustomNetworkManager : NetworkManager
     /// This is invoked when a server is started - including when a host is started.
     /// <para>StartServer has multiple signatures, but they all cause this hook to be called.</para>
     /// </summary>
-    public override void OnStartServer() => spawnPrefabs = Resources.LoadAll<GameObject>("").ToList();
+    public override void OnStartServer(){
+        List<GameObject> temp  = Resources.LoadAll<GameObject>("Networked/").ToList();
+        foreach (GameObject go in temp){
+            spawnPrefabs.Add(go);
+        }
+    }
+    // => spawnPrefabs = Resources.LoadAll<GameObject>("").ToList();
 
     /// <summary>
     /// This is invoked when the client is started.
