@@ -20,7 +20,9 @@ public class Aoe : DeliveryEff
         delivery.GetComponent<AbilityDelivery>().setTarget(_secondaryTarget);
         delivery.GetComponent<AbilityDelivery>().setCaster(_caster);
         delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_secondaryTarget, _targetWP);
+        delivery.GetComponent<AbilityDelivery>().eInstructs = eInstructs;
         delivery.transform.localScale = Vector3.Scale(delivery.transform.localScale, prefabScale);
+        
         NetworkServer.Spawn(delivery);
         
         /*
@@ -52,7 +54,10 @@ public class Aoe : DeliveryEff
         temp_ref.prefabScale = prefabScale;
         temp_ref.aoePrefab = aoePrefab;
         temp_ref.targetIsSecondary = targetIsSecondary;
-
+        temp_ref.eInstructs = new List<EffectInstruction>();
+        foreach (EffectInstruction eI in eInstructs){
+            temp_ref.eInstructs.Add(eI.clone());
+        }
         return temp_ref;
     }
     public Vector3 getWP(Actor _target = null, NullibleVector3 _targetWP = null){

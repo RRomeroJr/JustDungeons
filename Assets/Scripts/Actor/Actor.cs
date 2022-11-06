@@ -194,7 +194,10 @@ public class Actor : NetworkBehaviour
                             TRpcCreateDamageTextOffensive(fromActor.GetNetworkConnection(), amount);
                         }
                     }
-                    TRpcCreateDamageTextSelf(amount);
+                    if(tag == "Player"){
+                        TRpcCreateDamageTextSelf(amount);
+                    }
+                    
                     
                     if(fromActor != null){
                         addDamamgeToMeter(fromActor, amount);
@@ -855,7 +858,10 @@ public class Actor : NetworkBehaviour
     void addToCooldowns(Ability_V2 _ability){
         abilityCooldowns.Add(new AbilityCooldown(_ability));
         Debug.Log("Host: Updating client cooldowns. Length of list: " + abilityCooldowns.Count);
-        TRpcUpdateCooldowns(abilityCooldowns);
+        if(tag == "Player"){
+            TRpcUpdateCooldowns(abilityCooldowns);
+        }
+        
     }
     public bool checkOnCooldown(Ability_V2 _ability){
         if(GetComponent<Controller>().globalCooldown > 0.0f){

@@ -12,6 +12,7 @@ public class RingAoe : Aoe
     public bool usePosition = false;
     
     public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
+        //Debug.Log("Ring Aoe start effect");
         //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
         //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
         //Debug.Log(_targetWP == null ? "RingAoe: No targetWP" : ("RingAoe: wp = " + _targetWP.Value.ToString()));
@@ -25,6 +26,8 @@ public class RingAoe : Aoe
         if(usePosition){
             delivery.transform.GetChild(0).transform.position = (Vector2)delivery.transform.position + innerCirclePosistion;
         }
+            delivery.GetComponent<AbilityDelivery>().eInstructs = eInstructs;
+            //Debug.Log("adding " + eInstructs.Count.ToString() + " to delivery" );
             //delivery.GetComponent<AbilityDelivery>().safeZoneCenter = innerCirclePosistion;
         NetworkServer.Spawn(delivery);
         
@@ -60,7 +63,10 @@ public class RingAoe : Aoe
         temp_ref.usePosition = usePosition;
         temp_ref.aoePrefab = aoePrefab;
         temp_ref.targetIsSecondary = targetIsSecondary;
-        
+        temp_ref.eInstructs = new List<EffectInstruction>();
+        foreach (EffectInstruction eI in eInstructs){
+            temp_ref.eInstructs.Add(eI.clone());
+        }
 
         return temp_ref;
     }
