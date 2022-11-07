@@ -56,7 +56,7 @@ public class Ability_V2 : ScriptableObject{
     public float range;
     
     void OnValidate(){
-        range = getRange(rangeClass);
+       setRangeFromType();
     }
     public static float getRange(AbilityRanges _inputRange){
         if(_inputRange == AbilityRanges.Melee){
@@ -67,6 +67,15 @@ public class Ability_V2 : ScriptableObject{
         }
     
         return Mathf.Infinity;
+     
+    }
+    void  setRangeFromType(){
+        if(rangeClass == AbilityRanges.Melee){
+            range =  meleeRange;
+        }
+        else if(rangeClass == AbilityRanges.Ranged){
+            range =  rangedRange;
+        }
      
     }
     public string getName(){
