@@ -103,7 +103,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3602611100074717264}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df739c0fb2ae5ea4ea3c0e5dd2d3f75e, type: 3}
   m_Name: 
@@ -317,7 +317,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3602611100074717264}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46b67545aeaa38e499016f81db77eb60, type: 3}
   m_Name: 
@@ -330,7 +330,7 @@ MonoBehaviour:
   playerActor: {fileID: 3602611100074717274}
   mask:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 224
 --- !u!195 &-121281515293638722
 NavMeshAgent:
   m_ObjectHideFlags: 0
