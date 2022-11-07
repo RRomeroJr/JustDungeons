@@ -17,10 +17,18 @@ public enum AbilityResourceTypes{
     Rage
 
 }
+public enum AbilityRanges{
+    Custom,
+    Melee,
+    Ranged,
+    
+}
 
 [System.Serializable]
 [CreateAssetMenu(fileName="Ability_V2", menuName = "HBCsystem/Ability_V2")]
 public class Ability_V2 : ScriptableObject{
+    public const float meleeRange = 3.5f;
+    public const float rangedRange = 6.0f;
     
     [SerializeField] protected string abilityName;
     
@@ -44,8 +52,23 @@ public class Ability_V2 : ScriptableObject{
     public float channelDuration;
     public int numberOfTicks;
     public bool offGDC= false;
-
-
+    public AbilityRanges rangeClass = new AbilityRanges();
+    public float range;
+    
+    void OnValidate(){
+        range = getRange(rangeClass);
+    }
+    public static float getRange(AbilityRanges _inputRange){
+        if(_inputRange == AbilityRanges.Melee){
+            return meleeRange;
+        }
+        else if(_inputRange == AbilityRanges.Ranged){
+            return rangedRange;
+        }
+    
+        return Mathf.Infinity;
+     
+    }
     public string getName(){
         return abilityName;
     }/*
@@ -148,6 +171,8 @@ public class Ability_V2 : ScriptableObject{
     //     delivery.effects = effects.cloneEffects();
 
     // }
+   
+    
     public Ability_V2(string _abilityName, AbilityEff _abilityEff, float _castTime = 0.0f,
                     float _cooldown = 0.0f){
        

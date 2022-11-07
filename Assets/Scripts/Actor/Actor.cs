@@ -454,6 +454,12 @@ public class Actor : NetworkBehaviour
                             Debug.Log("No suitable target found");
                             return;
                         }
+                        else{
+                            if(!checkRange(_ability, _target.transform.position)){
+                                Debug.Log("You are out of range");
+                                return;
+                            }
+                        }
                     }
                     if(_ability.NeedsTargetWP()){
                         if(_targetWP == null){
@@ -463,6 +469,12 @@ public class Actor : NetworkBehaviour
                         if(_targetWP == null){
                             Debug.Log("No suitable WP found");
                             return;
+                        }
+                        else{
+                            if(!checkRange(_ability, _targetWP.Value)){
+                                Debug.Log("You are out of range");
+                                return;
+                            }
                         }
                     }
                     //Debug.Log("castAbility3 inner if");
@@ -880,6 +892,14 @@ public class Actor : NetworkBehaviour
         }
         else{
             return false;
+        }
+    }
+    public bool checkRange(Ability_V2 _ability, Vector2 _target){
+        if(Vector2.Distance(transform.position, _target) > _ability.range){
+            return false;
+        }
+        else{
+            return true;
         }
     }
     
