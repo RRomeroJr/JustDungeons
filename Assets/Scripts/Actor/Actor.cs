@@ -73,6 +73,10 @@ public class Actor : NetworkBehaviour
         classResources[index].max = _max;
     }
     public bool damageResource(ClassResourceType _crt, int _amount){
+        if(_amount < 0){
+            Debug.Log("Swapping to dmgResource bc amount was < 0");
+            return restoreResource(_crt, -_amount);
+        }
          if(_crt != null){
             // if(_crt == AbilityResourceTypes.Health){
             //     setHealth(actor.getHealth() - _cost.amount);
@@ -82,9 +86,9 @@ public class Actor : NetworkBehaviour
                 int index = 0;
                 foreach(ClassResource cr in classResources){
                     if(_crt == cr.crType){
-                        int temp = cr.amount - _amount;
-                        if(temp >= 0){
-                            updateClassResourceAmount(index, temp);
+                        int diff = cr.amount - _amount;
+                        if(diff >= 0){
+                            updateClassResourceAmount(index, diff);
                         }
                         else{
                             updateClassResourceAmount(index, 0);
@@ -98,6 +102,10 @@ public class Actor : NetworkBehaviour
         return false;
     }
     public bool restoreResource(ClassResourceType _crt, int _amount){
+        if(_amount < 0){
+            Debug.Log("Swapping to dmgResource bc amount was < 0");
+            return damageResource(_crt, -_amount);
+        }
          if(_crt != null){
             // if(_crt == AbilityResourceTypes.Health){
             //     setHealth(actor.getHealth() - _cost.amount);
@@ -106,14 +114,17 @@ public class Actor : NetworkBehaviour
             // else{
                 int index = 0;
                 foreach(ClassResource cr in classResources){
-                    if(_crt == cr.crType){
-                        int temp = cr.amount + _amount;
-                        if(temp >= 0){
+                    if(_crt == cr.crType){ //if _crt is a resource that we have
+                        int sum = cr.amount + _amount; //Then get the sum of it + what we got
+                        
+                        if(sum <= cr.max){
+                            //then add it to our amount
                             Debug.Log("Adding " + _amount.ToString() + " " + _crt.GetType().ToString());
-                            updateClassResourceAmount(index, temp);
+                            updateClassResourceAmount(index, sum);
                         }
                         else{
-                            updateClassResourceAmount(index, 0);
+                            //set our cr.amount to max
+                            updateClassResourceAmount(index, cr.max);
                         }
                         return true;
                     }
@@ -162,7 +173,7 @@ public class Actor : NetworkBehaviour
     [TargetRpc]
     void TRpcUpdateCooldowns(List<AbilityCooldown> hostListACs){
 
-        Debug.Log("Updating cooldows hostListACs count: " +  hostListACs.Count.ToString());
+       // Debug.Log("Updating cooldows hostListACs count: " +  hostListACs.Count.ToString());
         abilityCooldowns = hostListACs;
     }
     [TargetRpc]
@@ -171,7 +182,7 @@ public class Actor : NetworkBehaviour
     }
     [TargetRpc]
     void TRpcCreateDamageTextOffensive(NetworkConnection attackingPlayer, int amount){
-        Debug.Log("disiplaying Damage numbers");
+        //Debug.Log("disiplaying Damage numbers");
         
         DamageText.Create(transform.position, amount);
     }
@@ -869,7 +880,7 @@ public class Actor : NetworkBehaviour
     }
     void addToCooldowns(Ability_V2 _ability){
         abilityCooldowns.Add(new AbilityCooldown(_ability));
-        Debug.Log("Host: Updating client cooldowns. Length of list: " + abilityCooldowns.Count);
+        //Debug.Log("Host: Updating client cooldowns. Length of list: " + abilityCooldowns.Count);
         if(tag == "Player"){
             TRpcUpdateCooldowns(abilityCooldowns);
         }
@@ -1026,7 +1037,7 @@ public class Actor : NetworkBehaviour
             foreach(ClassResource cr in classResources){
                 if(cr.crType == _crType){
                     if(_amount <= cr.amount ){
-                        Debug.Log("Has resource AND amount");
+                        //Debug.Log("Has resource AND amount");
                         return true;
                     }
                     else{
