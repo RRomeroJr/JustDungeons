@@ -194,7 +194,10 @@ public class Actor : NetworkBehaviour
                             TRpcCreateDamageTextOffensive(fromActor.GetNetworkConnection(), amount);
                         }
                     }
-                    TRpcCreateDamageTextSelf(amount);
+                    if(tag == "Player"){
+                        TRpcCreateDamageTextSelf(amount);
+                    }
+                    
                     
                     if(fromActor != null){
                         addDamamgeToMeter(fromActor, amount);
@@ -451,6 +454,12 @@ public class Actor : NetworkBehaviour
                             Debug.Log("No suitable target found");
                             return;
                         }
+                        else{
+                            if(!checkRange(_ability, _target.transform.position)){
+                                Debug.Log("You are out of range");
+                                return;
+                            }
+                        }
                     }
                     if(_ability.NeedsTargetWP()){
                         if(_targetWP == null){
@@ -460,6 +469,12 @@ public class Actor : NetworkBehaviour
                         if(_targetWP == null){
                             Debug.Log("No suitable WP found");
                             return;
+                        }
+                        else{
+                            if(!checkRange(_ability, _targetWP.Value)){
+                                Debug.Log("You are out of range");
+                                return;
+                            }
                         }
                     }
                     //Debug.Log("castAbility3 inner if");
@@ -855,7 +870,10 @@ public class Actor : NetworkBehaviour
     void addToCooldowns(Ability_V2 _ability){
         abilityCooldowns.Add(new AbilityCooldown(_ability));
         Debug.Log("Host: Updating client cooldowns. Length of list: " + abilityCooldowns.Count);
-        TRpcUpdateCooldowns(abilityCooldowns);
+        if(tag == "Player"){
+            TRpcUpdateCooldowns(abilityCooldowns);
+        }
+        
     }
     public bool checkOnCooldown(Ability_V2 _ability){
         if(GetComponent<Controller>().globalCooldown > 0.0f){
@@ -874,6 +892,14 @@ public class Actor : NetworkBehaviour
         }
         else{
             return false;
+        }
+    }
+    public bool checkRange(Ability_V2 _ability, Vector2 _target){
+        if(Vector2.Distance(transform.position, _target) > _ability.range){
+            return false;
+        }
+        else{
+            return true;
         }
     }
     

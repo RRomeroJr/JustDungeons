@@ -106,7 +106,12 @@ MonoBehaviour:
   - {fileID: 8996080988287052582, guid: f001407721b25a0449cded0b467c60d5, type: 3}
   - {fileID: 8996080988287052582, guid: 0fd52b27fca62db40bd2332cf3000182, type: 3}
   - {fileID: 6569267623682333730, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
-  - {fileID: 0}
+  - {fileID: 8996080988287052582, guid: d1ad02c0d1d56694eb30875123e20dd4, type: 3}
+  - {fileID: 8996080988287052582, guid: de75acaee2617ea4fb730d3324628ade, type: 3}
+  - {fileID: 947037833593652060, guid: 861c055bc03ff5f47af2d1a74ce8ec1f, type: 3}
+  - {fileID: 8996080988287052582, guid: 64b0b49d7bf32f843b9a65baed889b7e, type: 3}
+  - {fileID: 8996080988287052582, guid: 8e7db10157a429548b1568dc568d1768, type: 3}
+  - {fileID: 8996080988287052582, guid: 44b556a48d3b10a418aa2c1c41ef738c, type: 3}
   uiManager: {fileID: 0}
   minPlayers: 4
   menuScene: 

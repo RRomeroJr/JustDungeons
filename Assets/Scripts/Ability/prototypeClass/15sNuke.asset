@@ -16,6 +16,10 @@ MonoBehaviour:
   eInstructs:
   - effect: {fileID: 11400000, guid: a8efbf319ca195e4db52dd5807c84b83, type: 2}
     targetArg: 0
+    powerMod: 1
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
   castTime: 0
   cooldown: 15
   needsActor: 1
@@ -26,3 +30,5 @@ MonoBehaviour:
   isChannel: 0
   channelDuration: 0
   numberOfTicks: 0
+  offGDC: 0
+  range: 3

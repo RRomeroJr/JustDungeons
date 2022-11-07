@@ -15,9 +15,21 @@ MonoBehaviour:
   effectName: DioRingAoe
   id: 26
   power: 0
+  powerScale: 1
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 1
+  target: {fileID: 0}
+  caster: {fileID: 0}
+  targetWP:
+    Value: {x: 0, y: 0, z: 0}
+  eInstructs:
+  - effect: {fileID: 11400000, guid: d562d56cd9edd344f844918c3ead3845, type: 2}
+    targetArg: 0
+    powerMod: 1
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
   school: -1
   prefabScale: {x: 30, y: 30, z: 30}
   aoePrefab: {fileID: 8996080988287052582, guid: de75acaee2617ea4fb730d3324628ade, type: 3}

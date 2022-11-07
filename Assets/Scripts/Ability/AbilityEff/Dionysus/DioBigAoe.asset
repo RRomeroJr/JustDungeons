@@ -15,9 +15,21 @@ MonoBehaviour:
   effectName: VaseExplosion
   id: 22
   power: 0
+  powerScale: 1
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 1
+  target: {fileID: 0}
+  caster: {fileID: 0}
+  targetWP:
+    Value: {x: 0, y: 0, z: 0}
+  eInstructs:
+  - effect: {fileID: 11400000, guid: 62b5b7d958d0a41419e4664af8b14e03, type: 2}
+    targetArg: 0
+    powerMod: 1
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
   school: -1
   prefabScale: {x: 1, y: 1, z: 1}
   aoePrefab: {fileID: 8996080988287052582, guid: 44b556a48d3b10a418aa2c1c41ef738c, type: 3}
