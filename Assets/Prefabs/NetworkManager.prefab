@@ -77,6 +77,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   adSingleton: {fileID: 11400000, guid: e4a324d6a97f3ed4ca35aae24e1eba31, type: 2}
   aedSingleton: {fileID: 11400000, guid: 05f702353c4ce0740bbec34a6703ccf0, type: 2}
+  bdSingleton: {fileID: 11400000, guid: 26a9ec83c30971c4db1b7fddc82f69ba, type: 2}
 --- !u!114 &4602065914186662412
 MonoBehaviour:
   m_ObjectHideFlags: 0
