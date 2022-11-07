@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DapperDino;
+using System.Collections.ObjectModel;
 
 /*
 	Documentation: https://mirror-networking.gitbook.io/docs/components/network-manager
@@ -31,8 +32,8 @@ public class CustomNetworkManager : NetworkManager
 
     public static event Action OnClientConnected;
     public static event Action OnClientDisconnected;
-    public List<PlayerLobby> RoomPlayers { get; } = new List<PlayerLobby>();
-    public List<PlayerGame> GamePlayers { get; } = new List<PlayerGame>();
+    public ObservableCollection<PlayerLobby> RoomPlayers { get; } = new ObservableCollection<PlayerLobby>();
+    public ObservableCollection<PlayerGame> GamePlayers { get; } = new ObservableCollection<PlayerGame>();
 
     #region Unity Callbacks
 
@@ -123,18 +124,14 @@ public class CustomNetworkManager : NetworkManager
     /// Called on the server when a scene is completed loaded, when the scene load was initiated by the server with ServerChangeScene().
     /// </summary>
     /// <param name="sceneName">The name of the new scene.</param>
-    public override void OnServerSceneChanged(string sceneName)
+    public override void OnServerSceneChanged(string sceneName) 
     {
-        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         for (int i = RoomPlayers.Count - 1; i >= 0; i--)
         {
             var conn = RoomPlayers[i].connectionToClient;
             var gameplayerInstance = Instantiate(gamePlayerPrefab);
             gameplayerInstance.SetDisplayName("Dude " + i);
             gameplayerInstance.GetComponent<Actor>().setActorName("Dude " + i);
-
-            //gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
-            uiManager.updateUnitFrame(uiManager.frames[i], gameplayerInstance.GetComponent<Actor>());
 
             NetworkServer.Destroy(conn.identity.gameObject);
 

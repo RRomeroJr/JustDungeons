@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using UnityEngine;
 using UnityEngine.EventSystems;
 /*
@@ -46,6 +48,17 @@ public class UIManager : MonoBehaviour
         updateUnitFrame(partyFrame3, partyFrame3.actor);*/
         //setUpUnitFrame(partyFrame, partyFrame.actor);
 
+        CustomNetworkManager.singleton.GamePlayers.CollectionChanged += AddPlayerFrame;
+    }
+
+    void AddPlayerFrame(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        int i = 0;
+        foreach (var player in CustomNetworkManager.singleton.GamePlayers)
+        {
+            updateUnitFrame(frames[i], player.GetComponent<Actor>());
+            i++;
+        }
     }
 
     // Update the max health and current health of all ally frames
