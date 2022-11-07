@@ -1,14 +1,15 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Mirror;
+using System;
 /*
-    Richie: 
-        This should handle clicking of characters/ objects in the world
-    as well as UI elements inorder to interact with them/ get them
-    as your current target
+Richie: 
+This should handle clicking of characters/ objects in the world
+as well as UI elements inorder to interact with them/ get them
+as your current target
 */
 public class ClickManager : NetworkBehaviour
 {
@@ -25,6 +26,11 @@ public class ClickManager : NetworkBehaviour
     public Image targetHealthBarFill;
     public Actor playerActor;
     public LayerMask mask;
+
+    void Start()
+    {
+        FindObjectOfType<UIRaycaster>().UIFrameClicked += OnUIFrameClicked;
+    }
 
     void Update()
     {   
@@ -44,7 +50,7 @@ public class ClickManager : NetworkBehaviour
                     Debug.Log("Clicked something: " + hit.collider.gameObject.name);
 
                     // set controller's target w/ actor hit by raycast
-                    
+
                     if(isServer){
                         playerActor.rpcSetTarget(hit.collider.gameObject.GetComponent<Actor>());
                     }else{
@@ -56,6 +62,19 @@ public class ClickManager : NetworkBehaviour
             }
         }
     }
+
+    private void OnUIFrameClicked(object source, UIFrameClickedEventArgs e)
+    {
+        if (isServer)
+        {
+            playerActor.rpcSetTarget(e.Frame.actor);
+        }
+        else
+        {
+            playerActor.cmdReqSetTarget(e.Frame.actor);
+        }
+    }
+
     [ClientRpc]
     void updateTargetToClients(Actor target){
         playerActor.target = target;
