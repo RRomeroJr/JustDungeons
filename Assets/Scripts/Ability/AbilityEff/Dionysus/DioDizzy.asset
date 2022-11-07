@@ -13,10 +13,15 @@ MonoBehaviour:
   m_Name: DioDizzy
   m_EditorClassIdentifier: 
   effectName: DioDizzy
-  id: -1
+  id: 25
   power: 1
+  powerScale: 1
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 0
+  target: {fileID: 0}
+  caster: {fileID: 0}
+  targetWP:
+    Value: {x: 0, y: 0, z: 0}
   school: -1
   moveAngle: {x: 1, y: 0}

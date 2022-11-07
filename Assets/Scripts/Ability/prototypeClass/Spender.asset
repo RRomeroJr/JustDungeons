@@ -33,4 +33,5 @@ MonoBehaviour:
   channelDuration: 0
   numberOfTicks: 0
   offGDC: 0
-  range: 3
+  rangeClass: 1
+  range: 3.5

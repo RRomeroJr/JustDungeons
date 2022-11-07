@@ -15,8 +15,13 @@ MonoBehaviour:
   effectName: Dizzy
   id: 12
   power: 0.8
+  powerScale: 1
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 0
+  target: {fileID: 0}
+  caster: {fileID: 0}
+  targetWP:
+    Value: {x: 0, y: 0, z: 0}
   school: -1
-  moveAngle: {x: 0, y: 0}
+  moveAngle: {x: 1, y: 0}

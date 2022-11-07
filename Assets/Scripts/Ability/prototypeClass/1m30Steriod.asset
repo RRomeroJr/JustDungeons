@@ -25,4 +25,5 @@ MonoBehaviour:
   channelDuration: 0
   numberOfTicks: 0
   offGDC: 0
+  rangeClass: 0
   range: Infinity

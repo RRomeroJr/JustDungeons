@@ -15,6 +15,7 @@ MonoBehaviour:
   effectName: SmallGen1Effect
   id: 34
   power: 1
+  powerScale: 1
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 0
