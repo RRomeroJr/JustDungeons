@@ -13,7 +13,7 @@ public class Buff: ScriptableObject
     [SerializeField]protected float duration;
     [SerializeField]protected float tickRate; // for now will be rounded
     [SerializeField]protected GameObject particles;
-    protected Func<AbilityEffect, float> powerCalc;
+    
     [SerializeField]protected bool stackable;
     [SerializeField]protected bool refreshable;
     [SerializeField]protected float lastTick = 0.0f; // time since last tick
