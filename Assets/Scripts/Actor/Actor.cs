@@ -461,62 +461,67 @@ public class Actor : NetworkBehaviour
         
         if(checkOnCooldown(_ability) == false){ //Will be check on cd later
             // MirrorTestTools._inst.ClientDebugLog(_ability.getName() + "| Not on cool down or GCD");
-            if(!readyToFire){
-                if(!isCasting){
-                    if(_ability.NeedsTargetActor()){
-                        if(_target == null){
-                        //Debug.Log("Try find target..");
-                            _target = tryFindTarget(_ability);
-                        }
-                        if(_target == null){
-                            Debug.Log("No suitable target found");
-                            return;
-                        }
-                        else{
-                            if(!checkRange(_ability, _target.transform.position)){
-                                Debug.Log("You are out of range");
+            if(hasTheResources(_ability)){
+                if(!readyToFire){
+                    if(!isCasting){
+                        if(_ability.NeedsTargetActor()){
+                            if(_target == null){
+                            //Debug.Log("Try find target..");
+                                _target = tryFindTarget(_ability);
+                            }
+                            if(_target == null){
+                                Debug.Log("No suitable target found");
                                 return;
                             }
-                        }
-                    }
-                    if(_ability.NeedsTargetWP()){
-                        if(_targetWP == null){
-                        //Debug.Log("Try find target..");
-                            _targetWP = tryFindTargetWP(_ability);
-                        }
-                        if(_targetWP == null){
-                            Debug.Log("No suitable WP found");
-                            return;
-                        }
-                        else{
-                            if(!checkRange(_ability, _targetWP.Value)){
-                                Debug.Log("You are out of range");
-                                return;
+                            else{
+                                if(!checkRange(_ability, _target.transform.position)){
+                                    Debug.Log("You are out of range");
+                                    return;
+                                }
                             }
                         }
-                    }
-                    //Debug.Log("castAbility3 inner if");
-                    // if(isServer){
-                    //     serverSays(_ability);
-                    // }
-                    if(isLocalPlayer){
-                            cmdStartCast(_ability, _target, _targetWP);
+                        if(_ability.NeedsTargetWP()){
+                            if(_targetWP == null){
+                            //Debug.Log("Try find target..");
+                                _targetWP = tryFindTargetWP(_ability);
+                            }
+                            if(_targetWP == null){
+                                Debug.Log("No suitable WP found");
+                                return;
+                            }
+                            else{
+                                if(!checkRange(_ability, _targetWP.Value)){
+                                    Debug.Log("You are out of range");
+                                    return;
+                                }
+                            }
+                        }
+                        //Debug.Log("castAbility3 inner if");
+                        // if(isServer){
+                        //     serverSays(_ability);
+                        // }
+                        if(isLocalPlayer){
+                                cmdStartCast(_ability, _target, _targetWP);
+                            
+                        }
+                        else if(isServer){
+                                    //MirrorTestTools._inst.ClientDebugLog("Starting RPC");
+                                rpcStartCast(_ability, _target, _targetWP);
+                            }
                         
+                        //Debug.Log("after Ability_V2 command reached");  
                     }
-                    else if(isServer){
-                             //MirrorTestTools._inst.ClientDebugLog("Starting RPC");
-                            rpcStartCast(_ability, _target, _targetWP);
-                        }
-                    
-                    //Debug.Log("after Ability_V2 command reached");  
+                    else{
+                        //Debug.Log(actorName + " is casting!");
+                    }         
                 }
                 else{
-                    //Debug.Log(actorName + " is casting!");
-                }         
+                    if(showDebug)
+                    Debug.Log("Something else is ready to fire and blocking this cast");
+                }
             }
             else{
-                if(showDebug)
-                Debug.Log("Something else is ready to fire and blocking this cast");
+                Debug.Log(actorName + " does not have the resources");
             }
         }
     }
@@ -663,7 +668,7 @@ public class Actor : NetworkBehaviour
             }
             
             else{
-                Debug.Log("Ability has no resourceCosts");
+                Debug.Log(actorName + " doesn't have the resources: fireCast");
             }
 
             if(_ability.getCastTime() > 0.0f){
@@ -767,7 +772,7 @@ public class Actor : NetworkBehaviour
             }
             
             else{
-                Debug.Log("Ability has no resourceCosts");
+                Debug.Log(actorName + " doesn't have the resources: fireChannel");
             }
 
 
