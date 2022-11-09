@@ -33,6 +33,9 @@ public abstract class AbilityEff: ScriptableObject
     public virtual void dispellEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
 
     }
+    public virtual void clientEffect(){
+        
+    }
 
     public abstract AbilityEff clone();
 

@@ -70,8 +70,72 @@ public static class CustomReadWriteFuctions
         Actor actor = networkIdentity != null
             ? networkIdentity.GetComponent<Actor>()
             : null;
-
+        // if(actor != null){
+        //     Debug.Log(actor.getActorName());
+        // }
         return actor;
+    }
+    public static void WriteBuff(this NetworkWriter writer, Buff buff)
+    {
+        writer.WriteInt(buff.id); // get what buff it is
+
+        //get the rest of the important information
+        writer.WriteFloat(buff.getDuration());
+        writer.WriteFloat(buff.getTickRate());
+        //particles
+        writer.WriteBool(buff.isStackable());
+        writer.WriteBool(buff.isRefreshable());
+        writer.WriteFloat(buff.lastTick);
+        writer.WriteFloat(buff.getRemainingTime());
+        writer.WriteBool(buff.getStart());
+        writer.WriteBool(buff.firstFrame);
+        writer.WriteActor(buff.getCaster());
+        writer.WriteActor(buff.getActor());
+        writer.WriteActor(buff.target);
+        writer.WriteUInt(buff.getStacks());
+
+    }
+    public static Buff ReadBuff(this NetworkReader reader){
+        //Debug.Log("ReadAbility");
+        //Debug.Log(AbilityData.instance == null ? "No ad" : "Read Ability: ad found");
+        //Debug.Log(reader == null ? "reader null" : "reader OK");
+        int buffID = reader.ReadInt();
+        Buff result = null;
+        if(BuffData.instance != null){
+            if(BuffData.instance.buffList != null){
+                if(buffID < BuffData.instance.buffList.Count){
+                    result = BuffData.instance.find(buffID);
+                    
+                }
+                else{
+                    Debug.LogError("buffID > than the length of buffList");
+                }
+            }else{
+                Debug.LogError("No buffList in BuffData");
+            }
+        }else{
+            Debug.LogError("BuffData instance == NULL");
+        }
+        Buff buffClone;
+        buffClone = result.clone();
+        //Debug.Log("ad result: " + (result != null ? (result.getName() + " id: " + result.id.ToString()) : "NULL"));
+
+        buffClone.setDuration(reader.ReadFloat());
+        buffClone.setTickRate(reader.ReadFloat());
+        buffClone.stackable = reader.ReadBool();
+        buffClone.refreshable = reader.ReadBool();
+        buffClone.lastTick = reader.ReadFloat();
+        buffClone.setRemainingTime(reader.ReadFloat());
+        buffClone.setStart(reader.ReadBool());
+        buffClone.firstFrame = reader.ReadBool();
+        buffClone.setCaster(reader.ReadActor());
+        Actor buffActor = reader.ReadActor();
+        Debug.Log(buffActor.getActorName() + " and type is : " + buffActor.GetType().ToString());
+        buffClone.setActor(buffActor);
+        buffClone.target = reader.ReadActor();
+        buffClone.setStacks(reader.ReadUInt());
+
+        return buffClone;
     }
 
 }

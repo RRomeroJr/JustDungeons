@@ -26,7 +26,7 @@ public class ApplyBuff : DeliveryEff
         //Debug.Log("ApplyBuff caster: " + (_caster != null ? _caster.getActorName() : "caster is null"));
         tempBuff_ref.target = _secondaryTarget;
         tempBuff_ref.caster = _caster;
-        tempBuff_ref.eInstructs = eInstructs;
+        //tempBuff_ref.eInstructs = eInstructs;
         _target.applyBuff(tempBuff_ref);
         //target.getBuffs().Add( _____.findBuff(buffID) );
     }
@@ -51,7 +51,7 @@ public class ApplyBuff : DeliveryEff
         temp_ref.powerScale = powerScale;
         temp_ref.buffID = buffID;
         temp_ref.targetIsSecondary = targetIsSecondary;
-        temp_ref.eInstructs = new List<EffectInstruction>();
+        //temp_ref.eInstructs = new List<EffectInstruction>();
         foreach (EffectInstruction eI in eInstructs){
             temp_ref.eInstructs.Add(eI.clone());
         }

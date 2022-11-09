@@ -9,17 +9,17 @@ using UnityEngine.Events;
 public class Buff: ScriptableObject
 {
     
-    [SerializeField]protected string effectName;
-    [SerializeField]protected float duration;
-    [SerializeField]protected float tickRate; // for now will be rounded
-    [SerializeField]protected GameObject particles;
+    [SerializeField]public string effectName;
+    [SerializeField]public float duration;
+    [SerializeField]public float tickRate; // for now will be rounded
+    [SerializeField]public GameObject particles;
     
-    [SerializeField]protected bool stackable;
-    [SerializeField]protected bool refreshable;
-    [SerializeField]protected float lastTick = 0.0f; // time since last tick
-    [SerializeField]protected float remainingTime = 0.0f;
-    [SerializeField]protected bool start = false;
-    [SerializeField]protected bool firstFrame = true;
+    [SerializeField]public bool stackable;
+    [SerializeField]public bool refreshable;
+    [SerializeField]public float lastTick = 0.0f; // time since last tick
+    [SerializeField]public float remainingTime = 0.0f;
+    [SerializeField]public bool start = false;
+    [SerializeField]public bool firstFrame = true;
     [SerializeField]public Actor caster;
     [SerializeField]public Actor actor; // Actor that this effect is attached to
     [SerializeField]public Actor target;
@@ -44,8 +44,11 @@ public class Buff: ScriptableObject
             
         }
         else{
-            remainingTime -= Time.deltaTime;
-            lastTick += Time.deltaTime;
+            if(remainingTime > 0.0f){
+                remainingTime -= Time.deltaTime;
+                lastTick += Time.deltaTime;
+            }
+            
         }
         if(lastTick >= tickRate){ 
             if(particles !=  null){
@@ -73,11 +76,12 @@ public class Buff: ScriptableObject
             eI.effect.buffEndEffect();
         }
         Debug.Log(effectName + ": onFinish complete");
-        List<Buff> list_ref = actor.getBuffs();
+        //List<Buff> list_ref = actor.getBuffs();
 
         //Find this buff in actor's List<> and remove it
         // Debug.Log(effectName+ ": list rm");
-        list_ref.Remove(list_ref.Find(x => x ==  this)); //This needs to be tested
+        //list_ref.Remove(list_ref.Find(x => x ==  this)); //This needs to be tested
+        actor.removeBuff(this);
     }
     public virtual void OnRemove(){
         

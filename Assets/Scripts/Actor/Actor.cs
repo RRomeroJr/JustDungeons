@@ -360,10 +360,12 @@ public class Actor : NetworkBehaviour
         //Adding Buff it to this actor's list<Buff>
         
         if(_buff.getID() >= 0){
-
+            //Check if the buff is already here
             Buff tempBuff_Ref = buffs.Find(b => b.getID() == _buff.getID());
 
-            if(tempBuff_Ref  != null){
+            //if we found something
+            if(tempBuff_Ref  != null){// Based on circumstances, I might need you do something different
+
                 if( (tempBuff_Ref.isStackable())&&(tempBuff_Ref.isRefreshable()) ){ // if stackable and refreshable
                     tempBuff_Ref.addStacks(1);
                     tempBuff_Ref.setRemainingTime(tempBuff_Ref.getDuration());
@@ -384,40 +386,50 @@ public class Actor : NetworkBehaviour
         else{
 
         }
+        //---------------------If we get this far we are just adding it like normal-------------------------------------
         
-        //_buff.setCaster(_caster);
+        
+        
+        if(isServer){
+            AddNewBuff(_buff);
+            RpcAddNewBuff(_buff);
+            
+        }
+        
+    }
+    public void removeBuff(Buff _callingBuff){
+        
+        int buffIndex = buffs.FindIndex(x => x == _callingBuff);
+
+        buffs.RemoveAt(buffIndex);
+        Debug.Log("Removed index: " + buffIndex);
+        RpcRemoveBuffIndex(buffIndex);
+    }
+    [ClientRpc]
+    void RpcRemoveBuffIndex(int hostIndex){
+        if(isServer){
+            return;
+        }
+        Debug.Log("Host saying to remove buff index: " + hostIndex);
+        buffs.RemoveAt(hostIndex);
+    }
+    void AddNewBuff(Buff _buff){
         _buff.setActor(this);
         _buff.setRemainingTime(_buff.getDuration());
-        //Debug.Log(_abilityEffect.getRemainingTime().ToString() + " " + _abilityEffect.getDuration().ToString());
-        //_buff.OnEffectStart();
         buffs.Add(_buff);
-        // if(_buff.onCastHooks != null){
-        //     Debug.Log("apply hooks to actor: " + actorName);
-        //     foreach (UnityEvent<EffectInstruction> hook in _buff.onCastHooks){
-        //         onCastHooks.Add(hook);
-        //     }
-        // }else{
-        //     Debug.Log("Buff had no hooks");
-        // }
-        
-        //_buff.setStart(true);
+    }
+    [ClientRpc]
+    void RpcAddNewBuff(Buff _buffFromSever){
+        if(isServer)
+            return;
+
+        AddNewBuff(_buffFromSever);
     }
     void handleAbilityEffects(){
 
-        /*if(abilityEffects.Count > 0){
-
-            for(int i = 0; i < abilityEffects.Count; i++){
-                abilityEffects[i].update();
-                checkAbilityEffectToRemoveAtPos(abilityEffects[i], i);
-            }
-        //Debug.Log(actorName + " cleared all Ability effects!");
-        }*/
+       
         if(buffs.Count > 0){
 
-            // for(int i = 0; i < buffs.Count; i++){
-            //     buffs[i].update();
-            //     //checkAbilityEffectToRemoveAtPos(buffs[i], i);
-            // }
             int i = 0;
             int lastBuffCount = buffs.Count;
             while(i < buffs.Count){
@@ -429,18 +441,13 @@ public class Actor : NetworkBehaviour
                 }
                 else{
                     ///Debug.Log("After RM Buffs[" + (i - 1).ToString() + "] = " + buffs[i-1].getEffectName());
+                    lastBuffCount = buffs.Count;
                 }
             }
         
         }
     }
-    // public void applyAbilityEffs(List<EffectInstruction> _eInstructs, Actor _caster = null){
-    //     if(isServer){
-    //         foreach (EffectInstruction eI in _eInstructs){
-    //             eI.startEffect(inTarget: this, inCaster: _caster);
-    //         }
-    //     }
-    // }
+
     //Casting----------------------------------------------------------------------------------------------
     public void castRelativeToGmObj(Ability_V2 _ability, GameObject _obj, Vector2 _point){
         NullibleVector3 nVect = new NullibleVector3();

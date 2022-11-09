@@ -13,8 +13,27 @@ public class Dizzy : AbilityEff
     public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
        
         //Hopefully this rotates the moveVector in the y axis by power every frame
+        if(parentBuff.actor.isClient){
+            clientEffect();
+            return;
+        }
+
+        // if( (Input.GetKey("w")) || (Input.GetKey("a")) || (Input.GetKey("s")) || (Input.GetKey("d")) ){
+        //     parentBuff.actor.GetComponent<Controller>().MoveTowards(moveAngle + (Vector2)parentBuff.actor.transform.position);
+        //     Debug.DrawLine(parentBuff.actor.transform.position, (moveAngle * 2.5f) + (Vector2)parentBuff.actor.transform.position, Color.green);
+        // }
+        // else{
+        //     moveAngle = Quaternion.Euler( 0, 0, power) * moveAngle;
+        //     Debug.DrawLine(parentBuff.actor.transform.position, (moveAngle * 5.0f) + (Vector2)parentBuff.actor.transform.position, Color.red);
+        // }
+
         
 
+        
+    }
+    public override void clientEffect()
+    {
+        //Debug.Log("calling dizzy clientside effect");
         if( (Input.GetKey("w")) || (Input.GetKey("a")) || (Input.GetKey("s")) || (Input.GetKey("d")) ){
             parentBuff.actor.GetComponent<Controller>().MoveTowards(moveAngle + (Vector2)parentBuff.actor.transform.position);
             Debug.DrawLine(parentBuff.actor.transform.position, (moveAngle * 2.5f) + (Vector2)parentBuff.actor.transform.position, Color.green);
@@ -23,10 +42,6 @@ public class Dizzy : AbilityEff
             moveAngle = Quaternion.Euler( 0, 0, power) * moveAngle;
             Debug.DrawLine(parentBuff.actor.transform.position, (moveAngle * 5.0f) + (Vector2)parentBuff.actor.transform.position, Color.red);
         }
-
-        
-
-        
     }
     public override void buffStartEffect()
     {
