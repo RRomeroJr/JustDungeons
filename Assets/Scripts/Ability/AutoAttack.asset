@@ -21,7 +21,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   castTime: 0
-  cooldown: 2
+  cooldown: 5
   needsActor: 1
   needsWP: 0
   id: 0
@@ -31,3 +31,5 @@ MonoBehaviour:
   channelDuration: 0
   numberOfTicks: 0
   offGDC: 1
+  rangeClass: 1
+  range: 3.5

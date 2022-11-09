@@ -63,6 +63,8 @@ public class Actor : NetworkBehaviour
     [SerializeField]protected List<ClassResource> classResources;
     [SyncVar]
     public float mainStat = 100.0f;
+    [SyncVar]
+    public bool requestingCast = false;
 
     [ClientRpc]
     public void updateClassResourceAmount(int index, int _amount){
@@ -456,74 +458,90 @@ public class Actor : NetworkBehaviour
     }
     
     
-    public void castAbility3(Ability_V2 _ability, Actor _target = null, NullibleVector3 _targetWP = null){
-        //Debug.Log("castAbility3");
+    public bool castAbility3(Ability_V2 _ability, Actor _target = null, NullibleVector3 _targetWP = null){
+        /*  Returns true if a REQUEST to fire was made. NOT if the cast was actually fired
+        */
+
+        Debug.Log("castAbility3");
         
         if(checkOnCooldown(_ability) == false){ //Will be check on cd later
             // MirrorTestTools._inst.ClientDebugLog(_ability.getName() + "| Not on cool down or GCD");
             if(hasTheResources(_ability)){
-                if(!readyToFire){
-                    if(!isCasting){
-                        if(_ability.NeedsTargetActor()){
-                            if(_target == null){
-                            //Debug.Log("Try find target..");
-                                _target = tryFindTarget(_ability);
-                            }
-                            if(_target == null){
-                                Debug.Log("No suitable target found");
-                                return;
-                            }
-                            else{
-                                if(!checkRange(_ability, _target.transform.position)){
-                                    Debug.Log("You are out of range");
-                                    return;
+                if(true){ //!requestingCast)
+                    if(!readyToFire){
+                        if(!isCasting){
+                            if(_ability.NeedsTargetActor()){
+                                if(_target == null){
+                                //Debug.Log("Try find target..");
+                                    _target = tryFindTarget(_ability);
+                                }
+                                if(_target == null){
+                                    Debug.Log("No suitable target found");
+                                    return false;
+                                }
+                                else{
+                                    if(!checkRange(_ability, _target.transform.position)){
+                                        if(showDebug)
+                                            Debug.Log("You are out of range");
+                                        return false;
+                                    }
                                 }
                             }
-                        }
-                        if(_ability.NeedsTargetWP()){
-                            if(_targetWP == null){
-                            //Debug.Log("Try find target..");
-                                _targetWP = tryFindTargetWP(_ability);
-                            }
-                            if(_targetWP == null){
-                                Debug.Log("No suitable WP found");
-                                return;
-                            }
-                            else{
-                                if(!checkRange(_ability, _targetWP.Value)){
-                                    Debug.Log("You are out of range");
-                                    return;
+                            if(_ability.NeedsTargetWP()){
+                                if(_targetWP == null){
+                                //Debug.Log("Try find target..");
+                                    _targetWP = tryFindTargetWP(_ability);
+                                }
+                                if(_targetWP == null){
+                                    Debug.Log("No suitable WP found");
+                                    return false;
+                                }
+                                else{
+                                    if(!checkRange(_ability, _targetWP.Value)){
+                                        if(showDebug)
+                                            Debug.Log("You are out of range");
+                                        return false;
+                                    }
                                 }
                             }
-                        }
-                        //Debug.Log("castAbility3 inner if");
-                        // if(isServer){
-                        //     serverSays(_ability);
-                        // }
-                        if(isLocalPlayer){
-                                cmdStartCast(_ability, _target, _targetWP);
+                            //Debug.Log("castAbility3 inner if");
+                            // if(isServer){
+                            //     serverSays(_ability);
+                            // }
                             
-                        }
-                        else if(isServer){
-                                    //MirrorTestTools._inst.ClientDebugLog("Starting RPC");
-                                rpcStartCast(_ability, _target, _targetWP);
+                            
+                            if(isServer){
+                                        //MirrorTestTools._inst.ClientDebugLog("Starting RPC");
+                                    rpcStartCast(_ability, _target, _targetWP);
                             }
-                        
-                        //Debug.Log("after Ability_V2 command reached");  
+                            else if(isLocalPlayer){ //isLocalPlayer check may not be necessary
+                                    cmdStartCast(_ability, _target, _targetWP);
+                                
+                            }
+                            
+                            //Debug.Log("after Ability_V2 command reached");  
+                        }
+                        else{
+                            //Debug.Log(actorName + " is casting!");
+                        }         
                     }
-                    else{
-                        //Debug.Log(actorName + " is casting!");
-                    }         
-                }
+                    else{ //readyToFire == true
+                        if(showDebug)
+                        Debug.Log("Something else is ready to fire and blocking this cast");
+                        return false;
+                    }
+                } //end if(requestingCast)
                 else{
-                    if(showDebug)
-                    Debug.Log("Something else is ready to fire and blocking this cast");
+                    Debug.Log("Already requesting To cast");
+                    return false;
                 }
             }
-            else{
+            else{ //hasTheResources() == false
                 Debug.Log(actorName + " does not have the resources");
+                return false;
             }
         }
+        return true;
     }
     [ClientRpc]
     public void rpcStartCast(Ability_V2 _ability, Actor _target, NullibleVector3 _targetWP){
@@ -533,7 +551,7 @@ public class Actor : NetworkBehaviour
         if(!_ability.offGDC){
                 GetComponent<Controller>().globalCooldown = Controller.gcdBase; 
             }
-        //Debug.Log("rpcStartCast");
+        Debug.Log("rpcStartCast");
         if(_ability.getCastTime() > 0.0f){
                         
             queueAbility(_ability, _target, _targetWP);
@@ -554,10 +572,8 @@ public class Actor : NetworkBehaviour
     //[Command (requiresAuthority=false)]
     [Command]
     public void cmdStartCast(Ability_V2 _ability, Actor _target, NullibleVector3 _targetWP){
-        //Debug.Log("cmdStartCast");
-        if(checkOnCooldown(_ability) == false){
-            rpcStartCast(_ability, _target, _targetWP);
-        }
+        
+        castAbility3(_ability, _target, _targetWP);
         
     }
 
@@ -601,11 +617,14 @@ public class Actor : NetworkBehaviour
     [Server]
     public void fireCast(Ability_V2 _ability, Actor _target = null, NullibleVector3 _targetWP = null){
         // EI_Clones will be passed into an event that will allow them to be modified as need by other effects, stats, Buffs, etc.
-        
+        // Debug.Log("FireCast()");
         if(_ability.isChannel){
             startChannel(_ability, _target, _targetWP);
         }
         else{
+            if(_ability.id == 0){
+                 Debug.Log("Firing an AA");
+            }
             // if(MirrorTestTools._inst != null)
             //     MirrorTestTools._inst.ClientDebugLog(_ability.getName()+ "| Host Starting fireCast");
             List<EffectInstruction> EI_clones = _ability.getEffectInstructions().cloneInstructs();
@@ -906,8 +925,10 @@ public class Actor : NetworkBehaviour
         if(abilityCooldowns.Count > 0){
             for(int i = 0; i < abilityCooldowns.Count; i++){
                 if(abilityCooldowns[i].getName() == _ability.getName()){
-                    if(showDebug)
-                        Debug.Log(_ability.getName() + " is on cooldown!");
+                    if(showDebug){
+                        //Debug.Log(_ability.getName() + " is on cooldown!");
+                    }
+                        
                     return true;
                 }
             }
