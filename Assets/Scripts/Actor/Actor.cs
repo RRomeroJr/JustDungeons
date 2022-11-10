@@ -633,8 +633,8 @@ public class Actor : NetworkBehaviour
         }
         else{
             if(_ability.id == 0){
-                 Debug.Log("Firing an AA");
-                 
+                 //Debug.Log("Firing an AA");
+
             }
             // if(MirrorTestTools._inst != null)
             //     MirrorTestTools._inst.ClientDebugLog(_ability.getName()+ "| Host Starting fireCast");

@@ -25,15 +25,23 @@ public class AboveHealthPercent : DecoratorNode
             //
             if((triggered)&&(mustComplete)){
                 
-                switch (child.Update()) {
+                switch (child.Update()) { 
+                    // if You are below the healthj percent AND
+                    // everything below this node MUST FINISH
+                    // wait unitl you get EITHER d Seccess or Failure
                     case State.Running:
+                        Debug.Log("AHP recieved a running");
                         break;
                     case State.Failure:
                         Debug.Log("breaking out of mustComplete due to failure");
                         return State.Failure;
                     
+                    
                     case State.Success:
+                        Debug.Log("AboveHealthPercent success");
                         return State.Failure;
+                        
+                        
                 }
                 return State.Running;
             }
@@ -44,7 +52,7 @@ public class AboveHealthPercent : DecoratorNode
         else{ //If you are above the health %
             child.Update(); // then cast something
             
-            return State.Running;
+            return State.Success;
         }
     }
 }

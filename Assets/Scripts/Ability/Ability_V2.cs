@@ -76,6 +76,9 @@ public class Ability_V2 : ScriptableObject{
         else if(rangeClass == AbilityRanges.Ranged){
             range =  rangedRange;
         }
+        // if(rangeClass == AbilityRanges.Custom){
+        //     range =  Mathf.Infinity;
+        // }
      
     }
     public string getName(){
