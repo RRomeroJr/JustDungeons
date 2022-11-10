@@ -81,7 +81,10 @@ public class Buff: ScriptableObject
         //Find this buff in actor's List<> and remove it
         // Debug.Log(effectName+ ": list rm");
         //list_ref.Remove(list_ref.Find(x => x ==  this)); //This needs to be tested
-        actor.removeBuff(this);
+        if(actor.isServer){
+            actor.removeBuff(this);
+        }
+        
     }
     public virtual void OnRemove(){
         

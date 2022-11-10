@@ -399,6 +399,7 @@ public class Actor : NetworkBehaviour
         }
         
     }
+    [Server]
     public void removeBuff(Buff _callingBuff){
         
         int buffIndex = buffs.FindIndex(x => x == _callingBuff);
