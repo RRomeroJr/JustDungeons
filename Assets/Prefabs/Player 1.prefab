@@ -146,6 +146,7 @@ MonoBehaviour:
     amount: 0
     crType: {fileID: 11400000, guid: f99af011e29c85f4686d63a179cf33d8, type: 2}
   mainStat: 100
+  requestingCast: 0
 --- !u!114 &3602611100074717273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,6 +246,7 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   facingDirection: {x: 0, y: 0}
   globalCooldown: 0
+  autoAttackRequest: 0
   HORIZ_MOVE_ACCEL: 420
   VERT_MOVE_ACCEL: 420
   uiManager: {fileID: 0}
@@ -256,7 +258,7 @@ MonoBehaviour:
   ability6a: {fileID: 11400000, guid: 722fa7e69c249d740829674736b49962, type: 2}
   ability7a: {fileID: 11400000, guid: 8df7b41371839cf40a06f4cad97dca7e, type: 2}
   ability8a: {fileID: 11400000, guid: 8fc01d425cdca1a4ab8f6a0e64387f07, type: 2}
-  ability9a: {fileID: 11400000, guid: 9721977442b9f7e489170b36a4ffc80b, type: 2}
+  ability9a: {fileID: 11400000, guid: 541c227da955cf946b53119931fb60f6, type: 2}
   test: {fileID: 11400000, guid: 09c5e600fbf9b6148892edb228809891, type: 2}
   posTest: {x: 0, y: 0, z: 0}
 --- !u!114 &568127742855530159

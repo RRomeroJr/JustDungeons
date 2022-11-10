@@ -17,28 +17,13 @@ public class TargetCheck : DecoratorNode
 
     protected override State OnUpdate()
     {  
-        if((context.actor.target == null) == ContinueIfHasTargetIs){
+        if((context.actor.target == null) == ContinueIfHasTargetIs){ //if continue condition is not met
             return State.Failure;
         }
         else{
-            //This unit has a target
-            switch (child.Update()) {
-                case State.Running:
-                    return State.Running;
-                    break;
-                case State.Failure:
-                    return State.Failure;
-                    break;
-                case State.Success:
-                    return State.Success;
-                    break;
-
-
-                default:
-                    //unnecessary but I couldn't complie without it
-                    return State.Failure;
-                    break;
-            }
+            child.Update();
+            return State.Success;
+            
             
         }
     }

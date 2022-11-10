@@ -175,7 +175,7 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   children:
-  - {fileID: -336318909889377013}
+  - {fileID: 6721198417537804147}
   - {fileID: -689957844420290403}
   - {fileID: 2191826906436300917}
   - {fileID: -741387098259348625}
@@ -512,6 +512,7 @@ MonoBehaviour:
   - {fileID: 6716564507927858684}
   - {fileID: -3878410268986458378}
   - {fileID: -336318909889377013}
+  - {fileID: 6721198417537804147}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -919,6 +920,29 @@ MonoBehaviour:
   randomRange: 0
   plusMinusX: 0
   plusMinusY: 0
+--- !u!114 &6721198417537804147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e658b1bd308bc5c429f5a9b404a04943, type: 3}
+  m_Name: Inverter
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 887c221c0e9e5ba41b3f320a4b1f1944
+  position: {x: -500, y: 81}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  child: {fileID: -336318909889377013}
 --- !u!114 &7221063678469256655
 MonoBehaviour:
   m_ObjectHideFlags: 0

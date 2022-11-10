@@ -184,7 +184,9 @@ public class Ability_V2 : ScriptableObject{
 
     // }
    
-    
+    public Ability_V2(){
+        range = Mathf.Infinity;
+    }
     public Ability_V2(string _abilityName, AbilityEff _abilityEff, float _castTime = 0.0f,
                     float _cooldown = 0.0f){
        
