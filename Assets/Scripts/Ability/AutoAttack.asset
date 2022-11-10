@@ -21,7 +21,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   castTime: 0
-  cooldown: 5
+  cooldown: 1
   needsActor: 1
   needsWP: 0
   id: 0

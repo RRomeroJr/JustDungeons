@@ -462,7 +462,7 @@ public class Actor : NetworkBehaviour
         /*  Returns true if a REQUEST to fire was made. NOT if the cast was actually fired
         */
 
-        Debug.Log("castAbility3");
+        //Debug.Log("castAbility3");
         
         if(checkOnCooldown(_ability) == false){ //Will be check on cd later
             // MirrorTestTools._inst.ClientDebugLog(_ability.getName() + "| Not on cool down or GCD");
@@ -548,10 +548,20 @@ public class Actor : NetworkBehaviour
         //Debug.Log(actorName + " casted " + _ability.getName());
         // if(MirrorTestTools._inst != null)
         //     MirrorTestTools._inst.ClientDebugLog(_ability.getName()+ "| Host Starting RPCStartCast");
+
+
+        /* This needs to be revised.
+            But for right now this need to be a Rpc so that clients start a cast bar 
+            for casted abilities.
+
+            But if the ability has no cast time this function is litterally pointless.
+            the firecast doesn't and SHOULDN'T be called on a client
+        */
+
         if(!_ability.offGDC){
                 GetComponent<Controller>().globalCooldown = Controller.gcdBase; 
             }
-        Debug.Log("rpcStartCast");
+        // Debug.Log("rpcStartCast");
         if(_ability.getCastTime() > 0.0f){
                         
             queueAbility(_ability, _target, _targetWP);
@@ -559,7 +569,7 @@ public class Actor : NetworkBehaviour
             
         }
         else{
-            // ActorCastingAbilityEvent.Invoke(_ability)
+  
             if(isServer){
                 fireCast(_ability, _target, _targetWP);
                 
@@ -569,7 +579,7 @@ public class Actor : NetworkBehaviour
         }
         
     }
-    //[Command (requiresAuthority=false)]
+   
     [Command]
     public void cmdStartCast(Ability_V2 _ability, Actor _target, NullibleVector3 _targetWP){
         
@@ -624,6 +634,7 @@ public class Actor : NetworkBehaviour
         else{
             if(_ability.id == 0){
                  Debug.Log("Firing an AA");
+                 
             }
             // if(MirrorTestTools._inst != null)
             //     MirrorTestTools._inst.ClientDebugLog(_ability.getName()+ "| Host Starting fireCast");

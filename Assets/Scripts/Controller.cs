@@ -14,6 +14,9 @@ public class Controller : NetworkBehaviour
     public Vector2 facingDirection;
      public float globalCooldown = 0.0f;
     public const float gcdBase = 2.0f;
+    [SyncVar]
+    public bool autoAttackRequest = false;
+    
     public virtual void Start(){
         //autoAttackClone = AbilityData.instance.AutoAttack.clone();
         facingDirection = Vector2.down;
@@ -28,17 +31,53 @@ public class Controller : NetworkBehaviour
             globalCooldown -= Time.deltaTime;
         }
         if(autoAttacking){
-            
             if(actor.target != null){
-                
                 if(actor.checkOnCooldown(autoAttackClone) == false){
-                    
-                    actor.castAbility3(autoAttackClone);
+                    if(autoAttackRequest == false){
+                        //request aa commad?
+                        if(isServer){
+                            handleAutoAttackRequest();
+                        }
+                        else{
+                            requestAutoAttack();
+                        }
+                    }
                 }
             }
+ 
         }
+        if(isServer){
+            if(autoAttackRequest == true){
+                    if(actor.checkOnCooldown(autoAttackClone) == false){
+                        autoAttackRequest = false;
+                    
+                    }
+          
+            }
+        }
+        
+
         if(followTarget != null){
             GetComponent<NavMeshAgent>().SetDestination(followTarget.transform.position);
+        }
+    }
+    [Command]
+    void requestAutoAttack(){
+        
+        handleAutoAttackRequest();
+    }
+    void handleAutoAttackRequest(){
+        if(autoAttackRequest == true){
+            return;
+        }
+        else if(actor.checkOnCooldown(autoAttackClone) == false){
+            if(autoAttackRequest == false){
+                //request aa commad?
+
+                autoAttackRequest = actor.castAbility3(autoAttackClone); //eventually the req becomes true
+               
+            }
+            
         }
     }
     public void moveToPoint(Vector2 pos){
@@ -81,4 +120,5 @@ public class Controller : NetworkBehaviour
 
                             
     }
+    
 }
