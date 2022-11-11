@@ -6,9 +6,17 @@ using TheKiwiCoder;
 public class MoveTo : ActionNode
 {   public Vector2 pos;
     public GameObject targetHolder;
+    public bool useMoveSpeed = false;
+    public float moveSpeed;
+
     protected override void OnStart()
     {
-        context.controller.moveToPoint(pos);
+        if(useMoveSpeed){
+            context.controller.moveToPoint(pos, moveSpeed);
+        }
+        else{
+            context.controller.moveToPoint(pos);
+        }
     }
 
     protected override void OnStop()

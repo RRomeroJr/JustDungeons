@@ -13,11 +13,23 @@ MonoBehaviour:
   m_Name: DioSmallAoe
   m_EditorClassIdentifier: 
   effectName: MiniVaseExplosion
-  id: -1
+  id: 28
   power: 0
+  powerScale: 1
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 1
+  target: {fileID: 0}
+  caster: {fileID: 0}
+  targetWP:
+    Value: {x: 0, y: 0, z: 0}
+  eInstructs:
+  - effect: {fileID: 11400000, guid: 09c5e600fbf9b6148892edb228809891, type: 2}
+    targetArg: 0
+    powerMod: 0
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
   school: -1
   prefabScale: {x: 1, y: 1, z: 1}
   aoePrefab: {fileID: 8996080988287052582, guid: 8e7db10157a429548b1568dc568d1768, type: 3}

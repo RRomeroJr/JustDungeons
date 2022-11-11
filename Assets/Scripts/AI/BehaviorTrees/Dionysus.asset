@@ -53,6 +53,8 @@ MonoBehaviour:
   drawGizmos: 0
   pos: {x: -8, y: 0}
   targetHolder: {fileID: 0}
+  useMoveSpeed: 0
+  moveSpeed: 0
 --- !u!114 &-8071363749586900216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,6 +279,8 @@ MonoBehaviour:
   drawGizmos: 0
   pos: {x: 0, y: 0}
   targetHolder: {fileID: 0}
+  useMoveSpeed: 1
+  moveSpeed: 20
 --- !u!114 &-2771419206414558020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -542,6 +546,8 @@ MonoBehaviour:
   drawGizmos: 0
   pos: {x: 8, y: 0}
   targetHolder: {fileID: 0}
+  useMoveSpeed: 0
+  moveSpeed: 0
 --- !u!114 &662109425032271069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -739,6 +745,8 @@ MonoBehaviour:
   drawGizmos: 0
   pos: {x: 0, y: 0}
   targetHolder: {fileID: 0}
+  useMoveSpeed: 0
+  moveSpeed: 0
 --- !u!114 &4905867565972754270
 MonoBehaviour:
   m_ObjectHideFlags: 0

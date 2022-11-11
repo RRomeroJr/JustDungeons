@@ -86,6 +86,9 @@ public class Controller : NetworkBehaviour
     public void moveToPoint(Vector2 pos){
         StartCoroutine(IE_moveToPoint(pos));
     }
+    public void moveToPoint(Vector2 pos, float tempMoveSpeed){
+        StartCoroutine(IE_moveToPoint(pos, tempMoveSpeed));
+    }
     IEnumerator IE_moveToPoint(Vector2 pos){
         /*
             I have an idea here. Make this method hold the target like the node does
@@ -112,6 +115,17 @@ public class Controller : NetworkBehaviour
         if(followTarget != null){
             agent.stoppingDistance = getStoppingDistance(followTarget);
         }
+        
+    }
+     IEnumerator IE_moveToPoint(Vector2 pos, float tempMoveSpeed){
+        float moveSpeedHolder = agent.speed;
+        agent.speed = tempMoveSpeed;
+        StartCoroutine(IE_moveToPoint(pos));
+        while(!agent.isStopped){
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        agent.speed = moveSpeedHolder;
         
     }
     float getStoppingDistance(GameObject _target){

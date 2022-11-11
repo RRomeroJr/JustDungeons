@@ -24231,6 +24231,10 @@ PrefabInstance:
       value: 782099284
       objectReference: {fileID: 0}
     - target: {fileID: 2096029720338020586, guid: dd923e74212956d448682a636e7b1bf0, type: 3}
+      propertyPath: m_Acceleration
+      value: 9000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2096029720338020586, guid: dd923e74212956d448682a636e7b1bf0, type: 3}
       propertyPath: m_StoppingDistance
       value: 0
       objectReference: {fileID: 0}

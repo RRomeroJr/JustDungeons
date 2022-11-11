@@ -9,7 +9,8 @@ public class Taunt : AbilityEff
 {   
     public int school = -1;
     public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
-        this.target.target = _caster;
+        this.target.target = this.caster;
+        this.target.GetComponent<Controller>().SetFollowTarget(this.caster.gameObject);
         // this.target.GetCompontent<Controller>();
     }
     public Taunt(string _effectName, int _id = -1, float _power = 0, int _school = -1){
