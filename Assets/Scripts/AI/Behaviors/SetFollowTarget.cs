@@ -16,25 +16,28 @@ public class SetFollowTarget : ActionNode
     protected override State OnUpdate()
     {
 
-        if (context.agent.destination != context.actor.target.transform.position)
-        {
-            context.controller.followTarget = context.actor.target.gameObject;
-            
-            
-            context.agent.stoppingDistance = getStoppingDistance(context.controller.followTarget);
+        if (context.controller.followTarget == null){
+            if(context.actor.target != null){
+                context.controller.SetFollowTarget(context.actor.target.gameObject);
+            }
         }
 
         if (context.agent.pathPending)
         {
-            return State.Running;
-        }
-        else if (context.agent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathInvalid)
-        {
-            return State.Failure;
-        }
-        else{
             return State.Success;
         }
+        else{
+            return State.Failure;
+        }
+
+
+
+
+        // else if (context.agent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathInvalid)
+        // {
+        //     return State.Failure;
+        // }
+        
     }
     float getStoppingDistance(GameObject _target){
         float selfDiagonal;

@@ -11,6 +11,7 @@ public class Controller : NetworkBehaviour
     public bool autoAttacking;
     public Ability_V2 autoAttackClone;
     public GameObject followTarget;
+    public bool resolvingMoveTo;
     public Vector2 facingDirection;
      public float globalCooldown = 0.0f;
     public const float gcdBase = 2.0f;
@@ -56,10 +57,12 @@ public class Controller : NetworkBehaviour
             }
         }
         
-
-        if(followTarget != null){
-            GetComponent<NavMeshAgent>().SetDestination(followTarget.transform.position);
+        if(!resolvingMoveTo){
+            if(followTarget != null){
+                GetComponent<NavMeshAgent>().SetDestination(followTarget.transform.position);
+            }
         }
+        
     }
     [Command]
     void requestAutoAttack(){
@@ -89,12 +92,11 @@ public class Controller : NetworkBehaviour
             then set agent.destination to pos and check to see if it arrived every 0.2s
             or so 
         */
-        GameObject targetHolder = followTarget;
+        
         agent.destination = pos;
             
         agent.stoppingDistance = 0;
-        
-        followTarget = null;
+        resolvingMoveTo = true;
         agent.isStopped = false;
         while(!agent.isStopped){
             if (Mathf.Abs(Vector2.Distance(pos, gameObject.transform.position))
@@ -106,8 +108,11 @@ public class Controller : NetworkBehaviour
             
         }
         agent.isStopped = true;
-        followTarget = targetHolder;
-        agent.stoppingDistance = getStoppingDistance(followTarget);
+        resolvingMoveTo = false;
+        if(followTarget != null){
+            agent.stoppingDistance = getStoppingDistance(followTarget);
+        }
+        
     }
     float getStoppingDistance(GameObject _target){
         float selfDiagonal;
@@ -119,6 +124,13 @@ public class Controller : NetworkBehaviour
         return ((tragetDiagonal + selfDiagonal) /2) * 0.9f;
 
                             
+    }
+    public void SetFollowTarget(GameObject _target){
+        followTarget = _target;
+        if(followTarget != null){
+            agent.stoppingDistance = getStoppingDistance(followTarget);
+        }
+        
     }
     
 }
