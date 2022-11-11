@@ -85,7 +85,7 @@ public class AbilityDelivery : NetworkBehaviour
                     if(eInstructs.Count > 0){
                         Actor target_ref = other.gameObject.GetComponent<Actor>();
                         foreach (EffectInstruction eI in eInstructs){
-                            eI.startApply(other.gameObject.GetComponent<Actor>(), null, caster);
+                            eI.sendToActor(other.gameObject.GetComponent<Actor>(), null, caster);
                         }
                     }
                     Destroy(gameObject);
@@ -120,7 +120,7 @@ public class AbilityDelivery : NetworkBehaviour
                     if(eInstructs.Count > 0){
                         Actor target_ref = other.gameObject.GetComponent<Actor>();
                         foreach (EffectInstruction eI in eInstructs){
-                            eI.startApply(other.gameObject.GetComponent<Actor>(), null, caster);
+                            eI.sendToActor(other.gameObject.GetComponent<Actor>(), null, caster);
                         }
                     }
                     Destroy(gameObject);
@@ -158,7 +158,7 @@ public class AbilityDelivery : NetworkBehaviour
                                 Actor target_ref = other.gameObject.GetComponent<Actor>();
                                 Debug.Log("AD aoe hit with target_ref: " + target_ref.getActorName());
                                 foreach (EffectInstruction eI in eInstructs){
-                                    eI.startApply(target_ref, null, caster);
+                                    eI.sendToActor(target_ref, null, caster);
                             }
                         }
                         }
@@ -184,7 +184,7 @@ public class AbilityDelivery : NetworkBehaviour
                                 if(eInstructs.Count > 0){
                                     Actor target_ref = other.gameObject.GetComponent<Actor>();
                                     foreach (EffectInstruction eI in eInstructs){
-                                        eI.startApply(target_ref, null, caster);
+                                        eI.sendToActor(target_ref, null, caster);
                                     }
                                 }
                             }

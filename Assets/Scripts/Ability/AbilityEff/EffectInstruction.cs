@@ -28,7 +28,7 @@ public class EffectInstruction
                 break;
         }
     }
-    public void startApply(Actor inTarget = null, NullibleVector3 inTargetWP = null, Actor inCaster = null, Actor inSecondaryTarget = null){
+    public void sendToActor(Actor inTarget = null, NullibleVector3 inTargetWP = null, Actor inCaster = null, Actor inSecondaryTarget = null){
         //Debug.Log(inTargetWP == null ? "eInstruct: No targetWP" : ("eInstruct: wp = " + inTargetWP.Value.ToString()));
         
         switch(targetArg){
@@ -57,7 +57,7 @@ public class EffectInstruction
         //         Debug.Log("EI: Could not start effect: " + effect.effectName);
         //         break;
         // }
-        //Debug.Log("startApply caster" + (inCaster != null ? inCaster.getActorName() : "caster is null"));
+        //Debug.Log("sendToActor caster" + (inCaster != null ? inCaster.getActorName() : "caster is null"));
         effect.target = inTarget;
         effect.targetWP = inTargetWP;
         effect.caster = inCaster;

@@ -687,7 +687,7 @@ public class Actor : NetworkBehaviour
                 }
                 // MirrorTestTools._inst.ClientDebugLog(_ability.getName() + " sending effects in fireCast");
                 foreach (EffectInstruction eI in EI_clones){
-                    eI.startApply(_target, _targetWP, this);
+                    eI.sendToActor(_target, _targetWP, this);
                 }
                 addToCooldowns(_ability);
                 if(onAbilityCastHooks != null){
@@ -791,7 +791,7 @@ public class Actor : NetworkBehaviour
                     damageResource(ar.crType, ar.amount);
                 }
                 foreach (EffectInstruction eI in EI_clones){
-                    eI.startApply(_target, _targetWP, this);
+                    eI.sendToActor(_target, _targetWP, this);
                 }
                 //addToCooldowns(_ability);
                 // if(onAbilityCastHooks != null){
