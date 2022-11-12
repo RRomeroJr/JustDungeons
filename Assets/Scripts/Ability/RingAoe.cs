@@ -22,14 +22,18 @@ public class RingAoe : Aoe
         delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_secondaryTarget, _targetWP);
         delivery.GetComponent<AbilityDelivery>().innerCircleRadius = innerCircleRadius;
         delivery.transform.localScale = prefabScale;
-        delivery.transform.GetChild(0).transform.localScale = Vector3.one * ( ( 2* innerCircleRadius) / prefabScale.x);
+        delivery.GetComponent<AbilityDelivery>().eInstructs = eInstructs;
+        NetworkServer.Spawn(delivery);
+        delivery.GetComponent<AbilityDelivery>().setSafeZoneScale(Vector3.one * ( ( 2* innerCircleRadius) / prefabScale.x));
+        // delivery.transform.GetChild(0).transform.localScale = Vector3.one * ( ( 2* innerCircleRadius) / prefabScale.x);
         if(usePosition){
-            delivery.transform.GetChild(0).transform.position = (Vector2)delivery.transform.position + innerCirclePosistion;
+            delivery.GetComponent<AbilityDelivery>().setSafeZonePosistion((Vector2)delivery.transform.position + innerCirclePosistion);
+            // delivery.transform.GetChild(0).transform.position = (Vector2)delivery.transform.position + innerCirclePosistion;
         }
-            delivery.GetComponent<AbilityDelivery>().eInstructs = eInstructs;
+            
             //Debug.Log("adding " + eInstructs.Count.ToString() + " to delivery" );
             //delivery.GetComponent<AbilityDelivery>().safeZoneCenter = innerCirclePosistion;
-        NetworkServer.Spawn(delivery);
+        
         
         /*
             RR: this works bc the prefab already has variables in AbilityDelivery set to what I want.

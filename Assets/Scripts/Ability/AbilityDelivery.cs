@@ -331,4 +331,12 @@ public class AbilityDelivery : NetworkBehaviour
     public void setCaster(Actor _caster){
         caster = _caster;
     }
+    [ClientRpc]
+    public void setSafeZoneScale(Vector2 _hostScale){
+        transform.GetChild(0).transform.localScale = _hostScale;
+    }
+    [ClientRpc]
+    public void setSafeZonePosistion(Vector2 _hostPos){
+        transform.GetChild(0).transform.position = _hostPos;
+    }
 }
