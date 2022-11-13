@@ -1117,6 +1117,10 @@ public class Actor : NetworkBehaviour
         
         return true;
     }
+    [ClientRpc]
+    public void Knockback(Vector2 _hostVect){
+        GetComponent<Rigidbody2D>().AddForce(_hostVect);
+    }
 
     //----------------------------------------------------------------old code no longer used------------------------------------------------------------------------------------
     

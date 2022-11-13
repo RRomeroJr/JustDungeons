@@ -15,7 +15,7 @@ public class DeliveryKnockback : AbilityEff
        force.Normalize();
        force *= power;
 
-        _target.GetComponent<Rigidbody2D>().AddForce(force);
+        _target.Knockback(force);
        
     }
     public DeliveryKnockback(string _effectName, int _id = -1, float _power = 0, int _school = -1){

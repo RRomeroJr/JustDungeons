@@ -15,7 +15,7 @@ public class CasterKnockback : AbilityEff
        force.Normalize();
        force *= power;
 
-        _target.GetComponent<Rigidbody2D>().AddForce(force);
+        _target.Knockback(force);
        
     }
     public CasterKnockback(string _effectName, int _id = -1, float _power = 0, int _school = -1){
