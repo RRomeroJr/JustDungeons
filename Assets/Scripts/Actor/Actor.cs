@@ -60,6 +60,9 @@ public class Actor : NetworkBehaviour
     public UnityEvent<int> onAbilityCastHooks = new UnityEvent<int>();
     public Animator animator;
     
+    public event EventHandler PlayerIsDead;
+    public event EventHandler PlayerIsAlive;
+
     [SerializeField]protected List<ClassResource> classResources;
     [SyncVar]
     public float mainStat = 100.0f;
@@ -1122,6 +1125,27 @@ public class Actor : NetworkBehaviour
         GetComponent<Rigidbody2D>().AddForce(_hostVect);
     }
 
+    #region EventHandlers
+
+    protected virtual void OnPlayerIsDead()
+    {
+        EventHandler raiseEvent = PlayerIsDead;
+        if (raiseEvent != null)
+        {
+            raiseEvent(this, EventArgs.Empty);
+        }
+    }
+
+    protected virtual void OnPlayerIsAlive()
+    {
+        EventHandler raiseEvent = PlayerIsAlive;
+        if (raiseEvent != null)
+        {
+            raiseEvent(this, EventArgs.Empty);
+        }
+    }
+
+    #endregion
     //----------------------------------------------------------------old code no longer used------------------------------------------------------------------------------------
     
     //Old ability stuff-------------------------------------------------------------------------------------------------------------------------
