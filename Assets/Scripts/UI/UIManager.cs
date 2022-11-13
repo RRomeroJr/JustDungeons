@@ -19,16 +19,12 @@ public class UIManager : MonoBehaviour
     */
     public UnitFrame targetFrame;
     public List<UnitFrame> frames = new List<UnitFrame>();
-    /*public UnitFrame partyFrame;
-    public UnitFrame partyFrame1;
-    public UnitFrame partyFrame2;
-    public UnitFrame partyFrame3;*/
     public static Actor playerActor;
     public static Controller playerController;
     public GameObject cameraPrefab;
     public static GameObject nameplatePrefab;
     public static GameObject damageTextPrefab;
-    
+
     void Awake(){
         nameplatePrefab = Resources.Load("Nameplate") as GameObject;
         damageTextPrefab = Resources.Load("DamageText") as GameObject;

@@ -54,9 +54,10 @@ public class UIRaycaster : MonoBehaviour
 
     protected virtual void OnUIFrameClicked(UnitFrame frame)
     {
-        if (UIFrameClicked != null)
+        EventHandler<UIFrameClickedEventArgs> raiseEvent = UIFrameClicked;
+        if (raiseEvent != null)
         {
-            UIFrameClicked(this, new UIFrameClickedEventArgs { Frame = frame });
+            raiseEvent(this, new UIFrameClickedEventArgs { Frame = frame });
         }
     }
 }

@@ -32,8 +32,8 @@ public class CustomNetworkManager : NetworkManager
 
     public static event Action OnClientConnected;
     public static event Action OnClientDisconnected;
-    public ObservableCollection<PlayerLobby> RoomPlayers { get; } = new ObservableCollection<PlayerLobby>();
-    public ObservableCollection<PlayerGame> GamePlayers { get; } = new ObservableCollection<PlayerGame>();
+    public ObservableCollection<PlayerLobby> RoomPlayers { get; } = new();
+    public ObservableCollection<PlayerGame> GamePlayers { get; } = new();
 
     #region Unity Callbacks
 
@@ -124,7 +124,7 @@ public class CustomNetworkManager : NetworkManager
     /// Called on the server when a scene is completed loaded, when the scene load was initiated by the server with ServerChangeScene().
     /// </summary>
     /// <param name="sceneName">The name of the new scene.</param>
-    public override void OnServerSceneChanged(string sceneName) 
+    public override void OnServerSceneChanged(string sceneName)
     {
         for (int i = RoomPlayers.Count - 1; i >= 0; i--)
         {
