@@ -112,8 +112,8 @@ MonoBehaviour:
   syncInterval: 0.1
   showDebug: 1
   actorName: Deoscillate
-  health: 30000
-  maxHealth: 700
+  health: 3500
+  maxHealth: 3500
   mana: 0
   maxMana: 0
   role: 1
@@ -244,6 +244,7 @@ MonoBehaviour:
   autoAttacking: 0
   autoAttackClone: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
   followTarget: {fileID: 0}
+  resolvingMoveTo: 0
   facingDirection: {x: 0, y: 0}
   globalCooldown: 0
   autoAttackRequest: 0
@@ -257,7 +258,7 @@ MonoBehaviour:
   ability5a: {fileID: 11400000, guid: 367e1748df70f084fa1aeca95939995c, type: 2}
   ability6a: {fileID: 11400000, guid: 722fa7e69c249d740829674736b49962, type: 2}
   ability7a: {fileID: 11400000, guid: 8df7b41371839cf40a06f4cad97dca7e, type: 2}
-  ability8a: {fileID: 11400000, guid: 8fc01d425cdca1a4ab8f6a0e64387f07, type: 2}
+  ability8a: {fileID: 11400000, guid: 21c29030a131d374bb022274c6677cb9, type: 2}
   ability9a: {fileID: 11400000, guid: 541c227da955cf946b53119931fb60f6, type: 2}
   test: {fileID: 11400000, guid: 09c5e600fbf9b6148892edb228809891, type: 2}
   posTest: {x: 0, y: 0, z: 0}

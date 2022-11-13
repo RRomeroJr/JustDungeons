@@ -15,9 +15,27 @@ MonoBehaviour:
   effectName: DieVomit
   id: 18
   power: 0
+  powerScale: 1
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 1
+  target: {fileID: 0}
+  caster: {fileID: 0}
+  targetWP:
+    Value: {x: 0, y: 0, z: 0}
+  eInstructs:
+  - effect: {fileID: 11400000, guid: 0b30a0fa91302084fa496760eb5ae726, type: 2}
+    targetArg: 0
+    powerMod: 0
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
+  - effect: {fileID: 11400000, guid: 7e825c9db4d2a6b48a225f27ece89394, type: 2}
+    targetArg: 0
+    powerMod: 0
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
   school: -1
   prefabScale: {x: 1.75, y: 1, z: 1}
   aoePrefab: {fileID: 947037833593652060, guid: 861c055bc03ff5f47af2d1a74ce8ec1f, type: 3}
