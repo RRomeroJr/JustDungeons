@@ -59,7 +59,7 @@ public class Actor : NetworkBehaviour
     // then, do something
     public UnityEvent<int> onAbilityCastHooks = new UnityEvent<int>();
     public Animator animator;
-    
+
     public event EventHandler PlayerIsDead;
     public event EventHandler PlayerIsAlive;
 
@@ -145,10 +145,7 @@ public class Actor : NetworkBehaviour
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         if(isLocalPlayer){
             UIManager.playerActor = this;
-            GameObject cameraTemp = Instantiate(uiManager.cameraPrefab, gameObject.transform);
-            cameraTemp.GetComponent<CameraController>().target = gameObject.transform;
-            
-           Nameplate.Create(this);
+            Nameplate.Create(this);
         }
         animator = GetComponent<Animator>();
         //gameObject.GetComponent<Renderer>().Color = unitColor;
@@ -160,8 +157,8 @@ public class Actor : NetworkBehaviour
         if(health <= 0){
             if (!isLocalPlayer)
             {
-            Destroy(gameObject);
-        }
+                Destroy(gameObject);
+            }
             OnPlayerIsDead();
         }
         else
@@ -182,7 +179,7 @@ public class Actor : NetworkBehaviour
     }
     //------------------------------------------------------------handling Active Ability Effects-------------------------------------------------------------------------
     
-    
+
     [TargetRpc]
     void TRpcUpdateCooldowns(List<AbilityCooldown> hostListACs){
 
@@ -1155,7 +1152,7 @@ public class Actor : NetworkBehaviour
 
     #endregion
     //----------------------------------------------------------------old code no longer used------------------------------------------------------------------------------------
-    
+
     //Old ability stuff-------------------------------------------------------------------------------------------------------------------------
     /*
     public void castAbility(Ability _ability, Actor _target = null, NullibleVector3 _targetWP = null){
