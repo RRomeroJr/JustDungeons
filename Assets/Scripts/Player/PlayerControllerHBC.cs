@@ -4,11 +4,14 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.AI;
 
+public enum PlayerState
+{
+    Alive,
+    Dead
+}
+    
 public class PlayerControllerHBC : Controller
 {
-    
-    
-    
     [SerializeField] private float HORIZ_MOVE_ACCEL = 360;
     [SerializeField] private float VERT_MOVE_ACCEL = 360;
     public UIManager uiManager;
@@ -34,6 +37,7 @@ public class PlayerControllerHBC : Controller
     public Ability_V2 ability9a;
     public AbilityEff test;
     public Vector3 posTest;
+    public PlayerState state;
     //public Vector2 newVect_;
     void Awake(){
         actor = GetComponent<Actor>();
@@ -75,11 +79,16 @@ public class PlayerControllerHBC : Controller
         // Debug.Log(" F = Dash");
     }
     void FixedUpdate(){
-        if(isLocalPlayer){
-            if(actor.canMove){
+        if (isLocalPlayer){
+            switch (state)
+            {
+                case PlayerState.Alive:
+                    if (actor.canMove)
+                    {
                 Vector2 newVect = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
             
-                if(Mathf.Abs(newVect.magnitude) > 0.2){
+                        if (Mathf.Abs(newVect.magnitude) > 0.2)
+                        {
                     newVect.x *= (HORIZ_MOVE_ACCEL * Time.deltaTime);
                     newVect.y *= (VERT_MOVE_ACCEL * Time.deltaTime);
                     gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
@@ -90,50 +99,85 @@ public class PlayerControllerHBC : Controller
                 // gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
                 
             }
+                    break;
+                case PlayerState.Dead:
+                    break;
+                default:
+                    break;
         }
+    }
     }
 
     public override void Update()
     {    
         base.Update();
-        if(isLocalPlayer){
-            if(Input.GetKeyDown("1")){
-                if(ability1a != null)
+        if (isLocalPlayer)
+        {
+            switch (state)
+            {
+                case PlayerState.Alive:
+                    if (Input.GetKeyDown("1"))
+                    {
+                        if (ability1a != null)
                 actor.castAbility3(ability1a);
             }
-            if(Input.GetKeyDown("2")){
-                if(ability2a != null)
+                    if (Input.GetKeyDown("2"))
+                    {
+                        if (ability2a != null)
                 actor.castAbility3(ability2a);
             }
-            if(Input.GetKeyDown("3")){
-                if(ability3a != null)
+                    if (Input.GetKeyDown("3"))
+                    {
+                        if (ability3a != null)
                     actor.castAbility3(ability3a);
             }
-            if(Input.GetKeyDown("4")){
-                if(ability4a != null)
+                    if (Input.GetKeyDown("4"))
+                    {
+                        if (ability4a != null)
                 actor.castAbility3(ability4a);
             }
-            if(Input.GetKeyDown("5")){
-                if(ability5a != null)
+                    if (Input.GetKeyDown("5"))
+                    {
+                        if (ability5a != null)
                 actor.castAbility3(ability5a);
             }
-            if(Input.GetKeyDown("q")){
-                if(ability6a != null)
+                    if (Input.GetKeyDown("q"))
+                    {
+                        if (ability6a != null)
                 actor.castAbility3(ability6a);
             }
-            if(Input.GetKeyDown("e")){
-                if(ability7a != null)
+                    if (Input.GetKeyDown("e"))
+                    {
+                        if (ability7a != null)
                 actor.castAbility3(ability7a);
             }
-            if(Input.GetKeyDown("r")){
-                if(ability8a != null)
+                    if (Input.GetKeyDown("r"))
+                    {
+                        if (ability8a != null)
                 actor.castAbility3(ability8a);
             }
-            if(Input.GetKeyDown("f")){
-                if(ability9a != null)
+                    if (Input.GetKeyDown("f"))
+                    {
+                        if (ability9a != null)
                 actor.castAbility3(ability9a);
             }
+                    break;
+                case PlayerState.Dead:
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
             
+    void HandlePlayerDead(object sender, EventArgs e)
+    {
+        actor.PlayerIsDead -= HandlePlayerDead;
+        actor.PlayerIsAlive += HandlePlayerAlive;
+        state = PlayerState.Dead;
+        TempSpriteManager sprite = GetComponent<TempSpriteManager>();
+        sprite.transform.Rotate(0f, 0f, 90.0f);
+        sprite.enabled = false; // temp fix for being able to move sprite while dead
         }
         
     }
