@@ -1,20 +1,20 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEngine.AI;
+using System;
 
 public enum PlayerState
 {
     Alive,
     Dead
 }
-    
+
 public class PlayerControllerHBC : Controller
 {
     [SerializeField] private float HORIZ_MOVE_ACCEL = 360;
     [SerializeField] private float VERT_MOVE_ACCEL = 360;
-    public UIManager uiManager;
     Ability ability1;
     Ability ability2;
     Ability ability3;
@@ -51,7 +51,7 @@ public class PlayerControllerHBC : Controller
         base.Start();
         if(isLocalPlayer){
             UIManager.playerController = this;
-
+            actor.PlayerIsDead += HandlePlayerDead;
         }
         // ability1 = AbilityData.DoT;
         // ability2 = AbilityData.CastedDamage;
@@ -85,31 +85,31 @@ public class PlayerControllerHBC : Controller
                 case PlayerState.Alive:
                     if (actor.canMove)
                     {
-                Vector2 newVect = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-            
+                        Vector2 newVect = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+
                         if (Mathf.Abs(newVect.magnitude) > 0.2)
                         {
-                    newVect.x *= (HORIZ_MOVE_ACCEL * Time.deltaTime);
-                    newVect.y *= (VERT_MOVE_ACCEL * Time.deltaTime);
-                    gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
-                }
-                //if(not in deadzone)
-                // Vector2 newVect = new Vector2(Input.GetAxis("Horizontal") * HORIZ_MOVE_ACCEL * Time.deltaTime,
-                //     Input.GetAxis("Vertical") * VERT_MOVE_ACCEL * Time.deltaTime);
-                // gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
-                
-            }
+                            newVect.x *= (HORIZ_MOVE_ACCEL * Time.deltaTime);
+                            newVect.y *= (VERT_MOVE_ACCEL * Time.deltaTime);
+                            gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
+                        }
+                        //if(not in deadzone)
+                        // Vector2 newVect = new Vector2(Input.GetAxis("Horizontal") * HORIZ_MOVE_ACCEL * Time.deltaTime,
+                        //     Input.GetAxis("Vertical") * VERT_MOVE_ACCEL * Time.deltaTime);
+                        // gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
+
+                    }
                     break;
                 case PlayerState.Dead:
                     break;
                 default:
                     break;
+            }
         }
-    }
     }
 
     public override void Update()
-    {    
+    {
         base.Update();
         if (isLocalPlayer)
         {
@@ -119,48 +119,48 @@ public class PlayerControllerHBC : Controller
                     if (Input.GetKeyDown("1"))
                     {
                         if (ability1a != null)
-                actor.castAbility3(ability1a);
-            }
+                            actor.castAbility3(ability1a);
+                    }
                     if (Input.GetKeyDown("2"))
                     {
                         if (ability2a != null)
-                actor.castAbility3(ability2a);
-            }
+                            actor.castAbility3(ability2a);
+                    }
                     if (Input.GetKeyDown("3"))
                     {
                         if (ability3a != null)
-                    actor.castAbility3(ability3a);
-            }
+                            actor.castAbility3(ability3a);
+                    }
                     if (Input.GetKeyDown("4"))
                     {
                         if (ability4a != null)
-                actor.castAbility3(ability4a);
-            }
+                            actor.castAbility3(ability4a);
+                    }
                     if (Input.GetKeyDown("5"))
                     {
                         if (ability5a != null)
-                actor.castAbility3(ability5a);
-            }
+                            actor.castAbility3(ability5a);
+                    }
                     if (Input.GetKeyDown("q"))
                     {
                         if (ability6a != null)
-                actor.castAbility3(ability6a);
-            }
+                            actor.castAbility3(ability6a);
+                    }
                     if (Input.GetKeyDown("e"))
                     {
                         if (ability7a != null)
-                actor.castAbility3(ability7a);
-            }
+                            actor.castAbility3(ability7a);
+                    }
                     if (Input.GetKeyDown("r"))
                     {
                         if (ability8a != null)
-                actor.castAbility3(ability8a);
-            }
+                            actor.castAbility3(ability8a);
+                    }
                     if (Input.GetKeyDown("f"))
                     {
                         if (ability9a != null)
-                actor.castAbility3(ability9a);
-            }
+                            actor.castAbility3(ability9a);
+                    }
                     break;
                 case PlayerState.Dead:
                     break;
@@ -169,7 +169,7 @@ public class PlayerControllerHBC : Controller
             }
         }
     }
-            
+
     void HandlePlayerDead(object sender, EventArgs e)
     {
         actor.PlayerIsDead -= HandlePlayerDead;
@@ -178,9 +178,17 @@ public class PlayerControllerHBC : Controller
         TempSpriteManager sprite = GetComponent<TempSpriteManager>();
         sprite.transform.Rotate(0f, 0f, 90.0f);
         sprite.enabled = false; // temp fix for being able to move sprite while dead
-        }
-        
     }
+    void HandlePlayerAlive(object sender, EventArgs e)
+    {
+        actor.PlayerIsDead -= HandlePlayerAlive;
+        actor.PlayerIsDead += HandlePlayerDead;
+        state = PlayerState.Alive;
+        TempSpriteManager sprite = GetComponent<TempSpriteManager>();
+        sprite.transform.rotation = Quaternion.identity;
+        sprite.enabled = true; // temp fix for being able to move sprite while dead
+    }
+
     [Command]
     void reqAbilityEff(AbilityEff eff){
         Debug.Log("A client reqed an AbilityEff " + eff.effectName);
