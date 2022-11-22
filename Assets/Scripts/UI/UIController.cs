@@ -56,7 +56,8 @@ public class UIController : MonoBehaviour
 
     void HostButtonPressed()
     {
-        networkManager.StartHost();
+        networkManager.SteamHostLobby();
+        //networkManager.StartHost();
     }
 
     void JoinLobbyButtonPressed()
@@ -67,8 +68,10 @@ public class UIController : MonoBehaviour
         {
             ipAddress = "localhost";
         }
-        networkManager.networkAddress = ipAddress;
-        networkManager.StartClient();
+        Debug.LogError("Join button not yet implemented!");
+        
+        //networkManager.networkAddress = ipAddress;
+        //networkManager.StartClient();
     }
 
     private void HandleClientConnected()

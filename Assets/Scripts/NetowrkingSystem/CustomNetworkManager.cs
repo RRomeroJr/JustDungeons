@@ -398,7 +398,7 @@ public class CustomNetworkManager : NetworkManager
             
             return;
         }
-
+        Debug.Log("SteamOnLobbyCreated");
         StartHost();
         //A Steam lobby can hold some data. The goal here is to save the 
         // host's Steam ID so that people can access it when trying to connect to the game
