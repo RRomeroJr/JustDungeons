@@ -24,8 +24,7 @@ public class MainMenu : MonoBehaviour
 
     public void HostLobby()
     {
-        networkManager.SteamHostLobby();
-        //networkManager.StartHost();
+        networkManager.StartHost();
         landingPagePanel.SetActive(false);
     }
 }
