@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4602065914186662414}
-  - component: {fileID: 4602065914186662408}
   - component: {fileID: 4602065914186662415}
   - component: {fileID: 4602065914186662412}
+  - component: {fileID: 2773067391865877609}
+  - component: {fileID: 7818304601155294615}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -34,35 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4602065914186662408
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4602065914186662410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b0fecffa3f624585964b0d0eb21b18e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Port: 7777
-  DualMode: 1
-  NoDelay: 1
-  Interval: 10
-  Timeout: 10000
-  FastResend: 2
-  CongestionWindow: 0
-  SendWindowSize: 4096
-  ReceiveWindowSize: 4096
-  MaxRetransmit: 40
-  NonAlloc: 1
-  MaximizeSendReceiveBuffersToOSLimit: 1
-  ReliableMaxMessageSize: 298449
-  UnreliableMaxMessageSize: 1199
-  debugLog: 0
-  statisticsGUI: 0
-  statisticsLog: 0
 --- !u!114 &4602065914186662415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,10 +66,11 @@ MonoBehaviour:
   dontDestroyOnLoad: 1
   runInBackground: 1
   autoStartServerBuild: 1
-  serverTickRate: 30
+  autoConnectClientBuild: 0
+  sendRate: 30
   offlineScene: 
   onlineScene: 
-  transport: {fileID: 4602065914186662408}
+  transport: {fileID: 0}
   networkAddress: localhost
   maxConnections: 100
   authenticator: {fileID: 0}
@@ -114,8 +87,7 @@ MonoBehaviour:
   - {fileID: 8996080988287052582, guid: 64b0b49d7bf32f843b9a65baed889b7e, type: 3}
   - {fileID: 8996080988287052582, guid: 8e7db10157a429548b1568dc568d1768, type: 3}
   - {fileID: 8996080988287052582, guid: 44b556a48d3b10a418aa2c1c41ef738c, type: 3}
-  - {fileID: 6569267623682333730, guid: 9bcb1407defcfa041973a28fadbfe3ec, type: 3}
-  - {fileID: 6569267623682333730, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
+  timeInterpolationGui: 0
   uiManager: {fileID: 0}
   minPlayers: 4
   menuScene: 
@@ -123,3 +95,31 @@ MonoBehaviour:
   gamePlayerPrefab: {fileID: 0}
   playerSpawnSystem: {fileID: 0}
   roundSystem: {fileID: 0}
+--- !u!114 &2773067391865877609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4602065914186662410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6e55fca1f4e4844593a3dd65a3ecb39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Channels: 0200000001000000
+  Timeout: 25
+  AllowSteamRelay: 1
+  UseNextGenSteamNetworking: 1
+--- !u!114 &7818304601155294615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4602065914186662410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d7aff4082136b5499ef7497a1216398, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

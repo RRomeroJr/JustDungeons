@@ -16,10 +16,10 @@ public class MirrorTestTools : NetworkBehaviour
    }
    public void TargetClientDebugLog(NetworkConnection client, string _output){
         if(isServer)
-            TRpcDebugLog(client, _output);
+            TRpcDebugLogRename(client, _output);
    }
    [TargetRpc]
-   void TRpcDebugLog(NetworkConnection client, string _output){
+   void TRpcDebugLogRename(NetworkConnection client, string _output){
         
         Debug.Log(_output);
    }

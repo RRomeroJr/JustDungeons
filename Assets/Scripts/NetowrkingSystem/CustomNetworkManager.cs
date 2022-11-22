@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DapperDino;
 using System.Collections.ObjectModel;
+using Steamworks;
 
 /*
 	Documentation: https://mirror-networking.gitbook.io/docs/components/network-manager
@@ -34,6 +35,11 @@ public class CustomNetworkManager : NetworkManager
     public static event Action OnClientDisconnected;
     public ObservableCollection<PlayerLobby> RoomPlayers { get; } = new();
     public ObservableCollection<PlayerGame> GamePlayers { get; } = new();
+    protected Callback<LobbyCreated_t> lobbyCreated;
+    protected Callback<GameLobbyJoinRequested_t> gameLobbyJoinRequested;
+    protected Callback<LobbyEnter_t> lobbyEntered;
+
+    private const string HostAddressKey = "HostAddress";
 
     #region Unity Callbacks
 
@@ -41,6 +47,7 @@ public class CustomNetworkManager : NetworkManager
     {
         base.OnValidate();
     }
+    
 
     /// <summary>
     /// Runs on both Server and Client
@@ -57,6 +64,12 @@ public class CustomNetworkManager : NetworkManager
     /// </summary>
     public override void Start()
     {
+        // When a lobby is created what do we call?     vvvvv
+        lobbyCreated = Callback<LobbyCreated_t>.Create(SteamOnLobbyCreated);
+
+        gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(SteamOnGameLobbyJoinRequested);
+        lobbyEntered = Callback<LobbyEnter_t>.Create(SteamOnLobbyEntered);
+
         singleton = this;
         base.Start();
     }
@@ -365,5 +378,58 @@ public class CustomNetworkManager : NetworkManager
             }
             ServerChangeScene("MMO dungeon");
         }
+    }
+    public void SteamHostLobby()
+    {
+        
+
+        SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, maxConnections);
+        //Triggers callback LobbyCreated_t?
+    }
+    
+    private void SteamOnLobbyCreated(LobbyCreated_t callback)
+    {
+        /*  
+            This will still get called EVEN IF the lobby fails to be created
+        */
+        //if the call back result is not OK
+        if (callback.m_eResult != EResult.k_EResultOK)
+        {
+            
+            return;
+        }
+
+        StartHost();
+        //A Steam lobby can hold some data. The goal here is to save the 
+        // host's Steam ID so that people can access it when trying to connect to the game
+
+        SteamMatchmaking.SetLobbyData(
+            new CSteamID(callback.m_ulSteamIDLobby),
+            HostAddressKey,
+            SteamUser.GetSteamID().ToString());
+    } 
+    //CStreamID is the type for holding steam ids
+    //Every piece of data needs a key and a value (HostAddressKey, SteamUser.GetSteamID().ToString())
+
+    private void SteamOnGameLobbyJoinRequested(GameLobbyJoinRequested_t callback)
+    {
+        SteamMatchmaking.JoinLobby(callback.m_steamIDLobby);
+    }
+
+    private void SteamOnLobbyEntered(LobbyEnter_t callback)
+    {
+        // When the client actually enters the lobby
+
+        //If you are a HOST return
+        if (NetworkServer.active) { return; }
+
+        //Using this Steam ID get the data attached to this key (HostAddressKey)
+        string hostAddress = SteamMatchmaking.GetLobbyData(
+            new CSteamID(callback.m_ulSteamIDLobby),
+            HostAddressKey);
+        
+        //Then using the data Steam stored for us set up Mirror things
+        networkAddress = hostAddress;
+        StartClient(); 
     }
 }
