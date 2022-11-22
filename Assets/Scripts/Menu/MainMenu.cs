@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Mirror;
 
+
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private CustomNetworkManager networkManager;
@@ -23,7 +24,8 @@ public class MainMenu : MonoBehaviour
 
     public void HostLobby()
     {
-        networkManager.StartHost();
+        networkManager.SteamHostLobby();
+        //networkManager.StartHost();
         landingPagePanel.SetActive(false);
     }
 }

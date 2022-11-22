@@ -197,6 +197,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42db93db67397674ba368ebf895650ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiTitle: {fileID: 0}
+  uiLobby: {fileID: 0}
   lobby: {fileID: 9197481963319205126, guid: 6c02b74dc8051f247957110715ebb6d3, type: 3}
   title: {fileID: 9197481963319205126, guid: 4add468214afc9b4cbe36e7f0678b8e0, type: 3}
   networkManager: {fileID: 97696517}
@@ -473,6 +475,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &587273947 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2773067391865877609, guid: f3e961304dfd74d4982f34862a2b321d, type: 3}
+  m_PrefabInstance: {fileID: 1720306574}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6e55fca1f4e4844593a3dd65a3ecb39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &617980227 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 46840149982861213, guid: d68550adfc0deb243a1806a2bde6e04d, type: 3}
@@ -646,6 +659,10 @@ PrefabInstance:
       value: Assets/Scenes/TitleScene.unity
       objectReference: {fileID: 0}
     - target: {fileID: 4602065914186662412, guid: f3e961304dfd74d4982f34862a2b321d, type: 3}
+      propertyPath: transport
+      value: 
+      objectReference: {fileID: 587273947}
+    - target: {fileID: 4602065914186662412, guid: f3e961304dfd74d4982f34862a2b321d, type: 3}
       propertyPath: uiManager
       value: 
       objectReference: {fileID: 0}
@@ -748,7 +765,8 @@ MonoBehaviour:
   dontDestroyOnLoad: 1
   runInBackground: 1
   autoStartServerBuild: 1
-  serverTickRate: 30
+  autoConnectClientBuild: 0
+  sendRate: 30
   offlineScene: 
   onlineScene: Assets/Scenes/TitleScene.unity
   transport: {fileID: 2018945145}
@@ -759,6 +777,7 @@ MonoBehaviour:
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs: []
+  timeInterpolationGui: 0
   minPlayers: 4
   menuScene: Assets/Scenes/TitleScene.unity
   roomPlayerPrefab: {fileID: 2594002659078618921, guid: 38ece0ecbd138f14db18bd21f648e74c, type: 3}
