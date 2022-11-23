@@ -250,7 +250,6 @@ MonoBehaviour:
   autoAttackRequest: 0
   HORIZ_MOVE_ACCEL: 420
   VERT_MOVE_ACCEL: 420
-  uiManager: {fileID: 0}
   ability1a: {fileID: 11400000, guid: 25892cafc51da1741bfc1ed0ae709125, type: 2}
   ability2a: {fileID: 11400000, guid: d9cf312441b110944872f8ce388f759c, type: 2}
   ability3a: {fileID: 11400000, guid: bc0b9b13d7683204abb40cf45658cf81, type: 2}
@@ -259,9 +258,10 @@ MonoBehaviour:
   ability6a: {fileID: 11400000, guid: 722fa7e69c249d740829674736b49962, type: 2}
   ability7a: {fileID: 11400000, guid: 8df7b41371839cf40a06f4cad97dca7e, type: 2}
   ability8a: {fileID: 11400000, guid: 21c29030a131d374bb022274c6677cb9, type: 2}
-  ability9a: {fileID: 11400000, guid: 541c227da955cf946b53119931fb60f6, type: 2}
+  ability9a: {fileID: 11400000, guid: a89e255900be0224aaba9347c9adea30, type: 2}
   test: {fileID: 11400000, guid: 09c5e600fbf9b6148892edb228809891, type: 2}
   posTest: {x: 0, y: 0, z: 0}
+  state: 0
 --- !u!114 &568127742855530159
 MonoBehaviour:
   m_ObjectHideFlags: 0

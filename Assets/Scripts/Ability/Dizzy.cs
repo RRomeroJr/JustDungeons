@@ -9,46 +9,43 @@ using UnityEngine.AI;
 public class Dizzy : AbilityEff
 {   
     public int school = -1;
-    public Vector2 moveAngle = Vector2.right;
+    public Vector2 moveDirection = Vector2.right;
+    public GameObject indicatorPrefab;
+    GameObject indicatorRef;
     public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
        
         //Hopefully this rotates the moveVector in the y axis by power every frame
-        if(parentBuff.actor.isClient){
-            clientEffect();
-            return;
+        if(parentBuff.actor.isServer){
+            indicatorRef.transform.position = parentBuff.actor.transform.position;
         }
-
-        // if( (Input.GetKey("w")) || (Input.GetKey("a")) || (Input.GetKey("s")) || (Input.GetKey("d")) ){
-        //     parentBuff.actor.GetComponent<Controller>().MoveTowards(moveAngle + (Vector2)parentBuff.actor.transform.position);
-        //     Debug.DrawLine(parentBuff.actor.transform.position, (moveAngle * 2.5f) + (Vector2)parentBuff.actor.transform.position, Color.green);
-        // }
-        // else{
-        //     moveAngle = Quaternion.Euler( 0, 0, power) * moveAngle;
-        //     Debug.DrawLine(parentBuff.actor.transform.position, (moveAngle * 5.0f) + (Vector2)parentBuff.actor.transform.position, Color.red);
-        // }
-
-        
-
+        clientEffect();
         
     }
     public override void clientEffect()
     {
         //Debug.Log("calling dizzy clientside effect");
+        
         if( (Input.GetKey("w")) || (Input.GetKey("a")) || (Input.GetKey("s")) || (Input.GetKey("d")) ){
-            parentBuff.actor.GetComponent<Controller>().MoveTowards(moveAngle + (Vector2)parentBuff.actor.transform.position);
-            Debug.DrawLine(parentBuff.actor.transform.position, (moveAngle * 2.5f) + (Vector2)parentBuff.actor.transform.position, Color.green);
+            parentBuff.actor.GetComponent<Controller>().MoveTowards(moveDirection + (Vector2)parentBuff.actor.transform.position);
+            Debug.DrawLine(parentBuff.actor.transform.position, (moveDirection * 2.5f) + (Vector2)parentBuff.actor.transform.position, Color.green);
         }
         else{
-            moveAngle = Quaternion.Euler( 0, 0, power) * moveAngle;
-            Debug.DrawLine(parentBuff.actor.transform.position, (moveAngle * 5.0f) + (Vector2)parentBuff.actor.transform.position, Color.red);
+            
+            moveDirection = Quaternion.Euler( 0, 0, power) * moveDirection;
+            indicatorRef.transform.up = moveDirection;
+            
+            Debug.DrawLine(parentBuff.actor.transform.position, (moveDirection * 5.0f) + (Vector2)parentBuff.actor.transform.position, Color.red);
         }
     }
     public override void buffStartEffect()
     {
+        indicatorRef = Instantiate(indicatorPrefab, parentBuff.actor.transform.position, Quaternion.identity);
+        indicatorRef.transform.Rotate(moveDirection);
       parentBuff.actor.canMove = false;
     }
     public override void buffEndEffect()
     {
+        Destroy(indicatorRef);
         Debug.Log(effectName + ": canMove = true;");
      parentBuff.actor.canMove = true;
     }
@@ -71,11 +68,11 @@ public class Dizzy : AbilityEff
         temp_ref.powerScale = powerScale;
         temp_ref.school = school;
         temp_ref.targetIsSecondary = targetIsSecondary;
-
+        temp_ref.indicatorPrefab = indicatorPrefab;
         return temp_ref;
     }
     void OnDrawGizmos(){
         Gizmos.color = Color.white;
-        Gizmos.DrawLine(parentBuff.actor.transform.position, moveAngle + (Vector2)parentBuff.actor.transform.position);
+        Gizmos.DrawLine(parentBuff.actor.transform.position, moveDirection + (Vector2)parentBuff.actor.transform.position);
     }
 }
