@@ -5,11 +5,15 @@ using Mirror;
 using UnityEngine.AI;
 
 public class Controller : NetworkBehaviour
-{   float tempspeed = 0.02f;
+{   [Header("For Now Needs To Be Assigned")]
+    public Ability_V2 autoAttackClone;
+    
+    float tempspeed = 0.02f;
+    [Header("Automatic")]
     public Actor actor;
     public NavMeshAgent agent;
     public bool autoAttacking;
-    public Ability_V2 autoAttackClone;
+    
     public GameObject followTarget;
     public bool resolvingMoveTo;
     public Vector2 facingDirection;
@@ -18,6 +22,13 @@ public class Controller : NetworkBehaviour
     [SyncVar]
     public bool autoAttackRequest = false;
     
+    public virtual void Awake(){
+        
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
+        actor = GetComponent<Actor>();
+    }
     public virtual void Start(){
         //autoAttackClone = AbilityData.instance.AutoAttack.clone();
         facingDirection = Vector2.down;

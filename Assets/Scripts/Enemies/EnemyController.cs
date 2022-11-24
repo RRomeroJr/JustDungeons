@@ -6,6 +6,10 @@ using UnityEngine.AI;
 
 public class EnemyController : Controller
 {
+    [Header("Set If Needed")]
+
+    public Arena arenaObject;
+    [Header("Automatic")]
     public EnemySO enemyStats;
     // The main behaviour tree asset
     public BehaviourTreeRunner treeRunner;
@@ -16,14 +20,11 @@ public class EnemyController : Controller
     public Vector3 spawnLocation;
     public BoxCollider2D collider;
     public LayerMask obstacleMask;
-    public Arena arenaObject;
+    
 
-    void Awake()
+    public override void Awake()
     {
-        agent = GetComponent<NavMeshAgent>();
-        agent.updateRotation = false;
-        agent.updateUpAxis = false;
-        actor = GetComponent<Actor>();
+        base.Awake();
         collider = GetComponent<BoxCollider2D>();
         treeRunner = GetComponent<BehaviourTreeRunner>();
         multiTargets = new List<Transform>();
