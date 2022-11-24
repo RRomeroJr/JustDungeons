@@ -18,19 +18,25 @@ public enum Role
 
 public class Actor : NetworkBehaviour
 {
+    [Header ("Set Manually in Prefab if Needed") ]
+    
+    
     public bool showDebug = false;
     [SerializeField]protected string actorName;
     [SyncVar]
     [SerializeField]protected int health; // 0
     [SyncVar]
     [SerializeField]protected int maxHealth; // 1
-    [SerializeField]protected int mana; // 2 
-    [SerializeField]protected int maxMana; // 3
     [SerializeField]protected Role role;
-
+    public Color unitColor;
+    public int mobId = -1;
+    [SerializeField]protected List<ClassResource> classResources;
+    [SyncVar]
+    public float mainStat = 100.0f;
+    [Header("Automatic")]
     public Actor target;
     
-    public Color unitColor;
+    
     public bool canMove = true;
     [SerializeField]protected List<AbilityEffect> abilityEffects;
     [SerializeField]protected List<Buff> buffs;
@@ -46,11 +52,9 @@ public class Actor : NetworkBehaviour
     //[SyncVar]
     [SerializeField]protected Actor queuedTarget; // Used when Ability has a cast time
     [SerializeField]protected NullibleVector3 queuedTargetWP;
-    [SerializeField]protected NullibleVector3 nVectTest;
-    [SerializeField]public List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
-    public UIManager uiManager;
-    public GameObject abilityDeliveryPrefab;
     
+    [SerializeField]public List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
+    public UIManager uiManager;    
     public float castTime;
     public CastBar castBar;
 
@@ -63,12 +67,9 @@ public class Actor : NetworkBehaviour
     public event EventHandler PlayerIsDead;
     public event EventHandler PlayerIsAlive;
 
-    [SerializeField]protected List<ClassResource> classResources;
-    [SyncVar]
-    public float mainStat = 100.0f;
-    [SyncVar]
-    public bool requestingCast = false;
-    public int mobId = -1;
+    
+    
+    
 
     [ClientRpc]
     public void updateClassResourceAmount(int index, int _amount){
@@ -235,18 +236,6 @@ public class Actor : NetworkBehaviour
                         maxHealth = 1;
                     }
                     break;
-                case 2:
-                    mana -= amount;
-                    if(mana < 0){
-                        mana = 0;
-                    }
-                    break;
-                case 3:
-                    maxMana -= amount;
-                    if(maxMana < 1){     // Making this 0 might cause a divide by 0 error. Check later
-                        maxMana = 1;
-                    }
-                    break;
                 default:
                     break;
             }
@@ -319,17 +308,7 @@ public class Actor : NetworkBehaviour
                         maxHealth += amount;    
                     }
                     break;
-                case 2:
-                    mana += amount;
-                    if(mana > maxMana){
-                        mana = maxMana;
-                    }
-                    break;
-                case 3:
-                    if(maxHealth + amount > maxHealth){ // if int did not wrap around max int
-                        maxHealth += amount;    
-                    }
-                    break;
+
                 default:
                     break;
             }
@@ -1003,18 +982,7 @@ public class Actor : NetworkBehaviour
     public void setMaxHealth(int _maxHealth){
         maxHealth = _maxHealth;
     }
-    public int getMana(){
-        return mana;
-    }
-    public void setMana(int _mana){
-        mana = _mana;
-    }
-    public int getMaxMana(){
-        return mana;
-    }
-    public void setMaxMana(int _mana){
-        mana = _mana;
-    }
+
     public int getResourceAmount(int index){
         return classResources[index].amount;
     }
