@@ -288,7 +288,7 @@ public class Actor : NetworkBehaviour
     // }
 
 
-    public void restoreValue(int amount, int valueType = 0){
+    public void restoreValue(int amount, int valueType = 0, Actor fromActor = null){
         // This would be the opposite of damageValue(). Look at that for more details
         //  Maybe in the future calcing healing may have diff formula to calcing damage taken
         
@@ -297,6 +297,17 @@ public class Actor : NetworkBehaviour
             switch (valueType){
                 case 0:
                     health += amount;
+                    if(fromActor != null){
+                        if(fromActor.tag == "Player"){
+                            TRpcCreateDamageTextOffensive(fromActor.GetNetworkConnection(), amount);
+                        }
+                    }
+                    if(tag == "Player"){
+                        TRpcCreateDamageTextSelf(amount);
+                    }
+                    if(fromActor != null){
+                        addDamamgeToMeter(fromActor, amount);
+                    }
                     if(health > maxHealth){
                         health = maxHealth;
                     }
