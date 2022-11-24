@@ -128,7 +128,7 @@ MonoBehaviour:
   targetMask:
     serializedVersion: 2
     m_Bits: 64
-  range: 30
+  range: 16
 --- !u!114 &-5454090653610714708
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -68,6 +68,7 @@ public class Actor : NetworkBehaviour
     public float mainStat = 100.0f;
     [SyncVar]
     public bool requestingCast = false;
+    public int mobId = -1;
 
     [ClientRpc]
     public void updateClassResourceAmount(int index, int _amount){
@@ -157,6 +158,7 @@ public class Actor : NetworkBehaviour
         if(health <= 0){
             if (!isLocalPlayer)
             {
+                GameManager.instance.OnMobDeath.Invoke(mobId);
                 Destroy(gameObject);
             }
             OnPlayerIsDead();

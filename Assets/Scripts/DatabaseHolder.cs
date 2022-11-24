@@ -12,4 +12,5 @@ public class DatabaseHolder : MonoBehaviour
     public AbilityData adSingleton;
     public AbilityEffectData aedSingleton;
     public BuffData bdSingleton;
+    public MobData mdSingleton;
 }

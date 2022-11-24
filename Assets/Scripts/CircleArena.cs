@@ -12,7 +12,13 @@ public class CircleArena : Arena
         }
         if(arenaRadius != transform.GetChild(0).transform.localScale.x / 2){
             arenaRadius = (transform.localScale.x  * transform.GetChild(0).transform.localScale.x) / 2;
+            
         }
+    }
+    void Start(){
+        if(isServer){
+                RpcSetSafeZone(transform.GetChild(0).transform.localScale);
+            }
     }
     void OnValidate(){
         
@@ -28,5 +34,10 @@ public class CircleArena : Arena
         //GetComponent<CircleCollider2D>().radius = arenaRadius;
         
         
+    }
+    
+    [ClientRpc]
+    void RpcSetSafeZone(Vector3 _hostScale){
+        transform.GetChild(0).transform.localScale = _hostScale;
     }
 }

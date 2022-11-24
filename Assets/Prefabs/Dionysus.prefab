@@ -19,7 +19,8 @@ GameObject:
   - component: {fileID: -3220704493964103041}
   - component: {fileID: -2720667041761104102}
   - component: {fileID: 2915685031530657180}
-  m_Layer: 0
+  - component: {fileID: -1578170218902741199}
+  m_Layer: 7
   m_Name: Dionysus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -192,8 +193,12 @@ MonoBehaviour:
   actor: {fileID: 0}
   agent: {fileID: 0}
   autoAttacking: 0
-  autoAttackClone: {fileID: 0}
+  autoAttackClone: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
   followTarget: {fileID: 0}
+  resolvingMoveTo: 0
+  facingDirection: {x: 0, y: 0}
+  globalCooldown: 0
+  autoAttackRequest: 0
   enemyStats: {fileID: 11400000, guid: 3176dadcd08b7f745b62870f626a14cb, type: 2}
   treeRunner: {fileID: 0}
   abilities: []
@@ -271,18 +276,21 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   showDebug: 0
-  actorName: 
-  health: 0
-  maxHealth: 0
+  actorName: Dionysus
+  health: 400
+  maxHealth: 9000
   mana: 0
   maxMana: 0
+  role: 0
   target: {fileID: 0}
-  unitColor: {r: 0, g: 0, b: 0, a: 0}
+  unitColor: {r: 0.62352943, g: 0, b: 0.5058824, a: 0}
   canMove: 1
   abilityEffects: []
   buffs: []
   readyToFire: 0
   isCasting: 0
+  isChanneling: 0
+  lastChannelTick: 0
   queuedAbility: {fileID: 0}
   queuedTarget: {fileID: 0}
   queuedTargetWP:
@@ -297,6 +305,11 @@ MonoBehaviour:
   onAbilityCastHooks:
     m_PersistentCalls:
       m_Calls: []
+  animator: {fileID: 0}
+  classResources: []
+  mainStat: 100
+  requestingCast: 0
+  mobId: 1
 --- !u!114 &2915685031530657180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,3 +323,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tree: {fileID: 11400000, guid: f0a55e3af83915549a203510ed3c196f, type: 2}
+  controllerReady: 0
+--- !u!114 &-1578170218902741199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096029720338020577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a367cf7ef90be5e4f8c205473aed7021, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  ArenaPrefab: {fileID: 4457653117952653269, guid: b92dd7a8b577a9842ad1e74edfd1d9d7, type: 3}
