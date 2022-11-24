@@ -15,6 +15,7 @@ MonoBehaviour:
   effectName: Intoxicate
   id: 27
   power: 0
+  powerScale: 1
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 1

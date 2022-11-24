@@ -13,6 +13,14 @@ MonoBehaviour:
   m_Name: Heal
   m_EditorClassIdentifier: 
   effectName: HealEffect
-  id: -1
-  power: 18
+  id: 4
+  power: 0
+  powerScale: 5
+  parentBuff: {fileID: 0}
+  parentDelivery: {fileID: 0}
+  targetIsSecondary: 0
+  target: {fileID: 0}
+  caster: {fileID: 0}
+  targetWP:
+    Value: {x: 0, y: 0, z: 0}
   school: -1

@@ -14,8 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectName: GenericMagicEffect
   id: 1
-  power: 14
+  power: 100
+  powerScale: 1
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 0
+  target: {fileID: 0}
+  caster: {fileID: 0}
+  targetWP:
+    Value: {x: 0, y: 0, z: 0}
   school: -1
