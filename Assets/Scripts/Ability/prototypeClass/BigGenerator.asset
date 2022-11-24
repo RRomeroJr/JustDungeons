@@ -21,7 +21,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   - effect: {fileID: 11400000, guid: 09c5e600fbf9b6148892edb228809891, type: 2}
-    targetArg: 1
+    targetArg: 0
     powerMod: 1
     onSendHooks:
       m_PersistentCalls:
