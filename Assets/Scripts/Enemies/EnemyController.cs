@@ -6,6 +6,8 @@ using UnityEngine.AI;
 
 public class EnemyController : Controller
 {
+    [Header("Set")]
+    public LayerMask obstacleMask;
     [Header("Set If Needed")]
 
     public Arena arenaObject;
@@ -19,7 +21,7 @@ public class EnemyController : Controller
     public List<Transform> multiTargets;
     public Vector3 spawnLocation;
     public BoxCollider2D collider;
-    public LayerMask obstacleMask;
+    
     
 
     public override void Awake()
@@ -35,7 +37,7 @@ public class EnemyController : Controller
     {
         base.Start();
         spawnLocation = transform.position;
-        agent.speed = enemyStats.moveSpeed;
+//        agent.speed = enemyStats.moveSpeed;
 
         // Update context for behavior tree
         Context context = Context.CreateFromGameObject(gameObject);

@@ -13,12 +13,13 @@ GameObject:
   - component: {fileID: 6569267623682333737}
   - component: {fileID: 6569267623682333742}
   - component: {fileID: 6569267623682333743}
-  - component: {fileID: 6569267623682333740}
-  - component: {fileID: 6569267623682333738}
-  - component: {fileID: 6569267623682333781}
   - component: {fileID: 6083710982085013301}
   - component: {fileID: 5391231985131415138}
-  m_Layer: 0
+  - component: {fileID: 712579975595362975}
+  - component: {fileID: 3871712234253891919}
+  - component: {fileID: 8638706385110007143}
+  - component: {fileID: -8456821108339157566}
+  m_Layer: 7
   m_Name: Enemy1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,23 +109,33 @@ MonoBehaviour:
   syncInterval: 0.1
   showDebug: 0
   actorName: Darne
-  health: 15
-  maxHealth: 15
-  mana: 0
-  maxMana: 0
+  health: 500
+  maxHealth: 500
+  role: 0
+  unitColor: {r: 0.90588236, g: 0.19215684, b: 0.82922316, a: 1}
+  mobId: -1
+  classResources: []
+  mainStat: 70
   target: {fileID: 0}
-  unitColor: {r: 0.7254902, g: 0.19215687, b: 0.90588236, a: 1}
+  canMove: 1
   abilityEffects: []
   buffs: []
   readyToFire: 0
   isCasting: 0
+  isChanneling: 0
+  lastChannelTick: 0
   queuedAbility: {fileID: 0}
   queuedTarget: {fileID: 0}
+  queuedTargetWP:
+    Value: {x: 0, y: 0, z: 0}
   abilityCooldowns: []
   uiManager: {fileID: 0}
-  abilityDeliveryPrefab: {fileID: 0}
   castTime: 0
   castBar: {fileID: 0}
+  onAbilityCastHooks:
+    m_PersistentCalls:
+      m_Calls: []
+  animator: {fileID: 0}
 --- !u!61 &6569267623682333742
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -172,61 +183,6 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &6569267623682333740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6569267623682333730}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77a692b7e9acf7344b658cb329c71c78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mask:
-    serializedVersion: 2
-    m_Bits: 64
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 8
-  target: {fileID: 0}
-  targetPrev: {x: 0, y: 0, z: 0}
-  collider: {fileID: 0}
-  spawnLocation: {x: 0, y: 0, z: 0}
-  path: []
-  targetIndex: 0
---- !u!114 &6569267623682333738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6569267623682333730}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b22f1e3f575166340b505df44ec17070, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unit: {fileID: 0}
-  myState: 
---- !u!114 &6569267623682333781
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6569267623682333730}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afd35200df6bbde438edc9548a8d0a76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  readyToFire: 0
-  isCasting: 0
-  queuedAbility: {fileID: 0}
-  actor: {fileID: 6569267623682333737}
-  enemyStats: {fileID: 11400000, guid: 42b65c35860a4674e8ba31503de1aa12, type: 2}
 --- !u!114 &6083710982085013301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,3 +234,86 @@ MonoBehaviour:
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+--- !u!114 &712579975595362975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6569267623682333730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f1a3075357ad284484cdddf42f4ce0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myRenderer: {fileID: 0}
+--- !u!195 &3871712234253891919
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6569267623682333730}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 0
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &8638706385110007143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6569267623682333730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58c6f9b140a52a14881ec09eaebb66eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tree: {fileID: 11400000, guid: 88f1203fc6a7b3a4cbd5ab5bf98762de, type: 2}
+  controllerReady: 0
+--- !u!114 &-8456821108339157566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6569267623682333730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d39e721ed52146f4f80637fca265b2ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  autoAttackClone: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
+  actor: {fileID: 0}
+  agent: {fileID: 0}
+  autoAttacking: 0
+  followTarget: {fileID: 0}
+  resolvingMoveTo: 0
+  facingDirection: {x: 0, y: 0}
+  globalCooldown: 0
+  autoAttackRequest: 0
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 8
+  arenaObject: {fileID: 0}
+  enemyStats: {fileID: 0}
+  treeRunner: {fileID: 0}
+  abilities: []
+  target: {fileID: 0}
+  multiTargets: []
+  spawnLocation: {x: 0, y: 0, z: 0}
+  collider: {fileID: 0}
