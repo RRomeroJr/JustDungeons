@@ -32,12 +32,12 @@ public class GameManager : NetworkBehaviour
         OnMobDeath.AddListener(RespawnDionysus);
         if(NetworkServer.active){
             NetworkServer.Spawn(gameObject);
-            
+            /* This doesn;t work bc this object exists before the server is started*/
         }
         else{
             
         }
-            
+        
         
     }
     
@@ -61,9 +61,7 @@ public class GameManager : NetworkBehaviour
             Debug.Log("Mob that wasn't Dio died");
         }
     }
-    public void applyEffects(List<AbilityEffect> _effects){
-        Debug.Log("List of size: " + _effects.Count.ToString() + " Trying to apply to Actor: " + _effects[0].getTarget().getActorName());
-    }
+
     IEnumerator spawnInXSecs(float time, GameObject prefab){
         while(time > 0){
             Debug.Log("Respawning in.." + time.ToString());
