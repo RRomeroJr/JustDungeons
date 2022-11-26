@@ -114,11 +114,15 @@ MonoBehaviour:
   actorName: Deoscillate
   health: 3500
   maxHealth: 3500
-  mana: 0
-  maxMana: 0
   role: 1
-  target: {fileID: 0}
   unitColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
+  mobId: -1
+  classResources:
+  - max: 5
+    amount: 0
+    crType: {fileID: 11400000, guid: f99af011e29c85f4686d63a179cf33d8, type: 2}
+  mainStat: 100
+  target: {fileID: 0}
   canMove: 1
   abilityEffects: []
   buffs: []
@@ -130,23 +134,14 @@ MonoBehaviour:
   queuedTarget: {fileID: 0}
   queuedTargetWP:
     Value: {x: 0, y: 0, z: 0}
-  nVectTest:
-    Value: {x: 0, y: 0, z: 0}
   abilityCooldowns: []
   uiManager: {fileID: 0}
-  abilityDeliveryPrefab: {fileID: 8996080988287052582, guid: a4706308c46cb1241917ac1a7cfb7176, type: 3}
   castTime: 0
   castBar: {fileID: 0}
   onAbilityCastHooks:
     m_PersistentCalls:
       m_Calls: []
   animator: {fileID: 0}
-  classResources:
-  - max: 5
-    amount: 0
-    crType: {fileID: 11400000, guid: f99af011e29c85f4686d63a179cf33d8, type: 2}
-  mainStat: 100
-  requestingCast: 0
 --- !u!114 &3602611100074717273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,10 +234,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  autoAttackClone: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
   actor: {fileID: 0}
   agent: {fileID: 0}
   autoAttacking: 0
-  autoAttackClone: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
   followTarget: {fileID: 0}
   resolvingMoveTo: 0
   facingDirection: {x: 0, y: 0}
@@ -258,7 +253,7 @@ MonoBehaviour:
   ability6a: {fileID: 11400000, guid: 722fa7e69c249d740829674736b49962, type: 2}
   ability7a: {fileID: 11400000, guid: 8df7b41371839cf40a06f4cad97dca7e, type: 2}
   ability8a: {fileID: 11400000, guid: 21c29030a131d374bb022274c6677cb9, type: 2}
-  ability9a: {fileID: 11400000, guid: a89e255900be0224aaba9347c9adea30, type: 2}
+  ability9a: {fileID: 11400000, guid: 789ee262ef9ad0c418009477bd594f0d, type: 2}
   test: {fileID: 11400000, guid: 09c5e600fbf9b6148892edb228809891, type: 2}
   posTest: {x: 0, y: 0, z: 0}
   state: 0

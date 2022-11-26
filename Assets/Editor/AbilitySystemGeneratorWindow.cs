@@ -8,7 +8,7 @@ public class AbilitySystemGeneratorWindow : EditorWindow
    private string abilityName = "";
    private string abilityEffectName = "";
    int effectSelection;
-   string[] abilityEffectTypes = new string[]{nameof(SchoolDamage), nameof(Missile), nameof(Aoe), nameof(RingAoe), nameof(ApplyBuff), nameof(Dizzy), nameof(Heal), nameof(RestoreClassResource)};
+   string[] abilityEffectTypes = new string[]{nameof(SchoolDamage), nameof(Missile), nameof(Aoe), nameof(RingAoe), nameof(ApplyBuff), nameof(Dizzy), nameof(Heal), nameof(RestoreClassResource), nameof(Interrupt)};
 
    bool createWithAbility = false;
    bool addToDatabases = false;
@@ -80,9 +80,17 @@ public class AbilitySystemGeneratorWindow : EditorWindow
                   aeRef = CreateInstance(typeof(RestoreClassResource)) as AbilityEff;
 
                   break;
+               case(8):
+                  aeRef = CreateInstance(typeof(Interrupt)) as AbilityEff;
+
+                  break;
                default:
                   Debug.LogError("Unknown selection");
                   break;
+            }
+            if((abilityEffectName == "" )||(abilityEffectName == null)){
+               Debug.Log(abilityEffectName.ToString());
+               abilityEffectName = aeRef.GetType().ToString() + "Effect";
             }
             aeRef.effectName = abilityEffectName;
             AssetDatabase.CreateAsset(aeRef, "Assets/Scripts/Ability/AbilityEff/" + abilityEffectName + ".asset");

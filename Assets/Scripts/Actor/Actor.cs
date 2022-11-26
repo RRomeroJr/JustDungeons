@@ -1130,7 +1130,17 @@ public class Actor : NetworkBehaviour
             raiseEvent(this, EventArgs.Empty);
         }
     }
-
+    public void interruptCast(){
+        Debug.Log(actorName + " Trying to interrupt");
+        if(isCasting){
+            //if(queuedAbility.inturrptable)
+            Debug.Log(queuedAbility.getName() + " was interrupted!");
+            resetClientCastVars();
+            
+        }else{
+            Debug.Log(actorName + " was not casting");
+        }
+    }
     #endregion
     //----------------------------------------------------------------old code no longer used------------------------------------------------------------------------------------
 
