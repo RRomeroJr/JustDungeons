@@ -386,6 +386,8 @@ MonoBehaviour:
   healthBar: {fileID: 8666870199209307695}
   resourceBar: {fileID: 4481186617367022638}
   actor: {fileID: 0}
+  offset: {x: 0, y: 0}
+  canvas: {fileID: 0}
 --- !u!1 &7035053971542897567
 GameObject:
   m_ObjectHideFlags: 0

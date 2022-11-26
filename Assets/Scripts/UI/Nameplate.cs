@@ -16,6 +16,8 @@ public class Nameplate : MonoBehaviour
     public Slider resourceBar;
     public Actor actor;
     public Vector2 offset;
+    public Canvas canvas;
+    private Renderer actorRenderer;
 
     void Awake(){
         offset = new Vector2(0f, 1.5f);
@@ -24,6 +26,8 @@ public class Nameplate : MonoBehaviour
        healthBar =  transform.GetChild(1).GetComponent<Slider>();
        resourceBar =  transform.GetChild(2).GetComponent<Slider>();
        unitName.text = actor.getActorName();
+       canvas = GetComponentInParent<Canvas>();
+       actorRenderer = actor.GetComponent<Renderer>();
     }
     public static void Create(Actor _actor){
         Nameplate npRef = (Instantiate(UIManager.nameplatePrefab) as GameObject).GetComponentInChildren<Nameplate>();
@@ -35,6 +39,10 @@ public class Nameplate : MonoBehaviour
         transform.position = actor.transform.position + (Vector3)offset;
         updateSliderHealth();
         updateSliderResource(resourceBar);
+        if(actor != null){
+            canvas.sortingOrder = actorRenderer.sortingOrder;
+        }
+        
     }
     void updateSliderHealth(){
         healthBar.maxValue = actor.getMaxHealth();
