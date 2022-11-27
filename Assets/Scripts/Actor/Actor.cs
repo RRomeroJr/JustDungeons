@@ -66,7 +66,8 @@ public class Actor : NetworkBehaviour
 
     public event EventHandler PlayerIsDead;
     public event EventHandler PlayerIsAlive;
-
+    [SyncVar]
+    public uint silienced = 0;
     
     
     
@@ -468,7 +469,9 @@ public class Actor : NetworkBehaviour
         if(checkOnCooldown(_ability) == false){ //Will be check on cd later
             // MirrorTestTools._inst.ClientDebugLog(_ability.getName() + "| Not on cool down or GCD");
             if(hasTheResources(_ability)){
-                if(true){ //!requestingCast)
+                //if ability is magical check silence
+                // For now silence works on everything including auto attack
+                if(silienced == 0){ 
                     if(!readyToFire){
                         if(!isCasting){
                             if(_ability.NeedsTargetActor()){
@@ -533,7 +536,7 @@ public class Actor : NetworkBehaviour
                     }
                 } //end if(requestingCast)
                 else{
-                    Debug.Log("Already requesting To cast");
+                    Debug.Log(actorName + " try to cast" + _ability + " but is silenced!");
                     return false;
                 }
             }

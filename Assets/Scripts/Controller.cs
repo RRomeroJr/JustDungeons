@@ -100,6 +100,9 @@ public class Controller : NetworkBehaviour
     public void moveToPoint(Vector2 pos, float tempMoveSpeed){
         StartCoroutine(IE_moveToPoint(pos, tempMoveSpeed));
     }
+    public void moveOffOtherUnits(){
+        moveToPoint(Vector2.up + (Vector2)transform.position);
+    }
     IEnumerator IE_moveToPoint(Vector2 pos){
         /*
             I have an idea here. Make this method hold the target like the node does

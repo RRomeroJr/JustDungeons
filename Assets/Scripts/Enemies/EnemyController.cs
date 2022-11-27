@@ -49,17 +49,9 @@ public class EnemyController : Controller
     public override void Update()
     {
         base.Update();
-        /*for(i = 0; i < AbilityList.Count(); i++){
-            if(AbilityList[i].CD is ready?){
-                
-                // Resolve AbilityList[i] some how
-                // maybe AbilityList has a some field that corresponds
-                // to how the Ability should be cast.
-                // 0 = onClostest, 1 = onHightestThreat, ect.
-                
-            }
-        }
-        */
+        // if(followTarget == null){
+            // moveOffOtherUnitsOutOfCombat();
+        // }
     }
     // RR: Now that I'm writing this out it would be easier if 
     //     abilitys had cooldowns before I start doing this
@@ -147,5 +139,26 @@ public class EnemyController : Controller
     {
         float distance = Vector2.Distance(transform.position, pos.transform.position);
         return distance;
+    }
+    void moveOffOtherUnitsOutOfCombat(){
+        /*
+            Couldn't figure this out. I wanted to detect if a mob was overlaping with another
+            mob, but couldn't figure out an easy way to do it
+
+            Do not use.
+        */        
+        LayerMask _mask = LayerMask.GetMask("Enemy");
+        ContactFilter2D contactFilter = new ContactFilter2D();
+        contactFilter.SetLayerMask(_mask);
+        Collider2D[] _results = new Collider2D[]{};
+        
+        if(GetComponent<Collider2D>().OverlapCollider(contactFilter, _results) > 0){
+            Debug.Log("overlap detected trying to move");
+            
+            }
+        else{
+            Debug.Log("No overlap");
+        }
+        
     }
 }
