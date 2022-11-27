@@ -11,7 +11,7 @@ public enum PlayerState
     Dead
 }
 
-public class PlayerControllerHBC : Controller
+public class PlayerController : Controller
 {
     [SerializeField] private float HORIZ_MOVE_ACCEL = 360;
     [SerializeField] private float VERT_MOVE_ACCEL = 360;

@@ -622,7 +622,7 @@ public class Actor : NetworkBehaviour
             to display a graphic and wait for a mouse click to get the 
             world point target but for now I'll just do it immediately */
         NullibleVector3 toReturn = new NullibleVector3();
-        toReturn.Value = gameObject.GetComponent<PlayerControllerHBC>().getWorldPointTarget();
+        toReturn.Value = gameObject.GetComponent<PlayerController>().getWorldPointTarget();
         return toReturn;
          
     }
