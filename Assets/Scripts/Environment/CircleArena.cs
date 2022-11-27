@@ -16,6 +16,7 @@ public class CircleArena : Arena
         }
     }
     void Start(){
+        base.Start();
         if(isServer){
                 RpcSetSafeZone(transform.GetChild(0).transform.localScale);
             }

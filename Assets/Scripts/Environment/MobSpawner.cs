@@ -9,7 +9,10 @@ public class MobSpawner: MonoBehaviour
     public List<GameObject> mobPrefabList;
     void Start(){
         //StartCoroutine(tempSpawnTestMob(mobPrefab));
-        spawnMobs();
+        if(NetworkServer.active){
+            spawnMobs();
+
+        }
     }
 	IEnumerator tempSpawnTestMob(GameObject prefab){
         while(true){

@@ -78,6 +78,7 @@ MonoBehaviour:
   adSingleton: {fileID: 11400000, guid: e4a324d6a97f3ed4ca35aae24e1eba31, type: 2}
   aedSingleton: {fileID: 11400000, guid: 05f702353c4ce0740bbec34a6703ccf0, type: 2}
   bdSingleton: {fileID: 11400000, guid: 26a9ec83c30971c4db1b7fddc82f69ba, type: 2}
+  mdSingleton: {fileID: 0}
 --- !u!114 &4602065914186662412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,6 +114,8 @@ MonoBehaviour:
   - {fileID: 8996080988287052582, guid: 64b0b49d7bf32f843b9a65baed889b7e, type: 3}
   - {fileID: 8996080988287052582, guid: 8e7db10157a429548b1568dc568d1768, type: 3}
   - {fileID: 8996080988287052582, guid: 44b556a48d3b10a418aa2c1c41ef738c, type: 3}
+  - {fileID: 6569267623682333730, guid: 9bcb1407defcfa041973a28fadbfe3ec, type: 3}
+  - {fileID: 6569267623682333730, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
   uiManager: {fileID: 0}
   minPlayers: 4
   menuScene: 

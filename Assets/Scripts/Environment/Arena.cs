@@ -14,11 +14,14 @@ public class Arena : NetworkBehaviour
         
     }
     void Update(){
-        if(destroyIfListEmpty){
-            if(mobList.Count <= 0){
-                Destroy(gameObject);
+        if(isServer){
+            if(destroyIfListEmpty){
+                if(mobList.Count <= 0){
+                    Destroy(gameObject);
+                }
             }
         }
+        
         
     }
     void FixedUpdate(){
@@ -31,6 +34,9 @@ public class Arena : NetworkBehaviour
     }   
     
     void OnValidate(){
+
+    }
+    public void Start(){
 
     }
 }

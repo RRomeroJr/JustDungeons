@@ -118,7 +118,6 @@ MonoBehaviour:
   mainStat: 70
   target: {fileID: 0}
   canMove: 1
-  abilityEffects: []
   buffs: []
   readyToFire: 0
   isCasting: 0
@@ -136,6 +135,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   animator: {fileID: 0}
+  silienced: 0
 --- !u!61 &6569267623682333742
 BoxCollider2D:
   m_ObjectHideFlags: 0

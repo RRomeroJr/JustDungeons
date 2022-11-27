@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
 
-public class GameManager : NetworkBehaviour
+public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public UIManager uiManager;
@@ -16,7 +16,7 @@ public class GameManager : NetworkBehaviour
 	{
 		if(instance == null){
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
             
         }
 		else{
@@ -50,7 +50,7 @@ public class GameManager : NetworkBehaviour
         Debug.Log(MobData._inst.find(_mobId).getActorName()+ " has died! spawning new one");
     }
     public void RespawnDionysus(int _mobId){
-        if(isServer == false){
+        if(NetworkServer.active == false){
             return;
         }
         if(_mobId == 1){
