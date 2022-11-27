@@ -3,7 +3,7 @@
 public class PlayerWeaponScript : MonoBehaviour
 {
 
-    public PlayerController playerController;
+    public PlayerControllerOLD PlayerControllerOLD;
     public GameObject projectilePrefab;
 
     // Start is called before the first frame update
@@ -15,7 +15,7 @@ public class PlayerWeaponScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerController.inputScript.DetectFiringInput())
+        if (PlayerControllerOLD.inputScript.DetectFiringInput())
         {
             Shoot();
         }
@@ -25,8 +25,8 @@ public class PlayerWeaponScript : MonoBehaviour
     {
         GameObject projectile = Instantiate(
             projectilePrefab,
-            playerController.firePoint.position,
-            playerController.transform.rotation
+            PlayerControllerOLD.firePoint.position,
+            PlayerControllerOLD.transform.rotation
         );
 
         Destroy(projectile, 2.0f);

@@ -38,7 +38,6 @@ public class Actor : NetworkBehaviour
     
     
     public bool canMove = true;
-    [SerializeField]protected List<AbilityEffect> abilityEffects;
     [SerializeField]protected List<Buff> buffs;
     
     // When readyToFire is true queuedAbility will fire
@@ -144,7 +143,6 @@ public class Actor : NetworkBehaviour
     }
     void Start(){
         
-        abilityEffects = new List<AbilityEffect>();
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         if(isLocalPlayer){
             UIManager.playerActor = this;
@@ -1009,12 +1007,6 @@ public class Actor : NetworkBehaviour
     }
     public void setBuffs(List<Buff> _buffs){
         buffs = _buffs;
-    }
-    public List<AbilityEffect> getActiveEffects(){
-        return abilityEffects;
-    }
-    public void setActiveEffects(List<AbilityEffect> _abilityEffects){
-        abilityEffects = _abilityEffects;
     }
     public Role getRole()
     {

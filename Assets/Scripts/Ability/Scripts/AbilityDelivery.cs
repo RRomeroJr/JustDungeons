@@ -19,7 +19,7 @@ public class AbilityDelivery : NetworkBehaviour
     public Vector3 worldPointTarget;
     public List<TargetCooldown> aoeActorIgnore;
 
-    [SerializeField]public List<AbilityEffect> abilityEffects;
+    // [SerializeField]public List<AbilityEffect> abilityEffects;
     [SerializeField]public List<EffectInstruction> eInstructs;
     public bool connectedToCaster = false;
     public float delayTimer = 0.0f;
@@ -258,31 +258,6 @@ public class AbilityDelivery : NetworkBehaviour
         type = _type;
         caster = _caster;
     }*/
-    public void init(List<AbilityEffect> _abilityEffects, Actor _target, int _type, Actor _caster = null, float _speed = 0.1f,
-                        float _duration = 8.0f, float _tickRate = 1.5f, int _aoeCap = -1, bool _ignoreDuration = false){
-        
-        abilityEffects = _abilityEffects;
-        type = _type;
-        caster = _caster;
-        target = _target;
-        speed = _speed;
-        duration = _duration;
-        aoeCap = _aoeCap;
-        ignoreDuration = _ignoreDuration;
-        
-    }
-    public void init(List<AbilityEffect> _abilityEffects, Vector3 _worldPointTarget, int _type,  Actor _caster = null, float _speed = 0.1f,
-                     float _duration = 8.0f, float _tickRate = 1.5f, int _aoeCap = -1, bool _ignoreDuration = false){
-        
-        abilityEffects = _abilityEffects;
-        type = _type;
-        caster = _caster;
-        worldPointTarget = _worldPointTarget;
-        speed = _speed;
-        duration = _duration;
-        aoeCap = _aoeCap;
-        ignoreDuration = _ignoreDuration;
-    }
     
     
     Vector3 getWorldPointTarget(){

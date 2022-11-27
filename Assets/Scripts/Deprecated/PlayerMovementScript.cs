@@ -16,7 +16,7 @@ public class PlayerMovementScript : MonoBehaviour
     [SerializeField] private float HORIZ_MOVE_ACCEL = 360;
     [SerializeField] private float VERT_MOVE_ACCEL = 300;
 
-    [SerializeField] private PlayerController playerController;
+    [SerializeField] private PlayerControllerOLD PlayerControllerOLD;
 
     // Start is called before the first frame update
     void Start()
@@ -35,22 +35,22 @@ public class PlayerMovementScript : MonoBehaviour
         //  Based upon the current state of the Player calculate their their velocity
 
         //  We're currently on the ground one x-direction movement should change
-        if (playerController.playerState == PlayerController.PlayerState_e.Grounded)
+        if (PlayerControllerOLD.playerState == PlayerControllerOLD.PlayerState_e.Grounded)
         {
-            playerController.body.velocity = new Vector2(
+            PlayerControllerOLD.body.velocity = new Vector2(
                 Input.GetAxis("Horizontal") * HORIZ_MOVE_ACCEL * Time.deltaTime,
-                playerController.body.velocity.y
+                PlayerControllerOLD.body.velocity.y
             );
 
-            // playerController.body.AddForce(
+            // PlayerControllerOLD.body.AddForce(
             //     new Vector2(
             //         Input.GetAxis("Horizontal") * HORIZ_MOVE_ACCEL * Time.deltaTime,
-            //         playerController.body.velocity.y
+            //         PlayerControllerOLD.body.velocity.y
             //     ),
             //     ForceMode2D.Impulse
             // );
         }
-        else if (playerController.playerState == PlayerController.PlayerState_e.PreparingToJump)
+        else if (PlayerControllerOLD.playerState == PlayerControllerOLD.PlayerState_e.PreparingToJump)
         {
             Vector2 movement;
 
@@ -58,14 +58,14 @@ public class PlayerMovementScript : MonoBehaviour
             movement.x = Input.GetAxis("Horizontal") * HORIZ_MOVE_ACCEL * Time.deltaTime;
             movement.y = VERT_MOVE_ACCEL * Time.deltaTime;
 
-            playerController.body.velocity = movement;
+            PlayerControllerOLD.body.velocity = movement;
 
             /*
                 Richie's new school method for jumping and it works!
                 Keep this in our back pocket
             */
 
-            // playerController.body.AddForce(
+            // PlayerControllerOLD.body.AddForce(
             //     new Vector2(
             //         Input.GetAxis("Horizontal") * HORIZ_MOVE_ACCEL * Time.deltaTime,
             //         VERT_MOVE_ACCEL * Time.deltaTime
@@ -74,10 +74,10 @@ public class PlayerMovementScript : MonoBehaviour
             // );
 
         }
-        else if (playerController.playerState == PlayerController.PlayerState_e.InFlight)
+        else if (PlayerControllerOLD.playerState == PlayerControllerOLD.PlayerState_e.InFlight)
         {
 
-            Vector2 inFlightVelocity = playerController.body.velocity;
+            Vector2 inFlightVelocity = PlayerControllerOLD.body.velocity;
 
             //  Add fast fall rate
             inFlightVelocity.y -= FALL_RATE * Time.deltaTime;
@@ -86,7 +86,7 @@ public class PlayerMovementScript : MonoBehaviour
             //  same tradjectory for the entire jumping action
             inFlightVelocity.x = Input.GetAxis("Horizontal") * HORIZ_MOVE_ACCEL * Time.deltaTime;
 
-            playerController.body.velocity = inFlightVelocity;
+            PlayerControllerOLD.body.velocity = inFlightVelocity;
 
         }
     }

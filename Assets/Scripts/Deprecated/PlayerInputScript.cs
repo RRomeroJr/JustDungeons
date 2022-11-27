@@ -2,7 +2,7 @@
 
 public class PlayerInputScript : MonoBehaviour
 {
-    [SerializeField] private PlayerController playerController;
+    [SerializeField] private PlayerControllerOLD PlayerControllerOLD;
 
     //--------------------------------------
     //  Inspector: SerializedFields
@@ -33,7 +33,7 @@ public class PlayerInputScript : MonoBehaviour
             //  If we were previously moving left, flip the character to the left
             if (moveLeftInput)
             {
-                playerController.transform.Rotate(0f, 180f, 0f);
+                PlayerControllerOLD.transform.Rotate(0f, 180f, 0f);
             }
 
             moveLeftInput = false;
@@ -44,7 +44,7 @@ public class PlayerInputScript : MonoBehaviour
             //  If we were previously moving right, flip the character to the left
             if (moveRightInput)
             {
-                playerController.transform.Rotate(0f, 180f, 0f);
+                PlayerControllerOLD.transform.Rotate(0f, 180f, 0f);
             }
 
             moveLeftInput = true;
@@ -66,7 +66,7 @@ public class PlayerInputScript : MonoBehaviour
 
     public bool DetectJumpingEvent()
     {
-        if (playerController.playerState == PlayerController.PlayerState_e.Grounded && Input.GetButtonDown("Jump"))
+        if (PlayerControllerOLD.playerState == PlayerControllerOLD.PlayerState_e.Grounded && Input.GetButtonDown("Jump"))
         {
             // Debug.Log("Detecting the player is trying to jump . . .");
             return true;

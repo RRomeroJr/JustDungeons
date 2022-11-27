@@ -15,17 +15,7 @@ public class PlayerControllerHBC : Controller
 {
     [SerializeField] private float HORIZ_MOVE_ACCEL = 360;
     [SerializeField] private float VERT_MOVE_ACCEL = 360;
-    Ability ability1;
-    Ability ability2;
-    Ability ability3;
-    Ability ability4;
-    Ability ability5;
-    Ability ability6;
-    Ability ability7;
-    Ability ability8;
-    Ability ability9;
-    Ability ability10;
-    Ability ability11;
+   
     public Ability_V2 ability1a;
     public Ability_V2 ability2a;
     public Ability_V2 ability3a;
@@ -193,9 +183,7 @@ public class PlayerControllerHBC : Controller
     void reqAbilityEff(AbilityEff eff){
         Debug.Log("A client reqed an AbilityEff " + eff.effectName);
     }
-    void sayAbilityEffectName(AbilityEffect _abilityEffect){
-        Debug.Log("This effect " + _abilityEffect.getEffectName() + "  finished!");
-    }
+    
     public Vector3 getWorldPointTarget(){
         Vector3 scrnPos = Input.mousePosition;
         Vector3 worldPoint = Camera.main.ScreenToWorldPoint(scrnPos);

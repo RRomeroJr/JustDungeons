@@ -2,7 +2,7 @@
 
 public class PlayerCollisionScript : MonoBehaviour
 {
-    [SerializeField] PlayerController playerController;
+    [SerializeField] PlayerControllerOLD PlayerControllerOLD;
 
     private float distToGround;
     public bool isGrounded;
@@ -20,8 +20,8 @@ public class PlayerCollisionScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        bodyWidth = playerController.collider.bounds.size.x;
-        bodyHeight = playerController.collider.bounds.size.y;
+        bodyWidth = PlayerControllerOLD.collider.bounds.size.x;
+        bodyHeight = PlayerControllerOLD.collider.bounds.size.y;
 
         boxCastSize = new Vector2(
             bodyWidth,
@@ -32,7 +32,7 @@ public class PlayerCollisionScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        distToGround = playerController.collider.bounds.extents.y;
+        distToGround = PlayerControllerOLD.collider.bounds.extents.y;
 
         bodyCenter = transform.position;
 
