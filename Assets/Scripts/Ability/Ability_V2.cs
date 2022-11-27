@@ -54,6 +54,8 @@ public class Ability_V2 : ScriptableObject{
     public bool offGDC= false;
     public AbilityRanges rangeClass = new AbilityRanges();
     public float range;
+    public bool interruptable = true;
+
     
     void OnValidate(){
        setRangeFromType();

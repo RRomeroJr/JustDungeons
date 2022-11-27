@@ -21,10 +21,12 @@ public class Interrupt : AbilityEff
     }
     public override void buffStartEffect()
     {
-        if(parentBuff.actor.isCasting){
+        if((parentBuff.actor.isCasting) && (parentBuff.actor.getQueuedAbility().interruptable) ){
+            
             parentBuff.actor.interruptCast();
             parentBuff.actor.silienced += 1;
             seccessful = true;
+            
         }
         else{
             parentBuff.onFinish();

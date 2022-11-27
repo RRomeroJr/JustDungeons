@@ -536,7 +536,7 @@ public class Actor : NetworkBehaviour
                     }
                 } //end if(requestingCast)
                 else{
-                    Debug.Log(actorName + " try to cast" + _ability + " but is silenced!");
+                    //Debug.Log(actorName + " try to cast" + _ability + " but is silenced!");
                     return false;
                 }
             }
@@ -1134,15 +1134,10 @@ public class Actor : NetworkBehaviour
         }
     }
     public void interruptCast(){
-        Debug.Log(actorName + " Trying to interrupt");
-        if(isCasting){
-            //if(queuedAbility.inturrptable)
-            Debug.Log(queuedAbility.getName() + " was interrupted!");
-            resetClientCastVars();
-            
-        }else{
-            Debug.Log(actorName + " was not casting");
-        }
+
+        Debug.Log(queuedAbility.getName() + " was interrupted!");
+        resetClientCastVars();
+        //Make cast bar red for a sec or two
     }
     #endregion
     //----------------------------------------------------------------old code no longer used------------------------------------------------------------------------------------
