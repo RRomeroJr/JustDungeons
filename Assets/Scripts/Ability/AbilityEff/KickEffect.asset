@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: KickEffect
   m_EditorClassIdentifier: 
   effectName: KickEffect
-  id: -1
+  id: 39
   power: 0
   powerScale: 1
   parentBuff: {fileID: 0}
@@ -24,4 +24,4 @@ MonoBehaviour:
   targetWP:
     Value: {x: 0, y: 0, z: 0}
   eInstructs: []
-  buffID: {fileID: 0}
+  buffID: {fileID: 11400000, guid: ac90469b0dfefa34da089c8df13873c2, type: 2}

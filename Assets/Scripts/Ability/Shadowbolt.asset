@@ -16,15 +16,21 @@ MonoBehaviour:
   eInstructs:
   - effect: {fileID: 11400000, guid: c69a0d906dd16c741abf7922e231957d, type: 2}
     targetArg: 0
-  castTime: 1.5
+    powerMod: 1
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
+  castTime: 5
   cooldown: 0
-  needsActor: 0
-  needsWP: 1
+  needsActor: 1
+  needsWP: 0
   id: 2
   abilityTag: 0
-  resourceCosts:
-  - amount: 0
-    crType: {fileID: 11400000, guid: 55f627c33b30c14489770a8e971ecee4, type: 2}
+  resourceCosts: []
   isChannel: 0
   channelDuration: 0
   numberOfTicks: 0
+  offGDC: 0
+  rangeClass: 0
+  range: Infinity
+  interruptable: 1

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Kick
   eInstructs:
-  - effect: {fileID: 11400000, guid: d65689c894fcebb448921684843c1cd6, type: 2}
+  - effect: {fileID: 11400000, guid: da21852c26db0d742920896b86762db0, type: 2}
     targetArg: 0
     powerMod: 1
     onSendHooks:
@@ -22,9 +22,9 @@ MonoBehaviour:
         m_Calls: []
   castTime: 0
   cooldown: 0
-  needsActor: 0
+  needsActor: 1
   needsWP: 0
-  id: 0
+  id: 28
   abilityTag: 0
   resourceCosts: []
   isChannel: 0
@@ -33,3 +33,4 @@ MonoBehaviour:
   offGDC: 0
   rangeClass: 0
   range: Infinity
+  interruptable: 1

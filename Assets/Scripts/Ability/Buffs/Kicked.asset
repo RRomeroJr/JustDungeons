@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c893311ec16b744b77cf9683178ae3, type: 3}
   m_Name: Kicked
   m_EditorClassIdentifier: 
-  effectName: 
-  duration: 0
+  effectName: Kicked
+  duration: 15
   tickRate: 0
   particles: {fileID: 0}
   stackable: 0
@@ -25,9 +25,15 @@ MonoBehaviour:
   caster: {fileID: 0}
   actor: {fileID: 0}
   target: {fileID: 0}
-  id: -1
+  id: 6
   stacks: 1
-  eInstructs: []
+  eInstructs:
+  - effect: {fileID: 11400000, guid: d65689c894fcebb448921684843c1cd6, type: 2}
+    targetArg: 0
+    powerMod: 0
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
   onCastHooks: []
   onHitHooks:
     m_PersistentCalls:
