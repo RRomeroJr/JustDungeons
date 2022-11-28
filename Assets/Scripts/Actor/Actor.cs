@@ -820,6 +820,9 @@ public class Actor : NetworkBehaviour
         if(_ability.abilityTag == AbilityTags.Weapon){
             animator.SetTrigger("abilityCast");
         }
+        if(_ability.abilityTag == AbilityTags.SpecialWeapon){
+            animator.SetTrigger("SpecialWeapon");
+        }
         
     }
     [ClientRpc]

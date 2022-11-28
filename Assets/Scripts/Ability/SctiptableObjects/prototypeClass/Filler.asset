@@ -37,7 +37,7 @@ MonoBehaviour:
   needsActor: 1
   needsWP: 0
   id: 25
-  abilityTag: 0
+  abilityTag: 1
   resourceCosts: []
   isChannel: 0
   channelDuration: 0
@@ -45,3 +45,4 @@ MonoBehaviour:
   offGDC: 0
   rangeClass: 1
   range: 3.5
+  interruptable: 1
