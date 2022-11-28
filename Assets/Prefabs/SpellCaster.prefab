@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: d3fc2c72d1c3e6e428b389df2192583e, type: 3}
-  m_Color: {r: 0.7249049, g: 0.19138479, b: 0.9056604, a: 1}
+  m_Color: {r: 0.69925237, g: 0.8512756, b: 0.8679245, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -118,7 +118,6 @@ MonoBehaviour:
   mainStat: 70
   target: {fileID: 0}
   canMove: 1
-  abilityEffects: []
   buffs: []
   readyToFire: 0
   isCasting: 0
@@ -136,6 +135,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   animator: {fileID: 0}
+  silienced: 0
 --- !u!61 &6569267623682333742
 BoxCollider2D:
   m_ObjectHideFlags: 0
