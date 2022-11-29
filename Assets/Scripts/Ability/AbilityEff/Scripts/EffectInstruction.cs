@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class EffectInstruction
 {
     [SerializeField]public AbilityEff effect;
-    [SerializeField]public int targetArg = 0;
+    [SerializeField]public int targetArg = 0; // if < 0 effect will cancel
     [SerializeField]public float powerMod = 1.0f;
     public UnityEvent<EffectInstruction> onSendHooks;
     
@@ -64,7 +64,10 @@ public class EffectInstruction
         if(onSendHooks != null){
             onSendHooks.Invoke(this);
         }
-        inTarget.recieveEffect(this, inTargetWP, inCaster, inSecondaryTarget);
+        if(targetArg >= 0){
+            inTarget.recieveEffect(this, inTargetWP, inCaster, inSecondaryTarget);
+        }
+        
     }
     public EffectInstruction(){
 
