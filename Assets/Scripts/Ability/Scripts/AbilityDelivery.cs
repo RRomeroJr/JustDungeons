@@ -48,13 +48,13 @@ public class AbilityDelivery : NetworkBehaviour
                 
             }
             if(type == 2){ // aoe no target
-                gameObject.transform.position = worldPointTarget;
+                //gameObject.transform.position = worldPointTarget;
             }
             if(type == 3){ 
                 gameObject.transform.position = target.transform.position;
             }
             if(type == 4){ 
-                gameObject.transform.position = worldPointTarget;
+                //gameObject.transform.position = worldPointTarget;
             }
             if(connectedToCaster){
                 float tempDist = GetComponent<Renderer>().bounds.size.x / 2.0f;
@@ -314,4 +314,5 @@ public class AbilityDelivery : NetworkBehaviour
     public void setSafeZonePosistion(Vector2 _hostPos){
         transform.GetChild(0).transform.position = _hostPos;
     }
+    
 }

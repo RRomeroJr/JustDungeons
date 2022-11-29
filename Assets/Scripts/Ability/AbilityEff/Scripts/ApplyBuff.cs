@@ -13,7 +13,7 @@ public class ApplyBuff : DeliveryEff
     [SerializeField]protected Buff buffID; //Make this actually an id in the future
     //[SerializeField]protected int buffID;
     public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
-        Debug.Log("Apply Buff! To " + _target.getActorName() + "| " + _caster.getActorName());
+        Debug.Log("Apply Buff! To " + _target != null ? target.getActorName() : "No target| " + _caster != null ?  _caster.getActorName() : "No caster");
         // Copy buff id __ and atatch it to target's buffs List<>
         /*
 

@@ -24,4 +24,5 @@ MonoBehaviour:
   targetWP:
     Value: {x: 0, y: 0, z: 0}
   school: -1
-  moveAngle: {x: 1, y: 0}
+  moveDirection: {x: 1, y: 0}
+  indicatorPrefab: {fileID: 2521846024041868146, guid: 7a6ac257c1aeb5d4296dcfa03eb725f5, type: 3}

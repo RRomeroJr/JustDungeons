@@ -21,6 +21,7 @@ public class Controller : NetworkBehaviour
     public const float gcdBase = 2.0f;
     [SyncVar]
     public bool autoAttackRequest = false;
+    public float moveSpeed = 420;
     
     public virtual void Awake(){
         

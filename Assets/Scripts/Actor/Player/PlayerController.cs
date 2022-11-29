@@ -13,8 +13,9 @@ public enum PlayerState
 
 public class PlayerController : Controller
 {
-    [SerializeField] private float HORIZ_MOVE_ACCEL = 360;
-    [SerializeField] private float VERT_MOVE_ACCEL = 360;
+   
+    
+
    
     public Ability_V2 ability1a;
     public Ability_V2 ability2a;
@@ -79,8 +80,8 @@ public class PlayerController : Controller
 
                         if (Mathf.Abs(newVect.magnitude) > 0.2)
                         {
-                            newVect.x *= (HORIZ_MOVE_ACCEL * Time.deltaTime);
-                            newVect.y *= (VERT_MOVE_ACCEL * Time.deltaTime);
+                            newVect.x *= (moveSpeed * Time.deltaTime);
+                            newVect.y *= (moveSpeed * Time.deltaTime);
                             gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
                         }
                         //if(not in deadzone)

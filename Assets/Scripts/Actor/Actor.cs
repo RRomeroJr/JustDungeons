@@ -67,6 +67,7 @@ public class Actor : NetworkBehaviour
     public event EventHandler PlayerIsAlive;
     [SyncVar]
     public uint silienced = 0;
+    public uint tauntImmune = 0;
     
     
     
