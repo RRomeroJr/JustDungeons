@@ -23,6 +23,28 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   child: {fileID: 5747802100427917405}
+--- !u!114 &-6450413430238150562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bef0130942212147b2999f9b90ceb1e, type: 3}
+  m_Name: SetFollowTarget
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 4d157861fb0a019499334b78eb5d2f32
+  position: {x: -3, y: 235}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
 --- !u!114 &-3751286815748729216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,36 +135,14 @@ MonoBehaviour:
   - {fileID: -3751286815748729216}
   - {fileID: -1928682084682452262}
   - {fileID: 7572015152233797326}
-  - {fileID: 4407313201108063830}
   - {fileID: 5724029134781093190}
   - {fileID: -534349374032023875}
   - {fileID: 5747802100427917405}
+  - {fileID: -6450413430238150562}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
---- !u!114 &4407313201108063830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f168bf7164d5ba848be04f89ad79317a, type: 3}
-  m_Name: FollowTarget
-  m_EditorClassIdentifier: 
-  state: 0
-  started: 0
-  guid: 69b5b3cf8586677478630c3ab88e45b0
-  position: {x: -2.3999634, y: 235.19998}
-  blackboard:
-    moveToPosition: {x: 0, y: 0, z: 0}
-    target: {fileID: 0}
-    targetPrev: {fileID: 0}
-  description: 
-  drawGizmos: 0
 --- !u!114 &5724029134781093190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,7 +165,7 @@ MonoBehaviour:
     targetPrev: {fileID: 0}
   description: 
   drawGizmos: 0
-  child: {fileID: 4407313201108063830}
+  child: {fileID: -6450413430238150562}
 --- !u!114 &5747802100427917405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,4 +242,4 @@ MonoBehaviour:
   targetMask:
     serializedVersion: 2
     m_Bits: 64
-  range: 25
+  range: 10
