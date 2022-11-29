@@ -15,7 +15,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: ffff5ab4ce3a2fe43858cf1ca0af498a
-  position: {x: 0.000062286854, y: -196.43643}
+  position: {x: -1, y: -181}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -23,7 +23,7 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   child: {fileID: 5747802100427917405}
---- !u!114 &-7330843439141128120
+--- !u!114 &-5960448933721111457
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -32,20 +32,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bd5f608b3bd8144ab24ae29b8d34853, type: 3}
-  m_Name: Attack
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
   m_EditorClassIdentifier: 
   state: 0
   started: 0
-  guid: 392a0a755d1f1714d852da054aa6cea6
-  position: {x: 148.8, y: 158.44237}
+  guid: ba16acbe881844847b0f0d12c606a932
+  position: {x: 319.2, y: 147.20001}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
   description: 
   drawGizmos: 0
-  ability: {fileID: 11400000, guid: 6f1e83bd16b15204c869d14952139722, type: 2}
+  children:
+  - {fileID: 2399641565672695258}
+  - {fileID: -1491713148494677897}
 --- !u!114 &-3751286815748729216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,6 +95,52 @@ MonoBehaviour:
   drawGizmos: 0
   child: {fileID: 7572015152233797326}
   ContinueIfHasTargetIs: 0
+--- !u!114 &-1491713148494677897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
+  m_Name: Wait
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 766fd7116dd4bc54f93629a8502464b3
+  position: {x: 394.8, y: 311.8}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  duration: 24
+--- !u!114 &-534349374032023875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f92097279900b66448ff4a380915d8bd, type: 3}
+  m_Name: SetAutoAttack
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: c832738e354c0784c97bb1e0862a548d
+  position: {x: 147.20001, y: 179.19998}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  setTrue: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,7 +151,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d285eb63c2cdd74180de7cfceaa96ad, type: 3}
-  m_Name: spamCast
+  m_Name: DioSpreadMob
   m_EditorClassIdentifier: 
   rootNode: {fileID: -9208605561022947831}
   treeState: 0
@@ -113,15 +161,18 @@ MonoBehaviour:
   - {fileID: -3751286815748729216}
   - {fileID: -1928682084682452262}
   - {fileID: 7572015152233797326}
-  - {fileID: 4407313201108063830}
   - {fileID: 5724029134781093190}
+  - {fileID: -534349374032023875}
   - {fileID: 5747802100427917405}
-  - {fileID: -7330843439141128120}
+  - {fileID: -5960448933721111457}
+  - {fileID: 2399641565672695258}
+  - {fileID: -1491713148494677897}
+  - {fileID: 5813006377487784642}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
---- !u!114 &4407313201108063830
+--- !u!114 &2399641565672695258
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,19 +181,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f168bf7164d5ba848be04f89ad79317a, type: 3}
-  m_Name: FollowTarget
+  m_Script: {fileID: 11500000, guid: 0bd5f608b3bd8144ab24ae29b8d34853, type: 3}
+  m_Name: Attack
   m_EditorClassIdentifier: 
   state: 0
   started: 0
-  guid: 69b5b3cf8586677478630c3ab88e45b0
-  position: {x: -2.3999634, y: 235.19998}
+  guid: a22dc2fbf42d9844c9433bb3d315b8e2
+  position: {x: 183.79999, y: 331.2}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
   description: 
   drawGizmos: 0
+  ability: {fileID: 11400000, guid: 486a5b2b6e71cfc4595eb0d45a7e0456, type: 2}
 --- !u!114 &5724029134781093190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,14 +210,14 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 972930fecde784944b1431b103886eeb
-  position: {x: 16.419487, y: 147.20001}
+  position: {x: -3.2000122, y: 147.19998}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
   description: 
   drawGizmos: 0
-  child: {fileID: 4407313201108063830}
+  child: {fileID: 5813006377487784642}
 --- !u!114 &5747802100427917405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,6 +243,28 @@ MonoBehaviour:
   child: {fileID: 7213465838841773919}
   restartOnSuccess: 1
   restartOnFailure: 1
+--- !u!114 &5813006377487784642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bef0130942212147b2999f9b90ceb1e, type: 3}
+  m_Name: SetFollowTarget
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: cd783bf546d53c94ca5443fff7fee096
+  position: {x: 0, y: 243}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
 --- !u!114 &7213465838841773919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,7 +290,8 @@ MonoBehaviour:
   children:
   - {fileID: -3751286815748729216}
   - {fileID: 5724029134781093190}
-  - {fileID: -7330843439141128120}
+  - {fileID: -534349374032023875}
+  - {fileID: -5960448933721111457}
 --- !u!114 &7572015152233797326
 MonoBehaviour:
   m_ObjectHideFlags: 0

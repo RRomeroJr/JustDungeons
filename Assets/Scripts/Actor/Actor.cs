@@ -492,7 +492,7 @@ public class Actor : NetworkBehaviour
                             if(_ability.NeedsTargetWP()){
                                 if(_targetWP == null){
                                 //Debug.Log("Try find target..");
-                                    _targetWP = tryFindTargetWP(_ability);
+                                    _targetWP = tryFindTargetWP(_ability, _target);
                                 }
                                 if(_targetWP == null){
                                     Debug.Log("No suitable WP found");
@@ -617,12 +617,23 @@ public class Actor : NetworkBehaviour
             return null;
         }
     }
-    NullibleVector3 tryFindTargetWP(Ability_V2 _ability){
+    NullibleVector3 tryFindTargetWP(Ability_V2 _ability, Actor passedTarget = null){
         /* In the future I might make a method in the player controller
             to display a graphic and wait for a mouse click to get the 
             world point target but for now I'll just do it immediately */
         NullibleVector3 toReturn = new NullibleVector3();
-        toReturn.Value = gameObject.GetComponent<PlayerController>().getWorldPointTarget();
+        if(passedTarget != null){
+            toReturn.Value = passedTarget.transform.position;
+        }else{
+            if(tag == "Player"){
+                toReturn.Value = gameObject.GetComponent<PlayerController>().getWorldPointTarget();
+            }
+            else{
+                Debug.LogError("NPC: " + actorName + " is trying to cast a WP ability with no WP");
+            }
+        }
+        
+        
         return toReturn;
          
     }
