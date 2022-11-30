@@ -8,7 +8,9 @@ public class AbilitySystemGeneratorWindow : EditorWindow
    private string abilityName = "";
    private string abilityEffectName = "";
    int effectSelection;
-   string[] abilityEffectTypes = new string[]{nameof(SchoolDamage), nameof(Missile), nameof(Aoe), nameof(RingAoe), nameof(ApplyBuff), nameof(Dizzy), nameof(Heal), nameof(RestoreClassResource), nameof(Interrupt)};
+   string[] abilityEffectTypes = new string[]{nameof(SchoolDamage), nameof(Missile),
+                                 nameof(Aoe), nameof(RingAoe), nameof(ApplyBuff), nameof(Dizzy),
+                                 nameof(Heal), nameof(RestoreClassResource), nameof(Interrupt), nameof(Fear)};
 
    bool createWithAbility = false;
    bool addToDatabases = false;
@@ -84,6 +86,10 @@ public class AbilitySystemGeneratorWindow : EditorWindow
                   aeRef = CreateInstance(typeof(Interrupt)) as AbilityEff;
 
                   break;
+               case(9):
+                  aeRef = CreateInstance(typeof(Fear)) as AbilityEff;
+
+                  break;   
                default:
                   Debug.LogError("Unknown selection");
                   break;

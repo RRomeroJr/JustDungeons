@@ -38,5 +38,10 @@ public static class HBCTools
         }
         
     }
+    public static Vector3 randomPointInRadius(Vector3 target, float radius){
+        Vector3 toReturn;
+        toReturn = new Vector3(UnityEngine.Random.Range(-radius, radius), UnityEngine.Random.Range(-radius, radius), 0);
+        return target + toReturn;
+    }
 
 }

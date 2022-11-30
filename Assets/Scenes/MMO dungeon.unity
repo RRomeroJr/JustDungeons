@@ -30921,6 +30921,10 @@ PrefabInstance:
       propertyPath: worldPointTarget.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7343147572883861924, guid: 97279d44881abd14fb0ea01c85d01ced, type: 3}
+      propertyPath: eInstructs.Array.data[0].effect
+      value: 
+      objectReference: {fileID: 11400000, guid: 6b3d3bf3903b1e844a54dc092b599fbc, type: 2}
     - target: {fileID: 8927114768485141093, guid: 97279d44881abd14fb0ea01c85d01ced, type: 3}
       propertyPath: m_RootOrder
       value: 17
