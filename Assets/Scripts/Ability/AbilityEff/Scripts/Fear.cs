@@ -26,6 +26,11 @@ public class Fear : AbilityEff
         //Debug.Log(effectName + ": Buff Start Effect");
         parentBuff.actor.GetComponent<NavMeshAgent>().enabled = true;
         parentBuff.actor.GetComponent<NavMeshAgent>().speed = navMeshSpeed;
+        while( parentBuff.actor.GetComponent<NavMeshAgent>()
+                .SetDestination(HBCTools.randomPointInRadius(parentBuff.actor.transform.position, 4.0f)) == false){
+
+                }
+        Debug.Log("Fear path found");
         
     }
     public override void buffEndEffect()

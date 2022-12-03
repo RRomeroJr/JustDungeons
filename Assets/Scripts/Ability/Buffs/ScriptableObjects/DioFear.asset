@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectName: DioFear
   duration: 10
-  tickRate: 2
+  tickRate: 1
   particles: {fileID: 0}
   stackable: 0
   refreshable: 1
@@ -25,7 +25,7 @@ MonoBehaviour:
   caster: {fileID: 0}
   actor: {fileID: 0}
   target: {fileID: 0}
-  id: -1
+  id: 7
   stacks: 1
   eInstructs:
   - effect: {fileID: 11400000, guid: 2dd273379470a0a4fb43265d49c48abb, type: 2}
