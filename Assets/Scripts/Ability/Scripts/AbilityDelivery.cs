@@ -34,6 +34,10 @@ public class AbilityDelivery : NetworkBehaviour
     public float innerCircleRadius;
     public Vector2 safeZoneCenter;
     public Vector2 skillshotvector;
+    public LayerMask hitMask = 192; //Should be player | enemy
+   
+    public bool hitHostile = true;
+    public bool hitFriendly = true;
     void Start()
     {   
         if(isServer){
@@ -61,108 +65,72 @@ public class AbilityDelivery : NetworkBehaviour
                 gameObject.transform.position = Vector2.MoveTowards(caster.transform.position,
                                                                         worldPointTarget, tempDist);
             }
+            if(caster != null){
+                //
+            }
         }
     }
     private void OnTriggerEnter2D(Collider2D other)
-    {   if(isServer){
-        if(start){
-            if(type == 0){   
-                if (other.gameObject.GetComponent<Actor>() == target){
-                    
-                    /* Old system
-
-                    if(abilityEffects.Count > 0){
-                        Actor target_ref = other.gameObject.GetComponent<Actor>();
-                        foreach (AbilityEffect eff in abilityEffects){
-                            eff.setTarget(target_ref);
-                        }
-                        
-                        GameManager.instance.actorCastedAbility_Event.Invoke(abilityEffects);
-                    }
-                    other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
-                    */
-
-                    if(eInstructs.Count > 0){
-                        Actor target_ref = other.gameObject.GetComponent<Actor>();
-                        foreach (EffectInstruction eI in eInstructs){
-                            eI.sendToActor(other.gameObject.GetComponent<Actor>(), null, caster);
-                        }
-                    }
-                    Destroy(gameObject);
-                }
-            }/*
-                Old System
-            if(type == 1){
-                if (other.gameObject.GetComponent<Actor>() != caster){
-                    if (other.gameObject.GetComponent<Actor>() != null){
-                        other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
-                    }
-                    Destroy(gameObject);
-                }
-            }*/
-            }
-            if(type == 1){   
-                if (other.gameObject.GetComponent<Actor>() != null){
-                    if(other.gameObject.GetComponent<Actor>() != caster){
-                    /* Old system
-
-                    if(abilityEffects.Count > 0){
-                        Actor target_ref = other.gameObject.GetComponent<Actor>();
-                        foreach (AbilityEffect eff in abilityEffects){
-                            eff.setTarget(target_ref);
-                        }
-                        
-                        GameManager.instance.actorCastedAbility_Event.Invoke(abilityEffects);
-                    }
-                    other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
-                    */
-
-                    if(eInstructs.Count > 0){
-                        Actor target_ref = other.gameObject.GetComponent<Actor>();
-                        foreach (EffectInstruction eI in eInstructs){
-                            eI.sendToActor(other.gameObject.GetComponent<Actor>(), null, caster);
-                        }
-                    }
-                    Destroy(gameObject);
-                    }
-                }
-            }/*
-                Old System
-            if(type == 1){
-                if (other.gameObject.GetComponent<Actor>() != caster){
-                    if (other.gameObject.GetComponent<Actor>() != null){
-                        other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
-                    }
-                    Destroy(gameObject);
-                }
-            }*/
-            
-        }
-        
-    }
-    private void OnTriggerStay2D(Collider2D other){
+    {
         if(isServer){
             if(start){
-            if((type == 2)||(type == 3)){
                 
-                if (other.gameObject.GetComponent<Actor>() != caster){
-                    if (other.gameObject.GetComponent<Actor>() != null){
-                        //Debug.Log("type 2 and 3 spam");
-                        if(checkIgnoreTarget(other.gameObject.GetComponent<Actor>()) == false){
-                            addToAoeIgnore(other.gameObject.GetComponent<Actor>(), tickRate);
+                if(checkIgnoreConditons(other.GetComponent<Actor>()) == false){
+                    if(type == 0){   
+                        if (other.gameObject.GetComponent<Actor>() == target){
+                            
 
-                            /* Old System
-                            other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
-                            */
                             if(eInstructs.Count > 0){
                                 Actor target_ref = other.gameObject.GetComponent<Actor>();
-                                Debug.Log("AD aoe hit with target_ref: " + target_ref.getActorName());
                                 foreach (EffectInstruction eI in eInstructs){
-                                    eI.sendToActor(target_ref, null, caster);
+                                    eI.sendToActor(other.gameObject.GetComponent<Actor>(), null, caster);
+                                }
+                            }
+                            Destroy(gameObject);
+                        }
+                    }
+                    if(type == 1){   
+                        if (other.gameObject.GetComponent<Actor>() != null){
+                            if(other.gameObject.GetComponent<Actor>() != caster){
+
+                            if(eInstructs.Count > 0){
+                                Actor target_ref = other.gameObject.GetComponent<Actor>();
+                                foreach (EffectInstruction eI in eInstructs){
+                                    eI.sendToActor(other.gameObject.GetComponent<Actor>(), null, caster);
+                                }
+                            }
+                            Destroy(gameObject);
                             }
                         }
-                        }
-                        
+                    }
+                }
+                    
+            }
+        }
+    }
+    
+        private void OnTriggerStay2D(Collider2D other){
+            if(isServer){
+                if(start){
+                if((type == 2)||(type == 3)){
+                    
+                    if (other.gameObject.GetComponent<Actor>() != caster){
+                        if (other.gameObject.GetComponent<Actor>() != null){
+                            //Debug.Log("type 2 and 3 spam");
+                            if(checkIgnoreTarget(other.gameObject.GetComponent<Actor>()) == false){
+                                addToAoeIgnore(other.gameObject.GetComponent<Actor>(), tickRate);
+
+                                /* Old System
+                                other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
+                                */
+                                if(eInstructs.Count > 0){
+                                    Actor target_ref = other.gameObject.GetComponent<Actor>();
+                                    Debug.Log("AD aoe hit with target_ref: " + target_ref.getActorName());
+                                    foreach (EffectInstruction eI in eInstructs){
+                                        eI.sendToActor(target_ref, null, caster);
+                                    }
+                                }
+                            }
                     }
                     // make version that has a set number for ticks?
                 }
@@ -281,6 +249,40 @@ public class AbilityDelivery : NetworkBehaviour
             return false;
         }
     }
+    bool checkIgnoreConditons(Actor _hitActor){
+        //returns true if the _histActor should be ignored
+        if(_hitActor != null){
+           
+            if( hitMask == (hitMask | (1 << _hitActor.gameObject.layer)) == false ){ //if hit does not match mask
+                Debug.Log(_hitActor.getActorName() + " did not match hitMask. go: " + gameObject.name);
+                return true;
+            }
+            if(caster != null){
+                if(hitHostile){
+                    if(HBCTools.areHostle(caster, _hitActor) == false){
+                        //Debug.Log(caster.getActorName() + " & " + _hitActor.getActorName() + " are not hostile");
+                        return false;
+                    }
+                }
+                if(hitFriendly){
+                    if(HBCTools.areHostle(caster, _hitActor) == true){
+                        //Debug.Log(caster.getActorName() + " & " + _hitActor.getActorName() + " are not friendly");
+                        return false;
+                    }
+                }
+            }
+
+            if((!hitHostile)&&(!hitFriendly)){
+                Debug.Log("Warning delivery " + gameObject.name + " doesn't hit hostiles or friendlies");
+            }
+
+            return true;
+        }
+        else{
+            Debug.Log("_hitActor null");
+            return false;
+        }
+    }
     void addToAoeIgnore(Actor _target, float _remainingtime){
         aoeActorIgnore.Add(new TargetCooldown(_target, _remainingtime));
     }
@@ -314,5 +316,7 @@ public class AbilityDelivery : NetworkBehaviour
     public void setSafeZonePosistion(Vector2 _hostPos){
         transform.GetChild(0).transform.position = _hostPos;
     }
+
+    
     
 }
