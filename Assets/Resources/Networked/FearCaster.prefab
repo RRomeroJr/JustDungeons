@@ -315,7 +315,7 @@ MonoBehaviour:
   enemyStats: {fileID: 0}
   treeRunner: {fileID: 0}
   abilities:
-  - {fileID: 11400000, guid: 9cb454ea2eaea2a4b9e749f9872a1d8e, type: 2}
+  - {fileID: 11400000, guid: 8d451a70c98d8f64982645b74666e975, type: 2}
   - {fileID: 11400000, guid: 0be588aa3cf4cba49be09ec3c7eedf8e, type: 2}
   target: {fileID: 0}
   multiTargets: []

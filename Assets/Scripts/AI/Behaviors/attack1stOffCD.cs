@@ -10,19 +10,19 @@ public class attack1stOffCD : ActionNode
     bool castFinished;
     protected override void OnStart()
     {
-        Debug.Log("attack1stOffCD START");
+        //Debug.Log("attack1stOffCD START");
         //castStarted = false;
         castFinished = false;
         
         if(context.controller.abilities.Count > 0){
                 foreach (Ability_V2 a in context.controller.abilities){
-                    Debug.Log("checking " + a.getName());
+                    //Debug.Log("checking " + a.getName());
                     if(context.actor.checkOnCooldown(a) == false){
                         
                         toCast = a;
                         break;
                     }else{
-                        Debug.Log(a.getName() + " was on cd");
+                        //Debug.Log(a.getName() + " was on cd");
                     }
                     
                 }
@@ -36,7 +36,7 @@ public class attack1stOffCD : ActionNode
             castFinished = true;
         }
         else{
-            Debug.Log("attack1stOffCD => " + toCast.getName());
+            //Debug.Log("attack1stOffCD => " + toCast.getName());
             context.actor.onAbilityCastHooks.AddListener(checkCastedAbility);
         }
         

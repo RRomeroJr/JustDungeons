@@ -24,12 +24,14 @@ public static class HBCTools
     }
     public static bool checkFacing(Actor actorToCheck, GameObject target){
         // get a vector corressonding to the distance btwn the actorToCheck and taget
-        Vector2 angleFromTarget = (Vector2)(actorToCheck.transform.position - target.transform.position);
+        Vector2 angleFromTarget = (Vector2)(target.transform.position -actorToCheck.transform.position);
         angleFromTarget.Normalize();
         //Vector2.Angle(a1, a2)
         float angleDifference = Vector2.Angle(target.GetComponent<Controller>().facingDirection, angleFromTarget);
-
+        
+        Debug.Log("Diff btwn " + angleFromTarget.ToString() +target.GetComponent<Controller>().facingDirection +angleDifference.ToString());
         if(angleDifference < 45.0f){
+            
             return true;
         }
         else{
