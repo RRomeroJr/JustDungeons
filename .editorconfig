@@ -37,7 +37,8 @@ indent_size = 2
 
 # Dotnet code style settings:
 [*.{cs,vb}]
-
+# Custom gnore warnings
+dotnet_diagnostic.IDE1006.severity = none
 # IDE0055: Fix formatting
 dotnet_diagnostic.IDE0055.severity = warning
 
@@ -115,7 +116,7 @@ dotnet_naming_rule.instance_fields_should_be_camel_case.style = instance_field_s
 dotnet_naming_symbols.instance_fields.applicable_kinds = field
 
 dotnet_naming_style.instance_field_style.capitalization = camel_case
-dotnet_naming_style.instance_field_style.required_prefix = _
+# dotnet_naming_style.instance_field_style.required_prefix = _
 
 # Locals and parameters are camelCase
 dotnet_naming_rule.locals_should_be_camel_case.severity = suggestion
