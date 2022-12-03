@@ -29983,7 +29983,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2720667041761104102, guid: dd923e74212956d448682a636e7b1bf0, type: 3}
       propertyPath: health
-      value: 7500
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -2720667041761104102, guid: dd923e74212956d448682a636e7b1bf0, type: 3}
       propertyPath: actorName
@@ -31332,7 +31332,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mobPrefab: {fileID: 6569267623682333730, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
   mobPrefabList:
-  - {fileID: 6569267623682333730, guid: 92797d1b59dee00468f3e221176006b8, type: 3}
+  - {fileID: 6569267623682333730, guid: a37956680077bca4f93872b517cf4e7a, type: 3}
 --- !u!4 &1439132251
 Transform:
   m_ObjectHideFlags: 0

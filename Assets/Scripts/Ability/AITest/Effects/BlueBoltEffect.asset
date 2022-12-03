@@ -15,11 +15,24 @@ MonoBehaviour:
   effectName: 
   id: 14
   power: 0
+  powerScale: 1
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 1
-  school: 0
-  misslePrefab: {fileID: 8996080988287052582, guid: 536d5fb32566009469d083a954ee0fb8, type: 3}
+  target: {fileID: 0}
+  caster: {fileID: 0}
+  targetWP:
+    Value: {x: 0, y: 0, z: 0}
   eInstructs:
   - effect: {fileID: 11400000, guid: 09c5e600fbf9b6148892edb228809891, type: 2}
     targetArg: 0
+    powerMod: 1
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
+  school: 0
+  misslePrefab: {fileID: 8996080988287052582, guid: 536d5fb32566009469d083a954ee0fb8, type: 3}
+  isSkillshot: 0
+  speed: 0.2
+  ignoreDuration: 1
+  duration: 0

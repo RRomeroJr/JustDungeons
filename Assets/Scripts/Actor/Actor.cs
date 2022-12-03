@@ -465,7 +465,7 @@ public class Actor : NetworkBehaviour
 
         //Debug.Log("castAbility3");
         
-        if(checkOnCooldown(_ability) == false){ //Will be check on cd later
+        if(CheckCooldownAndGCD(_ability) == false){ //Will be check on cd later
             // MirrorTestTools._inst.ClientDebugLog(_ability.getName() + "| Not on cool down or GCD");
             if(hasTheResources(_ability)){
                 //if ability is magical check silence
@@ -946,10 +946,7 @@ public class Actor : NetworkBehaviour
         
     }
     public bool checkOnCooldown(Ability_V2 _ability){
-        if(GetComponent<Controller>().globalCooldown > 0.0f){
-            //Debug.Log(actorName + " is on gcd");
-            return true;
-        }
+        
         if(abilityCooldowns.Count > 0){
             for(int i = 0; i < abilityCooldowns.Count; i++){
                 if(abilityCooldowns[i].getName() == _ability.getName()){
@@ -965,6 +962,27 @@ public class Actor : NetworkBehaviour
         else{
             return false;
         }
+    }
+    public bool CheckOnGCD(){
+        if(GetComponent<Controller>().globalCooldown > 0.0f){
+            //Debug.Log(actorName + " is on gcd");
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public bool CheckCooldownAndGCD(Ability_V2 _ability){
+        if(_ability.offGDC = false){ //if its a oGCD chekc if on GCD
+            if(CheckOnGCD()){
+                return true;
+            }
+        }
+        if(checkOnCooldown(_ability)){ // If we make it through check the ability cd
+                return true;
+        }
+        
+        return false; //if we make it here we are good the GCD and ability not on CD
     }
     public bool checkRange(Ability_V2 _ability, Vector2 _target){
         if(Vector2.Distance(transform.position, _target) > _ability.range){

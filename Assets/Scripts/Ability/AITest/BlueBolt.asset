@@ -12,13 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 630dbee7393b5314ab79662f009e6568, type: 3}
   m_Name: BlueBolt
   m_EditorClassIdentifier: 
-  abilityName: ShadowBolt
+  abilityName: Bluebolt
   eInstructs:
   - effect: {fileID: 11400000, guid: e691e5edb6acbd14b8c253c86921433d, type: 2}
     targetArg: 0
-  deliveryType: 0
+    powerMod: 1
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
   castTime: 1.5
   cooldown: 0
   needsActor: 1
   needsWP: 0
-  id: 2
+  id: 12
+  abilityTag: 0
+  resourceCosts: []
+  isChannel: 0
+  channelDuration: 0
+  numberOfTicks: 0
+  offGDC: 0
+  rangeClass: 0
+  range: Infinity
+  interruptable: 1
