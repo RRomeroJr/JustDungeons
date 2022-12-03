@@ -22,6 +22,7 @@ public class Controller : NetworkBehaviour
     [SyncVar]
     public bool autoAttackRequest = false;
     public float moveSpeed = 420;
+    public List<Ability_V2> abilities;
     
     public virtual void Awake(){
         

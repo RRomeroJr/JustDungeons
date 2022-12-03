@@ -15,7 +15,7 @@ public class EnemyController : Controller
     public EnemySO enemyStats;
     // The main behaviour tree asset
     public BehaviourTreeRunner treeRunner;
-    public List<Ability_V2> abilities;
+    //public List<Ability_V2> abilities;
 
     public Transform target;
     public List<Transform> multiTargets;

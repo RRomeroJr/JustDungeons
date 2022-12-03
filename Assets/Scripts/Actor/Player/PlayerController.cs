@@ -14,20 +14,6 @@ public enum PlayerState
 public class PlayerController : Controller
 {
    
-    
-
-   
-    public Ability_V2 ability1a;
-    public Ability_V2 ability2a;
-    public Ability_V2 ability3a;
-    public Ability_V2 ability4a;
-    public Ability_V2 ability5a;
-    public Ability_V2 ability6a;
-    public Ability_V2 ability7a;
-    public Ability_V2 ability8a;
-    public Ability_V2 ability9a;
-    public AbilityEff test;
-    public Vector3 posTest;
     public PlayerState state;
     //public Vector2 newVect_;
     void Awake(){
@@ -35,7 +21,6 @@ public class PlayerController : Controller
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        posTest = transform.position;
     }
     public override void Start()
     {   
@@ -44,30 +29,7 @@ public class PlayerController : Controller
             UIManager.playerController = this;
             actor.PlayerIsDead += HandlePlayerDead;
         }
-        // ability1 = AbilityData.DoT;
-        // ability2 = AbilityData.CastedDamage;
-        // ability3 = AbilityData.CastedHeal;
-        // ability4 = AbilityData.HoT;
-        // ability5 = AbilityData.AoE;
-        // ability6 = AbilityData.FreeAbilityIfHit;
-        // ability7 = AbilityData.DoubleEffectAbility;
-        // ability8 = AbilityData.DelayedDamage;
-        // ability9 = AbilityData.Teleport;
-        // ability10 = AbilityData.Dash;
-        // ability11 = AbilityData.DmgBuffBolt;
-        
-        
 
-        // Debug.Log(" 1 = DoT");
-        // Debug.Log(" 2 = One off Dmg");
-        // Debug.Log(" 3 = One off Heal");
-        // Debug.Log(" 4 = HoT");
-        // Debug.Log(" 5 = AoE (Doesn't disapear yet)");
-        // Debug.Log(" 6 = Skill Shot that fires off a 2nd 1 off if it hits an Actor");
-        // Debug.Log(" 7 = Ability with 2 effects (1 off heal then DoT)");
-        // Debug.Log(" 8 = 1 off Dmg that hits after a delay (4s)");
-        // Debug.Log(" R = Teleport");
-        // Debug.Log(" F = Dash");
     }
     void FixedUpdate(){
         if (isLocalPlayer){
@@ -109,48 +71,48 @@ public class PlayerController : Controller
                 case PlayerState.Alive:
                     if (Input.GetKeyDown("1"))
                     {
-                        if (ability1a != null)
-                            actor.castAbility3(ability1a);
+                        if (abilities[0] != null)
+                            actor.castAbility3(abilities[0]);
                     }
                     if (Input.GetKeyDown("2"))
                     {
-                        if (ability2a != null)
-                            actor.castAbility3(ability2a);
+                        if (abilities[1] != null)
+                            actor.castAbility3(abilities[1]);
                     }
                     if (Input.GetKeyDown("3"))
                     {
-                        if (ability3a != null)
-                            actor.castAbility3(ability3a);
+                        if (abilities[2] != null)
+                            actor.castAbility3(abilities[2]);
                     }
                     if (Input.GetKeyDown("4"))
                     {
-                        if (ability4a != null)
-                            actor.castAbility3(ability4a);
+                        if (abilities[3] != null)
+                            actor.castAbility3(abilities[3]);
                     }
                     if (Input.GetKeyDown("5"))
                     {
-                        if (ability5a != null)
-                            actor.castAbility3(ability5a);
+                        if (abilities[4] != null)
+                            actor.castAbility3(abilities[4]);
                     }
                     if (Input.GetKeyDown("q"))
                     {
-                        if (ability6a != null)
-                            actor.castAbility3(ability6a);
+                        if (abilities[5] != null)
+                            actor.castAbility3(abilities[5]);
                     }
                     if (Input.GetKeyDown("e"))
                     {
-                        if (ability7a != null)
-                            actor.castAbility3(ability7a);
+                        if (abilities[6] != null)
+                            actor.castAbility3(abilities[6]);
                     }
                     if (Input.GetKeyDown("r"))
                     {
-                        if (ability8a != null)
-                            actor.castAbility3(ability8a);
+                        if (abilities[7] != null)
+                            actor.castAbility3(abilities[7]);
                     }
                     if (Input.GetKeyDown("f"))
                     {
-                        if (ability9a != null)
-                            actor.castAbility3(ability9a);
+                        if (abilities[8] != null)
+                            actor.castAbility3(abilities[8]);
                     }
                     break;
                 case PlayerState.Dead:
