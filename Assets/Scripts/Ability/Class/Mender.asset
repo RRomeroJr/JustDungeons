@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Mender
   m_EditorClassIdentifier: 
   abilityList:
-  - {fileID: 11400000, guid: 722fa7e69c249d740829674736b49962, type: 2}
+  - {fileID: 11400000, guid: b5499d8d42ef81b4b9cd159493b21153, type: 2}
+  - {fileID: 11400000, guid: ca240e3b5b83aee44af48f10b6612abe, type: 2}

@@ -22,9 +22,9 @@ MonoBehaviour:
         m_Calls: []
   castTime: 0
   cooldown: 0
-  needsActor: 0
+  needsActor: 1
   needsWP: 0
-  id: 0
+  id: 31
   abilityTag: 0
   resourceCosts: []
   isChannel: 0

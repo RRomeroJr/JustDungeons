@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AoeHealEffect
   m_EditorClassIdentifier: 
   effectName: AoeHealEffect
-  id: -1
+  id: 44
   power: 0
   powerScale: 1
   parentBuff: {fileID: 0}
@@ -23,7 +23,13 @@ MonoBehaviour:
   caster: {fileID: 0}
   targetWP:
     Value: {x: 0, y: 0, z: 0}
-  eInstructs: []
+  eInstructs:
+  - effect: {fileID: 11400000, guid: ededd9096a4453447b45e4ddb6382b55, type: 2}
+    targetArg: 0
+    powerMod: 0.4
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
   school: -1
   prefabScale: {x: 1, y: 1, z: 1}
-  aoePrefab: {fileID: 0}
+  aoePrefab: {fileID: 8996080988287052582, guid: db84afa691c19434ebddff6db2a82936, type: 3}

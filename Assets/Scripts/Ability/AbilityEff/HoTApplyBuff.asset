@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HoTApplyBuff
   m_EditorClassIdentifier: 
   effectName: HoTApplyBuff
-  id: -1
+  id: 45
   power: 0
   powerScale: 1
   parentBuff: {fileID: 0}
@@ -24,4 +24,4 @@ MonoBehaviour:
   targetWP:
     Value: {x: 0, y: 0, z: 0}
   eInstructs: []
-  buffID: {fileID: 0}
+  buffID: {fileID: 11400000, guid: 5ca0e728c143f6540a1c868d91d5f1b6, type: 2}
