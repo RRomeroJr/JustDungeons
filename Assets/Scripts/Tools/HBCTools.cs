@@ -66,5 +66,30 @@ public static class HBCTools
         }
         return false;
     }
-    
+    public static bool NT_AuthoritativeClient(NetworkTransform _nt){
+        if(_nt == null){
+            Debug.LogError("NT_AuthoritativeClient: _nt == null");
+            return false;
+        }
+        //if this client is the with Auth over the NetworkTransform
+        if(_nt.isServer && _nt.isLocalPlayer){
+            Debug.Log("has NT authority bc HOST's player: " + _nt.gameObject.name );
+            return true;
+        }
+        //if this client is the with Auth over the NetworkTransform
+        if(_nt.clientAuthority != _nt.isServer){
+            
+            if(_nt.netIdentity.hasAuthority){
+                Debug.Log("client has NT authority: " + _nt.gameObject.name );
+                return true;
+            }
+            if(_nt.isServer){
+                Debug.Log("client bc isServer: " + _nt.gameObject.name );
+                return true;
+            }
+        }
+        Debug.Log("client does NOT have auth or nt" + _nt.gameObject.name );
+        return false;
+        
+    }
 }

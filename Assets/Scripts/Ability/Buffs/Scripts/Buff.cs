@@ -58,7 +58,9 @@ public class Buff: ScriptableObject
             lastTick -= tickRate;
         }
         if(remainingTime <= 0 ){
-            onFinish();
+            if(actor.isServer){
+                onFinish();
+            }
         }
     }
     public virtual void OnTick(){
@@ -88,6 +90,9 @@ public class Buff: ScriptableObject
         //list_ref.Remove(list_ref.Find(x => x ==  this)); //This needs to be tested
         if(actor.isServer){
             actor.removeBuff(this);
+        }
+        else{
+            actor.ClientRemoveBuff(this);
         }
         
     }

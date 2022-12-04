@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.AI;
+using Mirror;
 
 [System.Serializable]
 [CreateAssetMenu(fileName="Fear", menuName = "HBCsystem/Fear")]
@@ -10,39 +11,72 @@ public class Fear : AbilityEff
 {   
     public int school = -1;
     public float navMeshSpeed = 3.0f; //in the future this should change the moveSpeedMod
+    bool hasAuthOverNT = false;
     
     public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
-       //parentBuff.actor.transform.position = Vector2.MoveTowards(parentBuff.actor.transform.position, parentBuff.target.transform.position, power);
+       if(hasAuthOverNT){
+            //parentBuff.actor.transform.position = Vector2.MoveTowards(parentBuff.actor.transform.position, parentBuff.target.transform.position, power);
 
-        //parentBuff.actor.GetComponent<NavMeshAgent>().SetDestination(HBCtools.randomPointInRadius(parentBuff.Actor.transform.position, 4.0f));
-        while( parentBuff.actor.GetComponent<NavMeshAgent>()
-                .SetDestination(HBCTools.randomPointInRadius(parentBuff.actor.transform.position, 4.0f)) == false){
-
+            //parentBuff.actor.GetComponent<NavMeshAgent>().SetDestination(HBCtools.randomPointInRadius(parentBuff.Actor.transform.position, 4.0f));
+            if(parentBuff.actor.tag == "Player"){
+                 while( parentBuff.actor.GetComponent<NavMeshAgent>()
+                    .SetDestination(HBCTools.randomPointInRadius(parentBuff.actor.transform.position, 4.0f)) == false){
+                        Debug.Log("Fear path found: PLAYER");
                 }
-        Debug.Log("Fear path found");
+            }
+            else{
+                 Debug.Log("Fear path found: NPC");
+                 parentBuff.actor.GetComponent<Controller>()
+                    .moveToPoint(HBCTools.randomPointInRadius(parentBuff.actor.transform.position, 4.0f));
+                
+                
+            }
+       }
     }
     public override void buffStartEffect()
     {
-        //Debug.Log(effectName + ": Buff Start Effect");
-        parentBuff.actor.GetComponent<NavMeshAgent>().enabled = true;
-        parentBuff.actor.GetComponent<NavMeshAgent>().speed = navMeshSpeed;
-        while( parentBuff.actor.GetComponent<NavMeshAgent>()
-                .SetDestination(HBCTools.randomPointInRadius(parentBuff.actor.transform.position, 4.0f)) == false){
+        if(HBCTools.NT_AuthoritativeClient( parentBuff.actor.GetComponent<NetworkTransform>() ))
+        {
+            hasAuthOverNT = true;
+        }
 
+        if(hasAuthOverNT){
+            //Debug.Log(effectName + ": Buff Start Effect");
+            parentBuff.actor.GetComponent<NavMeshAgent>().enabled = true;
+            parentBuff.actor.GetComponent<NavMeshAgent>().speed = navMeshSpeed;
+            if(parentBuff.actor.tag == "Player"){
+                 while( parentBuff.actor.GetComponent<NavMeshAgent>()
+                    .SetDestination(HBCTools.randomPointInRadius(parentBuff.actor.transform.position, 4.0f)) == false){
+                        Debug.Log("Fear path found: PLAYER");
                 }
-        Debug.Log("Fear path found");
-        
+            }
+            else{
+                 Debug.Log("Fear path found: NPC");
+                 parentBuff.actor.GetComponent<Controller>()
+                    .moveToPoint(HBCTools.randomPointInRadius(parentBuff.actor.transform.position, 4.0f));
+                
+                
+            }
+           
+            
+        }
+            
     }
+        
+    
     public override void buffEndEffect()
     {
         
         //Debug.Log(effectName + ": Buff End Effect");
-        parentBuff.actor.GetComponent<NavMeshAgent>().ResetPath();
-        if(parentBuff.actor.gameObject.tag == "Player"){
-            parentBuff.actor.GetComponent<NavMeshAgent>().enabled = false;
+        if(hasAuthOverNT)
+        {
+            parentBuff.actor.GetComponent<NavMeshAgent>().ResetPath();
+            if(parentBuff.actor.gameObject.tag == "Player"){
+                parentBuff.actor.GetComponent<NavMeshAgent>().enabled = false;
+            }
+
         }
-        
-        
+
     }
     public Fear(string _effectName, int _id = -1, float _power = 0, int _school = -1){
         effectName = _effectName;
