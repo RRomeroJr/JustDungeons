@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.AI;
 
+
 public class Controller : NetworkBehaviour
 {   [Header("For Now Needs To Be Assigned")]
     public Ability_V2 autoAttackClone;
@@ -111,26 +112,38 @@ public class Controller : NetworkBehaviour
             then set agent.destination to pos and check to see if it arrived every 0.2s
             or so 
         */
-        
-        agent.destination = pos;
+        if(resolvingMoveTo){
+            Debug.Log("already resolving moving finishing early");
+            agent.SetDestination(pos);
+            yield return new WaitForSeconds(0.0f);
             
-        agent.stoppingDistance = 0;
-        resolvingMoveTo = true;
-        agent.isStopped = false;
-        while(!agent.isStopped){
-            if (Mathf.Abs(Vector2.Distance(pos, gameObject.transform.position))
-                    > agent.stoppingDistance + 0.1f){
-                        //Debug.Log("Pathing Spam");
-                yield return new WaitForSeconds(0.2f);
+        }
+        else{
+            Debug.Log("Not resovling move to");
+            agent.SetDestination(pos);
+            
+            agent.stoppingDistance = 0;
+            resolvingMoveTo = true;
+            agent.isStopped = false;
+            
+            while(agent.hasPath || agent.pathPending){
+                if (Mathf.Abs(Vector2.Distance(pos, gameObject.transform.position))
+                        > agent.stoppingDistance + 0.1f){
+                            //Debug.Log("Pathing Spam");
+                    yield return new WaitForSeconds(0.2f);
+                }
+                
+                
             }
             
-            
+            resolvingMoveTo = false;
+            if(followTarget != null){
+                agent.stoppingDistance = getStoppingDistance(followTarget);
+            }
+            Debug.Log("Move To Finshed");
         }
-        agent.isStopped = true;
-        resolvingMoveTo = false;
-        if(followTarget != null){
-            agent.stoppingDistance = getStoppingDistance(followTarget);
-        }
+        
+        
         
     }
      IEnumerator IE_moveToPoint(Vector2 pos, float tempMoveSpeed){

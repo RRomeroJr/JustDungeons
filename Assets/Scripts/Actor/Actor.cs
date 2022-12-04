@@ -416,7 +416,19 @@ public class Actor : NetworkBehaviour
 
         buffs.RemoveAt(buffIndex);
         Debug.Log("Removed index: " + buffIndex);
+        
         RpcRemoveBuffIndex(buffIndex);
+        
+        
+    }
+    public void ClientRemoveBuff(Buff _callingBuff){
+        
+        int buffIndex = buffs.FindIndex(x => x == _callingBuff);
+
+        buffs.RemoveAt(buffIndex);
+        Debug.Log("Removed index: " + buffIndex);
+        
+        
     }
     [ClientRpc]
     void RpcRemoveBuffIndex(int hostIndex){
@@ -424,7 +436,7 @@ public class Actor : NetworkBehaviour
             return;
         }
         Debug.Log("Host saying to remove buff index: " + hostIndex);
-        buffs.RemoveAt(hostIndex);
+        buffs[hostIndex].onFinish();
     }
     void AddNewBuff(Buff _buff){
         _buff.setActor(this);
