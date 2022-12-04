@@ -39,6 +39,9 @@ public class Nameplate : MonoBehaviour
     }
 
     void Update(){
+        if(actor == null){
+            Destroy(canvas.gameObject);
+        }
         transform.position = actor.transform.position + (Vector3)offset;
         updateSliderHealth();
         updateSliderResource(resourceBar);
