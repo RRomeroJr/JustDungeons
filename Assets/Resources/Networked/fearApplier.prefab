@@ -79,7 +79,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 192
   hitHostile: 1
-  hitFriendly: 0
+  hitFriendly: 1
+  canHitSelf: 0
 --- !u!114 &3926534262364259519
 MonoBehaviour:
   m_ObjectHideFlags: 0
