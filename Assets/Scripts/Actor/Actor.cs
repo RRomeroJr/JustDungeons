@@ -147,7 +147,7 @@ public class Actor : NetworkBehaviour
     void Start(){
         
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
-        if(isLocalPlayer){
+        if((isLocalPlayer) || (tag != "Player")){
             UIManager.playerActor = this;
             Nameplate.Create(this);
         }
