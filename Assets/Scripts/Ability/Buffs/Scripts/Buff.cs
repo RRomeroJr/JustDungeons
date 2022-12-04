@@ -67,9 +67,14 @@ public class Buff: ScriptableObject
         }
     }
     public virtual void onStart(){
+
         foreach(EffectInstruction eI in eInstructs){
+            eI.effect.target = actor;
+            eI.effect.caster = caster;
+            
             eI.effect.buffStartEffect();
         }
+
     }
     public virtual void onFinish(){
         foreach(EffectInstruction eI in eInstructs){

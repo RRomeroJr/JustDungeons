@@ -68,6 +68,8 @@ public class Actor : NetworkBehaviour
     [SyncVar]
     public uint silienced = 0;
     public uint tauntImmune = 0;
+
+    public CombatClass combatClass;
     
     
     
@@ -152,6 +154,14 @@ public class Actor : NetworkBehaviour
         animator = GetComponent<Animator>();
         //gameObject.GetComponent<Renderer>().Color = unitColor;
         //Nameplate.Create(this);
+
+        if(combatClass !=null){
+            int counter = 0;
+            foreach(Ability_V2 abi in combatClass.abilityList){
+                GetComponent<Controller>().abilities[counter] = abi;
+                counter = counter + 1;
+            }
+        }
 
 
     }
