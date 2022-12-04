@@ -475,7 +475,7 @@ public class Actor : NetworkBehaviour
 
         //Debug.Log("castAbility3");
         
-        if(CheckCooldownAndGCD(_ability) == false){ //Will be check on cd later
+        if(CheckCooldownAndGCD(_ability) == false){ 
             // MirrorTestTools._inst.ClientDebugLog(_ability.getName() + "| Not on cool down or GCD");
             if(hasTheResources(_ability)){
                 //if ability is magical check silence
@@ -979,11 +979,12 @@ public class Actor : NetworkBehaviour
             return true;
         }
         else{
+            //Debug.Log(actorName + " Not on gcd");
             return false;
         }
     }
     public bool CheckCooldownAndGCD(Ability_V2 _ability){
-        if(_ability.offGDC = false){ //if its a oGCD chekc if on GCD
+        if(_ability.offGDC == false){ //if its a oGCD chekc if on GCD
             if(CheckOnGCD()){
                 return true;
             }

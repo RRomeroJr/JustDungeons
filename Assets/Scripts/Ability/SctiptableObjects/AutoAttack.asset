@@ -33,3 +33,4 @@ MonoBehaviour:
   offGDC: 1
   rangeClass: 1
   range: 3.5
+  interruptable: 1
