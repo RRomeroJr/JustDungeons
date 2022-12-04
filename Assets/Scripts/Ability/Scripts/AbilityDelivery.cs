@@ -38,6 +38,7 @@ public class AbilityDelivery : NetworkBehaviour
    
     public bool hitHostile = true;
     public bool hitFriendly = true;
+    public bool canHitSelf = false;
     void Start()
     {   
         if(isServer){
@@ -74,37 +75,29 @@ public class AbilityDelivery : NetworkBehaviour
     {
         if(isServer){
             if(start){
-                
-                if(checkIgnoreConditons(other.GetComponent<Actor>()) == false){
-                    if(type == 0){   
-                        if (other.gameObject.GetComponent<Actor>() == target){
-                            
-
+                Actor hitActor = other.GetComponent<Actor>();
+                if(checkIgnoreConditons(hitActor) == false){
+                    if(type == 0){
+                        if (hitActor == target){
                             if(eInstructs.Count > 0){
-                                Actor target_ref = other.gameObject.GetComponent<Actor>();
                                 foreach (EffectInstruction eI in eInstructs){
-                                    eI.sendToActor(other.gameObject.GetComponent<Actor>(), null, caster);
+                                    eI.sendToActor(hitActor, null, caster);
                                 }
                             }
                             Destroy(gameObject);
                         }
                     }
-                    if(type == 1){   
-                        if (other.gameObject.GetComponent<Actor>() != null){
-                            if(other.gameObject.GetComponent<Actor>() != caster){
-
+                    if(type == 1){
+                        if(hitActor != caster){
                             if(eInstructs.Count > 0){
-                                Actor target_ref = other.gameObject.GetComponent<Actor>();
                                 foreach (EffectInstruction eI in eInstructs){
-                                    eI.sendToActor(other.gameObject.GetComponent<Actor>(), null, caster);
+                                    eI.sendToActor(hitActor, null, caster);
                                 }
                             }
                             Destroy(gameObject);
-                            }
-                        }
+                        } 
                     }
                 }
-                    
             }
         }
     }
@@ -112,17 +105,19 @@ public class AbilityDelivery : NetworkBehaviour
         private void OnTriggerStay2D(Collider2D other){
             if(isServer){
                 if(start){
-                if((type == 2)||(type == 3)){
-                    
-                    if (other.gameObject.GetComponent<Actor>() != caster){
-                        if (other.gameObject.GetComponent<Actor>() != null){
-                            //Debug.Log("type 2 and 3 spam");
+                    //Debug.Log("Trigger stay server and start");
+                Actor hitActor = other.GetComponent<Actor>();
+                if(checkIgnoreConditons(hitActor) == false){
+                    //Debug.Log("Actor found and passes conditions");
+                    if((type == 2)||(type == 3)){
+                        if( (hitActor != caster) || canHitSelf){
+                           //Debug.Log("Not caster or canHitSelf");
+                            Debug.Log(hitActor.getActorName());
+                            
+
                             if(checkIgnoreTarget(other.gameObject.GetComponent<Actor>()) == false){
                                 addToAoeIgnore(other.gameObject.GetComponent<Actor>(), tickRate);
 
-                                /* Old System
-                                other.gameObject.GetComponent<Actor>().applyAbilityEffects(abilityEffects, caster);
-                                */
                                 if(eInstructs.Count > 0){
                                     Actor target_ref = other.gameObject.GetComponent<Actor>();
                                     Debug.Log("AD aoe hit with target_ref: " + target_ref.getActorName());
@@ -130,42 +125,50 @@ public class AbilityDelivery : NetworkBehaviour
                                         eI.sendToActor(target_ref, null, caster);
                                     }
                                 }
+                                else{
+                                    Debug.Log("No instructs!");
+                                }
                             }
+                            
+                        else{
+                            Debug.Log("2||3 no actor found");
+                        }
+                        // make version that has a set number for ticks?
                     }
-                    // make version that has a set number for ticks?
-                }
-            }
-            if(type == 4){
-                //Debug.Log("type 4 onTiggerStay");
-                if (other.gameObject.GetComponent<Actor>() != caster){
-                    if (other.gameObject.GetComponent<Actor>() != null){
-                        //Debug.Log("Actor found and not caster");
-                        float dist = Vector2.Distance
-                                (other.GetComponent<Collider2D>().bounds.center, safeZoneCenter);
+                
+                    }
+                    if(type == 4){
+                        //Debug.Log("type 4 onTiggerStay");
+                        if ( (hitActor != caster) || canHitSelf){
                         
-                        if(dist > innerCircleRadius){
-                            Debug.DrawLine(other.GetComponent<Collider2D>().bounds.center, safeZoneCenter, Color.red);
-                            if(checkIgnoreTarget(other.gameObject.GetComponent<Actor>()) == false){
-                                
-                                addToAoeIgnore(other.gameObject.GetComponent<Actor>(), tickRate);
-                                
-                                if(eInstructs.Count > 0){
-                                    Actor target_ref = other.gameObject.GetComponent<Actor>();
-                                    foreach (EffectInstruction eI in eInstructs){
-                                        eI.sendToActor(target_ref, null, caster);
+                            //Debug.Log("Actor found and not caster");
+                            float dist = Vector2.Distance
+                                    (other.GetComponent<Collider2D>().bounds.center, safeZoneCenter);
+                            
+                            if(dist > innerCircleRadius){
+
+                                Debug.DrawLine(other.GetComponent<Collider2D>().bounds.center, safeZoneCenter, Color.red);
+
+                                if(checkIgnoreTarget(hitActor) == false){
+                                    
+                                    addToAoeIgnore(hitActor, tickRate);
+                                    
+                                    if(eInstructs.Count > 0){
+                                        foreach (EffectInstruction eI in eInstructs){
+                                            eI.sendToActor(hitActor, null, caster);
+                                        }
                                     }
                                 }
                             }
+                            else{
+                                Debug.DrawLine(other.GetComponent<Collider2D>().bounds.center, safeZoneCenter, Color.green);
+                                
+                            }
+                            
+                            // make version that has a set number for ticks?
                         }
-                        else{
-                            Debug.DrawLine(other.GetComponent<Collider2D>().bounds.center, safeZoneCenter, Color.green);
-                            // Debug.Log(other.gameObject.GetComponent<Actor>().getActorName() + "| Ring miss: dist " +  
-                            //     dist.ToString() + " radius:" + innerCircleRadius.ToString());
-                        }
-                    }
-                    // make version that has a set number for ticks?
-                }
-            }
+                    }   
+                } 
             }
         }
     }
@@ -259,13 +262,13 @@ public class AbilityDelivery : NetworkBehaviour
             }
             if(caster != null){
                 if(hitHostile){
-                    if(HBCTools.areHostle(caster, _hitActor) == false){
+                    if(HBCTools.areHostle(caster, _hitActor) == true){
                         //Debug.Log(caster.getActorName() + " & " + _hitActor.getActorName() + " are not hostile");
                         return false;
                     }
                 }
                 if(hitFriendly){
-                    if(HBCTools.areHostle(caster, _hitActor) == true){
+                    if(HBCTools.areHostle(caster, _hitActor) == false){
                         //Debug.Log(caster.getActorName() + " & " + _hitActor.getActorName() + " are not friendly");
                         return false;
                     }
