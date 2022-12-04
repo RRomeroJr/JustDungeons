@@ -75,6 +75,12 @@ MonoBehaviour:
   innerCircleRadius: 0
   safeZoneCenter: {x: 0, y: 0}
   skillshotvector: {x: 0, y: 0}
+  hitMask:
+    serializedVersion: 2
+    m_Bits: 64
+  hitHostile: 1
+  hitFriendly: 0
+  canHitSelf: 0
 --- !u!114 &3926534262364259519
 MonoBehaviour:
   m_ObjectHideFlags: 0

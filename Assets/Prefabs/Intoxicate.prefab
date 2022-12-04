@@ -55,10 +55,13 @@ MonoBehaviour:
   target: {fileID: 0}
   worldPointTarget: {x: 0, y: 0, z: 0}
   aoeActorIgnore: []
-  abilityEffects: []
   eInstructs:
   - effect: {fileID: 11400000, guid: d2b66d2586a53824ebde6ca470271f97, type: 2}
     targetArg: 0
+    powerMod: 1
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
   connectedToCaster: 0
   delayTimer: 0
   start: 1
@@ -67,9 +70,17 @@ MonoBehaviour:
   duration: 0.2
   tickRate: 4
   aoeCap: 0
+  followTarget: 0
   ignoreDuration: 0
   innerCircleRadius: 0
   safeZoneCenter: {x: 0, y: 0}
+  skillshotvector: {x: 0, y: 0}
+  hitMask:
+    serializedVersion: 2
+    m_Bits: 64
+  hitHostile: 1
+  hitFriendly: 0
+  canHitSelf: 0
 --- !u!114 &3926534262364259519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,7 +96,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: d1ad02c0d1d56694eb30875123e20dd4
+  m_AssetId: 64b0b49d7bf32f843b9a65baed889b7e
   hasSpawned: 0
 --- !u!114 &4116171392838694478
 MonoBehaviour:

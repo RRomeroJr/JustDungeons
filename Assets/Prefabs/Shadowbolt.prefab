@@ -132,16 +132,26 @@ MonoBehaviour:
   target: {fileID: 0}
   worldPointTarget: {x: 0, y: 0, z: 0}
   aoeActorIgnore: []
-  abilityEffects: []
   eInstructs: []
+  connectedToCaster: 0
+  delayTimer: 0
+  start: 1
   type: 0
   speed: 0.1
   duration: 0
   tickRate: 1.5
   aoeCap: 0
+  followTarget: 0
   ignoreDuration: 1
   innerCircleRadius: 0
   safeZoneCenter: {x: 0, y: 0}
+  skillshotvector: {x: 0, y: 0}
+  hitMask:
+    serializedVersion: 2
+    m_Bits: 192
+  hitHostile: 1
+  hitFriendly: 0
+  canHitSelf: 0
 --- !u!114 &3926534262364259519
 MonoBehaviour:
   m_ObjectHideFlags: 0
