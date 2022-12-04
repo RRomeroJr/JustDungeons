@@ -15,6 +15,7 @@ public class PlayerController : Controller
 {
    
     public PlayerState state;
+    public LayerMask clickMask;
     //public Vector2 newVect_;
     void Awake(){
         actor = GetComponent<Actor>();
@@ -28,6 +29,7 @@ public class PlayerController : Controller
         if(isLocalPlayer){
             UIManager.playerController = this;
             actor.PlayerIsDead += HandlePlayerDead;
+            FindObjectOfType<UIRaycaster>().UIFrameClicked += OnUIFrameClicked;
         }
 
     }
@@ -66,6 +68,7 @@ public class PlayerController : Controller
         base.Update();
         if (isLocalPlayer)
         {
+            mouseInput();
             switch (state)
             {
                 case PlayerState.Alive:
@@ -122,6 +125,54 @@ public class PlayerController : Controller
             }
         }
     }
+    void mouseInput(){
+        if (Input.GetMouseButtonDown(0)) {
+
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, clickMask);
+            //Debug.Log("mousePos "+ mousePos.ToString());
+
+            if (hit.collider != null) {
+                
+                Debug.Log("Clicked something: " + hit.collider.gameObject.name);
+
+                // set controller's target w/ actor hit by raycast
+
+                if(isServer){
+                    actor.rpcSetTarget(hit.collider.gameObject.GetComponent<Actor>());
+                }else{
+                    actor.cmdReqSetTarget(hit.collider.gameObject.GetComponent<Actor>());
+                }
+            }else{
+                Debug.Log("Nothing clicked");
+            }
+        }
+        if (Input.GetMouseButtonDown(1)) {
+
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, clickMask);
+            //Debug.Log("mousePos "+ mousePos.ToString());
+
+            if (hit.collider != null) {
+                
+                Debug.Log("Clicked something: " + hit.collider.gameObject.name);
+
+                // set controller's target w/ actor hit by raycast
+                actor.GetComponent<Controller>().autoAttacking = true;
+                if(isServer){
+                    actor.rpcSetTarget(hit.collider.gameObject.GetComponent<Actor>());
+                }else{
+                    actor.cmdReqSetTarget(hit.collider.gameObject.GetComponent<Actor>());
+                }
+                
+            }else{
+                Debug.Log("Nothing clicked");
+                actor.GetComponent<Controller>().autoAttacking = false;
+            }
+        }
+    }
 
     void HandlePlayerDead(object sender, EventArgs e)
     {
@@ -152,5 +203,25 @@ public class PlayerController : Controller
         Vector3 worldPoint = Camera.main.ScreenToWorldPoint(scrnPos);
         worldPoint.z = 0.0f;
         return worldPoint;
+    }
+    private void OnUIFrameClicked(object source, UIFrameClickedEventArgs e)
+    {
+        if (isServer)
+        {
+            actor.rpcSetTarget(e.Frame.actor);
+        }
+        else
+        {
+            actor.cmdReqSetTarget(e.Frame.actor);
+        }
+    }
+
+    [ClientRpc]
+    void updateTargetToClients(Actor target){
+        actor.target = target;
+    }
+    [Command]
+    void reqTargetUpdate(Actor _actor){ //in future this should be some sort of act id or something
+        updateTargetToClients(_actor);
     }
 }

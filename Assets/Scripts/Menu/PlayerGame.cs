@@ -27,7 +27,7 @@ public class PlayerGame : NetworkBehaviour
         DontDestroyOnLoad(this);
         Room.GamePlayers.Add(this);
         GetComponent<Actor>().enabled = true;
-        GetComponent<ClickManager>().enabled = true;
+        //GetComponent<ClickManager>().enabled = true;
     }
 
     public override void OnStopClient()

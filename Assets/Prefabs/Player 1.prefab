@@ -18,7 +18,6 @@ GameObject:
   - component: {fileID: 3602611100074717277}
   - component: {fileID: 568127742855530159}
   - component: {fileID: 4071298855410542102}
-  - component: {fileID: 6993748326980265517}
   - component: {fileID: -121281515293638722}
   - component: {fileID: 3747133552387403488}
   - component: {fileID: 7805083521186877322}
@@ -257,6 +256,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5018719afa2dee746bbd7247a8802f72, type: 2}
   - {fileID: 11400000, guid: 789ee262ef9ad0c418009477bd594f0d, type: 2}
   state: 0
+  clickMask:
+    serializedVersion: 2
+    m_Bits: 192
 --- !u!114 &568127742855530159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,27 +310,6 @@ MonoBehaviour:
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
---- !u!114 &6993748326980265517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3602611100074717264}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46b67545aeaa38e499016f81db77eb60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  targetName: {fileID: 0}
-  targetHealthBar: {fileID: 0}
-  targetHealthBarFill: {fileID: 0}
-  playerActor: {fileID: 3602611100074717274}
-  mask:
-    serializedVersion: 2
-    m_Bits: 224
 --- !u!195 &-121281515293638722
 NavMeshAgent:
   m_ObjectHideFlags: 0
