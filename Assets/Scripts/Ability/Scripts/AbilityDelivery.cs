@@ -112,7 +112,7 @@ public class AbilityDelivery : NetworkBehaviour
                     if((type == 2)||(type == 3)){
                         if( (hitActor != caster) || canHitSelf){
                            //Debug.Log("Not caster or canHitSelf");
-                            Debug.Log(hitActor.getActorName());
+                            //Debug.Log(hitActor.getActorName());
                             
 
                             if(checkIgnoreTarget(other.gameObject.GetComponent<Actor>()) == false){
@@ -131,7 +131,7 @@ public class AbilityDelivery : NetworkBehaviour
                             }
                             
                         else{
-                            Debug.Log("2||3 no actor found");
+                            //Debug.Log("2||3 no actor found");
                         }
                         // make version that has a set number for ticks?
                     }
@@ -255,6 +255,7 @@ public class AbilityDelivery : NetworkBehaviour
     bool checkIgnoreConditons(Actor _hitActor){
         //returns true if the _histActor should be ignored
         if(_hitActor != null){
+            
            
             if( hitMask == (hitMask | (1 << _hitActor.gameObject.layer)) == false ){ //if hit does not match mask
                 Debug.Log(_hitActor.getActorName() + " did not match hitMask. go: " + gameObject.name);
@@ -273,6 +274,9 @@ public class AbilityDelivery : NetworkBehaviour
                         return false;
                     }
                 }
+            }
+            else{
+                return false;
             }
 
             if((!hitHostile)&&(!hitFriendly)){
