@@ -6,6 +6,12 @@ using Mirror;
 
 public static class HBCTools
 {
+    public enum Quadrant{
+        UpRight,
+        UpLeft,
+        DownLeft,
+        DownRight
+    }
     public static bool checkIfBehind(Actor actorToCheck, Actor target){
         // get a vector corressonding to the distance btwn the actorToCheck and taget
         Vector2 angleFromTarget = (Vector2)(actorToCheck.transform.position - target.transform.position);
@@ -91,5 +97,56 @@ public static class HBCTools
         Debug.Log("client does NOT have auth or nt" + _nt.gameObject.name );
         return false;
         
+    }
+    public static Vector2 ToNearest45(Vector2 _input){
+        Vector2 toReturn;
+        
+        if(_input.x >= 0.0f){
+            toReturn.x = 0.5f;
+        }
+        else{
+            toReturn.x = -0.5f;
+        }
+        if(_input.y >= 0.0f){
+            toReturn.y = 0.5f;
+        }
+        else{
+            toReturn.y = -0.5f;
+        }
+
+        return toReturn;
+    }
+    public static Quadrant GetQuadrant(Vector2 _vect){
+        if((_vect.x >= 0.0f) && (_vect.y >= 0.0f)){
+            return Quadrant.UpRight;
+        }
+        else if((_vect.x < 0.0f) && (_vect.y >= 0.0f)){
+            return Quadrant.UpLeft;
+        }
+        else if((_vect.x < 0.0f) && (_vect.y < 0.0f)){
+            return Quadrant.DownLeft;
+        }
+        else{
+            return Quadrant.DownRight;
+        }
+        
+    }
+    public static Vector2 QuadrantToVector(Quadrant _quad){
+        Vector2 toReturn;
+        if(_quad == Quadrant.UpRight){
+            toReturn = Vector2.right + Vector2.up;
+            
+        }
+        else if(_quad == Quadrant.UpLeft){
+            toReturn = Vector2.left + Vector2.up;
+        }
+        else if(_quad == Quadrant.DownLeft){
+            toReturn = Vector2.left + Vector2.down;
+        }
+        else{
+            toReturn = Vector2.right + Vector2.down;
+        }
+        toReturn.Normalize();
+        return toReturn;
     }
 }

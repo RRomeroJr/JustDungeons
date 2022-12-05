@@ -16,6 +16,10 @@ public class PlayerController : Controller
    
     public PlayerState state;
     public LayerMask clickMask;
+    public float mouseSensitivity = 15f;
+    public float xMouseMove = 0.0f;
+    public Vector2 mouseStart;
+    public Vector2 mousePos;
     //public Vector2 newVect_;
     void Awake(){
         actor = GetComponent<Actor>();
@@ -47,6 +51,14 @@ public class PlayerController : Controller
                             newVect.x *= (moveSpeed * Time.deltaTime);
                             newVect.y *= (moveSpeed * Time.deltaTime);
                             gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
+                            if(Input.GetMouseButton(1) == false){
+                                HBCTools.Quadrant newVectQuad;
+                                newVectQuad = HBCTools.GetQuadrant(newVect);
+                                if(HBCTools.GetQuadrant(facingDirection) != newVectQuad){
+                                    facingDirection = HBCTools.QuadrantToVector(newVectQuad);
+                                }
+                            }
+                            
                         }
                         //if(not in deadzone)
                         // Vector2 newVect = new Vector2(Input.GetAxis("Horizontal") * HORIZ_MOVE_ACCEL * Time.deltaTime,
@@ -145,12 +157,14 @@ public class PlayerController : Controller
                     actor.cmdReqSetTarget(hit.collider.gameObject.GetComponent<Actor>());
                 }
             }else{
-                Debug.Log("Nothing clicked");
+                //Debug.Log("Nothing clicked");
             }
         }
+        
         if (Input.GetMouseButtonDown(1)) {
 
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mouseStart = Input.mousePosition; //used for manual turning
 
             RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, clickMask);
             //Debug.Log("mousePos "+ mousePos.ToString());
@@ -168,9 +182,28 @@ public class PlayerController : Controller
                 }
                 
             }else{
-                Debug.Log("Nothing clicked");
+                //Debug.Log("Nothing clicked");
                 actor.GetComponent<Controller>().autoAttacking = false;
             }
+        }
+        if(Input.GetMouseButton(1)){
+            xMouseMove += Input.GetAxis("Mouse X") * mouseSensitivity * -1.0f;
+
+            Vector2 mouseMoveVect;
+            //mouseMoveVect = (Vector2)Input.mousePosition - mouseStart; //mode 1
+            mouseMoveVect = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)transform.position; //mode 2
+            facingDirection = HBCTools.ToNearest45(mouseMoveVect);
+            // if(xMouseMove >= 45.0f){
+            //     xMouseMove -= 45.0f;
+            //     facingDirection = Quaternion.AngleAxis(90.0f, Vector3.forward) * facingDirection;
+                
+            // }
+            // if(xMouseMove <= -45.0f){
+            //     xMouseMove += 45.0f;
+            //     facingDirection = Quaternion.AngleAxis(-90.0f, Vector3.forward) * facingDirection;
+                
+            // }
+            Debug.DrawLine(transform.position, (facingDirection * 2.5f) + (Vector2)transform.position, Color.green);
         }
     }
 

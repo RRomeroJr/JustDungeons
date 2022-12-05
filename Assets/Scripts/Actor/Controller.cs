@@ -34,7 +34,7 @@ public class Controller : NetworkBehaviour
     }
     public virtual void Start(){
         //autoAttackClone = AbilityData.instance.AutoAttack.clone();
-        facingDirection = Vector2.down;
+        facingDirection = new Vector2(0.5f,-0.5f);
     }
     
     public void MoveTowards(Vector3 pos){
