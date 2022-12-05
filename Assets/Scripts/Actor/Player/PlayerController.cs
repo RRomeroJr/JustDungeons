@@ -54,6 +54,9 @@ public class PlayerController : Controller
                             if(Input.GetMouseButton(1) == false){
                                 HBCTools.Quadrant newVectQuad;
                                 newVectQuad = HBCTools.GetQuadrant(newVect);
+                                if((newVect.x == 0.0f)||(newVect.y == 0.0f)){ //don't try to chan
+                                    break;
+                                }
                                 if(HBCTools.GetQuadrant(facingDirection) != newVectQuad){
                                     facingDirection = HBCTools.QuadrantToVector(newVectQuad);
                                 }
@@ -203,7 +206,7 @@ public class PlayerController : Controller
             //     facingDirection = Quaternion.AngleAxis(-90.0f, Vector3.forward) * facingDirection;
                 
             // }
-            Debug.DrawLine(transform.position, (facingDirection * 2.5f) + (Vector2)transform.position, Color.green);
+            //Debug.DrawLine(transform.position, (facingDirection * 2.5f) + (Vector2)transform.position, Color.green);
         }
     }
 
