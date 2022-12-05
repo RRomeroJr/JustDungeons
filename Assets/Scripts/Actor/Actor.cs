@@ -53,7 +53,7 @@ public class Actor : NetworkBehaviour
     [SerializeField]protected NullibleVector3 queuedTargetWP;
     
     [SerializeField]public List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
-    public UIManager uiManager;    
+    public UIManager uiManager;
     public float castTime;
     public CastBar castBar;
 
@@ -150,6 +150,17 @@ public class Actor : NetworkBehaviour
         if((isLocalPlayer) || (tag != "Player")){
             UIManager.playerActor = this;
             Nameplate.Create(this);
+        }
+        if(gameObject.layer == LayerMask.NameToLayer("Enemy")){
+            //Debug.Log("Scaling stats: " + actorName);
+            //Buff stats here from GameManager?
+            bool scaleCurrentHealth = (maxHealth == health);
+            
+            maxHealth = (int) (maxHealth * (1 + (GameManager.instance.dungeonHealthScaling * GameManager.instance.dungeonScalingLevel)));
+            if(scaleCurrentHealth){
+                health = maxHealth;
+            }
+            mainStat = (int) (mainStat * (1 + (GameManager.instance.dungeonDamageScaling * GameManager.instance.dungeonScalingLevel)));
         }
         animator = GetComponent<Animator>();
         //gameObject.GetComponent<Renderer>().Color = unitColor;

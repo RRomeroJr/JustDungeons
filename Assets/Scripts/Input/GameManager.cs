@@ -12,6 +12,10 @@ public class GameManager : MonoBehaviour
     //Assume that actor get you a COPY of the abililty that they want to cast
     // or.. I could copy it for them... and replace the ref with ref keyword
     public UnityEvent<int> OnMobDeath;
+    public int dungeonScalingLevel = 0;
+    public float dungeonHealthScaling = 0.1f;
+    public float dungeonDamageScaling = 0.1f;
+
     void Awake()
 	{
 		if(instance == null){
