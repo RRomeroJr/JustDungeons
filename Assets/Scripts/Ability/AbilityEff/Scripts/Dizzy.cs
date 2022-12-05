@@ -15,9 +15,9 @@ public class Dizzy : AbilityEff
     public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
        
         //Hopefully this rotates the moveVector in the y axis by power every frame
-        if(parentBuff.actor.isServer){
-            indicatorRef.transform.position = parentBuff.actor.transform.position;
-        }
+        
+        //indicatorRef.transform.position = parentBuff.actor.transform.position;
+        
         clientEffect();
         
     }
@@ -40,6 +40,7 @@ public class Dizzy : AbilityEff
     public override void buffStartEffect()
     {
         indicatorRef = Instantiate(indicatorPrefab, parentBuff.actor.transform.position, Quaternion.identity);
+        indicatorRef.GetComponent<FolllowObject>().target = parentBuff.actor.gameObject;
         indicatorRef.transform.Rotate(moveDirection);
       parentBuff.actor.canMove = false;
     }
