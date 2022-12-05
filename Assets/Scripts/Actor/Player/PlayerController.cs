@@ -20,6 +20,7 @@ public class PlayerController : Controller
     public float xMouseMove = 0.0f;
     public Vector2 mouseStart;
     public Vector2 mousePos;
+
     //public Vector2 newVect_;
     void Awake(){
         actor = GetComponent<Actor>();
@@ -48,6 +49,9 @@ public class PlayerController : Controller
 
                         if (Mathf.Abs(newVect.magnitude) > 0.2)
                         {
+                            if(!tryingToMove){
+                                CmdSetTryingToMove(true);
+                            }
                             newVect.x *= (moveSpeed * Time.deltaTime);
                             newVect.y *= (moveSpeed * Time.deltaTime);
                             gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
@@ -61,7 +65,12 @@ public class PlayerController : Controller
                                     facingDirection = HBCTools.QuadrantToVector(newVectQuad);
                                 }
                             }
-                            
+ 
+                        }
+                        else{
+                            if(tryingToMove){
+                                CmdSetTryingToMove(false);
+                            }
                         }
                         //if(not in deadzone)
                         // Vector2 newVect = new Vector2(Input.GetAxis("Horizontal") * HORIZ_MOVE_ACCEL * Time.deltaTime,

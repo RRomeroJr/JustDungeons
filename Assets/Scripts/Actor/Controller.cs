@@ -24,6 +24,8 @@ public class Controller : NetworkBehaviour
     public bool autoAttackRequest = false;
     public float moveSpeed = 420;
     public List<Ability_V2> abilities;
+    [SyncVar]
+    public bool tryingToMove = false;
     
     public virtual void Awake(){
         
@@ -97,6 +99,10 @@ public class Controller : NetworkBehaviour
             }
             
         }
+    }
+    [Command]
+    public void CmdSetTryingToMove(bool _valFromClient){
+        tryingToMove = _valFromClient;
     }
     public void moveToPoint(Vector2 pos){
         StartCoroutine(IE_moveToPoint(pos));
