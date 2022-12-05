@@ -1112,6 +1112,12 @@ public class Actor : NetworkBehaviour
     void updateCast(){
         
         if(isCasting){
+            if(isServer){
+                if(GetComponent<Controller>().tryingToMove){
+                    resetClientCastVars();
+                }
+            }
+            
             if(isChanneling){
                 castTime -= Time.deltaTime;
                 lastChannelTick += Time.deltaTime;
