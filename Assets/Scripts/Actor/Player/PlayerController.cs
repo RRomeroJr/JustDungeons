@@ -63,6 +63,7 @@ public class PlayerController : Controller
                                 }
                                 if(HBCTools.GetQuadrant(facingDirection) != newVectQuad){
                                     facingDirection = HBCTools.QuadrantToVector(newVectQuad);
+                                    CmdSetFacingDirection(facingDirection);
                                 }
                             }
  
@@ -205,17 +206,8 @@ public class PlayerController : Controller
             //mouseMoveVect = (Vector2)Input.mousePosition - mouseStart; //mode 1
             mouseMoveVect = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)transform.position; //mode 2
             facingDirection = HBCTools.ToNearest45(mouseMoveVect);
-            // if(xMouseMove >= 45.0f){
-            //     xMouseMove -= 45.0f;
-            //     facingDirection = Quaternion.AngleAxis(90.0f, Vector3.forward) * facingDirection;
-                
-            // }
-            // if(xMouseMove <= -45.0f){
-            //     xMouseMove += 45.0f;
-            //     facingDirection = Quaternion.AngleAxis(-90.0f, Vector3.forward) * facingDirection;
-                
-            // }
-            //Debug.DrawLine(transform.position, (facingDirection * 2.5f) + (Vector2)transform.position, Color.green);
+            CmdSetFacingDirection(facingDirection);
+            
         }
     }
 

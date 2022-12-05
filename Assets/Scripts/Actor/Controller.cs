@@ -182,5 +182,14 @@ public class Controller : NetworkBehaviour
         }
         
     }
+    [Command]
+    protected void CmdSetFacingDirection(Vector2 _ClientFacingDirection){
+        RpcSetFacingDirection(_ClientFacingDirection);
+    }
+    [ClientRpc(includeOwner = false)]
+    protected void RpcSetFacingDirection(Vector2 _ownersFacingDirection){
+        facingDirection = _ownersFacingDirection;
+    }
+    
     
 }
