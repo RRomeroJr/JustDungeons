@@ -9,7 +9,13 @@ public class SchoolDamage : AbilityEff
 {   
     public int school = -1;
     public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
-       target.damageValue((int)power + (int)(caster.mainStat * powerScale), fromActor: caster);
+        if(caster != null){
+            target.damageValue((int)power + (int)(caster.mainStat * powerScale), fromActor: caster);
+        }
+        else{
+           target.damageValue((int)power);
+
+        }
     //    Debug.Log(power.ToString() + " + " + caster.mainStat.ToString() + " * " + powerScale.ToString());
     }
     public SchoolDamage(string _effectName, int _id = -1, float _power = 0, int _school = -1){
