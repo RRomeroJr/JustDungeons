@@ -35,6 +35,10 @@ public class Fear : AbilityEff
     }
     public override void buffStartEffect()
     {
+        if(NetworkServer.active){
+            parentBuff.actor.feared += 1;
+            parentBuff.actor.GetComponent<Controller>().autoAttacking = false;
+        }
         if(HBCTools.NT_AuthoritativeClient( parentBuff.actor.GetComponent<NetworkTransform>() ))
         {
             hasAuthOverNT = true;
@@ -66,6 +70,10 @@ public class Fear : AbilityEff
     
     public override void buffEndEffect()
     {
+        if(NetworkServer.active){
+            parentBuff.actor.feared  -= 1;
+            
+        }
         
         //Debug.Log(effectName + ": Buff End Effect");
         if(hasAuthOverNT)

@@ -67,6 +67,8 @@ public class Actor : NetworkBehaviour
     public event EventHandler PlayerIsAlive;
     [SyncVar]
     public uint silenced = 0;
+    [SyncVar]
+    public int feared = 0;
     public uint tauntImmune = 0;
 
     public CombatClass combatClass;
@@ -495,7 +497,12 @@ public class Actor : NetworkBehaviour
     public bool castAbility3(Ability_V2 _ability, Actor _target = null, NullibleVector3 _targetWP = null){
         /*  Returns true if a REQUEST to fire was made. NOT if the cast was actually fired
         */
-
+        if(feared > 0)
+        {
+            Debug.Log("You cannot use abilities!");
+            return false;
+            
+        }
         //Debug.Log("castAbility3");
         
         if(CheckCooldownAndGCD(_ability) == false){ 
@@ -754,7 +761,9 @@ public class Actor : NetworkBehaviour
 
                 resetClientCastVars();
             }
-                
+            if(HBCTools.areHostle(this, _target)){
+                GetComponent<Controller>().autoAttacking = true;
+            }
             
                 
         } 
