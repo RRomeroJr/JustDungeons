@@ -44,7 +44,10 @@ public class Controller : NetworkBehaviour
     }
     
     public virtual void Update(){
-        Debug.DrawLine(transform.position, (facingDirection * 2.5f) + (Vector2)transform.position, Color.green);
+        if(tag == "Player"){
+            Debug.DrawLine(transform.position, (facingDirection * 2.5f) + (Vector2)transform.position, Color.green);
+        } 
+        
         if(globalCooldown > 0.0f){
             globalCooldown -= Time.deltaTime;
         }
