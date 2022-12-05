@@ -66,7 +66,7 @@ public class Actor : NetworkBehaviour
     public event EventHandler PlayerIsDead;
     public event EventHandler PlayerIsAlive;
     [SyncVar]
-    public uint silienced = 0;
+    public uint silenced = 0;
     public uint tauntImmune = 0;
 
     public CombatClass combatClass;
@@ -503,7 +503,7 @@ public class Actor : NetworkBehaviour
             if(hasTheResources(_ability)){
                 //if ability is magical check silence
                 // For now silence works on everything including auto attack
-                if(silienced == 0){ 
+                if(silenced == 0){ 
                     if(!readyToFire){
                         if(!isCasting){
                             if(_ability.NeedsTargetActor()){

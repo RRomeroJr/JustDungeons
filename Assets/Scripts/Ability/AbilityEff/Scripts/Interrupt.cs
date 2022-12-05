@@ -24,7 +24,7 @@ public class Interrupt : AbilityEff
         if((parentBuff.actor.isCasting) && (parentBuff.actor.getQueuedAbility().interruptable) ){
             
             parentBuff.actor.interruptCast();
-            parentBuff.actor.silienced += 1;
+            parentBuff.actor.silenced += 1;
             seccessful = true;
             
         }
@@ -36,7 +36,7 @@ public class Interrupt : AbilityEff
     public override void buffEndEffect()
     {
         if(seccessful){
-            parentBuff.actor.silienced -= 1;
+            parentBuff.actor.silenced -= 1;
             
         }
        
