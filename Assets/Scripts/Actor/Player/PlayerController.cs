@@ -196,7 +196,14 @@ public class PlayerController : Controller
                 
                 Debug.Log("Clicked something: " + hit.collider.gameObject.name);
                 // set controller's target w/ actor hit by raycast
-                actor.GetComponent<Controller>().autoAttacking = true;
+                
+                if(HBCTools.areHostle(actor, hitActor)){//actor in this case being the player
+                    actor.GetComponent<Controller>().autoAttacking = true;
+                }
+                else{
+                    actor.GetComponent<Controller>().autoAttacking = false;
+                }
+                
                 
             }else{
                 //Debug.Log("Nothing clicked");
