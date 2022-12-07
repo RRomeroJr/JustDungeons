@@ -156,21 +156,25 @@ public class PlayerController : Controller
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
             RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, clickMask);
+            Actor hitActor = null;
+            try{
+                hitActor =  hit.collider.gameObject.GetComponent<Actor>();
+            }
+            catch{
+            }
             //Debug.Log("mousePos "+ mousePos.ToString());
 
             if (hit.collider != null) {
                 
                 Debug.Log("Clicked something: " + hit.collider.gameObject.name);
-
-                // set controller's target w/ actor hit by raycast
-
-                if(isServer){
-                    actor.rpcSetTarget(hit.collider.gameObject.GetComponent<Actor>());
-                }else{
-                    actor.cmdReqSetTarget(hit.collider.gameObject.GetComponent<Actor>());
-                }
             }else{
                 //Debug.Log("Nothing clicked");
+                
+            }
+            if(isServer){
+                actor.rpcSetTarget(hitActor);
+            }else{
+                actor.cmdReqSetTarget(hitActor);
             }
         }
         
@@ -180,23 +184,28 @@ public class PlayerController : Controller
             mouseStart = Input.mousePosition; //used for manual turning
 
             RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, clickMask);
+            Actor hitActor= null;
+            try{
+                hitActor =  hit.collider.gameObject.GetComponent<Actor>();
+            }
+            catch{
+            }
             //Debug.Log("mousePos "+ mousePos.ToString());
 
             if (hit.collider != null) {
                 
                 Debug.Log("Clicked something: " + hit.collider.gameObject.name);
-
                 // set controller's target w/ actor hit by raycast
                 actor.GetComponent<Controller>().autoAttacking = true;
-                if(isServer){
-                    actor.rpcSetTarget(hit.collider.gameObject.GetComponent<Actor>());
-                }else{
-                    actor.cmdReqSetTarget(hit.collider.gameObject.GetComponent<Actor>());
-                }
                 
             }else{
                 //Debug.Log("Nothing clicked");
                 actor.GetComponent<Controller>().autoAttacking = false;
+            }
+            if(isServer){
+                actor.rpcSetTarget(hitActor);
+            }else{
+                actor.cmdReqSetTarget(hitActor);
             }
         }
         if(Input.GetMouseButton(1)){

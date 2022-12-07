@@ -53,6 +53,7 @@ public static class CustomReadWriteFuctions
         //     Debug.Log("Serializing null Actor");
         //     //Debug.Log( "actor " + actor.getActorName() + "does not have a network identity");
         // }
+      
 
         NetworkIdentity networkIdentity = actor != null
             ? actor.gameObject.GetComponent<NetworkIdentity>()
