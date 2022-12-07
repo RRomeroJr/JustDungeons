@@ -1213,6 +1213,28 @@ public class Actor : NetworkBehaviour
         resetClientCastVars();
         //Make cast bar red for a sec or two
     }
+    public void LocalPlayerBroadcastTarget(){
+        if(!isLocalPlayer){
+            Debug.LogError("Target not set. not local player");
+            return;
+        }
+        if(isServer){
+            RpcSetTarget(target);
+        }
+        else{
+            CmdSetTarget(target);    
+        }
+        
+    }
+    [Command]
+    void CmdSetTarget(Actor _ClientTarget){
+        target = _ClientTarget;
+    }
+    [ClientRpc]
+    public void RpcSetTarget(Actor _OwnerTarget){
+        target = _OwnerTarget;
+    }
+
     #endregion
     //----------------------------------------------------------------old code no longer used------------------------------------------------------------------------------------
 

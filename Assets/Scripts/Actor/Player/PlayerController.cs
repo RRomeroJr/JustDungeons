@@ -171,11 +171,8 @@ public class PlayerController : Controller
                 //Debug.Log("Nothing clicked");
                 
             }
-            if(isServer){
-                actor.rpcSetTarget(hitActor);
-            }else{
-                actor.cmdReqSetTarget(hitActor);
-            }
+            actor.target = hitActor;
+            actor.LocalPlayerBroadcastTarget();
         }
         
         if (Input.GetMouseButtonDown(1)) {
@@ -209,11 +206,9 @@ public class PlayerController : Controller
                 //Debug.Log("Nothing clicked");
                 actor.GetComponent<Controller>().autoAttacking = false;
             }
-            if(isServer){
-                actor.rpcSetTarget(hitActor);
-            }else{
-                actor.cmdReqSetTarget(hitActor);
-            }
+            
+            actor.target = hitActor;
+            actor.LocalPlayerBroadcastTarget();
         }
         if(Input.GetMouseButton(1)){
             xMouseMove += Input.GetAxis("Mouse X") * mouseSensitivity * -1.0f;

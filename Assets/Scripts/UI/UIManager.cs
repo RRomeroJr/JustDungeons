@@ -72,6 +72,12 @@ public class UIManager : MonoBehaviour
     }
 
     public void updateUnitFrame(UnitFrame unitFrame, Actor actor){
+        
+        if(actor == unitFrame.actor){
+            
+            return;
+        }
+        
         unitFrame.actor = actor;
         if(actor != null){        
             //  Getting name
@@ -106,7 +112,7 @@ public class UIManager : MonoBehaviour
         if(playerActor == null){ 
             return;
         }
-
+        
         if(playerActor.target == null){
             if(targetFrame.gameObject.active){
                 targetFrame.gameObject.SetActive(false);
@@ -115,8 +121,10 @@ public class UIManager : MonoBehaviour
         else{
             if(!targetFrame.gameObject.active){
                 targetFrame.gameObject.SetActive(true);
-                updateUnitFrame(targetFrame, playerActor.target);
+                
             }
+            
+            updateUnitFrame(targetFrame, playerActor.target);
         }
 
     }
@@ -124,6 +132,7 @@ public class UIManager : MonoBehaviour
     void Update(){
         UpdateAllyFrames();
         UpdateTargetFrame();
+        
     }
     public void setTarget(){
         Debug.Log("Test");
