@@ -9,7 +9,7 @@ public class Controller : NetworkBehaviour
 {   [Header("For Now Needs To Be Assigned")]
     public Ability_V2 autoAttackClone;
     
-    float tempspeed = 0.02f;
+    float tempspeed = 0.15f;
     [Header("Automatic")]
     public Actor actor;
     public NavMeshAgent agent;

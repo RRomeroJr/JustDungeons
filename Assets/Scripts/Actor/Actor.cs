@@ -193,7 +193,7 @@ public class Actor : NetworkBehaviour
         }
         updateCast();
         updateCooldowns();
-        handleAbilityEffects();
+        //handleAbilityEffects();
         if(isServer){
             handleCastQueue();
             
@@ -202,6 +202,9 @@ public class Actor : NetworkBehaviour
             }
         }
         
+    }
+    void FixedUpdate(){
+        handleAbilityEffects();
     }
     //------------------------------------------------------------handling Active Ability Effects-------------------------------------------------------------------------
     

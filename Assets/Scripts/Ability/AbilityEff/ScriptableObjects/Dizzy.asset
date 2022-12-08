@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectName: Dizzy
   id: 12
-  power: 0.8
+  power: 8
   powerScale: 1
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}

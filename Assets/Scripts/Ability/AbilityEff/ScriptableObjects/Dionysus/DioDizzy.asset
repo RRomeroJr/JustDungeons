@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectName: DioDizzy
   id: 25
-  power: 1
+  power: 8
   powerScale: 1
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
