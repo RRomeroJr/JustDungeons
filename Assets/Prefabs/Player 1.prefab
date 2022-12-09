@@ -117,9 +117,11 @@ MonoBehaviour:
   unitColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
   mobId: -1
   classResources:
-  - max: 5
+  - crType: {fileID: 11400000, guid: f99af011e29c85f4686d63a179cf33d8, type: 2}
+    max: 5
     amount: 0
-    crType: {fileID: 11400000, guid: f99af011e29c85f4686d63a179cf33d8, type: 2}
+    combatRegen: 0
+    outOfCombatRegen: 0
   mainStat: 100
   target: {fileID: 0}
   canMove: 1
@@ -140,9 +142,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   animator: {fileID: 0}
-  silienced: 0
+  silenced: 0
+  feared: 0
   tauntImmune: 0
   combatClass: {fileID: 0}
+  resourceTickTime: 0
+  resourceTickMax: 1
 --- !u!114 &3602611100074717273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,6 +166,7 @@ MonoBehaviour:
   facingDown: 1
   spriteRenderer: {fileID: 3602611100074717269}
   animator: {fileID: 0}
+  controller: {fileID: 0}
 --- !u!61 &3602611100074717279
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -255,10 +261,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8df7b41371839cf40a06f4cad97dca7e, type: 2}
   - {fileID: 11400000, guid: 5018719afa2dee746bbd7247a8802f72, type: 2}
   - {fileID: 11400000, guid: 789ee262ef9ad0c418009477bd594f0d, type: 2}
+  tryingToMove: 0
   state: 0
   clickMask:
     serializedVersion: 2
     m_Bits: 192
+  mouseSensitivity: 15
+  xMouseMove: 0
+  mouseStart: {x: 0, y: 0}
+  mousePos: {x: 0, y: 0}
 --- !u!114 &568127742855530159
 MonoBehaviour:
   m_ObjectHideFlags: 0
