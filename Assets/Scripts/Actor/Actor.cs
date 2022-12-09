@@ -22,6 +22,7 @@ public class Actor : NetworkBehaviour
     
     
     public bool showDebug = false;
+    [SyncVar]
     [SerializeField]protected string actorName;
     [SyncVar]
     [SerializeField]protected int health; // 0

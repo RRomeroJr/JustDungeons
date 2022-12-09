@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DapperDino;
+using UnityEngine.UIElements;
 
 public class PlayerLobby : NetworkBehaviour
 {
@@ -11,6 +12,7 @@ public class PlayerLobby : NetworkBehaviour
     [SerializeField] private TMP_Text[] playerNameTexts = new TMP_Text[4];
     [SerializeField] private TMP_Text[] playerReadyTexts = new TMP_Text[4];
     [SerializeField] private Button startGameButton = null;
+    private TextField playerSlot;
 
     [SyncVar(hook = nameof(HandleDisplayNameChanged))]
     public string DisplayName = "Loading...";
@@ -54,11 +56,25 @@ public class PlayerLobby : NetworkBehaviour
     {
         DontDestroyOnLoad(this);
         Room.RoomPlayers.Add(this);
+        playerSlot = uiController.uiLobby.playerList[Room.RoomPlayers.IndexOf(this)].Q<TextField>("player-name");
         uiController.uiLobby.buttonLobbyReady.clicked += CmdReadyUp;
         uiController.uiLobby.buttonLobbyLeave.clicked += CmdLeaveGame;
         uiController.uiLobby.buttonLobbyStart.clicked += CmdStartGame;
 
+        // Bind display name to textfield
+        playerSlot.RegisterValueChangedCallback(OnPlayerNameChanged);
+        playerSlot.isReadOnly = false;
         uiController.UpdateUI();
+    }
+
+    private void OnPlayerNameChanged(ChangeEvent<string> evt)
+    {
+        if (this.isServer)
+        {
+            DisplayName = evt.newValue;
+            return;
+        }
+        CmdSetDisplayName(evt.newValue);
     }
 
     public override void OnStopClient()
