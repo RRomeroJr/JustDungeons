@@ -72,8 +72,24 @@ public class Actor : NetworkBehaviour
     public uint tauntImmune = 0;
 
     public CombatClass combatClass;
+    public float resourceTickTime = 0.0f;
+    public float resourceTickMax = 1.0f;
     
-    
+    public void ClassResourceCheckRegen(){
+        
+        resourceTickTime += Time.deltaTime;
+        if(resourceTickTime < resourceTickMax){
+            return;
+        }
+        resourceTickTime -= resourceTickMax;
+        int count = 0;
+        foreach(ClassResource _cr in classResources){
+            if(_cr.combatRegen != 0){
+                restoreResource(_cr.crType, _cr.combatRegen);
+            }
+            count += 1;
+        }
+    }
     
 
     [ClientRpc]
@@ -83,6 +99,14 @@ public class Actor : NetworkBehaviour
     [ClientRpc]
     public void updateClassResourceMax(int index, int _max){
         classResources[index].max = _max;
+    }
+    [ClientRpc]
+    public void updateClassResourceCombatRegen(int index, int _combatRegen){
+        classResources[index].combatRegen = _combatRegen;
+    }
+    [ClientRpc]
+    public void updateClassResourceOutOfCombatRegen(int index, int _OutOfCombatRegen){
+        classResources[index].outOfCombatRegen = _OutOfCombatRegen;
     }
     public bool damageResource(ClassResourceType _crt, int _amount){
         if(_amount < 0){
@@ -131,7 +155,7 @@ public class Actor : NetworkBehaviour
                         
                         if(sum <= cr.max){
                             //then add it to our amount
-                            Debug.Log("Adding " + _amount.ToString() + " " + _crt.GetType().ToString());
+                            //Debug.Log("Adding " + _amount.ToString() + " " + _crt.GetType().ToString());
                             updateClassResourceAmount(index, sum);
                         }
                         else{
@@ -174,6 +198,7 @@ public class Actor : NetworkBehaviour
                 GetComponent<Controller>().abilities[counter] = abi;
                 counter = counter + 1;
             }
+            classResources = combatClass.GetClassResources();
         }
 
 
@@ -196,6 +221,9 @@ public class Actor : NetworkBehaviour
         //handleAbilityEffects();
         if(isServer){
             handleCastQueue();
+            if(classResources.Count > 0){
+                ClassResourceCheckRegen();
+            }
             
             if(isChanneling){
                 checkChannel();
