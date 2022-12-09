@@ -20,11 +20,12 @@ public class PlayerController : Controller
     public float xMouseMove = 0.0f;
     public float clickTime0 = 0.0f;
     public float clickTime1 = 0.0f;
-    public Vector2 mouseStart;
+    public Vector2 mouseStart0;
+    public Vector2 mouseStart1;
     public Vector2 mousePos;
-    public float clickWindow = 0.07f;
-    public Vector2 tempClickPoint0;
-    public Vector2 tempClickPoint1;
+    public float clickWindow = 0.66f;
+    public float clickTravelWindow = 66.0f;
+    
     //public Vector2 newVect_;
     void Awake(){
         actor = GetComponent<Actor>();
@@ -158,13 +159,19 @@ public class PlayerController : Controller
     void mouseInput(){
         if (Input.GetMouseButtonDown(0)) {
             clickTime0 = 0.0f;
-            tempClickPoint0 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mouseStart0 = Input.mousePosition;
+            
         }
         if (Input.GetMouseButtonUp(0)) {
+            float mouseTravel = Vector2.Distance(mouseStart0, Input.mousePosition);
+            if((clickTime0 > clickWindow) || (mouseTravel > clickTravelWindow)){
+                clickTime0 = 0.0f;
+                return;
+            }
             clickTime0 = 0.0f;
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            RaycastHit2D hit = Physics2D.Raycast(tempClickPoint0, Vector2.zero, Mathf.Infinity, clickMask);
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, clickMask);
             Actor hitActor = null;
             try{
                 hitActor =  hit.collider.gameObject.GetComponent<Actor>();
@@ -180,6 +187,9 @@ public class PlayerController : Controller
                 //Debug.Log("Nothing clicked");
                 
             }
+            // if(HBCTools.areHostle(actor, hitActor) == false){//actor in this case being the player
+            //     actor.GetComponent<Controller>().autoAttacking = false;
+            // }
             actor.target = hitActor;
             actor.LocalPlayerBroadcastTarget();
         }
@@ -188,20 +198,24 @@ public class PlayerController : Controller
         }
         if (Input.GetMouseButtonDown(1)) {
             clickTime1 = 0.0f;
-            tempClickPoint1 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mouseStart1 = Input.mousePosition; //used for manual turning
+            
         }
         
         if (Input.GetMouseButtonUp(1)) {
-            if(clickTime1 > clickWindow){
+            float mouseTravel = Vector2.Distance(mouseStart1, Input.mousePosition);
+            //Debug.Log(mouseTravel.ToString());
+            if((clickTime1 > clickWindow) || (mouseTravel > clickTravelWindow)){
                 clickTime1 = 0.0f;
                 return;
             }
+
             clickTime1 = 0.0f;
-            // Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-             mouseStart = Input.mousePosition; //used for manual turning
+             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+             
 
 
-            RaycastHit2D hit = Physics2D.Raycast(tempClickPoint1, Vector2.zero, Mathf.Infinity, clickMask);
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, clickMask);
             Actor hitActor= null;
             try{
                 hitActor =  hit.collider.gameObject.GetComponent<Actor>();
@@ -237,7 +251,7 @@ public class PlayerController : Controller
             xMouseMove += Input.GetAxis("Mouse X") * mouseSensitivity * -1.0f;
 
             Vector2 mouseMoveVect;
-            //mouseMoveVect = (Vector2)Input.mousePosition - mouseStart; //mode 1
+            //mouseMoveVect = (Vector2)Input.mousePosition - mouseStart0; //mode 1
             mouseMoveVect = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)transform.position; //mode 2
             facingDirection = HBCTools.ToNearest45(mouseMoveVect);
             CmdSetFacingDirection(facingDirection);

@@ -60,6 +60,10 @@ public class Controller : NetworkBehaviour
         }
         if(autoAttacking){
             if(actor.target != null){
+                if(HBCTools.areHostle(actor, actor.target) == false){
+                    autoAttacking = false;
+                    return;
+                }
                 if(actor.checkOnCooldown(autoAttackClone) == false){
                     if(autoAttackRequest == false){
                         //request aa commad?
