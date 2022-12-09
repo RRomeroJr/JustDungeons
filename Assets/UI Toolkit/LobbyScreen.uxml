@@ -5,19 +5,19 @@
             <ui:Label text="Lobby" display-tooltip-when-elided="true" name="lobby-title" style="font-size: 120px; top: auto; bottom: auto; -unity-text-align: upper-center; color: rgb(0, 0, 0); margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; flex-shrink: 1;" />
             <ui:VisualElement name="player-list-container" class="content-container" style="flex-grow: 1; flex-direction: column; flex-wrap: nowrap; justify-content: center; align-items: center;">
                 <ui:VisualElement name="player-1" class="player-container">
-                    <ui:Label text="Empty" display-tooltip-when-elided="true" name="player-name" class="player-label" />
+                    <ui:TextField picking-mode="Ignore" name="player-name" readonly="true" class="player-label TextField" />
                     <ui:Label text="not ready" display-tooltip-when-elided="true" name="ready-status" style="-unity-text-align: middle-center; font-size: 32px; color: rgb(214, 48, 49);" />
                 </ui:VisualElement>
                 <ui:VisualElement name="player-2" class="player-container">
-                    <ui:Label text="Empty" display-tooltip-when-elided="true" name="player-name" class="player-label" style="font-size: 48px; color: rgb(0, 0, 0); margin-left: 20px; flex-grow: 1; flex-direction: column; -unity-text-align: middle-left;" />
+                    <ui:TextField picking-mode="Ignore" name="player-name" readonly="true" class="player-label TextField" />
                     <ui:Label text="not ready" display-tooltip-when-elided="true" name="ready-status" style="-unity-text-align: middle-center; font-size: 32px; color: rgb(214, 48, 49);" />
                 </ui:VisualElement>
                 <ui:VisualElement name="player-3" class="player-container">
-                    <ui:Label text="Empty" display-tooltip-when-elided="true" name="player-name" class="player-label" style="font-size: 48px; color: rgb(0, 0, 0); margin-left: 20px; flex-direction: column; -unity-text-align: middle-left; flex-shrink: 1; flex-grow: 1;" />
+                    <ui:TextField picking-mode="Ignore" name="player-name" readonly="true" class="player-label TextField" />
                     <ui:Label text="not ready" display-tooltip-when-elided="true" name="ready-status" style="-unity-text-align: middle-center; font-size: 32px; color: rgb(214, 48, 49);" />
                 </ui:VisualElement>
                 <ui:VisualElement name="player-4" class="player-container">
-                    <ui:Label text="Empty" display-tooltip-when-elided="true" name="player-name" class="player-label" style="font-size: 48px; color: rgb(0, 0, 0); margin-left: 20px; flex-grow: 1; flex-direction: column; -unity-text-align: middle-left;" />
+                    <ui:TextField picking-mode="Ignore" name="player-name" readonly="true" class="player-label TextField" />
                     <ui:Label text="not ready" display-tooltip-when-elided="true" name="ready-status" style="-unity-text-align: middle-center; font-size: 32px; color: rgb(214, 48, 49);" />
                 </ui:VisualElement>
             </ui:VisualElement>
