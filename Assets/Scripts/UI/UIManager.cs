@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
     public static GameObject nameplatePrefab;
     public static GameObject damageTextPrefab;
     public Color defaultColor;
+    public 
 
     void Awake(){
         nameplatePrefab = Resources.Load("Nameplate") as GameObject;
@@ -120,6 +121,7 @@ public class UIManager : MonoBehaviour
         }
         else{
             if(!targetFrame.gameObject.active){
+                Debug.Log("Setting target to active");
                 targetFrame.gameObject.SetActive(true);
                 
             }
