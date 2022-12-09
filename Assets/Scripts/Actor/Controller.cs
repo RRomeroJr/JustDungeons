@@ -40,7 +40,14 @@ public class Controller : NetworkBehaviour
     }
     
     public void MoveTowards(Vector3 pos){
+        
         gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, pos, tempspeed);
+    }
+    public void MoveInDirection(Vector2 _vect){
+        // _vect = (moveSpeed * Time.deltaTime) * _vect;
+        _vect.x *= (moveSpeed * Time.deltaTime);
+        _vect.y *= (moveSpeed * Time.deltaTime);
+        gameObject.GetComponent<Rigidbody2D>().velocity = _vect;
     }
     
     public virtual void Update(){

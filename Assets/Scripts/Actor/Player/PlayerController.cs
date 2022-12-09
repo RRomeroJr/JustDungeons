@@ -52,9 +52,10 @@ public class PlayerController : Controller
                             if(!tryingToMove){
                                 CmdSetTryingToMove(true);
                             }
-                            newVect.x *= (moveSpeed * Time.deltaTime);
-                            newVect.y *= (moveSpeed * Time.deltaTime);
-                            gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
+                            // newVect.x *= (moveSpeed * Time.deltaTime);
+                            // newVect.y *= (moveSpeed * Time.deltaTime);
+                            // gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
+                            MoveInDirection(newVect);
                             if(Input.GetMouseButton(1) == false){
                                 HBCTools.Quadrant newVectQuad;
                                 newVectQuad = HBCTools.GetQuadrant(newVect);
