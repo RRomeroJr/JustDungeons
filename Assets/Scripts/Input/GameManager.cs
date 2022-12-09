@@ -15,37 +15,43 @@ public class GameManager : MonoBehaviour
     public int dungeonScalingLevel = 0;
     public float dungeonHealthScaling = 0.1f;
     public float dungeonDamageScaling = 0.1f;
-
+    public float timer = 600.0f;
+    public uint mobCount = 0;
     void Awake()
-	{
-		if(instance == null){
+    {
+        if(instance == null)
+        {
             instance = this;
-            //DontDestroyOnLoad(gameObject);
-            
+            //DontDestroyOnLoad(gameObject);         
         }
-		else{
+        else
+        {
             Destroy(gameObject);
         }
-        
-			
-			
-	}
+    }
 
     void Start()
     {
         OnMobDeath.AddListener(RespawnDionysus);
+        OnMobDeath.AddListener(IncreaseMobCount);
         if(NetworkServer.active){
             NetworkServer.Spawn(gameObject);
             /* This doesn;t work bc this object exists before the server is started*/
         }
         else{
             
-        }
-        
-        
+        } 
     }
     
-    
+    public void IncreaseMobCount(int _mobId)
+    {
+        mobCount += 1;
+    }
+    public void DecreaseMobCount()
+    {
+        mobCount -= 1;
+    }
+
     void Update()
     {
     }
