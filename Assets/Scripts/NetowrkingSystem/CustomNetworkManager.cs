@@ -222,7 +222,6 @@ public class CustomNetworkManager : NetworkManager
         {
             var player = conn.identity.GetComponent<PlayerLobby>();
             RoomPlayers.Remove(player);
-            NotifyPlayersOfReadyState();
         }
         base.OnServerDisconnect(conn);
     }
@@ -329,14 +328,6 @@ public class CustomNetworkManager : NetworkManager
     public override void OnStopClient() { }
 
     #endregion
-
-    public void NotifyPlayersOfReadyState()
-    {
-        foreach (var player in RoomPlayers)
-        {
-            player.HandleReadyToStart(IsReadyToStart());
-        }
-    }
 
     private bool IsReadyToStart()
     {
