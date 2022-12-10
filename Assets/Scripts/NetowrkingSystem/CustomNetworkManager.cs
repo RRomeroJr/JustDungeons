@@ -147,8 +147,8 @@ public class CustomNetworkManager : NetworkManager
             var gameplayerInstance = startPos != null
                 ? Instantiate(gamePlayerPrefab, startPos.position, startPos.rotation)
                 : Instantiate(gamePlayerPrefab);
-            gameplayerInstance.SetDisplayName("Dude " + i);
-            gameplayerInstance.GetComponent<Actor>().setActorName("Dude " + i);
+            gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
+            gameplayerInstance.GetComponent<Actor>().setActorName(RoomPlayers[i].DisplayName);
 
             NetworkServer.Destroy(conn.identity.gameObject);
 
@@ -235,7 +235,6 @@ public class CustomNetworkManager : NetworkManager
         {
             var player = conn.identity.GetComponent<PlayerLobby>();
             RoomPlayers.Remove(player);
-            NotifyPlayersOfReadyState();
         }
         base.OnServerDisconnect(conn);
     }
@@ -342,14 +341,6 @@ public class CustomNetworkManager : NetworkManager
     public override void OnStopClient() { }
 
     #endregion
-
-    public void NotifyPlayersOfReadyState()
-    {
-        foreach (var player in RoomPlayers)
-        {
-            player.HandleReadyToStart(IsReadyToStart());
-        }
-    }
 
     private bool IsReadyToStart()
     {

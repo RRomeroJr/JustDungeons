@@ -105,20 +105,22 @@ public class UIController : MonoBehaviour
 
     public void UpdateUI()
     {
-        foreach (VisualElement player in uiLobby.playerList)
-        {
-            player.Q<Label>("player-name").text = "Waiting For Player...";
-            player.Q<Label>("ready-status").text = string.Empty;
-        }
-
         int i = 0;
+        // Set name and ready status of players
         foreach (PlayerLobby player in networkManager.RoomPlayers)
         {
-            uiLobby.playerList[i].Q<Label>("player-name").text = networkManager.RoomPlayers[i].DisplayName;
-            uiLobby.playerList[i].Q<Label>("ready-status").text = networkManager.RoomPlayers[i].IsReady ?
-                "<color=green>Ready</color>" :
-                "<color=red>Not Ready</color>";
+            uiLobby.playerList[i].Q<TextField>("player-name").value = player.DisplayName;
+            uiLobby.playerList[i].Q<Label>("ready-status").text =
+                player.IsReady ? "<color=green>Ready</color>" : "<color=red>Not Ready</color>";
             i++;
+        }
+
+        // 4 is hardcoded, but will need to change if we decide to support more players
+        // Set empty slots to waiting
+        for (int j = i; j < 4; j++)
+        {
+            uiLobby.playerList[j].Q<TextField>("player-name").value = "Waiting For Player...";
+            uiLobby.playerList[j].Q<Label>("ready-status").text = string.Empty;
         }
     }
 

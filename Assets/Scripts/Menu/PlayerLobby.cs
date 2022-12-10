@@ -1,16 +1,14 @@
 ﻿using Mirror;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using DapperDino;
+using UnityEngine.UIElements;
 
 public class PlayerLobby : NetworkBehaviour
 {
     [Header("UI")]
     private UIController uiController;
-    [SerializeField] private TMP_Text[] playerNameTexts = new TMP_Text[4];
-    [SerializeField] private TMP_Text[] playerReadyTexts = new TMP_Text[4];
-    [SerializeField] private Button startGameButton = null;
+    private TextField playerSlot;
 
     [SyncVar(hook = nameof(HandleDisplayNameChanged))]
     public string DisplayName = "Loading...";
@@ -23,7 +21,6 @@ public class PlayerLobby : NetworkBehaviour
         set
         {
             isLeader = value;
-            startGameButton.gameObject.SetActive(value);
         }
     }
 
@@ -54,11 +51,29 @@ public class PlayerLobby : NetworkBehaviour
     {
         DontDestroyOnLoad(this);
         Room.RoomPlayers.Add(this);
+        playerSlot = uiController.uiLobby.playerList[Room.RoomPlayers.IndexOf(this)].Q<TextField>("player-name");
         uiController.uiLobby.buttonLobbyReady.clicked += CmdReadyUp;
         uiController.uiLobby.buttonLobbyLeave.clicked += CmdLeaveGame;
         uiController.uiLobby.buttonLobbyStart.clicked += CmdStartGame;
 
+        // Bind display name to textfield
+        playerSlot.RegisterValueChangedCallback(OnPlayerNameChanged);
+        playerSlot.isReadOnly = false;
         uiController.UpdateUI();
+        if (!isServer)
+        {
+            uiController.uiLobby.buttonLobbyStart.style.display = DisplayStyle.None;
+        }
+    }
+
+    private void OnPlayerNameChanged(ChangeEvent<string> evt)
+    {
+        if (isServer)
+        {
+            DisplayName = evt.newValue;
+            return;
+        }
+        CmdSetDisplayName(evt.newValue);
     }
 
     public override void OnStopClient()
@@ -70,29 +85,6 @@ public class PlayerLobby : NetworkBehaviour
     public void HandleReadyStatusChanged(bool oldValue, bool newValue) => uiController.UpdateUI();
     public void HandleDisplayNameChanged(string oldValue, string newValue) => uiController.UpdateUI();
 
-    /*private void UpdateDisplay()
-    {
-        for (int i = 0; i < playerNameTexts.Length; i++)
-        {
-            playerNameTexts[i].text = "Waiting For Player...";
-            playerReadyTexts[i].text = string.Empty;
-        }
-
-        for (int i = 0; i < Room.RoomPlayers.Count; i++)
-        {
-            playerNameTexts[i].text = Room.RoomPlayers[i].DisplayName;
-            playerReadyTexts[i].text = Room.RoomPlayers[i].IsReady ?
-                "<color=green>Ready</color>" :
-                "<color=red>Not Ready</color>";
-        }
-    }*/
-
-    public void HandleReadyToStart(bool readyToStart)
-    {
-        if (!isLeader) { return; }
-        startGameButton.interactable = readyToStart;
-    }
-
     [Command]
     private void CmdSetDisplayName(string displayName)
     {
@@ -103,7 +95,6 @@ public class PlayerLobby : NetworkBehaviour
     public void CmdReadyUp()
     {
         IsReady = !IsReady;
-        Room.NotifyPlayersOfReadyState();
     }
 
     [Command]
