@@ -497,6 +497,20 @@ MonoBehaviour:
   OnMobDeath:
     m_PersistentCalls:
       m_Calls: []
+  dungeonScalingLevel: 0
+  dungeonHealthScaling: 0.1
+  dungeonDamageScaling: 0.1
+--- !u!114 &587273950 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8731563114936439608, guid: f3e961304dfd74d4982f34862a2b321d, type: 3}
+  m_PrefabInstance: {fileID: 1720306574}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587273945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6e55fca1f4e4844593a3dd65a3ecb39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &617980227 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 46840149982861213, guid: d68550adfc0deb243a1806a2bde6e04d, type: 3}
@@ -670,6 +684,10 @@ PrefabInstance:
       value: Assets/Scenes/TitleScene.unity
       objectReference: {fileID: 0}
     - target: {fileID: 4602065914186662412, guid: f3e961304dfd74d4982f34862a2b321d, type: 3}
+      propertyPath: transport
+      value: 
+      objectReference: {fileID: 587273950}
+    - target: {fileID: 4602065914186662412, guid: f3e961304dfd74d4982f34862a2b321d, type: 3}
       propertyPath: uiManager
       value: 
       objectReference: {fileID: 0}
@@ -789,23 +807,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62449735c606d7b449006fb0d87f4ec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dontDestroyOnLoad: 1
-  runInBackground: 1
-  autoStartServerBuild: 1
-  serverTickRate: 30
-  offlineScene: 
-  onlineScene: Assets/Scenes/TitleScene.unity
-  transport: {fileID: 2018945145}
-  networkAddress: localhost
-  maxConnections: 4
-  authenticator: {fileID: 0}
-  playerPrefab: {fileID: 1694767260576237286, guid: e06d5a6330e665c4f9942b8550fa27e0, type: 3}
-  autoCreatePlayer: 1
-  playerSpawnMethod: 0
-  spawnPrefabs: []
-  minPlayers: 4
-  menuScene: Assets/Scenes/TitleScene.unity
-  roomPlayerPrefab: {fileID: 2594002659078618921, guid: 38ece0ecbd138f14db18bd21f648e74c, type: 3}
 --- !u!114 &2018945145
 MonoBehaviour:
   m_ObjectHideFlags: 0
