@@ -52,6 +52,8 @@ public class PlayerLobby : NetworkBehaviour
         DontDestroyOnLoad(this);
         Room.RoomPlayers.Add(this);
         playerSlot = uiController.uiLobby.playerList[Room.RoomPlayers.IndexOf(this)].Q<TextField>("player-name");
+
+        // Subscribe to button events
         uiController.uiLobby.buttonLobbyReady.clicked += CmdReadyUp;
         uiController.uiLobby.buttonLobbyLeave.clicked += CmdLeaveGame;
         uiController.uiLobby.buttonLobbyStart.clicked += CmdStartGame;
@@ -60,6 +62,8 @@ public class PlayerLobby : NetworkBehaviour
         playerSlot.RegisterValueChangedCallback(OnPlayerNameChanged);
         playerSlot.isReadOnly = false;
         uiController.UpdateUI();
+
+        // Hide start button if not host
         if (!isServer)
         {
             uiController.uiLobby.buttonLobbyStart.style.display = DisplayStyle.None;
@@ -100,7 +104,7 @@ public class PlayerLobby : NetworkBehaviour
     [Command]
     public void CmdStartGame()
     {
-        if (Room.RoomPlayers[0].connectionToClient != connectionToClient)
+        if (!isServer)
         {
             return;
         }
@@ -110,7 +114,7 @@ public class PlayerLobby : NetworkBehaviour
     [Command]
     public void CmdLeaveGame()
     {
-        if (Room.RoomPlayers[0].connectionToClient == connectionToClient)
+        if (isServer)
         {
             Room.StopHost();
             return;

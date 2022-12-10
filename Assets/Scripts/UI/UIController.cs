@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
-using Mirror;
 
 public class UIController : MonoBehaviour
 {
@@ -11,7 +7,6 @@ public class UIController : MonoBehaviour
     public UILobby uiLobby;
     public VisualTreeAsset lobby;
     public VisualTreeAsset title;
-    //GameObject localPlayer = NetworkClient.localPlayer.gameObject;
 
     [SerializeField] private CustomNetworkManager networkManager;
 
@@ -36,21 +31,24 @@ public class UIController : MonoBehaviour
 
     void EnterTitle()
     {
+        // Enable title UI
         uiLobby.enabled = false;
         uiTitle.enabled = true;
+
+        // Subscribe main menu buttons
         uiTitle.buttonHostLobby.clicked += HostButtonPressed;
         uiTitle.buttonJoinIP.clicked += JoinLobbyButtonPressed;
     }
 
     void JoinLobby()
     {
+        // Unsubscribe main menu buttons
         uiTitle.buttonHostLobby.clicked -= HostButtonPressed;
         uiTitle.buttonJoinIP.clicked -= JoinLobbyButtonPressed;
+
+        // Enable lobby UI
         uiTitle.enabled = false;
         uiLobby.enabled = true;
-        //uiLobby.buttonLobbyStart.visible = false;
-        /*buttonLobbyReady.clicked += ReadyButtonPressed;
-        buttonLobbyStart.clicked += StartButtonPressed;*/
         uiLobby.buttonLobbyLeave.clicked += LeaveButtonPressed;
     }
 
@@ -69,7 +67,7 @@ public class UIController : MonoBehaviour
             ipAddress = "localhost";
         }
         Debug.LogError("Join button not yet implemented!");
-        
+
         //networkManager.networkAddress = ipAddress;
         //networkManager.StartClient();
     }
@@ -89,7 +87,7 @@ public class UIController : MonoBehaviour
 
     void ReadyButtonPressed()
     {
-        //networkManager.RoomPlayers
+
     }
 
     void StartButtonPressed()
@@ -115,7 +113,7 @@ public class UIController : MonoBehaviour
             i++;
         }
 
-        // 4 is hardcoded, but will need to change if we decide to support more players
+        // TODO: 4 is hardcoded, but will need to change if we decide to support more players
         // Set empty slots to waiting
         for (int j = i; j < 4; j++)
         {
