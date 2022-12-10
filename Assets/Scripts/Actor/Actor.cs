@@ -85,82 +85,103 @@ public class Actor : NetworkBehaviour
     public void updateClassResourceMax(int index, int _max){
         classResources[index].max = _max;
     }
-    public bool damageResource(ClassResourceType _crt, int _amount){
-        if(_amount < 0){
+    public bool damageResource(ClassResourceType _crt, int _amount)
+    {
+        if (_amount < 0)
+        {
             Debug.Log("Swapping to dmgResource bc amount was < 0");
             return restoreResource(_crt, -_amount);
         }
-         if(_crt != null){
-            // if(_crt == AbilityResourceTypes.Health){
-            //     setHealth(actor.getHealth() - _cost.amount);
-            //     return true;
-            // }
-            // else{
-                int index = 0;
-                foreach(ClassResource cr in classResources){
-                    if(_crt == cr.crType){
-                        int diff = cr.amount - _amount;
-                        if(diff >= 0){
-                            updateClassResourceAmount(index, diff);
-                        }
-                        else{
-                            updateClassResourceAmount(index, 0);
-                        }
-                        return true;
-                    }
-                    index++;
-                }
-            // }
+        if (_crt == null)
+        {
+            Debug.Log("Actor.damageResource(): ClassResourceType is null");
+            return false;
         }
+        // if(_crt == AbilityResourceTypes.Health){
+        //     setHealth(actor.getHealth() - _cost.amount);
+        //     return true;
+        // }
+        // else{
+        int index = 0;
+        foreach (ClassResource cr in classResources)
+        {
+            if (_crt == cr.crType)
+            {
+                int diff = cr.amount - _amount;
+                if (diff >= 0)
+                {
+                    updateClassResourceAmount(index, diff);
+                }
+                else
+                {
+                    updateClassResourceAmount(index, 0);
+                }
+                return true;
+            }
+            index++;
+        }
+        // }
         return false;
     }
-    public bool restoreResource(ClassResourceType _crt, int _amount){
-        if(_amount < 0){
+    public bool restoreResource(ClassResourceType _crt, int _amount)
+    {
+        if (_amount < 0)
+        {
             Debug.Log("Swapping to dmgResource bc amount was < 0");
             return damageResource(_crt, -_amount);
         }
-         if(_crt != null){
-            // if(_crt == AbilityResourceTypes.Health){
-            //     setHealth(actor.getHealth() - _cost.amount);
-            //     return true;
-            // }
-            // else{
-                int index = 0;
-                foreach(ClassResource cr in classResources){
-                    if(_crt == cr.crType){ //if _crt is a resource that we have
-                        int sum = cr.amount + _amount; //Then get the sum of it + what we got
-                        
-                        if(sum <= cr.max){
-                            //then add it to our amount
-                            Debug.Log("Adding " + _amount.ToString() + " " + _crt.GetType().ToString());
-                            updateClassResourceAmount(index, sum);
-                        }
-                        else{
-                            //set our cr.amount to max
-                            updateClassResourceAmount(index, cr.max);
-                        }
-                        return true;
-                    }
-                    index++;
-                }
-            // }
+        if (_crt == null)
+        {
+            Debug.Log("Actor.restoreResource(): ClassResourceType is null");
+            return false;
         }
+        // if(_crt == AbilityResourceTypes.Health){
+        //     setHealth(actor.getHealth() - _cost.amount);
+        //     return true;
+        // }
+        // else{
+        int index = 0;
+        foreach (ClassResource cr in classResources)
+        {
+            if (_crt == cr.crType)
+            { //if _crt is a resource that we have
+                int sum = cr.amount + _amount; //Then get the sum of it + what we got
+
+                if (sum <= cr.max)
+                {
+                    //then add it to our amount
+                    Debug.Log("Adding " + _amount.ToString() + " " + _crt.GetType().ToString());
+                    updateClassResourceAmount(index, sum);
+                }
+                else
+                {
+                    //set our cr.amount to max
+                    updateClassResourceAmount(index, cr.max);
+                }
+                return true;
+            }
+            index++;
+        }
+        // }
         return false;
     }
-    void Start(){
-        
+    void Start()
+    {
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
-        if((isLocalPlayer) || (tag != "Player")){
+        if ((isLocalPlayer) || (tag != "Player"))
+        {
             UIManager.playerActor = this;
             Nameplate.Create(this);
         }
-        if(gameObject.layer == LayerMask.NameToLayer("Enemy")){
+        if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
             //Debug.Log("Scaling stats: " + actorName);
             //Buff stats here from GameManager?
             bool scaleCurrentHealth = (maxHealth == health);
-            
+
             maxHealth = (int) (maxHealth * (1 + (GameManager.instance.dungeonHealthScaling * GameManager.instance.dungeonScalingLevel)));
-            if(scaleCurrentHealth){
+            if (scaleCurrentHealth)
+            {
                 health = maxHealth;
             }
             mainStat = (int) (mainStat * (1 + (GameManager.instance.dungeonDamageScaling * GameManager.instance.dungeonScalingLevel)));
@@ -169,9 +190,10 @@ public class Actor : NetworkBehaviour
         //gameObject.GetComponent<Renderer>().Color = unitColor;
         //Nameplate.Create(this);
 
-        if(combatClass !=null){
+        if (combatClass != null)
+        {
             int counter = 0;
-            foreach(Ability_V2 abi in combatClass.abilityList){
+            foreach (Ability_V2 abi in combatClass.abilityList){
                 GetComponent<Controller>().abilities[counter] = abi;
                 counter = counter + 1;
             }
@@ -180,7 +202,8 @@ public class Actor : NetworkBehaviour
 
     }
     void Update(){
-        if(health <= 0){
+        if(health >= 0)
+        {
             if (!isLocalPlayer)
             {
                 GameManager.instance.OnMobDeath.Invoke(mobId);
@@ -197,78 +220,90 @@ public class Actor : NetworkBehaviour
         handleAbilityEffects();
         if(isServer){
             handleCastQueue();
-            
+
             if(isChanneling){
                 checkChannel();
             }
         }
-        
     }
     //------------------------------------------------------------handling Active Ability Effects-------------------------------------------------------------------------
-    
+
 
     [TargetRpc]
-    void TRpcUpdateCooldowns(List<AbilityCooldown> hostListACs){
-
-       // Debug.Log("Updating cooldows hostListACs count: " +  hostListACs.Count.ToString());
+    void TRpcUpdateCooldowns(List<AbilityCooldown> hostListACs)
+    {
+        // Debug.Log("Updating cooldows hostListACs count: " +  hostListACs.Count.ToString());
         abilityCooldowns = hostListACs;
     }
+
     [TargetRpc]
-    void TRpcCreateDamageTextSelf(int amount){
+    void TRpcCreateDamageTextSelf(int amount)
+    {
         DamageText.Create(transform.position, amount);
     }
+
     [TargetRpc]
-    void TRpcCreateDamageTextOffensive(NetworkConnection attackingPlayer, int amount){
+    void TRpcCreateDamageTextOffensive(NetworkConnection attackingPlayer, int amount)
+    {
         //Debug.Log("disiplaying Damage numbers");
-        
         DamageText.Create(transform.position, amount);
     }
+
     [ClientRpc]
-    void addDamamgeToMeter(Actor fromActor, int amount){
+    void addDamamgeToMeter(Actor fromActor, int amount)
+    {
         TempDamageMeter.addToEntry(fromActor, amount);
     }
-    public void damageValue(int amount, int valueType = 0, Actor fromActor = null){
+
+    public void damageValue(int amount, int valueType = 0, Actor fromActor = null)
+    {
         // Right now this only damages health, but, maybe in the future,
         // This could take an extra param to indicate a different value to "damage"
         // For ex. a Ability that reduces maxHealth or destroys mana
 
         //Debug.Log("damageValue: " + amount.ToString()+ " on " + actorName);
-        if(amount >= 0){
-            switch (valueType){
-                case 0:
-                    health -= amount;
-                    if(fromActor != null){
-                        if(fromActor.tag == "Player"){
-                            TRpcCreateDamageTextOffensive(fromActor.GetNetworkConnection(), amount);
-                        }
-                    }
-                    if(tag == "Player"){
-                        TRpcCreateDamageTextSelf(amount);
-                    }
-                    
-                    
-                    if(fromActor != null){
-                        addDamamgeToMeter(fromActor, amount);
-                    }
-                    if(health < 0){
-                        health = 0;
-                    }
-                    break;
-                case 1:
-                    maxHealth -= amount;
-                    if(maxHealth < 1){      // Making this 0 might cause a divide by 0 error. Check later
-                        maxHealth = 1;
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-        else{
+        if (amount <= 0)
+        {
             Debug.Log("Amount was Neg calling to restoreValue instead");
             restoreValue(-1 * amount, valueType); //if negative call restore instead with amount's sign flipped
+            return;
+        }
+        switch (valueType)
+        {
+            case 0:
+                health -= amount;
+                if (fromActor != null)
+                {
+                    if (fromActor.tag == "Player")
+                    {
+                        TRpcCreateDamageTextOffensive(fromActor.GetNetworkConnection(), amount);
+                    }
+                }
+                if (tag == "Player")
+                {
+                    TRpcCreateDamageTextSelf(amount);
+                }
+                if (fromActor != null)
+                {
+                    addDamamgeToMeter(fromActor, amount);
+                }
+                if (health < 0)
+                {
+                    health = 0;
+                }
+                break;
+            case 1:
+                maxHealth -= amount;
+                if (maxHealth < 1)
+                {      // Making this 0 might cause a divide by 0 error. Check later
+                    maxHealth = 1;
+                }
+                break;
+            default:
+                break;
         }
     }
+
     // public bool damageResource(AbilityResourceTypes _arType, int amount){
     //     foreach(ActorResource ar in resources){
     //         if(ar.arType == _arType){
@@ -306,285 +341,321 @@ public class Actor : NetworkBehaviour
     public void restoreValue(int amount, int valueType = 0, Actor fromActor = null){
         // This would be the opposite of damageValue(). Look at that for more details
         //  Maybe in the future calcing healing may have diff formula to calcing damage taken
-        
-        //Debug.Log("restoreValue: " + amount.ToString()+ " on " + actorName);
-        if(amount >= 0){
-            switch (valueType){
-                case 0:
-                    health += amount;
-                    if(fromActor != null){
-                        if(fromActor.tag == "Player"){
-                            TRpcCreateDamageTextOffensive(fromActor.GetNetworkConnection(), amount);
-                        }
-                    }
-                    if(tag == "Player"){
-                        TRpcCreateDamageTextSelf(amount);
-                    }
-                    if(fromActor != null){
-                        addDamamgeToMeter(fromActor, amount);
-                    }
-                    if(health > maxHealth){
-                        health = maxHealth;
-                    }
-                    break;
-                case 1:
-                    if(maxHealth + amount > maxHealth){ // if int did not wrap around max int
-                        maxHealth += amount;    
-                    }
-                    break;
 
-                default:
-                    break;
-            }
-        }
-        else{
+        //Debug.Log("restoreValue: " + amount.ToString()+ " on " + actorName);
+        if (amount <= 0)
+        {
             Debug.Log("Amount was Neg calling to damageValue instead");
-            damageValue( -1 * amount, valueType); // if negative call damage instead with amount's sign flipped
+            damageValue(-1 * amount, valueType); // if negative call damage instead with amount's sign flipped
+        }
+        switch (valueType)
+        {
+            case 0:
+                health += amount;
+                if (fromActor != null)
+                {
+                    if (fromActor.tag == "Player")
+                    {
+                        TRpcCreateDamageTextOffensive(fromActor.GetNetworkConnection(), amount);
+                    }
+                }
+                if (tag == "Player")
+                {
+                    TRpcCreateDamageTextSelf(amount);
+                }
+                if (fromActor != null)
+                {
+                    addDamamgeToMeter(fromActor, amount);
+                }
+                if (health > maxHealth)
+                {
+                    health = maxHealth;
+                }
+                break;
+            case 1:
+                if (maxHealth + amount > maxHealth)
+                { // if int did not wrap around max int
+                    maxHealth += amount;
+                }
+                break;
+
+            default:
+                break;
         }
     }
 
-    
-    void checkAbilityEffectToRemoveAtPos(Buff _buff, int listPos){
+    void checkAbilityEffectToRemoveAtPos(Buff _buff, int listPos)
+    {
         // Remove AbilityEffect is it's duration is <= 0.0f
 
-        if(_buff.getRemainingTime() <= 0.0f){
-            if(showDebug)
-            Debug.Log(actorName + ": Removing.. "+ _buff.getEffectName());
-            //buffs[listPos].OnEffectFinish(); // AE has a caster and target now so the args could be null?
-            buffs.RemoveAt(listPos);
+        if (_buff.getRemainingTime() >= 0.0f)
+        {
+            return;
         }
+        if (showDebug)
+        {
+            Debug.Log(actorName + ": Removing.. " + _buff.getEffectName());
+        }
+        //buffs[listPos].OnEffectFinish(); // AE has a caster and target now so the args could be null?
+        buffs.RemoveAt(listPos);
     }
-    public void recieveEffect(EffectInstruction _eInstruct, NullibleVector3 _targetWP, Actor _caster, Actor _secondaryTarget = null){
-        
+
+    public void recieveEffect(EffectInstruction _eInstruct, NullibleVector3 _targetWP, Actor _caster, Actor _secondaryTarget = null)
+    {
         // foreach (var eI in _eInstructs){
         //     eI.startEffect(this, _targetWP, _caster);
         // }
         int i = 0;
         int lastBuffCount = buffs.Count;
-        while(i < buffs.Count)
+        while (i < buffs.Count)
         {
             var buffhitHooks = buffs[i].onHitHooks;
-            if(buffhitHooks != null){
-                if(buffhitHooks.GetPersistentEventCount() > 0){
+            if (buffhitHooks != null)
+            {
+                if (buffhitHooks.GetPersistentEventCount() > 0)
+                {
                     Debug.Log("Invokeing onHitHooks: " + buffs[i].getEffectName());
                     buffhitHooks.Invoke(buffs[i], _eInstruct);
-                }else{
+                }
+                else
+                {
                     //Debug.Log("Buff has no hooks");
                 }
             }
 
-        if(lastBuffCount == buffs.Count)
-            i++;
-
+            if (lastBuffCount == buffs.Count)
+            {
+                i++;
+            }
         }
         //Debug.Log(actorName + " is starting eI for effect (" + _eInstruct.effect.effectName + ") From: " + (_caster != null ? _caster.actorName : "none"));
         //Debug.Log("recieveEffect " + _eInstruct.effect.effectName +"| caster:" + (_caster != null ? _caster.getActorName() : "_caster is null"));
         _eInstruct.startEffect(this, _targetWP, _caster, _secondaryTarget);
     }
-    public void applyBuff(Buff _buff){
-        
+    public void applyBuff(Buff _buff)
+    {
         //Adding Buff it to this actor's list<Buff>
-        
-        if(_buff.getID() >= 0){
+        if (_buff.getID() >= 0)
+        {
             //Check if the buff is already here
             Buff tempBuff_Ref = buffs.Find(b => b.getID() == _buff.getID());
 
             //if we found something
-            if(tempBuff_Ref  != null){// Based on circumstances, I might need you do something different
+            if (tempBuff_Ref != null)
+            {// Based on circumstances, I might need you do something different
 
-                if( (tempBuff_Ref.isStackable())&&(tempBuff_Ref.isRefreshable()) ){ // if stackable and refreshable
+                if ( (tempBuff_Ref.isStackable())&&(tempBuff_Ref.isRefreshable()))
+                { // if stackable and refreshable
                     tempBuff_Ref.addStacks(1);
                     tempBuff_Ref.setRemainingTime(tempBuff_Ref.getDuration());
                     //Debug.Log("stting remaing to "+ tempBuff_Ref.getDuration().ToString());
                     return;
                 }
-                else if(tempBuff_Ref.isStackable()){
+                else if (tempBuff_Ref.isStackable())
+                {
                     tempBuff_Ref.addStacks(1);
                     return;
                 }
-                else if(tempBuff_Ref.isRefreshable()){
+                else if (tempBuff_Ref.isRefreshable())
+                {
                     //Debug.Log("Refreshable");
                     tempBuff_Ref.setRemainingTime(tempBuff_Ref.getDuration()); // Add pandemic time?
                     return;
                 }
             }
         }
-        else{
-
-        }
         //---------------------If we get this far we are just adding it like normal-------------------------------------
-        
-        
-        
-        if(isServer){
+        if (isServer)
+        {
             AddNewBuff(_buff);
             RpcAddNewBuff(_buff);
-            
         }
-        
     }
+
     [Server]
-    public void removeBuff(Buff _callingBuff){
-        
+    public void removeBuff(Buff _callingBuff)
+    {
         int buffIndex = buffs.FindIndex(x => x == _callingBuff);
 
         buffs.RemoveAt(buffIndex);
         Debug.Log("Removed index: " + buffIndex);
-        
+
         RpcRemoveBuffIndex(buffIndex);
-        
-        
     }
-    public void ClientRemoveBuff(Buff _callingBuff){
-        
+
+    public void ClientRemoveBuff(Buff _callingBuff)
+    {
         int buffIndex = buffs.FindIndex(x => x == _callingBuff);
 
         buffs.RemoveAt(buffIndex);
         Debug.Log("Removed index: " + buffIndex);
-        
-        
     }
+
     [ClientRpc]
-    void RpcRemoveBuffIndex(int hostIndex){
-        if(isServer){
+    void RpcRemoveBuffIndex(int hostIndex)
+    {
+        if (isServer)
+        {
             return;
         }
         Debug.Log("Host saying to remove buff index: " + hostIndex);
         buffs[hostIndex].onFinish();
     }
-    void AddNewBuff(Buff _buff){
+
+    void AddNewBuff(Buff _buff)
+    {
         _buff.setActor(this);
         _buff.setRemainingTime(_buff.getDuration());
         buffs.Add(_buff);
     }
-    [ClientRpc]
-    void RpcAddNewBuff(Buff _buffFromSever){
-        if(isServer)
-            return;
 
+    [ClientRpc]
+    void RpcAddNewBuff(Buff _buffFromSever)
+    {
+        if (isServer)
+        {
+            return;
+        }
         AddNewBuff(_buffFromSever);
     }
-    void handleAbilityEffects(){
 
-       
-        if(buffs.Count > 0){
+    void handleAbilityEffects()
+    {
+        if (buffs.Count <= 0)
+        {
+            return;
+        }
 
-            int i = 0;
-            int lastBuffCount = buffs.Count;
-            while(i < buffs.Count){
-                //Debug.Log("Buffs[" + i.ToString() + "] = " + buffs[i].getEffectName());
-                buffs[i].update();
-                if(lastBuffCount == buffs.Count){
-                    
-                    i++;
-                }
-                else{
-                    ///Debug.Log("After RM Buffs[" + (i - 1).ToString() + "] = " + buffs[i-1].getEffectName());
-                    lastBuffCount = buffs.Count;
-                }
+        int i = 0;
+        int lastBuffCount = buffs.Count;
+        while (i < buffs.Count)
+        {
+            //Debug.Log("Buffs[" + i.ToString() + "] = " + buffs[i].getEffectName());
+            buffs[i].update();
+            if (lastBuffCount == buffs.Count)
+            {
+                i++;
             }
-        
+            else
+            {
+                ///Debug.Log("After RM Buffs[" + (i - 1).ToString() + "] = " + buffs[i-1].getEffectName());
+                lastBuffCount = buffs.Count;
+            }
         }
     }
 
     //Casting----------------------------------------------------------------------------------------------
-    public void castRelativeToGmObj(Ability_V2 _ability, GameObject _obj, Vector2 _point){
+    public void castRelativeToGmObj(Ability_V2 _ability, GameObject _obj, Vector2 _point)
+    {
         NullibleVector3 nVect = new NullibleVector3();
         nVect.Value = _obj.transform.position + (Vector3)_point;
         castAbility3(_ability, _targetWP: nVect);
     }
-    
-    
-    public bool castAbility3(Ability_V2 _ability, Actor _target = null, NullibleVector3 _targetWP = null){
+
+    public bool castAbility3(Ability_V2 _ability, Actor _target = null, NullibleVector3 _targetWP = null)
+    {
         /*  Returns true if a REQUEST to fire was made. NOT if the cast was actually fired
         */
-        if(feared > 0)
+        if (feared > 0)
         {
-            Debug.Log("You cannot use abilities!");
+            Debug.LogFormat("Actor.castAbility3(): {0} cannot use abilities, Feared!", actorName);
             return false;
-            
         }
         //Debug.Log("castAbility3");
-        
-        if(CheckCooldownAndGCD(_ability) == false){ 
-            // MirrorTestTools._inst.ClientDebugLog(_ability.getName() + "| Not on cool down or GCD");
-            if(hasTheResources(_ability)){
-                //if ability is magical check silence
-                // For now silence works on everything including auto attack
-                if(silenced == 0){ 
-                    if(!readyToFire){
-                        if(!isCasting){
-                            if(_ability.NeedsTargetActor()){
-                                if(_target == null){
-                                //Debug.Log("Try find target..");
-                                    _target = tryFindTarget(_ability);
-                                }
-                                if(_target == null){
-                                    Debug.Log("No suitable target found");
-                                    return false;
-                                }
-                                else{
-                                    if(!checkRange(_ability, _target.transform.position)){
-                                        if(showDebug)
-                                            Debug.Log("You are out of range");
-                                        return false;
-                                    }
-                                }
-                            }
-                            if(_ability.NeedsTargetWP()){
-                                if(_targetWP == null){
-                                //Debug.Log("Try find target..");
-                                    _targetWP = tryFindTargetWP(_ability, _target);
-                                }
-                                if(_targetWP == null){
-                                    Debug.Log("No suitable WP found");
-                                    return false;
-                                }
-                                else{
-                                    if(!checkRange(_ability, _targetWP.Value)){
-                                        if(showDebug)
-                                            Debug.Log("You are out of range");
-                                        return false;
-                                    }
-                                }
-                            }
-                            //Debug.Log("castAbility3 inner if");
-                            // if(isServer){
-                            //     serverSays(_ability);
-                            // }
-                            
-                            
-                            if(isServer){
-                                        //MirrorTestTools._inst.ClientDebugLog("Starting RPC");
-                                    rpcStartCast(_ability, _target, _targetWP);
-                            }
-                            else if(isLocalPlayer){ //isLocalPlayer check may not be necessary
-                                    cmdStartCast(_ability, _target, _targetWP);
-                                
-                            }
-                            
-                            //Debug.Log("after Ability_V2 command reached");  
-                        }
-                        else{
-                            //Debug.Log(actorName + " is casting!");
-                        }         
+
+        if (CheckCooldownAndGCD(_ability))
+        {
+            Debug.LogFormat("Actor.castAbility3(): {0}'s {1} ability on cooldown", actorName, _ability);
+            return false;
+        }
+        // MirrorTestTools._inst.ClientDebugLog(_ability.getName() + "| Not on cool down or GCD");
+        if (!hasTheResources(_ability))
+        {
+            Debug.LogFormat("Actor.castAbility3(): {0} does not have the resources", actorName);
+            return false;
+        }
+        //if ability is magical check silence
+        // For now silence works on everything including auto attack
+        if (silenced > 0) //end if(requestingCast)
+        {
+            Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is silenced!", actorName, _ability);
+            return false;
+        }
+        if (readyToFire)
+        {
+            if (showDebug)
+            {
+                Debug.Log("Actor.castAbility3(): Something else is ready to fire and blocking this cast");
+            }
+            return false;
+        }
+        if (isCasting)
+        {
+            Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is already casting!", actorName, _ability);
+            return false;
+        }
+        if (_ability.NeedsTargetActor())
+        {
+            if (_target == null)
+            {
+                //Debug.Log("Try find target..");
+                _target = tryFindTarget(_ability);
+            }
+            if (_target == null)
+            {
+                Debug.Log("No suitable target found");
+                return false;
+            }
+            else
+            {
+                if (!checkRange(_ability, _target.transform.position))
+                {
+                    if (showDebug)
+                    {
+                        Debug.Log("You are out of range");
                     }
-                    else{ //readyToFire == true
-                        if(showDebug)
-                        Debug.Log("Something else is ready to fire and blocking this cast");
-                        return false;
-                    }
-                } //end if(requestingCast)
-                else{
-                    //Debug.Log(actorName + " try to cast" + _ability + " but is silenced!");
                     return false;
                 }
             }
-            else{ //hasTheResources() == false
-                Debug.Log(actorName + " does not have the resources");
+        }
+        if (_ability.NeedsTargetWP())
+        {
+            if (_targetWP == null)
+            {
+                //Debug.Log("Try find target..");
+                _targetWP = tryFindTargetWP(_ability, _target);
+            }
+            if (_targetWP == null)
+            {
+                Debug.Log("No suitable WP found");
                 return false;
             }
+            else
+            {
+                if (!checkRange(_ability, _targetWP.Value))
+                {
+                    if (showDebug)
+                    {
+                        Debug.Log("You are out of range");
+                    }
+                    return false;
+                }
+            }
         }
+        //Debug.Log("castAbility3 inner if");
+        // if(isServer){
+        //     serverSays(_ability);
+        // }
+        if (isServer)
+        {
+            //MirrorTestTools._inst.ClientDebugLog("Starting RPC");
+            rpcStartCast(_ability, _target, _targetWP);
+        }
+        else if (isLocalPlayer)
+        { //isLocalPlayer check may not be necessary
+            cmdStartCast(_ability, _target, _targetWP);
+        }
+        //Debug.Log("after Ability_V2 command reached");  
         return true;
     }
     [ClientRpc]
@@ -1016,16 +1087,24 @@ public class Actor : NetworkBehaviour
             return false;
         }
     }
-    public bool CheckCooldownAndGCD(Ability_V2 _ability){
-        if(_ability.offGDC == false){ //if its a oGCD chekc if on GCD
-            if(CheckOnGCD()){
+
+    /// <summary>
+    /// Return true if the ability is on cooldown. False if off cooldown.
+    /// </summary>
+    public bool CheckCooldownAndGCD(Ability_V2 _ability)
+    {
+        if (_ability.offGDC == false)
+        { //if its a oGCD chekc if on GCD
+            if (CheckOnGCD())
+            {
                 return true;
             }
         }
-        if(checkOnCooldown(_ability)){ // If we make it through check the ability cd
-                return true;
+        if (checkOnCooldown(_ability))
+        { // If we make it through check the ability cd
+            return true;
         }
-        
+
         return false; //if we make it here we are good the GCD and ability not on CD
     }
     public bool checkRange(Ability_V2 _ability, Vector2 _target){
@@ -1163,25 +1242,33 @@ public class Actor : NetworkBehaviour
         Debug.LogWarning("Class Resources are null");
         return true;
     }
-    public bool hasTheResources(Ability_V2 _ability){
-        if(_ability != null){
-            if(_ability.resourceCosts == null){
+
+    /// <summary>
+    /// Return true if the actor has resource to cast ability. False if not enough resource.
+    /// </summary>
+    public bool hasTheResources(Ability_V2 _ability)
+    {
+        if (_ability != null)
+        {
+            if (_ability.resourceCosts == null)
+            {
                 return true;
             }
-            else{
-                if(_ability.resourceCosts.Count == 0){
+            else
+            {
+                if (_ability.resourceCosts.Count == 0)
+                {
                     return true;
                 }
-                foreach(AbilityResource ar in _ability.resourceCosts){
-                    if(hasResource(ar.crType, ar.amount) == false){
+                foreach (AbilityResource ar in _ability.resourceCosts)
+                {
+                    if (hasResource(ar.crType, ar.amount) == false)
+                    {
                         return false;
-                        
                     }
                 }
-            } 
-            
+            }
         }
-        
         return true;
     }
     [ClientRpc]
