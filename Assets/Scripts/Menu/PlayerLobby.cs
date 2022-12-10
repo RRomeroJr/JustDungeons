@@ -65,11 +65,15 @@ public class PlayerLobby : NetworkBehaviour
         playerSlot.RegisterValueChangedCallback(OnPlayerNameChanged);
         playerSlot.isReadOnly = false;
         uiController.UpdateUI();
+        if (!isServer)
+        {
+            uiController.uiLobby.buttonLobbyStart.style.display = DisplayStyle.None;
+    }
     }
 
     private void OnPlayerNameChanged(ChangeEvent<string> evt)
     {
-        if (this.isServer)
+        if (isServer)
         {
             DisplayName = evt.newValue;
             return;
