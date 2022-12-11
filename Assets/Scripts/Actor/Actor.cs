@@ -73,17 +73,23 @@ public class Actor : NetworkBehaviour
     public UnityEvent<int> onAbilityCastHooks = new UnityEvent<int>();
     public Animator animator;
 
-    public event EventHandler PlayerIsDead;
-    public event EventHandler PlayerIsAlive;
+    // Status Effects
     [SyncVar]
     private int silenced = 0;
     [SyncVar]
     private int feared = 0;
     private int tauntImmune = 0;
-    private ActorState actorState = ActorState.Free;
+
+    // Actor state
+    public ActorState actorState = ActorState.Free;
+    private bool checkState = true;
+
+    // Events
+    public event EventHandler PlayerIsDead;
+    public event EventHandler PlayerIsAlive;
 
     #region Properties
-    
+
     public int Feared
     {
         get => feared;
@@ -120,7 +126,7 @@ public class Actor : NetworkBehaviour
             checkState = true;
         }
     }
-    
+
     #endregion
     public CombatClass combatClass;
     public float resourceTickTime = 0.0f;
@@ -161,7 +167,7 @@ public class Actor : NetworkBehaviour
             }
             classResources = combatClass.GetClassResources();
         }
-
+        CalculateState();
 
     }
     void Update()
@@ -212,7 +218,7 @@ public class Actor : NetworkBehaviour
         }
         //Debug.Log("castAbility3");
 
-        
+
         //if ability is magical check silence
         // For now silence works on everything including auto attack
         if (silenced > 0) //end if(requestingCast)
@@ -374,7 +380,7 @@ public class Actor : NetworkBehaviour
         // Creating CastBar or CastBarNPC with apropriate variables   
         if( queuedAbility.NeedsTargetActor() && queuedAbility.NeedsTargetWP() ){
             Debug.Log("Spell that needs an Actor and WP are not yet suported");
-            IsCasting = false; 
+            IsCasting = false;
         }
         else if(queuedAbility.NeedsTargetActor()){
             initCastBarWithActor();
@@ -911,7 +917,7 @@ public class Actor : NetworkBehaviour
                     if(showDebug){
                         //Debug.Log(_ability.getName() + " is on cooldown!");
                     }
-                        
+                       
                     return true;
                 }
             }
@@ -1350,6 +1356,7 @@ public class Actor : NetworkBehaviour
 
     void CalculateState()
     {
+        checkState = false;
         if (Feared > 0)
         {
             actorState = ActorState.Stunned;
@@ -1366,7 +1373,6 @@ public class Actor : NetworkBehaviour
             return;
         }
         actorState = ActorState.Free;
-        checkState = false;
     }
 
     #region EventHandlers
