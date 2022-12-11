@@ -362,13 +362,13 @@ public class Actor : NetworkBehaviour
         //Creates castbar for abilities with cast times
 
         //Debug.Log("Trying to create a castBar for " + _ability.getName())
-        isCasting = true;
+        IsCasting = true;
         // if(MirrorTestTools._inst != null)
         //             MirrorTestTools._inst.ClientDebugLog("prepcast() isCasting = " + isCasting.ToString());
         // Creating CastBar or CastBarNPC with apropriate variables   
         if( queuedAbility.NeedsTargetActor() && queuedAbility.NeedsTargetWP() ){
             Debug.Log("Spell that needs an Actor and WP are not yet suported");
-            isCasting = false; 
+            IsCasting = false; 
         }
         else if(queuedAbility.NeedsTargetActor()){
             initCastBarWithActor();
@@ -423,7 +423,7 @@ public class Actor : NetworkBehaviour
     
     void updateCast(){
         
-        if(isCasting){
+        if(IsCasting){
             if(isServer){
                 if(GetComponent<Controller>().tryingToMove){
                     resetClientCastVars();
@@ -439,7 +439,7 @@ public class Actor : NetworkBehaviour
                 if(isServer)
                     if(castTime >= queuedAbility.getCastTime()){
                         //Debug.Log("updateCast: readyToFire = true");
-                        readyToFire = true;
+                        ReadyToFire = true;
                     }
             }
             
@@ -452,7 +452,7 @@ public class Actor : NetworkBehaviour
     void handleCastQueue(){
         // Called every Update() to see if queued spell is ready to fire
 
-        if(readyToFire){
+        if(ReadyToFire){
             //Debug.Log("castCompleted: " + queuedAbility.getName());
             if((queuedAbility.NeedsTargetActor()) && (queuedAbility.NeedsTargetWP())){
                 Debug.Log("Cast that requires Actor and WP not yet supported. clearing queue.");
@@ -548,15 +548,15 @@ public class Actor : NetworkBehaviour
         queueAbility(_ability, _target, _targetWP);
         isChanneling = true;
         lastChannelTick = 0.0f;
-        readyToFire = false;
+        ReadyToFire = false;
         castTime = _ability.channelDuration;
-        isCasting = true;
+        IsCasting = true;
         fireChannel(queuedAbility, queuedTarget, queuedTargetWP);
         
     }
     //2nd part
     public void checkChannel(){
-        if(!isCasting){
+        if(!IsCasting){
             isChanneling = false;
             resetClientCastVars();
         }
@@ -694,8 +694,8 @@ public class Actor : NetworkBehaviour
     [ClientRpc]
     void resetClientCastVars(){
         resetQueue();
-        readyToFire = false;
-        isCasting = false;
+        ReadyToFire = false;
+        IsCasting = false;
         resetCastTime();
     }
 
@@ -704,7 +704,7 @@ public class Actor : NetworkBehaviour
         queuedTargetWP = null;
     }
     void resetCastTime(){
-        isCasting = false;
+        IsCasting = false;
         castTime = 0.0f;
     }
 
@@ -1344,12 +1344,12 @@ public class Actor : NetworkBehaviour
 
     void CalculateState()
     {
-        if (feared > 0)
+        if (Feared > 0)
         {
             actorState = ActorState.Stunned;
             return;
         }
-        if (silenced > 0)
+        if (Silenced > 0)
         {
             actorState = ActorState.Silenced;
             return;
@@ -1360,7 +1360,7 @@ public class Actor : NetworkBehaviour
             return;
         }
         actorState = ActorState.Free;
-        checkState = true;
+        checkState = false;
     }
 
     #region EventHandlers
