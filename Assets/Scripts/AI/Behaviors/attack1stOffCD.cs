@@ -54,7 +54,7 @@ public class attack1stOffCD : ActionNode
             return State.Success;
         }
         
-        if(context.actor.isCasting == false){
+        if(context.actor.IsCasting == false){
             
             if(toCast.getCastTime() > 0.0){
                 context.agent.isStopped = true;

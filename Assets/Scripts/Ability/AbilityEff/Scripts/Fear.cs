@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -36,7 +36,7 @@ public class Fear : AbilityEff
     public override void buffStartEffect()
     {
         if(NetworkServer.active){
-            parentBuff.actor.feared += 1;
+            parentBuff.actor.Feared += 1;
             parentBuff.actor.GetComponent<Controller>().autoAttacking = false;
         }
         if(HBCTools.NT_AuthoritativeClient( parentBuff.actor.GetComponent<NetworkTransform>() ))
@@ -71,7 +71,7 @@ public class Fear : AbilityEff
     public override void buffEndEffect()
     {
         if(NetworkServer.active){
-            parentBuff.actor.feared  -= 1;
+            parentBuff.actor.Feared  -= 1;
             
         }
         

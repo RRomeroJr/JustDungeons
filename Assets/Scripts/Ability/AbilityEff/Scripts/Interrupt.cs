@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,10 +21,10 @@ public class Interrupt : AbilityEff
     }
     public override void buffStartEffect()
     {
-        if((parentBuff.actor.isCasting) && (parentBuff.actor.getQueuedAbility().interruptable) ){
+        if((parentBuff.actor.IsCasting) && (parentBuff.actor.getQueuedAbility().interruptable) ){
             
             parentBuff.actor.interruptCast();
-            parentBuff.actor.silenced += 1;
+            parentBuff.actor.Silenced += 1;
             seccessful = true;
             
         }
@@ -36,7 +36,7 @@ public class Interrupt : AbilityEff
     public override void buffEndEffect()
     {
         if(seccessful){
-            parentBuff.actor.silenced -= 1;
+            parentBuff.actor.Silenced -= 1;
             
         }
        

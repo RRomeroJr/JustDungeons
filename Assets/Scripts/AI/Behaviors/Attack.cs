@@ -23,7 +23,7 @@ public class Attack : ActionNode
     protected override State OnUpdate()
     {
         
-        if(context.actor.isCasting == false){
+        if(context.actor.IsCasting == false){
             
             if(ability.getCastTime() > 0.0){
                 context.agent.isStopped = true;

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TheKiwiCoder;
@@ -27,7 +27,7 @@ public class AttackRelativeWP : ActionNode
 
     protected override State OnUpdate()
     {   
-        if(context.actor.isCasting == false){
+        if(context.actor.IsCasting == false){
             
             if(ability.getCastTime() > 0.0){
                 context.agent.isStopped = true;

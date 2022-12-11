@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -41,7 +41,7 @@ public class CastBar : MonoBehaviour
   }
     void Update(){
       if(start){
-        if(caster.isCasting){
+        if(caster.IsCasting){
           if(caster.isChanneling){
             castBar.maxValue = caster.getQueuedAbility().channelDuration;
           }
