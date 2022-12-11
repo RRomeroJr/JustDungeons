@@ -87,7 +87,7 @@ public class Actor : NetworkBehaviour
     public int Feared
     {
         get => feared;
-        private set
+        set
         {
             CalculateState();
             feared = value;
@@ -96,7 +96,7 @@ public class Actor : NetworkBehaviour
     public int Silenced
     {
         get => silenced;
-        private set
+        set
         {
             CalculateState();
             silenced = value;
