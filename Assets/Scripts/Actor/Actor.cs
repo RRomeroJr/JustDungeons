@@ -204,8 +204,7 @@ public class Actor : NetworkBehaviour
     // Casting: Starting a Cast---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     public bool castAbility3(Ability_V2 _ability, Actor _target = null, NullibleVector3 _targetWP = null)
     {
-        /*  Returns true if a REQUEST to fire was made. NOT if the cast was actually fired
-        */
+        /*//Returns true if a REQUEST to fire was made.NOT if the cast was actually fired
         if (feared > 0)
         {
             Debug.LogFormat("Actor.castAbility3(): {0} cannot use abilities, Feared!", actorName);
@@ -213,17 +212,7 @@ public class Actor : NetworkBehaviour
         }
         //Debug.Log("castAbility3");
 
-        if (CheckCooldownAndGCD(_ability))
-        {
-            Debug.LogFormat("Actor.castAbility3(): {0}'s {1} ability on cooldown", actorName, _ability);
-            return false;
-        }
-        // MirrorTestTools._inst.ClientDebugLog(_ability.getName() + "| Not on cool down or GCD");
-        if (!hasTheResources(_ability))
-        {
-            Debug.LogFormat("Actor.castAbility3(): {0} does not have the resources", actorName);
-            return false;
-        }
+        
         //if ability is magical check silence
         // For now silence works on everything including auto attack
         if (silenced > 0) //end if(requestingCast)
@@ -242,6 +231,23 @@ public class Actor : NetworkBehaviour
         if (isCasting)
         {
             Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is already casting!", actorName, _ability);
+            return false;
+        }*/
+
+        if (actorState != ActorState.Free)
+        {
+            Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is {2}!", actorName, _ability, actorState);
+            return false;
+        }
+        if (CheckCooldownAndGCD(_ability))
+        {
+            Debug.LogFormat("Actor.castAbility3(): {0}'s {1} ability on cooldown", actorName, _ability);
+            return false;
+        }
+        // MirrorTestTools._inst.ClientDebugLog(_ability.getName() + "| Not on cool down or GCD");
+        if (!hasTheResources(_ability))
+        {
+            Debug.LogFormat("Actor.castAbility3(): {0} does not have the resources", actorName);
             return false;
         }
         if (_ability.NeedsTargetActor())
