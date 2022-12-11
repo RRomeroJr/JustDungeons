@@ -51,8 +51,8 @@ public class Actor : NetworkBehaviour
     [SerializeField]protected List<Buff> buffs;
     
     // When readyToFire is true queuedAbility will fire
-    public bool readyToFire = false; // Will True by CastBar for abilities w/ casts. Will only be true for a freme
-    public bool isCasting = false; // Will be set False by CastBar
+    private bool readyToFire = false; // Will True by CastBar for abilities w/ casts. Will only be true for a freme
+    private bool isCasting = false; // Will be set False by CastBar
     public bool isChanneling = false;
     public float lastChannelTick = 0.0f;
     //[SerializeField]protected Ability queuedAbility; // Used when Ability has a cast time
@@ -76,15 +76,54 @@ public class Actor : NetworkBehaviour
     public event EventHandler PlayerIsDead;
     public event EventHandler PlayerIsAlive;
     [SyncVar]
-    public uint silenced = 0;
+    private int silenced = 0;
     [SyncVar]
-    public int feared = 0;
-    public uint tauntImmune = 0;
+    private int feared = 0;
+    private int tauntImmune = 0;
+    private ActorState actorState = ActorState.Free;
 
+    #region Properties
+    
+    public int Feared
+    {
+        get => feared;
+        private set
+        {
+            CalculateState();
+            feared = value;
+        }
+    }
+    public int Silenced
+    {
+        get => silenced;
+        private set
+        {
+            CalculateState();
+            silenced = value;
+        }
+    }
+    public bool IsCasting
+    {
+        get => isCasting;
+        set
+        {
+            CalculateState();
+            isCasting = value;
+        }
+    }
+    public bool ReadyToFire
+    {
+        get => readyToFire;
+        set
+        {
+            CalculateState();
+            readyToFire = value;
+        }
+    }
+    
+    #endregion
+    
     public CombatClass combatClass;
-    
-    
-    
 
     [ClientRpc]
     public void updateClassResourceAmount(int index, int _amount){

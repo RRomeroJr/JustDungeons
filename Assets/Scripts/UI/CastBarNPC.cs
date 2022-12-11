@@ -44,7 +44,7 @@ public class CastBarNPC : MonoBehaviour
           //  Check if NPC can see target?
           
           //Signaling back to Actor that cast completed
-          caster.readyToFire = true;
+          caster.ReadyToFire = true;
           Destroy(this);
         }
         
@@ -52,6 +52,6 @@ public class CastBarNPC : MonoBehaviour
     }
     void OnDestroy(){
       //Signaling back to Actor that no longer casting
-      caster.isCasting = false;
+      caster.IsCasting = false;
     }
 }
