@@ -202,7 +202,7 @@ public class Actor : NetworkBehaviour
 
     }
     void Update(){
-        if(health >= 0)
+        if(health <= 0)
         {
             if (!isLocalPlayer)
             {
