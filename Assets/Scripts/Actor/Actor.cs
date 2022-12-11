@@ -16,6 +16,15 @@ public enum Role
     Ranged
 }
 
+public enum ActorState
+{
+    Free,
+    Casting,
+    Stunned,
+    Silenced,
+    Dead
+}
+
 public class Actor : NetworkBehaviour
 {
     [Header ("Set Manually in Prefab if Needed") ]
