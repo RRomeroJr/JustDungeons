@@ -1342,6 +1342,26 @@ public class Actor : NetworkBehaviour
         GetComponent<Rigidbody2D>().AddForce(_hostVect);
     }
 
+    void CalculateState()
+    {
+        if (feared > 0)
+        {
+            actorState = ActorState.Stunned;
+            return;
+        }
+        if (silenced > 0)
+        {
+            actorState = ActorState.Silenced;
+            return;
+        }
+        if (ReadyToFire || IsCasting)
+        {
+            actorState = ActorState.Casting;
+            return;
+        }
+        actorState = ActorState.Free;
+        checkState = true;
+    }
 
     #region EventHandlers
 
