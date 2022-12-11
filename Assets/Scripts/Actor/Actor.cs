@@ -432,6 +432,26 @@ public class Actor : NetworkBehaviour
         }
     }
 
+    void CalculateState()
+    {
+        if (feared > 0)
+        {
+            actorState = ActorState.Stunned;
+            return;
+        }
+        if (silenced > 0 )
+        {
+            actorState = ActorState.Silenced;
+            return;
+        }
+        if (ReadyToFire || IsCasting)
+        {
+            actorState = ActorState.Casting;
+            return;
+        }
+        actorState = ActorState.Free;
+    }
+
     void checkAbilityEffectToRemoveAtPos(Buff _buff, int listPos)
     {
         // Remove AbilityEffect is it's duration is <= 0.0f
