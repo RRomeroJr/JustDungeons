@@ -24,6 +24,8 @@ public class UIManager : MonoBehaviour
     public GameObject cameraPrefab;
     public static GameObject nameplatePrefab;
     public static GameObject damageTextPrefab;
+    public Color defaultColor;
+    public 
 
     void Awake(){
         nameplatePrefab = Resources.Load("Nameplate") as GameObject;
@@ -71,9 +73,14 @@ public class UIManager : MonoBehaviour
     }
 
     public void updateUnitFrame(UnitFrame unitFrame, Actor actor){
-        if(actor != null){
-            //setting Actor
-            unitFrame.actor = actor;
+        
+        if(actor == unitFrame.actor){
+            
+            return;
+        }
+        
+        unitFrame.actor = actor;
+        if(actor != null){        
             //  Getting name
             unitFrame.unitName.text = actor.getActorName();
             //  Getting health current and max
@@ -82,6 +89,13 @@ public class UIManager : MonoBehaviour
             //  Getting apropriate healthbar color from actor
             unitFrame.healthFill.color = actor.unitColor;
         }
+        else{
+            unitFrame.unitName.text = "No actor";
+            unitFrame.healthBar.maxValue = 1.0f;
+            unitFrame.healthBar.value = 1.0f;
+            unitFrame.healthFill.color = defaultColor;
+        }
+
     }
     // public void setUpUnitFrame(PointerEventData data){
     //     Debug.Log("Test");
@@ -95,16 +109,32 @@ public class UIManager : MonoBehaviour
     //     entry.callback.AddListener((methodIWant) => { setTarget(); });
 
     // }
+    void UpdateTargetFrame(){
+        if(playerActor == null){ 
+            return;
+        }
+        
+        if(playerActor.target == null){
+            if(targetFrame.gameObject.active){
+                targetFrame.gameObject.SetActive(false);
+            }
+        }
+        else{
+            if(!targetFrame.gameObject.active){
+                Debug.Log("Setting target to active");
+                targetFrame.gameObject.SetActive(true);
+                
+            }
+            
+            updateUnitFrame(targetFrame, playerActor.target);
+        }
+
+    }
 
     void Update(){
         UpdateAllyFrames();
-        /*updateUnitFrame(partyFrame, partyFrame.actor);
-        updateUnitFrame(partyFrame1, partyFrame1.actor);
-        updateUnitFrame(partyFrame2, partyFrame2.actor);
-        updateUnitFrame(partyFrame3, partyFrame3.actor);*/
-        if(playerActor != null){ 
-            updateUnitFrame(targetFrame, playerActor.target);
-        }
+        UpdateTargetFrame();
+        
     }
     public void setTarget(){
         Debug.Log("Test");

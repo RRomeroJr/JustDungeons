@@ -47,9 +47,6 @@ MonoBehaviour:
   canvas: {fileID: 0}
   castBarPrefab: {fileID: 6233138377500794409, guid: 8c21386b4558be24e8eaf8d063254509, type: 3}
   targetFrame: {fileID: 0}
-  partyFrame: {fileID: 0}
-  partyFrame1: {fileID: 0}
-  partyFrame2: {fileID: 0}
-  partyFrame3: {fileID: 0}
-  playerActor: {fileID: 0}
+  frames: []
   cameraPrefab: {fileID: 2164995610287419867, guid: 06a8bba7feee03346af1989cd8654e6e, type: 3}
+  defaultColor: {r: 0.8584906, g: 0.25430757, b: 0.25430757, a: 1}
