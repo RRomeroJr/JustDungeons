@@ -15,3 +15,9 @@ MonoBehaviour:
   abilityList:
   - {fileID: 11400000, guid: b5499d8d42ef81b4b9cd159493b21153, type: 2}
   - {fileID: 11400000, guid: ca240e3b5b83aee44af48f10b6612abe, type: 2}
+  classResources:
+  - crType: {fileID: 11400000, guid: 14d8d4dde818cf44396153ffe293ee8d, type: 2}
+    max: 100
+    amount: 0
+    combatRegen: 1
+    outOfCombatRegen: 1

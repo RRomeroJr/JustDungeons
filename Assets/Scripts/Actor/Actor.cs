@@ -73,8 +73,24 @@ public class Actor : NetworkBehaviour
     public uint tauntImmune = 0;
 
     public CombatClass combatClass;
+    public float resourceTickTime = 0.0f;
+    public float resourceTickMax = 1.0f;
     
-    
+    public void ClassResourceCheckRegen(){
+        
+        resourceTickTime += Time.deltaTime;
+        if(resourceTickTime < resourceTickMax){
+            return;
+        }
+        resourceTickTime -= resourceTickMax;
+        int count = 0;
+        foreach(ClassResource _cr in classResources){
+            if(_cr.combatRegen != 0){
+                restoreResource(_cr.crType, _cr.combatRegen);
+            }
+            count += 1;
+        }
+    }
     
 
     [ClientRpc]
@@ -85,10 +101,16 @@ public class Actor : NetworkBehaviour
     public void updateClassResourceMax(int index, int _max){
         classResources[index].max = _max;
     }
-    public bool damageResource(ClassResourceType _crt, int _amount)
-    {
-        if (_amount < 0)
-        {
+    [ClientRpc]
+    public void updateClassResourceCombatRegen(int index, int _combatRegen){
+        classResources[index].combatRegen = _combatRegen;
+    }
+    [ClientRpc]
+    public void updateClassResourceOutOfCombatRegen(int index, int _OutOfCombatRegen){
+        classResources[index].outOfCombatRegen = _OutOfCombatRegen;
+    }
+    public bool damageResource(ClassResourceType _crt, int _amount){
+        if(_amount < 0){
             Debug.Log("Swapping to dmgResource bc amount was < 0");
             return restoreResource(_crt, -_amount);
         }
@@ -197,6 +219,7 @@ public class Actor : NetworkBehaviour
                 GetComponent<Controller>().abilities[counter] = abi;
                 counter = counter + 1;
             }
+            classResources = combatClass.GetClassResources();
         }
 
 
@@ -217,14 +240,20 @@ public class Actor : NetworkBehaviour
         }
         updateCast();
         updateCooldowns();
-        handleAbilityEffects();
+        //handleAbilityEffects();
         if(isServer){
             handleCastQueue();
-
+            if(classResources.Count > 0){
+                ClassResourceCheckRegen();
+            }
+            
             if(isChanneling){
                 checkChannel();
             }
         }
+    }
+    void FixedUpdate(){
+        handleAbilityEffects();
     }
     //------------------------------------------------------------handling Active Ability Effects-------------------------------------------------------------------------
 
@@ -1301,6 +1330,28 @@ public class Actor : NetworkBehaviour
         resetClientCastVars();
         //Make cast bar red for a sec or two
     }
+    public void LocalPlayerBroadcastTarget(){
+        if(!isLocalPlayer){
+            Debug.LogError("Target not set. not local player");
+            return;
+        }
+        if(isServer){
+            RpcSetTarget(target);
+        }
+        else{
+            CmdSetTarget(target);    
+        }
+        
+    }
+    [Command]
+    void CmdSetTarget(Actor _ClientTarget){
+        target = _ClientTarget;
+    }
+    [ClientRpc]
+    public void RpcSetTarget(Actor _OwnerTarget){
+        target = _OwnerTarget;
+    }
+
     #endregion
     //----------------------------------------------------------------old code no longer used------------------------------------------------------------------------------------
 

@@ -24,9 +24,13 @@ public class Dizzy : AbilityEff
     public override void clientEffect()
     {
         //Debug.Log("calling dizzy clientside effect");
+        Vector2 inputVect = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+
         
-        if( (Input.GetKey("w")) || (Input.GetKey("a")) || (Input.GetKey("s")) || (Input.GetKey("d")) ){
-            parentBuff.actor.GetComponent<Controller>().MoveTowards(moveDirection + (Vector2)parentBuff.actor.transform.position);
+        if(Mathf.Abs(inputVect.magnitude) > 0.0f){
+
+            // parentBuff.actor.GetComponent<Controller>().MoveTowards(moveDirection + (Vector2)parentBuff.actor.transform.position);
+            parentBuff.actor.GetComponent<Controller>().MoveInDirection(inputVect.magnitude * moveDirection);
             Debug.DrawLine(parentBuff.actor.transform.position, (moveDirection * 2.5f) + (Vector2)parentBuff.actor.transform.position, Color.green);
         }
         else{

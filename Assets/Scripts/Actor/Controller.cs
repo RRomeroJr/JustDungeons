@@ -9,7 +9,7 @@ public class Controller : NetworkBehaviour
 {   [Header("For Now Needs To Be Assigned")]
     public Ability_V2 autoAttackClone;
     
-    float tempspeed = 0.02f;
+    float tempspeed = 0.15f;
     [Header("Automatic")]
     public Actor actor;
     public NavMeshAgent agent;
@@ -40,7 +40,14 @@ public class Controller : NetworkBehaviour
     }
     
     public void MoveTowards(Vector3 pos){
+        
         gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, pos, tempspeed);
+    }
+    public void MoveInDirection(Vector2 _vect){
+        // _vect = (moveSpeed * Time.deltaTime) * _vect;
+        _vect.x *= (moveSpeed * Time.deltaTime);
+        _vect.y *= (moveSpeed * Time.deltaTime);
+        gameObject.GetComponent<Rigidbody2D>().velocity = _vect;
     }
     
     public virtual void Update(){
@@ -53,6 +60,10 @@ public class Controller : NetworkBehaviour
         }
         if(autoAttacking){
             if(actor.target != null){
+                if(HBCTools.areHostle(actor, actor.target) == false){
+                    autoAttacking = false;
+                    return;
+                }
                 if(actor.checkOnCooldown(autoAttackClone) == false){
                     if(autoAttackRequest == false){
                         //request aa commad?
