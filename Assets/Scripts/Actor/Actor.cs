@@ -89,8 +89,8 @@ public class Actor : NetworkBehaviour
         get => feared;
         set
         {
-            CalculateState();
             feared = value;
+            checkState = true;
         }
     }
     public int Silenced
@@ -98,8 +98,8 @@ public class Actor : NetworkBehaviour
         get => silenced;
         set
         {
-            CalculateState();
             silenced = value;
+            checkState = true;
         }
     }
     public bool IsCasting
@@ -107,8 +107,8 @@ public class Actor : NetworkBehaviour
         get => isCasting;
         set
         {
-            CalculateState();
             isCasting = value;
+            checkState = true;
         }
     }
     public bool ReadyToFire
@@ -116,8 +116,8 @@ public class Actor : NetworkBehaviour
         get => readyToFire;
         set
         {
-            CalculateState();
             readyToFire = value;
+            checkState = true;
         }
     }
     
@@ -164,7 +164,12 @@ public class Actor : NetworkBehaviour
 
 
     }
-    void Update(){
+    void Update()
+    {
+        if (checkState)
+        {
+            CalculateState();
+        }
         if(health <= 0)
         {
             if (!isLocalPlayer)
