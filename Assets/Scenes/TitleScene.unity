@@ -500,6 +500,8 @@ MonoBehaviour:
   dungeonScalingLevel: 0
   dungeonHealthScaling: 0.1
   dungeonDamageScaling: 0.1
+  timer: 600
+  mobCount: 0
 --- !u!114 &587273950 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8731563114936439608, guid: f3e961304dfd74d4982f34862a2b321d, type: 3}
