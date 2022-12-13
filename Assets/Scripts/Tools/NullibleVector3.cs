@@ -10,5 +10,14 @@ public class NullibleVector3
     // Wrap a Value type in this class and now you can just check if the 
     // class reference is null. It isn't the value is NullibleWrapper<T>.value
     public Vector3 Value;
+    public NullibleVector3(){
+        
+    }
+    public NullibleVector3(Vector3 _in){
+        Value = _in;
+    }
+    public NullibleVector3(NullibleVector3 _in){
+        Value = _in.Value;
+    }
     
 }

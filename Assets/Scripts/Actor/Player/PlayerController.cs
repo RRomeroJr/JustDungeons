@@ -289,6 +289,13 @@ public class PlayerController : Controller
         worldPoint.z = 0.0f;
         return worldPoint;
     }
+    public Vector3 getRelWPTarget(){
+        Vector3 scrnPos = Input.mousePosition;
+        Vector3 relWP = Camera.main.ScreenToWorldPoint(scrnPos);
+        relWP.z = 0.0f;
+        relWP = relWP - transform.position;
+        return relWP;
+    }
     private void OnUIFrameClicked(object source, UIFrameClickedEventArgs e)
     {
         if (isServer)

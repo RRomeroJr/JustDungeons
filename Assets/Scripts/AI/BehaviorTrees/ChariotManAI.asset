@@ -349,7 +349,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: e1f0a965966a674418640d079f68b13b
-  position: {x: 333.0716, y: 630.2506}
+  position: {x: 244.79999, y: 641.2}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -399,7 +399,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 22428871590b05d4e8b1bb1297362549
-  position: {x: 66.91847, y: 364.09747}
+  position: {x: 67.60015, y: 343.2}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
