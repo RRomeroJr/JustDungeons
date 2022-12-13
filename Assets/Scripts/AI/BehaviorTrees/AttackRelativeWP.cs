@@ -4,8 +4,14 @@ using UnityEngine;
 using TheKiwiCoder;
 
 public class AttackRelativeWP : ActionNode
-{   public Ability_V2 ability;
+{   
+    public enum RelativeTargets{
+        ArenaObject,
+        Self
+    }
+    public Ability_V2 ability;
     public Vector2 relativePoint;
+    public RelativeTargets relativeTo;
     public bool castStarted;
     public bool castFinished;
     public bool randomRange;
@@ -34,14 +40,19 @@ public class AttackRelativeWP : ActionNode
                 
             }
             //Debug.Log(context.controller.target.GetComponent<Actor>().getActorName());
-            
+            Vector2 offset = Vector2.zero;
             if(randomRange){
-                Vector2 temp = new Vector2(Random.Range(-plusMinusX, plusMinusX), Random.Range(-plusMinusY, plusMinusY));
-                context.actor.castRelativeToGmObj(ability, (context.gameObject.GetComponent<Controller>() as EnemyController).arenaObject.gameObject, relativePoint + temp);
+                    offset = new Vector2(Random.Range(-plusMinusX, plusMinusX), Random.Range(-plusMinusY, plusMinusY));
+                   
+            }
+            if(relativeTo == RelativeTargets.ArenaObject){
+                context.actor.castRelativeToGmObj(ability, (context.gameObject.GetComponent<Controller>() as EnemyController).arenaObject.gameObject, relativePoint + offset);
+                
             }
             else{
-                context.actor.castRelativeToGmObj(ability, (context.gameObject.GetComponent<Controller>() as EnemyController).arenaObject.gameObject, relativePoint);
+                context.actor.castAbility3(ability, _targetRelWP: new NullibleVector3((Vector3)(relativePoint + offset)));
             }
+            
             //castStarted = true;
         }
         if(castFinished == false){

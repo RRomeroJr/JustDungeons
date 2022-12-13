@@ -118,11 +118,19 @@ public class Controller : NetworkBehaviour
     public void CmdSetTryingToMove(bool _valFromClient){
         tryingToMove = _valFromClient;
     }
-    public void moveToPoint(Vector2 pos){
+    public bool moveToPoint(Vector2 pos){
+        if(resolvingMoveTo){
+            return false;
+        }
         StartCoroutine(IE_moveToPoint(pos));
+        return true;
     }
-    public void moveToPoint(Vector2 pos, float tempMoveSpeed){
+    public bool moveToPoint(Vector2 pos, float tempMoveSpeed){
+        if(resolvingMoveTo){
+            return false;
+        }
         StartCoroutine(IE_moveToPoint(pos, tempMoveSpeed));
+        return true;
     }
     public void moveOffOtherUnits(){
         moveToPoint(Vector2.up + (Vector2)transform.position);
@@ -141,7 +149,7 @@ public class Controller : NetworkBehaviour
         }
         else{
 
-            Debug.Log("No Pending Path move to: " + pos);
+            //Debug.Log("No Pending Path move to: " + pos);
             agent.SetDestination(pos);
             
             agent.stoppingDistance = 0;
@@ -155,7 +163,7 @@ public class Controller : NetworkBehaviour
                 yield return new WaitForSeconds(0.2f);
 
             }
-            Debug.Log("Move To Finshed. Distance: " + Vector2.Distance(pos, gameObject.transform.position).ToString() + "Stopping distance: " + agent.stoppingDistance );
+            //Debug.Log("Move To Finshed. Distance: " + Vector2.Distance(pos, gameObject.transform.position).ToString() + "Stopping distance: " + agent.stoppingDistance );
             resolvingMoveTo = false;
             if(followTarget != null){
                 agent.stoppingDistance = getStoppingDistance(followTarget);

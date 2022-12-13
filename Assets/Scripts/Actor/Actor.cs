@@ -360,9 +360,10 @@ public class Actor : NetworkBehaviour
     }
     public void castRelativeToGmObj(Ability_V2 _ability, GameObject _obj, Vector2 _point)
     {
-        NullibleVector3 nVect = new NullibleVector3();
-        nVect.Value = _obj.transform.position + (Vector3)_point;
-        castAbility3(_ability, _targetRelWP: nVect);
+        NullibleVector3 nVectRelToActor = new NullibleVector3();
+        nVectRelToActor.Value = _obj.transform.position + (Vector3)_point;
+        nVectRelToActor.Value = nVectRelToActor.Value - transform.position;
+        castAbility3(_ability, _targetRelWP: nVectRelToActor);
     }
     // Casting: Castbar handling + Firing a cast---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     
@@ -497,6 +498,9 @@ public class Actor : NetworkBehaviour
         readyToFire = false;
         castTime = _ability.channelDuration;
         isCasting = true;
+        if(onAbilityCastHooks != null){
+            onAbilityCastHooks.Invoke(_ability.id);
+        }
         fireChannel(queuedAbility, queuedTarget, queuedTargetRelWP);
         
     }
