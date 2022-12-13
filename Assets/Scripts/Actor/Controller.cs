@@ -140,28 +140,27 @@ public class Controller : NetworkBehaviour
             
         }
         else{
-            Debug.Log("Not resovling move to");
+
+            Debug.Log("No Pending Path move to: " + pos);
             agent.SetDestination(pos);
             
             agent.stoppingDistance = 0;
             resolvingMoveTo = true;
             agent.isStopped = false;
             
-            while(agent.hasPath || agent.pathPending){
-                if (Mathf.Abs(Vector2.Distance(pos, gameObject.transform.position))
+            while(Mathf.Abs(Vector2.Distance(pos, gameObject.transform.position))
                         > agent.stoppingDistance + 0.1f){
-                            //Debug.Log("Pathing Spam");
-                    yield return new WaitForSeconds(0.2f);
-                }
                 
-                
+                //Debug.Log("Pathing Spam");
+                yield return new WaitForSeconds(0.2f);
+
             }
-            
+            Debug.Log("Move To Finshed. Distance: " + Vector2.Distance(pos, gameObject.transform.position).ToString() + "Stopping distance: " + agent.stoppingDistance );
             resolvingMoveTo = false;
             if(followTarget != null){
                 agent.stoppingDistance = getStoppingDistance(followTarget);
             }
-            Debug.Log("Move To Finshed");
+            
         }
         
         

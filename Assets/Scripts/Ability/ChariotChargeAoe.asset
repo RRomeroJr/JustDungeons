@@ -21,7 +21,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   castTime: 0
-  cooldown: 0
+  cooldown: 1
   needsActor: 0
   needsWP: 0
   id: 33
@@ -30,7 +30,7 @@ MonoBehaviour:
   isChannel: 0
   channelDuration: 0
   numberOfTicks: 0
-  offGDC: 0
+  offGDC: 1
   rangeClass: 0
   range: Infinity
   interruptable: 1

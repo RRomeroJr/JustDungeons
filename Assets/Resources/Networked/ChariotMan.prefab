@@ -104,7 +104,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.05820501, y: -0.5545873}
@@ -319,7 +319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58c6f9b140a52a14881ec09eaebb66eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tree: {fileID: 11400000, guid: 50fc030376cd2c34f827f9c3c3af9213, type: 2}
+  tree: {fileID: 11400000, guid: baece3206ebf9404c97a347040ce4c28, type: 2}
   controllerReady: 0
 --- !u!114 &-1578170218902741199
 MonoBehaviour:

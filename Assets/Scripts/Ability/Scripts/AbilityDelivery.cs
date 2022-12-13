@@ -52,13 +52,13 @@ public class AbilityDelivery : NetworkBehaviour
                 skillshotvector = speed * skillshotvector;
                 
             }
-            if(type == 2){ // aoe no target
+            if(type == 2){ // Normal Aoe 
                 //gameObject.transform.position = worldPointTarget;
             }
-            if(type == 3){ 
-                gameObject.transform.position = target.transform.position;
+            if(type == 3){ // This was for targeted aoes but is now obsolete
+                //gameObject.transform.position = target.transform.position;
             }
-            if(type == 4){ 
+            if(type == 4){ //Ring Aoe
                 //gameObject.transform.position = worldPointTarget;
             }
             if(connectedToCaster){
@@ -192,11 +192,14 @@ public class AbilityDelivery : NetworkBehaviour
     void Update()
     {
         if(isServer){
-            if(type == 3){
-                if(followTarget){
+            
+            if(followTarget){
+                if(target != null){
                     transform.position = target.transform.position;
                 }
+                
             }
+            
             if(start){
                 if(aoeActorIgnore.Count > 0){
                     updateTargetCooldowns();
