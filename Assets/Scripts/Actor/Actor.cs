@@ -370,7 +370,7 @@ public class Actor : NetworkBehaviour
         
         if(isCasting){
             if(isServer){
-                if(GetComponent<Controller>().tryingToMove){
+                if((GetComponent<Controller>().tryingToMove) && (!queuedAbility.castWhileMoving)){
                     resetClientCastVars();
                 }
             }
@@ -454,7 +454,7 @@ public class Actor : NetworkBehaviour
                     damageResource(ar.crType, ar.amount);
                 }
                 // MirrorTestTools._inst.ClientDebugLog(_ability.getName() + " sending effects in fireCast");
-                NullibleVector3 _realWP = new NullibleVector3(_targetRelWP.Value + transform.position);
+                NullibleVector3 _realWP = GetRealWPOrNull(_targetRelWP);
                 foreach (EffectInstruction eI in EI_clones){
                     eI.sendToActor(_target, _realWP, this);
                 }
@@ -561,7 +561,7 @@ public class Actor : NetworkBehaviour
                 foreach(AbilityResource ar in _ability.resourceCosts){
                     damageResource(ar.crType, ar.amount);
                 }
-                NullibleVector3 _realWP = new NullibleVector3(_targetRelWP.Value + transform.position);
+                NullibleVector3 _realWP = GetRealWPOrNull(_targetRelWP);
                 foreach (EffectInstruction eI in EI_clones){
                     eI.sendToActor(_target, _realWP, this);
                 }
@@ -634,6 +634,13 @@ public class Actor : NetworkBehaviour
         
         return toReturn;
          
+    }
+    NullibleVector3 GetRealWPOrNull(NullibleVector3 _input = null){
+        if(_input == null){
+            return null;
+        }
+        
+        return new NullibleVector3(_input.Value + transform.position);
     }
     
     // Casting: Reseting---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
