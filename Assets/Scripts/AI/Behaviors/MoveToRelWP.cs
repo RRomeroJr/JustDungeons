@@ -12,7 +12,7 @@ public class MoveToRelWP : ActionNode
     protected override void OnStart()
     {
         realPos = context.controller.arenaObject.transform.position + (Vector3)relativePos;
-        Debug.Log("target: " + context.controller.arenaObject.transform.position + " + relativePos: " + relativePos + " = realPos: " + realPos);
+//        Debug.Log("target: " + context.controller.arenaObject.transform.position + " + relativePos: " + relativePos + " = realPos: " + realPos);
         if(useMoveSpeed){
             context.controller.moveToPoint(realPos, moveSpeed);
         }

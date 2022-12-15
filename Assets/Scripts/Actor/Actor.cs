@@ -36,7 +36,7 @@ public class Actor : NetworkBehaviour
     public float mainStat = 100.0f;
     [Header("Automatic")]
     public Actor target;
-    
+
     
     public bool canMove = true;
     [SerializeField]protected List<Buff> buffs;
@@ -51,7 +51,9 @@ public class Actor : NetworkBehaviour
     [SerializeField]protected Ability_V2 queuedAbility; // Used when Ability has a cast time
     //[SyncVar]
     [SerializeField]protected Actor queuedTarget; // Used when Ability has a cast time
-    [SerializeField]protected NullibleVector3 queuedTargetRelWP;
+    [SerializeField]protected NullibleVector3 queuedRelWP;
+    [SerializeField]protected NullibleVector3 queuedRelWP2;
+
     
     [SerializeField]public List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
     public UIManager uiManager;
@@ -147,7 +149,7 @@ public class Actor : NetworkBehaviour
     }
     
     // Casting: Starting a Cast---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    public bool castAbility3(Ability_V2 _ability, Actor _target = null, NullibleVector3 _targetRelWP = null)
+    public bool castAbility3(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null)
     {
         /*  Returns true if a REQUEST to fire was made. NOT if the cast was actually fired
         */
@@ -215,19 +217,19 @@ public class Actor : NetworkBehaviour
         }
         if (_ability.NeedsTargetWP())
         {
-            if (_targetRelWP == null)
+            if (_relWP == null)
             {
                 //Debug.Log("Try find target..");
-                _targetRelWP = tryFindTargetWP(_ability, _target);
+                _relWP = tryFindTargetWP(_ability, _target);
             }
-            if (_targetRelWP == null)
+            if (_relWP == null)
             {
                 Debug.Log("No suitable WP found");
                 return false;
             }
             else
             {
-                if (!checkRange(_ability, _targetRelWP.Value))
+                if (!checkRange(_ability, _relWP.Value))
                 {
                     if (showDebug)
                     {
@@ -244,17 +246,17 @@ public class Actor : NetworkBehaviour
         if (isServer)
         {
             //MirrorTestTools._inst.ClientDebugLog("Starting RPC");
-            rpcStartCast(_ability, _target, _targetRelWP);
+            rpcStartCast(_ability, _target, _relWP, _relWP2);
         }
         else if (isLocalPlayer)
         { //isLocalPlayer check may not be necessary
-            cmdStartCast(_ability, _target, _targetRelWP);
+            cmdStartCast(_ability, _target, _relWP, _relWP2);
         }
         //Debug.Log("after Ability_V2 command reached");  
         return true;
     }
     [ClientRpc]
-    public void rpcStartCast(Ability_V2 _ability, Actor _target, NullibleVector3 _targetRelWP){
+    public void rpcStartCast(Ability_V2 _ability, Actor _target, NullibleVector3 _relWP,  NullibleVector3 _relWP2){
         //Debug.Log(actorName + " casted " + _ability.getName());
         // if(MirrorTestTools._inst != null)
         //     MirrorTestTools._inst.ClientDebugLog(_ability.getName()+ "| Host Starting RPCStartCast");
@@ -274,14 +276,14 @@ public class Actor : NetworkBehaviour
         // Debug.Log("rpcStartCast");
         if(_ability.getCastTime() > 0.0f){
                         
-            queueAbility(_ability, _target, _targetRelWP);
+            queueAbility(_ability, _target, _relWP, _relWP2);
             prepCast();
             
         }
         else{
   
             if(isServer){
-                fireCast(_ability, _target, _targetRelWP);
+                fireCast(_ability, _target, _relWP, _relWP2);
                 
             }else{
                 //Debug.Log("Client ignoring fireCast");
@@ -291,16 +293,17 @@ public class Actor : NetworkBehaviour
     }
    
     [Command]
-    public void cmdStartCast(Ability_V2 _ability, Actor _target, NullibleVector3 _targetRelWP){
+    public void cmdStartCast(Ability_V2 _ability, Actor _target, NullibleVector3 _relWP,  NullibleVector3 _relWP2){
         
-        castAbility3(_ability, _target, _targetRelWP);
+        castAbility3(_ability, _target, _relWP, _relWP2);
         
     }
-    void queueAbility(Ability_V2 _ability, Actor _queuedTarget = null, NullibleVector3 _queuedTargetWP = null){
+    void queueAbility(Ability_V2 _ability, Actor _queuedTarget = null, NullibleVector3 _queuedRelWP = null, NullibleVector3 _queuedRelWP2 = null){
         //Preparing variables for a cast
         queuedAbility = _ability;
         queuedTarget = _queuedTarget;
-        queuedTargetRelWP = _queuedTargetWP;
+        queuedRelWP = _queuedRelWP;
+        queuedRelWP2 = _queuedRelWP2;
         
     }
     void prepCast(){
@@ -349,21 +352,30 @@ public class Actor : NetworkBehaviour
                 GameObject newAbilityCast = Instantiate(uiManager.castBarPrefab, uiManager.canvas.transform);
 
                 //                                   v (string cast_name, Actor from_caster, Actor to_target, float cast_time) v
-                newAbilityCast.GetComponent<CastBar>().Init(queuedAbility.getName(), this, queuedTargetRelWP.Value, queuedAbility.getCastTime());
+                newAbilityCast.GetComponent<CastBar>().Init(queuedAbility.getName(), this, queuedRelWP.Value, queuedAbility.getCastTime());
         }
         else{// For NPCs
             if(showDebug)
             Debug.Log(actorName + " starting cast: " + queuedAbility.getName());
 
-            //gameObject.AddComponent<CastBarNPC>().Init(queuedAbility.getName(), this, queuedTargetRelWP.Value, queuedAbility.getCastTime());
+            //gameObject.AddComponent<CastBarNPC>().Init(queuedAbility.getName(), this, queuedRelWP.Value, queuedAbility.getCastTime());
         }
+    }
+    public bool castAbilityRealWPs(Ability_V2 _ability, Actor _target = null, NullibleVector3 _WP = null, NullibleVector3 _WP2 = null){
+        if(_WP != null){
+            _WP = new NullibleVector3(_WP.Value - transform.position);
+        }
+        if(_WP2 != null){
+            _WP2 = new NullibleVector3(_WP2.Value - transform.position);
+        }
+        return castAbility3(_ability, _target, _WP, _WP2);
     }
     public void castRelativeToGmObj(Ability_V2 _ability, GameObject _obj, Vector2 _point)
     {
         NullibleVector3 nVectRelToActor = new NullibleVector3();
         nVectRelToActor.Value = _obj.transform.position + (Vector3)_point;
         nVectRelToActor.Value = nVectRelToActor.Value - transform.position;
-        castAbility3(_ability, _targetRelWP: nVectRelToActor);
+        castAbility3(_ability, _relWP: nVectRelToActor);
     }
     // Casting: Castbar handling + Firing a cast---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     
@@ -405,7 +417,7 @@ public class Actor : NetworkBehaviour
                 resetClientCastVars();
             }
             else if(queuedAbility.NeedsTargetWP()){
-                fireCast(queuedAbility, null, queuedTargetRelWP);
+                fireCast(queuedAbility, null, queuedRelWP, queuedRelWP2);
             }
             else{
                 fireCast(queuedAbility, queuedTarget);
@@ -414,11 +426,11 @@ public class Actor : NetworkBehaviour
     }
 
     [Server]
-    public void fireCast(Ability_V2 _ability, Actor _target = null, NullibleVector3 _targetRelWP = null){
+    public void fireCast(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null){
         // EI_Clones will be passed into an event that will allow them to be modified as need by other effects, stats, Buffs, etc.
         // Debug.Log("FireCast()");
         if(_ability.isChannel){
-            startChannel(_ability, _target, _targetRelWP);
+            startChannel(_ability, _target, _relWP, _relWP2);
         }
         else{
             // if(MirrorTestTools._inst != null)
@@ -455,9 +467,9 @@ public class Actor : NetworkBehaviour
                     damageResource(ar.crType, ar.amount);
                 }
                 // MirrorTestTools._inst.ClientDebugLog(_ability.getName() + " sending effects in fireCast");
-                NullibleVector3 _realWP = GetRealWPOrNull(_targetRelWP);
+                
                 foreach (EffectInstruction eI in EI_clones){
-                    eI.sendToActor(_target, _realWP, this);
+                    eI.sendToActor(_target, GetRealWPOrNull(_relWP), this, inTargetWP2: GetRealWPOrNull(_relWP2));
                 }
                 addToCooldowns(_ability);
                 if(onAbilityCastHooks != null){
@@ -481,18 +493,15 @@ public class Actor : NetworkBehaviour
             if(HBCTools.areHostle(this, _target)){
                 GetComponent<Controller>().autoAttacking = true;
             }
-            
-                
         } 
-        
-        }
+    }
         
     }
     
-    public void startChannel(Ability_V2 _ability, Actor _target = null, NullibleVector3 _targetRelWP = null){
+    public void startChannel(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null){
         // EI_Clones will be passed into an event that will allow them to be modified as need by other effects, stats, Buffs, etc.
         
-        queueAbility(_ability, _target, _targetRelWP);
+        queueAbility(_ability, _target, _relWP, _relWP2);
         isChanneling = true;
         lastChannelTick = 0.0f;
         readyToFire = false;
@@ -501,7 +510,7 @@ public class Actor : NetworkBehaviour
         if(onAbilityCastHooks != null){
             onAbilityCastHooks.Invoke(_ability.id);
         }
-        fireChannel(queuedAbility, queuedTarget, queuedTargetRelWP);
+        fireChannel(queuedAbility, queuedTarget, queuedRelWP, queuedRelWP2);
         
     }
     //2nd part
@@ -511,18 +520,20 @@ public class Actor : NetworkBehaviour
             resetClientCastVars();
         }
         else{
-            //check for first hit
+            
 
 
 
             //check for middle hits
             if(queuedAbility.channelDuration / (queuedAbility.numberOfTicks - 1) <= lastChannelTick){
-                fireChannel(queuedAbility, queuedTarget, queuedTargetRelWP);
+                
+                fireChannel(queuedAbility, queuedTarget, queuedRelWP, queuedRelWP2);
                 lastChannelTick = 0.0f;
             }
             //check for final hit
             else if(castTime <= 0.0f){
-                fireChannel(queuedAbility, queuedTarget, queuedTargetRelWP);
+                
+                fireChannel(queuedAbility, queuedTarget, queuedRelWP, queuedRelWP2);
                 lastChannelTick = 0.0f;
                 resetClientCastVars();
             }
@@ -530,7 +541,7 @@ public class Actor : NetworkBehaviour
         
     }
     [Server]
-    public void fireChannel(Ability_V2 _ability, Actor _target = null, NullibleVector3 _targetRelWP = null){
+    public void fireChannel(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null){
         // EI_Clones will be passed into an event that will allow them to be modified as need by other effects, stats, Buffs, etc.
         
         
@@ -565,9 +576,9 @@ public class Actor : NetworkBehaviour
                 foreach(AbilityResource ar in _ability.resourceCosts){
                     damageResource(ar.crType, ar.amount);
                 }
-                NullibleVector3 _realWP = GetRealWPOrNull(_targetRelWP);
+                
                 foreach (EffectInstruction eI in EI_clones){
-                    eI.sendToActor(_target, _realWP, this);
+                    eI.sendToActor(_target, GetRealWPOrNull(_relWP), this, inTargetWP2: GetRealWPOrNull(_relWP2));
                 }
                 //addToCooldowns(_ability);
                 // if(onAbilityCastHooks != null){
@@ -659,7 +670,8 @@ public class Actor : NetworkBehaviour
 
     void resetQueue(){
         queuedTarget = null;
-        queuedTargetRelWP = null;
+        queuedRelWP = null;
+        queuedRelWP2 = null;
     }
     void resetCastTime(){
         isCasting = false;
@@ -668,10 +680,10 @@ public class Actor : NetworkBehaviour
 
 
     // Casting: AbilityEff handling---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    public void recieveEffect(EffectInstruction _eInstruct, NullibleVector3 _targetRelWP, Actor _caster, Actor _secondaryTarget = null)
+    public void recieveEffect(EffectInstruction _eInstruct, NullibleVector3 _relWP, Actor _caster, Actor _secondaryTarget = null)
     {
         // foreach (var eI in _eInstructs){
-        //     eI.startEffect(this, _targetRelWP, _caster);
+        //     eI.startEffect(this, _relWP, _caster);
         // }
         int i = 0;
         int lastBuffCount = buffs.Count;
@@ -698,7 +710,7 @@ public class Actor : NetworkBehaviour
         }
         //Debug.Log(actorName + " is starting eI for effect (" + _eInstruct.effect.effectName + ") From: " + (_caster != null ? _caster.actorName : "none"));
         //Debug.Log("recieveEffect " + _eInstruct.effect.effectName +"| caster:" + (_caster != null ? _caster.getActorName() : "_caster is null"));
-        _eInstruct.startEffect(this, _targetRelWP, _caster, _secondaryTarget);
+        _eInstruct.startEffect(this, _relWP, _caster, _secondaryTarget);
     }
     
     // Buffs---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

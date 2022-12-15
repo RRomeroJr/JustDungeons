@@ -18,13 +18,28 @@ public class Missile : DeliveryEff
     public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
         //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
         //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
-        GameObject delivery = Instantiate(misslePrefab, _caster.gameObject.transform.position, _caster.gameObject.transform.rotation);
+        // Debug.Log("startEffect Missile");
+        GameObject delivery;
+        //_targetWP is going to be the spawn and targetWP2 the moveVect
+        
+        
+        delivery = Instantiate(misslePrefab);
+        if(targetWP != null){
+            delivery.transform.position += targetWP.Value;
+//            Debug.Log("targetWP.Value: " + targetWP.Value + "Spawning Missle there");
+        }
+        else if(_caster != null){
+            delivery.transform.position  += _caster.gameObject.transform.position;
+        }
+        
+        
         
         delivery.GetComponent<AbilityDelivery>().setCaster(_caster);
         delivery.GetComponent<AbilityDelivery>().eInstructs = eInstructs;
         delivery.GetComponent<AbilityDelivery>().speed = speed; 
         if(isSkillshot){
-            delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_target, _targetWP);
+            delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_target, targetWP2);
+            
             //Debug.Log("setting delivery to 1");
             delivery.GetComponent<AbilityDelivery>().type = 1;
         }
@@ -74,6 +89,10 @@ public class Missile : DeliveryEff
         temp_ref.speed = speed;
         temp_ref.ignoreDuration = ignoreDuration;
         temp_ref.duration = duration;
+        if(targetWP2 != null){
+            temp_ref.targetWP2 = new NullibleVector3(targetWP2.Value);
+        }
+        
         foreach (EffectInstruction eI in eInstructs){
             temp_ref.eInstructs.Add(eI.clone());
         }
@@ -89,7 +108,8 @@ public class Missile : DeliveryEff
             return _target.transform.position;
         }
         else{
-            throw new NullReferenceException();
+            Debug.LogError("Missile.getWP() count find a wp. passing (0,0,0)");
+            return Vector3.zero;
         }
     }
 }

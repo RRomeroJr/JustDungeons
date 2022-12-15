@@ -8,6 +8,9 @@ using Mirror;
 public abstract class DeliveryEff : AbilityEff
 {
     public List<EffectInstruction> eInstructs;
+    
+    
+    
     //public EffectInstruction eInstruct;
 
     //public int targetArg = 0; //0 = target, 1 = self
