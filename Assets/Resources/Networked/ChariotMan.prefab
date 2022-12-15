@@ -20,6 +20,8 @@ GameObject:
   - component: {fileID: -2720667041761104102}
   - component: {fileID: 2915685031530657180}
   - component: {fileID: -1578170218902741199}
+  - component: {fileID: 3824381633918992328}
+  - component: {fileID: -1627031475114962768}
   m_Layer: 7
   m_Name: ChariotMan
   m_TagString: Untagged
@@ -291,7 +293,9 @@ MonoBehaviour:
   lastChannelTick: 0
   queuedAbility: {fileID: 0}
   queuedTarget: {fileID: 0}
-  queuedTargetWP:
+  queuedRelWP:
+    Value: {x: 0, y: 0, z: 0}
+  queuedRelWP2:
     Value: {x: 0, y: 0, z: 0}
   abilityCooldowns: []
   uiManager: {fileID: 0}
@@ -337,3 +341,42 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   ArenaPrefab: {fileID: 923553888742198581, guid: 4b18cc200cf0e63439eda4668bf5cdda, type: 3}
+--- !u!95 &3824381633918992328
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096029720338020577}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 89a9af63a465e2f49b9d657a2a62d502, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-1627031475114962768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096029720338020577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f9d1d7bed21ae1409ac31d1d11703eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  up: {fileID: 0}
+  down: {fileID: 0}
+  facingRight: 1
+  facingDown: 1
+  spriteRenderer: {fileID: 0}
+  animator: {fileID: 0}
+  controller: {fileID: 0}

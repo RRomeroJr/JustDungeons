@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 630dbee7393b5314ab79662f009e6568, type: 3}
-  m_Name: BlindingBarrage
+  m_Name: ChariotManBigMissile
   m_EditorClassIdentifier: 
-  abilityName: BlindingBarrage
+  abilityName: ChariotManBigMissile
   eInstructs:
-  - effect: {fileID: 11400000, guid: c790927dba541934eabfdbdcf4d08862, type: 2}
+  - effect: {fileID: 11400000, guid: 93a1e8104e448d64aac431271e07e0fe, type: 2}
     targetArg: 0
-    powerMod: 1
+    powerMod: 0
     onSendHooks:
       m_PersistentCalls:
         m_Calls: []
@@ -25,14 +25,14 @@ MonoBehaviour:
   cooldown: 0
   needsActor: 0
   needsWP: 1
-  id: 34
+  id: 35
   abilityTag: 0
   resourceCosts: []
-  isChannel: 1
-  channelDuration: 4
-  numberOfTicks: 10
-  offGDC: 0
+  isChannel: 0
+  channelDuration: 0
+  numberOfTicks: 0
+  offGDC: 1
   rangeClass: 0
   range: Infinity
   interruptable: 1
-  castWhileMoving: 1
+  castWhileMoving: 0
