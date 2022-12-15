@@ -5,7 +5,7 @@ using UnityEngine;
 
 [System.Serializable]
 [CreateAssetMenu(fileName="ApplyBuff", menuName = "HBCsystem/ApplyBuff")]
-public class ApplyBuff : DeliveryEff
+public class ApplyBuff : AbilityEff
 {
     //Maybe this should just be an id instead of the whole buff but
     // for now this will work
@@ -52,9 +52,7 @@ public class ApplyBuff : DeliveryEff
         temp_ref.buffID = buffID;
         temp_ref.targetIsSecondary = targetIsSecondary;
         //temp_ref.eInstructs = new List<EffectInstruction>();
-        foreach (EffectInstruction eI in eInstructs){
-            temp_ref.eInstructs.Add(eI.clone());
-        }
+        
         return temp_ref;
     }
 }

@@ -10,7 +10,7 @@ public class ToDeliveryEffectWindow : EditorWindow
    public int lowerRange;
    public int upperRange; 
    int effectSelection;
-   string[] abilityEffectTypes = new string[]{ "Missile", "AoE", "Ring Aoe", "Apply Buff"};
+   string[] abilityEffectTypes = new string[]{ "Missile", "AoE", "Ring Aoe"};
 
    DeliveryEff aeRef;
    
@@ -56,11 +56,11 @@ public class ToDeliveryEffectWindow : EditorWindow
                   aeRef = CreateInstance(typeof(RingAoe)) as RingAoe;
                   Debug.Log("Build RingAoe");
                   break;
-               case(3):
+               // case(3):
                   
-                  aeRef = CreateInstance(typeof(ApplyBuff)) as ApplyBuff;
-                  Debug.Log("Build ApplyBuff");
-                  break;
+               //    aeRef = CreateInstance(typeof(ApplyBuff)) as ApplyBuff;
+               //    Debug.Log("Build ApplyBuff");
+               //    break;
                default:
                   Debug.LogError("Unknown selection");
                   break;
