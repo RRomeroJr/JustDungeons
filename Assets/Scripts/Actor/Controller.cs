@@ -90,6 +90,9 @@ public class Controller : NetworkBehaviour
         
         if(!resolvingMoveTo){
             if(followTarget != null){
+                // if(!HBCTools.checkFacing(actor, followTarget)){
+                //     facingDirection = HBCTools.ToNearest45(followTarget.transform.position - transform.position);
+                // }
                 GetComponent<NavMeshAgent>().SetDestination(followTarget.transform.position);
             }
         }

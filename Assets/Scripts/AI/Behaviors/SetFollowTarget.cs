@@ -5,6 +5,7 @@ using TheKiwiCoder;
 
 public class SetFollowTarget : ActionNode
 {   
+    public bool setToNull = false;
     protected override void OnStart()
     {
     }
@@ -15,20 +16,23 @@ public class SetFollowTarget : ActionNode
 
     protected override State OnUpdate()
     {
-
-        if (context.controller.followTarget == null){
-            if(context.actor.target != null){
-                context.controller.SetFollowTarget(context.actor.target.gameObject);
-            }
-        }
-
-        if (context.agent.pathPending)
-        {
+        if(setToNull){
+            context.controller.SetFollowTarget(null);
             return State.Success;
         }
-        else{
-            return State.Failure;
+        else if(context.actor.target != null){
+            context.controller.SetFollowTarget(context.actor.target.gameObject);
+            return State.Success;
         }
+        
+
+        // if (context.agent.pathPending)
+        // {
+        //     return State.Success;
+        // }
+    
+            return State.Failure;
+        
 
 
 
