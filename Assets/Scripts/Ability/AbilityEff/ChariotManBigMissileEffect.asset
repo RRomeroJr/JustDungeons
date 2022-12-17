@@ -23,10 +23,12 @@ MonoBehaviour:
   caster: {fileID: 0}
   targetWP:
     Value: {x: 0, y: 0, z: 0}
+  targetWP2:
+    Value: {x: 0, y: 0, z: 0}
   eInstructs: []
   school: -1
   misslePrefab: {fileID: 8996080988287052582, guid: 8c667693a07d25642bb795452521e647, type: 3}
   isSkillshot: 1
   speed: 0.3
-  ignoreDuration: 1
+  ignoreDuration: 0
   duration: 2

@@ -21,11 +21,11 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     deliveryNVect2: {x: 0, y: 0}
-  castTime: 0
+  castTime: 4
   cooldown: 0
-  needsActor: 0
+  needsActor: 1
   needsWP: 0
-  id: 0
+  id: 37
   abilityTag: 0
   resourceCosts: []
   isChannel: 0
