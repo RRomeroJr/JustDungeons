@@ -10,29 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 630dbee7393b5314ab79662f009e6568, type: 3}
-  m_Name: BlindingBarrage
+  m_Name: DontStackThis
   m_EditorClassIdentifier: 
-  abilityName: BlindingBarrage
+  abilityName: DontStackThis
   eInstructs:
-  - effect: {fileID: 11400000, guid: c790927dba541934eabfdbdcf4d08862, type: 2}
+  - effect: {fileID: 11400000, guid: 0ab01c5e7601eec47b9abe5434e7f97e, type: 2}
     targetArg: 0
     powerMod: 1
     onSendHooks:
       m_PersistentCalls:
         m_Calls: []
     deliveryNVect2: {x: 0, y: 0}
-  castTime: 3
+  castTime: 0
   cooldown: 0
   needsActor: 0
-  needsWP: 1
-  id: 34
+  needsWP: 0
+  id: 0
   abilityTag: 0
   resourceCosts: []
-  isChannel: 1
-  channelDuration: 4
-  numberOfTicks: 10
+  isChannel: 0
+  channelDuration: 0
+  numberOfTicks: 0
   offGDC: 0
   rangeClass: 0
   range: Infinity
   interruptable: 1
-  castWhileMoving: 1
+  castWhileMoving: 0

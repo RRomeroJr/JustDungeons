@@ -38,8 +38,8 @@ public class Missile : DeliveryEff
         delivery.GetComponent<AbilityDelivery>().eInstructs = eInstructs;
         delivery.GetComponent<AbilityDelivery>().speed = speed; 
         if(isSkillshot){
-            delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_target, targetWP2);
-            
+            delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_secondaryTarget, targetWP2);
+            Debug.Log(getWP() + "| delivery: " + delivery.GetComponent<AbilityDelivery>().worldPointTarget);
             //Debug.Log("setting delivery to 1");
             delivery.GetComponent<AbilityDelivery>().type = 1;
         }
@@ -105,6 +105,7 @@ public class Missile : DeliveryEff
             
         }
         else if(_target != null){
+            
             return _target.transform.position;
         }
         else{

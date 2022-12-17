@@ -48,9 +48,10 @@ public class AbilityDelivery : NetworkBehaviour
             }
             if(type == 1){
                 skillshotvector = worldPointTarget - transform.position;
+                Debug.Log(worldPointTarget - transform.position);
                 skillshotvector.Normalize();
                 skillshotvector = speed * skillshotvector;
-                
+                Debug.Log(gameObject.name + ": Skillshot get skillshotvector");
             }
             if(type == 2){ // Normal Aoe 
                 //gameObject.transform.position = worldPointTarget;
