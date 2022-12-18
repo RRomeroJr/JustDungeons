@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UIElements;
+using Mirror.FizzySteam;
 
 public class UIController : MonoBehaviour
 {
@@ -54,8 +55,13 @@ public class UIController : MonoBehaviour
 
     void HostButtonPressed()
     {
-        networkManager.SteamHostLobby();
-        //networkManager.StartHost();
+        if(networkManager.transport.GetType() == typeof(FizzySteamworks)){
+            networkManager.SteamHostLobby();
+        }
+        else{
+            networkManager.StartHost();
+        }
+        
     }
 
     void JoinLobbyButtonPressed()
@@ -66,10 +72,16 @@ public class UIController : MonoBehaviour
         {
             ipAddress = "localhost";
         }
-        Debug.LogError("Join button not yet implemented!");
+        if(networkManager.transport.GetType() == typeof(FizzySteamworks)){
+            Debug.LogError("Join button not yet implemented!");
+        }
+        else{
+            networkManager.networkAddress = ipAddress;
+            networkManager.StartClient();
+        }
+        
 
-        //networkManager.networkAddress = ipAddress;
-        //networkManager.StartClient();
+        
     }
 
     private void HandleClientConnected()
