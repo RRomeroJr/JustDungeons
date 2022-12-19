@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,6 +8,7 @@ public class UILobby : MonoBehaviour
     public Button buttonLobbyReady;
     public Button buttonLobbyStart;
     public Button buttonLobbyLeave;
+    public DropdownField dropdownClass;
     public List<VisualElement> playerList;
     public UIDocument document;
     public VisualTreeAsset lobby;
@@ -21,16 +22,17 @@ public class UILobby : MonoBehaviour
     {
         document.visualTreeAsset = lobby;
         var root = document.rootVisualElement;
-
         buttonLobbyReady = root.Q<Button>("button-ready");
         buttonLobbyStart = root.Q<Button>("button-start");
         buttonLobbyLeave = root.Q<Button>("button-leave");
-        playerList = new List<VisualElement>();
-        playerList.Add(root.Q<VisualElement>("player-1"));
-        playerList.Add(root.Q<VisualElement>("player-2"));
-        playerList.Add(root.Q<VisualElement>("player-3"));
-        playerList.Add(root.Q<VisualElement>("player-4"));
-
-        //playerList[0][0] = "help";
+        dropdownClass = root.Q<DropdownField>("role-select");
+        dropdownClass.choices = Resources.LoadAll<CombatClass>("").Select(x => x.name).ToList();
+        playerList = new List<VisualElement>
+        {
+            root.Q<VisualElement>("player-1"),
+            root.Q<VisualElement>("player-2"),
+            root.Q<VisualElement>("player-3"),
+            root.Q<VisualElement>("player-4")
+        };
     }
 }
