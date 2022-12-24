@@ -25,7 +25,7 @@ public class UILobby : MonoBehaviour
         buttonLobbyReady = root.Q<Button>("button-ready");
         buttonLobbyStart = root.Q<Button>("button-start");
         buttonLobbyLeave = root.Q<Button>("button-leave");
-        dropdownClass = root.Q<DropdownField>("role-select");
+        dropdownClass = root.Q<DropdownField>("class-select");
         dropdownClass.choices = Resources.LoadAll<CombatClass>("").Select(x => x.name).ToList();
         playerList = new List<VisualElement>
         {
