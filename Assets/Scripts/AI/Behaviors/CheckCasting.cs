@@ -18,7 +18,7 @@ public class CheckCasting : ActionNode
     protected override State OnUpdate()
     {
        
-        if(checkIf == context.gameObject.GetComponent<Actor>().isCasting ){
+        if(checkIf == context.gameObject.GetComponent<Actor>().IsCasting ){
             return State.Success;
         }
         else{
