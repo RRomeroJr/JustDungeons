@@ -721,6 +721,9 @@ public class Actor : NetworkBehaviour
         if(_input == null){
             return null;
         }
+        if(_input.Value.magnitude == 0.0f){ //workaround for selecting an actor in editor breaking some channeled spells
+            return null;
+        }
         
         return new NullibleVector3(_input.Value + transform.position);
     }
