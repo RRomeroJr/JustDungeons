@@ -25,7 +25,7 @@ public class Attack : ActionNode
         
         if(context.actor.isCasting == false){
             
-            if(ability.getCastTime() > 0.0){
+            if((ability.getCastTime() > 0.0)&&(ability.castWhileMoving == false)){
                 context.agent.isStopped = true;
                 
             }
@@ -38,7 +38,7 @@ public class Attack : ActionNode
         }
         else{
             
-            if(context.agent.isStopped){
+            if((ability.getCastTime() > 0.0)&&(ability.castWhileMoving == false)){
                 //Debug.Log("AttkRelWP: agent isStopped to false");
                 context.agent.isStopped = false;
             }

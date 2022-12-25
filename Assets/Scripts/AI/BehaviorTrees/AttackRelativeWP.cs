@@ -5,14 +5,10 @@ using TheKiwiCoder;
 
 public class AttackRelativeWP : ActionNode
 {   
-    public enum RelativeTargets{
-        ArenaObject,
-        Self
-    }
     public Ability_V2 ability;
     public Vector2 relativePoint;
     public Vector2 relativePoint2;
-    public RelativeTargets relativeTo;
+    public HBCTools.ContextualTarget relativeTo;
     public bool castStarted;
     public bool castFinished;
     public bool randomRange;
@@ -49,7 +45,7 @@ public class AttackRelativeWP : ActionNode
                    
             }
             switch(relativeTo){
-                case RelativeTargets.ArenaObject:
+                case HBCTools.ContextualTarget.ArenaObject:
                     NullibleVector3 realPos1 = new NullibleVector3();
                     NullibleVector3 realPos2 = new NullibleVector3();
                     realPos1.Value = (context.gameObject.GetComponent<Controller>() as EnemyController).arenaObject.transform.position + (Vector3)relativePoint;
@@ -58,7 +54,7 @@ public class AttackRelativeWP : ActionNode
 
                     castStarted = context.actor.castAbilityRealWPs(ability, _WP: realPos1, _WP2: realPos2);
                     break;
-                case RelativeTargets.Self:
+                case HBCTools.ContextualTarget.Self:
                     relativePoint += randomOffset;
                     castStarted = context.actor.castAbility3(ability, _relWP: new NullibleVector3(relativePoint), _relWP2: new NullibleVector3(relativePoint2));
 

@@ -6,7 +6,7 @@ namespace TheKiwiCoder {
     public class RepeatXTimes : DecoratorNode{
 
         public bool restartOnSuccess = true;
-        public bool restartOnFailure = false;
+        public bool restartOnFailure = true;
         public int count = 1;
         int counter;
         

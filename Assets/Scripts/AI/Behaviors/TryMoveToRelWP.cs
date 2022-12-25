@@ -4,18 +4,21 @@ using UnityEngine;
 using TheKiwiCoder;
 
 public class TryMoveToRelWP  : ActionNode
-{   public Vector2 relativePos;
+{
+    public HBCTools.ContextualTarget relTarget;
+    public Vector2 relativePos;
     Vector2 realPos;
     public bool useMoveSpeed = false;
     public float moveSpeed;
     public bool successfulStart = false;
     protected override void OnStart()
     {
-        if(context.controller.arenaObject == null){
-            Debug.Log("Skipping MoveToRelWP. No arena object. Reuturning Failure");
+        GameObject relTargetGmObj = ContextualTargetToGmObj(relTarget);
+        if(relTargetGmObj == null){
+            Debug.Log("Skipping MoveToRelWP. Couldn't find "+ relTarget.ToString()+". Reuturning Failure");
             return;
         }
-        realPos = context.controller.arenaObject.transform.position + (Vector3)relativePos;
+        realPos = relTargetGmObj.transform.position + (Vector3)relativePos;
         //Debug.Log("target: " + context.controller.arenaObject.transform.position + " + relativePos: " + relativePos + " = realPos: " + realPos);
         if(useMoveSpeed){
             successfulStart = context.controller.moveToPoint(realPos, moveSpeed);
@@ -41,7 +44,7 @@ public class TryMoveToRelWP  : ActionNode
             Debug.Log("Path invalid");
             return State.Failure;
         }
-        Debug.Log("TryMoveRelWP success");
+        //Debug.Log("TryMoveRelWP success");
         return State.Success;
         
     }

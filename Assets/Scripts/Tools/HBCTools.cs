@@ -12,6 +12,12 @@ public static class HBCTools
         DownLeft,
         DownRight
     }
+    public enum ContextualTarget{
+        ArenaObject,
+        Self,
+        Target,
+        FollowTarget
+    }
     public static bool checkIfBehind(Actor actorToCheck, Actor target){
         // get a vector corressonding to the distance btwn the actorToCheck and taget
         Vector2 angleFromTarget = (Vector2)(actorToCheck.transform.position - target.transform.position);
@@ -149,4 +155,5 @@ public static class HBCTools
         toReturn.Normalize();
         return toReturn;
     }
+    
 }

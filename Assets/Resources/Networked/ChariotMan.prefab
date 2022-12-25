@@ -215,6 +215,7 @@ MonoBehaviour:
   multiTargets: []
   spawnLocation: {x: 0, y: 0, z: 0}
   collider: {fileID: 0}
+  phase: 0
 --- !u!114 &2096029720338020585
 MonoBehaviour:
   m_ObjectHideFlags: 0

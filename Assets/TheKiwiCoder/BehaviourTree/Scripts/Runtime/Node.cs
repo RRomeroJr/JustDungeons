@@ -53,5 +53,39 @@ namespace TheKiwiCoder {
         protected abstract void OnStart();
         protected abstract void OnStop();
         protected abstract State OnUpdate();
+        public GameObject ContextualTargetToGmObj(HBCTools.ContextualTarget _relTarget){
+            MonoBehaviour _comp;
+            if(context == null){
+                return null;
+            }
+            if(context.gameObject == null){
+                return null;
+            }
+            switch (_relTarget){
+                case HBCTools.ContextualTarget.ArenaObject:
+                    _comp = context.gameObject.GetComponent<EnemyController>();
+                    if(_comp != null){
+                        return (_comp as EnemyController).arenaObject.gameObject;
+                    }
+                    break;
+                case HBCTools.ContextualTarget.Self:
+                    return context.gameObject;
+                    break;
+                case HBCTools.ContextualTarget.Target:
+                    _comp = context.gameObject.GetComponent<Actor>();
+                    if(_comp != null){
+                        return (_comp as Actor).target.gameObject;
+                    }
+                    break;
+                case HBCTools.ContextualTarget.FollowTarget:
+                    _comp = context.gameObject.GetComponent<EnemyController>();
+                    if(_comp != null){
+                        return (_comp as EnemyController).followTarget.gameObject;
+                    }
+                    break;
+
+            }
+            return null;
+        }
     }
 }

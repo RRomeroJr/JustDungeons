@@ -24,6 +24,8 @@ MonoBehaviour:
   drawGizmos: 0
   ability: {fileID: 11400000, guid: 47eac81710823d14287df1aea7f4eae6, type: 2}
   relativePoint: {x: -11.5, y: 0}
+  relativePoint2: {x: 0, y: 0}
+  relativeTo: 0
   castStarted: 0
   castFinished: 0
   randomRange: 0
@@ -227,6 +229,8 @@ MonoBehaviour:
   drawGizmos: 0
   ability: {fileID: 11400000, guid: c8fe0564ad0dc6741b4c5ea84703eeff, type: 2}
   relativePoint: {x: 0, y: 0}
+  relativePoint2: {x: 0, y: 0}
+  relativeTo: 0
   castStarted: 0
   castFinished: 0
   randomRange: 0
@@ -330,6 +334,8 @@ MonoBehaviour:
   drawGizmos: 0
   ability: {fileID: 11400000, guid: 47eac81710823d14287df1aea7f4eae6, type: 2}
   relativePoint: {x: 11.5, y: 0}
+  relativePoint2: {x: 0, y: 0}
+  relativeTo: 0
   castStarted: 0
   castFinished: 0
   randomRange: 0
@@ -641,6 +647,8 @@ MonoBehaviour:
   drawGizmos: 0
   ability: {fileID: 11400000, guid: 47eac81710823d14287df1aea7f4eae6, type: 2}
   relativePoint: {x: 11.5, y: 0}
+  relativePoint2: {x: 0, y: 0}
+  relativeTo: 0
   castStarted: 0
   castFinished: 0
   randomRange: 0
@@ -693,6 +701,8 @@ MonoBehaviour:
   drawGizmos: 0
   ability: {fileID: 11400000, guid: 486a5b2b6e71cfc4595eb0d45a7e0456, type: 2}
   relativePoint: {x: 0, y: 0}
+  relativePoint2: {x: 0, y: 0}
+  relativeTo: 0
   castStarted: 0
   castFinished: 0
   randomRange: 0
@@ -872,6 +882,8 @@ MonoBehaviour:
   drawGizmos: 0
   ability: {fileID: 11400000, guid: 47eac81710823d14287df1aea7f4eae6, type: 2}
   relativePoint: {x: -11.5, y: 0}
+  relativePoint2: {x: 0, y: 0}
+  relativeTo: 0
   castStarted: 0
   castFinished: 0
   randomRange: 0
@@ -924,6 +936,8 @@ MonoBehaviour:
   drawGizmos: 0
   ability: {fileID: 11400000, guid: 486a5b2b6e71cfc4595eb0d45a7e0456, type: 2}
   relativePoint: {x: 0, y: 0}
+  relativePoint2: {x: 0, y: 0}
+  relativeTo: 0
   castStarted: 0
   castFinished: 0
   randomRange: 0

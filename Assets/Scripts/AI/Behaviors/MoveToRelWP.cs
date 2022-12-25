@@ -4,14 +4,16 @@ using UnityEngine;
 using TheKiwiCoder;
 
 public class MoveToRelWP : ActionNode
-{   public Vector2 relativePos;
+{   
+    public HBCTools.ContextualTarget relTarget;
+    public Vector2 relativePos;
     Vector2 realPos;
     public bool useMoveSpeed = false;
     public float moveSpeed;
 
     protected override void OnStart()
     {
-        realPos = context.controller.arenaObject.transform.position + (Vector3)relativePos;
+        realPos = ContextualTargetToGmObj(relTarget).transform.position + (Vector3)relativePos;
 //        Debug.Log("target: " + context.controller.arenaObject.transform.position + " + relativePos: " + relativePos + " = realPos: " + realPos);
         if(useMoveSpeed){
             context.controller.moveToPoint(realPos, moveSpeed);

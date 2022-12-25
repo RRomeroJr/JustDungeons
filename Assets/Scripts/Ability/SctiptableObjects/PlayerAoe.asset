@@ -20,6 +20,7 @@ MonoBehaviour:
     onSendHooks:
       m_PersistentCalls:
         m_Calls: []
+    deliveryNVect2: {x: 0, y: 0}
   castTime: 0
   cooldown: 0
   needsActor: 0
@@ -36,3 +37,4 @@ MonoBehaviour:
   rangeClass: 1
   range: 3.5
   interruptable: 1
+  castWhileMoving: 0

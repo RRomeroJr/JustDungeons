@@ -44,7 +44,7 @@ public class Controller : NetworkBehaviour
         gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, pos, tempspeed);
     }
 
-    public void MoveInDirection(Vector2 _vect){ //unit vector baced on input 
+    public void MoveInDirection(Vector2 _vect){ //vector with magnitude from 0 to 1 based on input 
         // _vect = (moveSpeed * Time.deltaTime) * _vect;
 
         // _vect.x *= (moveSpeed * Time.fixedDeltaTime);  //speed is just d is a distance in NavMeshAgent
