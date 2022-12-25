@@ -45,22 +45,22 @@ public class PlayerController : Controller
     }
     void FixedUpdate(){
         if (isLocalPlayer){
+            
             switch (state)
             {
                 case PlayerState.Alive:
                     if (actor.canMove)
                     {
                         Vector2 newVect = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-
+                        
                         if (Mathf.Abs(newVect.magnitude) > 0.2)
                         {
                             if(!tryingToMove){
                                 CmdSetTryingToMove(true);
                             }
-                            // newVect.x *= (moveSpeed * Time.deltaTime);
-                            // newVect.y *= (moveSpeed * Time.deltaTime);
-                            // gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
+                            
                             MoveInDirection(newVect);
+
                             if(Input.GetMouseButton(1) == false){
                                 HBCTools.Quadrant newVectQuad;
                                 newVectQuad = HBCTools.GetQuadrant(newVect);

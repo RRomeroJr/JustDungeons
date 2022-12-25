@@ -661,7 +661,7 @@ public class Actor : NetworkBehaviour
     // Casting: Reseting---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     [ClientRpc]
-    void resetClientCastVars(){
+    public void resetClientCastVars(){
         resetQueue();
         readyToFire = false;
         isCasting = false;

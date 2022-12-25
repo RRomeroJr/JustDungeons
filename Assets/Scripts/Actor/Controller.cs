@@ -43,10 +43,13 @@ public class Controller : NetworkBehaviour
         
         gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, pos, tempspeed);
     }
-    public void MoveInDirection(Vector2 _vect){
+
+    public void MoveInDirection(Vector2 _vect){ //unit vector baced on input 
         // _vect = (moveSpeed * Time.deltaTime) * _vect;
-        _vect.x *= (moveSpeed * Time.deltaTime);
-        _vect.y *= (moveSpeed * Time.deltaTime);
+
+        // _vect.x *= (moveSpeed * Time.fixedDeltaTime);  //speed is just d is a distance in NavMeshAgent
+        // _vect.y *= (moveSpeed * Time.fixedDeltaTime); // moveSpeed d/t / t == d/t^2
+        _vect = moveSpeed * _vect;
         gameObject.GetComponent<Rigidbody2D>().velocity = _vect;
     }
     
