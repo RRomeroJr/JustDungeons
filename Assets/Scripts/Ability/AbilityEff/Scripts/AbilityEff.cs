@@ -14,10 +14,14 @@ public abstract class AbilityEff: ScriptableObject
     public Buff parentBuff; //Do not set this inthe editor!
     public AbilityDelivery parentDelivery;
     public bool targetIsSecondary = false;
-    
+    [HideInInspector]
     public Actor target;
+    [HideInInspector]
     public Actor caster;
+    [HideInInspector]
     public NullibleVector3 targetWP;
+    [HideInInspector]
+    public NullibleVector3 targetWP2;
     
 
     //public int targetArg = 0; //0 = target, 1 = self

@@ -55,6 +55,7 @@ public class Ability_V2 : ScriptableObject{
     public AbilityRanges rangeClass = new AbilityRanges();
     public float range;
     public bool interruptable = true;
+    public bool castWhileMoving = false;
 
     
     void OnValidate(){

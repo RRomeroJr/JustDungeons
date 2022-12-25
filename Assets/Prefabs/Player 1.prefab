@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df739c0fb2ae5ea4ea3c0e5dd2d3f75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   showDebug: 1
@@ -132,7 +133,9 @@ MonoBehaviour:
   lastChannelTick: 0
   queuedAbility: {fileID: 0}
   queuedTarget: {fileID: 0}
-  queuedTargetWP:
+  queuedRelWP:
+    Value: {x: 0, y: 0, z: 0}
+  queuedRelWP2:
     Value: {x: 0, y: 0, z: 0}
   abilityCooldowns: []
   uiManager: {fileID: 0}
@@ -239,6 +242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1736974da49c5ef40b4f3bd3590e64d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   autoAttackClone: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
@@ -250,7 +254,7 @@ MonoBehaviour:
   facingDirection: {x: 0, y: 0}
   globalCooldown: 0
   autoAttackRequest: 0
-  moveSpeed: 420
+  moveSpeed: 10
   abilities:
   - {fileID: 11400000, guid: 25892cafc51da1741bfc1ed0ae709125, type: 2}
   - {fileID: 11400000, guid: d9cf312441b110944872f8ce388f759c, type: 2}
@@ -268,8 +272,13 @@ MonoBehaviour:
     m_Bits: 192
   mouseSensitivity: 15
   xMouseMove: 0
-  mouseStart: {x: 0, y: 0}
+  clickTime0: 0
+  clickTime1: 0
+  mouseStart0: {x: 0, y: 0}
+  mouseStart1: {x: 0, y: 0}
   mousePos: {x: 0, y: 0}
+  clickWindow: 0.66
+  clickTravelWindow: 66
 --- !u!114 &568127742855530159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,9 +292,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
+  _assetId: 1136049992
   serverOnly: 0
   visible: 0
-  m_AssetId: 46fe8384d424d64458f11b67b01917b4
   hasSpawned: 0
 --- !u!114 &4071298855410542102
 MonoBehaviour:
@@ -299,25 +308,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 1
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0
+  target: {fileID: 3602611100074717268}
   clientAuthority: 1
-  sendInterval: 0.05
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 0
-  bufferTimeMultiplier: 1
-  bufferSizeLimit: 64
-  catchupThreshold: 4
-  catchupMultiplier: 0.1
   onlySyncOnChange: 1
   bufferResetMultiplier: 5
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
@@ -375,5 +378,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df0f69d621542414c91c0863c7897aa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1

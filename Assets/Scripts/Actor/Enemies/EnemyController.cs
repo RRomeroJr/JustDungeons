@@ -21,7 +21,7 @@ public class EnemyController : Controller
     public List<Transform> multiTargets;
     public Vector3 spawnLocation;
     public BoxCollider2D collider;
-    
+    public int phase = 0;
     
 
     public override void Awake()

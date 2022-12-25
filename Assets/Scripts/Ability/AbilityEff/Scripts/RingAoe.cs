@@ -67,6 +67,9 @@ public class RingAoe : Aoe
         temp_ref.usePosition = usePosition;
         temp_ref.aoePrefab = aoePrefab;
         temp_ref.targetIsSecondary = targetIsSecondary;
+        if(targetWP2 != null){
+            temp_ref.targetWP2 = new NullibleVector3(targetWP2.Value);
+        }
         temp_ref.eInstructs = new List<EffectInstruction>();
         foreach (EffectInstruction eI in eInstructs){
             temp_ref.eInstructs.Add(eI.clone());

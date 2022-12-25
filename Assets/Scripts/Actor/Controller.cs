@@ -43,10 +43,13 @@ public class Controller : NetworkBehaviour
         
         gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, pos, tempspeed);
     }
-    public void MoveInDirection(Vector2 _vect){
+
+    public void MoveInDirection(Vector2 _vect){ //vector with magnitude from 0 to 1 based on input 
         // _vect = (moveSpeed * Time.deltaTime) * _vect;
-        _vect.x *= (moveSpeed * Time.deltaTime);
-        _vect.y *= (moveSpeed * Time.deltaTime);
+
+        // _vect.x *= (moveSpeed * Time.fixedDeltaTime);  //speed is just d is a distance in NavMeshAgent
+        // _vect.y *= (moveSpeed * Time.fixedDeltaTime); // moveSpeed d/t / t == d/t^2
+        _vect = moveSpeed * _vect;
         gameObject.GetComponent<Rigidbody2D>().velocity = _vect;
     }
     
@@ -90,6 +93,9 @@ public class Controller : NetworkBehaviour
         
         if(!resolvingMoveTo){
             if(followTarget != null){
+                // if(!HBCTools.checkFacing(actor, followTarget)){
+                //     facingDirection = HBCTools.ToNearest45(followTarget.transform.position - transform.position);
+                // }
                 GetComponent<NavMeshAgent>().SetDestination(followTarget.transform.position);
             }
         }
@@ -118,11 +124,19 @@ public class Controller : NetworkBehaviour
     public void CmdSetTryingToMove(bool _valFromClient){
         tryingToMove = _valFromClient;
     }
-    public void moveToPoint(Vector2 pos){
+    public bool moveToPoint(Vector2 pos){
+        if(resolvingMoveTo){
+            return false;
+        }
         StartCoroutine(IE_moveToPoint(pos));
+        return true;
     }
-    public void moveToPoint(Vector2 pos, float tempMoveSpeed){
+    public bool moveToPoint(Vector2 pos, float tempMoveSpeed){
+        if(resolvingMoveTo){
+            return false;
+        }
         StartCoroutine(IE_moveToPoint(pos, tempMoveSpeed));
+        return true;
     }
     public void moveOffOtherUnits(){
         moveToPoint(Vector2.up + (Vector2)transform.position);
@@ -140,28 +154,27 @@ public class Controller : NetworkBehaviour
             
         }
         else{
-            Debug.Log("Not resovling move to");
+
+            //Debug.Log("No Pending Path move to: " + pos);
             agent.SetDestination(pos);
             
             agent.stoppingDistance = 0;
             resolvingMoveTo = true;
             agent.isStopped = false;
             
-            while(agent.hasPath || agent.pathPending){
-                if (Mathf.Abs(Vector2.Distance(pos, gameObject.transform.position))
+            while(Mathf.Abs(Vector2.Distance(pos, gameObject.transform.position))
                         > agent.stoppingDistance + 0.1f){
-                            //Debug.Log("Pathing Spam");
-                    yield return new WaitForSeconds(0.2f);
-                }
                 
-                
+                //Debug.Log("Pathing Spam");
+                yield return new WaitForSeconds(0.2f);
+
             }
-            
+            //Debug.Log("Move To Finshed. Distance: " + Vector2.Distance(pos, gameObject.transform.position).ToString() + "Stopping distance: " + agent.stoppingDistance );
             resolvingMoveTo = false;
             if(followTarget != null){
                 agent.stoppingDistance = getStoppingDistance(followTarget);
             }
-            Debug.Log("Move To Finshed");
+            
         }
         
         

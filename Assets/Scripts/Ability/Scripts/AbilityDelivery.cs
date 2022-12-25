@@ -30,6 +30,9 @@ public class AbilityDelivery : NetworkBehaviour
     public float tickRate = 1.5f; // an AoE type will hit you every tickRate secs
     public int aoeCap;
     public bool followTarget;
+    public bool followCaster;
+    public bool useDisconnectTimer = false;
+    public float disconnectTimer; 
     public bool ignoreDuration = true;
     public float innerCircleRadius;
     public Vector2 safeZoneCenter;
@@ -39,6 +42,11 @@ public class AbilityDelivery : NetworkBehaviour
     public bool hitHostile = true;
     public bool hitFriendly = true;
     public bool canHitSelf = false;
+    void OnValidate(){
+        if(followTarget && followCaster){
+            Debug.LogError(gameObject.name + "| Warning followTarget && followCaster. Chose only one. Will default to caster");
+        }
+    }
     void Start()
     {   
         if(isServer){
@@ -48,18 +56,25 @@ public class AbilityDelivery : NetworkBehaviour
             }
             if(type == 1){
                 skillshotvector = worldPointTarget - transform.position;
+                //Debug.Log(worldPointTarget - transform.position);
                 skillshotvector.Normalize();
                 skillshotvector = speed * skillshotvector;
+                //Debug.Log(gameObject.name + "| skillshot wpT " + worldPointTarget);
+                //Debug.Log(gameObject.name + "| skillshotvector set:" + worldPointTarget + " + " + transform.position);
+            }
+            if(type == 2){ // Normal Aoe 
+                //gameObject.transform.position = worldPointTarget;
+            }
+            if(type == 3){ // This was for targeted aoes but is now obsolete
+                //gameObject.transform.position = target.transform.position;
+            }
+            if(type == 4){ //Ring Aoe
+                //gameObject.transform.position = worldPointTarget;
+            }
+            if(type == 5){ //line aoe
+                //Debug.Log("Start type 5: LineAoe");
+                transform.right = worldPointTarget - transform.position;
                 
-            }
-            if(type == 2){ // aoe no target
-                //gameObject.transform.position = worldPointTarget;
-            }
-            if(type == 3){ 
-                gameObject.transform.position = target.transform.position;
-            }
-            if(type == 4){ 
-                //gameObject.transform.position = worldPointTarget;
             }
             if(connectedToCaster){
                 float tempDist = GetComponent<Renderer>().bounds.size.x / 2.0f;
@@ -109,7 +124,7 @@ public class AbilityDelivery : NetworkBehaviour
                 Actor hitActor = other.GetComponent<Actor>();
                 if(checkIgnoreConditons(hitActor) == false){
                     //Debug.Log("Actor found and passes conditions");
-                    if((type == 2)||(type == 3)){
+                    if((type == 2)||(type == 3) || (type == 5)){
                         if( (hitActor != caster) || canHitSelf){
                            //Debug.Log("Not caster or canHitSelf");
                             //Debug.Log(hitActor.getActorName());
@@ -192,10 +207,22 @@ public class AbilityDelivery : NetworkBehaviour
     void Update()
     {
         if(isServer){
-            if(type == 3){
-                if(followTarget){
+            
+            if(followCaster){
+                if(caster != null){
+                    transform.position = caster.transform.position;
+                }
+                
+            }
+            else if(followTarget){
+                if(target != null){
                     transform.position = target.transform.position;
                 }
+            }
+            
+            if((useDisconnectTimer)&&(disconnectTimer <= 0)){
+                followTarget = false;
+                followCaster = false;
             }
             if(start){
                 if(aoeActorIgnore.Count > 0){
@@ -221,6 +248,11 @@ public class AbilityDelivery : NetworkBehaviour
                         start = true;
                     }
                 }
+
+
+            }
+            if(useDisconnectTimer){
+                disconnectTimer -= Time.deltaTime;
             }
         }
 
@@ -258,7 +290,7 @@ public class AbilityDelivery : NetworkBehaviour
             
            
             if( hitMask == (hitMask | (1 << _hitActor.gameObject.layer)) == false ){ //if hit does not match mask
-                Debug.Log(_hitActor.getActorName() + " did not match hitMask. go: " + gameObject.name);
+                //Debug.Log(_hitActor.getActorName() + " did not match hitMask. go: " + gameObject.name);
                 return true;
             }
             if(caster != null){
@@ -323,6 +355,7 @@ public class AbilityDelivery : NetworkBehaviour
     public void setSafeZonePosistion(Vector2 _hostPos){
         transform.GetChild(0).transform.position = _hostPos;
     }
+
 
     
     

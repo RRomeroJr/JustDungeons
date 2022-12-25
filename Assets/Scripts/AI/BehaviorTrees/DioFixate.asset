@@ -68,6 +68,7 @@ MonoBehaviour:
     targetPrev: {fileID: 0}
   description: 
   drawGizmos: 0
+  setToNull: 0
 --- !u!114 &-3751286815748729216
 MonoBehaviour:
   m_ObjectHideFlags: 0

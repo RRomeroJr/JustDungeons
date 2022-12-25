@@ -4,8 +4,11 @@ using UnityEngine;
 using TheKiwiCoder;
 
 public class AttackRelativeWP : ActionNode
-{   public Ability_V2 ability;
+{   
+    public Ability_V2 ability;
     public Vector2 relativePoint;
+    public Vector2 relativePoint2;
+    public HBCTools.ContextualTarget relativeTo;
     public bool castStarted;
     public bool castFinished;
     public bool randomRange;
@@ -13,7 +16,7 @@ public class AttackRelativeWP : ActionNode
     public float plusMinusY;
     protected override void OnStart()
     {
-        //castStarted = false;
+        castStarted = false;
         castFinished = false;
         context.actor.onAbilityCastHooks.AddListener(checkCastedAbility);
         // MirrorTestTools._inst.ClientDebugLog("AttackRelativeWP OnStart()");
@@ -27,21 +30,45 @@ public class AttackRelativeWP : ActionNode
 
     protected override State OnUpdate()
     {   
-        if(context.actor.IsCasting == false){
+        if(!castStarted){
             
             if(ability.getCastTime() > 0.0){
                 context.agent.isStopped = true;
                 
             }
             //Debug.Log(context.controller.target.GetComponent<Actor>().getActorName());
+            Vector2 randomOffset = Vector2.zero;
             
+
             if(randomRange){
-                Vector2 temp = new Vector2(Random.Range(-plusMinusX, plusMinusX), Random.Range(-plusMinusY, plusMinusY));
-                context.actor.castRelativeToGmObj(ability, (context.gameObject.GetComponent<Controller>() as EnemyController).arenaObject.gameObject, relativePoint + temp);
+                    randomOffset = new Vector2(Random.Range(-plusMinusX, plusMinusX), Random.Range(-plusMinusY, plusMinusY));
+                   
             }
-            else{
-                context.actor.castRelativeToGmObj(ability, (context.gameObject.GetComponent<Controller>() as EnemyController).arenaObject.gameObject, relativePoint);
+            switch(relativeTo){
+                case HBCTools.ContextualTarget.ArenaObject:
+                    NullibleVector3 realPos1 = new NullibleVector3();
+                    NullibleVector3 realPos2 = new NullibleVector3();
+                    realPos1.Value = (context.gameObject.GetComponent<Controller>() as EnemyController).arenaObject.transform.position + (Vector3)relativePoint;
+                    realPos2.Value = (context.gameObject.GetComponent<Controller>() as EnemyController).arenaObject.transform.position + (Vector3)relativePoint2;
+                    realPos1.Value += (Vector3)randomOffset;
+
+                    castStarted = context.actor.castAbilityRealWPs(ability, _WP: realPos1, _WP2: realPos2);
+                    break;
+                case HBCTools.ContextualTarget.Self:
+                    relativePoint += randomOffset;
+                    castStarted = context.actor.castAbility3(ability, _relWP: new NullibleVector3(relativePoint), _relWP2: new NullibleVector3(relativePoint2));
+
+
+                    break;
+                default:
+                    relativePoint += randomOffset;
+                    castStarted = context.actor.castAbility3(ability, _relWP: new NullibleVector3(relativePoint), _relWP2: new NullibleVector3(relativePoint2));
+                    Debug.LogError("Unknown RelativeTarget. trying to usee actor");
+                    break;
+
+                //context.actor.castRelativeToGmObj(ability, (context.gameObject.GetComponent<Controller>() as EnemyController).arenaObject.gameObject, relativePoint + randomOffset);
             }
+          
             //castStarted = true;
         }
         if(castFinished == false){

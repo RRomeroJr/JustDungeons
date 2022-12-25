@@ -10,6 +10,7 @@ public class EffectInstruction
     [SerializeField]public int targetArg = 0; // if < 0 effect will cancel
     [SerializeField]public float powerMod = 1.0f;
     public UnityEvent<EffectInstruction> onSendHooks;
+    public Vector2 deliveryNVect2;
     
     public void startEffect(Actor inTarget = null, NullibleVector3 inTargetWP = null, Actor inCaster = null, Actor inSecondaryTarget = null){
         //Debug.Log(inTargetWP == null ? "eInstruct: No targetWP" : ("eInstruct: wp = " + inTargetWP.Value.ToString()));
@@ -28,7 +29,7 @@ public class EffectInstruction
                 break;
         }
     }
-    public void sendToActor(Actor inTarget = null, NullibleVector3 inTargetWP = null, Actor inCaster = null, Actor inSecondaryTarget = null){
+    public void sendToActor(Actor inTarget = null, NullibleVector3 inTargetWP = null, Actor inCaster = null, Actor inSecondaryTarget = null, NullibleVector3 inTargetWP2 = null){
         //Debug.Log(inTargetWP == null ? "eInstruct: No targetWP" : ("eInstruct: wp = " + inTargetWP.Value.ToString()));
         
         switch(targetArg){
@@ -61,6 +62,7 @@ public class EffectInstruction
         effect.target = inTarget;
         effect.targetWP = inTargetWP;
         effect.caster = inCaster;
+        effect.targetWP2 = inTargetWP2;
         if(onSendHooks != null){
             onSendHooks.Invoke(this);
         }
@@ -83,6 +85,8 @@ public class EffectInstruction
         }
         toReturn.targetArg = targetArg;
         toReturn.onSendHooks = onSendHooks;
+        //Debug.Log("Copying dsos: " + deliveryNVect2);
+        toReturn.deliveryNVect2 = deliveryNVect2;
         //toReturn.powerMod = powerMod;
         return toReturn;
     }
@@ -94,6 +98,7 @@ public class EffectInstruction
         //toReturn.effect.power *= powerMod;
         toReturn.targetArg = targetArg;
         toReturn.onSendHooks = onSendHooks;
+        toReturn.deliveryNVect2 = deliveryNVect2;
         //toReturn.powerMod = powerMod;
         return toReturn;
     }

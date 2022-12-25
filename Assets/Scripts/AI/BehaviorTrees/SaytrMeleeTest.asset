@@ -1,0 +1,1298 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8507938291647815107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb5496e8cd973748a10b3e3ef436ebd, type: 3}
+  m_Name: Repeat
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: b17c1456848c37748a4fb4ee7f73485e
+  position: {x: -1009.905, y: 1111}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  child: {fileID: 5303622076692133165}
+  restartOnSuccess: 0
+  restartOnFailure: 1
+--- !u!114 &-8414934171521811395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460be9e34c566ea45b9e282b1adcb028, type: 3}
+  m_Name: Selector
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 6d744e23484e1f0479b5089554a25f33
+  position: {x: -2.999939, y: 441.30008}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: -3580732161201984552}
+  - {fileID: 7744489803267706321}
+  - {fileID: -1662854260870883714}
+--- !u!114 &-7634145082051857867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bd5f608b3bd8144ab24ae29b8d34853, type: 3}
+  m_Name: Attack
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 36b41424c17b8ce4d87a1636b15ca720
+  position: {x: -2332.1216, y: 1200}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  ability: {fileID: 11400000, guid: 2f3cacfc5b83e204eafd682260c49dd9, type: 2}
+--- !u!114 &-6897740195176010065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
+  m_Name: Wait
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 81ea9563c64e1b14da8a166aab7324cb
+  position: {x: 123.46765, y: 857.765}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  duration: 10
+--- !u!114 &-6144319757355374773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d68bcbe4177db554797667ae7241886e, type: 3}
+  m_Name: CheckCasting
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: cc8d6b30cb8c471468495c3380f9e046
+  position: {x: 956, y: 989}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  checkIf: 0
+--- !u!114 &-6038954841689011260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb5496e8cd973748a10b3e3ef436ebd, type: 3}
+  m_Name: Repeat
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 28dd0c2da5738894cafedfd862052770
+  position: {x: 956, y: 870}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  child: {fileID: -6144319757355374773}
+  restartOnSuccess: 0
+  restartOnFailure: 1
+--- !u!114 &-5727594458206608812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bd5f608b3bd8144ab24ae29b8d34853, type: 3}
+  m_Name: Attack
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 16f9f1057191d3d4f999e23851022192
+  position: {x: -815, y: 1111}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  ability: {fileID: 11400000, guid: b91beb8fe861e804ab53a6122c0d93db, type: 2}
+--- !u!114 &-5515949265697709820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7302d8b8c9a258408e8b0829db973ae, type: 3}
+  m_Name: FindTargets
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: e69a293fea54f5449b7ed364d9db1ebd
+  position: {x: -319.17416, y: 410.4}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 64
+  range: 16
+--- !u!114 &-5101170719301721590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
+  m_Name: Wait
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 94aa1b2ffc912cb449fcfd9a3d626bed
+  position: {x: 570, y: 844}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  duration: 10
+--- !u!114 &-4176362189687882619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 2fc6ec364354c924aa80f1f7a4cb009f
+  position: {x: -1896.1217, y: 948}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: 4334096277772207817}
+  - {fileID: 4588471698756541000}
+  - {fileID: 8910618469217974962}
+  - {fileID: 4603172469049749515}
+  - {fileID: 4897646425270824439}
+  - {fileID: -7634145082051857867}
+  - {fileID: 1035303319465407162}
+  - {fileID: -2618290194798764782}
+  - {fileID: 4544537446978339777}
+  - {fileID: 5893596373628910702}
+  - {fileID: 3465981940399399524}
+--- !u!114 &-3886842353895617346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bd5f608b3bd8144ab24ae29b8d34853, type: 3}
+  m_Name: Attack
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 525693458c73afb4d9251bc62f03f79f
+  position: {x: 777.16504, y: 870}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  ability: {fileID: 11400000, guid: e15589afe2180e34cbad523c212f48d0, type: 2}
+--- !u!114 &-3580732161201984552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: efc4ebb50e7f3da4690f4f705849f334
+  position: {x: -723.5133, y: 570.17}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: 2895637747769946554}
+  - {fileID: -988248199705992602}
+  - {fileID: 3899050673685694326}
+  - {fileID: 3426870874764555771}
+  - {fileID: -2158995697887693071}
+  - {fileID: 3096805538606804062}
+  - {fileID: 3054272791193519589}
+--- !u!114 &-2618290194798764782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bc0fc9733b81a646a490a0c610099d6, type: 3}
+  m_Name: RepeatForXSecs
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 283927f9354815f4dbcb6a57b3dadc13
+  position: {x: -1993.1216, y: 1111}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  child: {fileID: 1953280508624410059}
+  restartOnSuccess: 1
+  restartOnFailure: 1
+  duration: 1
+  _time: 0
+  endIfChildRunning: 0
+--- !u!114 &-2255211077033878278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: a2b5436cce2259446b7648c3803e3999
+  position: {x: 720.225, y: 724}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: -5101170719301721590}
+  - {fileID: -3886842353895617346}
+  - {fileID: -6038954841689011260}
+  - {fileID: 6942066322990589765}
+  - {fileID: 2566379424874354750}
+--- !u!114 &-2158995697887693071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb5496e8cd973748a10b3e3ef436ebd, type: 3}
+  m_Name: Repeat
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 480c527af9a651248a23fc38a3ccf05b
+  position: {x: -648.4001, y: 795.99994}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  child: {fileID: 2854683705579768170}
+  restartOnSuccess: 0
+  restartOnFailure: 1
+--- !u!114 &-2042214413083793662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 077da7d38e0b1134bafb5e20d0ec84a3, type: 3}
+  m_Name: MoveTowardsRel
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: c32e5a9097427354c82117409d3f653e
+  position: {x: -2495.1216, y: 1241}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  contextualTarget: 2
+  useSpeed: 1
+  speed: 100
+  stopDistance: 0
+  relWP: {x: -2.82, y: 2.82}
+--- !u!114 &-1662854260870883714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cb6f261f2e1e154db09bccaecf4c404, type: 3}
+  m_Name: PhaseSelector
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 034bd4d1a0e0f5c44a28fc2bb612c636
+  position: {x: 341.20502, y: 556.77246}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: 953372329980416923}
+  - {fileID: -2255211077033878278}
+--- !u!114 &-988248199705992602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0225504fdcf02647986674594b87ed3, type: 3}
+  m_Name: SetComboFinished
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: efe65d06fdbb4424f8067a902b00540e
+  position: {x: -1219, y: 780}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  setTo: 0
+--- !u!114 &-560328961268336461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82fd72c2bff0f474c8946bf54d1bbc12, type: 3}
+  m_Name: SetPhase
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 8b899d3dfe5098f4197c862992f6944c
+  position: {x: -468.80008, y: 937.1999}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  phase: 1
+--- !u!114 &-311142973830401162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52e447fc52218ba4488b54940173d241, type: 3}
+  m_Name: SetReadyForCombo
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: e3f7172e5b33540469ffe201c4e075e0
+  position: {x: 287.46765, y: 869.765}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  comboNumber: 0
+--- !u!114 &-36250990606707530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 6aebb4c2775f974428c7685d5ffa9157
+  position: {x: 0.00014305115, y: 309.60004}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: 675895978654955788}
+  - {fileID: -8414934171521811395}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d285eb63c2cdd74180de7cfceaa96ad, type: 3}
+  m_Name: SaytrMeleeTest
+  m_EditorClassIdentifier: 
+  rootNode: {fileID: 6446018388908770133}
+  treeState: 0
+  nodes:
+  - {fileID: 6446018388908770133}
+  - {fileID: 7221063678469256655}
+  - {fileID: -3580732161201984552}
+  - {fileID: 2895637747769946554}
+  - {fileID: 3054272791193519589}
+  - {fileID: -36250990606707530}
+  - {fileID: 675895978654955788}
+  - {fileID: 520276294182707609}
+  - {fileID: -5515949265697709820}
+  - {fileID: -6897740195176010065}
+  - {fileID: -311142973830401162}
+  - {fileID: 2854683705579768170}
+  - {fileID: -2158995697887693071}
+  - {fileID: -988248199705992602}
+  - {fileID: 3426870874764555771}
+  - {fileID: 7744489803267706321}
+  - {fileID: -8414934171521811395}
+  - {fileID: 953372329980416923}
+  - {fileID: 3899050673685694326}
+  - {fileID: -4176362189687882619}
+  - {fileID: 4588471698756541000}
+  - {fileID: 8910618469217974962}
+  - {fileID: 891336644167200444}
+  - {fileID: -5727594458206608812}
+  - {fileID: -1662854260870883714}
+  - {fileID: -2255211077033878278}
+  - {fileID: -5101170719301721590}
+  - {fileID: 2566379424874354750}
+  - {fileID: 3096805538606804062}
+  - {fileID: -560328961268336461}
+  - {fileID: 1070282047398445423}
+  - {fileID: -3886842353895617346}
+  - {fileID: -6038954841689011260}
+  - {fileID: -6144319757355374773}
+  - {fileID: -8507938291647815107}
+  - {fileID: 5303622076692133165}
+  - {fileID: 6942066322990589765}
+  - {fileID: 2417410665933303545}
+  - {fileID: -2618290194798764782}
+  - {fileID: 4023663302607534164}
+  - {fileID: 1953280508624410059}
+  - {fileID: 4334096277772207817}
+  - {fileID: 4603172469049749515}
+  - {fileID: 4897646425270824439}
+  - {fileID: 5893596373628910702}
+  - {fileID: 1035303319465407162}
+  - {fileID: -2042214413083793662}
+  - {fileID: -7634145082051857867}
+  - {fileID: 4544537446978339777}
+  - {fileID: 3465981940399399524}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+--- !u!114 &520276294182707609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62399ae9ac63e624684a55524aef6b85, type: 3}
+  m_Name: TargetCheck
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 89a312bffa1cdfd448dc34fa5595af76
+  position: {x: -320.77414, y: 312}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  child: {fileID: -5515949265697709820}
+  ContinueIfHasTargetIs: 0
+--- !u!114 &675895978654955788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e658b1bd308bc5c429f5a9b404a04943, type: 3}
+  m_Name: Inverter
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: bbf73b5b454ab8942b4c36b586cc68aa
+  position: {x: -319.97415, y: 201.59999}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  child: {fileID: 520276294182707609}
+--- !u!114 &891336644167200444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: d3ad4038aab9d0a41bd21fb0a2c4351d
+  position: {x: -992.95624, y: 957}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: 2417410665933303545}
+  - {fileID: -8507938291647815107}
+  - {fileID: -5727594458206608812}
+--- !u!114 &953372329980416923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: c0b3b16e3d2c19b4ca41176303b569ac
+  position: {x: 230.46762, y: 707.765}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: -6897740195176010065}
+  - {fileID: -311142973830401162}
+--- !u!114 &1035303319465407162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
+  m_Name: Wait
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: ed0cf4061de9e404d9fe4e49986cd97c
+  position: {x: -2161.1216, y: 1111}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  duration: 1
+--- !u!114 &1070282047398445423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82fd72c2bff0f474c8946bf54d1bbc12, type: 3}
+  m_Name: SetPhase
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: d07a4002d7fb2c544b01d5a9dac78994
+  position: {x: -301.12115, y: 936.80005}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  phase: 0
+--- !u!114 &1953280508624410059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 077da7d38e0b1134bafb5e20d0ec84a3, type: 3}
+  m_Name: MoveTowardsRel
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 8658669cd2569d04281e830917f1c4fd
+  position: {x: -1993.1216, y: 1273}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  contextualTarget: 2
+  useSpeed: 1
+  speed: 100
+  stopDistance: 0
+  relWP: {x: -4, y: 0}
+--- !u!114 &2417410665933303545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8a76df913fa98948aa065725d733789, type: 3}
+  m_Name: WaitXUpdates
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 0efa8352d5294c349bb4a7887b70b8f0
+  position: {x: -1173, y: 1111}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  NumberOfUpdates: 1
+--- !u!114 &2566379424874354750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52e447fc52218ba4488b54940173d241, type: 3}
+  m_Name: SetReadyForCombo
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 5bc08d2b40494c74f8f8f7c6d4d94a27
+  position: {x: 1309.4196, y: 844}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  comboNumber: 1
+--- !u!114 &2854683705579768170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2a94c0d563d65242bf969d4b011279c, type: 3}
+  m_Name: AllPartnersComboFinished
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: fbd8bb721981d2f4cb197f1925c557da
+  position: {x: -681.20013, y: 905.6}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+--- !u!114 &2895637747769946554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acce299ec79bc064ea3e42b88b567862, type: 3}
+  m_Name: AllPartnersComboReady
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 5888fadaef6cb9c439da013e2e300267
+  position: {x: -1408, y: 780}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+--- !u!114 &3054272791193519589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ee28b7c8388715419cd8a32ed19f456, type: 3}
+  m_Name: SetComboReady
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 11cf2c3cc5cc2574b82556d23c867056
+  position: {x: -260.64, y: 768}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 'false
+
+'
+  drawGizmos: 0
+  setTo: 0
+--- !u!114 &3096805538606804062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8ef3583b1da338439aaeca7abcb8d1f, type: 3}
+  m_Name: ComboSelector
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: b52c9592631288641a4bc441dacb37b3
+  position: {x: -427.07416, y: 799.59985}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: -560328961268336461}
+  - {fileID: 1070282047398445423}
+--- !u!114 &3426870874764555771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0225504fdcf02647986674594b87ed3, type: 3}
+  m_Name: SetComboFinished
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: a839cdbdb9b0c8b4a9e3fad5255613b8
+  position: {x: -814.8002, y: 795.99994}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  setTo: 1
+--- !u!114 &3465981940399399524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a20736ee7d5848340af8d9fbb8871f9d, type: 3}
+  m_Name: SetEnableNavAgent
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: f84f85f0d0faf0746b35ca3f01dba665
+  position: {x: -1532.1215, y: 1081}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  setEnableTo: 1
+--- !u!114 &3899050673685694326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8ef3583b1da338439aaeca7abcb8d1f, type: 3}
+  m_Name: ComboSelector
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 0338d76c93d91e4479950f29aa553045
+  position: {x: -1048, y: 810}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: -4176362189687882619}
+  - {fileID: 891336644167200444}
+--- !u!114 &4023663302607534164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 077da7d38e0b1134bafb5e20d0ec84a3, type: 3}
+  m_Name: MoveTowardsRel
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 1d6492bf5e8b6304bb2709c0a965ecf1
+  position: {x: -2986.1216, y: 1209}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  contextualTarget: 2
+  useSpeed: 1
+  speed: 100
+  stopDistance: 0
+  relWP: {x: 0, y: 4}
+--- !u!114 &4334096277772207817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a20736ee7d5848340af8d9fbb8871f9d, type: 3}
+  m_Name: SetEnableNavAgent
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 5b93edcfb7272a542b73213bfccaa228
+  position: {x: -3176.1216, y: 1098}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  setEnableTo: 0
+--- !u!114 &4544537446978339777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bd5f608b3bd8144ab24ae29b8d34853, type: 3}
+  m_Name: Attack
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 3ff2f4954485cda40a83073a49b0b09b
+  position: {x: -1821.1216, y: 1200}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  ability: {fileID: 11400000, guid: 2f3cacfc5b83e204eafd682260c49dd9, type: 2}
+--- !u!114 &4588471698756541000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bc0fc9733b81a646a490a0c610099d6, type: 3}
+  m_Name: RepeatForXSecs
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: e40637e30caa5d643b80c6f203deaaf5
+  position: {x: -2986.1216, y: 1087}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  child: {fileID: 4023663302607534164}
+  restartOnSuccess: 1
+  restartOnFailure: 1
+  duration: 3
+  _time: 0
+  endIfChildRunning: 0
+--- !u!114 &4603172469049749515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
+  m_Name: Wait
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: c6084ab6b50ca354daa61cbc706a9cb2
+  position: {x: -2645.1216, y: 1111}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  duration: 1
+--- !u!114 &4897646425270824439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bc0fc9733b81a646a490a0c610099d6, type: 3}
+  m_Name: RepeatForXSecs
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: c99e0505cc687b841917aa6ee90c2490
+  position: {x: -2495.1216, y: 1098}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  child: {fileID: -2042214413083793662}
+  restartOnSuccess: 1
+  restartOnFailure: 1
+  duration: 1
+  _time: 0
+  endIfChildRunning: 0
+--- !u!114 &5303622076692133165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acce299ec79bc064ea3e42b88b567862, type: 3}
+  m_Name: AllPartnersComboReady
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: b14cde43c82c9cc4393974169983d5cd
+  position: {x: -1022.905, y: 1226}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+--- !u!114 &5893596373628910702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
+  m_Name: Wait
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: e181989829cc45c488cbd1732aa873c6
+  position: {x: -1655.1215, y: 1168}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  duration: 1
+--- !u!114 &6446018388908770133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 163c147d123e4a945b688eddc64e3ea5, type: 3}
+  m_Name: RootNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: b2be800b7a4376644b0bed8d9cf341c4
+  position: {x: 0, y: -3}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  child: {fileID: 7221063678469256655}
+--- !u!114 &6942066322990589765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
+  m_Name: Wait
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 62d9fc39e0cc31d469a3ddd6d4082be4
+  position: {x: 1106, y: 870}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  duration: 1
+--- !u!114 &7221063678469256655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb5496e8cd973748a10b3e3ef436ebd, type: 3}
+  m_Name: Repeat
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 071c76905ce69b14792fa622fb116ef4
+  position: {x: -0.00009727478, y: 201.93999}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  child: {fileID: -36250990606707530}
+  restartOnSuccess: 1
+  restartOnFailure: 1
+--- !u!114 &7744489803267706321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4318a61338aadd40be5f3643c3016ec, type: 3}
+  m_Name: CheckComboReady
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 0aec2ebf6a50b114f9280bce5810a493
+  position: {x: -17.225029, y: 626}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  checkIf: 1
+--- !u!114 &8910618469217974962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bd5f608b3bd8144ab24ae29b8d34853, type: 3}
+  m_Name: Attack
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 7c0bfe3e8ab580444888056a403ba6d2
+  position: {x: -2819.1216, y: 1177}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  ability: {fileID: 11400000, guid: 2f3cacfc5b83e204eafd682260c49dd9, type: 2}
