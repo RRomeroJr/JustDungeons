@@ -25,6 +25,10 @@ public class PlayerController : Controller
     public Vector2 mousePos;
     public float clickWindow = 0.66f;
     public float clickTravelWindow = 66.0f;
+    public List<Actor> tabableTargets;
+    public Vector2 lastTabVector;
+    public Vector2 currentTabVector;
+    public int tabIndex = 0;
     
     //public Vector2 newVect_;
     void Awake(){
@@ -34,14 +38,14 @@ public class PlayerController : Controller
         agent.updateUpAxis = false;
     }
     public override void Start()
-    {   
+    {
         base.Start();
+        lastTabVector = Vector2.right;
         if(isLocalPlayer){
             UIManager.playerController = this;
             actor.PlayerIsDead += HandlePlayerDead;
             FindObjectOfType<UIRaycaster>().UIFrameClicked += OnUIFrameClicked;
         }
-
     }
     void FixedUpdate(){
         if (isLocalPlayer){
@@ -72,7 +76,6 @@ public class PlayerController : Controller
                                     CmdSetFacingDirection(facingDirection);
                                 }
                             }
- 
                         }
                         else{
                             if(tryingToMove){
@@ -93,12 +96,77 @@ public class PlayerController : Controller
             }
         }
     }
+    void UpdateTabbableTargets(){
 
+    }
+    Vector2 GetScreenSizeWU(){
+        Vector2 toReturn = new Vector2(Screen.width, Screen.height);
+        toReturn.x = (toReturn.x * (Camera.main.orthographicSize * 2.0f))/ toReturn.y;
+        toReturn.y = (Camera.main.orthographicSize * 2.0f);
+        return toReturn;
+    }
+    void GetEnemiesOnScreen(){
+        RaycastHit2D[] hits;
+        Vector2 WUscreenSize = GetScreenSizeWU();
+        hits = Physics2D.BoxCastAll(Camera.main.transform.position, WUscreenSize, 0.0f, Vector2.zero, distance: 0.0f, layerMask: LayerMask.GetMask("Enemy"));
+        //DrawBox(Camera.main.transform.position, WUscreenSize, Color.blue);
+        if(tabableTargets.Count > 0){
+            tabableTargets.Clear();
+        }
+
+        
+        if(hits.Length > 0){
+            List<Actor> newActorList = new List<Actor>();
+            foreach(RaycastHit2D h in hits){
+                newActorList.Add(h.collider.GetComponent<Actor>());
+            }
+            tabableTargets = newActorList;
+        }
+       
+    }
+    void DrawBox(Vector2 center, Vector2 _size, Color _color){
+        Vector2 p1 = center + new Vector2(-_size.x/2.0f, _size.y/2.0f); //Top left
+        Vector2 p2 = center + new Vector2(_size.x/2.0f, _size.y/2.0f); //Top right
+        Vector2 p3 = center + new Vector2(_size.x/2.0f, -_size.y/2.0f); //Bottom right
+        Vector2 p4 = center + new Vector2(-_size.x/2.0f, -_size.y/2.0f); //Bottom left
+
+
+        Debug.DrawLine(p1, p2, _color);
+        Debug.DrawLine(p2, p3, _color);
+        Debug.DrawLine(p3, p4, _color);
+        Debug.DrawLine(p4, p1, _color);
+    }
+    
     public override void Update()
     {
         base.Update();
         if (isLocalPlayer)
         {
+            
+             
+            //-Updating tabble targets
+            
+            currentTabVector = getWorldPointTarget() - transform.position;
+            if(Vector2.Angle(lastTabVector, currentTabVector) > 5.0f){
+                lastTabVector = currentTabVector;
+                tabIndex = 0;
+                GetEnemiesOnScreen();
+            }
+            //-------------------------------------------
+            //-Tab cycle
+            if (Input.GetKeyDown("tab")){
+                if(tabableTargets.Count > 0){
+                    if(tabIndex + 1 < tabableTargets.Count){
+                        tabIndex += 1;
+                    }
+                    else{
+                        tabIndex = 0;
+                    }
+                    actor.target = tabableTargets[tabIndex];
+                    actor.LocalPlayerBroadcastTarget();
+                }
+            }
+            //--------------------------
             mouseInput();
             switch (state)
             {
@@ -185,7 +253,7 @@ public class PlayerController : Controller
                 Debug.Log("Clicked something: " + hit.collider.gameObject.name);
             }else{
                 //Debug.Log("Nothing clicked");
-                
+                tabIndex = 0;
             }
             // if(HBCTools.areHostle(actor, hitActor) == false){//actor in this case being the player
             //     actor.GetComponent<Controller>().autoAttacking = false;
@@ -240,6 +308,7 @@ public class PlayerController : Controller
             }else{
                 //Debug.Log("Nothing clicked");
                 actor.GetComponent<Controller>().autoAttacking = false;
+                tabIndex = 0;
             }
             
             actor.target = hitActor;
