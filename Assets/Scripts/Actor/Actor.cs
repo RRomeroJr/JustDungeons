@@ -48,7 +48,7 @@ public class Actor : NetworkBehaviour
 
     
     public bool canMove = true;
-    [SerializeField]protected List<Buff> buffs;
+    [SerializeField] protected List<OldBuff.Buff> buffs;
     
     // When readyToFire is true queuedAbility will fire
     private bool readyToFire = false; // Will True by CastBar for abilities w/ casts. Will only be true for a freme
@@ -780,7 +780,7 @@ public class Actor : NetworkBehaviour
         _eInstruct.startEffect(this, _relWP, _caster, _secondaryTarget);
     }
     
-    // Buffs---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    // Old Buffs---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     void HandlleBuffs()
     {
@@ -807,7 +807,7 @@ public class Actor : NetworkBehaviour
         }
     }
     [Server]
-    public void removeBuff(Buff _callingBuff)
+    public void removeBuff(OldBuff.Buff _callingBuff)
     {
         int buffIndex = buffs.FindIndex(x => x == _callingBuff);
 
@@ -817,7 +817,7 @@ public class Actor : NetworkBehaviour
         RpcRemoveBuffIndex(buffIndex);
     }
 
-    public void ClientRemoveBuff(Buff _callingBuff)
+    public void ClientRemoveBuff(OldBuff.Buff _callingBuff)
     {
         int buffIndex = buffs.FindIndex(x => x == _callingBuff);
 
@@ -836,7 +836,7 @@ public class Actor : NetworkBehaviour
         buffs[hostIndex].onFinish();
     }
 
-    void AddNewBuff(Buff _buff)
+    void AddNewBuff(OldBuff.Buff _buff)
     {
         _buff.setActor(this);
         _buff.setRemainingTime(_buff.getDuration());
@@ -844,7 +844,7 @@ public class Actor : NetworkBehaviour
     }
 
     [ClientRpc]
-    void RpcAddNewBuff(Buff _buffFromSever)
+    void RpcAddNewBuff(OldBuff.Buff _buffFromSever)
     {
         if (isServer)
         {
@@ -852,13 +852,13 @@ public class Actor : NetworkBehaviour
         }
         AddNewBuff(_buffFromSever);
     }
-    public void applyBuff(Buff _buff)
+    public void applyBuff(OldBuff.Buff _buff)
     {
         //Adding Buff it to this actor's list<Buff>
         if (_buff.getID() >= 0)
         {
             //Check if the buff is already here
-            Buff tempBuff_Ref = buffs.Find(b => b.getID() == _buff.getID());
+            OldBuff.Buff tempBuff_Ref = buffs.Find(b => b.getID() == _buff.getID());
 
             //if we found something
             if (tempBuff_Ref != null)
@@ -892,7 +892,7 @@ public class Actor : NetworkBehaviour
         }
     }
 
-    void CheckBuffToRemoveAtPos(Buff _buff, int listPos)
+    void CheckBuffToRemoveAtPos(OldBuff.Buff _buff, int listPos)
     {
         // Remove AbilityEffect is it's duration is <= 0.0f
 
@@ -1274,10 +1274,10 @@ public class Actor : NetworkBehaviour
     public void setActorName(string _actorName){
         actorName = _actorName;
     }
-    public List<Buff> getBuffs(){
+    public List<OldBuff.Buff> getBuffs(){
         return buffs;
     }
-    public void setBuffs(List<Buff> _buffs){
+    public void setBuffs(List<OldBuff.Buff> _buffs){
         buffs = _buffs;
     }
     public Role getRole()

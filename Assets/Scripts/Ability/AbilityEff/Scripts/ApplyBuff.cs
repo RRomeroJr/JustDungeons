@@ -1,7 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using OldBuff;
 
 [System.Serializable]
 [CreateAssetMenu(fileName="ApplyBuff", menuName = "HBCsystem/ApplyBuff")]

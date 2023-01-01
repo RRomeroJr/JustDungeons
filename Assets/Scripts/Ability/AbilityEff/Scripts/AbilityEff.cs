@@ -1,10 +1,11 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
 using Mirror;
+using OldBuff;
 
-[System.Serializable]
+[Serializable]
 public abstract class AbilityEff: ScriptableObject
 {
     public string effectName;
