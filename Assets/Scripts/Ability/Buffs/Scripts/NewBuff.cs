@@ -9,13 +9,10 @@ namespace BuffSystem
     [Serializable]
     public class Buff
     {
-        public BuffScriptableObject buff;
-        [SerializeField] public float lastTick = 0.0f; // time since last tick
-        [SerializeField] public float remainingTime = 0.0f;
-        [SerializeField] public Actor caster;
+        [SerializeField] private BuffScriptableObject buff;
+        [SerializeField] private float lastTick = 0.0f;
+        [SerializeField] private float remainingTime = 0.0f;
         [SerializeField] private IBuff target;
-        [SerializeField] private Actor actor;
-        [SerializeField] public uint stacks = 1;
         public event EventHandler Finished;
 
         public Buff(BuffScriptableObject b, IBuff t)
