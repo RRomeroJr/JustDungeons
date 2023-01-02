@@ -23,6 +23,9 @@ namespace BuffSystem
             buff.StartBuff(target);
         }
 
+        /// <summary>
+        /// Recalculates time values and controls when the buff should tick and end
+        /// </summary>
         public void Update()
         {
             if (remainingTime > 0.0f)

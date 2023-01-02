@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IInterrupt : IBuff
+﻿public interface IInterrupt : IBuff
 {
-    public void Interrupt();
+    public void InterruptCast();
 }

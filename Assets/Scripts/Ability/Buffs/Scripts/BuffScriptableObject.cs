@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 [CreateAssetMenu(fileName = "Buff", menuName = "HBCsystem/Buff")]
 public class BuffScriptableObject : ScriptableObject
 {
@@ -10,7 +8,6 @@ public class BuffScriptableObject : ScriptableObject
     [SerializeField] private float duration;
     [SerializeField] private float tickRate;
     [SerializeField] private GameObject particles;
-
     [SerializeField] private List<BuffEffect> buffEffectsList;
 
     // Buffs default value should not be altered by code. All changes will happen in the inspector

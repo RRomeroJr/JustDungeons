@@ -119,7 +119,7 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear
         RemoveBuff(sender as Buff);
     }
 
-    public void Interrupt()
+    public void InterruptCast()
     {
         OnInterrupt();
     }

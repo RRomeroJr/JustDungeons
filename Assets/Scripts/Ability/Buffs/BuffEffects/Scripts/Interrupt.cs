@@ -7,7 +7,7 @@
             var target = t as IInterrupt;
             if (target != null)
             {
-                target.Interrupt();
+                target.InterruptCast();
             }
         }
     }
