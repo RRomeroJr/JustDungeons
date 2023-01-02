@@ -11,6 +11,7 @@ namespace BuffSystem
             if (target != null)
             {
                 target.Feared--;
+                target.RemoveFear();
             }
         }
 
@@ -20,6 +21,7 @@ namespace BuffSystem
             if (target != null)
             {
                 target.Feared++;
+                target.ApplyFear();
             }
         }
     }
