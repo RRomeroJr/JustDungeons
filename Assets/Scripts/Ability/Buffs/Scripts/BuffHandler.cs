@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using BuffSystem;
+using Mirror;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// General purpose buff container which implements every buff in the game
 /// </summary>
-public class BuffHandler : MonoBehaviour, IStun, IInterrupt
+public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear
 {
     [SerializeField] private int feared;
     [SerializeField] private int silenced;
     [SerializeField] private int stunned;
     [SerializeField] private List<Buff> buffs;
+    private NavMeshAgent agent;
 
     #region Events
 
@@ -87,6 +90,7 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt
         silenced = 0;
         feared = 0;
         buffs = new List<Buff>();
+        agent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
@@ -118,6 +122,31 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt
     public void Interrupt()
     {
         OnInterrupt();
+    }
+
+    public void ApplyFear()
+    {
+        if (agent == null)
+        {
+            return;
+        }
+        if (HBCTools.NT_AuthoritativeClient(GetComponent<NetworkTransform>()))
+        {
+            agent.speed = 1.0f;
+            agent.SetDestination(HBCTools.randomPointInRadius(transform.position, float.PositiveInfinity));
+        }
+    }
+
+    public void RemoveFear()
+    {
+        if (agent == null)
+        {
+            return;
+        }
+        if (HBCTools.NT_AuthoritativeClient(GetComponent<NetworkTransform>()))
+        {
+            agent.ResetPath();
+        }
     }
 }
 
