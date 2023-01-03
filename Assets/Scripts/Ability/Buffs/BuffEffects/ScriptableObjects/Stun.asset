@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47078b12121c4234fa5f4dac01cf3123, type: 3}
   m_Name: Stun
   m_EditorClassIdentifier: 
+  effectName: Stun

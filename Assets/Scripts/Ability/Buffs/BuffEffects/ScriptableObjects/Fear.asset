@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f11f315cf2bf53e4d9717cf6410167b6, type: 3}
   m_Name: Fear
   m_EditorClassIdentifier: 
-  effectName: 
+  effectName: Fear
