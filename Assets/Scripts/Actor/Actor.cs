@@ -45,11 +45,10 @@ public class Actor : NetworkBehaviour
     public float mainStat = 100.0f;
     [Header("Automatic")]
     public Actor target;
-
-    
+    public BuffHandler buffHandler = null;
     public bool canMove = true;
     [SerializeField] protected List<OldBuff.Buff> buffs;
-    
+
     // When readyToFire is true queuedAbility will fire
     private bool readyToFire = false; // Will True by CastBar for abilities w/ casts. Will only be true for a freme
     private bool isCasting = false; // Will be set False by CastBar
@@ -137,6 +136,11 @@ public class Actor : NetworkBehaviour
 
     void Start()
     {
+        if (TryGetComponent(out BuffHandler buffHandler))
+        {
+            buffHandler.StatusEffectChanged += HandleStatusEffectChanged;
+            buffHandler.Interrupted += interruptCast;
+        }
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         if ((isLocalPlayer) || (tag != "Player"))
         {
@@ -779,7 +783,7 @@ public class Actor : NetworkBehaviour
         //Debug.Log("recieveEffect " + _eInstruct.effect.effectName +"| caster:" + (_caster != null ? _caster.getActorName() : "_caster is null"));
         _eInstruct.startEffect(this, _relWP, _caster, _secondaryTarget);
     }
-    
+
     // Old Buffs---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     void HandlleBuffs()
@@ -907,7 +911,7 @@ public class Actor : NetworkBehaviour
         //buffs[listPos].OnEffectFinish(); // AE has a caster and target now so the args could be null?
         buffs.RemoveAt(listPos);
     }
-    
+
     // Cooldowns---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     [TargetRpc]
@@ -1344,7 +1348,7 @@ public class Actor : NetworkBehaviour
             return true;
         }
     }
-    public void interruptCast(){
+    public void interruptCast(object sender = null, EventArgs e = null){
 
         Debug.Log(queuedAbility.getName() + " was interrupted!");
         resetClientCastVars();
@@ -1379,17 +1383,24 @@ public class Actor : NetworkBehaviour
         GetComponent<Rigidbody2D>().AddForce(_hostVect);
     }
 
+    void HandleStatusEffectChanged(object sender, EventArgs e)
+    {
+        CalculateState();
+    }
+
     void CalculateState()
     {
         checkState = false;
         if (Feared > 0)
         {
             actorState = ActorState.Stunned;
+            interruptCast();
             return;
         }
         if (Silenced > 0)
         {
             actorState = ActorState.Silenced;
+            interruptCast();
             return;
         }
         if (ReadyToFire || IsCasting)
@@ -1419,8 +1430,7 @@ public class Actor : NetworkBehaviour
             raiseEvent(this, EventArgs.Empty);
         }
     }
-    
+
     #endregion
-    
 }
 
