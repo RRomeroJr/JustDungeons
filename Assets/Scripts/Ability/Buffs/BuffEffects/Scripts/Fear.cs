@@ -8,9 +8,14 @@ namespace BuffSystem
         public override void EndEffect(IBuff t)
         {
             var target = t as IFear;
-            if (target != null)
+            if (target == null)
             {
-                target.Feared--;
+                return;
+            }
+            target.Feared--;
+            // Only remove fear if there are no other fears on the target
+            if (target.Feared <= 0)
+            {
                 target.RemoveFear();
             }
         }
