@@ -133,7 +133,8 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear
         if (HBCTools.NT_AuthoritativeClient(GetComponent<NetworkTransform>()))
         {
             agent.speed = 1.0f;
-            agent.SetDestination(HBCTools.randomPointInRadius(transform.position, float.PositiveInfinity));
+            Vector3 randomPointOnCircle = UnityEngine.Random.insideUnitCircle.normalized * 10;
+            agent.SetDestination(transform.position + randomPointOnCircle);
         }
     }
 
