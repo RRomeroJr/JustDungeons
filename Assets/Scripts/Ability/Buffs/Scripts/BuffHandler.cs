@@ -8,13 +8,15 @@ using UnityEngine.AI;
 /// <summary>
 /// General purpose buff container which implements every buff in the game
 /// </summary>
-public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear
+public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifier
 {
     [SerializeField] private int feared;
     [SerializeField] private int silenced;
     [SerializeField] private int stunned;
+    [SerializeField] private float speedModifier;
     [SerializeField] private List<Buff> buffs;
     private NavMeshAgent agent;
+    private Controller controller;
 
     #region Events
 
@@ -82,6 +84,15 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear
         }
     }
 
+    public float SpeedModifier
+    {
+        get => speedModifier;
+        set
+        {
+            speedModifier *= value;
+        }
+    }
+
     #endregion
 
     private void Start()
@@ -89,8 +100,10 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear
         stunned = 0;
         silenced = 0;
         feared = 0;
+        speedModifier = 1;
         buffs = new List<Buff>();
         agent = GetComponent<NavMeshAgent>();
+        controller = GetComponent<Controller>();
     }
 
     private void Update()
@@ -132,7 +145,7 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear
         }
         if (HBCTools.NT_AuthoritativeClient(GetComponent<NetworkTransform>()))
         {
-            agent.speed = 1.0f;
+            agent.speed = controller.moveSpeed * speedModifier;
             Vector3 randomPointOnCircle = UnityEngine.Random.insideUnitCircle.normalized * 10;
             agent.SetDestination(transform.position + randomPointOnCircle);
         }

@@ -12,9 +12,9 @@ public class BuffScriptableObject : ScriptableObject
     [SerializeField] private List<BuffEffect> buffEffectsList;
 
     // Buffs default value should not be altered by code. All changes will happen in the inspector
-    public string BuffName { get => buffName; }
-    public float TickRate { get => tickRate; }
-    public float Duration { get => duration; }
+    public string BuffName => buffName;
+    public float TickRate => tickRate;
+    public float Duration => duration;
 
     public void StartBuff(IBuff target)
     {
