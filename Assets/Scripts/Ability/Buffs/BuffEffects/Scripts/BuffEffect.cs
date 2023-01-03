@@ -13,14 +13,14 @@ public abstract class BuffEffect : ScriptableObject
     /// <summary>
     /// Used for effects that happen at the end of buff
     /// </summary>
-    public virtual void EndEffect(IBuff target)
+    public virtual void EndEffect(IBuff target, float speedModifier)
     {
     }
 
     /// <summary>
     /// Used for effects that happen when a buff is first applied
     /// </summary>
-    public virtual void StartEffect(IBuff target)
+    public virtual void StartEffect(IBuff target, float speedModifier)
     {
     }
 }

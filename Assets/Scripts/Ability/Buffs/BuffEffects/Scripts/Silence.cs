@@ -5,7 +5,7 @@ namespace BuffSystem
     [CreateAssetMenu(fileName = "Assets/Scripts/Ability/Buffs/BuffEffects/ScriptableObjects/NewSilenceEffect", menuName = "HBCsystem/Buffs/Silence")]
     public class Silence : BuffEffect
     {
-        public override void EndEffect(IBuff t)
+        public override void EndEffect(IBuff t, float s)
         {
             var target = t as ISilence;
             if (target != null)
@@ -14,7 +14,7 @@ namespace BuffSystem
             }
         }
 
-        public override void StartEffect(IBuff t)
+        public override void StartEffect(IBuff t, float s)
         {
             var target = t as ISilence;
             if (target != null)
