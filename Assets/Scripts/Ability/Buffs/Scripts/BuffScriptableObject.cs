@@ -7,6 +7,7 @@ public class BuffScriptableObject : ScriptableObject
     [SerializeField] private string buffName;
     [SerializeField] private float duration;
     [SerializeField] private float tickRate;
+    [SerializeField] private float speedModifier = 1;
     [SerializeField] private GameObject particles;
     [SerializeField] private List<BuffEffect> buffEffectsList;
 
@@ -23,7 +24,7 @@ public class BuffScriptableObject : ScriptableObject
         }
         foreach (BuffEffect effect in buffEffectsList)
         {
-            effect.StartEffect(target);
+            effect.StartEffect(target, speedModifier);
         }
     }
 
@@ -43,7 +44,7 @@ public class BuffScriptableObject : ScriptableObject
     {
         foreach (BuffEffect effect in buffEffectsList)
         {
-            effect.EndEffect(target);
+            effect.EndEffect(target, speedModifier);
         }
     }
 }
