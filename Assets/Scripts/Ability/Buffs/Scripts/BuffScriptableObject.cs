@@ -8,6 +8,7 @@ public class BuffScriptableObject : ScriptableObject
     [SerializeField] private float duration;
     [SerializeField] private float tickRate;
     [SerializeField] private float speedModifier = 1;
+    [SerializeField] private float damagePerTick;
     [SerializeField] private GameObject particles;
     [SerializeField] private List<BuffEffect> buffEffectsList;
 
@@ -15,6 +16,8 @@ public class BuffScriptableObject : ScriptableObject
     public string BuffName => buffName;
     public float TickRate => tickRate;
     public float Duration => duration;
+    public float SpeedModifier => speedModifier;
+    public float DamagePerTick => damagePerTick;
 
     public void StartBuff(IBuff target)
     {
