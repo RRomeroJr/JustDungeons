@@ -24,7 +24,7 @@ public class BuffScriptableObject : ScriptableObject
         }
         foreach (BuffEffect effect in buffEffectsList)
         {
-            effect.StartEffect(target, speedModifier);
+            effect.StartEffect(target, this);
         }
     }
 
@@ -36,7 +36,7 @@ public class BuffScriptableObject : ScriptableObject
         }
         foreach (BuffEffect effect in buffEffectsList)
         {
-            effect.ApplyEffect(target);
+            effect.ApplyEffect(target, this);
         }
     }
 
@@ -44,7 +44,7 @@ public class BuffScriptableObject : ScriptableObject
     {
         foreach (BuffEffect effect in buffEffectsList)
         {
-            effect.EndEffect(target, speedModifier);
+            effect.EndEffect(target, this);
         }
     }
 }
