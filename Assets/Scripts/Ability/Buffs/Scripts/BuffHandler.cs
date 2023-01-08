@@ -8,7 +8,7 @@ using UnityEngine.AI;
 /// <summary>
 /// General purpose buff container which implements every buff in the game
 /// </summary>
-public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifier
+public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifier, IDamageOverTime
 {
     [SerializeField] private int feared;
     [SerializeField] private int silenced;
@@ -28,6 +28,10 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifi
     /// Buff has interrupted spellcasting
     /// </summary>
     public event EventHandler Interrupted;
+    /// <summary>
+    /// Receive damage from buff
+    /// </summary>
+    public event EventHandler<DamageEventArgs> DamageTaken;
 
     #endregion
 
@@ -49,6 +53,11 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifi
         {
             raiseEvent(this, EventArgs.Empty);
         }
+    }
+
+    protected virtual void OnDamageTaken(DamageEventArgs e)
+    {
+        DamageTaken?.Invoke(this, e);
     }
 
     #endregion
@@ -162,5 +171,13 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifi
             agent.ResetPath();
         }
     }
-}
 
+    public void ApplyDamage(float damage)
+    {
+        var damageEventArgs = new DamageEventArgs
+        {
+            Damage = damage
+        };
+        OnDamageTaken(damageEventArgs);
+    }
+}
