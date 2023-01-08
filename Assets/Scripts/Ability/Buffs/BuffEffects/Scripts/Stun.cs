@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "Assets/Scripts/Ability/Buffs/BuffEffects/ScriptableObjects/NewStunEffect", menuName = "HBCsystem/Buffs/Stun")]
+[CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewStunEffect", menuName = ProjectPaths.buffEffectsMenu + "Stun")]
 public class Stun : BuffEffect
 {
     public override void EndEffect(IBuff t, float s)

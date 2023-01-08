@@ -2,7 +2,7 @@
 
 namespace BuffSystem
 {
-    [CreateAssetMenu(fileName = "Assets/Scripts/Ability/Buffs/BuffEffects/ScriptableObjects/NewFearEffect", menuName = "HBCsystem/Buffs/Fear")]
+    [CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewFearEffect", menuName = ProjectPaths.buffEffectsMenu + "Fear")]
     public class Fear : BuffEffect
     {
         public override void EndEffect(IBuff t, float s)

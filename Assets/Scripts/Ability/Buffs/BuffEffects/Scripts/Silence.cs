@@ -2,7 +2,7 @@
 
 namespace BuffSystem
 {
-    [CreateAssetMenu(fileName = "Assets/Scripts/Ability/Buffs/BuffEffects/ScriptableObjects/NewSilenceEffect", menuName = "HBCsystem/Buffs/Silence")]
+    [CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewSilenceEffect", menuName = ProjectPaths.buffEffectsMenu + "Silence")]
     public class Silence : BuffEffect
     {
         public override void EndEffect(IBuff t, float s)

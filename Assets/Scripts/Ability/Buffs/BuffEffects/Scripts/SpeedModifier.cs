@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+namespace BuffSystem
+{
+    [CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewSpeedModifierEffect", menuName = ProjectPaths.buffEffectsMenu + "SpeedModifier")]
 public class SpeedModifier : BuffEffect
 {
     public override void EndEffect(IBuff t, float s)
