@@ -6,12 +6,12 @@ using UnityEngine;
 
 public class DamageOverTime : BuffEffect
 {
-    public override void ApplyEffect(IBuff t, BuffScriptableObject buffValues)
+    public override void ApplyEffect(IBuff t, float damageValue)
     {
         var target = t as IDamageOverTime;
         if (target != null)
         {
-            target.ApplyDamage(buffValues.DamagePerTick);
+            target.ApplyDamage(damageValue);
         }
     }
 }

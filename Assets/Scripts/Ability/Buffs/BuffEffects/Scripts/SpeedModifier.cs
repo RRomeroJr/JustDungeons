@@ -5,21 +5,21 @@ namespace BuffSystem
     [CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewSpeedModifierEffect", menuName = ProjectPaths.buffEffectsMenu + "SpeedModifier")]
     public class SpeedModifier : BuffEffect
     {
-        public override void EndEffect(IBuff t, BuffScriptableObject buffValues)
+        public override void EndEffect(IBuff t, float effectValue)
         {
             var target = t as ISpeedModifier;
             if (target != null)
             {
-                target.SpeedModifier = 1 / buffValues.SpeedModifier;
+                target.SpeedModifier = 1 / effectValue;
             }
         }
 
-        public override void StartEffect(IBuff t, BuffScriptableObject buffValues)
+        public override void StartEffect(IBuff t, float effectValue)
         {
             var target = t as ISpeedModifier;
             if (target != null)
             {
-                target.SpeedModifier = buffValues.SpeedModifier;
+                target.SpeedModifier = effectValue;
             }
         }
     }

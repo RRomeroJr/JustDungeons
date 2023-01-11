@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewStunEffect", menuName = ProjectPaths.buffEffectsMenu + "Stun")]
 public class Stun : BuffEffect
 {
-    public override void EndEffect(IBuff t, BuffScriptableObject buffValues)
+    public override void EndEffect(IBuff t, float effectValue)
     {
         var target = t as IStun;
         if (target != null)
@@ -12,7 +12,7 @@ public class Stun : BuffEffect
         }
     }
 
-    public override void StartEffect(IBuff t, BuffScriptableObject buffValues)
+    public override void StartEffect(IBuff t, float effectValue)
     {
         var target = t as IStun;
         if (target != null)

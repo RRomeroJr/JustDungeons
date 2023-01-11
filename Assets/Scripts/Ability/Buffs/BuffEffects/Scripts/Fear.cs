@@ -5,7 +5,7 @@ namespace BuffSystem
     [CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewFearEffect", menuName = ProjectPaths.buffEffectsMenu + "Fear")]
     public class Fear : BuffEffect
     {
-        public override void EndEffect(IBuff t, BuffScriptableObject buffValues)
+        public override void EndEffect(IBuff t, float effectValue)
         {
             var target = t as IFear;
             if (target == null)
@@ -20,7 +20,7 @@ namespace BuffSystem
             }
         }
 
-        public override void StartEffect(IBuff t, BuffScriptableObject buffValues)
+        public override void StartEffect(IBuff t, float effectValue)
         {
             var target = t as IFear;
             if (target != null)
