@@ -25,9 +25,9 @@ public class BuffScriptableObject : ScriptableObject
         {
             //GameObject.Instantiate(particles, target.transform as MonoBehaviour);
         }
-        foreach (BuffEffect effect in buffEffectsList)
+        foreach (var effect in buffEffectsList)
         {
-            effect.StartEffect(target, this);
+            effect.Key.StartEffect(target, effect.Value);
         }
     }
 
@@ -37,17 +37,17 @@ public class BuffScriptableObject : ScriptableObject
         {
             //GameObject.Instantiate(particles, target.transform as MonoBehaviour);
         }
-        foreach (BuffEffect effect in buffEffectsList)
+        foreach (var effect in buffEffectsList)
         {
-            effect.ApplyEffect(target, this);
+            effect.Key.ApplyEffect(target, effect.Value);
         }
     }
 
     public void EndBuff(IBuff target)
     {
-        foreach (BuffEffect effect in buffEffectsList)
+        foreach (var effect in buffEffectsList)
         {
-            effect.EndEffect(target, this);
+            effect.Key.EndEffect(target, effect.Value);
         }
     }
 }
