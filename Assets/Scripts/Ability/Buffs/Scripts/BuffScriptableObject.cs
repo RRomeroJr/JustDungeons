@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using BuffSystem;
 
 [CreateAssetMenu(fileName = ProjectPaths.buffs + "NewBuff", menuName = "HBCsystem/NewBuff")]
 public class BuffScriptableObject : ScriptableObject
@@ -7,17 +8,15 @@ public class BuffScriptableObject : ScriptableObject
     [SerializeField] private string buffName;
     [SerializeField] private float duration;
     [SerializeField] private float tickRate;
-    [SerializeField] private float speedModifier = 1;
-    [SerializeField] private float damagePerTick;
     [SerializeField] private GameObject particles;
-    [SerializeField] private List<BuffEffect> buffEffectsList;
 
-    // Buffs default value should not be altered by code. All changes will happen in the inspector
+    // Store BuffEffects in a list of custom serializable KeyValuePairs so it can edited in the inspector
+    [SerializeField] private List<CustomKeyValuePair<BuffEffect, float>> buffEffectsList;
+
+    // Buffs default value should not be altered by code or at runtime. All changes will happen in the inspector
     public string BuffName => buffName;
     public float TickRate => tickRate;
     public float Duration => duration;
-    public float SpeedModifier => speedModifier;
-    public float DamagePerTick => damagePerTick;
 
     public void StartBuff(IBuff target)
     {
