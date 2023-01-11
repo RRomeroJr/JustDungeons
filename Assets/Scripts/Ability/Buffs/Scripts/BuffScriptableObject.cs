@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Buff", menuName = "HBCsystem/Buff")]
+[CreateAssetMenu(fileName = ProjectPaths.buffs + "NewBuff", menuName = "HBCsystem/NewBuff")]
 public class BuffScriptableObject : ScriptableObject
 {
     [SerializeField] private string buffName;
