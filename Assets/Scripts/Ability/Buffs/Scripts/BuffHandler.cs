@@ -8,7 +8,7 @@ using UnityEngine.AI;
 /// <summary>
 /// General purpose buff container which implements every buff in the game
 /// </summary>
-public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifier, IDamageOverTime
+public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifier, IDamageOverTime, IHealOverTime
 {
     [SerializeField] private int feared;
     [SerializeField] private int silenced;
@@ -32,6 +32,10 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifi
     /// Receive damage from buff
     /// </summary>
     public event EventHandler<DamageEventArgs> DamageTaken;
+    /// <summary>
+    /// Receive heal from buff
+    /// </summary>
+    public event EventHandler<HealEventArgs> HealTaken;
 
     #endregion
 
@@ -58,6 +62,11 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifi
     protected virtual void OnDamageTaken(DamageEventArgs e)
     {
         DamageTaken?.Invoke(this, e);
+    }
+
+    protected virtual void OnHealTaken(HealEventArgs e)
+    {
+        HealTaken?.Invoke(this, e);
     }
 
     #endregion
@@ -179,5 +188,14 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifi
             Damage = damage
         };
         OnDamageTaken(damageEventArgs);
+    }
+
+    public void ApplyHeal(float heal)
+    {
+        var healEventArgs = new HealEventArgs
+        {
+            Heal = heal
+        };
+        OnHealTaken(healEventArgs);
     }
 }
