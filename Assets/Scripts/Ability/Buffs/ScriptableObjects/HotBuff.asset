@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8c893311ec16b744b77cf9683178ae3, type: 3}
+  m_Script: {fileID: 11500000, guid: 58f67b2dddda51b4890fdd5653050621, type: 3}
   m_Name: HotBuff
   m_EditorClassIdentifier: 
   effectName: DioFear

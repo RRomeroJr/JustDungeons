@@ -33,6 +33,7 @@ public class Ability_V2 : ScriptableObject{
     [SerializeField] protected string abilityName;
     
     [SerializeField] public List<EffectInstruction> eInstructs;
+    [SerializeField] public List<BuffScriptableObject> buffs;
     //[SerializeField] protected List<AbilityEff> effects;
     //[SerializeField] protected List<int> targetArgs; //if theres an arg here I will use it if not assumed 0
 
