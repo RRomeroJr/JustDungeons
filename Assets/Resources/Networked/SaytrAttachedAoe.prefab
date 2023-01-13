@@ -73,6 +73,9 @@ MonoBehaviour:
   tickRate: 1
   aoeCap: 0
   followTarget: 1
+  followCaster: 0
+  useDisconnectTimer: 0
+  disconnectTimer: 0
   ignoreDuration: 0
   innerCircleRadius: 0
   safeZoneCenter: {x: 0, y: 0}
