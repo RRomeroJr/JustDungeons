@@ -117,18 +117,11 @@ MonoBehaviour:
   role: 1
   unitColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
   mobId: -1
-  classResources:
-  - crType: {fileID: 11400000, guid: f99af011e29c85f4686d63a179cf33d8, type: 2}
-    max: 5
-    amount: 0
-    combatRegen: 0
-    outOfCombatRegen: 0
+  classResources: []
   mainStat: 100
   target: {fileID: 0}
   canMove: 1
   buffs: []
-  readyToFire: 0
-  isCasting: 0
   isChanneling: 0
   lastChannelTick: 0
   queuedAbility: {fileID: 0}
@@ -145,12 +138,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   animator: {fileID: 0}
-  silenced: 0
-  feared: 0
-  tauntImmune: 0
-  combatClass: {fileID: 0}
+  actorState: 0
+  combatClass: {fileID: 11400000, guid: af7e23158c3495640953930651da5fec, type: 2}
   resourceTickTime: 0
   resourceTickMax: 1
+  nameplate: {fileID: 0}
 --- !u!114 &3602611100074717273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,7 +246,7 @@ MonoBehaviour:
   facingDirection: {x: 0, y: 0}
   globalCooldown: 0
   autoAttackRequest: 0
-  moveSpeed: 10
+  moveSpeed: 9
   abilities:
   - {fileID: 11400000, guid: 25892cafc51da1741bfc1ed0ae709125, type: 2}
   - {fileID: 11400000, guid: d9cf312441b110944872f8ce388f759c, type: 2}
@@ -279,6 +271,12 @@ MonoBehaviour:
   mousePos: {x: 0, y: 0}
   clickWindow: 0.66
   clickTravelWindow: 66
+  tabableTargets: []
+  lastTabVector: {x: 0, y: 0}
+  currentTabVector: {x: 0, y: 0}
+  tabIndex: -1
+  tabTargetAreaPrefab: {fileID: 4505040217055121924, guid: fa3284f46140ec7468cd49c49eb43c72, type: 3}
+  tabTargetObj: {fileID: 0}
 --- !u!114 &568127742855530159
 MonoBehaviour:
   m_ObjectHideFlags: 0

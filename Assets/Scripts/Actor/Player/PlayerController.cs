@@ -28,7 +28,12 @@ public class PlayerController : Controller
     public List<Actor> tabableTargets;
     public Vector2 lastTabVector;
     public Vector2 currentTabVector;
-    public int tabIndex = 0;
+    public int tabIndex = -1;
+    public GameObject tabTargetAreaPrefab;
+    public GameObject tabTargetObj;
+    
+    
+    
     
     //public Vector2 newVect_;
     void Awake(){
@@ -46,6 +51,8 @@ public class PlayerController : Controller
             actor.PlayerIsDead += HandlePlayerDead;
             FindObjectOfType<UIRaycaster>().UIFrameClicked += OnUIFrameClicked;
         }
+        // tabTargetObj = Instantiate(tabTargetAreaPrefab, HBCTools.GetMousePosWP(), Quaternion.identity);
+        // tabTargetObj.GetComponent<TabTargetGetter>().Init(this);
     }
     void FixedUpdate(){
         if (isLocalPlayer){
@@ -96,8 +103,68 @@ public class PlayerController : Controller
             }
         }
     }
-    void UpdateTabbableTargets(){
+    
+    Vector2 PlayerToMouse(){
+        return (Vector2)(HBCTools.GetMousePosWP() - transform.position);
+    }
+    
+    /*   Old Code idea
+    Actor findTabTargetSmallestAngle(float min, float maxNotInclusive){
+        Debug.Log("findTabTargetSmallestAngle( " + min + ", " + maxNotInclusive + ")");
+        Actor toReturn = null;
+        float smallestAngle = 0.0f;
+        foreach(Actor a in tabableTargets){
+            float currentAngle = AngleFromPlayerToMouse(a);
+            if((min <= currentAngle)&&(currentAngle < maxNotInclusive)){
 
+                if((toReturn == null) || (currentAngle < smallestAngle)){
+                    smallestAngle = currentAngle;
+                    toReturn = a;
+                }
+
+            }
+        }
+        if(toReturn == null){
+            Debug.LogError("Could not find tabable target in angle range (" + min + ", " + maxNotInclusive + ")");
+        }
+        else{
+            Debug.Log("findTabTargetSmallestAngle: " + smallestAngle);
+        }
+        return toReturn;
+    }*/
+    
+    Actor TabTargetCycle(){
+
+        if(tabIndex + 1 < tabableTargets.Count){
+            tabIndex++;
+        }
+        else{
+            tabIndex = 0;
+        }
+        tabableTargets.Sort(ComparePlayerToMouseAngles);
+
+        
+        return tabableTargets[tabIndex];
+    }
+    int ComparePlayerToMouseAngles(Actor _a1, Actor _a2){
+        float _a1Angle = AngleFromPlayerToMouse(_a1);
+        float _a2Angle = AngleFromPlayerToMouse(_a2);
+  
+        
+        if(_a1Angle < _a2Angle){
+            return -1;
+        }
+        if(_a1Angle > _a2Angle){
+            return 1;
+        }
+        return 0;
+
+    }
+    float AngleFromPlayerToMouse(Actor _target){
+        Vector2 playerToMouse = PlayerToMouse();
+        Vector3 playerToTarget = _target.transform.position - transform.position;
+
+        return Vector2.Angle((Vector2) playerToTarget, playerToMouse);
     }
     Vector2 GetScreenSizeWU(){
         Vector2 toReturn = new Vector2(Screen.width, Screen.height);
@@ -113,7 +180,7 @@ public class PlayerController : Controller
         if(tabableTargets.Count > 0){
             tabableTargets.Clear();
         }
-
+        
         
         if(hits.Length > 0){
             List<Actor> newActorList = new List<Actor>();
@@ -124,6 +191,7 @@ public class PlayerController : Controller
         }
        
     }
+    
     void DrawBox(Vector2 center, Vector2 _size, Color _color){
         Vector2 p1 = center + new Vector2(-_size.x/2.0f, _size.y/2.0f); //Top left
         Vector2 p2 = center + new Vector2(_size.x/2.0f, _size.y/2.0f); //Top right
@@ -142,80 +210,96 @@ public class PlayerController : Controller
         base.Update();
         if (isLocalPlayer)
         {
+            // Vector2 debugVect =PlayerToMouse();
+            // debugVect.Normalize();
             
-             
+             //Debug.DrawLine(transform.position, (5.0f * debugVect) + (Vector2)transform.position, Color.green);
             //-Updating tabble targets
             
             currentTabVector = getWorldPointTarget() - transform.position;
             if(Vector2.Angle(lastTabVector, currentTabVector) > 5.0f){
                 lastTabVector = currentTabVector;
-                tabIndex = 0;
+                tabIndex = -1;
                 GetEnemiesOnScreen();
             }
             //-------------------------------------------
             //-Tab cycle
             if (Input.GetKeyDown("tab")){
-                if(tabableTargets.Count > 0){
-                    if(tabIndex + 1 < tabableTargets.Count){
-                        tabIndex += 1;
-                    }
-                    else{
-                        tabIndex = 0;
-                    }
-                    actor.target = tabableTargets[tabIndex];
-                    actor.LocalPlayerBroadcastTarget();
+                try{
+                    actor.target.nameplate.selectedEvent.Invoke(false);
+                }
+                catch{
+
+                }
+                actor.target = TabTargetCycle();
+                actor.LocalPlayerBroadcastTarget();
+                try{
+                    actor.target.nameplate.selectedEvent.Invoke(true);
+                }
+                catch{
+
                 }
             }
             //--------------------------
+            //Zoom in out
+            // if(Input.GetAxis("Mouse ScrollWheel") > 0.0f){
+                
+            //     Camera.main.GetComponent<CameraController>().zoomIn();
+            // }
+            // if(Input.GetAxis("Mouse ScrollWheel") < 0.0f){
+                
+            //     Camera.main.GetComponent<CameraController>().zoomOut();
+            // }
+            //-------------------------------------------------
             mouseInput();
             switch (state)
             {
                 case PlayerState.Alive:
-                    if (Input.GetKeyDown("1"))
-                    {
-                        if (abilities[0] != null)
-                            actor.castAbility3(abilities[0]);
-                    }
-                    if (Input.GetKeyDown("2"))
-                    {
-                        if (abilities[1] != null)
-                            actor.castAbility3(abilities[1]);
-                    }
-                    if (Input.GetKeyDown("3"))
-                    {
-                        if (abilities[2] != null)
-                            actor.castAbility3(abilities[2]);
-                    }
-                    if (Input.GetKeyDown("4"))
-                    {
-                        if (abilities[3] != null)
-                            actor.castAbility3(abilities[3]);
-                    }
-                    if (Input.GetKeyDown("5"))
-                    {
-                        if (abilities[4] != null)
-                            actor.castAbility3(abilities[4]);
-                    }
-                    if (Input.GetKeyDown("q"))
-                    {
-                        if (abilities[5] != null)
-                            actor.castAbility3(abilities[5]);
-                    }
-                    if (Input.GetKeyDown("e"))
-                    {
-                        if (abilities[6] != null)
-                            actor.castAbility3(abilities[6]);
-                    }
-                    if (Input.GetKeyDown("r"))
-                    {
-                        if (abilities[7] != null)
-                            actor.castAbility3(abilities[7]);
-                    }
-                    if (Input.GetKeyDown("f"))
-                    {
-                        if (abilities[8] != null)
-                            actor.castAbility3(abilities[8]);
-                    }
+                    // if (Input.GetKeyDown("1"))
+                    // {
+                    //     if (abilities[0] != null)
+                    //         actor.castAbility3(abilities[0]);
+                    // }
+                    // if (Input.GetKeyDown("2"))
+                    // {
+                    //     if (abilities[1] != null)
+                    //         actor.castAbility3(abilities[1]);
+                    // }
+                    // if (Input.GetKeyDown("3"))
+                    // {
+                    //     if (abilities[2] != null)
+                    //         actor.castAbility3(abilities[2]);
+                    // }
+                    // if (Input.GetKeyDown("4"))
+                    // {
+                    //     if (abilities[3] != null)
+                    //         actor.castAbility3(abilities[3]);
+                    // }
+                    // if (Input.GetKeyDown("5"))
+                    // {
+                    //     if (abilities[4] != null)
+                    //         actor.castAbility3(abilities[4]);
+                    // }
+                    // if (Input.GetKeyDown("q"))
+                    // {
+                    //     if (abilities[5] != null)
+                    //         actor.castAbility3(abilities[5]);
+                    // }
+                    // if (Input.GetKeyDown("e"))
+                    // {
+                    //     if (abilities[6] != null)
+                    //         actor.castAbility3(abilities[6]);
+                    // }
+                    // if (Input.GetKeyDown("r"))
+                    // {
+                    //     if (abilities[7] != null)
+                    //         actor.castAbility3(abilities[7]);
+                    // }
+                    // if (Input.GetKeyDown("f"))
+                    // {
+                    //     if (abilities[8] != null)
+                    //         actor.castAbility3(abilities[8]);
+                    // }
                     break;
                 case PlayerState.Dead:
                     break;
@@ -258,8 +342,8 @@ public class PlayerController : Controller
             // if(HBCTools.areHostle(actor, hitActor) == false){//actor in this case being the player
             //     actor.GetComponent<Controller>().autoAttacking = false;
             // }
-            actor.target = hitActor;
-            actor.LocalPlayerBroadcastTarget();
+            actor.SetTarget(hitActor);
+            
         }
         if(Input.GetMouseButton(0)){
             clickTime0 += Time.deltaTime;
@@ -311,8 +395,7 @@ public class PlayerController : Controller
                 tabIndex = 0;
             }
             
-            actor.target = hitActor;
-            actor.LocalPlayerBroadcastTarget();
+            actor.SetTarget(hitActor);
         }
         if(Input.GetMouseButton(1)){
             clickTime1 += Time.deltaTime;

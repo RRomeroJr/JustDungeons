@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 /*
     Handler for all UI HUD elements
@@ -11,12 +12,7 @@ public class UIManager : MonoBehaviour
 {
     public GameObject canvas;
     public GameObject castBarPrefab;
-    /*
-        Might be good to make these a list.
-        that way can just have a function which
-        up dates them all by stepping through the list
-        then calling setUpFrame() on the them
-    */
+    public GameObject hotbuttonPrefab;
     public UnitFrame targetFrame;
     public List<UnitFrame> frames = new List<UnitFrame>();
     public static Actor playerActor;
@@ -25,11 +21,22 @@ public class UIManager : MonoBehaviour
     public static GameObject nameplatePrefab;
     public static GameObject damageTextPrefab;
     public Color defaultColor;
-    public 
-
+    public static UnityEvent<int> removeCooldownEvent = new UnityEvent<int>();
+    public static UIManager Instance{ get; private set;}
     void Awake(){
+        if (Instance != null && Instance != this) 
+        { 
+            Destroy(gameObject); 
+        } 
+        else 
+        { 
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
         nameplatePrefab = Resources.Load("Nameplate") as GameObject;
         damageTextPrefab = Resources.Load("DamageText") as GameObject;
+        //hotbuttonPrefab = Resources.Load("Hotbutton 1") as GameObject;
+        
     } 
     // Start is called before the first frame update
     void Start()
@@ -142,11 +149,23 @@ public class UIManager : MonoBehaviour
     public void setTargetGmObj(GameObject input){
         UnitFrame uF = input.GetComponent<UnitFrame>();
         //Debug.Log(uF != null ? "uF found" : "uF NULL");
-
         //Debug.Log(temp != null ? "temp actor found" : "temp actor NULL");
         //Debug.Log(playerActor != null ? "playerActor assigned" : "playerActor NULL");
         //playerActor.target = (temp != null ? temp : null);
         playerActor.target = (uF != null ? uF.actor : null);
+    }
+    public void SpawnHotbuttons(CombatClass _combatClass){
+        
+        if(hotbuttonPrefab == null){
+            Debug.LogError("No Hotbutton Prefab in UIManager. Can't spawn ability hotbuttons");
+        }
+        Hotbutton hotbuttonInst = null;
+        foreach(Ability_V2 a in _combatClass.abilityList){
+            hotbuttonInst = Instantiate(hotbuttonPrefab, new Vector2(0.0f, 0.0f) + (Vector2)canvas.transform.position, Quaternion.identity, canvas.transform).GetComponent<Hotbutton>();
+            hotbuttonInst.ability = a;
+            hotbuttonInst.canvas = canvas.GetComponent<Canvas>();
+            hotbuttonInst.SetUp();
+        }
     }
 
 }
