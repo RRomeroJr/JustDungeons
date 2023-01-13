@@ -10,5 +10,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 791448df94d30b4418821c52d3b3c780, type: 3}
-  m_Name: Rage
+  m_Name: MenderSecondary
   m_EditorClassIdentifier: 

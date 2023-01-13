@@ -9,6 +9,9 @@ public class ClassResource
   public int amount;
   public int combatRegen;
   public int outOfCombatRegen;
+  [HideInInspector]
+  public float tickTime;
+  public float tickMax;
 
   public ClassResource Copy(){
     ClassResource toReturn = new ClassResource();
@@ -17,6 +20,8 @@ public class ClassResource
     toReturn.amount = amount;
     toReturn.combatRegen = combatRegen;
     toReturn.outOfCombatRegen = outOfCombatRegen;
+    toReturn.tickTime = tickTime;
+    toReturn.tickMax = tickMax;
     return toReturn;
   }
  
