@@ -32,6 +32,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+    deliveryNVect2: {x: 0, y: 0}
   castTime: 0
   cooldown: 0
   needsActor: 1
@@ -46,3 +47,5 @@ MonoBehaviour:
   rangeClass: 1
   range: 3.5
   interruptable: 1
+  castWhileMoving: 0
+  mustBeFacing: 1
