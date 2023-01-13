@@ -81,20 +81,20 @@ public class UIManager : MonoBehaviour
 
     public void updateUnitFrame(UnitFrame unitFrame, Actor actor){
         
-        if(actor == unitFrame.actor){
+        if(unitFrame.actor != actor ){
             
-            return;
+            unitFrame.actor = actor;
         }
         
-        unitFrame.actor = actor;
-        if(actor != null){        
+        if(unitFrame.actor != null){        
+            
             //  Getting name
-            unitFrame.unitName.text = actor.getActorName();
+            unitFrame.unitName.text = unitFrame.actor.getActorName();
             //  Getting health current and max
-            unitFrame.healthBar.maxValue = actor.getMaxHealth();
-            unitFrame.healthBar.value = actor.getHealth();
+            unitFrame.healthBar.maxValue = unitFrame.actor.getMaxHealth();
+            unitFrame.healthBar.value = unitFrame.actor.getHealth();
             //  Getting apropriate healthbar color from actor
-            unitFrame.healthFill.color = actor.unitColor;
+            unitFrame.healthFill.color = unitFrame.actor.unitColor;
         }
         else{
             unitFrame.unitName.text = "No actor";
@@ -104,6 +104,7 @@ public class UIManager : MonoBehaviour
         }
 
     }
+    
     // public void setUpUnitFrame(PointerEventData data){
     //     Debug.Log("Test");
     // }
@@ -133,6 +134,7 @@ public class UIManager : MonoBehaviour
                 
             }
             
+            Debug.Log("Updating Targetframe");
             updateUnitFrame(targetFrame, playerActor.target);
         }
 
