@@ -118,6 +118,10 @@ public class Hotbutton: MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
             return;
         }
         tempAbilityNameText.SetText(AbilityNameOrNull());
+        if(ability.hotbuttonImage != null){
+            image.sprite = ability.hotbuttonImage;
+            image.color = ability.hotbuttonColor;
+        }
         //Set up background image & color here
     }
     string AbilityNameOrNull(){

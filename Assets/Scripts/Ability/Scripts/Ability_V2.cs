@@ -59,7 +59,7 @@ public class Ability_V2 : ScriptableObject{
     public bool castWhileMoving = false;
     public bool mustBeFacing = false;
     public Sprite hotbuttonImage;
-    public Color hotbuttonColor;
+    public Color hotbuttonColor = Color.white;
 
     
     void OnValidate(){
