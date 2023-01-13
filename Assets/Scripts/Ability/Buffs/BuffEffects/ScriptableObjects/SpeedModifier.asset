@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e97ef4ff46ea4d7409aeef82f1f31821, type: 3}
   m_Name: SpeedModifier
   m_EditorClassIdentifier: 
-  effectName: 
+  effectName: SpeedModifier

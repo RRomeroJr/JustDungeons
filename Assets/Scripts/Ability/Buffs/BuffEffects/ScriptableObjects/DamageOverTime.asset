@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b5a01917f3815e4e8c531b1e86ffda3, type: 3}
   m_Name: DamageOverTime
   m_EditorClassIdentifier: 
-  effectName: 
+  effectName: DamageOverTime
