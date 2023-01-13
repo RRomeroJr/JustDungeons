@@ -134,7 +134,7 @@ public class UIManager : MonoBehaviour
                 
             }
             
-            Debug.Log("Updating Targetframe");
+            //Debug.Log("Updating Targetframe");
             updateUnitFrame(targetFrame, playerActor.target);
         }
 
