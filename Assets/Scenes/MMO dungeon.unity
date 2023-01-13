@@ -60087,7 +60087,7 @@ PrefabInstance:
     - target: {fileID: 808402555786052939, guid: 883e8f8943859224e84ef35ed734a1ce, type: 3}
       propertyPath: hotbuttonPrefab
       value: 
-      objectReference: {fileID: 1331164845974230466, guid: 9cfe8c93ec974174793a74d06040358a, type: 3}
+      objectReference: {fileID: 1331164845974230466, guid: bb242afd8237bec42bedbfff7d78d10b, type: 3}
     - target: {fileID: 808402555786052939, guid: 883e8f8943859224e84ef35ed734a1ce, type: 3}
       propertyPath: frames.Array.size
       value: 4

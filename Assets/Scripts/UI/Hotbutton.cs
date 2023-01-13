@@ -25,12 +25,14 @@ public class Hotbutton: MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
         if(tempAbilityNameText == null){
             return;
         }
-        if(ability == null){
-            return;
+        
+        if(Application.isPlaying == false){
+            Debug.Log("Setting ability text");
+            
+            tempAbilityNameText.SetText(AbilityNameOrNull());
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         }
-        Debug.Log("Setting ability text");
-        tempAbilityNameText.SetText(ability.getName());
-        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        
      }
     void Awake(){
         image = GetComponent<Image>();
@@ -54,9 +56,9 @@ public class Hotbutton: MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
         if(image != null){
             image.raycastTarget = false;
         }
-        if(tempAbilityNameText != null){
-            tempAbilityNameText.raycastTarget = false;
-        }
+        // if(tempAbilityNameText != null){
+        //     tempAbilityNameText.raycastTarget = false;
+        // }
     }
     public void OnDrag(PointerEventData eventData){
         //rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
@@ -72,9 +74,9 @@ public class Hotbutton: MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
             image.raycastTarget = true;
         }
         
-        if(tempAbilityNameText != null){
-            tempAbilityNameText.raycastTarget = true;
-        }
+        // if(tempAbilityNameText != null){
+        //     tempAbilityNameText.raycastTarget = true;
+        // }
        
          
         
@@ -115,8 +117,18 @@ public class Hotbutton: MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
             Destroy(gameObject);
             return;
         }
-        tempAbilityNameText.SetText(ability.getName());
+        tempAbilityNameText.SetText(AbilityNameOrNull());
         //Set up background image & color here
     }
+    string AbilityNameOrNull(){
+        if(ability == null){
+                return "_null_";
+            }
+            else{
+                return ability.getName();
+        }
+    }
+    
+
 
 }
