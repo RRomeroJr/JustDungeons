@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 using System;
 
 
@@ -10,6 +11,7 @@ public class CombatClass : ScriptableObject{
     public ClassStats classStats;
     public List<Ability_V2> abilityList;
     public List<ClassResource> classResources;
+    public RuntimeAnimatorController rac;
     public List<Ability_V2> GetClassAbilities(){
         List<Ability_V2> toReturn = new List<Ability_V2>(abilityList);
         return toReturn;

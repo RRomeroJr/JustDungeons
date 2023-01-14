@@ -182,6 +182,9 @@ public class Actor : NetworkBehaviour
             if(combatClass.classStats != null){
                 setUpStats(combatClass.classStats);
             }
+            if(combatClass.rac != null){
+                animator.runtimeAnimatorController = combatClass.rac;
+            }
         }
         CalculateState();
 
