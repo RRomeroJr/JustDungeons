@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 /*
     Container with references important to controlling
     and displaying unit frames properly
 */
 public class Nameplate : MonoBehaviour
 {
-    
+    const float unslectedScale = 0.01f;
+    const float selectedScale = 0.0125f;
     public Text unitName;
     public Image healthFill;
     public Image resourceFill;
@@ -19,7 +21,7 @@ public class Nameplate : MonoBehaviour
     public Vector2 offset;
     public Canvas canvas;
     private Renderer actorRenderer;
-
+    public UnityEvent<bool> selectedEvent = new UnityEvent<bool>();
     void Awake(){
         offset = new Vector2(0f, 1.5f);
     }
@@ -30,12 +32,14 @@ public class Nameplate : MonoBehaviour
        unitName.text = actor.getActorName();
        canvas = GetComponentInParent<Canvas>();
        actorRenderer = actor.GetComponent<Renderer>();
+       selectedEvent.AddListener(SetSelectedScale);
        
     }
-    public static void Create(Actor _actor){
+    public static Nameplate Create(Actor _actor){
         Nameplate npRef = (Instantiate(UIManager.nameplatePrefab) as GameObject).GetComponentInChildren<Nameplate>();
         npRef.transform.position = _actor.transform.position + (Vector3)npRef.offset;
          npRef.actor = _actor;
+         return npRef;
     }
 
     void Update(){
@@ -51,6 +55,14 @@ public class Nameplate : MonoBehaviour
             canvas.sortingOrder = actorRenderer.sortingOrder;
         }
         
+    }
+    void SetSelectedScale(bool _selected){
+        if(_selected){
+            canvas.gameObject.transform.localScale = new Vector3(selectedScale, selectedScale, 1);
+        }
+        else{
+            canvas.gameObject.transform.localScale = new Vector3(unslectedScale, unslectedScale, 1);
+        }
     }
     void updateSliderHealth(){
         healthBar.maxValue = actor.getMaxHealth();

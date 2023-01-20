@@ -12,12 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34891822fe1d8d246a9cf35917e7480a, type: 3}
   m_Name: Mender
   m_EditorClassIdentifier: 
+  classStats: {fileID: 0}
   abilityList:
+  - {fileID: 11400000, guid: 84e6f46a89e41c64a9051984dc75f85c, type: 2}
+  - {fileID: 11400000, guid: 8c8a06abb26005a4cabdc14e53c695ba, type: 2}
+  - {fileID: 11400000, guid: acedeafe8deed8148b27c0c10a357e57, type: 2}
+  - {fileID: 11400000, guid: e451afd1b65547242b037d64c7cb29f9, type: 2}
+  - {fileID: 11400000, guid: 92a3dc0384951a348a97e0fb40cf6e0c, type: 2}
   - {fileID: 11400000, guid: b5499d8d42ef81b4b9cd159493b21153, type: 2}
+  - {fileID: 11400000, guid: 722fa7e69c249d740829674736b49962, type: 2}
   - {fileID: 11400000, guid: ca240e3b5b83aee44af48f10b6612abe, type: 2}
+  - {fileID: 11400000, guid: 789ee262ef9ad0c418009477bd594f0d, type: 2}
   classResources:
-  - crType: {fileID: 11400000, guid: 14d8d4dde818cf44396153ffe293ee8d, type: 2}
-    max: 100
+  - crType: {fileID: 11400000, guid: 11a7a1aafb0dd204e93f65399831cb70, type: 2}
+    max: 4
     amount: 0
-    combatRegen: 1
-    outOfCombatRegen: 1
+    combatRegen: 0
+    outOfCombatRegen: 0
+    tickTime: 0
+    tickMax: 0

@@ -41,7 +41,7 @@ public static class HBCTools
         //Vector2.Angle(a1, a2)
         float angleDifference = Vector2.Angle(actorToCheck.GetComponent<Controller>().facingDirection, angleFromTarget);
         
-        Debug.Log("Diff btwn " + angleFromTarget.ToString() +actorToCheck.GetComponent<Controller>().facingDirection +angleDifference.ToString());
+        //Debug.Log("Diff btwn " + angleFromTarget.ToString() +actorToCheck.GetComponent<Controller>().facingDirection +angleDifference.ToString());
         if(angleDifference < 90.0f){
             
             return true;
@@ -154,6 +154,25 @@ public static class HBCTools
         }
         toReturn.Normalize();
         return toReturn;
+    }
+    public static Vector3 GetMousePosWP(){
+        Vector3 scrnPos = Input.mousePosition;
+        Vector3 worldPoint = Camera.main.ScreenToWorldPoint(scrnPos);
+        worldPoint.z = 0.0f;
+        return worldPoint;
+    }
+    public static Vector3 CameraBottomLeftWU(){
+        Vector3 worldPoint = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
+        worldPoint.z = 0.0f;
+        return worldPoint;
+    }
+    public static Vector3 CameraTopRightWU(){
+        Vector3 worldPoint = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+        worldPoint.z = 0.0f;
+        return worldPoint;
+    }
+    public static float contertToPixels(float _unityUnits){
+        return Camera.main.WorldToScreenPoint(Camera.main.transform.position + new Vector3(_unityUnits, 0 , 0)).x;
     }
     
 }

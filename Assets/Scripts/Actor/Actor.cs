@@ -132,8 +132,11 @@ public class Actor : NetworkBehaviour
     public CombatClass combatClass;
     public float resourceTickTime = 0.0f;
     public float resourceTickMax = 1.0f;
+    public Nameplate nameplate;
     // Unity Methods---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+    void Awake(){
+   
+    }
     void Start()
     {
         if (TryGetComponent(out BuffHandler buffHandler))
@@ -145,7 +148,7 @@ public class Actor : NetworkBehaviour
         if ((isLocalPlayer) || (tag != "Player"))
         {
             UIManager.playerActor = this;
-            Nameplate.Create(this);
+            nameplate = Nameplate.Create(this);
         }
         if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
@@ -167,11 +170,21 @@ public class Actor : NetworkBehaviour
         if (combatClass != null)
         {
             int counter = 0;
-            foreach (Ability_V2 abi in combatClass.abilityList){
-                GetComponent<Controller>().abilities[counter] = abi;
-                counter = counter + 1;
-            }
+            // Old setting up of keybinds
+            // foreach (Ability_V2 abi in combatClass.abilityList){
+            //     GetComponent<Controller>().abilities[counter] = abi;
+            //     counter = counter + 1;
+            // }
+            // New hobutton spawn
+            UIManager.Instance.SpawnHotbuttons(combatClass);
             classResources = combatClass.GetClassResources();
+            
+            if(combatClass.classStats != null){
+                setUpStats(combatClass.classStats);
+            }
+            if(combatClass.rac != null){
+                animator.runtimeAnimatorController = combatClass.rac;
+            }
         }
         CalculateState();
 
@@ -262,8 +275,10 @@ public class Actor : NetworkBehaviour
             Debug.LogFormat("Actor.castAbility3(): {0} does not have the resources", actorName);
             return false;
         }
+        
         if (_ability.NeedsTargetActor())
         {
+            
             if (_target == null)
             {
                 //Debug.Log("Try find target..");
@@ -280,9 +295,15 @@ public class Actor : NetworkBehaviour
                 {
                     if (showDebug)
                     {
-                        Debug.Log("You are out of range");
+                        //Debug.Log("You are out of range");
                     }
                     return false;
+                }
+                if(_ability.mustBeFacing){
+                    if(!HBCTools.checkFacing(this, _target.gameObject)){
+                        Debug.Log("You are not facing target: " + _target.actorName);
+                        return false;
+                    }
                 }
             }
         }
@@ -921,28 +942,49 @@ public class Actor : NetworkBehaviour
     void TRpcUpdateCooldowns(List<AbilityCooldown> hostListACs)
     {
         // Debug.Log("Updating cooldows hostListACs count: " +  hostListACs.Count.ToString());
+        // hostListACs.Capacity = 100;
         abilityCooldowns = hostListACs;
+    }
+    [Client]
+    [TargetRpc]
+    void TRpcUpdateCooldown(AbilityCooldown hostAC)
+    {
+        abilityCooldowns.Add(hostAC);
     }
     void updateCooldowns(){
         if(abilityCooldowns.Count > 0){
             for(int i = 0; i < abilityCooldowns.Count; i++){
                 if(abilityCooldowns[i].remainingTime > 0)
                     abilityCooldowns[i].remainingTime -= Time.deltaTime;
-                else
+                else{
                     abilityCooldowns.RemoveAt(i);
+                    UIManager.removeCooldownEvent.Invoke(i);
+                }
+
             }
         }
     }
+
     void addToCooldowns(Ability_V2 _ability){
-        abilityCooldowns.Add(new AbilityCooldown(_ability));
+
+
+    
+        // int capacityBefore = abilityCooldowns.Capacity;
+        // AbilityCooldown refBefore = null;
+        
+        AbilityCooldown acRef = new AbilityCooldown(_ability);
+        abilityCooldowns.Add(acRef);
+        // Debug.Log("before: " + capacityBefore + "after: " + abilityCooldowns.Capacity);
         //Debug.Log("Host: Updating client cooldowns. Length of list: " + abilityCooldowns.Count);
-        if(tag == "Player"){
-            TRpcUpdateCooldowns(abilityCooldowns);
+        if(tag == "Player" && !isServer){
+            TRpcUpdateCooldown(acRef);
         }
         
     }
     public bool checkOnCooldown(Ability_V2 _ability){
-        
+        if(_ability == null){
+            Debug.Log("The ability you are checking on cd is null");
+        }
         if(abilityCooldowns.Count > 0){
             for(int i = 0; i < abilityCooldowns.Count; i++){
                 if(abilityCooldowns[i].getName() == _ability.getName()){
@@ -1072,17 +1114,15 @@ public class Actor : NetworkBehaviour
     }
     public void ClassResourceCheckRegen(){
         
-        resourceTickTime += Time.deltaTime;
-        if(resourceTickTime < resourceTickMax){
-            return;
-        }
-        resourceTickTime -= resourceTickMax;
-        int count = 0;
         foreach(ClassResource _cr in classResources){
-            if(_cr.combatRegen != 0){
-                restoreResource(_cr.crType, _cr.combatRegen);
+            if(_cr.tickMax > 0.0f){
+                _cr.tickTime += Time.deltaTime;
+                if(_cr.tickTime >= _cr.tickMax){
+                    restoreResource(_cr.crType, _cr.combatRegen);
+                    _cr.tickTime -= _cr.tickMax;
+                }
             }
-            count += 1;
+
         }
     }
     [ClientRpc]
@@ -1322,6 +1362,30 @@ public class Actor : NetworkBehaviour
     public void RpcSetTarget(Actor _OwnerTarget){
         target = _OwnerTarget;
     }
+    public void SetTarget(Actor _target){
+        if(!isLocalPlayer && !isServer){
+            Debug.LogError(name + ": you cannot change this actor's target");
+            return;
+        }
+
+        try{
+            target.nameplate.selectedEvent.Invoke(false);
+        }
+        catch{
+
+        }
+
+        target = _target;
+        LocalPlayerBroadcastTarget();
+
+
+        try{
+            target.nameplate.selectedEvent.Invoke(true);
+        }
+        catch{
+
+        }
+    }
    
     // Misc---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     
@@ -1358,10 +1422,7 @@ public class Actor : NetworkBehaviour
         //Make cast bar red for a sec or two
     }
     public void LocalPlayerBroadcastTarget(){
-        if(!isLocalPlayer){
-            Debug.LogError("Target not set. not local player");
-            return;
-        }
+        
         if(isServer){
             RpcSetTarget(target);
         }
@@ -1384,6 +1445,13 @@ public class Actor : NetworkBehaviour
     [ClientRpc]
     public void Knockback(Vector2 _hostVect){
         GetComponent<Rigidbody2D>().AddForce(_hostVect);
+    }
+    public void setUpStats(ClassStats _classStats){
+        //maxHealth = _classStats.health;
+        //health = maxHealth;
+        
+        maxHealth = (int)(maxHealth * _classStats.healthMutliplier);
+        health = maxHealth;
     }
 
     void HandleStatusEffectChanged(object sender, EventArgs e)

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34891822fe1d8d246a9cf35917e7480a, type: 3}
+  m_Name: Combatant
+  m_EditorClassIdentifier: 
+  classStats: {fileID: 0}
+  abilityList:
+  - {fileID: 11400000, guid: 25892cafc51da1741bfc1ed0ae709125, type: 2}
+  - {fileID: 11400000, guid: d9cf312441b110944872f8ce388f759c, type: 2}
+  - {fileID: 11400000, guid: bc0b9b13d7683204abb40cf45658cf81, type: 2}
+  - {fileID: 11400000, guid: 78029697a7165884bb5087a570c34d2c, type: 2}
+  - {fileID: 11400000, guid: 8df7b41371839cf40a06f4cad97dca7e, type: 2}
+  - {fileID: 11400000, guid: 5018719afa2dee746bbd7247a8802f72, type: 2}
+  classResources:
+  - crType: {fileID: 11400000, guid: f99af011e29c85f4686d63a179cf33d8, type: 2}
+    max: 5
+    amount: 0
+    combatRegen: 0
+    outOfCombatRegen: 0
+    tickTime: 0
+    tickMax: 0
