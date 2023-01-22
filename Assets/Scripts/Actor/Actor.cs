@@ -82,7 +82,7 @@ public class Actor : NetworkBehaviour
     private int tauntImmune = 0;
 
     // Actor state
-    public ActorState actorState = ActorState.Free;
+    private ActorState state = ActorState.Free;
     private bool checkState = true;
 
     // Events
@@ -128,15 +128,28 @@ public class Actor : NetworkBehaviour
         }
     }
 
+    public ActorState State
+    {
+        get => state;
+        set
+        {
+            if (state != value)
+            {
+            state = value;
+            OnStateChanged(new StateChangedEventArgs { ActorState = value });
+        }
+    }
+    }
+
+
     #endregion
     public CombatClass combatClass;
     public float resourceTickTime = 0.0f;
     public float resourceTickMax = 1.0f;
     // Unity Methods---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
     void Start()
     {
-        if (TryGetComponent(out BuffHandler buffHandler))
+        if (TryGetComponent(out buffHandler))
         {
             buffHandler.StatusEffectChanged += HandleStatusEffectChanged;
             buffHandler.Interrupted += interruptCast;
@@ -246,9 +259,9 @@ public class Actor : NetworkBehaviour
             return false;
         }*/
 
-        if (actorState != ActorState.Free)
+        if (State != ActorState.Free)
         {
-            Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is {2}!", actorName, _ability, actorState);
+            Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is {2}!", actorName, _ability, State);
             return false;
         }
         if (CheckCooldownAndGCD(_ability))
@@ -786,6 +799,32 @@ public class Actor : NetworkBehaviour
         //Debug.Log("recieveEffect " + _eInstruct.effect.effectName +"| caster:" + (_caster != null ? _caster.getActorName() : "_caster is null"));
         _eInstruct.startEffect(this, _relWP, _caster, _secondaryTarget);
     }
+
+/*    #region NewBuff
+
+    [Server]
+    public void RemoveBuff(OldBuff.Buff _callingBuff)
+    {
+        int buffIndex = buffs.FindIndex(x => x == _callingBuff);
+
+        buffs.RemoveAt(buffIndex);
+        Debug.Log("Removed index: " + buffIndex);
+
+        RpcRemoveBuff(buffIndex);
+    }
+
+    [ClientRpc]
+    void RpcRemoveBuff(int hostIndex)
+    {
+        if (isServer)
+        {
+            return;
+        }
+        Debug.Log("Host saying to remove buff index: " + hostIndex);
+        buffHandler.RemoveBuff(hostIndex);
+    }
+
+    #endregion*/
 
     // Old Buffs---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1396,22 +1435,22 @@ public class Actor : NetworkBehaviour
         checkState = false;
         if (Feared > 0)
         {
-            actorState = ActorState.Stunned;
+            State = ActorState.Stunned;
             interruptCast();
             return;
         }
         if (Silenced > 0)
         {
-            actorState = ActorState.Silenced;
+            State = ActorState.Silenced;
             interruptCast();
             return;
         }
         if (ReadyToFire || IsCasting)
         {
-            actorState = ActorState.Casting;
+            State = ActorState.Casting;
             return;
         }
-        actorState = ActorState.Free;
+        State = ActorState.Free;
     }
 
     #region EventHandlers
