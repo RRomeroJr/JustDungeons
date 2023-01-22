@@ -3,7 +3,6 @@ using System.Linq;
 using BuffSystem;
 using Mirror;
 using UnityEngine;
-using UnityEngine.AI;
 
 /// <summary>
 /// General purpose buff container which implements every buff in the game
@@ -16,8 +15,6 @@ public class BuffHandler : NetworkBehaviour, IStun, IInterrupt, IFear, ISpeedMod
     [SerializeField] private int dizzy;
     [SerializeField] private float speedModifier;
     [SerializeField] private readonly SyncList<Buff> buffs = new SyncList<Buff>();
-    private NavMeshAgent agent;
-    private Controller controller;
 
     #region Events
 
@@ -129,8 +126,6 @@ public class BuffHandler : NetworkBehaviour, IStun, IInterrupt, IFear, ISpeedMod
         silenced = 0;
         feared = 0;
         speedModifier = 1;
-        agent = GetComponent<NavMeshAgent>();
-        controller = GetComponent<Controller>();
         if (!isServer)
         {
             buffs.Callback += OnBuffsUpdated;
@@ -186,32 +181,6 @@ public class BuffHandler : NetworkBehaviour, IStun, IInterrupt, IFear, ISpeedMod
     public void InterruptCast()
     {
         OnInterrupt();
-    }
-
-    public void ApplyFear()
-    {
-        if (agent == null)
-        {
-            return;
-        }
-        if (HBCTools.NT_AuthoritativeClient(GetComponent<NetworkTransform>()))
-        {
-            agent.speed = controller.moveSpeed * speedModifier;
-            Vector3 randomPointOnCircle = UnityEngine.Random.insideUnitCircle.normalized * 10;
-            agent.SetDestination(transform.position + randomPointOnCircle);
-        }
-    }
-
-    public void RemoveFear()
-    {
-        if (agent == null)
-        {
-            return;
-        }
-        if (HBCTools.NT_AuthoritativeClient(GetComponent<NetworkTransform>()))
-        {
-            agent.ResetPath();
-        }
     }
 
     public void ApplyDamage(float damage)

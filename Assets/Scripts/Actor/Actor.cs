@@ -23,6 +23,7 @@ public enum ActorState
     Stunned,
     Silenced,
     Dizzy,
+    Feared,
     Dead
 }
 
@@ -1435,7 +1436,7 @@ public class Actor : NetworkBehaviour
     void CalculateState()
     {
         checkState = false;
-        if (Feared > 0)
+        if (buffHandler.Feared > 0)
         {
             State = ActorState.Stunned;
             interruptCast();
