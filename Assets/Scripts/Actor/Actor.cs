@@ -22,6 +22,7 @@ public enum ActorState
     Casting,
     Stunned,
     Silenced,
+    Dizzy,
     Dead
 }
 
@@ -136,10 +137,10 @@ public class Actor : NetworkBehaviour
         {
             if (state != value)
             {
-            state = value;
-            OnStateChanged(new StateChangedEventArgs { ActorState = value });
+                state = value;
+                OnStateChanged(new StateChangedEventArgs { ActorState = value });
+            }
         }
-    }
     }
 
 
@@ -1438,6 +1439,11 @@ public class Actor : NetworkBehaviour
         {
             State = ActorState.Stunned;
             interruptCast();
+            return;
+        }
+        if (buffHandler.Dizzy > 0)
+        {
+            State = ActorState.Dizzy;
             return;
         }
         if (Silenced > 0)
