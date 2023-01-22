@@ -5,28 +5,26 @@ namespace BuffSystem
     [CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewFearEffect", menuName = ProjectPaths.buffEffectsMenu + "Fear")]
     public class Fear : BuffEffect
     {
-        public override void EndEffect(IBuff t, float effectValue)
+        public override void EndEffect(GameObject target, float effectValue)
         {
-            var target = t as IFear;
-            if (target == null)
+            if (!target.TryGetComponent(out IFear t))
             {
                 return;
             }
-            target.Feared--;
+            t.Feared--;
             // Only remove fear if there are no other fears on the target
-            if (target.Feared <= 0)
+            if (t.Feared <= 0)
             {
-                target.RemoveFear();
+                t.RemoveFear();
             }
         }
 
-        public override void StartEffect(IBuff t, float effectValue)
+        public override void StartEffect(GameObject target, float effectValue)
         {
-            var target = t as IFear;
-            if (target != null)
+            if (target.TryGetComponent(out IFear t))
             {
-                target.Feared++;
-                target.ApplyFear();
+                t.Feared++;
+                t.ApplyFear();
             }
         }
     }

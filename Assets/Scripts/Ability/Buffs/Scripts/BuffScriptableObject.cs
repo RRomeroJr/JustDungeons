@@ -18,7 +18,7 @@ public class BuffScriptableObject : ScriptableObject
     public float TickRate => tickRate;
     public float Duration => duration;
 
-    public void StartBuff(IBuff target)
+    public void StartBuff(GameObject target)
     {
         if (particles != null)
         {
@@ -30,7 +30,7 @@ public class BuffScriptableObject : ScriptableObject
         }
     }
 
-    public void Tick(IBuff target)
+    public void Tick(GameObject target)
     {
         if (particles != null)
         {
@@ -42,7 +42,7 @@ public class BuffScriptableObject : ScriptableObject
         }
     }
 
-    public void EndBuff(IBuff target)
+    public void EndBuff(GameObject target)
     {
         foreach (var effect in buffEffectsList)
         {

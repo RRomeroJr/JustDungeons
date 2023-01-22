@@ -12,7 +12,7 @@ namespace BuffSystem
         [SerializeField] private BuffScriptableObject buff;
         [SerializeField] private float lastTick = 0.0f;
         [SerializeField] private float remainingTime = 0.0f;
-        [SerializeField] private IBuff target;
+        [SerializeField] public GameObject target;
         public event EventHandler Finished;
 
         public Buff(BuffScriptableObject b, IBuff t)

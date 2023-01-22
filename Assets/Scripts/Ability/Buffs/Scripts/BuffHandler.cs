@@ -134,9 +134,14 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifi
 
     public void AddBuff(BuffScriptableObject buffSO)
     {
-        var newBuff = new Buff(buffSO, this);
-        newBuff.Finished += HandleBuffFinished;
+        var newBuff = new Buff
+        {
+            target = this.gameObject,
+            buff = buffSO,
+            remainingTime = buffSO.Duration
+        };
         buffs.Add(newBuff);
+        buffs.Last().Finished += HandleBuffFinished;
     }
 
     public void RemoveBuff(Buff buff)

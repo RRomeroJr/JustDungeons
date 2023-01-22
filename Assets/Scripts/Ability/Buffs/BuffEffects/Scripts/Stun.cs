@@ -3,21 +3,19 @@
 [CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewStunEffect", menuName = ProjectPaths.buffEffectsMenu + "Stun")]
 public class Stun : BuffEffect
 {
-    public override void EndEffect(IBuff t, float effectValue)
+    public override void EndEffect(GameObject target, float effectValue)
     {
-        var target = t as IStun;
-        if (target != null)
+        if (target.TryGetComponent(out IStun t))
         {
-            target.Stunned--;
+            t.Stunned--;
         }
     }
 
-    public override void StartEffect(IBuff t, float effectValue)
+    public override void StartEffect(GameObject target, float effectValue)
     {
-        var target = t as IStun;
-        if (target != null)
+        if (target.TryGetComponent(out IStun t))
         {
-            target.Stunned++;
+            t.Stunned++;
         }
     }
 }
