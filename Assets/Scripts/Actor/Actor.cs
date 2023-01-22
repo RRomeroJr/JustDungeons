@@ -88,6 +88,7 @@ public class Actor : NetworkBehaviour
     // Events
     public event EventHandler PlayerIsDead;
     public event EventHandler PlayerIsAlive;
+    public event EventHandler<StateChangedEventArgs> StateChanged;
 
     #region Properties
 
@@ -1471,6 +1472,11 @@ public class Actor : NetworkBehaviour
         {
             raiseEvent(this, EventArgs.Empty);
         }
+    }
+
+    protected virtual void OnStateChanged(StateChangedEventArgs e)
+    {
+        StateChanged?.Invoke(this, e);
     }
 
     #endregion

@@ -9,3 +9,8 @@ public class HealEventArgs : EventArgs
 {
     public float Heal { get; set; }
 }
+
+public class StateChangedEventArgs : EventArgs
+{
+    public ActorState ActorState { get; set; }
+}
