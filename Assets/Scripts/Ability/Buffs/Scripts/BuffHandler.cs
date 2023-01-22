@@ -13,6 +13,7 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifi
     [SerializeField] private int feared;
     [SerializeField] private int silenced;
     [SerializeField] private int stunned;
+    [SerializeField] private int dizzy;
     [SerializeField] private float speedModifier;
     [SerializeField] private List<Buff> buffs;
     private NavMeshAgent agent;
@@ -43,21 +44,18 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifi
 
     protected virtual void OnStatusEffectChanged()
     {
-        EventHandler raiseEvent = StatusEffectChanged;
+        StatusEffectChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    protected virtual void OnInterrupt()
+    {
+        EventHandler raiseEvent = Interrupted;
         if (raiseEvent != null)
         {
             raiseEvent(this, EventArgs.Empty);
         }
     }
 
-    protected virtual void OnInterrupt()
-    {
-        EventHandler raiseEvent = StatusEffectChanged;
-        if (raiseEvent != null)
-        {
-            raiseEvent(this, EventArgs.Empty);
-        }
-    }
 
     protected virtual void OnDamageTaken(DamageEventArgs e)
     {
@@ -111,6 +109,16 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifi
         }
     }
 
+    public int Dizzy
+    {
+        get => dizzy;
+        set
+        {
+            dizzy = value;
+            OnStatusEffectChanged();
+        }
+    }
+
     #endregion
 
     private void Start()
@@ -140,6 +148,7 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifi
             buff = buffSO,
             remainingTime = buffSO.Duration
         };
+        newBuff.Start();
         buffs.Add(newBuff);
         buffs.Last().Finished += HandleBuffFinished;
     }
