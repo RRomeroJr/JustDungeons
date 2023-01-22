@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using BuffSystem;
 using Mirror;
 using UnityEngine;
@@ -57,11 +57,13 @@ public class BuffHandler : NetworkBehaviour, IStun, IInterrupt, IFear, ISpeedMod
     }
 
 
+    [Server]
     protected virtual void OnDamageTaken(DamageEventArgs e)
     {
         DamageTaken?.Invoke(this, e);
     }
 
+    [Server]
     protected virtual void OnHealTaken(HealEventArgs e)
     {
         HealTaken?.Invoke(this, e);
@@ -155,6 +157,7 @@ public class BuffHandler : NetworkBehaviour, IStun, IInterrupt, IFear, ISpeedMod
         }
     }
 
+    [Server]
     public void AddBuff(BuffScriptableObject buffSO)
     {
         var newBuff = new Buff
@@ -168,6 +171,7 @@ public class BuffHandler : NetworkBehaviour, IStun, IInterrupt, IFear, ISpeedMod
         buffs.Last().Finished += HandleBuffFinished;
     }
 
+    [Server]
     public void RemoveBuff(Buff buff)
     {
         buff.Finished -= HandleBuffFinished;
@@ -212,6 +216,10 @@ public class BuffHandler : NetworkBehaviour, IStun, IInterrupt, IFear, ISpeedMod
 
     public void ApplyDamage(float damage)
     {
+        if (!isServer)
+        {
+            return;
+        }
         var damageEventArgs = new DamageEventArgs
         {
             Damage = damage
@@ -221,6 +229,10 @@ public class BuffHandler : NetworkBehaviour, IStun, IInterrupt, IFear, ISpeedMod
 
     public void ApplyHeal(float heal)
     {
+        if (!isServer)
+        {
+            return;
+        }
         var healEventArgs = new HealEventArgs
         {
             Heal = heal
