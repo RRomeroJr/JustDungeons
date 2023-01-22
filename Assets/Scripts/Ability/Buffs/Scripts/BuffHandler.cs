@@ -8,14 +8,14 @@ using UnityEngine.AI;
 /// <summary>
 /// General purpose buff container which implements every buff in the game
 /// </summary>
-public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifier, IDamageOverTime, IHealOverTime
+public class BuffHandler : NetworkBehaviour, IStun, IInterrupt, IFear, ISpeedModifier, IDamageOverTime, IHealOverTime, IDizzy
 {
     [SerializeField] private int feared;
     [SerializeField] private int silenced;
     [SerializeField] private int stunned;
     [SerializeField] private int dizzy;
     [SerializeField] private float speedModifier;
-    [SerializeField] private List<Buff> buffs;
+    [SerializeField] private readonly SyncList<Buff> buffs = new SyncList<Buff>();
     private NavMeshAgent agent;
     private Controller controller;
 
@@ -127,9 +127,24 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifi
         silenced = 0;
         feared = 0;
         speedModifier = 1;
-        buffs = new List<Buff>();
         agent = GetComponent<NavMeshAgent>();
         controller = GetComponent<Controller>();
+        if (!isServer)
+        {
+            buffs.Callback += OnBuffsUpdated;
+        }
+    }
+
+    private void OnBuffsUpdated(SyncList<Buff>.Operation op, int index, Buff oldBuff, Buff newBuff)
+    {
+        if (op == SyncList<Buff>.Operation.OP_ADD)
+        {
+            newBuff.Start();
+        }
+        else if (op == SyncList<Buff>.Operation.OP_REMOVEAT)
+        {
+            oldBuff.End();
+        }
     }
 
     private void Update()
