@@ -38,9 +38,20 @@ namespace BuffSystem
 
             if (remainingTime <= 0)
             {
-                buff.EndBuff(target);
-                OnFinish();
+                End();
             }
+        }
+
+        public void Start()
+        {
+            buff.StartBuff(target);
+            remainingTime = buff.Duration;
+        }
+
+        public void End()
+        {
+            buff.EndBuff(target);
+            OnFinish();
         }
 
         protected void OnFinish()
