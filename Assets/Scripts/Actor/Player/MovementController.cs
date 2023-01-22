@@ -98,6 +98,7 @@ public class MovementEffectsController : MonoBehaviour
     {
         GetComponent<Controller>().moveDirection = null;
         Destroy(indicatorRef);
+        moveDirection = Vector2.right;
     }
 
     #endregion
