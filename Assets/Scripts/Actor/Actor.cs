@@ -1374,7 +1374,10 @@ public class Actor : NetworkBehaviour
         }
     }
     public void interruptCast(object sender = null, EventArgs e = null){
-
+        if (queuedAbility == null)
+        {
+            return;
+        }
         Debug.Log(queuedAbility.getName() + " was interrupted!");
         resetClientCastVars();
         //Make cast bar red for a sec or two
