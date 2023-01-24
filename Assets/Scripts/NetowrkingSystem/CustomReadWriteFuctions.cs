@@ -140,4 +140,14 @@ public static class CustomReadWriteFuctions
         return buffClone;
     }
 
+    public static void WriteBuffSO(this NetworkWriter writer, BuffScriptableObject buff)
+    {
+        writer.WriteString(buff.name);
+    }
+
+    public static BuffScriptableObject ReadBuffSO(this NetworkReader reader)
+    {
+        return Resources.Load(reader.ReadString()) as BuffScriptableObject;
+    }
+
 }
