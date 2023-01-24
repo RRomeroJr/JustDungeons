@@ -558,6 +558,10 @@ public class Actor : NetworkBehaviour
                 foreach (EffectInstruction eI in EI_clones){
                     eI.sendToActor(_target, GetRealWPOrNull(_relWP), this, inTargetWP2: GetRealWPOrNull(_relWP2));
                 }
+                foreach (BuffScriptableObject buff in _ability.buffs)
+                {
+                    _target.buffHandler.AddBuff(buff);
+                }
                 addToCooldowns(_ability);
                 if(onAbilityCastHooks != null){
                     onAbilityCastHooks.Invoke(_ability.id);
@@ -803,33 +807,7 @@ public class Actor : NetworkBehaviour
         _eInstruct.startEffect(this, _relWP, _caster, _secondaryTarget);
     }
 
-/*    #region NewBuff
-
-    [Server]
-    public void RemoveBuff(OldBuff.Buff _callingBuff)
-    {
-        int buffIndex = buffs.FindIndex(x => x == _callingBuff);
-
-        buffs.RemoveAt(buffIndex);
-        Debug.Log("Removed index: " + buffIndex);
-
-        RpcRemoveBuff(buffIndex);
-    }
-
-    [ClientRpc]
-    void RpcRemoveBuff(int hostIndex)
-    {
-        if (isServer)
-        {
-            return;
-        }
-        Debug.Log("Host saying to remove buff index: " + hostIndex);
-        buffHandler.RemoveBuff(hostIndex);
-    }
-
-    #endregion*/
-
-    // Old Buffs---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    #region OldBuff
 
     void HandlleBuffs()
     {
@@ -956,6 +934,8 @@ public class Actor : NetworkBehaviour
         //buffs[listPos].OnEffectFinish(); // AE has a caster and target now so the args could be null?
         buffs.RemoveAt(listPos);
     }
+
+    #endregion
 
     // Cooldowns---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
