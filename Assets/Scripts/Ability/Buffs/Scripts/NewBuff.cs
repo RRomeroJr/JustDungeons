@@ -38,7 +38,7 @@ namespace BuffSystem
 
             if (remainingTime <= 0)
             {
-                End();
+                OnFinish();
             }
         }
 
@@ -51,7 +51,6 @@ namespace BuffSystem
         public void End()
         {
             buff.EndBuff(target);
-            OnFinish();
         }
 
         protected void OnFinish()

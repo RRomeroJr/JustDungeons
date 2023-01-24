@@ -53,7 +53,6 @@ public class BuffHandler : NetworkBehaviour, IStun, IInterrupt, IFear, ISpeedMod
         }
     }
 
-
     [Server]
     protected virtual void OnDamageTaken(DamageEventArgs e)
     {
@@ -170,6 +169,7 @@ public class BuffHandler : NetworkBehaviour, IStun, IInterrupt, IFear, ISpeedMod
     public void RemoveBuff(Buff buff)
     {
         buff.Finished -= HandleBuffFinished;
+        buff.End();
         buffs.Remove(buff);
     }
 
