@@ -131,6 +131,14 @@ public class AbilityEffectData : ScriptableObject
         
         
     }
+    public static void cancelIfFacing(EffectInstruction _ei){
+        if(HBCTools.checkFacing(_ei.effect.target, _ei.effect.caster.gameObject) == true){
+            Debug.Log("Target was facing canceling effect instruction!");
+            _ei.targetArg = -1;
+        }
+        
+        
+    }
 /*
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~vV*****Start/ Hit/ Finish Actions*****Vv~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
