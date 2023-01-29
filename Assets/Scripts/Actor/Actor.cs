@@ -22,6 +22,8 @@ public enum ActorState
     Casting,
     Stunned,
     Silenced,
+    Dizzy,
+    Feared,
     Dead
 }
 
@@ -82,12 +84,13 @@ public class Actor : NetworkBehaviour
     private int tauntImmune = 0;
 
     // Actor state
-    public ActorState actorState = ActorState.Free;
+    private ActorState state = ActorState.Free;
     private bool checkState = true;
 
     // Events
     public event EventHandler PlayerIsDead;
     public event EventHandler PlayerIsAlive;
+    public event EventHandler<StateChangedEventArgs> StateChanged;
 
     #region Properties
 
@@ -128,18 +131,29 @@ public class Actor : NetworkBehaviour
         }
     }
 
+    public ActorState State
+    {
+        get => state;
+        set
+        {
+            if (state != value)
+            {
+                state = value;
+                OnStateChanged(new StateChangedEventArgs { ActorState = value });
+            }
+        }
+    }
+
+
     #endregion
     public CombatClass combatClass;
     public float resourceTickTime = 0.0f;
     public float resourceTickMax = 1.0f;
     public Nameplate nameplate;
     // Unity Methods---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    void Awake(){
-   
-    }
     void Start()
     {
-        if (TryGetComponent(out BuffHandler buffHandler))
+        if (TryGetComponent(out buffHandler))
         {
             buffHandler.StatusEffectChanged += HandleStatusEffectChanged;
             buffHandler.Interrupted += interruptCast;
@@ -259,9 +273,9 @@ public class Actor : NetworkBehaviour
             return false;
         }*/
 
-        if (actorState != ActorState.Free)
+        if (State != ActorState.Free)
         {
-            Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is {2}!", actorName, _ability, actorState);
+            Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is {2}!", actorName, _ability, State);
             return false;
         }
         if (CheckCooldownAndGCD(_ability))
@@ -563,6 +577,10 @@ public class Actor : NetworkBehaviour
                 foreach (EffectInstruction eI in EI_clones){
                     eI.sendToActor(_target, GetRealWPOrNull(_relWP), this, inTargetWP2: GetRealWPOrNull(_relWP2));
                 }
+                foreach (BuffScriptableObject buff in _ability.buffs)
+                {
+                    _target.buffHandler.AddBuff(buff);
+                }
                 addToCooldowns(_ability);
                 if(onAbilityCastHooks != null){
                     onAbilityCastHooks.Invoke(_ability.id);
@@ -808,7 +826,7 @@ public class Actor : NetworkBehaviour
         _eInstruct.startEffect(this, _relWP, _caster, _secondaryTarget);
     }
 
-    // Old Buffs---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    #region OldBuff
 
     void HandlleBuffs()
     {
@@ -935,6 +953,8 @@ public class Actor : NetworkBehaviour
         //buffs[listPos].OnEffectFinish(); // AE has a caster and target now so the args could be null?
         buffs.RemoveAt(listPos);
     }
+
+    #endregion
 
     // Cooldowns---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1416,7 +1436,10 @@ public class Actor : NetworkBehaviour
         }
     }
     public void interruptCast(object sender = null, EventArgs e = null){
-
+        if (queuedAbility == null)
+        {
+            return;
+        }
         Debug.Log(queuedAbility.getName() + " was interrupted!");
         resetClientCastVars();
         //Make cast bar red for a sec or two
@@ -1462,24 +1485,29 @@ public class Actor : NetworkBehaviour
     void CalculateState()
     {
         checkState = false;
-        if (Feared > 0)
+        if (buffHandler.Feared > 0)
         {
-            actorState = ActorState.Stunned;
+            State = ActorState.Stunned;
             interruptCast();
+            return;
+        }
+        if (buffHandler.Dizzy > 0)
+        {
+            State = ActorState.Dizzy;
             return;
         }
         if (Silenced > 0)
         {
-            actorState = ActorState.Silenced;
+            State = ActorState.Silenced;
             interruptCast();
             return;
         }
         if (ReadyToFire || IsCasting)
         {
-            actorState = ActorState.Casting;
+            State = ActorState.Casting;
             return;
         }
-        actorState = ActorState.Free;
+        State = ActorState.Free;
     }
 
     #region EventHandlers
@@ -1500,6 +1528,11 @@ public class Actor : NetworkBehaviour
         {
             raiseEvent(this, EventArgs.Empty);
         }
+    }
+
+    protected virtual void OnStateChanged(StateChangedEventArgs e)
+    {
+        StateChanged?.Invoke(this, e);
     }
 
     #endregion

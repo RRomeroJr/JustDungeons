@@ -2,24 +2,22 @@
 
 namespace BuffSystem
 {
-    [CreateAssetMenu(fileName = "Assets/Scripts/Ability/Buffs/BuffEffects/ScriptableObjects/NewSilenceEffect", menuName = "HBCsystem/Buffs/Silence")]
+    [CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewSilenceEffect", menuName = ProjectPaths.buffEffectsMenu + "Silence")]
     public class Silence : BuffEffect
     {
-        public override void EndEffect(IBuff t, float s)
+        public override void EndEffect(GameObject target, float effectValue)
         {
-            var target = t as ISilence;
-            if (target != null)
+            if (target.TryGetComponent(out ISilence t))
             {
-                target.Silenced--;
+                t.Silenced--;
             }
         }
 
-        public override void StartEffect(IBuff t, float s)
+        public override void StartEffect(GameObject target, float effectValue)
         {
-            var target = t as ISilence;
-            if (target != null)
+            if (target.TryGetComponent(out ISilence t))
             {
-                target.Silenced++;
+                t.Silenced++;
             }
         }
     }

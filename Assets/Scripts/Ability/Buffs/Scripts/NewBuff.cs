@@ -9,18 +9,14 @@ namespace BuffSystem
     [Serializable]
     public class Buff
     {
-        [SerializeField] private BuffScriptableObject buff;
+        [SerializeField] public BuffScriptableObject buff;
         [SerializeField] private float lastTick = 0.0f;
-        [SerializeField] private float remainingTime = 0.0f;
-        [SerializeField] private IBuff target;
+        [SerializeField] public float remainingTime = 0.0f;
+        [SerializeField] public GameObject target;
         public event EventHandler Finished;
 
-        public Buff(BuffScriptableObject b, IBuff t)
+        public Buff()
         {
-            buff = b;
-            target = t;
-            remainingTime = buff.Duration;
-            buff.StartBuff(target);
         }
 
         /// <summary>
@@ -42,9 +38,19 @@ namespace BuffSystem
 
             if (remainingTime <= 0)
             {
-                buff.EndBuff(target);
                 OnFinish();
             }
+        }
+
+        public void Start()
+        {
+            buff.StartBuff(target);
+            remainingTime = buff.Duration;
+        }
+
+        public void End()
+        {
+            buff.EndBuff(target);
         }
 
         protected void OnFinish()

@@ -26,6 +26,7 @@ public class Controller : NetworkBehaviour
     public List<Ability_V2> abilities;
     [SyncVar]
     public bool tryingToMove = false;
+    public Vector2? moveDirection;
     
     public virtual void Awake(){
         
@@ -49,6 +50,10 @@ public class Controller : NetworkBehaviour
 
         // _vect.x *= (moveSpeed * Time.fixedDeltaTime);  //speed is just d is a distance in NavMeshAgent
         // _vect.y *= (moveSpeed * Time.fixedDeltaTime); // moveSpeed d/t / t == d/t^2
+        if (moveDirection != null)
+        {
+            _vect = _vect.magnitude * (Vector2)moveDirection;
+        }
         _vect = moveSpeed * _vect;
         gameObject.GetComponent<Rigidbody2D>().velocity = _vect;
     }

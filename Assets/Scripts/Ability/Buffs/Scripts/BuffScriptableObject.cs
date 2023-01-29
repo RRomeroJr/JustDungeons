@@ -1,50 +1,52 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using BuffSystem;
 
-[CreateAssetMenu(fileName = "Buff", menuName = "HBCsystem/Buff")]
+[CreateAssetMenu(fileName = ProjectPaths.buffs + "NewBuff", menuName = "HBCsystem/NewBuff")]
 public class BuffScriptableObject : ScriptableObject
 {
     [SerializeField] private string buffName;
     [SerializeField] private float duration;
     [SerializeField] private float tickRate;
-    [SerializeField] private float speedModifier = 1;
     [SerializeField] private GameObject particles;
-    [SerializeField] private List<BuffEffect> buffEffectsList;
 
-    // Buffs default value should not be altered by code. All changes will happen in the inspector
+    // Store BuffEffects in a list of custom serializable KeyValuePairs so it can edited in the inspector
+    [SerializeField] private List<CustomKeyValuePair<BuffEffect, float>> buffEffectsList;
+
+    // Buffs default value should not be altered by code or at runtime. All changes will happen in the inspector
     public string BuffName => buffName;
     public float TickRate => tickRate;
     public float Duration => duration;
 
-    public void StartBuff(IBuff target)
+    public void StartBuff(GameObject target)
     {
         if (particles != null)
         {
             //GameObject.Instantiate(particles, target.transform as MonoBehaviour);
         }
-        foreach (BuffEffect effect in buffEffectsList)
+        foreach (var effect in buffEffectsList)
         {
-            effect.StartEffect(target, speedModifier);
+            effect.Key.StartEffect(target, effect.Value);
         }
     }
 
-    public void Tick(IBuff target)
+    public void Tick(GameObject target)
     {
         if (particles != null)
         {
             //GameObject.Instantiate(particles, target.transform as MonoBehaviour);
         }
-        foreach (BuffEffect effect in buffEffectsList)
+        foreach (var effect in buffEffectsList)
         {
-            effect.ApplyEffect(target);
+            effect.Key.ApplyEffect(target, effect.Value);
         }
     }
 
-    public void EndBuff(IBuff target)
+    public void EndBuff(GameObject target)
     {
-        foreach (BuffEffect effect in buffEffectsList)
+        foreach (var effect in buffEffectsList)
         {
-            effect.EndEffect(target, speedModifier);
+            effect.Key.EndEffect(target, effect.Value);
         }
     }
 }

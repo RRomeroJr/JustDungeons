@@ -1,22 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using BuffSystem;
 using Mirror;
 using UnityEngine;
-using UnityEngine.AI;
 
 /// <summary>
 /// General purpose buff container which implements every buff in the game
 /// </summary>
-public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifier
+public class BuffHandler : NetworkBehaviour, IStun, IInterrupt, IFear, ISpeedModifier, IDamageOverTime, IHealOverTime, IDizzy
 {
     [SerializeField] private int feared;
     [SerializeField] private int silenced;
     [SerializeField] private int stunned;
+    [SerializeField] private int dizzy;
     [SerializeField] private float speedModifier;
-    [SerializeField] private List<Buff> buffs;
-    private NavMeshAgent agent;
-    private Controller controller;
+    [SerializeField] private readonly SyncList<Buff> buffs = new SyncList<Buff>();
 
     #region Events
 
@@ -28,6 +26,14 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifi
     /// Buff has interrupted spellcasting
     /// </summary>
     public event EventHandler Interrupted;
+    /// <summary>
+    /// Receive damage from buff
+    /// </summary>
+    public event EventHandler<DamageEventArgs> DamageTaken;
+    /// <summary>
+    /// Receive heal from buff
+    /// </summary>
+    public event EventHandler<HealEventArgs> HealTaken;
 
     #endregion
 
@@ -35,20 +41,28 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifi
 
     protected virtual void OnStatusEffectChanged()
     {
-        EventHandler raiseEvent = StatusEffectChanged;
+        StatusEffectChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    protected virtual void OnInterrupt()
+    {
+        EventHandler raiseEvent = Interrupted;
         if (raiseEvent != null)
         {
             raiseEvent(this, EventArgs.Empty);
         }
     }
 
-    protected virtual void OnInterrupt()
+    [Server]
+    protected virtual void OnDamageTaken(DamageEventArgs e)
     {
-        EventHandler raiseEvent = StatusEffectChanged;
-        if (raiseEvent != null)
-        {
-            raiseEvent(this, EventArgs.Empty);
-        }
+        DamageTaken?.Invoke(this, e);
+    }
+
+    [Server]
+    protected virtual void OnHealTaken(HealEventArgs e)
+    {
+        HealTaken?.Invoke(this, e);
     }
 
     #endregion
@@ -93,6 +107,16 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifi
         }
     }
 
+    public int Dizzy
+    {
+        get => dizzy;
+        set
+        {
+            dizzy = value;
+            OnStatusEffectChanged();
+        }
+    }
+
     #endregion
 
     private void Start()
@@ -101,9 +125,22 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifi
         silenced = 0;
         feared = 0;
         speedModifier = 1;
-        buffs = new List<Buff>();
-        agent = GetComponent<NavMeshAgent>();
-        controller = GetComponent<Controller>();
+        if (!isServer)
+        {
+            buffs.Callback += OnBuffsUpdated;
+        }
+    }
+
+    private void OnBuffsUpdated(SyncList<Buff>.Operation op, int index, Buff oldBuff, Buff newBuff)
+    {
+        if (op == SyncList<Buff>.Operation.OP_ADD)
+        {
+            newBuff.Start();
+        }
+        else if (op == SyncList<Buff>.Operation.OP_REMOVEAT)
+        {
+            oldBuff.End();
+        }
     }
 
     private void Update()
@@ -114,16 +151,25 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifi
         }
     }
 
+    [Server]
     public void AddBuff(BuffScriptableObject buffSO)
     {
-        var newBuff = new Buff(buffSO, this);
-        newBuff.Finished += HandleBuffFinished;
+        var newBuff = new Buff
+        {
+            target = this.gameObject,
+            buff = buffSO,
+            remainingTime = buffSO.Duration
+        };
+        newBuff.Start();
         buffs.Add(newBuff);
+        buffs.Last().Finished += HandleBuffFinished;
     }
 
+    [Server]
     public void RemoveBuff(Buff buff)
     {
         buff.Finished -= HandleBuffFinished;
+        buff.End();
         buffs.Remove(buff);
     }
 
@@ -137,30 +183,29 @@ public class BuffHandler : MonoBehaviour, IStun, IInterrupt, IFear, ISpeedModifi
         OnInterrupt();
     }
 
-    public void ApplyFear()
+    public void ApplyDamage(float damage)
     {
-        if (agent == null)
+        if (!isServer)
         {
             return;
         }
-        if (HBCTools.NT_AuthoritativeClient(GetComponent<NetworkTransform>()))
+        var damageEventArgs = new DamageEventArgs
         {
-            agent.speed = controller.moveSpeed * speedModifier;
-            Vector3 randomPointOnCircle = UnityEngine.Random.insideUnitCircle.normalized * 10;
-            agent.SetDestination(transform.position + randomPointOnCircle);
-        }
+            Damage = damage
+        };
+        OnDamageTaken(damageEventArgs);
     }
 
-    public void RemoveFear()
+    public void ApplyHeal(float heal)
     {
-        if (agent == null)
+        if (!isServer)
         {
             return;
         }
-        if (HBCTools.NT_AuthoritativeClient(GetComponent<NetworkTransform>()))
+        var healEventArgs = new HealEventArgs
         {
-            agent.ResetPath();
-        }
+            Heal = heal
+        };
+        OnHealTaken(healEventArgs);
     }
 }
-
