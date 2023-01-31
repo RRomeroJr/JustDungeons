@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 630dbee7393b5314ab79662f009e6568, type: 3}
-  m_Name: Boss3LineAoe
+  m_Name: SaytrShadowbolt
   m_EditorClassIdentifier: 
-  abilityName: Boss3LineAoe
+  abilityName: SaytrShadowbolt
   eInstructs:
-  - effect: {fileID: 11400000, guid: 275e373fc9b536d4d94162ffb2cfe153, type: 2}
+  - effect: {fileID: 11400000, guid: f759fad71c65ee34a97741c158dccda4, type: 2}
     targetArg: 0
     powerMod: 1
     onSendHooks:
@@ -22,11 +22,11 @@ MonoBehaviour:
         m_Calls: []
     deliveryNVect2: {x: 0, y: 0}
   buffs: []
-  castTime: 0
+  castTime: 1.5
   cooldown: 0
-  needsActor: 0
-  needsWP: 1
-  id: 37
+  needsActor: 1
+  needsWP: 0
+  id: 0
   abilityTag: 0
   resourceCosts: []
   isChannel: 0

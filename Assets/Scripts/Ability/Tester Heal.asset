@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 630dbee7393b5314ab79662f009e6568, type: 3}
-  m_Name: Boss3LineAoe
+  m_Name: Tester Heal
   m_EditorClassIdentifier: 
-  abilityName: Boss3LineAoe
+  abilityName: Tester Heal
   eInstructs:
-  - effect: {fileID: 11400000, guid: 275e373fc9b536d4d94162ffb2cfe153, type: 2}
+  - effect: {fileID: 11400000, guid: 912bbee9e3977dd43b75138d819ce8d3, type: 2}
     targetArg: 0
     powerMod: 1
     onSendHooks:
@@ -24,19 +24,19 @@ MonoBehaviour:
   buffs: []
   castTime: 0
   cooldown: 0
-  needsActor: 0
-  needsWP: 1
-  id: 37
+  needsActor: 1
+  needsWP: 0
+  id: 56
   abilityTag: 0
   resourceCosts: []
   isChannel: 0
   channelDuration: 0
   numberOfTicks: 0
-  offGDC: 0
+  offGDC: 1
   rangeClass: 0
   range: Infinity
   interruptable: 1
   castWhileMoving: 0
   mustBeFacing: 0
-  hotbuttonImage: {fileID: 0}
+  hotbuttonImage: {fileID: 21300000, guid: a67b58d6cddcd4345b1e001340de5a76, type: 3}
   hotbuttonColor: {r: 1, g: 1, b: 1, a: 1}
