@@ -16,8 +16,8 @@ public class LineAoe : Aoe
         GameObject delivery = Instantiate(aoePrefab, getWP(_secondaryTarget, _targetWP), Quaternion.identity);
         delivery.GetComponent<AbilityDelivery>().setTarget(_secondaryTarget);
         delivery.GetComponent<AbilityDelivery>().setCaster(_caster);
-        delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_caster, targetWP2);
-        delivery.GetComponent<AbilityDelivery>().transform.position  = getWP(_target, _targetWP);
+        delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_target, _targetWP);
+        delivery.GetComponent<AbilityDelivery>().transform.position  = getWP(_caster, targetWP2);
         delivery.transform.localScale = new Vector3(length, prefabScale.y, prefabScale.z);
         //Debug.Log(delivery.transform.localScale + "|" + length );
         delivery.GetComponent<AbilityDelivery>().eInstructs = eInstructs;
