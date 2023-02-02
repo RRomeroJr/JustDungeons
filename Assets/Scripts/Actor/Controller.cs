@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 
 public class Controller : NetworkBehaviour
@@ -27,6 +28,7 @@ public class Controller : NetworkBehaviour
     [SyncVar]
     public bool tryingToMove = false;
     public Vector2? moveDirection;
+    public UnityEvent<bool> moveToEvent = new UnityEvent<bool>(); 
     
     public virtual void Awake(){
         
@@ -189,10 +191,10 @@ public class Controller : NetworkBehaviour
         float moveSpeedHolder = agent.speed;
         agent.speed = tempMoveSpeed;
         StartCoroutine(IE_moveToPoint(pos));
-        while(!agent.isStopped){
+        while(resolvingMoveTo){
             yield return new WaitForSeconds(0.2f);
         }
-
+        Debug.Log(actor.getActorName()+": Returning normal agent speed");
         agent.speed = moveSpeedHolder;
         
     }

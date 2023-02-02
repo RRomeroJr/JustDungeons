@@ -26,13 +26,17 @@ public class MoveTo : ActionNode
     protected override State OnUpdate()
     {
 
+       if(context.controller.arenaObject == null){
+            Debug.Log("Skipping MoveTo. Reuturning Sucess");
+            return State.Success;
+        }
+
         if (context.agent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathInvalid)
         {
             return State.Failure;
         }
         
-        if (Mathf.Abs(Vector2.Distance(pos, context.gameObject.transform.position))
-                    > context.agent.stoppingDistance + 1.0)
+        if (context.controller.resolvingMoveTo)
         {
             return State.Running;
         }
