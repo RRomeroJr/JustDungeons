@@ -37,11 +37,8 @@ public class DisableMovement : AbilityEff
     public override AbilityEff clone()
     {
         DisableMovement temp_ref = ScriptableObject.CreateInstance(typeof (DisableMovement)) as DisableMovement;
-        temp_ref.effectName = effectName;
-        temp_ref.id = id;
-        temp_ref.power = power;
+        copyBase(temp_ref);
         temp_ref.school = school;
-        temp_ref.targetIsSecondary = targetIsSecondary;
 
         return temp_ref;
     }

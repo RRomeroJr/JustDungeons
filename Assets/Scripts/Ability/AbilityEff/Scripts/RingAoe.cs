@@ -56,17 +56,14 @@ public class RingAoe : Aoe
     public override AbilityEff clone()
     {
         RingAoe temp_ref = ScriptableObject.CreateInstance(typeof (RingAoe)) as RingAoe;
-        temp_ref.effectName = effectName;
-        temp_ref.id = id;
-        temp_ref.power = power;
-        temp_ref.powerScale = powerScale;
+        copyBase(temp_ref);
         temp_ref.prefabScale = prefabScale;
         temp_ref.innerCircleRadius = innerCircleRadius;
         
         temp_ref.innerCirclePosistion = innerCirclePosistion;
         temp_ref.usePosition = usePosition;
         temp_ref.aoePrefab = aoePrefab;
-        temp_ref.targetIsSecondary = targetIsSecondary;
+  
         if(targetWP2 != null){
             temp_ref.targetWP2 = new NullibleVector3(targetWP2.Value);
         }

@@ -28,12 +28,8 @@ public class CasterKnockback : AbilityEff
     public override AbilityEff clone()
     {
         CasterKnockback temp_ref = ScriptableObject.CreateInstance(typeof (CasterKnockback)) as CasterKnockback;
-        temp_ref.effectName = effectName;
-        temp_ref.id = id;
-        temp_ref.power = power;
-        temp_ref.powerScale = powerScale;
+        copyBase(temp_ref);
         temp_ref.school = school;
-        temp_ref.targetIsSecondary = targetIsSecondary;
 
         return temp_ref;
     }

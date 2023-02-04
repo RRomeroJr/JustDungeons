@@ -79,13 +79,10 @@ public class Missile : DeliveryEff
     {
         //Debug.Log("Missile clone called");
         Missile temp_ref = ScriptableObject.CreateInstance(typeof (Missile)) as Missile;
-        temp_ref.effectName = effectName;
-        temp_ref.id = id;
-        temp_ref.power = power;
-        temp_ref.powerScale = powerScale;
+        copyBase(temp_ref);
         temp_ref.misslePrefab = misslePrefab;
         temp_ref.eInstructs = new List<EffectInstruction>();
-        temp_ref.targetIsSecondary = targetIsSecondary;
+
         temp_ref.isSkillshot = isSkillshot;
         temp_ref.speed = speed;
         temp_ref.ignoreDuration = ignoreDuration;

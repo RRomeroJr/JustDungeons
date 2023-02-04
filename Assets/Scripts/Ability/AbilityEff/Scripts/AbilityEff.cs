@@ -23,6 +23,7 @@ public abstract class AbilityEff: ScriptableObject
     public NullibleVector3 targetWP;
     [HideInInspector]
     public NullibleVector3 targetWP2;
+    public bool isHostile = true;
     
 
     //public int targetArg = 0; //0 = target, 1 = self
@@ -43,5 +44,13 @@ public abstract class AbilityEff: ScriptableObject
     }
 
     public abstract AbilityEff clone();
+    public virtual void copyBase(AbilityEff _clone){
+        _clone.effectName = effectName;
+        _clone.id = id;
+        _clone.power = power;
+        _clone.powerScale = powerScale;
+        _clone.targetIsSecondary = targetIsSecondary;
+        _clone.isHostile = isHostile;
+    }
 
 }

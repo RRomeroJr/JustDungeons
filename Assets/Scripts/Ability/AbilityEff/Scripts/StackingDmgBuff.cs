@@ -29,11 +29,9 @@ public class StackingDmgBuff : AbilityEff
     public override AbilityEff clone()
     {
         StackingDmgBuff temp_ref = ScriptableObject.CreateInstance(typeof (StackingDmgBuff)) as StackingDmgBuff;
-        temp_ref.effectName = effectName;
-        temp_ref.id = id;
-        temp_ref.power = power;
+        copyBase(temp_ref);
         temp_ref.school = school;
-        temp_ref.targetIsSecondary = targetIsSecondary;
+        
 
         return temp_ref;
         //return new StackingDmgBuff(effectName, id, power, school);

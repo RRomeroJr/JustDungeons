@@ -86,11 +86,18 @@ public class Actor : NetworkBehaviour
     // Actor state
     private ActorState state = ActorState.Free;
     private bool checkState = true;
+    public bool inCombat = false; //  in/ out of combat
+    public bool combatLocked = false;
 
     // Events
     public event EventHandler PlayerIsDead;
     public event EventHandler PlayerIsAlive;
     public event EventHandler<StateChangedEventArgs> StateChanged;
+
+    //Attacker List
+    [SerializeField]
+    private List<Actor> attackerList = new List<Actor>();
+    
 
     #region Properties
 
@@ -224,6 +231,7 @@ public class Actor : NetworkBehaviour
         }
         updateCast();
         updateCooldowns();
+        UpdateCombatState();
         //HandlleBuffs();
         if(isServer){
             handleCastQueue();
@@ -824,6 +832,19 @@ public class Actor : NetworkBehaviour
         //Debug.Log(actorName + " is starting eI for effect (" + _eInstruct.effect.effectName + ") From: " + (_caster != null ? _caster.actorName : "none"));
         //Debug.Log("recieveEffect " + _eInstruct.effect.effectName +"| caster:" + (_caster != null ? _caster.getActorName() : "_caster is null"));
         _eInstruct.startEffect(this, _relWP, _caster, _secondaryTarget);
+        if(_eInstruct.effect.isHostile){
+            if(_caster == null){
+                return;
+            }
+            if(!inCombat){
+                inCombat = true;
+                GameManager.instance.OnActorEnterCombat.Invoke(this);
+            }
+            if(attackerList.Contains(_caster) == false && _caster != this){
+                attackerList.Add(_caster);
+            }
+            
+        }
     }
 
     #region OldBuff
@@ -1083,6 +1104,7 @@ public class Actor : NetworkBehaviour
                 {
                     updateClassResourceAmount(index, 0);
                 }
+                
                 return true;
             }
             index++;
@@ -1220,7 +1242,7 @@ public class Actor : NetworkBehaviour
         // For ex. a Ability that reduces maxHealth or destroys mana
 
         //Debug.Log("damageValue: " + amount.ToString()+ " on " + actorName);
-        if (amount <= 0)
+        if (amount < 0)
         {
             Debug.Log("Amount was Neg calling to restoreValue instead");
             restoreValue(-1 * amount, valueType); //if negative call restore instead with amount's sign flipped
@@ -1230,21 +1252,21 @@ public class Actor : NetworkBehaviour
         {
             case 0:
                 health -= amount;
+                
                 if (fromActor != null)
                 {
+
                     if (fromActor.tag == "Player")
                     {
                         TRpcCreateDamageTextOffensive(fromActor.GetNetworkConnection(), amount);
                     }
+                    addDamamgeToMeter(fromActor, amount);
                 }
                 if (tag == "Player")
                 {
                     TRpcCreateDamageTextSelf(amount);
                 }
-                if (fromActor != null)
-                {
-                    addDamamgeToMeter(fromActor, amount);
-                }
+                
                 if (health < 0)
                 {
                     health = 0;
@@ -1267,7 +1289,7 @@ public class Actor : NetworkBehaviour
         //  Maybe in the future calcing healing may have diff formula to calcing damage taken
 
         //Debug.Log("restoreValue: " + amount.ToString()+ " on " + actorName);
-        if (amount <= 0)
+        if (amount < 0)
         {
             Debug.Log("Amount was Neg calling to damageValue instead");
             damageValue(-1 * amount, valueType); // if negative call damage instead with amount's sign flipped
@@ -1278,19 +1300,18 @@ public class Actor : NetworkBehaviour
                 health += amount;
                 if (fromActor != null)
                 {
+ 
                     if (fromActor.tag == "Player")
                     {
                         TRpcCreateDamageTextOffensive(fromActor.GetNetworkConnection(), amount);
                     }
+                    addDamamgeToMeter(fromActor, amount);
                 }
                 if (tag == "Player")
                 {
                     TRpcCreateDamageTextSelf(amount);
                 }
-                if (fromActor != null)
-                {
-                    addDamamgeToMeter(fromActor, amount);
-                }
+                
                 if (health > maxHealth)
                 {
                     health = maxHealth;
@@ -1307,6 +1328,7 @@ public class Actor : NetworkBehaviour
                 break;
         }
     }
+
     public Ability_V2 getQueuedAbility(){
         return queuedAbility;
     }
@@ -1408,7 +1430,48 @@ public class Actor : NetworkBehaviour
     }
    
     // Misc---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    
+    void UpdateCombatState(){
+        bool result = IsInCombat();
+        if(inCombat != result){
+            inCombat = result;
+            if(!inCombat){
+                GameManager.instance.OnActorLeaveCombat.Invoke(this);
+            }
+        }
+    }
+    void CleanUpAttackerList(){
+
+    }
+    bool IsInCombat(){
+        if(combatLocked){
+            return true;
+        }
+        if(attackerList.Count <= 0){
+            return false;
+        }
+        
+        int i = 0;
+        while(i< attackerList.Count){
+            if(attackerList[i] == null){
+            
+                attackerList.RemoveAt(i);
+            }
+            else{
+                if(attackerList[i].State != ActorState.Dead){
+                    return true;
+                }
+                i++;
+            }
+        }
+        
+        // foreach(Actor a in attackerList){
+        //     if(a.State != ActorState.Dead){
+        //         return true;
+        //     }
+        // }
+        return false;
+
+    }
     [TargetRpc]
     void TRpcCreateDamageTextSelf(int amount)
     {

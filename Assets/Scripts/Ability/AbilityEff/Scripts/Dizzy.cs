@@ -67,12 +67,9 @@ public class Dizzy : AbilityEff
     public override AbilityEff clone()
     {
         Dizzy temp_ref = ScriptableObject.CreateInstance(typeof (Dizzy)) as Dizzy;
-        temp_ref.effectName = effectName;
-        temp_ref.id = id;
-        temp_ref.power = power;
-        temp_ref.powerScale = powerScale;
+        copyBase(temp_ref);
         temp_ref.school = school;
-        temp_ref.targetIsSecondary = targetIsSecondary;
+
         temp_ref.indicatorPrefab = indicatorPrefab;
         return temp_ref;
     }
