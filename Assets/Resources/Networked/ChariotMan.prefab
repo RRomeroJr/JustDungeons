@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: -1578170218902741199}
   - component: {fileID: 3824381633918992328}
   - component: {fileID: -1627031475114962768}
+  - component: {fileID: 4519524986873919313}
   m_Layer: 7
   m_Name: ChariotMan
   m_TagString: Untagged
@@ -308,7 +309,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   animator: {fileID: 0}
-  actorState: 0
+  inCombat: 0
+  combatLocked: 0
+  attackerList: []
   combatClass: {fileID: 0}
   resourceTickTime: 0
   resourceTickMax: 1
@@ -342,7 +345,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  ArenaPrefab: {fileID: 923553888742198581, guid: 4b18cc200cf0e63439eda4668bf5cdda, type: 3}
+  ArenaPrefab: {fileID: -3948658354172309938, guid: 4b18cc200cf0e63439eda4668bf5cdda, type: 3}
 --- !u!95 &3824381633918992328
 Animator:
   serializedVersion: 4
@@ -382,3 +385,20 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   animator: {fileID: 0}
   controller: {fileID: 0}
+--- !u!114 &4519524986873919313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096029720338020577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 356518630208a174ea088ed7c447bec7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  navAgent: {fileID: 0}
+  hasPath: 0
+  isStopped: 0
+  pathSatus: 0
+  destination: {x: 0, y: 0, z: 0}
