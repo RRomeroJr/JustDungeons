@@ -35,6 +35,7 @@ public class Controller : NetworkBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        // agent.baseOffset = GetComponent<Renderer>().bounds.extents.y;
         actor = GetComponent<Actor>();
     }
     public virtual void Start(){
@@ -89,6 +90,9 @@ public class Controller : NetworkBehaviour
  
         }
         if(isServer){
+            // if(GetComponent<Renderer>().bounds.extents.y != agent.baseOffset){
+            //     agent.baseOffset = GetComponent<Renderer>().bounds.extents.y;
+            // }
             if(autoAttackRequest == true){
                     if(actor.checkOnCooldown(autoAttackClone) == false){
                         autoAttackRequest = false;
@@ -156,7 +160,7 @@ public class Controller : NetworkBehaviour
         */
         if(resolvingMoveTo){
             Debug.Log("already resolving moving finishing early");
-            agent.SetDestination(pos);
+            //agent.SetDestination(pos);
             yield return new WaitForSeconds(0.0f);
             
         }
@@ -168,20 +172,22 @@ public class Controller : NetworkBehaviour
             agent.stoppingDistance = 0;
             resolvingMoveTo = true;
             agent.isStopped = false;
+            while(agent.pathPending){
+      
+                yield return new WaitForSeconds(0.02f);
+            }
             
-            while(Mathf.Abs(Vector2.Distance(pos, gameObject.transform.position))
-                        > agent.stoppingDistance + 0.1f){
+            while(agent.hasPath){
                 
-                //Debug.Log("Pathing Spam");
                 yield return new WaitForSeconds(0.2f);
 
             }
             //Debug.Log("Move To Finshed. Distance: " + Vector2.Distance(pos, gameObject.transform.position).ToString() + "Stopping distance: " + agent.stoppingDistance );
-            resolvingMoveTo = false;
+            
             if(followTarget != null){
                 agent.stoppingDistance = getStoppingDistance(followTarget);
             }
-            
+            resolvingMoveTo = false;
         }
         
         
@@ -198,6 +204,7 @@ public class Controller : NetworkBehaviour
         agent.speed = moveSpeedHolder;
         
     }
+
     float getStoppingDistance(GameObject _target){
         float selfDiagonal;
         float tragetDiagonal;

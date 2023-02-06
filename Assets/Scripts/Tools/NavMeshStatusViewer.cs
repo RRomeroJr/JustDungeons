@@ -19,5 +19,26 @@ public class NavMeshStatusViewer: MonoBehaviour
         pathSatus = navAgent.pathStatus;
         destination = navAgent.destination;
 
+        // Color lineColor;
+        // if(hasPath){
+        //     if(isStopped){
+        //         lineColor = Color.red;
+        //     }
+        //     else{
+        //         lineColor = Color.white;
+        //     }
+        // }
+        // else{
+        //     if(isStopped){
+        //         lineColor = Color.blue;
+        //     }
+        //     else{
+        //         lineColor = Color.magenta;
+        //     }
+        // }
+        
+
+        // Debug.DrawLine(transform.position, destination, lineColor);
+
     }
 }

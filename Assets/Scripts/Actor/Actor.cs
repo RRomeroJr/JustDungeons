@@ -53,6 +53,7 @@ public class Actor : NetworkBehaviour
 
     // When readyToFire is true queuedAbility will fire
     private bool readyToFire = false; // Will True by CastBar for abilities w/ casts. Will only be true for a freme
+    [SerializeField]
     private bool isCasting = false; // Will be set False by CastBar
     public bool isChanneling = false;
     public float lastChannelTick = 0.0f;
@@ -84,6 +85,7 @@ public class Actor : NetworkBehaviour
     private int tauntImmune = 0;
 
     // Actor state
+    
     private ActorState state = ActorState.Free;
     private bool checkState = true;
     public bool inCombat = false; //  in/ out of combat
@@ -240,6 +242,11 @@ public class Actor : NetworkBehaviour
             }
             
             if(isChanneling){
+                if (queuedAbility.isChannel == false)
+                {
+                    //wtf how?
+                    Debug.Log(queuedAbility.getName() + "is queued and anout to be channeled BUT isn't a channel| _ability ");
+                }
                 checkChannel();
             }
         }
@@ -284,6 +291,11 @@ public class Actor : NetworkBehaviour
         if (State != ActorState.Free)
         {
             Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is {2}!", actorName, _ability, State);
+            return false;
+        }
+        if (isChanneling)
+        {
+            Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is CHANNELING and also somehow free to act!", actorName, _ability);
             return false;
         }
         if (CheckCooldownAndGCD(_ability))
@@ -412,7 +424,7 @@ public class Actor : NetworkBehaviour
         castAbility3(_ability, _target, _relWP, _relWP2);
         
     }
-    void queueAbility(Ability_V2 _ability, Actor _queuedTarget = null, NullibleVector3 _queuedRelWP = null, NullibleVector3 _queuedRelWP2 = null){
+   void queueAbility(Ability_V2 _ability, Actor _queuedTarget = null, NullibleVector3 _queuedRelWP = null, NullibleVector3 _queuedRelWP2 = null){
         //Preparing variables for a cast
         queuedAbility = _ability;
         queuedTarget = _queuedTarget;
@@ -614,13 +626,27 @@ public class Actor : NetworkBehaviour
         } 
     }
         
-    }
+   }
     
     public void startChannel(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null){
         // EI_Clones will be passed into an event that will allow them to be modified as need by other effects, stats, Buffs, etc.
+        if(_ability.isChannel == false)
+        {
+            //wtf how?
+            Debug.Log(_ability.getName() + "is not a channel BUT is being channeled");
+        }
         
         queueAbility(_ability, _target, _relWP, _relWP2);
-        isChanneling = true;
+        if (queuedAbility.isChannel == false)
+        {
+            //wtf how?
+            isChanneling = true;
+        }
+        else
+        {
+            isChanneling = true;
+        }
+        
         lastChannelTick = 0.0f;
         ReadyToFire = false;
         castTime = _ability.channelDuration;
@@ -628,35 +654,44 @@ public class Actor : NetworkBehaviour
         if(onAbilityCastHooks != null){
             onAbilityCastHooks.Invoke(_ability.id);
         }
+        if (queuedAbility.isChannel == false)
+        {
+            //wtf how?
+            Debug.Log(queuedAbility.getName() + "is queued and anout to be channeled BUT isn't a channel| _ability " +_ability.getName());
+        }
         fireChannel(queuedAbility, queuedTarget, queuedRelWP, queuedRelWP2);
         
     }
     //2nd part
     public void checkChannel(){
-        if(!IsCasting){
+
+        if (!IsCasting)
+        {
             isChanneling = false;
             resetClientCastVars();
         }
-        else{
-            
-
-
+        else
+        {
 
             //check for middle hits
-            if(queuedAbility.channelDuration / (queuedAbility.numberOfTicks - 1) <= lastChannelTick){
-                
+            if (castTime <= 0.0f)
+            {
+
                 fireChannel(queuedAbility, queuedTarget, queuedRelWP, queuedRelWP2);
                 lastChannelTick = 0.0f;
-            }
-            //check for final hit
-            else if(castTime <= 0.0f){
-                
-                fireChannel(queuedAbility, queuedTarget, queuedRelWP, queuedRelWP2);
-                lastChannelTick = 0.0f;
+                isChanneling = false;
                 resetClientCastVars();
             }
+
+            //check for final hit
+            else if (queuedAbility.channelDuration / (queuedAbility.numberOfTicks - 1) <= lastChannelTick)
+            {
+
+                fireChannel(queuedAbility, queuedTarget, queuedRelWP, queuedRelWP2);
+                lastChannelTick = 0.0f;
+            }
         }
-        
+
     }
     [Server]
     public void fireChannel(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null){

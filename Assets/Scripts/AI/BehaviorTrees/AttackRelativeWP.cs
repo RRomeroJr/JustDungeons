@@ -30,6 +30,7 @@ public class AttackRelativeWP : ActionNode
 
     protected override State OnUpdate()
     {   
+        
         if(!castStarted){
             
             if(ability.getCastTime() > 0.0){
@@ -76,10 +77,10 @@ public class AttackRelativeWP : ActionNode
         }
         else{
             
-            if(context.agent.isStopped){
-               // Debug.Log("AttkRelWP: agent isStopped to false");
-                context.agent.isStopped = false;
-            }
+            // if(context.agent.isStopped){
+            //    // Debug.Log("AttkRelWP: agent isStopped to false");
+            //     context.agent.isStopped = false;
+            // }
                 //Debug.Log("Attck: isStopped " + context.agent.isStopped.ToString());
                 return State.Success;
         }

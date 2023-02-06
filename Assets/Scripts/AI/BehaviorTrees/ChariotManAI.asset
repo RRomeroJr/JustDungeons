@@ -15,7 +15,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 19e8d9388284bdb4ab1561cd1f97c930
-  position: {x: 1255.247, y: 1399.9999}
+  position: {x: 1005, y: 1505}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -46,7 +46,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: ce028a922dcd3d44da899064b0462007
-  position: {x: -571, y: 1388}
+  position: {x: -572.3225, y: 1508.3477}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -69,7 +69,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 962724c9aa0d9504195e08fae9814fd9
-  position: {x: 1963.0845, y: 1263.1322}
+  position: {x: 1518.8816, y: 1357}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -121,7 +121,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: c38cc7285ca523544984f165988e54af
-  position: {x: -299, y: 1523}
+  position: {x: -300.32254, y: 1643.3474}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -152,7 +152,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 8ddc61135713bfe41b29d512ada8813e
-  position: {x: -2672, y: 1281}
+  position: {x: -1633, y: 1599}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -186,6 +186,29 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   setTrue: 1
+--- !u!114 &-6786141316849278013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
+  m_Name: Wait
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 18267a076c3bf354a8e9151523886e50
+  position: {x: 181.1825, y: 1080.4825}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  duration: 0.35
 --- !u!114 &-6669552134501593094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,7 +224,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: b3b1deb5b4cf2a547acf7c12d1cb6dc1
-  position: {x: 1963, y: 1523}
+  position: {x: 1518.8816, y: 1617}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -211,7 +234,7 @@ MonoBehaviour:
   ability: {fileID: 11400000, guid: ce29efd1e55ac0145a644a65b06b22f2, type: 2}
   relativePoint: {x: 6.5, y: 0}
   relativePoint2: {x: 6.5, y: 1}
-  relativeTo: 0
+  relativeTo: 1
   castStarted: 0
   castFinished: 0
   randomRange: 0
@@ -232,7 +255,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 03707e42c83d4734b8db2788299ebf94
-  position: {x: 1927.998, y: 1388}
+  position: {x: 1483.8815, y: 1482}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -334,7 +357,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 3e0f2c4f22602454fbd101a785193068
-  position: {x: -1611, y: 1449}
+  position: {x: -665, y: 1755}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -365,7 +388,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 1b514848aac91444eb1e5869c0e4603b
-  position: {x: 2170, y: 1523}
+  position: {x: 1725.8812, y: 1617}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -375,7 +398,7 @@ MonoBehaviour:
   ability: {fileID: 11400000, guid: ce29efd1e55ac0145a644a65b06b22f2, type: 2}
   relativePoint: {x: -6.5, y: 0}
   relativePoint2: {x: -6.5, y: 1}
-  relativeTo: 0
+  relativeTo: 1
   castStarted: 0
   castFinished: 0
   randomRange: 0
@@ -442,7 +465,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 64b53ec7613f6bd41a2d753691aac1ac
-  position: {x: 23, y: 1376}
+  position: {x: -48, y: 1496}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -473,7 +496,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: c3299f6581bd2fe4caefd46faeae27fd
-  position: {x: -2491, y: 1285}
+  position: {x: -1452, y: 1603}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -496,7 +519,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: f8a32d5da49e29c4b8ab065c8565b92f
-  position: {x: -141, y: 1375}
+  position: {x: -212, y: 1495}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -527,7 +550,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 400ef50c586191b4db811b23c4c4deb8
-  position: {x: -61.740242, y: 562}
+  position: {x: -74.99991, y: 562}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -550,7 +573,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 77752e206d2ad8344b49872bcfaa82ba
-  position: {x: 709, y: 1388}
+  position: {x: 504, y: 1496}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -573,7 +596,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 07cde70c70dfd2249910af95c1053bab
-  position: {x: 979, y: 1555}
+  position: {x: 729, y: 1660}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -604,7 +627,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 61682ab360298534dae88be754f52188
-  position: {x: 979.00006, y: 1208.2588}
+  position: {x: 729, y: 1313}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -656,7 +679,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 8e4fcb8655c4e144b98dfce916376550
-  position: {x: -2004, y: 1373}
+  position: {x: -965, y: 1691}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -703,7 +726,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 83cecb1f09b75464796ff3e55ed02c3d
-  position: {x: 2245.0398, y: 1396}
+  position: {x: 1800.8813, y: 1490}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -790,6 +813,8 @@ MonoBehaviour:
   - {fileID: -234095500234933970}
   - {fileID: 1134781508694993298}
   - {fileID: 7907257748347797807}
+  - {fileID: 3090424747989605102}
+  - {fileID: -6786141316849278013}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -809,7 +834,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 5cf6ae71aad71ca46b5b66e0761e5a59
-  position: {x: 248, y: 1375}
+  position: {x: 114, y: 1496}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -835,7 +860,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 08a670ee4cf32d3449209759b7c551b7
-  position: {x: -1369, y: 1417}
+  position: {x: -515, y: 1755}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -861,7 +886,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: bf4945ecdc504fb43b2ab8be3d50ed1b
-  position: {x: -2154, y: 1165}
+  position: {x: -1115, y: 1483}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -891,7 +916,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 5688fdd9c09395a4690b67254ead854a
-  position: {x: 2395, y: 1396}
+  position: {x: 1950.8816, y: 1490}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -922,7 +947,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 24536591ece37934da5253b48818f819
-  position: {x: 903.8092, y: 1394.9999}
+  position: {x: 654, y: 1500}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -947,7 +972,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: aa6c76ef9df91d04aa06eef2b276262b
-  position: {x: -2177, y: 1437}
+  position: {x: -1138, y: 1755}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -978,7 +1003,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: abc6df3ec5d977e4c9aa88957c6ec495
-  position: {x: -374, y: 1376}
+  position: {x: -375.3225, y: 1496.3477}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -988,6 +1013,31 @@ MonoBehaviour:
   children:
   - {fileID: 4027923596261823737}
   - {fileID: -8144144208429961369}
+--- !u!114 &3090424747989605102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 0743e9c2a11385047bd81213ac13bf49
+  position: {x: 0.0000021457672, y: 991.875}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: 6534267844786517173}
+  - {fileID: -6786141316849278013}
 --- !u!114 &4027923596261823737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1003,7 +1053,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: cddab343a7fa8574f82f95e9c467c401
-  position: {x: -539, y: 1523}
+  position: {x: -540.3225, y: 1643.3474}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -1041,9 +1091,9 @@ MonoBehaviour:
     targetPrev: {fileID: 0}
   description: 
   drawGizmos: 0
-  child: {fileID: 6534267844786517173}
+  child: {fileID: 3090424747989605102}
   restartOnSuccess: 1
-  restartOnFailure: 0
+  restartOnFailure: 1
   count: 2
 --- !u!114 &4213040291966828565
 MonoBehaviour:
@@ -1060,7 +1110,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: b3829600356e5f849a6108ae707909bf
-  position: {x: 525.08344, y: 1388}
+  position: {x: 354, y: 1496}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -1086,7 +1136,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 71d89885fc690e8458b97b85865eca5c
-  position: {x: -721, y: 1388}
+  position: {x: -779.5426, y: 1508}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -1112,7 +1162,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 710249c06460c304980d9c3218bb4e76
-  position: {x: 2078, y: 1388}
+  position: {x: 1633.8813, y: 1482}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -1137,7 +1187,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: be97d90af986a3946b6df1c4e3692ea9
-  position: {x: 735.9802, y: 1554.9999}
+  position: {x: 486, y: 1660}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -1168,7 +1218,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 1fa1a9a32795b2840b0406b6522c3375
-  position: {x: 1076.139, y: 1407}
+  position: {x: 826, y: 1512}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -1251,7 +1301,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 845afffbc82bea144a36bc7050c24915
-  position: {x: -279.28882, y: 941.7386}
+  position: {x: -280.32254, y: 1062.3475}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -1324,7 +1374,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: e876e2c5830be9e4788a6a3eccdb33ca
-  position: {x: -374, y: 1193}
+  position: {x: -375.3225, y: 1313.3474}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -1404,7 +1454,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 110e4e0edf07ae14e9bd0d6d10e0b39c
-  position: {x: 1469.0078, y: 1407}
+  position: {x: 1155, y: 1505}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -1430,7 +1480,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: e218089878cfc25489e74c5cd35b9cfa
-  position: {x: 2545, y: 1396}
+  position: {x: 2100.8813, y: 1490}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -1456,7 +1506,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 148018f8bc84d774e889ce9909a9a400
-  position: {x: -1854, y: 1449}
+  position: {x: -815, y: 1767}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -1487,7 +1537,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: eafb124b38360c54eacc6f24cb2a298c
-  position: {x: -2385, y: 1441}
+  position: {x: -1346, y: 1759}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -1518,7 +1568,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 99d09f0e5fce68c448a9b53722cc573c
-  position: {x: -2285, y: 1285}
+  position: {x: -1246, y: 1603}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -1566,7 +1616,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 462be24adb6bcec44b6a4ce14cb8966c
-  position: {x: 1778, y: 1388}
+  position: {x: 1332.8815, y: 1482}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
