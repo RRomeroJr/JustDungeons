@@ -10,6 +10,7 @@ public class NavMeshStatusViewer: MonoBehaviour
     public bool isStopped;
     public UnityEngine.AI.NavMeshPathStatus pathSatus;
     public Vector3 destination;
+    
     void Awake(){
         navAgent = GetComponent<NavMeshAgent>();
     }
@@ -36,8 +37,29 @@ public class NavMeshStatusViewer: MonoBehaviour
         //         lineColor = Color.magenta;
         //     }
         // }
+        Color lineColor;
         
-
+        if(navAgent.pathPending){
+            lineColor = Color.cyan;
+        }
+        else if(navAgent.hasPath){
+            if(navAgent.isStopped){
+                lineColor = Color.red;
+            }
+            else{
+                lineColor = Color.white;
+            }
+        }
+        else{
+            if(navAgent.isStopped){
+                lineColor = Color.blue;
+            }
+            else{
+                lineColor = Color.magenta;
+            }
+        }
+        
+        Debug.DrawLine(transform.position, navAgent.destination, lineColor);
         // Debug.DrawLine(transform.position, destination, lineColor);
 
     }
