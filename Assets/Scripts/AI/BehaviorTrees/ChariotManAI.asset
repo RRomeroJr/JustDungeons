@@ -163,6 +163,10 @@ MonoBehaviour:
   relativePos: {x: -10, y: 0}
   useMoveSpeed: 1
   moveSpeed: 15
+  moveToStarted: 0
+  stopRange: 1
+  debugDist: 0
+  debugHasPath: 0
 --- !u!114 &-7361009904457071834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,7 +318,6 @@ MonoBehaviour:
   children:
   - {fileID: 6721198417537804147}
   - {fileID: -7361009904457071834}
-  - {fileID: -1789634731239647304}
   - {fileID: 5743173969239635525}
 --- !u!114 &-5391588442248254115
 MonoBehaviour:
@@ -845,6 +848,10 @@ MonoBehaviour:
   relativePos: {x: -10, y: 0}
   useMoveSpeed: 1
   moveSpeed: 15.4
+  moveToStarted: 0
+  stopRange: 1
+  debugDist: 0
+  debugHasPath: 0
 --- !u!114 &439676619149198032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -871,6 +878,10 @@ MonoBehaviour:
   relativePos: {x: 10, y: 0}
   useMoveSpeed: 1
   moveSpeed: 15.4
+  moveToStarted: 0
+  stopRange: 1
+  debugDist: 0
+  debugHasPath: 0
 --- !u!114 &714278096386032337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1121,6 +1132,10 @@ MonoBehaviour:
   relativePos: {x: 0, y: 10}
   useMoveSpeed: 1
   moveSpeed: 15
+  moveToStarted: 0
+  stopRange: 1
+  debugDist: 0
+  debugHasPath: 0
 --- !u!114 &4360922043719662790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1147,6 +1162,10 @@ MonoBehaviour:
   relativePos: {x: 10, y: 0}
   useMoveSpeed: 1
   moveSpeed: 15
+  moveToStarted: 0
+  stopRange: 1
+  debugDist: 0
+  debugHasPath: 0
 --- !u!114 &4381941646808759098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1309,10 +1328,7 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   children:
-  - {fileID: 714278096386032337}
-  - {fileID: 6811741459455149198}
   - {fileID: -1067376825501500665}
-  - {fileID: -8470017940260031102}
 --- !u!114 &6627998515347837635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1335,7 +1351,7 @@ MonoBehaviour:
     targetPrev: {fileID: 0}
   description: 
   drawGizmos: 0
-  duration: 10
+  duration: 1
 --- !u!114 &6721198417537804147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1414,6 +1430,10 @@ MonoBehaviour:
   relativePos: {x: -10, y: 0}
   useMoveSpeed: 0
   moveSpeed: 0
+  moveToStarted: 0
+  stopRange: 1
+  debugDist: 0
+  debugHasPath: 0
 --- !u!114 &7221063678469256655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1465,6 +1485,10 @@ MonoBehaviour:
   relativePos: {x: 0, y: -10}
   useMoveSpeed: 1
   moveSpeed: 15.4
+  moveToStarted: 0
+  stopRange: 1
+  debugDist: 0
+  debugHasPath: 0
 --- !u!114 &7907257748347797807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1491,6 +1515,10 @@ MonoBehaviour:
   relativePos: {x: 0, y: 10}
   useMoveSpeed: 1
   moveSpeed: 15.4
+  moveToStarted: 0
+  stopRange: 1
+  debugDist: 0
+  debugHasPath: 0
 --- !u!114 &8135189457351401730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1627,3 +1655,7 @@ MonoBehaviour:
   relativePos: {x: 0, y: -10}
   useMoveSpeed: 1
   moveSpeed: 15
+  moveToStarted: 0
+  stopRange: 1
+  debugDist: 0
+  debugHasPath: 0
