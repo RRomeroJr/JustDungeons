@@ -1000,6 +1000,7 @@ public class Actor : NetworkBehaviour
                 else{
                     abilityCooldowns.RemoveAt(i);
                     UIManager.removeCooldownEvent.Invoke(i);
+                    i--;
                 }
 
             }
@@ -1019,6 +1020,44 @@ public class Actor : NetworkBehaviour
         //Debug.Log("Host: Updating client cooldowns. Length of list: " + abilityCooldowns.Count);
         if(tag == "Player" && !isServer){
             TRpcUpdateCooldown(acRef);
+        }
+        
+    }
+    [TargetRpc]
+    public void TRpcRefundCooldown(Ability_V2 _hostAbility, float _hostflatAmt){
+        RefundCooldown(_hostAbility, _hostflatAmt);
+        
+        // for(int i = 0; i < abilityCooldowns.Count; i++){
+        //     if(abilityCooldowns[i].abilityName == _hostToRefund.getName()){
+
+        //         abilityCooldowns[i].remainingTime -= _hostflatAmt;
+        //         if(abilityCooldowns[i].remainingTime <=0){
+        //             abilityCooldowns.RemoveAt(i);
+        //             UIManager.removeCooldownEvent.Invoke(i);
+        //             return;
+        //         }
+        //     }
+        // }
+        
+    }
+    public void RefundCooldown(Ability_V2 _toRefund, float flatAmt){
+        
+        for(int i = 0; i < abilityCooldowns.Count; i++){
+            if(abilityCooldowns[i].abilityName == _toRefund.getName()){
+
+                abilityCooldowns[i].remainingTime -= flatAmt;
+                if(abilityCooldowns[i].remainingTime <=0){
+                    abilityCooldowns.RemoveAt(i);
+                    UIManager.removeCooldownEvent.Invoke(i);
+                    
+                }
+                if(isServer && !isLocalPlayer && tag == "Player"){
+                    //Debug.Log("Server: Telling client to refund cooldown");
+                    TRpcRefundCooldown(_toRefund, flatAmt);
+                }
+                
+                return;
+            }
         }
         
     }
@@ -1438,7 +1477,9 @@ public class Actor : NetworkBehaviour
                 GameManager.instance.OnActorLeaveCombat.Invoke(this);
             }
         }
+    
     }
+    
     void CleanUpAttackerList(){
 
     }
