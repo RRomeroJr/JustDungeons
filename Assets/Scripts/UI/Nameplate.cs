@@ -17,6 +17,7 @@ public class Nameplate : MonoBehaviour
     public Slider healthBar;
     public Slider resourceBar;
     public Slider castBar;
+    public Text castName;
     public Actor actor;
     public Vector2 offset;
     public Canvas canvas;
@@ -29,6 +30,7 @@ public class Nameplate : MonoBehaviour
        healthBar =  transform.GetChild(1).GetComponent<Slider>();
        resourceBar =  transform.GetChild(2).GetComponent<Slider>();
        castBar =  transform.GetChild(3).GetComponent<Slider>();
+       castName =  transform.GetChild(3).GetComponentInChildren<Text>();
        unitName.text = actor.getActorName();
        canvas = GetComponentInParent<Canvas>();
        actorRenderer = actor.GetComponent<Renderer>();
@@ -78,6 +80,7 @@ public class Nameplate : MonoBehaviour
     void updateSliderCastBar(){
         if(actor.getQueuedAbility() == null){
             castBar.value = 0.0f;
+            castName.text = "";
             return;
         }
         
@@ -85,5 +88,6 @@ public class Nameplate : MonoBehaviour
         
         castBar.maxValue = actor.getQueuedAbility().getCastTime();
         castBar.value = actor.castTime;
+        castName.text =actor.getQueuedAbility().getName();
     }
 }
