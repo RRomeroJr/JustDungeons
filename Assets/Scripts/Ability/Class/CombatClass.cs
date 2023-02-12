@@ -12,6 +12,7 @@ public class CombatClass : ScriptableObject{
     public List<Ability_V2> abilityList;
     public List<ClassResource> classResources;
     public RuntimeAnimatorController rac;
+    public List<GlowCheck> classGlowChecks;
     public List<Ability_V2> GetClassAbilities(){
         List<Ability_V2> toReturn = new List<Ability_V2>(abilityList);
         return toReturn;

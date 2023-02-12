@@ -22,6 +22,11 @@ public class UIManager : MonoBehaviour
     public static GameObject damageTextPrefab;
     public Color defaultColor;
     public static UnityEvent<int> removeCooldownEvent = new UnityEvent<int>();
+    public List<Ability_V2> glowList = new List<Ability_V2>();
+    public UnityEvent<Ability_V2> StartAbiltyGlow = new UnityEvent<Ability_V2>();
+    public UnityEvent<Ability_V2> EndAbilityGlow = new UnityEvent<Ability_V2>();
+    public UnityEvent glowChecks;
+   
     public static UIManager Instance{ get; private set;}
     void Awake(){
         if (Instance != null && Instance != this) 
@@ -143,8 +148,30 @@ public class UIManager : MonoBehaviour
     void Update(){
         UpdateAllyFrames();
         UpdateTargetFrame();
+        CheckClassGlows();
         
     }
+    void UpdateGlows(){
+        int current = 0;
+        foreach(Ability_V2 _a in glowList){
+            bool alreadyChecked = glowList.IndexOf(_a) != current;
+            if(!alreadyChecked){
+
+            }
+        }
+    }
+    void CheckClassGlows(){
+        if(playerActor.combatClass == null){
+            return;
+        }
+        int current = 0;
+        foreach(GlowCheck _gc in playerActor.combatClass.classGlowChecks)
+        {
+            Debug.Log("invoking class GlowCheck");
+            _gc.glowChecks.Invoke();
+        }
+    }
+    
     public void setTarget(){
         Debug.Log("Test");
     }
@@ -169,5 +196,13 @@ public class UIManager : MonoBehaviour
             hotbuttonInst.SetUp();
         }
     }
+    public void MakeGlow(Ability_V2 _ability){
+        if(glowList.Contains(_ability) == false){
+            glowList.Add(_ability);
+            Debug.Log("UIManager: Making "+ _ability.name + " glow");
+        }
+    }
+    
+
 
 }

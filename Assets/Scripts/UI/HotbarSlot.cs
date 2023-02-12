@@ -8,6 +8,7 @@ public class HotbarSlot: MonoBehaviour, IDropHandler
     public KeyCode key;
     public Hotbutton hotButton;
     public GameObject KeyPressedObj;
+    public GameObject GlowObj;
     public void OnDrop(PointerEventData eventData){
         GameObject dropped = eventData.pointerDrag;
         hotButton = dropped.GetComponent<Hotbutton>();
@@ -21,7 +22,7 @@ public class HotbarSlot: MonoBehaviour, IDropHandler
     }
     public void ActivateSlot(){
         KeyPressedObj.SetActive(true);
-        if(transform.childCount > 1){
+        if(transform.childCount > 2){
             
             try{
                UIManager.playerActor.castAbility3(transform.GetChild(0).GetComponent<Hotbutton>().ability);
@@ -37,5 +38,11 @@ public class HotbarSlot: MonoBehaviour, IDropHandler
     }
     public void DeactivateSlot(){
         KeyPressedObj.SetActive(false);
+    }
+    public void ActivateGlow(){
+        GlowObj.SetActive(true);
+    }
+    public void DeactivateGlow(){
+        GlowObj.SetActive(false);
     }
 }

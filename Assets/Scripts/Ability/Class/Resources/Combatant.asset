@@ -30,3 +30,5 @@ MonoBehaviour:
     tickTime: 0
     tickMax: 0
   rac: {fileID: 0}
+  classGlowChecks:
+  - {fileID: 11400000, guid: ea43f47e36f6e1f4da96dabe5c6157f7, type: 2}

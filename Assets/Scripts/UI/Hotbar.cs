@@ -7,8 +7,12 @@ public class Hotbar: MonoBehaviour
 {
     public List<HotbarSlot> slots = new List<HotbarSlot>();
      
-
+    void Start(){
+      UIManager.Instance.StartAbiltyGlow.AddListener(StartAbiltyGlow);
+      UIManager.Instance.EndAbilityGlow.AddListener(EndAbilityGlow);
+    }
     void Update(){
+      UpdateGlows();
       if(Input.GetButtonDown("Hotbar1_1")){
         if(slots[0] == null){
             Debug.Log(name +  " slot " + 1 + " is empty!");
@@ -136,6 +140,57 @@ public class Hotbar: MonoBehaviour
         }
         // Debug.Log(name +  " deactivating button " + 8);
         slots[7].DeactivateSlot();
+      }
+    }
+    void UpdateGlows()
+    {
+      
+      foreach(HotbarSlot _hs in slots){
+        try{
+          if(UIManager.Instance.glowList.Contains(_hs.hotButton.ability) && !_hs.GlowObj.activeInHierarchy){
+            Debug.Log("slot found");
+            _hs.ActivateGlow();
+          }
+          else if(!UIManager.Instance.glowList.Contains(_hs.hotButton.ability) && _hs.GlowObj.activeInHierarchy){
+            Debug.Log("slot found");
+            _hs.DeactivateGlow();
+          }
+        }
+        catch{
+
+        }
+      }
+    }
+    void StartAbiltyGlow(Ability_V2 _ability)
+    {
+      Debug.Log("Searching slots to make glow: " + _ability.name);
+      foreach(HotbarSlot _hs in slots){
+        try{
+          if(_hs.hotButton.ability == _ability){
+            Debug.Log("slot found");
+            _hs.ActivateGlow();
+          }
+        }
+        catch{
+
+        }
+        
+      }
+    }
+    void EndAbilityGlow(Ability_V2 _ability)
+    {
+      Debug.Log("Searching slots to END glow: " + _ability.name);
+      foreach(HotbarSlot _hs in slots){
+        try{
+          if(_hs.hotButton.ability == _ability){
+            Debug.Log("slot found");
+            _hs.DeactivateGlow();
+          }
+        }
+        catch{
+
+        }
+        
       }
     }
 }
