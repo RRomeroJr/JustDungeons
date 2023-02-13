@@ -167,7 +167,7 @@ public class UIManager : MonoBehaviour
         int current = 0;
         foreach(GlowCheck _gc in playerActor.combatClass.classGlowChecks)
         {
-            Debug.Log("invoking class GlowCheck");
+            // Debug.Log("invoking class GlowCheck");
             _gc.glowChecks.Invoke();
         }
     }

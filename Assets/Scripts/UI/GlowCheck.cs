@@ -61,7 +61,7 @@ public class GlowCheck: ScriptableObject
        
     }
     public void FillerGlowCheck(){
-        Debug.Log("FillerGlowCheck.." + name);
+        //Debug.Log("FillerGlowCheck.." + name);
         if(ability == null){
             return;
         }
