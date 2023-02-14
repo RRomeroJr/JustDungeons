@@ -618,7 +618,14 @@ public class Actor : NetworkBehaviour
                 //When the game is running a window seems to break if an instant ability (Like autoattack)
                 //goes off closely before a casted ability. So this check was implemented to fix it
 
-                resetClientCastVars();
+                if(tag == "Player")
+                {
+                    resetClientCastVars();
+                }   
+                else
+                {
+                    resetCastVars();
+                }
             }
             if(HBCTools.areHostle(this, _target)){
                 GetComponent<Controller>().autoAttacking = true;
@@ -668,7 +675,15 @@ public class Actor : NetworkBehaviour
         if (!IsCasting)
         {
             isChanneling = false;
-            resetClientCastVars();
+            if(tag == "Player")
+            {
+                resetClientCastVars();
+            }
+            else
+            {
+                resetCastVars();
+            }
+        
         }
         else
         {
@@ -680,7 +695,14 @@ public class Actor : NetworkBehaviour
                 fireChannel(queuedAbility, queuedTarget, queuedRelWP, queuedRelWP2);
                 lastChannelTick = 0.0f;
                 isChanneling = false;
-                resetClientCastVars();
+                if(tag == "Player")
+                {
+                    resetClientCastVars();
+                }
+                else
+                {
+                    resetCastVars();
+                }
             }
 
             //check for final hit
@@ -823,11 +845,19 @@ public class Actor : NetworkBehaviour
         IsCasting = false;
         resetCastTime();
     }
+    public void resetCastVars(){
+        resetQueue();
+        ReadyToFire = false;
+        IsCasting = false;
+        resetCastTime();
+    }
 
     void resetQueue(){
         queuedTarget = null;
         queuedRelWP = null;
         queuedRelWP2 = null;
+        queuedAbility = null;
+        
     }
     void resetCastTime(){
         IsCasting = false;
