@@ -857,7 +857,7 @@ public class Actor : NetworkBehaviour
         queuedRelWP = null;
         queuedRelWP2 = null;
         queuedAbility = null;
-        
+
     }
     void resetCastTime(){
         IsCasting = false;
@@ -1507,6 +1507,23 @@ public class Actor : NetworkBehaviour
     [ClientRpc]
     public void RpcSetTarget(Actor _OwnerTarget){
         target = _OwnerTarget;
+    }
+    public Actor getQueuedTarget(){
+        return queuedTarget;
+    }
+    
+    public Vector2 getCastingWPToFace(){
+    
+        if(queuedRelWP2 != null)
+        {
+            return queuedRelWP2.Value + transform.position;
+        }
+        else if(queuedRelWP != null)
+        {
+            return queuedRelWP.Value + transform.position;
+        }
+       
+        return Vector2.zero;
     }
     public void SetTarget(Actor _target){
         if(!isLocalPlayer && !isServer){

@@ -29,6 +29,9 @@ public class Controller : NetworkBehaviour
     public bool tryingToMove = false;
     public Vector2? moveDirection;
     public UnityEvent<bool> moveToEvent = new UnityEvent<bool>(); 
+
+    protected Rigidbody2D rb2d;
+    public bool holdDirection = false;
     
     public virtual void Awake(){
         
@@ -36,6 +39,7 @@ public class Controller : NetworkBehaviour
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         actor = GetComponent<Actor>();
+        rb2d = GetComponent<Rigidbody2D>();
     }
     public virtual void Start(){
         //autoAttackClone = AbilityData.instance.AutoAttack.clone();
@@ -96,15 +100,24 @@ public class Controller : NetworkBehaviour
                     }
           
             }
+            if(!resolvingMoveTo && !holdDirection){
+                if(followTarget != null){
+                    // if(!HBCTools.checkFacing(actor, followTarget)){
+                    //     facingDirection = HBCTools.ToNearest45(followTarget.transform.position - transform.position);
+                    // }
+                    GetComponent<NavMeshAgent>().SetDestination(followTarget.transform.position);
+                }
+            }
         }
         
-        if(!resolvingMoveTo){
-            if(followTarget != null){
-                // if(!HBCTools.checkFacing(actor, followTarget)){
-                //     facingDirection = HBCTools.ToNearest45(followTarget.transform.position - transform.position);
-                // }
-                GetComponent<NavMeshAgent>().SetDestination(followTarget.transform.position);
+        
+        else
+        {
+            if(rb2d.velocity.magnitude > 0.0f);
+            {
+                facingDirection = HBCTools.ToNearest45(rb2d.velocity);
             }
+            
         }
         
     }
