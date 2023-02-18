@@ -100,6 +100,29 @@ public class Actor : NetworkBehaviour
 
     #region Properties
 
+    public int Health
+    {
+        get => health;
+        set
+        {
+            if (state == ActorState.Dead)
+            {
+                return;
+            }
+            health = value;
+            if (health <= 0)
+            {
+                health = 0;
+                PlayerDead();
+                return;
+            }
+            if (health > maxHealth)
+            {
+                health = maxHealth;
+            }
+        }
+    }
+
     public int Feared
     {
         get => feared;
