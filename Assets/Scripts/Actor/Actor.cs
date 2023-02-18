@@ -53,7 +53,6 @@ public class Actor : NetworkBehaviour
     [Header("Automatic")]
     public Actor target;
     public BuffHandler buffHandler = null;
-    public bool canMove = true;
     [SerializeField] protected List<OldBuff.Buff> buffs;
 
     // When readyToFire is true queuedAbility will fire
@@ -86,11 +85,13 @@ public class Actor : NetworkBehaviour
     private int silenced = 0;
     [SyncVar]
     private int feared = 0;
-    private int tauntImmune = 0;
 
     // Actor state
-    private ActorState state = ActorState.Free;
-    private bool checkState = true;
+    private ActorState state = ActorState.Alive;
+    private StatusEffectState effectState = StatusEffectState.None;
+    public bool canMove = true;
+    public bool canAttack = true;
+    public bool canCast = true;
 
     // Events
     public event EventHandler PlayerIsDead;
@@ -105,7 +106,6 @@ public class Actor : NetworkBehaviour
         set
         {
             feared = value;
-            checkState = true;
         }
     }
     public int Silenced
@@ -114,7 +114,6 @@ public class Actor : NetworkBehaviour
         set
         {
             silenced = value;
-            checkState = true;
         }
     }
     public bool IsCasting
@@ -123,7 +122,6 @@ public class Actor : NetworkBehaviour
         set
         {
             isCasting = value;
-            checkState = true;
         }
     }
     public bool ReadyToFire
@@ -132,23 +130,8 @@ public class Actor : NetworkBehaviour
         set
         {
             readyToFire = value;
-            checkState = true;
         }
     }
-
-    public ActorState State
-    {
-        get => state;
-        set
-        {
-            if (state != value)
-            {
-                state = value;
-                OnStateChanged(new StateChangedEventArgs { ActorState = value });
-            }
-        }
-    }
-
 
     #endregion
     public CombatClass combatClass;
