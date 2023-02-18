@@ -156,6 +156,7 @@ public class Actor : NetworkBehaviour
     }
 
     #endregion
+
     public CombatClass combatClass;
     public float resourceTickTime = 0.0f;
     public float resourceTickMax = 1.0f;
@@ -1407,6 +1408,26 @@ public class Actor : NetworkBehaviour
     [ClientRpc]
     public void Knockback(Vector2 _hostVect){
         GetComponent<Rigidbody2D>().AddForce(_hostVect);
+    }
+
+    private void PlayerDead()
+    {
+        interruptCast();
+        state = ActorState.Dead;
+        effectState = StatusEffectState.None;
+        canAttack = false;
+        canMove = false;
+        canCast = false;
+        OnPlayerIsDead();
+    }
+
+    private void PlayerAlive()
+    {
+        state = ActorState.Alive;
+        canAttack = true;
+        canMove = true;
+        canCast = true;
+        OnPlayerIsAlive();
     }
 
     #region CalculateState
