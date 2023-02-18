@@ -213,26 +213,34 @@ public class Actor : NetworkBehaviour
         }
     void Update()
         {
-            OnPlayerIsAlive();
-        }
         updateCast();
         updateCooldowns();
-        //HandlleBuffs();
-        if(isServer){
+
+        if (!isServer)
+        {
+            return;
+        }
+        // Server only logic below this point
+
             handleCastQueue();
-            if(classResources.Count > 0){
+        if (classResources.Count > 0)
+        {
                 ClassResourceCheckRegen();
             }
             
-            if(isChanneling){
+        if (isChanneling)
+        {
                 checkChannel();
             }
         }
-    }
-    void FixedUpdate(){
+
+    void FixedUpdate()
+    {
         HandlleBuffs();
     }
     
+    #endregion
+
     // Casting: Starting a Cast---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     public bool castAbility3(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null)
     {
