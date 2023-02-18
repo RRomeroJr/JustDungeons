@@ -16,14 +16,19 @@ public enum Role
     Ranged
 }
 
-public enum ActorState
+public enum StatusEffectState
 {
-    Free,
+    None = 0,
     Casting,
     Stunned,
     Silenced,
     Dizzy,
     Feared,
+}
+
+public enum ActorState
+{
+    Alive,
     Dead
 }
 
