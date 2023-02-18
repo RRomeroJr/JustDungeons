@@ -1218,10 +1218,6 @@ public class Actor : NetworkBehaviour
                 {
                     addDamamgeToMeter(fromActor, amount);
                 }
-                if (health < 0)
-                {
-                    health = 0;
-                }
                 break;
             case 1:
                 maxHealth -= amount;
@@ -1263,10 +1259,6 @@ public class Actor : NetworkBehaviour
                 if (fromActor != null)
                 {
                     addDamamgeToMeter(fromActor, amount);
-                }
-                if (health > maxHealth)
-                {
-                    health = maxHealth;
                 }
                 break;
             case 1:
