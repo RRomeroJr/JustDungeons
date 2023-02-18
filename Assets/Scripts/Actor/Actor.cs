@@ -273,9 +273,9 @@ public class Actor : NetworkBehaviour
             return false;
         }*/
 
-        if (State != ActorState.Free)
+        if (!canCast)
         {
-            Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is {2}!", actorName, _ability, State);
+            //Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is {2}!", actorName, _ability, EffectState);
             return false;
         }
         if (CheckCooldownAndGCD(_ability))
