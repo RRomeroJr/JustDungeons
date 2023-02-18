@@ -1408,40 +1408,43 @@ public class Actor : NetworkBehaviour
         GetComponent<Rigidbody2D>().AddForce(_hostVect);
     }
 
-    void HandleStatusEffectChanged(object sender, EventArgs e)
+    #region CalculateState
+
+    void HandleStatusEffectChanged(object sender, StatusEffectChangedEventArgs e)
     {
-        CalculateState();
+        canMove = CalculateCanMove(e);
+        canAttack = CalculateCanAttack(e);
+        canCast = CalculateCanCast(e);
     }
 
-    void CalculateState()
+    private bool CalculateCanMove(StatusEffectChangedEventArgs e)
     {
-        checkState = false;
-        if (buffHandler.Feared > 0)
+        if (e.Feared > 0 || e.Stunned > 0)
         {
-            State = ActorState.Stunned;
-            interruptCast();
-            return;
+            return false;
         }
-        if (buffHandler.Dizzy > 0)
+        return true;
+        }
+
+    private bool CalculateCanAttack(StatusEffectChangedEventArgs e)
+    {
+        if (e.Feared > 0 || e.Stunned > 0)
         {
-            State = ActorState.Dizzy;
-            return;
+            return false;
         }
-        if (Silenced > 0)
+        return true;
+        }
+
+    private bool CalculateCanCast(StatusEffectChangedEventArgs e)
         {
-            State = ActorState.Silenced;
-            interruptCast();
-            return;
-        }
-        if (ReadyToFire || IsCasting)
+        if (e.Feared > 0 || e.Stunned > 0 || e.Silenced > 0)
         {
-            State = ActorState.Casting;
-            return;
+            return false;
         }
-        State = ActorState.Free;
+        return true;
     }
 
-    #region EventHandlers
+    #endregion
 
     protected virtual void OnPlayerIsDead()
     {
@@ -1468,4 +1471,3 @@ public class Actor : NetworkBehaviour
 
     #endregion
 }
-
