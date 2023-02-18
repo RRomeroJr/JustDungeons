@@ -1446,22 +1446,16 @@ public class Actor : NetworkBehaviour
 
     #endregion
 
+    #region EventRaised
+
     protected virtual void OnPlayerIsDead()
     {
-        EventHandler raiseEvent = PlayerIsDead;
-        if (raiseEvent != null)
-        {
-            raiseEvent(this, EventArgs.Empty);
-        }
+        PlayerIsDead?.Invoke(this, EventArgs.Empty);
     }
 
     protected virtual void OnPlayerIsAlive()
     {
-        EventHandler raiseEvent = PlayerIsAlive;
-        if (raiseEvent != null)
-        {
-            raiseEvent(this, EventArgs.Empty);
-        }
+        PlayerIsAlive?.Invoke(this, EventArgs.Empty);
     }
 
     protected virtual void OnStateChanged(StateChangedEventArgs e)
