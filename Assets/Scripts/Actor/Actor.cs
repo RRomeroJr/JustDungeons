@@ -1434,6 +1434,10 @@ public class Actor : NetworkBehaviour
 
     void HandleStatusEffectChanged(object sender, StatusEffectChangedEventArgs e)
     {
+        if (state == ActorState.Dead)
+        {
+            return;
+        }
         canMove = CalculateCanMove(e);
         canAttack = CalculateCanAttack(e);
         canCast = CalculateCanCast(e);
