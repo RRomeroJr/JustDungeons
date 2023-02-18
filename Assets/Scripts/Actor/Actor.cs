@@ -87,7 +87,6 @@ public class Actor : NetworkBehaviour
 
     // Actor state
     private ActorState state = ActorState.Alive;
-    private StatusEffectState effectState = StatusEffectState.None;
     public bool canMove = true;
     public bool canAttack = true;
     public bool canCast = true;
@@ -201,7 +200,7 @@ public class Actor : NetworkBehaviour
         }
 
         if (!isServer)
-    {
+        {
             return;
         }
         // Server only logic below this point
@@ -210,10 +209,10 @@ public class Actor : NetworkBehaviour
         {
             b.StatusEffectChanged += HandleStatusEffectChanged;
             b.Interrupted += interruptCast;
-            }
         }
+    }
     void Update()
-        {
+    {
         updateCast();
         updateCooldowns();
 
@@ -223,23 +222,23 @@ public class Actor : NetworkBehaviour
         }
         // Server only logic below this point
 
-            handleCastQueue();
+        handleCastQueue();
         if (classResources.Count > 0)
         {
-                ClassResourceCheckRegen();
-            }
-            
+            ClassResourceCheckRegen();
+        }
+
         if (isChanneling)
         {
-                checkChannel();
-            }
+            checkChannel();
         }
+    }
 
     void FixedUpdate()
     {
         HandlleBuffs();
     }
-    
+
     #endregion
 
     // Casting: Starting a Cast---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1414,7 +1413,6 @@ public class Actor : NetworkBehaviour
     {
         interruptCast();
         state = ActorState.Dead;
-        effectState = StatusEffectState.None;
         canAttack = false;
         canMove = false;
         canCast = false;
@@ -1450,7 +1448,7 @@ public class Actor : NetworkBehaviour
             return false;
         }
         return true;
-        }
+    }
 
     private bool CalculateCanAttack(StatusEffectChangedEventArgs e)
     {
@@ -1459,10 +1457,10 @@ public class Actor : NetworkBehaviour
             return false;
         }
         return true;
-        }
+    }
 
     private bool CalculateCanCast(StatusEffectChangedEventArgs e)
-        {
+    {
         if (e.Feared > 0 || e.Stunned > 0 || e.Silenced > 0)
         {
             return false;
