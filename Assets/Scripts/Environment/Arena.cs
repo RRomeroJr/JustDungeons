@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -9,7 +9,7 @@ public class Arena : NetworkBehaviour
     public bool destroyIfListEmpty = true;
     public void OnTriggerExit2D(Collider2D other)
     {   if(killPlayerOnExit){
-            other.gameObject.GetComponent<Actor>().setHealth(0);
+            other.gameObject.GetComponent<Actor>().Health = 0;
         }
         
     }

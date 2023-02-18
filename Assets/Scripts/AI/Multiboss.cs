@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -33,7 +33,7 @@ public abstract class Multiboss: MonoBehaviour
             return false;
         }
         foreach(Actor partner in partners){
-            if(partner.getHealth() > 0.0f){
+            if(partner.Health > 0.0f){
                 if(partner.GetComponent<Multiboss>().comboReady == false){
                     return false;
                 }
@@ -51,7 +51,7 @@ public abstract class Multiboss: MonoBehaviour
             return false;
         }
         foreach(Actor partner in partners){
-            if(partner.getHealth() > 0.0f){
+            if(partner.Health > 0.0f){
                 if(partner.GetComponent<Multiboss>().comboFinished == false){
                     return false;
                 }

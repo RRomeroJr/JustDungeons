@@ -178,12 +178,12 @@ public class Actor : NetworkBehaviour
         {
             //Debug.Log("Scaling stats: " + actorName);
             //Buff stats here from GameManager?
-            bool scaleCurrentHealth = (maxHealth == health);
+            bool scaleCurrentHealth = (maxHealth == Health);
 
             maxHealth = (int) (maxHealth * (1 + (GameManager.instance.dungeonHealthScaling * GameManager.instance.dungeonScalingLevel)));
             if (scaleCurrentHealth)
             {
-                health = maxHealth;
+                Health = maxHealth;
             }
             mainStat = (int) (mainStat * (1 + (GameManager.instance.dungeonDamageScaling * GameManager.instance.dungeonScalingLevel)));
         }
@@ -1202,7 +1202,7 @@ public class Actor : NetworkBehaviour
         switch (valueType)
         {
             case 0:
-                health -= amount;
+                Health -= amount;
                 if (fromActor != null)
                 {
                     if (fromActor.tag == "Player")
@@ -1248,7 +1248,7 @@ public class Actor : NetworkBehaviour
         switch (valueType)
         {
             case 0:
-                health += amount;
+                Health += amount;
                 if (fromActor != null)
                 {
                     if (fromActor.tag == "Player")
@@ -1282,12 +1282,6 @@ public class Actor : NetworkBehaviour
     }
     public Ability_V2 getQueuedAbility(){
         return queuedAbility;
-    }
-    public int getHealth(){
-        return health;
-    }
-    public void setHealth(int _health){
-        health = _health;
     }
     public int getMaxHealth(){
         return maxHealth;

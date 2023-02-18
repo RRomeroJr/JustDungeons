@@ -67,7 +67,7 @@ public class UIManager : MonoBehaviour
             if (frame.actor != null)
             {
                 frame.healthBar.maxValue = frame.actor.getMaxHealth();
-                frame.healthBar.value = frame.actor.getHealth();
+                frame.healthBar.value = frame.actor.Health;
             }
         }
     }
@@ -85,7 +85,7 @@ public class UIManager : MonoBehaviour
             unitFrame.unitName.text = actor.getActorName();
             //  Getting health current and max
             unitFrame.healthBar.maxValue = actor.getMaxHealth();
-            unitFrame.healthBar.value = actor.getHealth();
+            unitFrame.healthBar.value = actor.Health;
             //  Getting apropriate healthbar color from actor
             unitFrame.healthFill.color = actor.unitColor;
         }
