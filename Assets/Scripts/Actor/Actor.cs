@@ -52,7 +52,6 @@ public class Actor : NetworkBehaviour
     public float mainStat = 100.0f;
     [Header("Automatic")]
     public Actor target;
-    public BuffHandler buffHandler = null;
     [SerializeField] protected List<OldBuff.Buff> buffs;
 
     // When readyToFire is true queuedAbility will fire
@@ -200,23 +199,19 @@ public class Actor : NetworkBehaviour
             classResources = combatClass.GetClassResources();
         }
 
-    }
-    void Update()
+        if (!isServer)
     {
-        if (checkState)
-        {
-            CalculateState();
+            return;
         }
-        if(health <= 0)
+        // Server only logic below this point
+
+        if (TryGetComponent(out BuffHandler b))
         {
-            if (!isLocalPlayer)
-            {
-                GameManager.instance.OnMobDeath.Invoke(mobId);
-                Destroy(gameObject);
+            b.StatusEffectChanged += HandleStatusEffectChanged;
+            b.Interrupted += interruptCast;
             }
-            OnPlayerIsDead();
         }
-        else
+    void Update()
         {
             OnPlayerIsAlive();
         }
