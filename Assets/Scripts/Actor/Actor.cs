@@ -160,15 +160,17 @@ public class Actor : NetworkBehaviour
     public CombatClass combatClass;
     public float resourceTickTime = 0.0f;
     public float resourceTickMax = 1.0f;
-    // Unity Methods---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    #region UnityMethods
+
+    private void Awake()
+    {
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+        animator = GetComponent<Animator>();
+    }
+
     void Start()
     {
-        if (TryGetComponent(out buffHandler))
-        {
-            buffHandler.StatusEffectChanged += HandleStatusEffectChanged;
-            buffHandler.Interrupted += interruptCast;
-        }
-        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         if ((isLocalPlayer) || (tag != "Player"))
         {
             UIManager.playerActor = this;
@@ -176,31 +178,27 @@ public class Actor : NetworkBehaviour
         }
         if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            //Debug.Log("Scaling stats: " + actorName);
             //Buff stats here from GameManager?
             bool scaleCurrentHealth = (maxHealth == Health);
 
-            maxHealth = (int) (maxHealth * (1 + (GameManager.instance.dungeonHealthScaling * GameManager.instance.dungeonScalingLevel)));
+            maxHealth = (int)(maxHealth * (1 + (GameManager.instance.dungeonHealthScaling * GameManager.instance.dungeonScalingLevel)));
             if (scaleCurrentHealth)
             {
                 Health = maxHealth;
             }
-            mainStat = (int) (mainStat * (1 + (GameManager.instance.dungeonDamageScaling * GameManager.instance.dungeonScalingLevel)));
+            mainStat = (int)(mainStat * (1 + (GameManager.instance.dungeonDamageScaling * GameManager.instance.dungeonScalingLevel)));
         }
-        animator = GetComponent<Animator>();
-        //gameObject.GetComponent<Renderer>().Color = unitColor;
-        //Nameplate.Create(this);
 
         if (combatClass != null)
         {
             int counter = 0;
-            foreach (Ability_V2 abi in combatClass.abilityList){
+            foreach (Ability_V2 abi in combatClass.abilityList)
+            {
                 GetComponent<Controller>().abilities[counter] = abi;
                 counter = counter + 1;
             }
             classResources = combatClass.GetClassResources();
         }
-        CalculateState();
 
     }
     void Update()
