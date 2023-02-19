@@ -89,8 +89,9 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         }
         set
         {
+            var newEffect = value > stunned ? StatusEffectState.Stunned : StatusEffectState.None;
             stunned = value;
-            OnStatusEffectChanged();
+            ChangeStatusEffect(newEffect);
         }
     }
 
@@ -106,10 +107,12 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         }
         set
         {
+            var newEffect = value > feared ? StatusEffectState.Feared : StatusEffectState.None;
             feared = value;
-            OnStatusEffectChanged();
+            ChangeStatusEffect(newEffect);
         }
     }
+
     public int Silenced
     {
         get
@@ -122,8 +125,9 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         }
         set
         {
+            var newEffect = value > silenced ? StatusEffectState.Silenced : StatusEffectState.None;
             silenced = value;
-            OnStatusEffectChanged();
+            ChangeStatusEffect(newEffect);
         }
     }
 
@@ -148,8 +152,9 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         }
         set
         {
+            var newEffect = value > dizzy ? StatusEffectState.Dizzy : StatusEffectState.None;
             dizzy = value;
-            OnStatusEffectChanged();
+            ChangeStatusEffect(newEffect);
         }
     }
 
@@ -160,10 +165,19 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         stunned = 0;
         silenced = 0;
         feared = 0;
+        dizzy = 0;
         speedModifier = 1;
         if (!isServer)
         {
             buffs.Callback += OnBuffsUpdated;
+        }
+    }
+
+    private void Update()
+    {
+        for (int i = buffs.Count - 1; i >= 0; i--)
+        {
+            buffs[i].Update();
         }
     }
 
