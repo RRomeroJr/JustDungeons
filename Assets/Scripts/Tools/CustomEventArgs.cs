@@ -10,7 +10,11 @@ public class HealEventArgs : EventArgs
     public float Heal { get; set; }
 }
 
-public class StateChangedEventArgs : EventArgs
+public class StatusEffectChangedEventArgs : EventArgs
 {
-    public ActorState ActorState { get; set; }
+    public int Feared { get; set; }
+    public int Silenced { get; set; }
+    public int Stunned { get; set; }
+    public int Dizzy { get; set; }
+    public StatusEffectState NewEffect { get; set; }
 }
