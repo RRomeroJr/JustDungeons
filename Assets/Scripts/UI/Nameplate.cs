@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -68,7 +68,7 @@ public class Nameplate : MonoBehaviour
     }
     void updateSliderHealth(){
         healthBar.maxValue = actor.getMaxHealth();
-        healthBar.value = actor.getHealth();
+        healthBar.value = actor.Health;
     }
     void updateSliderResource(Slider silder){
         if(actor.ResourceTypeCount() > 0){

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -21,7 +21,7 @@ public class Arena : NetworkBehaviour
     
     public void OnTriggerExit2D(Collider2D other)
     {   if(killPlayerOnExit){
-            other.gameObject.GetComponent<Actor>().setHealth(0);
+            other.gameObject.GetComponent<Actor>().Health = 0;
         }
         
     }
@@ -34,7 +34,7 @@ public class Arena : NetworkBehaviour
         if(otherActor.tag != "Player"){
             return;
         }
-        if(otherActor.State == ActorState.Dead){
+        if(otherActor.state == ActorState.Dead){
             return;
         }
         if(IsInSafezone(otherActor)){
@@ -45,7 +45,7 @@ public class Arena : NetworkBehaviour
         }
 
         if(killPlayerInHurtzone){
-            otherActor.setHealth(0);
+            otherActor.Health = 0;
             addToIgnore(otherActor, hitCooldownTime);
         }
         else if(usePercentHealthDmg){

@@ -48,11 +48,13 @@ public class PlayerController : Controller
         lastTabVector = Vector2.right;
         if(isLocalPlayer){
             UIManager.playerController = this;
-            actor.PlayerIsDead += HandlePlayerDead;
             FindObjectOfType<UIRaycaster>().UIFrameClicked += OnUIFrameClicked;
         }
         // tabTargetObj = Instantiate(tabTargetAreaPrefab, HBCTools.GetMousePosWP(), Quaternion.identity);
         // tabTargetObj.GetComponent<TabTargetGetter>().Init(this);
+
+        actor.PlayerIsDead += HandlePlayerDead;
+        actor.PlayerIsAlive += HandlePlayerAlive;
     }
     void FixedUpdate(){
         if (isLocalPlayer){
@@ -413,20 +415,16 @@ public class PlayerController : Controller
 
     void HandlePlayerDead(object sender, EventArgs e)
     {
-        actor.PlayerIsDead -= HandlePlayerDead;
-        actor.PlayerIsAlive += HandlePlayerAlive;
         state = PlayerState.Dead;
         TempSpriteManager sprite = GetComponent<TempSpriteManager>();
-        sprite.transform.Rotate(0f, 0f, 90.0f);
+        transform.Rotate(0f, 0f, 90.0f);
         sprite.enabled = false; // temp fix for being able to move sprite while dead
     }
     void HandlePlayerAlive(object sender, EventArgs e)
     {
-        actor.PlayerIsDead -= HandlePlayerAlive;
-        actor.PlayerIsDead += HandlePlayerDead;
         state = PlayerState.Alive;
         TempSpriteManager sprite = GetComponent<TempSpriteManager>();
-        sprite.transform.rotation = Quaternion.identity;
+        transform.rotation = Quaternion.identity;
         sprite.enabled = true; // temp fix for being able to move sprite while dead
     }
 

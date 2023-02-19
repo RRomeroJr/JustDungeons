@@ -16,14 +16,19 @@ public enum Role
     Ranged
 }
 
-public enum ActorState
+public enum StatusEffectState
 {
-    Free,
+    None = 0,
     Casting,
     Stunned,
     Silenced,
     Dizzy,
     Feared,
+}
+
+public enum ActorState
+{
+    Alive,
     Dead
 }
 
@@ -47,8 +52,7 @@ public class Actor : NetworkBehaviour
     public float mainStat = 100.0f;
     [Header("Automatic")]
     public Actor target;
-    public BuffHandler buffHandler = null;
-    public bool canMove = true;
+    public IBuff buffHandler = null;
     [SerializeField] protected List<OldBuff.Buff> buffs;
 
     // When readyToFire is true queuedAbility will fire
@@ -76,32 +80,54 @@ public class Actor : NetworkBehaviour
     // then, do something
     public UnityEvent<int> onAbilityCastHooks = new UnityEvent<int>();
     public Animator animator;
-
+    public Nameplate nameplate;
+    
     // Status Effects
     [SyncVar]
     private int silenced = 0;
     [SyncVar]
     private int feared = 0;
-    private int tauntImmune = 0;
 
     // Actor state
-    
-    private ActorState state = ActorState.Free;
-    private bool checkState = true;
+    public ActorState state = ActorState.Alive;
+    public bool canMove = true;
+    public bool canAttack = true;
+    public bool canCast = true;
     public bool inCombat = false; //  in/ out of combat
     public bool combatLocked = false;
 
     // Events
     public event EventHandler PlayerIsDead;
     public event EventHandler PlayerIsAlive;
-    public event EventHandler<StateChangedEventArgs> StateChanged;
 
     //Attacker List
     [SerializeField]
     private List<Actor> attackerList = new List<Actor>();
-    
 
     #region Properties
+
+    public int Health
+    {
+        get => health;
+        set
+        {
+            if (state == ActorState.Dead)
+            {
+                return;
+            }
+            health = value;
+            if (health <= 0)
+            {
+                health = 0;
+                PlayerDead();
+                return;
+            }
+            if (health > maxHealth)
+            {
+                health = maxHealth;
+            }
+        }
+    }
 
     public int Feared
     {
@@ -109,7 +135,6 @@ public class Actor : NetworkBehaviour
         set
         {
             feared = value;
-            checkState = true;
         }
     }
     public int Silenced
@@ -118,7 +143,6 @@ public class Actor : NetworkBehaviour
         set
         {
             silenced = value;
-            checkState = true;
         }
     }
     public bool IsCasting
@@ -127,7 +151,6 @@ public class Actor : NetworkBehaviour
         set
         {
             isCasting = value;
-            checkState = true;
         }
     }
     public bool ReadyToFire
@@ -136,38 +159,26 @@ public class Actor : NetworkBehaviour
         set
         {
             readyToFire = value;
-            checkState = true;
         }
     }
-
-    public ActorState State
-    {
-        get => state;
-        set
-        {
-            if (state != value)
-            {
-                state = value;
-                OnStateChanged(new StateChangedEventArgs { ActorState = value });
-            }
-        }
-    }
-
 
     #endregion
+
     public CombatClass combatClass;
     public float resourceTickTime = 0.0f;
     public float resourceTickMax = 1.0f;
-    public Nameplate nameplate;
-    // Unity Methods---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    #region UnityMethods
+
+    private void Awake()
+    {
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+        animator = GetComponent<Animator>();
+        buffHandler = GetComponent<IBuff>();
+    }
+
     void Start()
     {
-        if (TryGetComponent(out buffHandler))
-        {
-            buffHandler.StatusEffectChanged += HandleStatusEffectChanged;
-            buffHandler.Interrupted += interruptCast;
-        }
-        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         if ((isLocalPlayer) || (tag != "Player"))
         {
             UIManager.playerActor = this;
@@ -175,20 +186,16 @@ public class Actor : NetworkBehaviour
         }
         if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            //Debug.Log("Scaling stats: " + actorName);
             //Buff stats here from GameManager?
-            bool scaleCurrentHealth = (maxHealth == health);
+            bool scaleCurrentHealth = (maxHealth == Health);
 
-            maxHealth = (int) (maxHealth * (1 + (GameManager.instance.dungeonHealthScaling * GameManager.instance.dungeonScalingLevel)));
+            maxHealth = (int)(maxHealth * (1 + (GameManager.instance.dungeonHealthScaling * GameManager.instance.dungeonScalingLevel)));
             if (scaleCurrentHealth)
             {
-                health = maxHealth;
+                Health = maxHealth;
             }
-            mainStat = (int) (mainStat * (1 + (GameManager.instance.dungeonDamageScaling * GameManager.instance.dungeonScalingLevel)));
+            mainStat = (int)(mainStat * (1 + (GameManager.instance.dungeonDamageScaling * GameManager.instance.dungeonScalingLevel)));
         }
-        animator = GetComponent<Animator>();
-        //gameObject.GetComponent<Renderer>().Color = unitColor;
-        //Nameplate.Create(this);
 
         if (combatClass != null)
         {
@@ -209,52 +216,52 @@ public class Actor : NetworkBehaviour
                 animator.runtimeAnimatorController = combatClass.rac;
             }
         }
-        CalculateState();
 
+        if (!isServer)
+        {
+            return;
+        }
+        // Server only logic below this point
+
+        if (buffHandler is BuffHandler b)
+        {
+            b.StatusEffectChanged += HandleStatusEffectChanged;
+            b.Interrupted += interruptCast;
+        }
     }
+
     void Update()
     {
-        if (checkState)
-        {
-            CalculateState();
-        }
-        if(health <= 0)
-        {
-            if (!isLocalPlayer)
-            {
-                GameManager.instance.OnMobDeath.Invoke(mobId);
-                Destroy(gameObject);
-            }
-            OnPlayerIsDead();
-        }
-        else
-        {
-            OnPlayerIsAlive();
-        }
         updateCast();
         updateCooldowns();
         UpdateCombatState();
-        //HandlleBuffs();
-        if(isServer){
-            handleCastQueue();
-            if(classResources.Count > 0){
-                ClassResourceCheckRegen();
+
+        if (!isServer)
+        {
+            return;
+        }
+
+        handleCastQueue();
+        if(classResources.Count > 0){
+            ClassResourceCheckRegen();
+        }
+
+        if(isChanneling){
+            if (queuedAbility.isChannel == false)
+            {
+                //wtf how?
+                Debug.Log(queuedAbility.getName() + "is queued and anout to be channeled BUT isn't a channel| _ability ");
             }
-            
-            if(isChanneling){
-                if (queuedAbility.isChannel == false)
-                {
-                    //wtf how?
-                    Debug.Log(queuedAbility.getName() + "is queued and anout to be channeled BUT isn't a channel| _ability ");
-                }
-                checkChannel();
-            }
+            checkChannel();
         }
     }
-    void FixedUpdate(){
+    void FixedUpdate()
+    {
         HandlleBuffs();
     }
-    
+
+    #endregion
+
     // Casting: Starting a Cast---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     public bool castAbility3(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null)
     {
@@ -288,9 +295,9 @@ public class Actor : NetworkBehaviour
             return false;
         }*/
 
-        if (State != ActorState.Free)
+        if (!canCast)
         {
-            Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is {2}!", actorName, _ability, State);
+            //Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is {2}!", actorName, _ability, EffectState);
             return false;
         }
         if (isChanneling)
@@ -1355,8 +1362,7 @@ public class Actor : NetworkBehaviour
         switch (valueType)
         {
             case 0:
-                health -= amount;
-                
+                Health -= amount;
                 if (fromActor != null)
                 {
 
@@ -1370,10 +1376,9 @@ public class Actor : NetworkBehaviour
                 {
                     TRpcCreateDamageTextSelf(amount);
                 }
-                
-                if (health < 0)
+                if (fromActor != null)
                 {
-                    health = 0;
+                    addDamamgeToMeter(fromActor, amount);
                 }
                 break;
             case 1:
@@ -1401,7 +1406,7 @@ public class Actor : NetworkBehaviour
         switch (valueType)
         {
             case 0:
-                health += amount;
+                Health += amount;
                 if (fromActor != null)
                 {
  
@@ -1415,10 +1420,9 @@ public class Actor : NetworkBehaviour
                 {
                     TRpcCreateDamageTextSelf(amount);
                 }
-                
-                if (health > maxHealth)
+                if (fromActor != null)
                 {
-                    health = maxHealth;
+                    addDamamgeToMeter(fromActor, amount);
                 }
                 break;
             case 1:
@@ -1435,12 +1439,6 @@ public class Actor : NetworkBehaviour
 
     public Ability_V2 getQueuedAbility(){
         return queuedAbility;
-    }
-    public int getHealth(){
-        return health;
-    }
-    public void setHealth(int _health){
-        health = _health;
     }
     public int getMaxHealth(){
         return maxHealth;
@@ -1580,7 +1578,7 @@ public class Actor : NetworkBehaviour
                 attackerList.RemoveAt(i);
             }
             else{
-                if(attackerList[i].State != ActorState.Dead){
+                if(attackerList[i].state != ActorState.Dead){
                     return true;
                 }
                 i++;
@@ -1663,64 +1661,78 @@ public class Actor : NetworkBehaviour
         health = maxHealth;
     }
 
-    void HandleStatusEffectChanged(object sender, EventArgs e)
+    private void PlayerDead()
     {
-        CalculateState();
+        interruptCast();
+        state = ActorState.Dead;
+        canAttack = false;
+        canMove = false;
+        canCast = false;
+        OnPlayerIsDead();
     }
 
-    void CalculateState()
+    private void PlayerAlive()
     {
-        checkState = false;
-        if (buffHandler.Feared > 0)
-        {
-            State = ActorState.Stunned;
-            interruptCast();
-            return;
-        }
-        if (buffHandler.Dizzy > 0)
-        {
-            State = ActorState.Dizzy;
-            return;
-        }
-        if (Silenced > 0)
-        {
-            State = ActorState.Silenced;
-            interruptCast();
-            return;
-        }
-        if (ReadyToFire || IsCasting)
-        {
-            State = ActorState.Casting;
-            return;
-        }
-        State = ActorState.Free;
+        state = ActorState.Alive;
+        canAttack = true;
+        canMove = true;
+        canCast = true;
+        OnPlayerIsAlive();
     }
 
-    #region EventHandlers
+    #region CalculateState
+
+    void HandleStatusEffectChanged(object sender, StatusEffectChangedEventArgs e)
+    {
+        if (state == ActorState.Dead)
+        {
+            return;
+        }
+        canMove = CalculateCanMove(e);
+        canAttack = CalculateCanAttack(e);
+        canCast = CalculateCanCast(e);
+    }
+
+    private bool CalculateCanMove(StatusEffectChangedEventArgs e)
+    {
+        if (e.Feared > 0 || e.Stunned > 0)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private bool CalculateCanAttack(StatusEffectChangedEventArgs e)
+    {
+        if (e.Feared > 0 || e.Stunned > 0)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private bool CalculateCanCast(StatusEffectChangedEventArgs e)
+    {
+        if (e.Feared > 0 || e.Stunned > 0 || e.Silenced > 0)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    #endregion
+
+    #region EventRaised
 
     protected virtual void OnPlayerIsDead()
     {
-        EventHandler raiseEvent = PlayerIsDead;
-        if (raiseEvent != null)
-        {
-            raiseEvent(this, EventArgs.Empty);
-        }
+        PlayerIsDead?.Invoke(this, EventArgs.Empty);
     }
 
     protected virtual void OnPlayerIsAlive()
     {
-        EventHandler raiseEvent = PlayerIsAlive;
-        if (raiseEvent != null)
-        {
-            raiseEvent(this, EventArgs.Empty);
-        }
-    }
-
-    protected virtual void OnStateChanged(StateChangedEventArgs e)
-    {
-        StateChanged?.Invoke(this, e);
+        PlayerIsAlive?.Invoke(this, EventArgs.Empty);
     }
 
     #endregion
 }
-

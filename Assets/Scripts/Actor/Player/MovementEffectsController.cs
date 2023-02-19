@@ -1,30 +1,36 @@
-﻿using Mirror;
+﻿using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// Handles movement effects that do special things to the player
+/// </summary>
 public class MovementEffectsController : MonoBehaviour
 {
     private GameObject indicatorRef;
     public GameObject indicatorPrefab;
     public Vector2 moveDirection;
-    private ActorState actorState;
+    private StatusEffectState currentEffectState;
     private NavMeshAgent agent;
+    private Dictionary<StatusEffectState, int> effectDict;
 
     // Start is called before the first frame update
     void Start()
     {
-        actorState = ActorState.Free;
+        currentEffectState = StatusEffectState.None;
         moveDirection = Vector2.right;
-        var actor = GetComponent<Actor>();
-        actor.StateChanged += HandleStateChanged;
+        var buffHandler = GetComponent<BuffHandler>();
+        buffHandler.StatusEffectChanged += HandleEffectChanged;
+        agent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        switch (actorState)
+        switch (currentEffectState)
         {
-            case ActorState.Dizzy:
+            case StatusEffectState.Dizzy:
                 ApplyDizzy();
                 break;
             default:
@@ -32,32 +38,34 @@ public class MovementEffectsController : MonoBehaviour
         }
     }
 
-    private void HandleStateChanged(object sender, StateChangedEventArgs e)
+    private void HandleEffectChanged(object sender, StatusEffectChangedEventArgs e)
     {
-        if (e.ActorState == actorState)
+        effectDict = e.ToDictionary();
+        // If new effect is None and the previous effect has not ended, return early
+        if (e.NewEffect == StatusEffectState.None && effectDict[currentEffectState] > 0)
         {
             return;
         }
         // End old State
-        switch (actorState)
+        switch (currentEffectState)
         {
-            case ActorState.Dizzy:
+            case StatusEffectState.Dizzy:
                 EndDizzy();
                 break;
-            case ActorState.Feared:
+            case StatusEffectState.Feared:
                 EndFear();
                 break;
             default:
                 break;
         }
-        actorState = e.ActorState;
+        currentEffectState = e.NewEffect;
         // Start new State
-        switch (actorState)
+        switch (currentEffectState)
         {
-            case ActorState.Dizzy:
+            case StatusEffectState.Dizzy:
                 StartDizzy();
                 break;
-            case ActorState.Feared:
+            case StatusEffectState.Feared:
                 StartFear();
                 break;
             default:
@@ -89,8 +97,8 @@ public class MovementEffectsController : MonoBehaviour
     }
     public void StartDizzy()
     {
-        indicatorRef = Instantiate(indicatorPrefab, transform.position, Quaternion.identity);
-        indicatorRef.GetComponent<FolllowObject>().target = this.gameObject;
+        indicatorRef = Instantiate(indicatorPrefab, transform);
+        //indicatorRef.GetComponent<FolllowObject>().target = this.gameObject;
         indicatorRef.transform.Rotate(moveDirection);
     }
 
