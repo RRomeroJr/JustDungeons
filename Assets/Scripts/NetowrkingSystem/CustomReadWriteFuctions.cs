@@ -147,7 +147,7 @@ public static class CustomReadWriteFuctions
 
     public static BuffScriptableObject ReadBuffSO(this NetworkReader reader)
     {
-        return Resources.Load(reader.ReadString()) as BuffScriptableObject;
+        return Resources.Load<BuffScriptableObject>(reader.ReadString());
     }
 
 }
