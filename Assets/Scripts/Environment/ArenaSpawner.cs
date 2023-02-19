@@ -7,11 +7,28 @@ public class ArenaSpawner: NetworkBehaviour
 {
 	public Arena ArenaPrefab;
     void Awake(){
-        GameManager.instance.OnActorEnterCombat.AddListener(SpawnArena);
+        GameManager.instance.OnActorEnterCombat.AddListener(SpawnOrWait);
         
     }
     void Start(){
         
+    }
+    void SpawnOrWait(Actor _eventIn){
+        if(NetworkServer.active == false){
+            Debug.Log("Client ignoring spawn arena component");
+            return;
+        }
+        
+        if(GetComponent<Multiboss>() != null)
+        {
+            if(ArenaPrefab == null)
+            {
+                StartCoroutine(WaitForPartnerSpawnArena());
+                return;
+            }
+        }
+
+        SpawnArena(_eventIn);
     }
 
     void SpawnArena(Actor _eventIn){
@@ -19,8 +36,6 @@ public class ArenaSpawner: NetworkBehaviour
             Debug.Log("Client ignoring spawn arena component");
             return;
         }
-
-
 
         if(_eventIn.gameObject == gameObject){
             EnemyController enemyController = GetComponent<EnemyController>();
@@ -44,5 +59,28 @@ public class ArenaSpawner: NetworkBehaviour
             NetworkServer.Spawn(arenaRef.gameObject);
             Destroy(this);
         }
+        
+    }
+    IEnumerator WaitForPartnerSpawnArena(){
+        EnemyController enemyController = GetComponent<EnemyController>();
+        Multiboss mbComp = GetComponent<Multiboss>();
+        while(enemyController.arenaObject == null)
+        {
+            foreach(Actor partner in mbComp.partners)
+            {
+                Arena partnerArena = partner.GetComponent<EnemyController>().arenaObject;
+                if(partnerArena != null)
+                {
+                    enemyController.arenaObject = partnerArena;
+                }
+                if(partnerArena != null)
+                {
+                    break;
+                }
+            }
+            yield return new WaitForSeconds(0.05f);
+        }
+        Debug.Log(gameObject.name + ": Partner areana object found destroying ArenaSpawner Comp" );
+        Destroy(this);
     }
 }

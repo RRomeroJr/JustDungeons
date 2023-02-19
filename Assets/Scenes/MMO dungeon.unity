@@ -243,6 +243,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2720667041761104102, guid: 6c1dbab5203333b44a780c51552522bc, type: 3}
+      propertyPath: health
+      value: 9000
+      objectReference: {fileID: 0}
     - target: {fileID: 2096029720338020577, guid: 6c1dbab5203333b44a780c51552522bc, type: 3}
       propertyPath: m_Name
       value: SaytrMelee (1)
@@ -73371,6 +73375,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2720667041761104102, guid: b828f92217fb01842b95eb00c0eba1ec, type: 3}
+      propertyPath: health
+      value: 9000
+      objectReference: {fileID: 0}
+    - target: {fileID: -1578170218902741199, guid: b828f92217fb01842b95eb00c0eba1ec, type: 3}
+      propertyPath: ArenaPrefab
+      value: 
+      objectReference: {fileID: -3948658354172309938, guid: 4b18cc200cf0e63439eda4668bf5cdda, type: 3}
     - target: {fileID: 2096029720338020577, guid: b828f92217fb01842b95eb00c0eba1ec, type: 3}
       propertyPath: m_Name
       value: SaytrCaster (1)
