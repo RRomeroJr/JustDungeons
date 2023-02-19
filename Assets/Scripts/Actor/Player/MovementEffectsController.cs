@@ -13,6 +13,7 @@ public class MovementEffectsController : MonoBehaviour
     public Vector2 moveDirection;
     private StatusEffectState currentEffectState;
     private NavMeshAgent agent;
+    private Dictionary<StatusEffectState, int> effectDict;
 
     // Start is called before the first frame update
     void Start()
@@ -39,7 +40,9 @@ public class MovementEffectsController : MonoBehaviour
 
     private void HandleEffectChanged(object sender, StatusEffectChangedEventArgs e)
     {
-        if (e.ActorState == actorState)
+        effectDict = e.ToDictionary();
+        // If new effect is None and the previous effect has not ended, return early
+        if (e.NewEffect == StatusEffectState.None && effectDict[currentEffectState] > 0)
         {
             return;
         }
