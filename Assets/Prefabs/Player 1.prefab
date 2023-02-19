@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: -121281515293638722}
   - component: {fileID: 3747133552387403488}
   - component: {fileID: 7805083521186877322}
+  - component: {fileID: 5681445192638073562}
+  - component: {fileID: 7692670483740498294}
   m_Layer: 6
   m_Name: Player 1
   m_TagString: Player
@@ -125,10 +127,9 @@ MonoBehaviour:
     outOfCombatRegen: 0
   mainStat: 100
   target: {fileID: 0}
+  buffHandler: {fileID: 0}
   canMove: 1
   buffs: []
-  readyToFire: 0
-  isCasting: 0
   isChanneling: 0
   lastChannelTick: 0
   queuedAbility: {fileID: 0}
@@ -145,9 +146,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   animator: {fileID: 0}
-  silenced: 0
-  feared: 0
-  tauntImmune: 0
   combatClass: {fileID: 0}
   resourceTickTime: 0
   resourceTickMax: 1
@@ -256,7 +254,7 @@ MonoBehaviour:
   autoAttackRequest: 0
   moveSpeed: 10
   abilities:
-  - {fileID: 11400000, guid: 25892cafc51da1741bfc1ed0ae709125, type: 2}
+  - {fileID: 11400000, guid: d7744661f2e47b84fab4ae4c4352c88d, type: 2}
   - {fileID: 11400000, guid: d9cf312441b110944872f8ce388f759c, type: 2}
   - {fileID: 11400000, guid: bc0b9b13d7683204abb40cf45658cf81, type: 2}
   - {fileID: 11400000, guid: 78029697a7165884bb5087a570c34d2c, type: 2}
@@ -381,3 +379,37 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &5681445192638073562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3602611100074717264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e46bd3245ea449547948ff01e01d7078, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  feared: 0
+  silenced: 0
+  stunned: 0
+  dizzy: 0
+  speedModifier: 0
+--- !u!114 &7692670483740498294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3602611100074717264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb0583155630d7e439cbf7e547949754, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  indicatorPrefab: {fileID: 0}
+  moveDirection: {x: 0, y: 0}
