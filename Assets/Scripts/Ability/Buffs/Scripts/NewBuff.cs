@@ -9,11 +9,22 @@ namespace BuffSystem
     [Serializable]
     public class Buff
     {
-        [SerializeField] public BuffScriptableObject buff;
+        [SerializeField] public BuffScriptableObject buffSO;
         [SerializeField] private float lastTick = 0.0f;
         [SerializeField] public float remainingTime = 0.0f;
+        [SerializeField] private int stacks = 1;
         [SerializeField] public GameObject target;
         public event EventHandler Finished;
+
+        #region Properties
+
+        public int Stacks
+        {
+            get => stacks;
+            set => stacks = value;
+        }
+
+        #endregion
 
         public Buff()
         {
@@ -30,10 +41,10 @@ namespace BuffSystem
                 lastTick += Time.deltaTime;
             }
 
-            if (lastTick >= buff.TickRate)
+            if (lastTick >= buffSO.TickRate)
             {
-                buff.Tick(target);
-                lastTick -= buff.TickRate;
+                buffSO.Tick(target);
+                lastTick -= buffSO.TickRate;
             }
 
             if (remainingTime <= 0)
@@ -44,22 +55,18 @@ namespace BuffSystem
 
         public void Start()
         {
-            buff.StartBuff(target);
-            remainingTime = buff.Duration;
+            buffSO.StartBuff(target);
+            remainingTime = buffSO.Duration;
         }
 
         public void End()
         {
-            buff.EndBuff(target);
+            buffSO.EndBuff(target);
         }
 
-        protected void OnFinish()
+        protected virtual void OnFinish()
         {
-            var raiseEvent = Finished;
-            if (raiseEvent != null)
-            {
-                raiseEvent(this, EventArgs.Empty);
-            }
+            Finished?.Invoke(this, EventArgs.Empty);
         }
     }
 }

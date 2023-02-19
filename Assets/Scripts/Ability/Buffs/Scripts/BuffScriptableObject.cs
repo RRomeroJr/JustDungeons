@@ -8,6 +8,7 @@ public class BuffScriptableObject : ScriptableObject
     [SerializeField] private string buffName;
     [SerializeField] private float duration;
     [SerializeField] private float tickRate;
+    [SerializeField] private bool stackable;
     [SerializeField] private GameObject particles;
 
     // Store BuffEffects in a list of custom serializable KeyValuePairs so it can edited in the inspector
@@ -17,6 +18,7 @@ public class BuffScriptableObject : ScriptableObject
     public string BuffName => buffName;
     public float TickRate => tickRate;
     public float Duration => duration;
+    public bool Stackable => stackable;
 
     public void StartBuff(GameObject target)
     {
