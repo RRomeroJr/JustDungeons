@@ -7,8 +7,16 @@ using UnityEngine;
 /// <summary>
 /// General purpose buff container which implements every buff in the game
 /// </summary>
-public class BuffHandler : NetworkBehaviour, IStun, IInterrupt, IFear, ISpeedModifier, IDamageOverTime, IHealOverTime, IDizzy
+public class BuffHandler : NetworkBehaviour, IAllBuffs
 {
+    // If immune, value will always return 0 even if debug value has value other than 0
+    [Header("Set Status Effect Immunities")]
+    [SerializeField] private bool fearImmune;
+    [SerializeField] private bool silenceImmune;
+    [SerializeField] private bool stunImmune;
+    [SerializeField] private bool dizzyImmune;
+
+    [Header("Debug Values")]
     [SerializeField] private int feared;
     [SerializeField] private int silenced;
     [SerializeField] private int stunned;
@@ -21,7 +29,7 @@ public class BuffHandler : NetworkBehaviour, IStun, IInterrupt, IFear, ISpeedMod
     /// <summary>
     /// Status effect value has changed
     /// </summary>
-    public event EventHandler StatusEffectChanged;
+    public event EventHandler<StatusEffectChangedEventArgs> StatusEffectChanged;
     /// <summary>
     /// Buff has interrupted spellcasting
     /// </summary>
@@ -39,9 +47,9 @@ public class BuffHandler : NetworkBehaviour, IStun, IInterrupt, IFear, ISpeedMod
 
     #region EventRaised
 
-    protected virtual void OnStatusEffectChanged()
+    protected virtual void OnStatusEffectChanged(StatusEffectChangedEventArgs e)
     {
-        StatusEffectChanged?.Invoke(this, EventArgs.Empty);
+        StatusEffectChanged?.Invoke(this, e);
     }
 
     protected virtual void OnInterrupt()
@@ -71,7 +79,14 @@ public class BuffHandler : NetworkBehaviour, IStun, IInterrupt, IFear, ISpeedMod
 
     public int Stunned
     {
-        get => stunned;
+        get
+        {
+            if (stunImmune)
+            {
+                return 0;
+            }
+            return stunned;
+        }
         set
         {
             stunned = value;
@@ -81,7 +96,14 @@ public class BuffHandler : NetworkBehaviour, IStun, IInterrupt, IFear, ISpeedMod
 
     public int Feared
     {
-        get => feared;
+        get
+        {
+            if (fearImmune)
+            {
+                return 0;
+            }
+            return feared;
+        }
         set
         {
             feared = value;
@@ -90,7 +112,14 @@ public class BuffHandler : NetworkBehaviour, IStun, IInterrupt, IFear, ISpeedMod
     }
     public int Silenced
     {
-        get => silenced;
+        get
+        {
+            if (silenceImmune)
+            {
+                return 0;
+            }
+            return silenced;
+        }
         set
         {
             silenced = value;
@@ -109,7 +138,14 @@ public class BuffHandler : NetworkBehaviour, IStun, IInterrupt, IFear, ISpeedMod
 
     public int Dizzy
     {
-        get => dizzy;
+        get
+        {
+            if (dizzyImmune)
+            {
+                return 0;
+            }
+            return dizzy;
+        }
         set
         {
             dizzy = value;
