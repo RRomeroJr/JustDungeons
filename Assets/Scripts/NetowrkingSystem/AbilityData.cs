@@ -69,4 +69,12 @@ public class AbilityData : ScriptableObject
             }
             return null;
     }
+    public Ability_V2 findByName(string _name){
+            foreach(Ability_V2 ability in abilityList){
+                if(ability.name == _name){
+                    return ability;
+                }
+            }
+            return null;
+    }
 }

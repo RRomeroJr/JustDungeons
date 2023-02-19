@@ -23,11 +23,9 @@ public class RestoreClassResource : AbilityEff
     public override AbilityEff clone()
     {
         RestoreClassResource temp_ref = ScriptableObject.CreateInstance(typeof (RestoreClassResource)) as RestoreClassResource;
-        temp_ref.effectName = effectName;
-        temp_ref.id = id;
-        temp_ref.power = power;
+        copyBase(temp_ref);
         temp_ref.school = school;
-        temp_ref.targetIsSecondary = targetIsSecondary;
+    
         temp_ref.crt = crt;
         return temp_ref;
     }

@@ -41,4 +41,10 @@ public class CircleArena : Arena
     void RpcSetSafeZone(Vector3 _hostScale){
         transform.GetChild(0).transform.localScale = _hostScale;
     }
+
+    public override bool IsInSafezone(Actor _actor)
+    {
+        
+        return Mathf.Abs(Vector2.Distance(transform.GetChild(0).transform.position, _actor.transform.position)) <= arenaRadius;
+    }
 }

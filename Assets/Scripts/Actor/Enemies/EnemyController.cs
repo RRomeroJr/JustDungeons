@@ -23,6 +23,7 @@ public class EnemyController : Controller
     public BoxCollider2D collider;
     public int phase = 0;
     
+    
 
     public override void Awake()
     {
@@ -49,9 +50,27 @@ public class EnemyController : Controller
     public override void Update()
     {
         base.Update();
-        // if(followTarget == null){
-            // moveOffOtherUnitsOutOfCombat();
-        // }
+        if(isServer && !holdDirection)
+        {
+            if(actor.IsCasting)
+            {
+                if(actor.getQueuedAbility().needsActor)
+                {
+                    Debug.Log("cast following actor");
+                    facingDirection = HBCTools.ToNearest45(actor.getQueuedTarget().transform.position - transform.position);
+                }
+                else if(actor.getQueuedAbility().needsWP)
+                {
+                    facingDirection = HBCTools.ToNearest45(actor.getCastingWPToFace() - (Vector2)transform.position);
+                }
+            }
+            else if(followTarget != null && !resolvingMoveTo)
+            {
+                facingDirection = HBCTools.ToNearest45(followTarget.transform.position - transform.position);
+                
+            }
+        }
+       
     }
     // RR: Now that I'm writing this out it would be easier if 
     //     abilitys had cooldowns before I start doing this

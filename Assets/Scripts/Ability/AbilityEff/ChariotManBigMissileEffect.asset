@@ -25,7 +25,14 @@ MonoBehaviour:
     Value: {x: 0, y: 0, z: 0}
   targetWP2:
     Value: {x: 0, y: 0, z: 0}
-  eInstructs: []
+  eInstructs:
+  - effect: {fileID: 11400000, guid: 147680d722349bd41a1ee4b1eb6aa8c1, type: 2}
+    targetArg: 0
+    powerMod: 0
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
+    deliveryNVect2: {x: 0, y: 0}
   school: -1
   misslePrefab: {fileID: 8996080988287052582, guid: 8c667693a07d25642bb795452521e647, type: 3}
   isSkillshot: 1

@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     public float dungeonDamageScaling = 0.1f;
     public float timer = 600.0f;
     public uint mobCount = 0;
+    public UnityEvent<Actor> OnActorEnterCombat = new UnityEvent<Actor>();
+    public UnityEvent<Actor> OnActorLeaveCombat = new UnityEvent<Actor>();
     void Awake()
     {
         if(instance == null)
@@ -34,6 +36,8 @@ public class GameManager : MonoBehaviour
     {
         OnMobDeath.AddListener(RespawnDionysus);
         OnMobDeath.AddListener(IncreaseMobCount);
+        OnActorEnterCombat.AddListener(LogEnterCombat);
+        OnActorLeaveCombat.AddListener(LogLevaveCombat);
         if(NetworkServer.active){
             NetworkServer.Spawn(gameObject);
             /* This doesn;t work bc this object exists before the server is started*/
@@ -54,6 +58,12 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+    }
+    void LogEnterCombat(Actor _eventIn){
+        Debug.Log(_eventIn.name + " has ENTERED combat");
+    }
+    void LogLevaveCombat(Actor _eventIn){
+        Debug.Log(_eventIn.name + " LEAVING combat");
     }
 
     public void logMobDeath(int _mobId){

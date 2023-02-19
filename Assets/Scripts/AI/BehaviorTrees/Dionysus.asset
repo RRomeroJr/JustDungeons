@@ -205,6 +205,7 @@ MonoBehaviour:
     targetPrev: {fileID: 0}
   description: 
   drawGizmos: 0
+  setToNull: 0
 --- !u!114 &-4482470903052638422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,7 +275,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 8ffa8bab91ba47b4a9fb5ee53e75e535
-  position: {x: -2135.051, y: 726.3999}
+  position: {x: -1986, y: 728}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}

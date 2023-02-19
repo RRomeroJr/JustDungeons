@@ -21,11 +21,12 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     deliveryNVect2: {x: 0, y: 0}
-  castTime: 4
+  buffs: []
+  castTime: 2
   cooldown: 0
   needsActor: 0
   needsWP: 0
-  id: 0
+  id: 44
   abilityTag: 0
   resourceCosts: []
   isChannel: 0
@@ -34,5 +35,8 @@ MonoBehaviour:
   offGDC: 0
   rangeClass: 0
   range: Infinity
-  interruptable: 1
+  interruptable: 0
   castWhileMoving: 0
+  mustBeFacing: 0
+  hotbuttonImage: {fileID: 0}
+  hotbuttonColor: {r: 1, g: 1, b: 1, a: 1}

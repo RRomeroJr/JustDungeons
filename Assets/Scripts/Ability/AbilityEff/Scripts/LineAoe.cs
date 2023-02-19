@@ -16,8 +16,8 @@ public class LineAoe : Aoe
         GameObject delivery = Instantiate(aoePrefab, getWP(_secondaryTarget, _targetWP), Quaternion.identity);
         delivery.GetComponent<AbilityDelivery>().setTarget(_secondaryTarget);
         delivery.GetComponent<AbilityDelivery>().setCaster(_caster);
-        delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_caster, targetWP2);
-        delivery.GetComponent<AbilityDelivery>().transform.position  = getWP(_target, _targetWP);
+        delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_target, _targetWP);
+        delivery.GetComponent<AbilityDelivery>().transform.position  = getWP(_caster, targetWP2);
         delivery.transform.localScale = new Vector3(length, prefabScale.y, prefabScale.z);
         //Debug.Log(delivery.transform.localScale + "|" + length );
         delivery.GetComponent<AbilityDelivery>().eInstructs = eInstructs;
@@ -40,14 +40,10 @@ public class LineAoe : Aoe
     public override AbilityEff clone()
     {
         LineAoe temp_ref = ScriptableObject.CreateInstance(typeof (LineAoe)) as LineAoe;
-        temp_ref.effectName = effectName;
-        temp_ref.id = id;
-        temp_ref.power = power;
-        temp_ref.powerScale = powerScale;
+        copyBase(temp_ref);
         temp_ref.prefabScale = prefabScale;
         temp_ref.length = length;
         temp_ref.aoePrefab = aoePrefab;
-        temp_ref.targetIsSecondary = targetIsSecondary;
         if(targetWP2 != null){
             temp_ref.targetWP2 = new NullibleVector3(targetWP2.Value);
         }

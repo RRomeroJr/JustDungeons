@@ -8,8 +8,8 @@ public class TryMoveToRelWP  : ActionNode
     public HBCTools.ContextualTarget relTarget;
     public Vector2 relativePos;
     Vector2 realPos;
-    public bool useMoveSpeed = false;
-    public float moveSpeed;
+    // public bool useMoveSpeed = false;
+    // public float moveSpeed;
     public bool successfulStart = false;
     protected override void OnStart()
     {
@@ -20,12 +20,9 @@ public class TryMoveToRelWP  : ActionNode
         }
         realPos = relTargetGmObj.transform.position + (Vector3)relativePos;
         //Debug.Log("target: " + context.controller.arenaObject.transform.position + " + relativePos: " + relativePos + " = realPos: " + realPos);
-        if(useMoveSpeed){
-            successfulStart = context.controller.moveToPoint(realPos, moveSpeed);
-        }
-        else{
-            successfulStart = context.controller.moveToPoint(realPos);
-        }
+       
+        successfulStart = context.controller.moveToPoint(realPos);
+        
     }
 
     protected override void OnStop()

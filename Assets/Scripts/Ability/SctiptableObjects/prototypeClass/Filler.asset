@@ -32,6 +32,15 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+    deliveryNVect2: {x: 0, y: 0}
+  - effect: {fileID: 11400000, guid: 907516bc40a96f34d857a320698aa355, type: 2}
+    targetArg: 1
+    powerMod: 1
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
+    deliveryNVect2: {x: 0, y: 0}
+  buffs: []
   castTime: 0
   cooldown: 0
   needsActor: 1
@@ -46,3 +55,7 @@ MonoBehaviour:
   rangeClass: 1
   range: 3.5
   interruptable: 1
+  castWhileMoving: 0
+  mustBeFacing: 1
+  hotbuttonImage: {fileID: 0}
+  hotbuttonColor: {r: 1, g: 1, b: 1, a: 1}

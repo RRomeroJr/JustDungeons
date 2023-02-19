@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5042fcee2a0dad04d897d2f2d787b5d4, type: 3}
+  m_Name: CombatantFillerRefund
+  m_EditorClassIdentifier: 
+  effectName: CombatantFillerRefund
+  id: 79
+  power: 2
+  powerScale: 1
+  parentBuff: {fileID: 0}
+  parentDelivery: {fileID: 0}
+  targetIsSecondary: 0
+  target: {fileID: 0}
+  caster: {fileID: 0}
+  targetWP:
+    Value: {x: 0, y: 0, z: 0}
+  targetWP2:
+    Value: {x: 0, y: 0, z: 0}
+  isHostile: 0
+  school: 0
+  ability: {fileID: 11400000, guid: 25892cafc51da1741bfc1ed0ae709125, type: 2}

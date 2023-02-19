@@ -25,8 +25,14 @@ MonoBehaviour:
     Value: {x: 0, y: 0, z: 0}
   targetWP2:
     Value: {x: 0, y: 0, z: 0}
-  eInstructs: []
-  prefabRotation: {x: 0, y: 0, z: 0}
+  eInstructs:
+  - effect: {fileID: 11400000, guid: 13fff4d1e2772a041a9daaa473ce95c3, type: 2}
+    targetArg: 0
+    powerMod: 0
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
+    deliveryNVect2: {x: 0, y: 0}
   school: -1
   prefabScale: {x: 5, y: 5, z: 1}
   aoePrefab: {fileID: 8996080988287052582, guid: ee1243ebc2c6b67409f5c58b6188dd32, type: 3}

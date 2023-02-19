@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 630dbee7393b5314ab79662f009e6568, type: 3}
+  m_Name: VangaurdSTSpd
+  m_EditorClassIdentifier: 
+  abilityName: VangaurdSTSpd
+  eInstructs: []
+  castTime: 0
+  cooldown: 2
+  needsActor: 0
+  needsWP: 0
+  id: 53
+  abilityTag: 0
+  resourceCosts:
+  - amount: 20
+    crType: {fileID: 11400000, guid: 55f627c33b30c14489770a8e971ecee4, type: 2}
+  isChannel: 0
+  channelDuration: 0
+  numberOfTicks: 0
+  offGDC: 0
+  rangeClass: 0
+  range: Infinity
+  interruptable: 1
+  castWhileMoving: 0
+  mustBeFacing: 0
+  hotbuttonImage: {fileID: 0}
+  hotbuttonColor: {r: 0, g: 0, b: 0, a: 0}

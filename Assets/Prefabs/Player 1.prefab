@@ -41,7 +41,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5390397111480738981}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -119,12 +120,7 @@ MonoBehaviour:
   role: 1
   unitColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
   mobId: -1
-  classResources:
-  - crType: {fileID: 11400000, guid: f99af011e29c85f4686d63a179cf33d8, type: 2}
-    max: 5
-    amount: 0
-    combatRegen: 0
-    outOfCombatRegen: 0
+  classResources: []
   mainStat: 100
   target: {fileID: 0}
   buffHandler: {fileID: 0}
@@ -146,9 +142,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   animator: {fileID: 0}
-  combatClass: {fileID: 0}
+  combatClass: {fileID: 11400000, guid: af7e23158c3495640953930651da5fec, type: 2}
   resourceTickTime: 0
   resourceTickMax: 1
+  nameplate: {fileID: 0}
 --- !u!114 &3602611100074717273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,7 +249,7 @@ MonoBehaviour:
   facingDirection: {x: 0, y: 0}
   globalCooldown: 0
   autoAttackRequest: 0
-  moveSpeed: 10
+  moveSpeed: 9
   abilities:
   - {fileID: 11400000, guid: d7744661f2e47b84fab4ae4c4352c88d, type: 2}
   - {fileID: 11400000, guid: d9cf312441b110944872f8ce388f759c, type: 2}
@@ -264,6 +261,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5018719afa2dee746bbd7247a8802f72, type: 2}
   - {fileID: 11400000, guid: 789ee262ef9ad0c418009477bd594f0d, type: 2}
   tryingToMove: 0
+  moveToEvent:
+    m_PersistentCalls:
+      m_Calls: []
   state: 0
   clickMask:
     serializedVersion: 2
@@ -277,6 +277,12 @@ MonoBehaviour:
   mousePos: {x: 0, y: 0}
   clickWindow: 0.66
   clickTravelWindow: 66
+  tabableTargets: []
+  lastTabVector: {x: 0, y: 0}
+  currentTabVector: {x: 0, y: 0}
+  tabIndex: -1
+  tabTargetAreaPrefab: {fileID: 4505040217055121924, guid: fa3284f46140ec7468cd49c49eb43c72, type: 3}
+  tabTargetObj: {fileID: 0}
 --- !u!114 &568127742855530159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,7 +337,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 3602611100074717264}
   m_Enabled: 0
   m_AgentTypeID: 0
-  m_Radius: 0.625
+  m_Radius: 0.1
   m_Speed: 16
   m_Acceleration: 900
   avoidancePriority: 50

@@ -57,6 +57,9 @@ public class Ability_V2 : ScriptableObject{
     public float range;
     public bool interruptable = true;
     public bool castWhileMoving = false;
+    public bool mustBeFacing = false;
+    public Sprite hotbuttonImage;
+    public Color hotbuttonColor = Color.white;
 
     
     void OnValidate(){

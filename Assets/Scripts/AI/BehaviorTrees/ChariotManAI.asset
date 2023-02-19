@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9005203804585385608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72d2a05cfcc6ec842b74ff141d31990f, type: 3}
+  m_Name: AttackRelativeWP
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 19e8d9388284bdb4ab1561cd1f97c930
+  position: {x: 1415.772, y: 1555.9202}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  ability: {fileID: 11400000, guid: c141abadade7e9a408aacc8f9f927a3f, type: 2}
+  relativePoint: {x: 0, y: 0}
+  relativePoint2: {x: 1, y: 0}
+  relativeTo: 1
+  castStarted: 0
+  castFinished: 0
+  randomRange: 0
+  plusMinusX: 0
+  plusMinusY: 0
 --- !u!114 &-8673064682743159554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,7 +46,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: ce028a922dcd3d44da899064b0462007
-  position: {x: 901.7191, y: 812.7999}
+  position: {x: -681.67316, y: 1555}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -23,6 +54,35 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   direction: 2
+--- !u!114 &-8470017940260031102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 962724c9aa0d9504195e08fae9814fd9
+  position: {x: 2329.5098, y: 1407.9999}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: 9150740524698074661}
+  - {fileID: -6293162388585713411}
+  - {fileID: 4381941646808759098}
+  - {fileID: -234095500234933970}
+  - {fileID: 1134781508694993298}
+  - {fileID: 7907257748347797807}
 --- !u!114 &-8248654944630677637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38,7 +98,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: b3f562f6f4c6b4e48862857393f80d8a
-  position: {x: -2620.8047, y: 841.99994}
+  position: {x: -654.5139, y: 1002.65356}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -46,6 +106,37 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   setToNull: 1
+--- !u!114 &-8144144208429961369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72d2a05cfcc6ec842b74ff141d31990f, type: 3}
+  m_Name: AttackRelativeWP
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: c38cc7285ca523544984f165988e54af
+  position: {x: -274.51395, y: 1692.6536}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  ability: {fileID: 11400000, guid: ce29efd1e55ac0145a644a65b06b22f2, type: 2}
+  relativePoint: {x: 0, y: -6.5}
+  relativePoint2: {x: -1, y: -6.5}
+  relativeTo: 1
+  castStarted: 0
+  castFinished: 0
+  randomRange: 0
+  plusMinusX: 0
+  plusMinusY: 0
 --- !u!114 &-7937281248232859273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,7 +152,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 8ddc61135713bfe41b29d512ada8813e
-  position: {x: -2898.8047, y: 841.99994}
+  position: {x: -2863.9644, y: 1451}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -70,9 +161,13 @@ MonoBehaviour:
   drawGizmos: 0
   relTarget: 0
   relativePos: {x: -10, y: 0}
-  useMoveSpeed: 0
-  moveSpeed: 0
---- !u!114 &-7839159716008061862
+  useMoveSpeed: 1
+  moveSpeed: 15
+  moveToStarted: 0
+  stopRange: 1
+  debugDist: 0
+  debugHasPath: 0
+--- !u!114 &-7640381190581472036
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -81,20 +176,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
-  m_Name: Wait
+  m_Script: {fileID: 11500000, guid: 74c6145b391e44a4b89d5885d48e1b90, type: 3}
+  m_Name: HoldDirection
   m_EditorClassIdentifier: 
   state: 0
   started: 0
-  guid: 5e654e2734f09af469716323b383f000
-  position: {x: -448.79984, y: 865.6}
+  guid: cf9cdf545905a4b41971340037ffdf97
+  position: {x: 106.6019, y: 1001.6558}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
   description: 
   drawGizmos: 0
-  duration: 10
+  setTo: 0
 --- !u!114 &-7361009904457071834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,7 +205,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: f0ead581961ae914fa09e42a6f8e6e3e
-  position: {x: -248.00009, y: 562}
+  position: {x: -223.51393, y: 731.65356}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -118,6 +213,60 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   setTrue: 1
+--- !u!114 &-6669552134501593094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72d2a05cfcc6ec842b74ff141d31990f, type: 3}
+  m_Name: AttackRelativeWP
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: b3b1deb5b4cf2a547acf7c12d1cb6dc1
+  position: {x: 2254.5098, y: 1673.9999}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  ability: {fileID: 11400000, guid: ce29efd1e55ac0145a644a65b06b22f2, type: 2}
+  relativePoint: {x: 6.5, y: 0}
+  relativePoint2: {x: 6.5, y: 1}
+  relativeTo: 0
+  castStarted: 0
+  castFinished: 0
+  randomRange: 0
+  plusMinusX: 0
+  plusMinusY: 0
+--- !u!114 &-6293162388585713411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8bcfcb5807be304bb89247cdf95b5b7, type: 3}
+  m_Name: SetFacingDirection
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 03707e42c83d4734b8db2788299ebf94
+  position: {x: 2057.0793, y: 1530.9998}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  direction: 1
 --- !u!114 &-6141779489529036425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,7 +282,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 70207df210531c848b41cac6254cf34a
-  position: {x: -448.62137, y: 705.60004}
+  position: {x: -424.51395, y: 875.65356}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -159,7 +308,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: c7e16f5e0a70fa642811de335bc5c3c3
-  position: {x: 27.999893, y: 418.4}
+  position: {x: 52.486053, y: 587.65356}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -171,31 +320,6 @@ MonoBehaviour:
   - {fileID: -7361009904457071834}
   - {fileID: -1789634731239647304}
   - {fileID: 5743173969239635525}
---- !u!114 &-5391588442248254115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
-  m_Name: Sequencer
-  m_EditorClassIdentifier: 
-  state: 0
-  started: 0
-  guid: a3def97ad6beb2f4383085b550463726
-  position: {x: -0.0000113244605, y: 124.79992}
-  blackboard:
-    moveToPosition: {x: 0, y: 0, z: 0}
-    target: {fileID: 0}
-    targetPrev: {fileID: 0}
-  description: 
-  drawGizmos: 0
-  children:
-  - {fileID: 6999698544898199874}
-  - {fileID: 7221063678469256655}
 --- !u!114 &-5308412295129578856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,7 +335,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 3e0f2c4f22602454fbd101a785193068
-  position: {x: -1373.2516, y: 1017.6159}
+  position: {x: -1586.5139, y: 1618.6534}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -227,7 +351,7 @@ MonoBehaviour:
   randomRange: 0
   plusMinusX: 0
   plusMinusY: 0
---- !u!114 &-5104483481786170043
+--- !u!114 &-4783367806113750191
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -236,20 +360,76 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f92097279900b66448ff4a380915d8bd, type: 3}
-  m_Name: SetAutoAttack
+  m_Script: {fileID: 11500000, guid: 72d2a05cfcc6ec842b74ff141d31990f, type: 3}
+  m_Name: AttackRelativeWP
   m_EditorClassIdentifier: 
   state: 0
   started: 0
-  guid: 4a241b30a1030d146834e538b135cebe
-  position: {x: 457.01984, y: 844}
+  guid: 1b514848aac91444eb1e5869c0e4603b
+  position: {x: 2461.51, y: 1673.9999}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
   description: 
   drawGizmos: 0
-  setTrue: 0
+  ability: {fileID: 11400000, guid: ce29efd1e55ac0145a644a65b06b22f2, type: 2}
+  relativePoint: {x: -6.5, y: 0}
+  relativePoint2: {x: -6.5, y: 1}
+  relativeTo: 0
+  castStarted: 0
+  castFinished: 0
+  randomRange: 0
+  plusMinusX: 0
+  plusMinusY: 0
+--- !u!114 &-4011885697579550034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb5496e8cd973748a10b3e3ef436ebd, type: 3}
+  m_Name: Repeat
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 811d1056ad7aa784a8d2124ca83f906e
+  position: {x: -398.0001, y: 99.999985}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  child: {fileID: 3418017199916029155}
+  restartOnSuccess: 1
+  restartOnFailure: 1
+--- !u!114 &-3742501583665991195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74c6145b391e44a4b89d5885d48e1b90, type: 3}
+  m_Name: HoldDirection
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: ae1ed13f2e75a1047a85309f161b912e
+  position: {x: 877.6024, y: 1545.9999}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  setTo: 1
 --- !u!114 &-3712551634291318657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,7 +445,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: d47bd49d9e4c36441907a66a58cb2449
-  position: {x: 2022.343, y: 799.99994}
+  position: {x: 501.48605, y: 1002.65356}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -288,7 +468,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 266b279b86591c74f9c1e54bb2063db7
-  position: {x: 1804.343, y: 812.99994}
+  position: {x: 283.48605, y: 1015.65356}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -311,7 +491,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 64b53ec7613f6bd41a2d753691aac1ac
-  position: {x: 1349.343, y: 800.99994}
+  position: {x: 47.486057, y: 1545.6536}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -342,7 +522,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: c3299f6581bd2fe4caefd46faeae27fd
-  position: {x: -2252.8047, y: 853.99994}
+  position: {x: -2682.9644, y: 1455}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -365,7 +545,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: f8a32d5da49e29c4b8ab065c8565b92f
-  position: {x: 1140.7489, y: 812.99994}
+  position: {x: -116.513916, y: 1544.6536}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -381,6 +561,29 @@ MonoBehaviour:
   randomRange: 0
   plusMinusX: 0
   plusMinusY: 0
+--- !u!114 &-2527969349087468447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e658b1bd308bc5c429f5a9b404a04943, type: 3}
+  m_Name: Inverter
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: baf2d49b2ae33e04c97b5db31dcb3c8a
+  position: {x: -610.99994, y: 171.19252}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  child: {fileID: 6110567726009636538}
 --- !u!114 &-1789634731239647304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,7 +599,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 400ef50c586191b4db811b23c4c4deb8
-  position: {x: -61.740242, y: 562}
+  position: {x: -37.514, y: 731.65356}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -404,6 +607,113 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   ability: {fileID: 11400000, guid: 97e10e75bc078e3418ab74d2544eeb4e, type: 2}
+--- !u!114 &-1704096713112807213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8bcfcb5807be304bb89247cdf95b5b7, type: 3}
+  m_Name: SetFacingDirection
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 77752e206d2ad8344b49872bcfaa82ba
+  position: {x: 713.3542, y: 1546}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  direction: 3
+--- !u!114 &-1397553923781332964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72d2a05cfcc6ec842b74ff141d31990f, type: 3}
+  m_Name: AttackRelativeWP
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 07cde70c70dfd2249910af95c1053bab
+  position: {x: 1139.772, y: 1710.9202}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  ability: {fileID: 11400000, guid: ce29efd1e55ac0145a644a65b06b22f2, type: 2}
+  relativePoint: {x: -6.5, y: 0}
+  relativePoint2: {x: -6.5, y: -1}
+  relativeTo: 1
+  castStarted: 0
+  castFinished: 0
+  randomRange: 0
+  plusMinusX: 0
+  plusMinusY: 0
+--- !u!114 &-1067376825501500665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 61682ab360298534dae88be754f52188
+  position: {x: 1139.772, y: 1363.9202}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: 4213040291966828565}
+  - {fileID: -1704096713112807213}
+  - {fileID: -3742501583665991195}
+  - {fileID: 1218112081578018898}
+  - {fileID: 5566752482414809921}
+  - {fileID: -9005203804585385608}
+  - {fileID: 7522530499964514709}
+--- !u!114 &-366666263665507454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8d8cd34e1d517349895281522c6f3cc, type: 3}
+  m_Name: DebugLog
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 8e4fcb8655c4e144b98dfce916376550
+  position: {x: -1979.5139, y: 1542.6534}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  output: Casting Deride
 --- !u!114 &-336318909889377013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,7 +729,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 9ae3fc114fdc5af4aa48d91048b4794d
-  position: {x: -448.62137, y: 561.6}
+  position: {x: -424.51395, y: 731.65356}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -428,6 +738,83 @@ MonoBehaviour:
   drawGizmos: 0
   child: {fileID: -6141779489529036425}
   ContinueIfHasTargetIs: 0
+--- !u!114 &-294003815580786837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74c6145b391e44a4b89d5885d48e1b90, type: 3}
+  m_Name: HoldDirection
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: e1b61ddc9ec3ae94d8ff669eed7b8f0b
+  position: {x: -514.9998, y: 1555}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  setTo: 1
+--- !u!114 &-234095500234933970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72d2a05cfcc6ec842b74ff141d31990f, type: 3}
+  m_Name: AttackRelativeWP
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 83cecb1f09b75464796ff3e55ed02c3d
+  position: {x: 2536.5098, y: 1546.9999}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  ability: {fileID: 11400000, guid: ac78e5d96e8cf3b47b4d30fab7a89e58, type: 2}
+  relativePoint: {x: 0, y: 0}
+  relativePoint2: {x: 0, y: 0}
+  relativeTo: 1
+  castStarted: 0
+  castFinished: 0
+  randomRange: 0
+  plusMinusX: 0
+  plusMinusY: 0
+--- !u!114 &-159098332227649566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74c6145b391e44a4b89d5885d48e1b90, type: 3}
+  m_Name: HoldDirection
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: f0a107b993cc6394db513f36205e60cc
+  position: {x: -2495.9602, y: 1455}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  setTo: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,27 +833,20 @@ MonoBehaviour:
   - {fileID: 6446018388908770133}
   - {fileID: 7221063678469256655}
   - {fileID: -6141779489529036425}
-  - {fileID: -5391588442248254115}
   - {fileID: -336318909889377013}
   - {fileID: 6721198417537804147}
   - {fileID: 5743173969239635525}
   - {fileID: -5308412295129578856}
   - {fileID: -2841799693173234547}
-  - {fileID: 6999698544898199874}
   - {fileID: -5415883247361196254}
   - {fileID: 8171310753908402117}
   - {fileID: 8587700384297215141}
   - {fileID: 1273614925096385170}
   - {fileID: -2808000714058557403}
   - {fileID: -8673064682743159554}
-  - {fileID: -7839159716008061862}
   - {fileID: -7361009904457071834}
-  - {fileID: 5198930155958481279}
-  - {fileID: 2030934251973610186}
   - {fileID: 8860878382827573382}
   - {fileID: -8248654944630677637}
-  - {fileID: 4261895658690352152}
-  - {fileID: -5104483481786170043}
   - {fileID: -2963878160652803345}
   - {fileID: -3712551634291318657}
   - {fileID: -7937281248232859273}
@@ -477,6 +857,42 @@ MonoBehaviour:
   - {fileID: 8135189457351401730}
   - {fileID: -2776617624119814898}
   - {fileID: -1789634731239647304}
+  - {fileID: -366666263665507454}
+  - {fileID: 3072867177270809880}
+  - {fileID: 4027923596261823737}
+  - {fileID: -8144144208429961369}
+  - {fileID: 4060676400812788320}
+  - {fileID: 6534267844786517173}
+  - {fileID: 714278096386032337}
+  - {fileID: 6811741459455149198}
+  - {fileID: -1067376825501500665}
+  - {fileID: 4213040291966828565}
+  - {fileID: -1704096713112807213}
+  - {fileID: 1218112081578018898}
+  - {fileID: 4889169466948917434}
+  - {fileID: -1397553923781332964}
+  - {fileID: 5566752482414809921}
+  - {fileID: -9005203804585385608}
+  - {fileID: 7522530499964514709}
+  - {fileID: -8470017940260031102}
+  - {fileID: 9150740524698074661}
+  - {fileID: -6293162388585713411}
+  - {fileID: 4381941646808759098}
+  - {fileID: -6669552134501593094}
+  - {fileID: -4783367806113750191}
+  - {fileID: -234095500234933970}
+  - {fileID: 1134781508694993298}
+  - {fileID: 7907257748347797807}
+  - {fileID: 3418017199916029155}
+  - {fileID: -4011885697579550034}
+  - {fileID: 5306570270144910464}
+  - {fileID: 6110567726009636538}
+  - {fileID: -2527969349087468447}
+  - {fileID: -7640381190581472036}
+  - {fileID: -159098332227649566}
+  - {fileID: -294003815580786837}
+  - {fileID: -3742501583665991195}
+  - {fileID: 6343513778013052246}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -496,7 +912,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 5cf6ae71aad71ca46b5b66e0761e5a59
-  position: {x: 1575.343, y: 812.99994}
+  position: {x: 272.48602, y: 1544.6536}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -505,8 +921,12 @@ MonoBehaviour:
   drawGizmos: 0
   relTarget: 0
   relativePos: {x: -10, y: 0}
-  useMoveSpeed: 0
-  moveSpeed: 0
+  useMoveSpeed: 1
+  moveSpeed: 15.4
+  moveToStarted: 0
+  stopRange: 1
+  debugDist: 0
+  debugHasPath: 0
 --- !u!114 &439676619149198032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,7 +942,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 08a670ee4cf32d3449209759b7c551b7
-  position: {x: -1129.7881, y: 985.59985}
+  position: {x: -1344.5139, y: 1586.6536}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -531,8 +951,99 @@ MonoBehaviour:
   drawGizmos: 0
   relTarget: 0
   relativePos: {x: 10, y: 0}
-  useMoveSpeed: 0
-  moveSpeed: 0
+  useMoveSpeed: 1
+  moveSpeed: 15.4
+  moveToStarted: 0
+  stopRange: 1
+  debugDist: 0
+  debugHasPath: 0
+--- !u!114 &714278096386032337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: bf4945ecdc504fb43b2ab8be3d50ed1b
+  position: {x: -2129.514, y: 1334.6534}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: -7937281248232859273}
+  - {fileID: -2808000714058557403}
+  - {fileID: -159098332227649566}
+  - {fileID: 8587700384297215141}
+  - {fileID: -366666263665507454}
+  - {fileID: 8135189457351401730}
+  - {fileID: -5308412295129578856}
+  - {fileID: 439676619149198032}
+--- !u!114 &1134781508694993298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72d2a05cfcc6ec842b74ff141d31990f, type: 3}
+  m_Name: AttackRelativeWP
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 5688fdd9c09395a4690b67254ead854a
+  position: {x: 2686.5098, y: 1546.9999}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  ability: {fileID: 11400000, guid: c141abadade7e9a408aacc8f9f927a3f, type: 2}
+  relativePoint: {x: 0, y: 0}
+  relativePoint2: {x: -1, y: 0}
+  relativeTo: 1
+  castStarted: 0
+  castFinished: 0
+  randomRange: 0
+  plusMinusX: 0
+  plusMinusY: 0
+--- !u!114 &1218112081578018898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2932073b8a6c3b34391576c45d359457, type: 3}
+  m_Name: Parallel
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 24536591ece37934da5253b48818f819
+  position: {x: 1064.772, y: 1550.9202}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: 4889169466948917434}
+  - {fileID: -1397553923781332964}
 --- !u!114 &1273614925096385170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -548,7 +1059,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: aa6c76ef9df91d04aa06eef2b276262b
-  position: {x: -1938.8048, y: 1005.9998}
+  position: {x: -2152.514, y: 1606.6536}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -564,7 +1075,7 @@ MonoBehaviour:
   randomRange: 0
   plusMinusX: 0
   plusMinusY: 0
---- !u!114 &2030934251973610186
+--- !u!114 &3072867177270809880
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -573,21 +1084,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f92097279900b66448ff4a380915d8bd, type: 3}
-  m_Name: SetAutoAttack
+  m_Script: {fileID: 11500000, guid: 2932073b8a6c3b34391576c45d359457, type: 3}
+  m_Name: Parallel
   m_EditorClassIdentifier: 
   state: 0
   started: 0
-  guid: 51b570b0e954b604ebfe1c2f987d9f6e
-  position: {x: -703.32, y: 885.6}
+  guid: abc6df3ec5d977e4c9aa88957c6ec495
+  position: {x: -349.51395, y: 1545.6536}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
   description: 
   drawGizmos: 0
-  setTrue: 1
---- !u!114 &4261895658690352152
+  children:
+  - {fileID: 4027923596261823737}
+  - {fileID: -8144144208429961369}
+--- !u!114 &3418017199916029155
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -596,20 +1109,109 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bef0130942212147b2999f9b90ceb1e, type: 3}
-  m_Name: SetFollowTarget
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
   m_EditorClassIdentifier: 
   state: 0
   started: 0
-  guid: 3fdf0bf8bce49314189948332872f661
-  position: {x: 282.54904, y: 844.8}
+  guid: 466feddd08f5c8e43980a6fc270b1983
+  position: {x: -248.00002, y: 242.21915}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
   description: 
   drawGizmos: 0
-  setToNull: 1
+  children:
+  - {fileID: -2527969349087468447}
+  - {fileID: 7221063678469256655}
+--- !u!114 &4027923596261823737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72d2a05cfcc6ec842b74ff141d31990f, type: 3}
+  m_Name: AttackRelativeWP
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: cddab343a7fa8574f82f95e9c467c401
+  position: {x: -514.514, y: 1692.6536}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  ability: {fileID: 11400000, guid: ce29efd1e55ac0145a644a65b06b22f2, type: 2}
+  relativePoint: {x: 0, y: 6.5}
+  relativePoint2: {x: -1, y: 6.5}
+  relativeTo: 1
+  castStarted: 0
+  castFinished: 0
+  randomRange: 0
+  plusMinusX: 0
+  plusMinusY: 0
+--- !u!114 &4060676400812788320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 789e262f853df0241bc008075869ab16, type: 3}
+  m_Name: RepeatXTimes
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: d41149ce9aebc784abfd49135a79acc3
+  position: {x: -125.51398, y: 1002.65356}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  child: {fileID: 6534267844786517173}
+  restartOnSuccess: 1
+  restartOnFailure: 0
+  count: 2
+--- !u!114 &4213040291966828565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aff847e64e3eb0642a795b5e3cd16b74, type: 3}
+  m_Name: MoveToRelWP
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: b3829600356e5f849a6108ae707909bf
+  position: {x: 519.0573, y: 1545.9998}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  relTarget: 0
+  relativePos: {x: -0.1, y: 10}
+  useMoveSpeed: 1
+  moveSpeed: 15
+  moveToStarted: 0
+  stopRange: 1
+  debugDist: 0
+  debugHasPath: 0
 --- !u!114 &4360922043719662790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -625,7 +1227,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 71d89885fc690e8458b97b85865eca5c
-  position: {x: 659.69476, y: 812.80005}
+  position: {x: -869.9766, y: 1557.9998}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -634,9 +1236,13 @@ MonoBehaviour:
   drawGizmos: 0
   relTarget: 0
   relativePos: {x: 10, y: 0}
-  useMoveSpeed: 0
-  moveSpeed: 0
---- !u!114 &5198930155958481279
+  useMoveSpeed: 1
+  moveSpeed: 15
+  moveToStarted: 0
+  stopRange: 1
+  debugDist: 0
+  debugHasPath: 0
+--- !u!114 &4381941646808759098
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -645,20 +1251,110 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bef0130942212147b2999f9b90ceb1e, type: 3}
-  m_Name: SetFollowTarget
+  m_Script: {fileID: 11500000, guid: 2932073b8a6c3b34391576c45d359457, type: 3}
+  m_Name: Parallel
   m_EditorClassIdentifier: 
   state: 0
   started: 0
-  guid: 6516690acf28fe14fb9aa47c468edb90
-  position: {x: -883.31995, y: 897.6}
+  guid: 710249c06460c304980d9c3218bb4e76
+  position: {x: 2369.5098, y: 1538.9999}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
   description: 
   drawGizmos: 0
-  setToNull: 0
+  children:
+  - {fileID: -6669552134501593094}
+  - {fileID: -4783367806113750191}
+--- !u!114 &4889169466948917434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72d2a05cfcc6ec842b74ff141d31990f, type: 3}
+  m_Name: AttackRelativeWP
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: be97d90af986a3946b6df1c4e3692ea9
+  position: {x: 896.772, y: 1710.9202}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  ability: {fileID: 11400000, guid: ce29efd1e55ac0145a644a65b06b22f2, type: 2}
+  relativePoint: {x: 6.5, y: 0}
+  relativePoint2: {x: 6.5, y: -1}
+  relativeTo: 1
+  castStarted: 0
+  castFinished: 0
+  randomRange: 0
+  plusMinusX: 0
+  plusMinusY: 0
+--- !u!114 &5306570270144910464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7302d8b8c9a258408e8b0829db973ae, type: 3}
+  m_Name: FindTargets
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 97ece0e48bee4a64cbbbfc2c1e125af1
+  position: {x: -610.8064, y: 414}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 0
+  range: 0
+--- !u!114 &5566752482414809921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72d2a05cfcc6ec842b74ff141d31990f, type: 3}
+  m_Name: AttackRelativeWP
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 1fa1a9a32795b2840b0406b6522c3375
+  position: {x: 1236.772, y: 1562.9202}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  ability: {fileID: 11400000, guid: ffcc6f7812f9eb54baa273ad03cdd12a, type: 2}
+  relativePoint: {x: 0, y: 0}
+  relativePoint2: {x: 0, y: 0}
+  relativeTo: 1
+  castStarted: 0
+  castFinished: 0
+  randomRange: 0
+  plusMinusX: 0
+  plusMinusY: 0
 --- !u!114 &5743173969239635525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -674,7 +1370,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 22428871590b05d4e8b1bb1297362549
-  position: {x: 150.4001, y: 561.60004}
+  position: {x: 174.48605, y: 731.65356}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -682,27 +1378,60 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   children:
-  - {fileID: -7937281248232859273}
   - {fileID: -8248654944630677637}
   - {fileID: 8860878382827573382}
-  - {fileID: -2808000714058557403}
-  - {fileID: 8587700384297215141}
-  - {fileID: 8135189457351401730}
-  - {fileID: -5308412295129578856}
-  - {fileID: 439676619149198032}
-  - {fileID: 5198930155958481279}
-  - {fileID: 2030934251973610186}
-  - {fileID: -7839159716008061862}
-  - {fileID: 4261895658690352152}
-  - {fileID: -5104483481786170043}
-  - {fileID: 4360922043719662790}
-  - {fileID: -8673064682743159554}
-  - {fileID: -2776617624119814898}
-  - {fileID: -2841799693173234547}
-  - {fileID: 168532433603693993}
+  - {fileID: 4060676400812788320}
+  - {fileID: -7640381190581472036}
   - {fileID: -2963878160652803345}
   - {fileID: -3712551634291318657}
   - {fileID: 6627998515347837635}
+--- !u!114 &6110567726009636538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62399ae9ac63e624684a55524aef6b85, type: 3}
+  m_Name: TargetCheck
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: bfd20a778df617944917b5386c7666c9
+  position: {x: -611.0002, y: 286}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  child: {fileID: 5306570270144910464}
+  ContinueIfHasTargetIs: 1
+--- !u!114 &6343513778013052246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74c6145b391e44a4b89d5885d48e1b90, type: 3}
+  m_Name: HoldDirection
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 83178445c70c0b34789758e095908078
+  position: {x: 0, y: 0}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  setTo: 1
 --- !u!114 &6446018388908770133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -725,7 +1454,34 @@ MonoBehaviour:
     targetPrev: {fileID: 0}
   description: 
   drawGizmos: 0
-  child: {fileID: -5391588442248254115}
+  child: {fileID: -4011885697579550034}
+--- !u!114 &6534267844786517173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee64948bda9e2fe4fb5ad88265395141, type: 3}
+  m_Name: RandomSelector
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 845afffbc82bea144a36bc7050c24915
+  position: {x: -254.51395, y: 1111.6536}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: 714278096386032337}
+  - {fileID: 6811741459455149198}
+  - {fileID: -1067376825501500665}
+  - {fileID: -8470017940260031102}
 --- !u!114 &6627998515347837635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -741,7 +1497,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 3e6cb833ea66a2d49a61b05157b8e87a
-  position: {x: 2199.343, y: 831.99994}
+  position: {x: 678.486, y: 1034.6536}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -764,7 +1520,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 887c221c0e9e5ba41b3f320a4b1f1944
-  position: {x: -448.62137, y: 418.4}
+  position: {x: -424.51395, y: 587.65356}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -772,7 +1528,7 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   child: {fileID: -336318909889377013}
---- !u!114 &6999698544898199874
+--- !u!114 &6811741459455149198
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -781,23 +1537,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aff847e64e3eb0642a795b5e3cd16b74, type: 3}
-  m_Name: MoveToRelWP
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
   m_EditorClassIdentifier: 
   state: 0
   started: 0
-  guid: 8d640dc2e5a576c459e3198327e0f498
-  position: {x: -247.99998, y: 255.99994}
+  guid: e876e2c5830be9e4788a6a3eccdb33ca
+  position: {x: -349.51395, y: 1362.6534}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
   description: 
   drawGizmos: 0
-  relTarget: 0
-  relativePos: {x: -10, y: 0}
-  useMoveSpeed: 0
-  moveSpeed: 0
+  children:
+  - {fileID: 4360922043719662790}
+  - {fileID: -8673064682743159554}
+  - {fileID: -294003815580786837}
+  - {fileID: 3072867177270809880}
+  - {fileID: -2776617624119814898}
+  - {fileID: -2841799693173234547}
+  - {fileID: 168532433603693993}
 --- !u!114 &7221063678469256655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -813,7 +1573,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 071c76905ce69b14792fa622fb116ef4
-  position: {x: 28.000053, y: 276.00003}
+  position: {x: 52.486053, y: 445.65356}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -823,6 +1583,66 @@ MonoBehaviour:
   child: {fileID: -5415883247361196254}
   restartOnSuccess: 1
   restartOnFailure: 1
+--- !u!114 &7522530499964514709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aff847e64e3eb0642a795b5e3cd16b74, type: 3}
+  m_Name: MoveToRelWP
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 110e4e0edf07ae14e9bd0d6d10e0b39c
+  position: {x: 1629.772, y: 1562.9202}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  relTarget: 0
+  relativePos: {x: 0.1, y: -10}
+  useMoveSpeed: 1
+  moveSpeed: 15.4
+  moveToStarted: 0
+  stopRange: 1
+  debugDist: 0
+  debugHasPath: 0
+--- !u!114 &7907257748347797807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aff847e64e3eb0642a795b5e3cd16b74, type: 3}
+  m_Name: MoveToRelWP
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: e218089878cfc25489e74c5cd35b9cfa
+  position: {x: 2836.51, y: 1546.9999}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  relTarget: 0
+  relativePos: {x: -0.1, y: 10}
+  useMoveSpeed: 1
+  moveSpeed: 15.4
+  moveToStarted: 0
+  stopRange: 1
+  debugDist: 0
+  debugHasPath: 0
 --- !u!114 &8135189457351401730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -838,14 +1658,14 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 148018f8bc84d774e889ce9909a9a400
-  position: {x: -1673.7988, y: 1012.67456}
+  position: {x: -1829.5139, y: 1618.6534}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
   description: 
   drawGizmos: 0
-  ability: {fileID: 11400000, guid: ffcc6f7812f9eb54baa273ad03cdd12a, type: 2}
+  ability: {fileID: 11400000, guid: ac78e5d96e8cf3b47b4d30fab7a89e58, type: 2}
   relativePoint: {x: 0, y: 0}
   relativePoint2: {x: 0, y: 0}
   relativeTo: 1
@@ -869,7 +1689,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: eafb124b38360c54eacc6f24cb2a298c
-  position: {x: -2146.8047, y: 1009.99994}
+  position: {x: -2360.514, y: 1610.6534}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -900,7 +1720,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 99d09f0e5fce68c448a9b53722cc573c
-  position: {x: -2046.8048, y: 853.99994}
+  position: {x: -2260.514, y: 1454.6536}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -925,7 +1745,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: df8a4d7d8e0df2a46929c3aa94a466f9
-  position: {x: -2434.805, y: 841.99994}
+  position: {x: -468.51395, y: 1002.65356}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -933,3 +1753,33 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   setTrue: 0
+--- !u!114 &9150740524698074661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aff847e64e3eb0642a795b5e3cd16b74, type: 3}
+  m_Name: MoveToRelWP
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 462be24adb6bcec44b6a4ce14cb8966c
+  position: {x: 1907.0793, y: 1530.9998}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  relTarget: 0
+  relativePos: {x: 0.1, y: -10}
+  useMoveSpeed: 1
+  moveSpeed: 15
+  moveToStarted: 0
+  stopRange: 1
+  debugDist: 0
+  debugHasPath: 0
