@@ -52,6 +52,7 @@ public class Actor : NetworkBehaviour
     public float mainStat = 100.0f;
     [Header("Automatic")]
     public Actor target;
+    public IBuff buffHandler = null;
     [SerializeField] protected List<OldBuff.Buff> buffs;
 
     // When readyToFire is true queuedAbility will fire
@@ -94,7 +95,6 @@ public class Actor : NetworkBehaviour
     // Events
     public event EventHandler PlayerIsDead;
     public event EventHandler PlayerIsAlive;
-    public event EventHandler<StateChangedEventArgs> StateChanged;
 
     #region Properties
 
@@ -1480,11 +1480,6 @@ public class Actor : NetworkBehaviour
     protected virtual void OnPlayerIsAlive()
     {
         PlayerIsAlive?.Invoke(this, EventArgs.Empty);
-    }
-
-    protected virtual void OnStateChanged(StateChangedEventArgs e)
-    {
-        StateChanged?.Invoke(this, e);
     }
 
     #endregion
