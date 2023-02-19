@@ -166,6 +166,7 @@ public class Actor : NetworkBehaviour
     {
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         animator = GetComponent<Animator>();
+        buffHandler = GetComponent<IBuff>();
     }
 
     void Start()
@@ -205,7 +206,7 @@ public class Actor : NetworkBehaviour
         }
         // Server only logic below this point
 
-        if (TryGetComponent(out BuffHandler b))
+        if (buffHandler is BuffHandler b)
         {
             b.StatusEffectChanged += HandleStatusEffectChanged;
             b.Interrupted += interruptCast;
