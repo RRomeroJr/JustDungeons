@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90c83b31e3ed6d64c96f4acd8d919f18, type: 3}
+  m_Name: MenderSpRestEffect
+  m_EditorClassIdentifier: 
+  effectName: MenderSpRestEffect
+  id: 63
+  power: 1
+  powerScale: 1
+  parentBuff: {fileID: 0}
+  parentDelivery: {fileID: 0}
+  targetIsSecondary: 0
+  target: {fileID: 0}
+  caster: {fileID: 0}
+  targetWP:
+    Value: {x: 0, y: 0, z: 0}
+  targetWP2:
+    Value: {x: 0, y: 0, z: 0}
+  school: -1
+  crt: {fileID: 11400000, guid: 11a7a1aafb0dd204e93f65399831cb70, type: 2}

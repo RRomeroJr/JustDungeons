@@ -28,12 +28,13 @@ public class SchoolDamage : AbilityEff
     public override AbilityEff clone()
     {
         SchoolDamage temp_ref = ScriptableObject.CreateInstance(typeof (SchoolDamage)) as SchoolDamage;
-        temp_ref.effectName = effectName;
-        temp_ref.id = id;
-        temp_ref.power = power;
-        temp_ref.powerScale = powerScale;
+        copyBase(temp_ref);
+        // temp_ref.effectName = effectName;
+        // temp_ref.id = id;
+        // temp_ref.power = power;
+        // temp_ref.powerScale = powerScale;
         temp_ref.school = school;
-        temp_ref.targetIsSecondary = targetIsSecondary;
+        // temp_ref.targetIsSecondary = targetIsSecondary;
 
         return temp_ref;
     }

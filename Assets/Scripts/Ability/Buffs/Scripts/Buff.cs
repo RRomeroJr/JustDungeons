@@ -29,8 +29,12 @@ namespace OldBuff
         [SerializeField] public uint stacks = 1;
 
         public List<EffectInstruction> eInstructs;
-        [SerializeField] public List<UnityEvent<Buff, EffectInstruction>> onCastHooks;
+    [SerializeField] public List<UnityEvent<Buff, EffectInstruction>> onCastHooks;
         [SerializeField] public UnityEvent<Buff, EffectInstruction> onHitHooks;
+        [SerializeField] public List<Ability_V2> MakeGlow;
+        
+        [SerializeField] public List<GlowCheck> GlowChecks;
+
 
 
 
@@ -55,6 +59,10 @@ namespace OldBuff
                     lastTick += Time.deltaTime;
                 }
 
+            }
+            foreach(GlowCheck gi in GlowChecks){
+              
+                gi.glowChecks.Invoke();
             }
             if (lastTick >= tickRate)
             {
@@ -90,6 +98,15 @@ namespace OldBuff
 
                 eI.effect.buffStartEffect();
             }
+            foreach(Ability_V2 _a in MakeGlow){
+                UIManager.Instance.StartAbiltyGlow.Invoke(_a);
+            }
+            foreach(GlowCheck _gc in GlowChecks){
+                if(_gc.active){
+                    UIManager.Instance.glowList.Add(_gc.ability);
+                }
+                
+            }
 
         }
         public virtual void onFinish()
@@ -97,6 +114,15 @@ namespace OldBuff
             foreach (var eI in eInstructs)
             {
                 eI.effect.buffEndEffect();
+            }
+            foreach(Ability_V2 _a in MakeGlow){
+                UIManager.Instance.EndAbilityGlow.Invoke(_a);
+            }
+            foreach(GlowCheck _gc in GlowChecks){
+                if(_gc.active){
+                    UIManager.Instance.glowList.Remove(_gc.ability);
+                }
+                
             }
             Debug.Log(effectName + ": onFinish complete");
             //List<Buff> list_ref = actor.getBuffs();
@@ -298,6 +324,8 @@ namespace OldBuff
              tickRate, id, stackable, refreshable, stacks, particles);
             temp_ref.onCastHooks = onCastHooks;
             temp_ref.onHitHooks = onHitHooks;
+            temp_ref.MakeGlow = MakeGlow;
+            temp_ref.GlowChecks = GlowChecks;
             //  temp_ref.caster = caster;
             //  temp_ref.target = target;
             return temp_ref;

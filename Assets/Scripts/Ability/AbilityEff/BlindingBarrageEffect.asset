@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BlindingBarrageEffect
   m_EditorClassIdentifier: 
   effectName: BlindingBarrageEffect
-  id: -1
+  id: 47
   power: 0
   powerScale: 1
   parentBuff: {fileID: 0}
@@ -23,10 +23,19 @@ MonoBehaviour:
   caster: {fileID: 0}
   targetWP:
     Value: {x: 0, y: 0, z: 0}
-  eInstructs: []
+  targetWP2:
+    Value: {x: 0, y: 0, z: 0}
+  eInstructs:
+  - effect: {fileID: 11400000, guid: 190fdc6662cd0ce499b5c4bc6bedb96c, type: 2}
+    targetArg: 0
+    powerMod: 0
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
+    deliveryNVect2: {x: 0, y: 0}
   school: -1
   misslePrefab: {fileID: 8996080988287052582, guid: e8c32ffd6ed0000459624ede89a5f35f, type: 3}
   isSkillshot: 1
-  speed: 0.2
+  speed: 0.4
   ignoreDuration: 0
   duration: 2

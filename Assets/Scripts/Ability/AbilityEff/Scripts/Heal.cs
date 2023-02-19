@@ -9,6 +9,9 @@ public class Heal : AbilityEff
 {   
     public int school;
     public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
+        if(target == null){
+            Debug.LogError(name + "| no target. returning");
+        }
        if(caster !=null){
             target.restoreValue((int)power + (int)(caster.mainStat * powerScale), fromActor: caster);
         }
@@ -26,12 +29,8 @@ public class Heal : AbilityEff
     public override AbilityEff clone()
     {
         Heal temp_ref = ScriptableObject.CreateInstance(typeof (Heal)) as Heal;
-        temp_ref.effectName = effectName;
-        temp_ref.id = id;
-        temp_ref.power = power;
-        temp_ref.powerScale = powerScale;
+        copyBase(temp_ref);
         temp_ref.school = school;
-        temp_ref.targetIsSecondary = targetIsSecondary;
 
         return temp_ref;
     }

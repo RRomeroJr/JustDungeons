@@ -8,15 +8,28 @@ public class MoveTo : ActionNode
     public GameObject targetHolder;
     public bool useMoveSpeed = false;
     public float moveSpeed;
+    public bool moveToStarted = false;
+    float moveSpeedHolder;
+    public float stopRange = 1.0f;
 
     protected override void OnStart()
     {
-        if(useMoveSpeed){
-            context.controller.moveToPoint(pos, moveSpeed);
-        }
-        else{
-            context.controller.moveToPoint(pos);
-        }
+        moveToStarted = false;
+        
+        // try{
+        //     realPos = ContextualTargetToGmObj(relTarget).transform.position + (Vector3)relativePos;
+        // }
+        // catch{
+        //     Debug.LogError("MoveToRelWP: Could not get realPos using self");
+        //     realPos = context.transform.position + (Vector3)relativePos;
+        // }
+        
+        // if(useMoveSpeed){
+        //     context.controller.moveToPoint(pos, moveSpeed);
+        // }
+        // else{
+        //     context.controller.moveToPoint(pos);
+        // }
     }
 
     protected override void OnStop()
@@ -26,30 +39,41 @@ public class MoveTo : ActionNode
     protected override State OnUpdate()
     {
 
-        if (context.agent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathInvalid)
+       if(context.controller.arenaObject == null)
         {
+            Debug.Log("Skipping MoveToRelWP. Returning Failure");
             return State.Failure;
         }
-        
-        if (Mathf.Abs(Vector2.Distance(pos, context.gameObject.transform.position))
-                    > context.agent.stoppingDistance + 1.0)
+        if(!moveToStarted)
         {
+            moveToStarted = context.controller.moveToPoint(pos);
+            if(useMoveSpeed && moveToStarted)
+            {
+                moveSpeedHolder = context.agent.speed;
+                context.agent.speed = moveSpeed;
+            }
             return State.Running;
         }
-        else{
-            
-            return State.Success;
+        else
+        {
+
+            if(context.agent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathInvalid)
+            {
+                return State.Failure;
+            }
+            if ((Vector2.Distance(pos, context.transform.position) <= stopRange) && !context.agent.hasPath)
+            {
+                if(useMoveSpeed)
+                {
+                    context.agent.speed = moveSpeedHolder;
+                }
+                return State.Success;
+            }
+            else
+            {
+                return State.Running;
+            }
         }
     }
-    float getStoppingDistance(GameObject _target){
-        float selfDiagonal;
-        float tragetDiagonal;
-        selfDiagonal = Mathf.Sqrt(Mathf.Pow(context.gameObject.GetComponent<Renderer>().bounds.size.x, 2)
-                            + Mathf.Pow(context.gameObject.GetComponent<Renderer>().bounds.size.x, 2));
-        tragetDiagonal = Mathf.Sqrt(Mathf.Pow(context.controller.followTarget.GetComponent<Collider2D>().bounds.size.x, 2)
-                            + Mathf.Pow(context.controller.followTarget.GetComponent<Collider2D>().bounds.size.x, 2));
-        return ((tragetDiagonal + selfDiagonal) /2) * 0.9f;
-
-                            
-    }
+    
 }

@@ -45,6 +45,25 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
     deliveryNVect2: {x: 0, y: 0}
+  - effect: {fileID: 11400000, guid: ecee167fdd63c3a46b5fe73249917247, type: 2}
+    targetArg: 0
+    powerMod: 0
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 11400000, guid: 05f702353c4ce0740bbec34a6703ccf0, type: 2}
+          m_TargetAssemblyTypeName: AbilityEffectData, Assembly-CSharp
+          m_MethodName: cancelIfNotFacing
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    deliveryNVect2: {x: 0, y: 0}
   school: -1
   prefabScale: {x: 4, y: 4, z: 4}
   aoePrefab: {fileID: 8996080988287052582, guid: 148dc5250e1ba4049843bde9a347d0af, type: 3}

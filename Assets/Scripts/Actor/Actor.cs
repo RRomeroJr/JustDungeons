@@ -57,6 +57,7 @@ public class Actor : NetworkBehaviour
 
     // When readyToFire is true queuedAbility will fire
     private bool readyToFire = false; // Will True by CastBar for abilities w/ casts. Will only be true for a freme
+    [SerializeField]
     private bool isCasting = false; // Will be set False by CastBar
     public bool isChanneling = false;
     public float lastChannelTick = 0.0f;
@@ -79,7 +80,8 @@ public class Actor : NetworkBehaviour
     // then, do something
     public UnityEvent<int> onAbilityCastHooks = new UnityEvent<int>();
     public Animator animator;
-
+    public Nameplate nameplate;
+    
     // Status Effects
     [SyncVar]
     private int silenced = 0;
@@ -87,14 +89,20 @@ public class Actor : NetworkBehaviour
     private int feared = 0;
 
     // Actor state
-    private ActorState state = ActorState.Alive;
+    public ActorState state = ActorState.Alive;
     public bool canMove = true;
     public bool canAttack = true;
     public bool canCast = true;
+    public bool inCombat = false; //  in/ out of combat
+    public bool combatLocked = false;
 
     // Events
     public event EventHandler PlayerIsDead;
     public event EventHandler PlayerIsAlive;
+
+    //Attacker List
+    [SerializeField]
+    private List<Actor> attackerList = new List<Actor>();
 
     #region Properties
 
@@ -174,7 +182,7 @@ public class Actor : NetworkBehaviour
         if ((isLocalPlayer) || (tag != "Player"))
         {
             UIManager.playerActor = this;
-            Nameplate.Create(this);
+            nameplate = Nameplate.Create(this);
         }
         if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
@@ -192,12 +200,21 @@ public class Actor : NetworkBehaviour
         if (combatClass != null)
         {
             int counter = 0;
-            foreach (Ability_V2 abi in combatClass.abilityList)
-            {
-                GetComponent<Controller>().abilities[counter] = abi;
-                counter = counter + 1;
-            }
+            // Old setting up of keybinds
+            // foreach (Ability_V2 abi in combatClass.abilityList){
+            //     GetComponent<Controller>().abilities[counter] = abi;
+            //     counter = counter + 1;
+            // }
+            // New hobutton spawn
+            UIManager.Instance.SpawnHotbuttons(combatClass);
             classResources = combatClass.GetClassResources();
+            
+            if(combatClass.classStats != null){
+                setUpStats(combatClass.classStats);
+            }
+            if(combatClass.rac != null){
+                animator.runtimeAnimatorController = combatClass.rac;
+            }
         }
 
         if (!isServer)
@@ -212,29 +229,32 @@ public class Actor : NetworkBehaviour
             b.Interrupted += interruptCast;
         }
     }
+
     void Update()
     {
         updateCast();
         updateCooldowns();
+        UpdateCombatState();
 
         if (!isServer)
         {
             return;
         }
-        // Server only logic below this point
 
         handleCastQueue();
-        if (classResources.Count > 0)
-        {
+        if(classResources.Count > 0){
             ClassResourceCheckRegen();
         }
 
-        if (isChanneling)
-        {
+        if(isChanneling){
+            if (queuedAbility.isChannel == false)
+            {
+                //wtf how?
+                Debug.Log(queuedAbility.getName() + "is queued and anout to be channeled BUT isn't a channel| _ability ");
+            }
             checkChannel();
         }
     }
-
     void FixedUpdate()
     {
         HandlleBuffs();
@@ -280,6 +300,11 @@ public class Actor : NetworkBehaviour
             //Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is {2}!", actorName, _ability, EffectState);
             return false;
         }
+        if (isChanneling)
+        {
+            Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is CHANNELING and also somehow free to act!", actorName, _ability);
+            return false;
+        }
         if (CheckCooldownAndGCD(_ability))
         {
             Debug.LogFormat("Actor.castAbility3(): {0}'s {1} ability on cooldown", actorName, _ability);
@@ -291,8 +316,10 @@ public class Actor : NetworkBehaviour
             Debug.LogFormat("Actor.castAbility3(): {0} does not have the resources", actorName);
             return false;
         }
+        
         if (_ability.NeedsTargetActor())
         {
+            
             if (_target == null)
             {
                 //Debug.Log("Try find target..");
@@ -309,9 +336,15 @@ public class Actor : NetworkBehaviour
                 {
                     if (showDebug)
                     {
-                        Debug.Log("You are out of range");
+                        //Debug.Log("You are out of range");
                     }
                     return false;
+                }
+                if(_ability.mustBeFacing){
+                    if(!HBCTools.checkFacing(this, _target.gameObject)){
+                        Debug.Log("You are not facing target: " + _target.actorName);
+                        return false;
+                    }
                 }
             }
         }
@@ -398,7 +431,7 @@ public class Actor : NetworkBehaviour
         castAbility3(_ability, _target, _relWP, _relWP2);
         
     }
-    void queueAbility(Ability_V2 _ability, Actor _queuedTarget = null, NullibleVector3 _queuedRelWP = null, NullibleVector3 _queuedRelWP2 = null){
+   void queueAbility(Ability_V2 _ability, Actor _queuedTarget = null, NullibleVector3 _queuedRelWP = null, NullibleVector3 _queuedRelWP2 = null){
         //Preparing variables for a cast
         queuedAbility = _ability;
         queuedTarget = _queuedTarget;
@@ -592,7 +625,14 @@ public class Actor : NetworkBehaviour
                 //When the game is running a window seems to break if an instant ability (Like autoattack)
                 //goes off closely before a casted ability. So this check was implemented to fix it
 
-                resetClientCastVars();
+                if(tag == "Player")
+                {
+                    resetClientCastVars();
+                }   
+                else
+                {
+                    resetCastVars();
+                }
             }
             if(HBCTools.areHostle(this, _target)){
                 GetComponent<Controller>().autoAttacking = true;
@@ -600,13 +640,27 @@ public class Actor : NetworkBehaviour
         } 
     }
         
-    }
+   }
     
     public void startChannel(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null){
         // EI_Clones will be passed into an event that will allow them to be modified as need by other effects, stats, Buffs, etc.
+        if(_ability.isChannel == false)
+        {
+            //wtf how?
+            Debug.Log(_ability.getName() + "is not a channel BUT is being channeled");
+        }
         
         queueAbility(_ability, _target, _relWP, _relWP2);
-        isChanneling = true;
+        if (queuedAbility.isChannel == false)
+        {
+            //wtf how?
+            isChanneling = true;
+        }
+        else
+        {
+            isChanneling = true;
+        }
+        
         lastChannelTick = 0.0f;
         ReadyToFire = false;
         castTime = _ability.channelDuration;
@@ -614,35 +668,59 @@ public class Actor : NetworkBehaviour
         if(onAbilityCastHooks != null){
             onAbilityCastHooks.Invoke(_ability.id);
         }
+        if (queuedAbility.isChannel == false)
+        {
+            //wtf how?
+            Debug.Log(queuedAbility.getName() + "is queued and anout to be channeled BUT isn't a channel| _ability " +_ability.getName());
+        }
         fireChannel(queuedAbility, queuedTarget, queuedRelWP, queuedRelWP2);
         
     }
     //2nd part
     public void checkChannel(){
-        if(!IsCasting){
+
+        if (!IsCasting)
+        {
             isChanneling = false;
-            resetClientCastVars();
-        }
-        else{
-            
-
-
-
-            //check for middle hits
-            if(queuedAbility.channelDuration / (queuedAbility.numberOfTicks - 1) <= lastChannelTick){
-                
-                fireChannel(queuedAbility, queuedTarget, queuedRelWP, queuedRelWP2);
-                lastChannelTick = 0.0f;
-            }
-            //check for final hit
-            else if(castTime <= 0.0f){
-                
-                fireChannel(queuedAbility, queuedTarget, queuedRelWP, queuedRelWP2);
-                lastChannelTick = 0.0f;
+            if(tag == "Player")
+            {
                 resetClientCastVars();
             }
-        }
+            else
+            {
+                resetCastVars();
+            }
         
+        }
+        else
+        {
+
+            //check for middle hits
+            if (castTime <= 0.0f)
+            {
+
+                fireChannel(queuedAbility, queuedTarget, queuedRelWP, queuedRelWP2);
+                lastChannelTick = 0.0f;
+                isChanneling = false;
+                if(tag == "Player")
+                {
+                    resetClientCastVars();
+                }
+                else
+                {
+                    resetCastVars();
+                }
+            }
+
+            //check for final hit
+            else if (queuedAbility.channelDuration / (queuedAbility.numberOfTicks - 1) <= lastChannelTick)
+            {
+
+                fireChannel(queuedAbility, queuedTarget, queuedRelWP, queuedRelWP2);
+                lastChannelTick = 0.0f;
+            }
+        }
+
     }
     [Server]
     public void fireChannel(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null){
@@ -774,11 +852,19 @@ public class Actor : NetworkBehaviour
         IsCasting = false;
         resetCastTime();
     }
+    public void resetCastVars(){
+        resetQueue();
+        ReadyToFire = false;
+        IsCasting = false;
+        resetCastTime();
+    }
 
     void resetQueue(){
         queuedTarget = null;
         queuedRelWP = null;
         queuedRelWP2 = null;
+        queuedAbility = null;
+
     }
     void resetCastTime(){
         IsCasting = false;
@@ -818,6 +904,19 @@ public class Actor : NetworkBehaviour
         //Debug.Log(actorName + " is starting eI for effect (" + _eInstruct.effect.effectName + ") From: " + (_caster != null ? _caster.actorName : "none"));
         //Debug.Log("recieveEffect " + _eInstruct.effect.effectName +"| caster:" + (_caster != null ? _caster.getActorName() : "_caster is null"));
         _eInstruct.startEffect(this, _relWP, _caster, _secondaryTarget);
+        if(_eInstruct.effect.isHostile){
+            if(_caster == null){
+                return;
+            }
+            if(!inCombat){
+                inCombat = true;
+                GameManager.instance.OnActorEnterCombat.Invoke(this);
+            }
+            if(attackerList.Contains(_caster) == false && _caster != this){
+                attackerList.Add(_caster);
+            }
+            
+        }
     }
 
     #region OldBuff
@@ -956,28 +1055,88 @@ public class Actor : NetworkBehaviour
     void TRpcUpdateCooldowns(List<AbilityCooldown> hostListACs)
     {
         // Debug.Log("Updating cooldows hostListACs count: " +  hostListACs.Count.ToString());
+        // hostListACs.Capacity = 100;
         abilityCooldowns = hostListACs;
+    }
+    [Client]
+    [TargetRpc]
+    void TRpcUpdateCooldown(AbilityCooldown hostAC)
+    {
+        abilityCooldowns.Add(hostAC);
     }
     void updateCooldowns(){
         if(abilityCooldowns.Count > 0){
             for(int i = 0; i < abilityCooldowns.Count; i++){
                 if(abilityCooldowns[i].remainingTime > 0)
                     abilityCooldowns[i].remainingTime -= Time.deltaTime;
-                else
+                else{
                     abilityCooldowns.RemoveAt(i);
+                    UIManager.removeCooldownEvent.Invoke(i);
+                    i--;
+                }
+
             }
         }
     }
+
     void addToCooldowns(Ability_V2 _ability){
-        abilityCooldowns.Add(new AbilityCooldown(_ability));
+
+
+    
+        // int capacityBefore = abilityCooldowns.Capacity;
+        // AbilityCooldown refBefore = null;
+        
+        AbilityCooldown acRef = new AbilityCooldown(_ability);
+        abilityCooldowns.Add(acRef);
+        // Debug.Log("before: " + capacityBefore + "after: " + abilityCooldowns.Capacity);
         //Debug.Log("Host: Updating client cooldowns. Length of list: " + abilityCooldowns.Count);
-        if(tag == "Player"){
-            TRpcUpdateCooldowns(abilityCooldowns);
+        if(tag == "Player" && !isServer){
+            TRpcUpdateCooldown(acRef);
+        }
+        
+    }
+    [TargetRpc]
+    public void TRpcRefundCooldown(Ability_V2 _hostAbility, float _hostflatAmt){
+        RefundCooldown(_hostAbility, _hostflatAmt);
+        
+        // for(int i = 0; i < abilityCooldowns.Count; i++){
+        //     if(abilityCooldowns[i].abilityName == _hostToRefund.getName()){
+
+        //         abilityCooldowns[i].remainingTime -= _hostflatAmt;
+        //         if(abilityCooldowns[i].remainingTime <=0){
+        //             abilityCooldowns.RemoveAt(i);
+        //             UIManager.removeCooldownEvent.Invoke(i);
+        //             return;
+        //         }
+        //     }
+        // }
+        
+    }
+    public void RefundCooldown(Ability_V2 _toRefund, float flatAmt){
+        
+        for(int i = 0; i < abilityCooldowns.Count; i++){
+            if(abilityCooldowns[i].abilityName == _toRefund.getName()){
+
+                abilityCooldowns[i].remainingTime -= flatAmt;
+                if(abilityCooldowns[i].remainingTime <=0){
+                    abilityCooldowns.RemoveAt(i);
+                    UIManager.removeCooldownEvent.Invoke(i);
+                    
+                }
+                if(isServer && !isLocalPlayer && tag == "Player"){
+                    //Debug.Log("Server: Telling client to refund cooldown");
+                    TRpcRefundCooldown(_toRefund, flatAmt);
+                }
+                
+                return;
+            }
         }
         
     }
     public bool checkOnCooldown(Ability_V2 _ability){
-        
+        if(_ability == null){
+            Debug.Log("The ability you are checking on cd is null");
+        }
         if(abilityCooldowns.Count > 0){
             for(int i = 0; i < abilityCooldowns.Count; i++){
                 if(abilityCooldowns[i].getName() == _ability.getName()){
@@ -1056,6 +1215,7 @@ public class Actor : NetworkBehaviour
                 {
                     updateClassResourceAmount(index, 0);
                 }
+                
                 return true;
             }
             index++;
@@ -1107,17 +1267,15 @@ public class Actor : NetworkBehaviour
     }
     public void ClassResourceCheckRegen(){
         
-        resourceTickTime += Time.deltaTime;
-        if(resourceTickTime < resourceTickMax){
-            return;
-        }
-        resourceTickTime -= resourceTickMax;
-        int count = 0;
         foreach(ClassResource _cr in classResources){
-            if(_cr.combatRegen != 0){
-                restoreResource(_cr.crType, _cr.combatRegen);
+            if(_cr.tickMax > 0.0f){
+                _cr.tickTime += Time.deltaTime;
+                if(_cr.tickTime >= _cr.tickMax){
+                    restoreResource(_cr.crType, _cr.combatRegen);
+                    _cr.tickTime -= _cr.tickMax;
+                }
             }
-            count += 1;
+
         }
     }
     [ClientRpc]
@@ -1195,7 +1353,7 @@ public class Actor : NetworkBehaviour
         // For ex. a Ability that reduces maxHealth or destroys mana
 
         //Debug.Log("damageValue: " + amount.ToString()+ " on " + actorName);
-        if (amount <= 0)
+        if (amount < 0)
         {
             Debug.Log("Amount was Neg calling to restoreValue instead");
             restoreValue(-1 * amount, valueType); //if negative call restore instead with amount's sign flipped
@@ -1207,10 +1365,12 @@ public class Actor : NetworkBehaviour
                 Health -= amount;
                 if (fromActor != null)
                 {
+
                     if (fromActor.tag == "Player")
                     {
                         TRpcCreateDamageTextOffensive(fromActor.GetNetworkConnection(), amount);
                     }
+                    addDamamgeToMeter(fromActor, amount);
                 }
                 if (tag == "Player")
                 {
@@ -1238,7 +1398,7 @@ public class Actor : NetworkBehaviour
         //  Maybe in the future calcing healing may have diff formula to calcing damage taken
 
         //Debug.Log("restoreValue: " + amount.ToString()+ " on " + actorName);
-        if (amount <= 0)
+        if (amount < 0)
         {
             Debug.Log("Amount was Neg calling to damageValue instead");
             damageValue(-1 * amount, valueType); // if negative call damage instead with amount's sign flipped
@@ -1249,10 +1409,12 @@ public class Actor : NetworkBehaviour
                 Health += amount;
                 if (fromActor != null)
                 {
+ 
                     if (fromActor.tag == "Player")
                     {
                         TRpcCreateDamageTextOffensive(fromActor.GetNetworkConnection(), amount);
                     }
+                    addDamamgeToMeter(fromActor, amount);
                 }
                 if (tag == "Player")
                 {
@@ -1274,6 +1436,7 @@ public class Actor : NetworkBehaviour
                 break;
         }
     }
+
     public Ability_V2 getQueuedAbility(){
         return queuedAbility;
     }
@@ -1343,9 +1506,93 @@ public class Actor : NetworkBehaviour
     public void RpcSetTarget(Actor _OwnerTarget){
         target = _OwnerTarget;
     }
+    public Actor getQueuedTarget(){
+        return queuedTarget;
+    }
+    
+    public Vector2 getCastingWPToFace(){
+    
+        if(queuedRelWP2 != null)
+        {
+            return queuedRelWP2.Value + transform.position;
+        }
+        else if(queuedRelWP != null)
+        {
+            return queuedRelWP.Value + transform.position;
+        }
+       
+        return Vector2.zero;
+    }
+    public void SetTarget(Actor _target){
+        if(!isLocalPlayer && !isServer){
+            Debug.LogError(name + ": you cannot change this actor's target");
+            return;
+        }
+
+        try{
+            target.nameplate.selectedEvent.Invoke(false);
+        }
+        catch{
+
+        }
+
+        target = _target;
+        LocalPlayerBroadcastTarget();
+
+
+        try{
+            target.nameplate.selectedEvent.Invoke(true);
+        }
+        catch{
+
+        }
+    }
    
     // Misc---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    void UpdateCombatState(){
+        bool result = IsInCombat();
+        if(inCombat != result){
+            inCombat = result;
+            if(!inCombat){
+                GameManager.instance.OnActorLeaveCombat.Invoke(this);
+            }
+        }
     
+    }
+    
+    void CleanUpAttackerList(){
+
+    }
+    bool IsInCombat(){
+        if(combatLocked){
+            return true;
+        }
+        if(attackerList.Count <= 0){
+            return false;
+        }
+        
+        int i = 0;
+        while(i< attackerList.Count){
+            if(attackerList[i] == null){
+            
+                attackerList.RemoveAt(i);
+            }
+            else{
+                if(attackerList[i].state != ActorState.Dead){
+                    return true;
+                }
+                i++;
+            }
+        }
+        
+        // foreach(Actor a in attackerList){
+        //     if(a.State != ActorState.Dead){
+        //         return true;
+        //     }
+        // }
+        return false;
+
+    }
     [TargetRpc]
     void TRpcCreateDamageTextSelf(int amount)
     {
@@ -1382,10 +1629,7 @@ public class Actor : NetworkBehaviour
         //Make cast bar red for a sec or two
     }
     public void LocalPlayerBroadcastTarget(){
-        if(!isLocalPlayer){
-            Debug.LogError("Target not set. not local player");
-            return;
-        }
+        
         if(isServer){
             RpcSetTarget(target);
         }
@@ -1408,6 +1652,13 @@ public class Actor : NetworkBehaviour
     [ClientRpc]
     public void Knockback(Vector2 _hostVect){
         GetComponent<Rigidbody2D>().AddForce(_hostVect);
+    }
+    public void setUpStats(ClassStats _classStats){
+        //maxHealth = _classStats.health;
+        //health = maxHealth;
+        
+        maxHealth = (int)(maxHealth * _classStats.healthMutliplier);
+        health = maxHealth;
     }
 
     private void PlayerDead()

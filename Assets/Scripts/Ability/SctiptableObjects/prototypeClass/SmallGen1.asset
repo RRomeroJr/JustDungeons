@@ -20,14 +20,17 @@ MonoBehaviour:
     onSendHooks:
       m_PersistentCalls:
         m_Calls: []
+    deliveryNVect2: {x: 0, y: 0}
   - effect: {fileID: 11400000, guid: e22d1f02ab9411341b689f7543f377d3, type: 2}
     targetArg: 0
     powerMod: 1
     onSendHooks:
       m_PersistentCalls:
         m_Calls: []
+    deliveryNVect2: {x: 0, y: 0}
+  buffs: []
   castTime: 0
-  cooldown: 6
+  cooldown: 10
   needsActor: 1
   needsWP: 0
   id: 22
@@ -39,3 +42,8 @@ MonoBehaviour:
   offGDC: 0
   rangeClass: 1
   range: 3.5
+  interruptable: 1
+  castWhileMoving: 0
+  mustBeFacing: 0
+  hotbuttonImage: {fileID: 0}
+  hotbuttonColor: {r: 1, g: 1, b: 1, a: 1}

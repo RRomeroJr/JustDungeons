@@ -20,6 +20,8 @@ MonoBehaviour:
     onSendHooks:
       m_PersistentCalls:
         m_Calls: []
+    deliveryNVect2: {x: 0, y: 0}
+  buffs: []
   castTime: 0
   cooldown: 0
   needsActor: 1
@@ -35,3 +37,8 @@ MonoBehaviour:
   offGDC: 0
   rangeClass: 1
   range: 3.5
+  interruptable: 1
+  castWhileMoving: 0
+  mustBeFacing: 0
+  hotbuttonImage: {fileID: -1642186196, guid: f8f95a62a02698748817fc0538d0092e, type: 3}
+  hotbuttonColor: {r: 1, g: 1, b: 1, a: 1}

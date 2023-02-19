@@ -135,7 +135,7 @@ MonoBehaviour:
   aoeActorIgnore: []
   eInstructs: []
   connectedToCaster: 0
-  delayTimer: 2
+  delayTimer: 7
   start: 0
   type: 1
   speed: 0.3
@@ -143,6 +143,9 @@ MonoBehaviour:
   tickRate: 1.5
   aoeCap: 0
   followTarget: 0
+  followCaster: 0
+  useDisconnectTimer: 0
+  disconnectTimer: 0
   ignoreDuration: 1
   innerCircleRadius: 0
   safeZoneCenter: {x: 0, y: 0}
