@@ -193,21 +193,19 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         }
     }
 
-    private void Update()
-    {
-        for (int i = buffs.Count - 1; i >= 0; i--)
-        {
-            buffs[i].Update();
-        }
-    }
-
     [Server]
     public void AddBuff(BuffScriptableObject buffSO)
     {
+        if (RefreshOrStackBuff(buffSO))
+        {
+            return;
+        }
+
+        // Create buff if it is not already present
         var newBuff = new Buff
         {
             target = this.gameObject,
-            buff = buffSO,
+            buffSO = buffSO,
             remainingTime = buffSO.Duration
         };
         newBuff.Start();
@@ -221,6 +219,38 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         buff.Finished -= HandleBuffFinished;
         buff.End();
         buffs.Remove(buff);
+    }
+
+    private void ChangeStatusEffect(StatusEffectState newEffect)
+    {
+        var statusEffectChangedEventArgs = new StatusEffectChangedEventArgs
+        {
+            Feared = Feared,
+            Silenced = Silenced,
+            Stunned = Stunned,
+            Dizzy = Dizzy,
+            NewEffect = newEffect
+        };
+        OnStatusEffectChanged(statusEffectChangedEventArgs);
+    }
+
+    /// <summary>
+    /// Handles refreshing or stacking a buff if it is already present on the target
+    /// </summary>
+    /// <returns>True if the buff was refreshed or stacked, false if it was not present</returns>
+    private bool RefreshOrStackBuff(BuffScriptableObject buffSO)
+    {
+        var buff = buffs.FirstOrDefault(b => b.buffSO == buffSO);
+        if (buff == null)
+        {
+            return false;
+        }
+        if (buff.buffSO.Stackable)
+        {
+            buff.Stacks++;
+        }
+        buff.remainingTime = buffSO.Duration;
+        return true;
     }
 
     private void HandleBuffFinished(object sender, EventArgs e)
