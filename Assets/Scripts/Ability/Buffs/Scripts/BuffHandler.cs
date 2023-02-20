@@ -134,15 +134,6 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         }
     }
 
-    public float SpeedModifier
-    {
-        get => speedModifier;
-        set
-        {
-            speedModifier *= value;
-        }
-    }
-
     public int Dizzy
     {
         get

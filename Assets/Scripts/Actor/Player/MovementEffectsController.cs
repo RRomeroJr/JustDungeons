@@ -121,7 +121,7 @@ public class MovementEffectsController : MonoBehaviour
         }
         if (HBCTools.NT_AuthoritativeClient(GetComponent<NetworkTransform>()))
         {
-            agent.speed = GetComponent<Controller>().moveSpeed * GetComponent<ISpeedModifier>().SpeedModifier;
+            agent.speed = GetComponent<Controller>().moveSpeed;
             Vector3 randomPointOnCircle = UnityEngine.Random.insideUnitCircle.normalized * 10;
             agent.SetDestination(transform.position + randomPointOnCircle);
         }
