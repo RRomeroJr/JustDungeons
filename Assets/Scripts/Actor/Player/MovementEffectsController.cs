@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using UnityEngine.AI;
@@ -41,8 +42,8 @@ public class MovementEffectsController : MonoBehaviour
     private void HandleEffectChanged(object sender, StatusEffectChangedEventArgs e)
     {
         effectDict = e.ToDictionary();
-        // If new effect is None and the previous effect has not ended, return early
-        if (e.NewEffect == StatusEffectState.None && effectDict[currentEffectState] > 0)
+        // If new effect does not disable movement and the current effect has not ended, return early
+        if (!StateDisables(e.NewEffect) && effectDict[currentEffectState] > 0)
         {
             return;
         }
@@ -71,6 +72,11 @@ public class MovementEffectsController : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public bool StateDisables(StatusEffectState state)
+    {
+        return state is StatusEffectState.Dizzy or StatusEffectState.Stunned or StatusEffectState.Feared;
     }
 
     #region Dizzy
