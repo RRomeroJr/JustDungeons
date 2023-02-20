@@ -15,13 +15,16 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
     [SerializeField] private bool silenceImmune;
     [SerializeField] private bool stunImmune;
     [SerializeField] private bool dizzyImmune;
+    [SerializeField] private bool slowImmune;
+    [SerializeField] private bool hasteImmune;
 
     [Header("Debug Values")]
     [SerializeField] private int feared;
     [SerializeField] private int silenced;
     [SerializeField] private int stunned;
     [SerializeField] private int dizzy;
-    [SerializeField] private float speedModifier;
+    [SerializeField] private float slow;
+    [SerializeField] private float haste;
     [SerializeField] private readonly SyncList<Buff> buffs = new SyncList<Buff>();
 
     #region Events
@@ -158,6 +161,24 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         }
     }
 
+    public float Haste
+    {
+        get => haste;
+        set
+        {
+            haste *= value;
+        }
+    }
+
+    public float Slow
+    {
+        get => slow;
+        set
+        {
+            slow *= value;
+        }
+    }
+
     #endregion
 
     private void Start()
@@ -166,7 +187,8 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         silenced = 0;
         feared = 0;
         dizzy = 0;
-        speedModifier = 1;
+        slow = 1;
+        haste = 1;
         if (!isServer)
         {
             buffs.Callback += OnBuffsUpdated;
