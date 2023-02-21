@@ -74,7 +74,7 @@ public class MovementEffectsController : MonoBehaviour
         }
     }
 
-    public bool StateDisables(StatusEffectState state)
+    private bool StateDisables(StatusEffectState state)
     {
         return state is StatusEffectState.Dizzy or StatusEffectState.Stunned or StatusEffectState.Feared;
     }

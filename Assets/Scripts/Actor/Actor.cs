@@ -35,8 +35,7 @@ public enum ActorState
 public class Actor : NetworkBehaviour
 {
     [Header ("Set Manually in Prefab if Needed") ]
-    
-    
+
     public bool showDebug = false;
     [SyncVar]
     [SerializeField]protected string actorName;
@@ -90,8 +89,11 @@ public class Actor : NetworkBehaviour
 
     // Actor state
     public ActorState state = ActorState.Alive;
+    [SyncVar]
     public bool canMove = true;
+    [SyncVar]
     public bool canAttack = true;
+    [SyncVar]
     public bool canCast = true;
     public bool inCombat = false; //  in/ out of combat
     public bool combatLocked = false;
@@ -217,11 +219,8 @@ public class Actor : NetworkBehaviour
             }
         }
 
-        if (!isServer)
-        {
-            return;
-        }
-        // Server only logic below this point
+        if (!isServer) { return; }
+        // Server only logic below
 
         if (buffHandler is BuffHandler b)
         {
@@ -236,10 +235,8 @@ public class Actor : NetworkBehaviour
         updateCooldowns();
         UpdateCombatState();
 
-        if (!isServer)
-        {
-            return;
-        }
+        if (!isServer) { return; }
+        // Server only logic below  
 
         handleCastQueue();
         if(classResources.Count > 0){
@@ -1682,7 +1679,8 @@ public class Actor : NetworkBehaviour
 
     #region CalculateState
 
-    void HandleStatusEffectChanged(object sender, StatusEffectChangedEventArgs e)
+    [Server]
+    private void HandleStatusEffectChanged(object sender, StatusEffectChangedEventArgs e)
     {
         if (state == ActorState.Dead)
         {
@@ -1693,6 +1691,7 @@ public class Actor : NetworkBehaviour
         canCast = CalculateCanCast(e);
     }
 
+    [Server]
     private bool CalculateCanMove(StatusEffectChangedEventArgs e)
     {
         if (e.Feared > 0 || e.Stunned > 0)
@@ -1702,6 +1701,7 @@ public class Actor : NetworkBehaviour
         return true;
     }
 
+    [Server]
     private bool CalculateCanAttack(StatusEffectChangedEventArgs e)
     {
         if (e.Feared > 0 || e.Stunned > 0)
@@ -1711,6 +1711,7 @@ public class Actor : NetworkBehaviour
         return true;
     }
 
+    [Server]
     private bool CalculateCanCast(StatusEffectChangedEventArgs e)
     {
         if (e.Feared > 0 || e.Stunned > 0 || e.Silenced > 0)
