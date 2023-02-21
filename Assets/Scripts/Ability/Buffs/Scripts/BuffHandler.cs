@@ -45,6 +45,10 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
     /// Receive heal from buff
     /// </summary>
     public event EventHandler<HealEventArgs> HealTaken;
+    /// <summary>
+    /// New slow or haste buff effect applied
+    /// </summary>
+    public event EventHandler<SpeedChangedEventArgs> SpeedChanged;
 
     #endregion
 
@@ -72,6 +76,11 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
     protected virtual void OnHealTaken(HealEventArgs e)
     {
         HealTaken?.Invoke(this, e);
+    }
+
+    protected virtual void OnSpeedChanged(SpeedChangedEventArgs e)
+    {
+        SpeedChanged?.Invoke(this, e);
     }
 
     #endregion
@@ -156,6 +165,7 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         set
         {
             haste *= value;
+            ChangeSpeed();
         }
     }
 
@@ -165,6 +175,7 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         set
         {
             slow *= value;
+            ChangeSpeed();
         }
     }
 
@@ -243,6 +254,16 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
             NewEffect = newEffect
         };
         OnStatusEffectChanged(statusEffectChangedEventArgs);
+    }
+
+    private void ChangeSpeed()
+    {
+        var speedChangedEventArgs = new SpeedChangedEventArgs
+        {
+            Slow = Slow,
+            Haste = Haste
+        };
+        OnSpeedChanged(speedChangedEventArgs);
     }
 
     /// <summary>
