@@ -56,56 +56,65 @@ public class PlayerController : Controller
         actor.PlayerIsDead += HandlePlayerDead;
         actor.PlayerIsAlive += HandlePlayerAlive;
     }
-    void FixedUpdate(){
-        if (isLocalPlayer){
-            
-            switch (state)
-            {
-                case PlayerState.Alive:
-                    if (actor.canMove)
+    void FixedUpdate()
+    {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+
+        switch (state)
+        {
+            case PlayerState.Alive:
+                if (!actor.canMove)
+                {
+                    break;
+                }
+                Vector2 newVect = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+
+                if (Mathf.Abs(newVect.magnitude) > 0.2)
+                {
+                    if (!tryingToMove)
                     {
-                        Vector2 newVect = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-                        
-                        if (Mathf.Abs(newVect.magnitude) > 0.2)
-                        {
-                            if(!tryingToMove){
-                                CmdSetTryingToMove(true);
-                            }
-                            
-                            MoveInDirection(newVect);
-
-                            if(Input.GetMouseButton(1) == false){
-                                HBCTools.Quadrant newVectQuad;
-                                newVectQuad = HBCTools.GetQuadrant(newVect);
-                                if((newVect.x == 0.0f)||(newVect.y == 0.0f)){ //don't try to chan
-                                    break;
-                                }
-                                if(HBCTools.GetQuadrant(facingDirection) != newVectQuad){
-                                    facingDirection = HBCTools.QuadrantToVector(newVectQuad);
-                                    CmdSetFacingDirection(facingDirection);
-                                }
-                            }
-                        }
-                        else{
-                            if(tryingToMove){
-                                CmdSetTryingToMove(false);
-                            }
-                        }
-                        //if(not in deadzone)
-                        // Vector2 newVect = new Vector2(Input.GetAxis("Horizontal") * HORIZ_MOVE_ACCEL * Time.deltaTime,
-                        //     Input.GetAxis("Vertical") * VERT_MOVE_ACCEL * Time.deltaTime);
-                        // gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
-
+                        CmdSetTryingToMove(true);
                     }
-                    break;
-                case PlayerState.Dead:
-                    break;
-                default:
-                    break;
-            }
+
+                    MoveInDirection(newVect);
+
+                    if (Input.GetMouseButton(1) == false)
+                    {
+                        HBCTools.Quadrant newVectQuad;
+                        newVectQuad = HBCTools.GetQuadrant(newVect);
+                        if ((newVect.x == 0.0f) || (newVect.y == 0.0f))
+                        { //don't try to chan
+                            break;
+                        }
+                        if (HBCTools.GetQuadrant(facingDirection) != newVectQuad)
+                        {
+                            facingDirection = HBCTools.QuadrantToVector(newVectQuad);
+                            CmdSetFacingDirection(facingDirection);
+                        }
+                    }
+                }
+                else
+                {
+                    if (tryingToMove)
+                    {
+                        CmdSetTryingToMove(false);
+                    }
+                }
+                //if(not in deadzone)
+                // Vector2 newVect = new Vector2(Input.GetAxis("Horizontal") * HORIZ_MOVE_ACCEL * Time.deltaTime,
+                //     Input.GetAxis("Vertical") * VERT_MOVE_ACCEL * Time.deltaTime);
+                // gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
+                break;
+            case PlayerState.Dead:
+                break;
+            default:
+                break;
         }
     }
-    
+
     Vector2 PlayerToMouse(){
         return (Vector2)(HBCTools.GetMousePosWP() - transform.position);
     }
