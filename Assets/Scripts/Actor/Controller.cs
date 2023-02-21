@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
@@ -20,6 +21,8 @@ public class Controller : NetworkBehaviour
     // Movement
     [SyncVar]
     public float moveSpeed = 420;
+    [SyncVar]
+    public float moveSpeedModifier = 1.0f;
     [SyncVar]
     public Vector2? moveDirection;
     public Vector2 facingDirection;
@@ -48,6 +51,14 @@ public class Controller : NetworkBehaviour
     {
         //autoAttackClone = AbilityData.instance.AutoAttack.clone();
         facingDirection = new Vector2(0.5f, -0.5f);
+
+        if (!isServer) { return; }
+        // Server only logic below
+
+        if (TryGetComponent(out BuffHandler b))
+        {
+            b.SpeedChanged += HandleSpeedChanged;
+        }
     }
 
     public virtual void Update()
@@ -245,5 +256,13 @@ public class Controller : NetworkBehaviour
     protected void RpcSetFacingDirection(Vector2 _ownersFacingDirection)
     {
         facingDirection = _ownersFacingDirection;
+    }
+
+    [Server]
+    private void HandleSpeedChanged(object sender, SpeedChangedEventArgs e)
+    {
+        // Convert slow multiplier to speed multiplier. 1.1 slow (10% slow) = 0.9 speed
+        float tempSlow = 2.0f - e.Slow;
+        moveSpeedModifier = tempSlow * e.Haste;
     }
 }
