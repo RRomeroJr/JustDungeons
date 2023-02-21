@@ -26,8 +26,14 @@ public class StatusEffectChangedEventArgs : EventArgs
             { StatusEffectState.Feared, Feared },
             { StatusEffectState.Silenced, Silenced },
             { StatusEffectState.Stunned, Stunned },
-            { StatusEffectState.Dizzy, Dizzy },
+            { StatusEffectState.Dizzy, Dizzy }
         };
         return dict;
     }
+}
+
+public class SpeedChangedEventArgs : EventArgs
+{
+    public float Slow { get; set; }
+    public float Haste { get; set; }
 }
