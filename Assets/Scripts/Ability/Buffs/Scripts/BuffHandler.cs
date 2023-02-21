@@ -64,13 +64,11 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         }
     }
 
-    [Server]
     protected virtual void OnDamageTaken(DamageEventArgs e)
     {
         DamageTaken?.Invoke(this, e);
     }
 
-    [Server]
     protected virtual void OnHealTaken(HealEventArgs e)
     {
         HealTaken?.Invoke(this, e);
@@ -278,10 +276,6 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
 
     public void ApplyDamage(float damage)
     {
-        if (!isServer)
-        {
-            return;
-        }
         var damageEventArgs = new DamageEventArgs
         {
             Damage = damage
@@ -291,10 +285,6 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
 
     public void ApplyHeal(float heal)
     {
-        if (!isServer)
-        {
-            return;
-        }
         var healEventArgs = new HealEventArgs
         {
             Heal = heal
