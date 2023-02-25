@@ -35,7 +35,9 @@ namespace BuffSystem
         /// </summary>
         public void Update()
         {
-            if (remainingTime > 0.0f)
+            timeTillTick -= Time.deltaTime;
+            remainingStackTime -= Time.deltaTime;
+            remainingBuffTime -= Time.deltaTime;
             {
                 remainingTime -= Time.deltaTime;
                 lastTick += Time.deltaTime;
