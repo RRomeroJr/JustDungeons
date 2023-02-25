@@ -10,9 +10,9 @@ namespace BuffSystem
     public class Buff
     {
         [SerializeField] public BuffScriptableObject buffSO;
-        [SerializeField] private float lastTick = 0.0f;
-        [SerializeField] public float remainingTime = 0.0f;
-        [SerializeField] private int stacks = 1;
+        [SerializeField] private float timeTillTick;
+        [SerializeField] private float remainingStackTime;
+        [SerializeField] public float remainingBuffTime;
         [SerializeField] public GameObject target;
         public event EventHandler Finished;
 
