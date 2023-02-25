@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BuffSystem
@@ -14,20 +15,19 @@ namespace BuffSystem
         [SerializeField] private float remainingStackTime;
         [SerializeField] public float remainingBuffTime;
         [SerializeField] public GameObject target;
+        private readonly Queue<float> stackEndTimes;
         public event EventHandler Finished;
 
         #region Properties
 
-        public int Stacks
-        {
-            get => stacks;
-            set => stacks = value;
-        }
+        public int Stacks => stackEndTimes.Count + 1;
 
         #endregion
 
         public Buff()
         {
+            stackEndTimes = new Queue<float>();
+            remainingStackTime = buffSO.Duration;
         }
 
         /// <summary>
