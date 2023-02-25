@@ -49,9 +49,18 @@ namespace BuffSystem
                 lastTick -= buffSO.TickRate;
             }
 
-            if (remainingTime <= 0)
+        /// <summary>
+        /// Removes stacks from the queue until a stack that has not expired for the current tick is found or the queue is empty
+        /// </summary>
+        private void RemoveExpiredStacksAtTickTime()
+        {
+            if (remainingStackTime > 0 || stackEndTimes.Count < 1)
             {
-                OnFinish();
+                return;
+            }
+            while (remainingStackTime <= timeTillTick && stackEndTimes.Count > 0)
+            {
+                remainingStackTime = stackEndTimes.Dequeue() - Time.time;
             }
         }
 
