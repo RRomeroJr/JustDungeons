@@ -15,7 +15,7 @@ namespace BuffSystem
         [SerializeField] private float remainingStackTime;
         [SerializeField] public float remainingBuffTime;
         [SerializeField] public GameObject target;
-        private readonly Queue<float> stackEndTimes;
+        private readonly Queue<float> stackEndTimes = new();
         public event EventHandler Finished;
 
         #region Properties
@@ -26,8 +26,6 @@ namespace BuffSystem
 
         public Buff()
         {
-            stackEndTimes = new Queue<float>();
-            remainingStackTime = buffSO.Duration;
         }
 
         /// <summary>
@@ -67,7 +65,9 @@ namespace BuffSystem
         public void Start()
         {
             buffSO.StartBuff(target);
-            remainingTime = buffSO.Duration;
+            remainingStackTime = buffSO.Duration;
+            remainingBuffTime = buffSO.Duration;
+            timeTillTick = buffSO.TickRate;
         }
 
         public void End()

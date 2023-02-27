@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BuffSystem;
 using Mirror;
@@ -228,11 +229,10 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         {
             target = this.gameObject,
             buffSO = buffSO,
-            remainingTime = buffSO.Duration
         };
         newBuff.Start();
+        newBuff.Finished += HandleBuffFinished;
         buffs.Add(newBuff);
-        buffs.Last().Finished += HandleBuffFinished;
     }
 
     [Server]
