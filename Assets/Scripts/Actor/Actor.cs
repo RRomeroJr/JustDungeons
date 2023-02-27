@@ -191,8 +191,16 @@ public class Actor : NetworkBehaviour
             UIManager.playerActor = this;
             nameplate = Nameplate.Create(this);
         }
+        if (isLocalPlayer)
+        {
+            UIManager.Instance.SpawnBuffBar();
+        }
         if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
+            if (GameManager.instance == null)
+            {
+                return;
+            }
             //Buff stats here from GameManager?
             bool scaleCurrentHealth = (maxHealth == Health);
 
@@ -910,7 +918,8 @@ public class Actor : NetworkBehaviour
             if(_caster == null){
                 return;
             }
-            if(!inCombat){
+            if (!inCombat && GameManager.instance != null)
+            {
                 inCombat = true;
                 GameManager.instance.OnActorEnterCombat.Invoke(this);
             }
@@ -1552,6 +1561,10 @@ public class Actor : NetworkBehaviour
    
     // Misc---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     void UpdateCombatState(){
+        if (GameManager.instance == null)
+        {
+            return;
+        }
         bool result = IsInCombat();
         if(inCombat != result){
             inCombat = result;
