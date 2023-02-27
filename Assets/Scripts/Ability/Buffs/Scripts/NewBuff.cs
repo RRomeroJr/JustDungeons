@@ -90,6 +90,12 @@ namespace BuffSystem
             buffSO.EndBuff(target);
         }
 
+        public void AddStack()
+        {
+            stackEndTimes.Enqueue(Time.time + buffSO.Duration);
+            remainingBuffTime = buffSO.Duration;
+        }
+
         protected virtual void OnFinish()
         {
             Finished?.Invoke(this, EventArgs.Empty);
