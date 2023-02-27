@@ -121,17 +121,18 @@ public class Actor : NetworkBehaviour
             {
                 return;
             }
-            health = value;
-            if (health <= 0)
+            if (value <= 0)
             {
                 health = 0;
                 PlayerDead();
                 return;
             }
-            if (health > maxHealth)
+            if (value > maxHealth)
             {
                 health = maxHealth;
+                return;
             }
+            health = value;
         }
     }
 
