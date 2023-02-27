@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 3602611100074717277}
   - component: {fileID: -5141495613212202973}
   - component: {fileID: -1590596943024381783}
+  - component: {fileID: -2379056406537448589}
   m_Layer: 6
   m_Name: TestPlayer
   m_TagString: Player
@@ -258,11 +259,12 @@ MonoBehaviour:
     amount: 0
     combatRegen: 0
     outOfCombatRegen: 0
+    tickTime: 0
+    tickMax: 0
   mainStat: 100
   target: {fileID: 0}
-  buffHandler: {fileID: 0}
-  canMove: 1
   buffs: []
+  isCasting: 0
   isChanneling: 0
   lastChannelTick: 0
   queuedAbility: {fileID: 0}
@@ -279,7 +281,15 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   animator: {fileID: 0}
-  combatClass: {fileID: 0}
+  nameplate: {fileID: 0}
+  state: 0
+  canMove: 1
+  canAttack: 1
+  canCast: 1
+  inCombat: 0
+  combatLocked: 0
+  attackerList: []
+  combatClass: {fileID: 11400000, guid: 9209a080bfcf7b54eb03e313f2758bac, type: 2}
   resourceTickTime: 0
   resourceTickMax: 1
 --- !u!114 &3602611100074717273
@@ -331,14 +341,8 @@ MonoBehaviour:
   syncInterval: 0.1
   autoAttackClone: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
   actor: {fileID: 0}
-  agent: {fileID: 0}
-  autoAttacking: 0
   followTarget: {fileID: 0}
-  resolvingMoveTo: 0
-  facingDirection: {x: 0, y: 0}
   globalCooldown: 0
-  autoAttackRequest: 0
-  moveSpeed: 10
   abilities:
   - {fileID: 11400000, guid: d7744661f2e47b84fab4ae4c4352c88d, type: 2}
   - {fileID: 11400000, guid: d9cf312441b110944872f8ce388f759c, type: 2}
@@ -349,7 +353,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8df7b41371839cf40a06f4cad97dca7e, type: 2}
   - {fileID: 11400000, guid: 5018719afa2dee746bbd7247a8802f72, type: 2}
   - {fileID: 11400000, guid: 789ee262ef9ad0c418009477bd594f0d, type: 2}
+  moveSpeed: 10
+  moveSpeedModifier: 1
+  facingDirection: {x: 0, y: 0}
+  holdDirection: 0
   tryingToMove: 0
+  autoAttacking: 0
+  resolvingMoveTo: 0
+  autoAttackRequest: 0
   state: 0
   clickMask:
     serializedVersion: 2
@@ -363,6 +374,12 @@ MonoBehaviour:
   mousePos: {x: 0, y: 0}
   clickWindow: 0.66
   clickTravelWindow: 66
+  tabableTargets: []
+  lastTabVector: {x: 0, y: 0}
+  currentTabVector: {x: 0, y: 0}
+  tabIndex: -1
+  tabTargetAreaPrefab: {fileID: 0}
+  tabTargetObj: {fileID: 0}
 --- !u!114 &-5141495613212202973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,11 +395,18 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  fearImmune: 0
+  silenceImmune: 0
+  stunImmune: 0
+  dizzyImmune: 0
+  slowImmune: 0
+  hasteImmune: 0
   feared: 0
   silenced: 0
   stunned: 0
   dizzy: 0
-  speedModifier: 0
+  slow: 0
+  haste: 0
 --- !u!114 &-1590596943024381783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,3 +421,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   indicatorPrefab: {fileID: 2521846024041868146, guid: 7a6ac257c1aeb5d4296dcfa03eb725f5, type: 3}
   moveDirection: {x: 0, y: 0}
+--- !u!114 &-2379056406537448589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3602611100074717264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d72a4b9f49fd25b4389b676b3e2f21ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buffList: []
