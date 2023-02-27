@@ -281,9 +281,12 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         }
         if (buff.buffSO.Stackable)
         {
-            buff.Stacks++;
+            buff.AddStack();
         }
-        buff.remainingTime = buffSO.Duration;
+        else // Refresh
+        {
+            buff.remainingBuffTime = buffSO.Duration;
+        }
         return true;
     }
 
