@@ -25,7 +25,7 @@ public class EnemyController : Controller
     
     
 
-    public override void Awake()
+    protected override void Awake()
     {
         base.Awake();
         collider = GetComponent<BoxCollider2D>();

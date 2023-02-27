@@ -36,11 +36,9 @@ public class PlayerController : Controller
     
     
     //public Vector2 newVect_;
-    void Awake(){
-        actor = GetComponent<Actor>();
-        agent = GetComponent<NavMeshAgent>();
-        agent.updateRotation = false;
-        agent.updateUpAxis = false;
+    protected override void Awake()
+    {
+        base.Awake();
     }
     public override void Start()
     {

@@ -38,7 +38,7 @@ public class Controller : NetworkBehaviour
     public bool resolvingMoveTo;
     public bool autoAttackRequest = false;
 
-    public virtual void Awake()
+    protected virtual void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
