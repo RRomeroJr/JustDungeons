@@ -64,7 +64,7 @@ public class PlayerController : Controller
         switch (state)
         {
             case PlayerState.Alive:
-                if (!actor.canMove)
+                if (!actor.CanMove)
                 {
                     break;
                 }

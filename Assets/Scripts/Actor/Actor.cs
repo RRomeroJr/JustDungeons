@@ -87,14 +87,14 @@ public class Actor : NetworkBehaviour
     [SyncVar]
     private int feared = 0;
 
-    // Actor state
+    [Header("Actor State")]
     public ActorState state = ActorState.Alive;
     [SyncVar]
-    public bool canMove = true;
+    private bool canMove = true;
     [SyncVar]
-    public bool canAttack = true;
+    private bool canAttack = true;
     [SyncVar]
-    public bool canCast = true;
+    private bool canCast = true;
     public bool inCombat = false; //  in/ out of combat
     public bool combatLocked = false;
 
@@ -107,6 +107,10 @@ public class Actor : NetworkBehaviour
     private List<Actor> attackerList = new List<Actor>();
 
     #region Properties
+
+    public bool CanMove => canMove;
+    public bool CanAttack => canAttack;
+    public bool CanCast => canCast;
 
     public int Health
     {

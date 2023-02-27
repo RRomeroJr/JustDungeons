@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -17,12 +17,12 @@ public class DisableMovement : AbilityEff
     public override void buffStartEffect()
     {
     //Debug.Log("Dm start");
-        parentBuff.actor.canMove = false;
+        //parentBuff.actor.canMove = false;
     }
     public override void buffEndEffect()
     {
         //Debug.Log("Dm end");
-        parentBuff.actor.canMove = true;
+        //parentBuff.actor.canMove = true;
     }
     public DisableMovement(string _effectName, int _id = -1, float _power = 0, int _school = -1){
         effectName = _effectName;

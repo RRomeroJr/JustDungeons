@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -46,13 +46,13 @@ public class Dizzy : AbilityEff
         indicatorRef = Instantiate(indicatorPrefab, parentBuff.actor.transform.position, Quaternion.identity);
         indicatorRef.GetComponent<FolllowObject>().target = parentBuff.actor.gameObject;
         indicatorRef.transform.Rotate(moveDirection);
-      parentBuff.actor.canMove = false;
+        //parentBuff.actor.canMove = false;
     }
     public override void buffEndEffect()
     {
         Destroy(indicatorRef);
         Debug.Log(effectName + ": canMove = true;");
-     parentBuff.actor.canMove = true;
+        //parentBuff.actor.canMove = true;
     }
     public Dizzy(string _effectName, int _id = -1, float _power = 0, int _school = -1){
         effectName = _effectName;
