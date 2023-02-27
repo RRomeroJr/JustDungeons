@@ -101,7 +101,7 @@ public class Actor : NetworkBehaviour
     // Events
     public event EventHandler PlayerIsDead;
     public event EventHandler PlayerIsAlive;
-
+    
     //Attacker List
     [SerializeField]
     private List<Actor> attackerList = new List<Actor>();
@@ -239,6 +239,8 @@ public class Actor : NetworkBehaviour
         {
             b.StatusEffectChanged += HandleStatusEffectChanged;
             b.Interrupted += interruptCast;
+            b.DamageTaken += HandleDamageTaken;
+            b.HealTaken += HandleHealTaken;
         }
     }
 
@@ -413,7 +415,7 @@ public class Actor : NetworkBehaviour
             the firecast doesn't and SHOULDN'T be called on a client
         */
 
-        if(!_ability.offGDC){
+            if(!_ability.offGDC){
                 GetComponent<Controller>().globalCooldown = Controller.gcdBase; 
             }
         // Debug.Log("rpcStartCast");
@@ -1693,6 +1695,15 @@ public class Actor : NetworkBehaviour
         canMove = true;
         canCast = true;
         OnPlayerIsAlive();
+    }
+    private void HandleHealTaken(object sender, HealEventArgs e)
+    {
+        restoreValue((int)e.Heal);
+    }
+
+    private void HandleDamageTaken(object sender, DamageEventArgs e)
+    {
+        damageValue((int)e.Damage);
     }
 
     #region CalculateState
