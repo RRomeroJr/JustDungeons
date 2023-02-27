@@ -26,7 +26,7 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
     [SerializeField] private int dizzy;
     [SerializeField] private float slow;
     [SerializeField] private float haste;
-    [SerializeField] private readonly SyncList<Buff> buffs = new SyncList<Buff>();
+    [SerializeField] private readonly SyncList<Buff> buffs = new();
 
     #region Events
 
@@ -179,6 +179,8 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
             ChangeSpeed();
         }
     }
+
+    public IReadOnlyList<Buff> Buffs => buffs;
 
     #endregion
 
