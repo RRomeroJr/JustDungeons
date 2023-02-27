@@ -10,17 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 630dbee7393b5314ab79662f009e6568, type: 3}
-  m_Name: testBuffAbility
+  m_Name: testBuff
   m_EditorClassIdentifier: 
-  abilityName: testBuffAbility
-  eInstructs: []
+  abilityName: testBuff
+  eInstructs:
+  - effect: {fileID: 11400000, guid: cc22b834584c17549af99425b583f487, type: 2}
+    targetArg: 0
+    powerMod: 0
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
+    deliveryNVect2: {x: 0, y: 0}
   buffs:
   - {fileID: 11400000, guid: 11dcad050fabce8418cfffc629524f7c, type: 2}
   castTime: 0
-  cooldown: 1
+  cooldown: 0
   needsActor: 1
   needsWP: 0
-  id: 46
+  id: 57
   abilityTag: 0
   resourceCosts: []
   isChannel: 0
@@ -31,3 +38,6 @@ MonoBehaviour:
   range: Infinity
   interruptable: 1
   castWhileMoving: 0
+  mustBeFacing: 0
+  hotbuttonImage: {fileID: 0}
+  hotbuttonColor: {r: 1, g: 1, b: 1, a: 1}
