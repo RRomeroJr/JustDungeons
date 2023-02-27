@@ -36,16 +36,31 @@ namespace BuffSystem
             timeTillTick -= Time.deltaTime;
             remainingStackTime -= Time.deltaTime;
             remainingBuffTime -= Time.deltaTime;
+
+            // Loop ensures all ticks are processed independent of the frame rate
+            // It allows multiple ticks to be processed if the frame rate is lower than the tick rate
+            // If tick rate is left at zero or negative, buffs tick action is skipped
+            while (timeTillTick <= 0 && buffSO.TickRate > 0)
             {
-                remainingTime -= Time.deltaTime;
-                lastTick += Time.deltaTime;
+                RemoveExpiredStacksAtTickTime();
+                // Ensure the stack did not run out before the tick proc'd
+                if (remainingStackTime > timeTillTick)
+                {
+                    buffSO.Tick(target);
+                    timeTillTick += buffSO.TickRate;
+                }
+                // Only way to break out of loop if remainingStackTime < timeTillTick. Can't be added to while condition
+                else if (stackEndTimes.Count < 1)
+                {
+                    break;
+                }
             }
 
-            if (lastTick >= buffSO.TickRate)
+            if (remainingBuffTime <= 0)
             {
-                buffSO.Tick(target);
-                lastTick -= buffSO.TickRate;
+                OnFinish();
             }
+        }
 
         /// <summary>
         /// Removes stacks from the queue until a stack that has not expired for the current tick is found or the queue is empty
