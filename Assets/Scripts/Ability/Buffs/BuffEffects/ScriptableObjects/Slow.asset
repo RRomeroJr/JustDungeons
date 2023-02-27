@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e97ef4ff46ea4d7409aeef82f1f31821, type: 3}
-  m_Name: SpeedModifier
+  m_Script: {fileID: 11500000, guid: 714a177739d4b45499ef6ed5a4e76343, type: 3}
+  m_Name: Slow
   m_EditorClassIdentifier: 
-  effectName: SpeedModifier
+  effectName: Slow
