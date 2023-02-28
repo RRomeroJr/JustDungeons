@@ -1,7 +1,6 @@
-﻿using Mirror;
-using TMPro;
+﻿using DapperDino;
+using Mirror;
 using UnityEngine;
-using DapperDino;
 using UnityEngine.UIElements;
 
 public class PlayerLobby : NetworkBehaviour
@@ -9,11 +8,14 @@ public class PlayerLobby : NetworkBehaviour
     [Header("UI")]
     private UIController uiController;
     private TextField playerSlot;
+    private DropdownField classSelect;
 
     [SyncVar(hook = nameof(HandleDisplayNameChanged))]
     public string DisplayName = "Loading...";
     [SyncVar(hook = nameof(HandleReadyStatusChanged))]
     public bool IsReady = false;
+    [SyncVar]
+    public string combatClass;
 
     private bool isLeader;
     public bool IsLeader
@@ -52,6 +54,7 @@ public class PlayerLobby : NetworkBehaviour
         DontDestroyOnLoad(this);
         Room.RoomPlayers.Add(this);
         playerSlot = uiController.uiLobby.playerList[Room.RoomPlayers.IndexOf(this)].Q<TextField>("player-name");
+        classSelect = uiController.uiLobby.dropdownClass;
 
         // Subscribe to button events
         uiController.uiLobby.buttonLobbyReady.clicked += CmdReadyUp;
@@ -60,6 +63,7 @@ public class PlayerLobby : NetworkBehaviour
 
         // Bind display name to textfield
         playerSlot.RegisterValueChangedCallback(OnPlayerNameChanged);
+        classSelect.RegisterValueChangedCallback(OnClassChanged);
         playerSlot.isReadOnly = false;
         uiController.UpdateUI();
 
@@ -68,6 +72,16 @@ public class PlayerLobby : NetworkBehaviour
         {
             uiController.uiLobby.buttonLobbyStart.style.display = DisplayStyle.None;
         }
+    }
+
+    private void OnClassChanged(ChangeEvent<string> evt)
+    {
+        if (isServer)
+        {
+            combatClass = evt.newValue;
+            return;
+        }
+        CmdSetCombatClass(evt.newValue);
     }
 
     private void OnPlayerNameChanged(ChangeEvent<string> evt)
@@ -93,6 +107,12 @@ public class PlayerLobby : NetworkBehaviour
     private void CmdSetDisplayName(string displayName)
     {
         DisplayName = displayName;
+    }
+
+    [Command]
+    private void CmdSetCombatClass(string c)
+    {
+        combatClass = c;
     }
 
     [Command]

@@ -148,7 +148,9 @@ public class CustomNetworkManager : NetworkManager
                 ? Instantiate(gamePlayerPrefab, startPos.position, startPos.rotation)
                 : Instantiate(gamePlayerPrefab);
             gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
-            gameplayerInstance.GetComponent<Actor>().setActorName(RoomPlayers[i].DisplayName);
+            var playerActor = gameplayerInstance.GetComponent<Actor>();
+            playerActor.setActorName(RoomPlayers[i].DisplayName);
+            playerActor.combatClass = Resources.Load<CombatClass>(RoomPlayers[i].combatClass);
 
             NetworkServer.Destroy(conn.identity.gameObject);
 
