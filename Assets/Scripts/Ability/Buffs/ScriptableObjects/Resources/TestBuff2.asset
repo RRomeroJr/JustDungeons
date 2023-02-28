@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8c893311ec16b744b77cf9683178ae3, type: 3}
-  m_Name: TestBuff
+  m_Name: TestBuff2
   m_EditorClassIdentifier: 
-  duration: 7
-  tickRate: 2
-  stackable: 1
+  buffName: 
+  duration: 30
+  tickRate: 0
+  stackable: 0
   icon: {fileID: 0}
   particles: {fileID: 0}
   buffEffectsList:
-  - Key: {fileID: 11400000, guid: 8d6f1f82fbc29a64d8750f7c516003ac, type: 2}
-    Value: 0
-  - Key: {fileID: 11400000, guid: 3ed4da279665d9449ae5bad1c79d67dc, type: 2}
-    Value: 0
+  - Key: {fileID: 11400000, guid: 2bec0b152477090478950f042f2777ea, type: 2}
+    Value: 50
