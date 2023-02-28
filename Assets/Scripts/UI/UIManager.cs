@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     public GameObject canvas;
     public GameObject castBarPrefab;
     public GameObject hotbuttonPrefab;
+    public GameObject buffBarPrefab;
     public UnitFrame targetFrame;
     public List<UnitFrame> frames = new List<UnitFrame>();
     public static Actor playerActor;
@@ -26,7 +27,12 @@ public class UIManager : MonoBehaviour
     public UnityEvent<Ability_V2> StartAbiltyGlow = new UnityEvent<Ability_V2>();
     public UnityEvent<Ability_V2> EndAbilityGlow = new UnityEvent<Ability_V2>();
     public UnityEvent glowChecks;
-   
+    
+    public void SpawnBuffBar()
+    {
+        Instantiate(buffBarPrefab, canvas.transform);
+    }
+
     public static UIManager Instance{ get; private set;}
     void Awake(){
         if (Instance != null && Instance != this) 
@@ -57,8 +63,10 @@ public class UIManager : MonoBehaviour
         updateUnitFrame(partyFrame2, partyFrame2.actor);
         updateUnitFrame(partyFrame3, partyFrame3.actor);*/
         //setUpUnitFrame(partyFrame, partyFrame.actor);
-
-        CustomNetworkManager.singleton.GamePlayers.CollectionChanged += AddPlayerFrame;
+        if (CustomNetworkManager.singleton != null)
+        {
+            CustomNetworkManager.singleton.GamePlayers.CollectionChanged += AddPlayerFrame;
+        }
     }
 
     void AddPlayerFrame(object sender, NotifyCollectionChangedEventArgs e)
@@ -161,7 +169,7 @@ public class UIManager : MonoBehaviour
         }
     }
     void CheckClassGlows(){
-        if(playerActor.combatClass == null){
+        if(playerActor == null || playerActor.combatClass == null){
             return;
         }
         int current = 0;
