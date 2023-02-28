@@ -1,24 +1,32 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using BuffSystem;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = ProjectPaths.buffs + "NewBuff", menuName = "HBCsystem/NewBuff")]
 public class BuffScriptableObject : ScriptableObject
 {
-    [SerializeField] private string buffName;
     [SerializeField] private float duration;
     [SerializeField] private float tickRate;
     [SerializeField] private bool stackable;
+    [SerializeField] private Sprite icon;
     [SerializeField] private GameObject particles;
 
     // Store BuffEffects in a list of custom serializable KeyValuePairs so it can edited in the inspector
     [SerializeField] private List<CustomKeyValuePair<BuffEffect, float>> buffEffectsList;
 
     // Buffs default value should not be altered by code or at runtime. All changes will happen in the inspector
-    public string BuffName => buffName;
     public float TickRate => tickRate;
     public float Duration => duration;
     public bool Stackable => stackable;
+
+
+    public Sprite Icon
+    {
+        get
+        {
+            return icon != null ? icon : Resources.Load<Sprite>("DefaultIcon");
+        }
+    }
 
     public void StartBuff(GameObject target)
     {
