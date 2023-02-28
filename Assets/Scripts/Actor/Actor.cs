@@ -195,12 +195,8 @@ public class Actor : NetworkBehaviour
         {
             UIManager.Instance.SpawnBuffBar();
         }
-        if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (gameObject.layer == LayerMask.NameToLayer("Enemy") && GameManager.instance != null)
         {
-            if (GameManager.instance == null)
-            {
-                return;
-            }
             //Buff stats here from GameManager?
             bool scaleCurrentHealth = (maxHealth == Health);
 
@@ -1570,7 +1566,8 @@ public class Actor : NetworkBehaviour
         bool result = IsInCombat();
         if(inCombat != result){
             inCombat = result;
-            if(!inCombat){
+            if(!inCombat && GameManager.instance != null)
+            {
                 GameManager.instance.OnActorLeaveCombat.Invoke(this);
             }
         }
