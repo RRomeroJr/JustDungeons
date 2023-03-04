@@ -274,18 +274,18 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
     /// <returns>True if the buff was refreshed or stacked, false if it was not present</returns>
     private bool RefreshOrStackBuff(BuffScriptableObject buffSO)
     {
-        var buff = buffs.FirstOrDefault(b => b.buffSO == buffSO);
+        var buff = buffs.FirstOrDefault(b => b.BuffSO == buffSO);
         if (buff == null)
         {
             return false;
         }
-        if (buff.buffSO.Stackable)
+        if (buff.BuffSO.Stackable)
         {
             buff.AddStack();
         }
         else // Refresh
         {
-            buff.remainingBuffTime = buffSO.Duration;
+            buff.Refresh();
         }
         return true;
     }

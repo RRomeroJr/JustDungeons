@@ -82,10 +82,10 @@ namespace BuffSystem
 
         public void Start()
         {
-            buffSO.StartBuff(target);
             remainingStackTime = buffSO.Duration;
             remainingBuffTime = buffSO.Duration;
             timeTillTick = buffSO.TickRate;
+            buffSO.StartBuff(target);
         }
 
         public void End()
@@ -96,6 +96,11 @@ namespace BuffSystem
         public void AddStack()
         {
             stackEndTimes.Enqueue(Time.time + buffSO.Duration);
+            remainingBuffTime = buffSO.Duration;
+        }
+
+        public void Refresh()
+        {
             remainingBuffTime = buffSO.Duration;
         }
 
