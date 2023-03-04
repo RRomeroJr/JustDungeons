@@ -180,7 +180,7 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         }
     }
 
-    public IReadOnlyList<Buff> Buffs => buffs;
+    public SyncList<Buff> Buffs => buffs;
 
     #endregion
 
