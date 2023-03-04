@@ -21,14 +21,14 @@ public class BuffViewer : MonoBehaviour
     {
         buffHandler = GetComponent<BuffHandler>();
     }
-    
+
     // Update is called once per frame
     void Update()
     {
         var buffData = buffHandler.Buffs.Select(x => new BuffViewerContainer
         {
-            name = x.buffSO.name,
-            remainingTime = x.remainingBuffTime,
+            name = x.BuffSO.name,
+            remainingTime = x.RemainingBuffTime,
             stacks = x.Stacks
         });
         buffList = new List<BuffViewerContainer>(buffData);

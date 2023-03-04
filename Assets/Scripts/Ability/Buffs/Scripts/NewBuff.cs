@@ -10,16 +10,19 @@ namespace BuffSystem
     [Serializable]
     public class Buff
     {
-        [SerializeField] public BuffScriptableObject buffSO;
+        [SerializeField] private BuffScriptableObject buffSO;
+        [SerializeField] private GameObject target;
         [SerializeField] private float timeTillTick;
         [SerializeField] private float remainingStackTime;
-        [SerializeField] public float remainingBuffTime;
-        [SerializeField] public GameObject target;
+        [SerializeField] private float remainingBuffTime;
         private readonly Queue<float> stackEndTimes = new();
         public event EventHandler Finished;
 
         #region Properties
 
+        public BuffScriptableObject BuffSO => buffSO;
+        public GameObject Target => target;
+        public float RemainingBuffTime => remainingBuffTime;
         public int Stacks => stackEndTimes.Count + 1;
 
         #endregion
