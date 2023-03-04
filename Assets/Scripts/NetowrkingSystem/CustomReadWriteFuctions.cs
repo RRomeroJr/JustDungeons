@@ -150,4 +150,14 @@ public static class CustomReadWriteFuctions
         return Resources.Load<BuffScriptableObject>(reader.ReadString());
     }
 
+    public static void WriteNewBuff(this NetworkWriter writer, BuffSystem.Buff buff)
+    {
+        writer.Write(buff.BuffSO);
+        writer.Write(buff.Target);
+    }
+
+    public static BuffSystem.Buff ReadNewBuff(this NetworkReader reader)
+    {
+        return new BuffSystem.Buff(reader.Read<BuffScriptableObject>(), reader.Read<GameObject>());
+    }
 }
