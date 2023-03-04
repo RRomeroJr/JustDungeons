@@ -50,7 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 679278a2f29cbcc40a1c2dd0b6630e59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buffItemPrefab: {fileID: 3403171363142169589, guid: 571ac0dc649e998458a839468b489c58, type: 3}
+  buffItemPrefab: {fileID: 1264695861111802577, guid: 571ac0dc649e998458a839468b489c58, type: 3}
+  containerSize: 10
 --- !u!114 &5190498118811677281
 MonoBehaviour:
   m_ObjectHideFlags: 0

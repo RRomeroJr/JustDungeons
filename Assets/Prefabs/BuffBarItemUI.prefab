@@ -88,7 +88,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.52
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -178,8 +178,9 @@ GameObject:
   m_Component:
   - component: {fileID: 783069047864386863}
   - component: {fileID: 917412172172904123}
+  - component: {fileID: 1264695861111802577}
   m_Layer: 5
-  m_Name: UIBuffItem
+  m_Name: BuffBarItemUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -233,6 +234,22 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1264695861111802577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3403171363142169589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f75b46c2016b2b4d9436102d3cad7f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 7145126688006448822}
+  slider: {fileID: 3193559115959065577}
+  buffName: {fileID: 1726665988180296683}
+  remainingTime: {fileID: 8336280362821076831}
 --- !u!1 &3811633730941012828
 GameObject:
   m_ObjectHideFlags: 0
