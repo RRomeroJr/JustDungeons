@@ -27,8 +27,10 @@ namespace BuffSystem
 
         #endregion
 
-        public Buff()
+        public Buff(BuffScriptableObject b, GameObject t)
         {
+            buffSO = b;
+            target = t;
         }
 
         /// <summary>

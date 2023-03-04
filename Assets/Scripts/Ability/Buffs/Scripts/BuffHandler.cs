@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using BuffSystem;
 using Mirror;
@@ -227,11 +226,7 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         }
 
         // Create buff if it is not already present
-        var newBuff = new Buff
-        {
-            target = this.gameObject,
-            buffSO = buffSO,
-        };
+        var newBuff = new Buff(buffSO, this.gameObject);
         newBuff.Start();
         newBuff.Finished += HandleBuffFinished;
         buffs.Add(newBuff);
