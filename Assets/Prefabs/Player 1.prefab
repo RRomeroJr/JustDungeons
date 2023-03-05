@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 7805083521186877322}
   - component: {fileID: 5681445192638073562}
   - component: {fileID: 7692670483740498294}
+  - component: {fileID: -624355168985202024}
   m_Layer: 6
   m_Name: Player 1
   m_TagString: Player
@@ -41,8 +42,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5390397111480738981}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -123,29 +123,18 @@ MonoBehaviour:
   classResources: []
   mainStat: 100
   target: {fileID: 0}
-  buffHandler: {fileID: 0}
-  canMove: 1
   buffs: []
-  isChanneling: 0
-  lastChannelTick: 0
-  queuedAbility: {fileID: 0}
-  queuedTarget: {fileID: 0}
-  queuedRelWP:
-    Value: {x: 0, y: 0, z: 0}
-  queuedRelWP2:
-    Value: {x: 0, y: 0, z: 0}
-  abilityCooldowns: []
   uiManager: {fileID: 0}
-  castTime: 0
   castBar: {fileID: 0}
-  onAbilityCastHooks:
-    m_PersistentCalls:
-      m_Calls: []
   animator: {fileID: 0}
+  nameplate: {fileID: 0}
+  state: 0
+  inCombat: 0
+  combatLocked: 0
+  attackerList: []
   combatClass: {fileID: 11400000, guid: af7e23158c3495640953930651da5fec, type: 2}
   resourceTickTime: 0
   resourceTickMax: 1
-  nameplate: {fileID: 0}
 --- !u!114 &3602611100074717273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,15 +230,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   autoAttackClone: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
-  actor: {fileID: 0}
-  agent: {fileID: 0}
-  autoAttacking: 0
   followTarget: {fileID: 0}
-  resolvingMoveTo: 0
-  facingDirection: {x: 0, y: 0}
   globalCooldown: 0
-  autoAttackRequest: 0
-  moveSpeed: 9
   abilities:
   - {fileID: 11400000, guid: d7744661f2e47b84fab4ae4c4352c88d, type: 2}
   - {fileID: 11400000, guid: d9cf312441b110944872f8ce388f759c, type: 2}
@@ -260,10 +242,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8df7b41371839cf40a06f4cad97dca7e, type: 2}
   - {fileID: 11400000, guid: 5018719afa2dee746bbd7247a8802f72, type: 2}
   - {fileID: 11400000, guid: 789ee262ef9ad0c418009477bd594f0d, type: 2}
+  moveSpeed: 9
+  moveSpeedModifier: 1
+  facingDirection: {x: 0, y: 0}
+  holdDirection: 0
   tryingToMove: 0
-  moveToEvent:
-    m_PersistentCalls:
-      m_Calls: []
+  autoAttacking: 0
+  resolvingMoveTo: 0
+  autoAttackRequest: 0
   state: 0
   clickMask:
     serializedVersion: 2
@@ -400,11 +386,18 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  fearImmune: 0
+  silenceImmune: 0
+  stunImmune: 0
+  dizzyImmune: 0
+  slowImmune: 0
+  hasteImmune: 0
   feared: 0
   silenced: 0
   stunned: 0
   dizzy: 0
-  speedModifier: 0
+  slow: 0
+  haste: 0
 --- !u!114 &7692670483740498294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,3 +412,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   indicatorPrefab: {fileID: 0}
   moveDirection: {x: 0, y: 0}
+--- !u!114 &-624355168985202024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3602611100074717264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 489a9270251ccbd47bf7265922cd55bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  showDebug: 0
+  <QueuedAbility>k__BackingField: {fileID: 0}
+  <QueuedTarget>k__BackingField: {fileID: 0}
+  actor: {fileID: 0}
+  abilityCooldowns: []
+  buffs: []
+  uiManager: {fileID: 0}
+  onAbilityCastHooks:
+    m_PersistentCalls:
+      m_Calls: []
+  ReadyToFire: 0
+  IsCasting: 0
+  <IsChanneling>k__BackingField: 0
+  castTime: 0
+  lastChannelTick: 0

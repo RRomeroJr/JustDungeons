@@ -18,7 +18,10 @@ GameObject:
   - component: {fileID: 7156323320082355874}
   - component: {fileID: 7156323320082355879}
   - component: {fileID: 7156323320082355887}
-  m_Layer: 0
+  - component: {fileID: 1235476719}
+  - component: {fileID: 1235476720}
+  - component: {fileID: 3675527952456912247}
+  m_Layer: 7
   m_Name: TestDummy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,28 +237,11 @@ MonoBehaviour:
   mainStat: 100
   target: {fileID: 0}
   buffs: []
-  isCasting: 0
-  isChanneling: 0
-  lastChannelTick: 0
-  queuedAbility: {fileID: 0}
-  queuedTarget: {fileID: 0}
-  queuedRelWP:
-    Value: {x: 0, y: 0, z: 0}
-  queuedRelWP2:
-    Value: {x: 0, y: 0, z: 0}
-  abilityCooldowns: []
   uiManager: {fileID: 0}
-  castTime: 0
   castBar: {fileID: 0}
-  onAbilityCastHooks:
-    m_PersistentCalls:
-      m_Calls: []
   animator: {fileID: 0}
   nameplate: {fileID: 0}
   state: 0
-  canMove: 1
-  canAttack: 1
-  canCast: 1
   inCombat: 0
   combatLocked: 0
   attackerList: []
@@ -289,3 +275,59 @@ MonoBehaviour:
   dizzy: 0
   slow: 0
   haste: 0
+--- !u!114 &1235476719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7156323320082355880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f1a3075357ad284484cdddf42f4ce0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myRenderer: {fileID: 0}
+--- !u!114 &1235476720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7156323320082355880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d72a4b9f49fd25b4389b676b3e2f21ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buffList: []
+--- !u!114 &3675527952456912247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7156323320082355880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 489a9270251ccbd47bf7265922cd55bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  showDebug: 0
+  <QueuedAbility>k__BackingField: {fileID: 0}
+  <QueuedTarget>k__BackingField: {fileID: 0}
+  actor: {fileID: 0}
+  abilityCooldowns: []
+  buffs: []
+  uiManager: {fileID: 0}
+  onAbilityCastHooks:
+    m_PersistentCalls:
+      m_Calls: []
+  ReadyToFire: 0
+  IsCasting: 0
+  <IsChanneling>k__BackingField: 0
+  castTime: 0
+  lastChannelTick: 0

@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 3602611100074717273}
   - component: {fileID: 3602611100074717278}
   - component: {fileID: 3602611100074717277}
+  - component: {fileID: -1436756951404241941}
   - component: {fileID: -5141495613212202973}
   - component: {fileID: -1590596943024381783}
   - component: {fileID: -2379056406537448589}
@@ -264,28 +265,11 @@ MonoBehaviour:
   mainStat: 100
   target: {fileID: 0}
   buffs: []
-  isCasting: 0
-  isChanneling: 0
-  lastChannelTick: 0
-  queuedAbility: {fileID: 0}
-  queuedTarget: {fileID: 0}
-  queuedRelWP:
-    Value: {x: 0, y: 0, z: 0}
-  queuedRelWP2:
-    Value: {x: 0, y: 0, z: 0}
-  abilityCooldowns: []
   uiManager: {fileID: 0}
-  castTime: 0
   castBar: {fileID: 0}
-  onAbilityCastHooks:
-    m_PersistentCalls:
-      m_Calls: []
   animator: {fileID: 0}
   nameplate: {fileID: 0}
   state: 0
-  canMove: 1
-  canAttack: 1
-  canCast: 1
   inCombat: 0
   combatLocked: 0
   attackerList: []
@@ -340,7 +324,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   autoAttackClone: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
-  actor: {fileID: 0}
   followTarget: {fileID: 0}
   globalCooldown: 0
   abilities:
@@ -380,6 +363,36 @@ MonoBehaviour:
   tabIndex: -1
   tabTargetAreaPrefab: {fileID: 0}
   tabTargetObj: {fileID: 0}
+--- !u!114 &-1436756951404241941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3602611100074717264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 489a9270251ccbd47bf7265922cd55bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  showDebug: 0
+  <QueuedAbility>k__BackingField: {fileID: 0}
+  <QueuedTarget>k__BackingField: {fileID: 0}
+  actor: {fileID: 0}
+  abilityCooldowns: []
+  buffs: []
+  uiManager: {fileID: 0}
+  onAbilityCastHooks:
+    m_PersistentCalls:
+      m_Calls: []
+  ReadyToFire: 0
+  IsCasting: 0
+  <IsChanneling>k__BackingField: 0
+  castTime: 0
+  lastChannelTick: 0
 --- !u!114 &-5141495613212202973
 MonoBehaviour:
   m_ObjectHideFlags: 0
