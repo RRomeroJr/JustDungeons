@@ -10,7 +10,7 @@ public class CastBar : MonoBehaviour
     public Slider castBar;
     public float castTime;
     public float elaspedTime = 0.0f;
-    public Actor caster;
+    public AbilityHandler caster;
     public Actor targetActor;
     public Vector3 targetWP;
     public Vector3 target;
@@ -19,7 +19,7 @@ public class CastBar : MonoBehaviour
   void Start(){
 
   }
-  public void Init(string cast_name, Actor from_caster, Actor to_targetActor, float cast_time){
+  public void Init(string cast_name, AbilityHandler from_caster, Actor to_targetActor, float cast_time){
     castName.text = cast_name;
     caster = from_caster;
     targetActor = to_targetActor;
@@ -28,7 +28,7 @@ public class CastBar : MonoBehaviour
 
     elaspedTime = 0.0f;
     start = true;
-  }public void Init(string cast_name, Actor from_caster, Vector3 to_targetWP, float cast_time){
+  }public void Init(string cast_name, AbilityHandler from_caster, Vector3 to_targetWP, float cast_time){
 
     castName.text = cast_name;
     caster = from_caster;
@@ -42,8 +42,8 @@ public class CastBar : MonoBehaviour
     void Update(){
       if(start){
         if(caster.IsCasting){
-          if(caster.isChanneling){
-            castBar.maxValue = caster.getQueuedAbility().channelDuration;
+          if(caster.IsChanneling){
+            castBar.maxValue = caster.QueuedAbility.channelDuration;
           }
           castBar.value = caster.castTime;
           

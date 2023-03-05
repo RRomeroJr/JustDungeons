@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +10,7 @@ public class CastBarNPC : MonoBehaviour
     public Slider castBar;*/
     public float castTime;
     public float elaspedTime = 0.0f;
-    public Actor caster;
+    public AbilityHandler caster;
     public Actor targetOLD;
     public Vector3 target;
     public bool start = false;
@@ -18,10 +18,10 @@ public class CastBarNPC : MonoBehaviour
   void Start(){
 
   }
-  public void Init(string cast_name, Actor from_caster, Actor to_target, float cast_time){
+  public void Init(string cast_name, AbilityHandler from_caster, Actor to_target, float cast_time){
     Init(cast_name, from_caster, to_target.gameObject.transform.position, cast_time);
   }
-  public void Init(string cast_name, Actor from_caster, Vector3 to_target, float cast_time){
+  public void Init(string cast_name, AbilityHandler from_caster, Vector3 to_target, float cast_time){
 
     //castName.text = cast_name;
     caster = from_caster;

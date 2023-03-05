@@ -10,9 +10,10 @@ public class Controller : NetworkBehaviour
 {
     [Header("For Now Needs To Be Assigned")]
     public Ability_V2 autoAttackClone;
-
+    
     [Header("Automatic")]
-    public Actor actor;
+    protected Actor actor;
+    protected AbilityHandler abilityHandler;
     public GameObject followTarget;
     public float globalCooldown = 0.0f;
     public const float gcdBase = 2.0f;
@@ -28,7 +29,7 @@ public class Controller : NetworkBehaviour
     public Vector2 facingDirection;
 
     // Unity Components
-    private Rigidbody2D rb2d;
+    protected Rigidbody2D rb2d;
     protected NavMeshAgent agent;
 
     // State Values
@@ -45,6 +46,7 @@ public class Controller : NetworkBehaviour
         agent.updateUpAxis = false;
         actor = GetComponent<Actor>();
         rb2d = GetComponent<Rigidbody2D>();
+        abilityHandler = GetComponent<AbilityHandler>();
     }
 
     public virtual void Start()
@@ -78,7 +80,7 @@ public class Controller : NetworkBehaviour
                 autoAttacking = false;
                 return;
             }
-            if (actor.checkOnCooldown(autoAttackClone) == false)
+            if (abilityHandler.CheckOnCooldown(autoAttackClone) == false)
             {
                 if (autoAttackRequest == false)
                 {
@@ -96,7 +98,7 @@ public class Controller : NetworkBehaviour
         }
         if (isServer)
         {
-            if (autoAttackRequest && actor.checkOnCooldown(autoAttackClone) == false)
+            if (autoAttackRequest && abilityHandler.CheckOnCooldown(autoAttackClone) == false)
             {
                 autoAttackRequest = false;
             }
@@ -144,11 +146,11 @@ public class Controller : NetworkBehaviour
         {
             return;
         }
-        if (actor.checkOnCooldown(autoAttackClone) == false)
+        if (abilityHandler.CheckOnCooldown(autoAttackClone) == false)
         {
             //request aa commad?
 
-            autoAttackRequest = actor.castAbility3(autoAttackClone); //eventually the req becomes true
+            autoAttackRequest = abilityHandler.CastAbility3(autoAttackClone); //eventually the req becomes true
         }
     }
     [Command]
