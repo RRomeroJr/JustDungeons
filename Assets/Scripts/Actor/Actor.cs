@@ -34,33 +34,29 @@ public enum ActorState
 
 public class Actor : NetworkBehaviour
 {
-    [Header ("Set Manually in Prefab if Needed") ]
-
+    [Header("Set Manually in Prefab if Needed")]
     public bool showDebug = false;
     [SyncVar]
-    [SerializeField]protected string actorName;
+    [SerializeField] private string actorName;
     [SyncVar]
-    [SerializeField]protected int health; // 0
+    [SerializeField] private int health; // 0
     [SyncVar]
-    [SerializeField]protected int maxHealth; // 1
-    [SerializeField]protected Role role;
+    [SerializeField] private int maxHealth; // 1
+    [SerializeField] private Role role;
     public Color unitColor;
     public int mobId = -1;
-    [SerializeField]protected List<ClassResource> classResources;
+    public CombatClass combatClass;
     [SyncVar]
     public float mainStat = 100.0f;
-    [Header("Automatic")]
+
+    [Header("Debug Values. Do NOT change in editor.")]
     public Actor target;
     public IBuff buffHandler = null;
-    [SerializeField] protected List<OldBuff.Buff> buffs;
-
-    public UIManager uiManager;
-    public CastBar castBar;
-
-    
-    public Animator animator;
+    private List<OldBuff.Buff> buffs;
+    private AbilityHandler abilityHandler;
     public Nameplate nameplate;
-    
+    [SerializeField] private List<ClassResource> classResources;
+
     // Status Effects
     [SyncVar]
     private int silenced = 0;
@@ -85,8 +81,6 @@ public class Actor : NetworkBehaviour
     //Attacker List
     [SerializeField]
     private List<Actor> attackerList = new List<Actor>();
-
-    AbilityHandler abilityHandler;
 
     #region Properties
 
@@ -137,7 +131,6 @@ public class Actor : NetworkBehaviour
 
     #endregion
 
-    public CombatClass combatClass;
     public float resourceTickTime = 0.0f;
     public float resourceTickMax = 1.0f;
 
@@ -145,8 +138,6 @@ public class Actor : NetworkBehaviour
 
     private void Awake()
     {
-        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
-        animator = GetComponent<Animator>();
         buffHandler = GetComponent<IBuff>();
         abilityHandler = GetComponent<AbilityHandler>();
     }
@@ -191,7 +182,7 @@ public class Actor : NetworkBehaviour
                 setUpStats(combatClass.classStats);
             }
             if(combatClass.rac != null){
-                animator.runtimeAnimatorController = combatClass.rac;
+                GetComponent<Animator>().runtimeAnimatorController = combatClass.rac;
             }
         }
 

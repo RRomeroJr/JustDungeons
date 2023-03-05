@@ -6,21 +6,24 @@ using UnityEngine.Events;
 
 public class AbilityHandler : NetworkBehaviour
 {
-    public bool showDebug = false;
+    [Header("Debug Values. Do NOT change in editor.")]
+    private UIManager uiManager;
+    private Animator animator;
+    private Actor actor;
+    [SerializeField] private bool showDebug = false;
+    
     [field: SerializeField] public Ability_V2 QueuedAbility { get; private set; } // Used when Ability has a cast time
     [field: SerializeField] public Actor QueuedTarget { get; private set; } // Used when Ability has a cast time
-    [SerializeField] public NullibleVector3 QueuedRelWP { get; private set; }
-    [SerializeField] public NullibleVector3 QueuedRelWP2 { get; private set; }
-    [SerializeField] private Actor actor;
+    [field: SerializeField] public NullibleVector3 QueuedRelWP { get; private set; }
+    [field: SerializeField] public NullibleVector3 QueuedRelWP2 { get; private set; }
     [SerializeField] public List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
-    [SerializeField] protected List<OldBuff.Buff> buffs;
-    public UIManager uiManager;
+    [SerializeField] private List<OldBuff.Buff> buffs;
+    
     // Intentionally made this only pass in the id of the ability bc it shouldn't be
     // used for buffing any effects at the moment. Only, "Did this actor cast the desired ability?"
     // then, do something
     public UnityEvent<int> onAbilityCastHooks = new UnityEvent<int>();
-    private Animator animator;
-
+    
     // Cast state values
     // When readyToFire is true queuedAbility will fire
     [SerializeField] public bool ReadyToFire = false; // Will True by CastBar for abilities w/ casts. Will only be true for a freme
