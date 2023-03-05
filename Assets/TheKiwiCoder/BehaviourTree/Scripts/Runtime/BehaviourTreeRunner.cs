@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace TheKiwiCoder {
-    public class BehaviourTreeRunner : MonoBehaviour {
-
+namespace TheKiwiCoder
+{
+    public class BehaviourTreeRunner : MonoBehaviour
+    {
         // The main behaviour tree asset
         public BehaviourTree tree;
-        public bool controllerReady;
 
         // Storage container object to hold game object subsystems
         Context context;
@@ -15,8 +13,9 @@ namespace TheKiwiCoder {
         // Start is called before the first frame update
         void Awake()
         {
-            controllerReady = false;
-            context = CreateBehaviourTreeContext();
+            // Update context for behavior tree
+            context = Context.CreateFromGameObject(gameObject);
+            context = Context.AddEnemyContext(gameObject, context);
             tree = tree.Clone();
             tree.Bind(context);
         }
@@ -24,21 +23,7 @@ namespace TheKiwiCoder {
         // Update is called once per frame
         void Update()
         {
-            if (controllerReady)
-            {
-                tree.Update();
-            }
-        }
-
-        Context CreateBehaviourTreeContext()
-        {
-            return Context.CreateFromGameObject(gameObject);
-        }
-
-        public void UpdateContext(Context c)
-        {
-            tree.Bind(c);
-            controllerReady = true;
+            tree.Update();
         }
 
         /*private void OnDrawGizmosSelected() {

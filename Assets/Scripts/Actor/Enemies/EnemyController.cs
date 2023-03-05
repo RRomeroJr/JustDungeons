@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using TheKiwiCoder;
-using UnityEngine.AI;
 
 public class EnemyController : Controller
 {
@@ -13,23 +10,17 @@ public class EnemyController : Controller
     public Arena arenaObject;
     [Header("Automatic")]
     public EnemySO enemyStats;
-    // The main behaviour tree asset
-    public BehaviourTreeRunner treeRunner;
-    //public List<Ability_V2> abilities;
 
     public Transform target;
     public List<Transform> multiTargets;
     public Vector3 spawnLocation;
-    public BoxCollider2D collider;
+    public Collider2D collider;
     public int phase = 0;
-    
-    
 
     protected override void Awake()
     {
         base.Awake();
-        collider = GetComponent<BoxCollider2D>();
-        treeRunner = GetComponent<BehaviourTreeRunner>();
+        collider = GetComponent<Collider2D>();
         multiTargets = new List<Transform>();
     }
 
@@ -39,11 +30,6 @@ public class EnemyController : Controller
         base.Start();
         spawnLocation = transform.position;
 //        agent.speed = enemyStats.moveSpeed;
-
-        // Update context for behavior tree
-        Context context = Context.CreateFromGameObject(gameObject);
-        context = Context.AddEnemyContext(gameObject, context);
-        treeRunner.UpdateContext(context);
     }
 
     // Update is called once per frame
@@ -52,14 +38,14 @@ public class EnemyController : Controller
         base.Update();
         if(isServer && !holdDirection)
         {
-            if(actor.IsCasting)
+            if(abilityHandler.IsCasting)
             {
-                if(actor.getQueuedAbility().needsActor)
+                if(abilityHandler.QueuedAbility.needsActor)
                 {
                     Debug.Log("cast following actor");
-                    facingDirection = HBCTools.ToNearest45(actor.getQueuedTarget().transform.position - transform.position);
+                    facingDirection = HBCTools.ToNearest45(abilityHandler.QueuedTarget.transform.position - transform.position);
                 }
-                else if(actor.getQueuedAbility().needsWP)
+                else if(abilityHandler.QueuedAbility.needsWP)
                 {
                     facingDirection = HBCTools.ToNearest45(actor.getCastingWPToFace() - (Vector2)transform.position);
                 }
