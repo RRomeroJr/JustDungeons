@@ -54,30 +54,10 @@ public class Actor : NetworkBehaviour
     public IBuff buffHandler = null;
     [SerializeField] protected List<OldBuff.Buff> buffs;
 
-    // When readyToFire is true queuedAbility will fire
-    private bool readyToFire = false; // Will True by CastBar for abilities w/ casts. Will only be true for a freme
-    [SerializeField]
-    private bool isCasting = false; // Will be set False by CastBar
-    public bool isChanneling = false;
-    public float lastChannelTick = 0.0f;
-    //[SerializeField]protected Ability queuedAbility; // Used when Ability has a cast time
-    //[SyncVar]
-    [SerializeField]protected Ability_V2 queuedAbility; // Used when Ability has a cast time
-    //[SyncVar]
-    [SerializeField]protected Actor queuedTarget; // Used when Ability has a cast time
-    [SerializeField]protected NullibleVector3 queuedRelWP;
-    [SerializeField]protected NullibleVector3 queuedRelWP2;
-
-    
-    [SerializeField]public List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
     public UIManager uiManager;
-    public float castTime;
     public CastBar castBar;
 
-    // Intentionally made this only pass in the id of the ability bc it shouldn't be
-    // used for buffing any effects at the moment. Only, "Did this actor cast the desired ability?"
-    // then, do something
-    public UnityEvent<int> onAbilityCastHooks = new UnityEvent<int>();
+    
     public Animator animator;
     public Nameplate nameplate;
     
@@ -105,6 +85,8 @@ public class Actor : NetworkBehaviour
     //Attacker List
     [SerializeField]
     private List<Actor> attackerList = new List<Actor>();
+
+    AbilityHandler abilityHandler;
 
     #region Properties
 
@@ -152,22 +134,6 @@ public class Actor : NetworkBehaviour
             silenced = value;
         }
     }
-    public bool IsCasting
-    {
-        get => isCasting;
-        set
-        {
-            isCasting = value;
-        }
-    }
-    public bool ReadyToFire
-    {
-        get => readyToFire;
-        set
-        {
-            readyToFire = value;
-        }
-    }
 
     #endregion
 
@@ -182,6 +148,7 @@ public class Actor : NetworkBehaviour
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         animator = GetComponent<Animator>();
         buffHandler = GetComponent<IBuff>();
+        abilityHandler = GetComponent<AbilityHandler>();
     }
 
     void Start()
@@ -234,7 +201,7 @@ public class Actor : NetworkBehaviour
         if (buffHandler is BuffHandler b)
         {
             b.StatusEffectChanged += HandleStatusEffectChanged;
-            b.Interrupted += interruptCast;
+            b.Interrupted += abilityHandler.InterruptCast;
             b.DamageTaken += HandleDamageTaken;
             b.HealTaken += HandleHealTaken;
         }
@@ -242,27 +209,14 @@ public class Actor : NetworkBehaviour
 
     void Update()
     {
-        updateCast();
-        updateCooldowns();
         UpdateCombatState();
 
         if (!isServer) { return; }
         // Server only logic below  
 
-        handleCastQueue();
-        if(classResources.Count > 0){
-            ClassResourceCheckRegen();
-        }
-
-        if(isChanneling){
-            if (queuedAbility.isChannel == false)
-            {
-                //wtf how?
-                Debug.Log(queuedAbility.getName() + "is queued and anout to be channeled BUT isn't a channel| _ability ");
-            }
-            checkChannel();
-        }
+        ClassResourceCheckRegen();
     }
+    
     void FixedUpdate()
     {
         HandlleBuffs();
@@ -270,615 +224,81 @@ public class Actor : NetworkBehaviour
 
     #endregion
 
-    // Casting: Starting a Cast---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    public bool castAbility3(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null)
-    {
-        /*//Returns true if a REQUEST to fire was made.NOT if the cast was actually fired
-        if (feared > 0)
-        {
-            Debug.LogFormat("Actor.castAbility3(): {0} cannot use abilities, Feared!", actorName);
-            return false;
-        }
-        //Debug.Log("castAbility3");
-
-
-        //if ability is magical check silence
-        // For now silence works on everything including auto attack
-        if (silenced > 0) //end if(requestingCast)
-        {
-            Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is silenced!", actorName, _ability);
-            return false;
-        }
-        if (readyToFire)
-        {
-            if (showDebug)
-            {
-                Debug.Log("Actor.castAbility3(): Something else is ready to fire and blocking this cast");
-            }
-            return false;
-        }
-        if (isCasting)
-        {
-            Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is already casting!", actorName, _ability);
-            return false;
-        }*/
-
-        if (!canCast)
-        {
-            //Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is {2}!", actorName, _ability, EffectState);
-            return false;
-        }
-        if (isChanneling)
-        {
-            Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is CHANNELING and also somehow free to act!", actorName, _ability);
-            return false;
-        }
-        if (CheckCooldownAndGCD(_ability))
-        {
-            Debug.LogFormat("Actor.castAbility3(): {0}'s {1} ability on cooldown", actorName, _ability);
-            return false;
-        }
-        // MirrorTestTools._inst.ClientDebugLog(_ability.getName() + "| Not on cool down or GCD");
-        if (!hasTheResources(_ability))
-        {
-            Debug.LogFormat("Actor.castAbility3(): {0} does not have the resources", actorName);
-            return false;
-        }
-        
-        if (_ability.NeedsTargetActor())
-        {
-            
-            if (_target == null)
-            {
-                //Debug.Log("Try find target..");
-                _target = tryFindTarget(_ability);
-            }
-            if (_target == null)
-            {
-                Debug.Log("No suitable target found");
-                return false;
-            }
-            else
-            {
-                if (!checkRange(_ability, _target.transform.position))
-                {
-                    if (showDebug)
-                    {
-                        //Debug.Log("You are out of range");
-                    }
-                    return false;
-                }
-                if(_ability.mustBeFacing){
-                    if(!HBCTools.checkFacing(this, _target.gameObject)){
-                        Debug.Log("You are not facing target: " + _target.actorName);
-                        return false;
-                    }
-                }
-            }
-        }
-        if (_ability.NeedsTargetWP())
-        {
-            if (_relWP == null)
-            {
-                //Debug.Log("Try find target..");
-                _relWP = tryFindTargetWP(_ability, _target);
-            }
-            if (_relWP == null)
-            {
-                Debug.Log("No suitable WP found");
-                return false;
-            }
-            else
-            {
-                if (!checkRange(_ability, _relWP.Value))
-                {
-                    if (showDebug)
-                    {
-                        Debug.Log("You are out of range");
-                    }
-                    return false;
-                }
-            }
-        }
-        //Debug.Log("castAbility3 inner if");
-        // if(isServer){
-        //     serverSays(_ability);
-        // }
-        if (isServer)
-        {
-            //MirrorTestTools._inst.ClientDebugLog("Starting RPC");
-            rpcStartCast(_ability, _target, _relWP, _relWP2);
-        }
-        else if (isLocalPlayer)
-        { //isLocalPlayer check may not be necessary
-            cmdStartCast(_ability, _target, _relWP, _relWP2);
-        }
-        //Debug.Log("after Ability_V2 command reached");  
-        return true;
-    }
-    [ClientRpc]
-    public void rpcStartCast(Ability_V2 _ability, Actor _target, NullibleVector3 _relWP,  NullibleVector3 _relWP2){
-        //Debug.Log(actorName + " casted " + _ability.getName());
-        // if(MirrorTestTools._inst != null)
-        //     MirrorTestTools._inst.ClientDebugLog(_ability.getName()+ "| Host Starting RPCStartCast");
-
-
-        /* This needs to be revised.
-            But for right now this need to be a Rpc so that clients start a cast bar 
-            for casted abilities.
-
-            But if the ability has no cast time this function is litterally pointless.
-            the firecast doesn't and SHOULDN'T be called on a client
-        */
-
-            if(!_ability.offGDC){
-                GetComponent<Controller>().globalCooldown = Controller.gcdBase; 
-            }
-        // Debug.Log("rpcStartCast");
-        if(_ability.getCastTime() > 0.0f){
-                        
-            queueAbility(_ability, _target, _relWP, _relWP2);
-            prepCast();
-            
-        }
-        else{
-  
-            if(isServer){
-                fireCast(_ability, _target, _relWP, _relWP2);
-                
-            }else{
-                //Debug.Log("Client ignoring fireCast");
-            }
-        }
-        
-    }
-   
-    [Command]
-    public void cmdStartCast(Ability_V2 _ability, Actor _target, NullibleVector3 _relWP,  NullibleVector3 _relWP2){
-        
-        castAbility3(_ability, _target, _relWP, _relWP2);
-        
-    }
-   void queueAbility(Ability_V2 _ability, Actor _queuedTarget = null, NullibleVector3 _queuedRelWP = null, NullibleVector3 _queuedRelWP2 = null){
-        //Preparing variables for a cast
-        queuedAbility = _ability;
-        queuedTarget = _queuedTarget;
-        queuedRelWP = _queuedRelWP;
-        queuedRelWP2 = _queuedRelWP2;
-        
-    }
-    void prepCast(){
-        //Creates castbar for abilities with cast times
-
-        //Debug.Log("Trying to create a castBar for " + _ability.getName())
-        IsCasting = true;
-        // if(MirrorTestTools._inst != null)
-        //             MirrorTestTools._inst.ClientDebugLog("prepcast() isCasting = " + isCasting.ToString());
-        // Creating CastBar or CastBarNPC with apropriate variables   
-        if( queuedAbility.NeedsTargetActor() && queuedAbility.NeedsTargetWP() ){
-            Debug.Log("Spell that needs an Actor and WP are not yet suported");
-            IsCasting = false;
-        }
-        else if(queuedAbility.NeedsTargetActor()){
-            initCastBarWithActor();
-        }
-        else if(queuedAbility.NeedsTargetWP()){
-            initCastBarWithWP();
-        }
-        else{
-            initCastBarWithActor();
-        } 
-    }
-    void initCastBarWithActor(){
-        // Creates a CastBar with target being an Actor
-        if(gameObject.tag == "Player"){ // For player
-                //Creating cast bar and setting it's parent to canvas to display it properly
-
-                GameObject newAbilityCast = Instantiate(uiManager.castBarPrefab, uiManager.canvas.transform);
-                //                                   v (string cast_name, Actor from_caster, Actor to_target, float cast_time) v
-                newAbilityCast.GetComponent<CastBar>().Init(queuedAbility.getName(), this, queuedTarget, queuedAbility.getCastTime());
-        }
-        else{// For NPCs
-            if(showDebug)
-            Debug.Log(actorName + " starting cast: " + queuedAbility.getName());
-            //gameObject.AddComponent<CastBarNPC>().Init(queuedAbility.getName(), this, queuedTarget, queuedAbility.getCastTime());
-        }
-    }
-    void initCastBarWithWP(){
-        //   Creates Castbar with target being a world point Vector3
-
-        if(gameObject.tag == "Player"){ // For player
-                //Creating cast bar and setting it's parent to canvas to display it properly
-
-                GameObject newAbilityCast = Instantiate(uiManager.castBarPrefab, uiManager.canvas.transform);
-
-                //                                   v (string cast_name, Actor from_caster, Actor to_target, float cast_time) v
-                newAbilityCast.GetComponent<CastBar>().Init(queuedAbility.getName(), this, queuedRelWP.Value, queuedAbility.getCastTime());
-        }
-        else{// For NPCs
-            if(showDebug)
-            Debug.Log(actorName + " starting cast: " + queuedAbility.getName());
-
-            //gameObject.AddComponent<CastBarNPC>().Init(queuedAbility.getName(), this, queuedRelWP.Value, queuedAbility.getCastTime());
-        }
-    }
-    public bool castAbilityRealWPs(Ability_V2 _ability, Actor _target = null, NullibleVector3 _WP = null, NullibleVector3 _WP2 = null){
-        if(_WP != null){
-            _WP = new NullibleVector3(_WP.Value - transform.position);
-        }
-        if(_WP2 != null){
-            _WP2 = new NullibleVector3(_WP2.Value - transform.position);
-        }
-        return castAbility3(_ability, _target, _WP, _WP2);
-    }
-    public void castRelativeToGmObj(Ability_V2 _ability, GameObject _obj, Vector2 _point)
-    {
-        NullibleVector3 nVectRelToActor = new NullibleVector3();
-        nVectRelToActor.Value = _obj.transform.position + (Vector3)_point;
-        nVectRelToActor.Value = nVectRelToActor.Value - transform.position;
-        castAbility3(_ability, _relWP: nVectRelToActor);
-    }
-    // Casting: Castbar handling + Firing a cast---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    
-    void updateCast(){
-        
-        if(IsCasting){
-            if(isServer){
-                if((GetComponent<Controller>().tryingToMove) && (!queuedAbility.castWhileMoving)){
-                    resetClientCastVars();
-                }
-            }
-            
-            if(isChanneling){
-                castTime -= Time.deltaTime;
-                lastChannelTick += Time.deltaTime;
-            }
-            else{
-                castTime += Time.deltaTime;
-                if(isServer)
-                    if(castTime >= queuedAbility.getCastTime()){
-                        //Debug.Log("updateCast: readyToFire = true");
-                        ReadyToFire = true;
-                    }
-            }
-            
-            
-                
-            
-        }
-    }
-    [Server]
-    void handleCastQueue(){
-        // Called every Update() to see if queued spell is ready to fire
-
-        if(ReadyToFire){
-            //Debug.Log("castCompleted: " + queuedAbility.getName());
-            if((queuedAbility.NeedsTargetActor()) && (queuedAbility.NeedsTargetWP())){
-                Debug.Log("Cast that requires Actor and WP not yet supported. clearing queue.");
-                resetClientCastVars();
-            }
-            else if(queuedAbility.NeedsTargetWP()){
-                fireCast(queuedAbility, null, queuedRelWP, queuedRelWP2);
-            }
-            else{
-                fireCast(queuedAbility, queuedTarget);
-            }
-        }
-    }
-
-    [Server]
-    public void fireCast(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null){
-        // EI_Clones will be passed into an event that will allow them to be modified as need by other effects, stats, Buffs, etc.
-        // Debug.Log("FireCast()");
-        if(_ability.isChannel){
-            startChannel(_ability, _target, _relWP, _relWP2);
-        }
-        else{
-            // if(MirrorTestTools._inst != null)
-            //     MirrorTestTools._inst.ClientDebugLog(_ability.getName()+ "| Host Starting fireCast");
-            List<EffectInstruction> EI_clones = _ability.getEffectInstructions().cloneInstructs();
-        if(buffs != null){
-            foreach(EffectInstruction eI in EI_clones){
-                int i = 0;
-                int lastBuffCount = buffs.Count;
-                while(i < buffs.Count)
-                {
-                    var buffCastHooks = buffs[i].onCastHooks;
-                    if(buffCastHooks != null){
-                        if(buffCastHooks.Count > 0){
-                            foreach (var hook in buffCastHooks){
-                                hook.Invoke(buffs[i], eI);
-                            }
-                        }
-                    }
-
-                    if(lastBuffCount == buffs.Count)
-                        i++;
-
-                }
-                
-            }
-        }
-        
-
-        if(isServer){
-            //Debug.Log("firecast -> isServer");
-            if(hasTheResources(_ability)){
-                foreach(AbilityResource ar in _ability.resourceCosts){
-                    damageResource(ar.crType, ar.amount);
-                }
-                // MirrorTestTools._inst.ClientDebugLog(_ability.getName() + " sending effects in fireCast");
-                
-                foreach (EffectInstruction eI in EI_clones){
-                    eI.sendToActor(_target, GetRealWPOrNull(_relWP), this, inTargetWP2: GetRealWPOrNull(_relWP2));
-                }
-                foreach (BuffScriptableObject buff in _ability.buffs)
-                {
-                    _target.buffHandler.AddBuff(buff);
-                }
-                addToCooldowns(_ability);
-                if(onAbilityCastHooks != null){
-                    onAbilityCastHooks.Invoke(_ability.id);
-                }
-                if(gameObject.tag == "Player"){
-                    animateAbility(_ability);
-                }
-            }
-            
-            else{
-                Debug.Log(actorName + " doesn't have the resources: fireCast");
-            }
-
-            if(_ability.getCastTime() > 0.0f){
-                //When the game is running a window seems to break if an instant ability (Like autoattack)
-                //goes off closely before a casted ability. So this check was implemented to fix it
-
-                if(tag == "Player")
-                {
-                    resetClientCastVars();
-                }   
-                else
-                {
-                    resetCastVars();
-                }
-            }
-            if(HBCTools.areHostle(this, _target)){
-                GetComponent<Controller>().autoAttacking = true;
-            }
-        } 
-    }
-        
-   }
-    
-    public void startChannel(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null){
-        // EI_Clones will be passed into an event that will allow them to be modified as need by other effects, stats, Buffs, etc.
-        if(_ability.isChannel == false)
-        {
-            //wtf how?
-            Debug.Log(_ability.getName() + "is not a channel BUT is being channeled");
-        }
-        
-        queueAbility(_ability, _target, _relWP, _relWP2);
-        if (queuedAbility.isChannel == false)
-        {
-            //wtf how?
-            isChanneling = true;
-        }
-        else
-        {
-            isChanneling = true;
-        }
-        
-        lastChannelTick = 0.0f;
-        ReadyToFire = false;
-        castTime = _ability.channelDuration;
-        isCasting = true;
-        if(onAbilityCastHooks != null){
-            onAbilityCastHooks.Invoke(_ability.id);
-        }
-        if (queuedAbility.isChannel == false)
-        {
-            //wtf how?
-            Debug.Log(queuedAbility.getName() + "is queued and anout to be channeled BUT isn't a channel| _ability " +_ability.getName());
-        }
-        fireChannel(queuedAbility, queuedTarget, queuedRelWP, queuedRelWP2);
-        
-    }
-    //2nd part
-    public void checkChannel(){
-
-        if (!IsCasting)
-        {
-            isChanneling = false;
-            if(tag == "Player")
-            {
-                resetClientCastVars();
-            }
-            else
-            {
-                resetCastVars();
-            }
-        
-        }
-        else
-        {
-
-            //check for middle hits
-            if (castTime <= 0.0f)
-            {
-
-                fireChannel(queuedAbility, queuedTarget, queuedRelWP, queuedRelWP2);
-                lastChannelTick = 0.0f;
-                isChanneling = false;
-                if(tag == "Player")
-                {
-                    resetClientCastVars();
-                }
-                else
-                {
-                    resetCastVars();
-                }
-            }
-
-            //check for final hit
-            else if (queuedAbility.channelDuration / (queuedAbility.numberOfTicks - 1) <= lastChannelTick)
-            {
-
-                fireChannel(queuedAbility, queuedTarget, queuedRelWP, queuedRelWP2);
-                lastChannelTick = 0.0f;
-            }
-        }
-
-    }
-    [Server]
-    public void fireChannel(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null){
-        // EI_Clones will be passed into an event that will allow them to be modified as need by other effects, stats, Buffs, etc.
-        
-        
-        List<EffectInstruction> EI_clones = _ability.getEffectInstructions().cloneInstructs();
-        if(buffs != null){
-            foreach(EffectInstruction eI in EI_clones){
-                int i = 0;
-                int lastBuffCount = buffs.Count;
-                while(i < buffs.Count)
-                {
-                    var buffCastHooks = buffs[i].onCastHooks;
-                    if(buffCastHooks != null){
-                        if(buffCastHooks.Count > 0){
-                            foreach (var hook in buffCastHooks){
-                                hook.Invoke(buffs[i], eI);
-                            }
-                        }
-                    }
-
-                    if(lastBuffCount == buffs.Count)
-                        i++;
-
-                }
-            
-                
-            }
-        }
-        
-        if(isServer){
-            //Debug.Log("firecast -> isServer");
-            if(hasTheResources(_ability)){
-                foreach(AbilityResource ar in _ability.resourceCosts){
-                    damageResource(ar.crType, ar.amount);
-                }
-                
-                foreach (EffectInstruction eI in EI_clones){
-                    eI.sendToActor(_target, GetRealWPOrNull(_relWP), this, inTargetWP2: GetRealWPOrNull(_relWP2));
-                }
-                //addToCooldowns(_ability);
-                // if(onAbilityCastHooks != null){
-                //     onAbilityCastHooks.Invoke(_ability.id);
-                // }
-                if(gameObject.tag == "Player"){
-                    animateAbility(_ability);
-                }
-            }
-            
-            else{
-                Debug.Log(actorName + " doesn't have the resources: fireChannel");
-            }
-
-
-            
-            
-        } 
-        
-        
-    }
-    
     // Casting: Target finders---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    Actor tryFindTarget(Ability_V2 _ability){
+    public Actor tryFindTarget(Ability_V2 _ability)
+    {
         /*
             run function from Ability that returns a code for how to find a target
             ex.  1 == this actor's target so..
                     _target = target
         */
-        if(target != null){ //This actor's target
-            //Debug.Log(_ability.getName() + " using current target as target");
-            
+        if (target != null)
+        { //This actor's target
+          //Debug.Log(_ability.getName() + " using current target as target");
+
             return target;
         }
-        else{
+        else
+        {
             Debug.Log("No target found");
             return null;
         }
     }
-    Actor tryFindTarget(EffectInstruction _eInstruct){
-        if(_eInstruct.targetArg == 0){
+    public Actor tryFindTarget(EffectInstruction _eInstruct)
+    {
+        if (_eInstruct.targetArg == 0)
+        {
             return target;
         }
-        else if(_eInstruct.targetArg == 1){
+        else if (_eInstruct.targetArg == 1)
+        {
             return this;
         }
-        else{
+        else
+        {
             return null;
         }
     }
-    NullibleVector3 tryFindTargetWP(Ability_V2 _ability, Actor passedTarget = null){
+    public NullibleVector3 tryFindTargetWP(Ability_V2 _ability, Actor passedTarget = null)
+    {
         /* In the future I might make a method in the player controller
             to display a graphic and wait for a mouse click to get the 
             world point target but for now I'll just do it immediately */
         NullibleVector3 toReturn = new NullibleVector3();
-        if(passedTarget != null){
+        if (passedTarget != null)
+        {
             toReturn.Value = passedTarget.transform.position;
-        }else{
-            if(tag == "Player"){
+        }
+        else
+        {
+            if (tag == "Player")
+            {
                 toReturn.Value = gameObject.GetComponent<PlayerController>().getRelWPTarget();
             }
-            else{
+            else
+            {
                 Debug.LogError("NPC: " + actorName + " is trying to cast a WP ability with no WP");
             }
         }
-        
-        
+
+
         return toReturn;
-         
+
     }
-    NullibleVector3 GetRealWPOrNull(NullibleVector3 _input = null){
-        if(_input == null){
+    public NullibleVector3 GetRealWPOrNull(NullibleVector3 _input = null)
+    {
+        if (_input == null)
+        {
             return null;
         }
-        if(_input.Value.magnitude == 0.0f){ //workaround for selecting an actor in editor breaking some channeled spells
+        if (_input.Value.magnitude == 0.0f)
+        { //workaround for selecting an actor in editor breaking some channeled spells
             return null;
         }
-        
+
         return new NullibleVector3(_input.Value + transform.position);
     }
-    
-    // Casting: Reseting---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    [ClientRpc]
-    public void resetClientCastVars(){
-        resetQueue();
-        ReadyToFire = false;
-        IsCasting = false;
-        resetCastTime();
-    }
-    public void resetCastVars(){
-        resetQueue();
-        ReadyToFire = false;
-        IsCasting = false;
-        resetCastTime();
-    }
-
-    void resetQueue(){
-        queuedTarget = null;
-        queuedRelWP = null;
-        queuedRelWP2 = null;
-        queuedAbility = null;
-
-    }
-    void resetCastTime(){
-        IsCasting = false;
-        castTime = 0.0f;
-    }
-
 
     // Casting: AbilityEff handling---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     public void recieveEffect(EffectInstruction _eInstruct, NullibleVector3 _relWP, Actor _caster, Actor _secondaryTarget = null)
@@ -1058,140 +478,7 @@ public class Actor : NetworkBehaviour
 
     #endregion
 
-    // Cooldowns---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    [TargetRpc]
-    void TRpcUpdateCooldowns(List<AbilityCooldown> hostListACs)
-    {
-        // Debug.Log("Updating cooldows hostListACs count: " +  hostListACs.Count.ToString());
-        // hostListACs.Capacity = 100;
-        abilityCooldowns = hostListACs;
-    }
-    [Client]
-    [TargetRpc]
-    void TRpcUpdateCooldown(AbilityCooldown hostAC)
-    {
-        abilityCooldowns.Add(hostAC);
-    }
-    void updateCooldowns(){
-        if(abilityCooldowns.Count > 0){
-            for(int i = 0; i < abilityCooldowns.Count; i++){
-                if(abilityCooldowns[i].remainingTime > 0)
-                    abilityCooldowns[i].remainingTime -= Time.deltaTime;
-                else{
-                    abilityCooldowns.RemoveAt(i);
-                    UIManager.removeCooldownEvent.Invoke(i);
-                    i--;
-                }
-
-            }
-        }
-    }
-
-    void addToCooldowns(Ability_V2 _ability){
-
-
     
-        // int capacityBefore = abilityCooldowns.Capacity;
-        // AbilityCooldown refBefore = null;
-        
-        AbilityCooldown acRef = new AbilityCooldown(_ability);
-        abilityCooldowns.Add(acRef);
-        // Debug.Log("before: " + capacityBefore + "after: " + abilityCooldowns.Capacity);
-        //Debug.Log("Host: Updating client cooldowns. Length of list: " + abilityCooldowns.Count);
-        if(tag == "Player" && !isServer){
-            TRpcUpdateCooldown(acRef);
-        }
-        
-    }
-    [TargetRpc]
-    public void TRpcRefundCooldown(Ability_V2 _hostAbility, float _hostflatAmt){
-        RefundCooldown(_hostAbility, _hostflatAmt);
-        
-        // for(int i = 0; i < abilityCooldowns.Count; i++){
-        //     if(abilityCooldowns[i].abilityName == _hostToRefund.getName()){
-
-        //         abilityCooldowns[i].remainingTime -= _hostflatAmt;
-        //         if(abilityCooldowns[i].remainingTime <=0){
-        //             abilityCooldowns.RemoveAt(i);
-        //             UIManager.removeCooldownEvent.Invoke(i);
-        //             return;
-        //         }
-        //     }
-        // }
-        
-    }
-    public void RefundCooldown(Ability_V2 _toRefund, float flatAmt){
-        
-        for(int i = 0; i < abilityCooldowns.Count; i++){
-            if(abilityCooldowns[i].abilityName == _toRefund.getName()){
-
-                abilityCooldowns[i].remainingTime -= flatAmt;
-                if(abilityCooldowns[i].remainingTime <=0){
-                    abilityCooldowns.RemoveAt(i);
-                    UIManager.removeCooldownEvent.Invoke(i);
-                    
-                }
-                if(isServer && !isLocalPlayer && tag == "Player"){
-                    //Debug.Log("Server: Telling client to refund cooldown");
-                    TRpcRefundCooldown(_toRefund, flatAmt);
-                }
-                
-                return;
-            }
-        }
-        
-    }
-    public bool checkOnCooldown(Ability_V2 _ability){
-        if(_ability == null){
-            Debug.Log("The ability you are checking on cd is null");
-        }
-        if(abilityCooldowns.Count > 0){
-            for(int i = 0; i < abilityCooldowns.Count; i++){
-                if(abilityCooldowns[i].getName() == _ability.getName()){
-                    if(showDebug){
-                        //Debug.Log(_ability.getName() + " is on cooldown!");
-                    }
-                       
-                    return true;
-                }
-            }
-            return false;
-        }
-        else{
-            return false;
-        }
-    }
-    public bool CheckOnGCD(){
-        if(GetComponent<Controller>().globalCooldown > 0.0f){
-            //Debug.Log(actorName + " is on gcd");
-            return true;
-        }
-        else{
-            //Debug.Log(actorName + " Not on gcd");
-            return false;
-        }
-    }
-
-    /// <summary>
-    /// Return true if the ability is on cooldown. False if off cooldown.
-    /// </summary>
-    public bool CheckCooldownAndGCD(Ability_V2 _ability)
-    {
-        if (_ability.offGDC == false)
-        { //if its a oGCD chekc if on GCD
-            if (CheckOnGCD())
-            {
-                return true;
-            }
-        }
-        if (checkOnCooldown(_ability))
-        { // If we make it through check the ability cd
-            return true;
-        }
-
-        return false; //if we make it here we are good the GCD and ability not on CD
-    }
     
     // Class Resources---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1446,9 +733,7 @@ public class Actor : NetworkBehaviour
         }
     }
 
-    public Ability_V2 getQueuedAbility(){
-        return queuedAbility;
-    }
+    
     public int getMaxHealth(){
         return maxHealth;
     }
@@ -1496,14 +781,6 @@ public class Actor : NetworkBehaviour
     public void cmdReqSetTarget(Actor _target){ //in future this should be some sort of actor id or something
         rpcSetTarget(_target);
     }
-    [ClientRpc]
-    public void rpcSetQueuedTarget(Actor _queuedTarget){
-        queuedTarget = _queuedTarget;
-    }
-    [Command]
-    public void cmdReqSetQueuedTarget(Actor _queuedTarget){ 
-        rpcSetQueuedTarget(_queuedTarget);
-    }
     public float getHealthPercent(){
         return (float)health / (float)maxHealth;
     }
@@ -1515,19 +792,16 @@ public class Actor : NetworkBehaviour
     public void RpcSetTarget(Actor _OwnerTarget){
         target = _OwnerTarget;
     }
-    public Actor getQueuedTarget(){
-        return queuedTarget;
-    }
     
     public Vector2 getCastingWPToFace(){
     
-        if(queuedRelWP2 != null)
+        if (abilityHandler.QueuedRelWP2 != null)
         {
-            return queuedRelWP2.Value + transform.position;
+            return abilityHandler.QueuedRelWP2.Value + transform.position;
         }
-        else if(queuedRelWP != null)
+        else if(abilityHandler.QueuedRelWP != null)
         {
-            return queuedRelWP.Value + transform.position;
+            return abilityHandler.QueuedRelWP.Value + transform.position;
         }
        
         return Vector2.zero;
@@ -1556,7 +830,8 @@ public class Actor : NetworkBehaviour
 
         }
     }
-   
+
+    
     // Misc---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     void UpdateCombatState(){
         if (GameManager.instance == null)
@@ -1625,23 +900,7 @@ public class Actor : NetworkBehaviour
     {
         TempDamageMeter.addToEntry(fromActor, amount);
     }
-    public bool checkRange(Ability_V2 _ability, Vector2 _target){
-        if(Vector2.Distance(transform.position, _target) > _ability.range){
-            return false;
-        }
-        else{
-            return true;
-        }
-    }
-    public void interruptCast(object sender = null, EventArgs e = null){
-        if (queuedAbility == null)
-        {
-            return;
-        }
-        Debug.Log(queuedAbility.getName() + " was interrupted!");
-        resetClientCastVars();
-        //Make cast bar red for a sec or two
-    }
+    
     public void LocalPlayerBroadcastTarget(){
         
         if(isServer){
@@ -1652,17 +911,7 @@ public class Actor : NetworkBehaviour
         }
         
     }
-    [ClientRpc]
-    void animateAbility(Ability_V2 _ability){
-        //animator.SetInteger("abilityType", ((int)_ability.abilityTag));
-        if(_ability.abilityTag == AbilityTags.Weapon){
-            animator.SetTrigger("abilityCast");
-        }
-        if(_ability.abilityTag == AbilityTags.SpecialWeapon){
-            animator.SetTrigger("SpecialWeapon");
-        }
-        
-    }
+    
     [ClientRpc]
     public void Knockback(Vector2 _hostVect){
         GetComponent<Rigidbody2D>().AddForce(_hostVect);
@@ -1677,7 +926,7 @@ public class Actor : NetworkBehaviour
 
     private void PlayerDead()
     {
-        interruptCast();
+        abilityHandler.InterruptCast();
         state = ActorState.Dead;
         canAttack = false;
         canMove = false;
@@ -1720,31 +969,19 @@ public class Actor : NetworkBehaviour
     [Server]
     private bool CalculateCanMove(StatusEffectChangedEventArgs e)
     {
-        if (e.Feared > 0 || e.Stunned > 0)
-        {
-            return false;
-        }
-        return true;
+        return e.Feared <= 0 && e.Stunned <= 0;
     }
 
     [Server]
     private bool CalculateCanAttack(StatusEffectChangedEventArgs e)
     {
-        if (e.Feared > 0 || e.Stunned > 0)
-        {
-            return false;
-        }
-        return true;
+        return e.Feared <= 0 && e.Stunned <= 0;
     }
 
     [Server]
     private bool CalculateCanCast(StatusEffectChangedEventArgs e)
     {
-        if (e.Feared > 0 || e.Stunned > 0 || e.Silenced > 0)
-        {
-            return false;
-        }
-        return true;
+        return e.Feared <= 0 && e.Stunned <= 0 && e.Silenced <= 0;
     }
 
     #endregion
@@ -1761,5 +998,38 @@ public class Actor : NetworkBehaviour
         PlayerIsAlive?.Invoke(this, EventArgs.Empty);
     }
 
+    #endregion
+
+    #region CompatabilityMethodsForAbilityHandler
+
+    public bool IsCasting => abilityHandler.IsCasting;
+    public List<AbilityCooldown> abilityCooldowns => abilityHandler.abilityCooldowns;
+    public UnityEvent<int> onAbilityCastHooks => abilityHandler.onAbilityCastHooks;
+    public float castTime => abilityHandler.castTime;
+
+    public void RefundCooldown(Ability_V2 a, float b)
+    {
+        abilityHandler.RefundCooldown(a, b);
+    }
+    public void interruptCast()
+    {
+        abilityHandler.InterruptCast();
+    }
+    public Ability_V2 getQueuedAbility()
+    {
+        return abilityHandler.QueuedAbility;
+    }
+    public bool castAbility3(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null)
+    {
+        return abilityHandler.CastAbility3(_ability, _target, _relWP, _relWP2);
+    }
+    public bool checkOnCooldown(Ability_V2 _ability)
+    {
+        return abilityHandler.CheckOnCooldown(_ability);
+    }
+    public bool castAbilityRealWPs(Ability_V2 _ability, Actor _target = null, NullibleVector3 _WP = null, NullibleVector3 _WP2 = null)
+    {
+        return abilityHandler.CastAbilityRealWPs(_ability, _target, _WP, _WP2);
+    }
     #endregion
 }
