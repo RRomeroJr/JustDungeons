@@ -18,6 +18,9 @@ public class LineAoe : Aoe
         delivery.GetComponent<AbilityDelivery>().setCaster(_caster);
         delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_target, _targetWP);
         delivery.GetComponent<AbilityDelivery>().transform.position  = getWP(_caster, targetWP2);
+        delivery.GetComponent<AbilityDelivery>().transform.right = 
+            delivery.GetComponent<AbilityDelivery>().worldPointTarget - delivery.GetComponent<AbilityDelivery>().transform.position;
+        // delivery.GetComponent<AbilityDelivery>().transform.rotation = delivery.GetComponent<AbilityDelivery>().transform.rotation;
         delivery.transform.localScale = new Vector3(length, prefabScale.y, prefabScale.z);
         //Debug.Log(delivery.transform.localScale + "|" + length );
         delivery.GetComponent<AbilityDelivery>().eInstructs = eInstructs;
