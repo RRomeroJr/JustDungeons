@@ -140,6 +140,7 @@ public class Actor : NetworkBehaviour
     {
         buffHandler = GetComponent<IBuff>();
         abilityHandler = GetComponent<AbilityHandler>();
+        buffs = new List<OldBuff.Buff>();
     }
 
     void Start()
