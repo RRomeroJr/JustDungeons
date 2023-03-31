@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -86,6 +86,17 @@ namespace TheKiwiCoder {
 
             }
             return null;
+        }
+        public State BoolToState(bool _bool)
+        {
+            if (_bool)
+            {
+                return State.Success;
+            }
+            else
+            {
+                return State.Failure;
+            }
         }
     }
 }
