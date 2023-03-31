@@ -104,6 +104,13 @@ public class Controller : NetworkBehaviour
             }
             if (!resolvingMoveTo && !holdDirection && followTarget != null)
             {
+                /*
+
+                    This should probably be in EnemyControler and not here. I didn't move it bc 
+                    I don't remember why I added holdDirection to the conditions and I didn't 
+                    want to break ChariotMan
+
+                */
                 // if(!HBCTools.checkFacing(actor, followTarget)){
                 //     facingDirection = HBCTools.ToNearest45(followTarget.transform.position - transform.position);
                 // }
@@ -258,6 +265,11 @@ public class Controller : NetworkBehaviour
     protected void RpcSetFacingDirection(Vector2 _ownersFacingDirection)
     {
         facingDirection = _ownersFacingDirection;
+    }
+    [Server]
+    public void ServerSetFacingDirection(HBCTools.Quadrant _direction){
+        facingDirection = HBCTools.QuadrantToVector(_direction);
+        RpcSetFacingDirection(facingDirection);
     }
 
     [Server]
