@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
-using UnityEditor.SceneManagement;
+//using UnityEditor.SceneManagement;
 public class Hotbutton: MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     public Canvas canvas;
@@ -25,14 +25,14 @@ public class Hotbutton: MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
         if(tempAbilityNameText == null){
             return;
         }
-        
+        /*
         if(Application.isPlaying == false){
             Debug.Log("Setting ability text");
             
             tempAbilityNameText.SetText(AbilityNameOrNull());
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         }
-        
+        */
      }
     void Awake(){
         image = GetComponent<Image>();
