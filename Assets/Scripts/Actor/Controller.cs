@@ -171,6 +171,7 @@ public class Controller : NetworkBehaviour
         {
             return false;
         }
+        resolvingMoveTo = true;
         StartCoroutine(IE_moveToPoint(pos));
         return true;
     }
@@ -192,39 +193,35 @@ public class Controller : NetworkBehaviour
             then set agent.destination to pos and check to see if it arrived every 0.2s
             or so 
         */
-        if (resolvingMoveTo)
-        {
-            Debug.Log("already resolving moving finishing early");
-            agent.SetDestination(pos);
-            yield return new WaitForSeconds(0.0f);
-        }
-        else
-        {
-            //Debug.Log("No Pending Path move to: " + pos);
-            agent.ResetPath();
-            agent.SetDestination(pos);
+        
+        //Debug.Log("No Pending Path move to: " + pos);
+        agent.ResetPath();
+        agent.SetDestination(pos);
 
-            agent.stoppingDistance = 0;
-            resolvingMoveTo = true;
-            agent.isStopped = false;
+        agent.stoppingDistance = 0;
+        // resolvingMoveTo = true;
+        agent.isStopped = false;
 
-            while ((Vector2.Distance(pos, transform.position) > 0.1f))
+        while ((Vector2.Distance(pos, transform.position) > 0.1f))
+        {
+            if (!agent.hasPath && !agent.pathPending)
             {
-                if (!agent.hasPath && !agent.pathPending)
-                {
-                    agent.SetDestination(pos);
-                }
-                yield return new WaitForSeconds(0.02f);
+                agent.SetDestination(pos);
             }
-            Debug.Log(Vector2.Distance(pos, transform.position) + pos.ToString() + transform.position);
-            agent.ResetPath();
-            //Debug.Log("Move To Finshed. Distance: " + Vector2.Distance(pos, gameObject.transform.position).ToString() + "Stopping distance: " + agent.stoppingDistance );
-            resolvingMoveTo = false;
-            if (followTarget != null)
-            {
-                agent.stoppingDistance = getStoppingDistance(followTarget);
-            }
+            yield return new WaitForSeconds(0.02f);
         }
+        Debug.Log(Vector2.Distance(pos, transform.position) + pos.ToString() + transform.position);
+        bool stoppedBefore = agent.isStopped;
+        agent.ResetPath();
+        bool stoppedAfter = agent.isStopped;
+        Debug.Log("before: " + stoppedBefore + "after: " + stoppedAfter);
+        //Debug.Log("Move To Finshed. Distance: " + Vector2.Distance(pos, gameObject.transform.position).ToString() + "Stopping distance: " + agent.stoppingDistance );
+        resolvingMoveTo = false;
+        if (followTarget != null)
+        {
+            agent.stoppingDistance = getStoppingDistance(followTarget);
+        }
+        
     }
     //  IEnumerator IE_moveToPoint(Vector2 pos, float tempMoveSpeed){
     //     float moveSpeedHolder = agent.speed;

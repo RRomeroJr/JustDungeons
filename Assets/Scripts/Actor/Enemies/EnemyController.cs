@@ -37,17 +37,17 @@ public class EnemyController : Controller
     {
         base.Update();
         if(isServer){
-            if(abilityHandler.IsCasting){
-                if(actor.getQueuedAbility().castWhileMoving == false){
-                    if(agent.isStopped == false){
-                        agent.isStopped = true;
-                        /*
-                            This is real ugly and stupid but idc. Couldn't figure out why Dio was moving
-                            during ring aoe cast    
-                        */
-                    }
-                }
-            }
+            // if(abilityHandler.IsCasting){
+            //     if(actor.getQueuedAbility().castWhileMoving == false){
+            //         if(agent.isStopped == false){
+            //             agent.isStopped = true;
+            //             /*
+            //                 This is real ugly and stupid but idc. Couldn't figure out why Dio was moving
+            //                 during ring aoe cast    
+            //             */
+            //         }
+            //     }
+            // }
     
             // if (!resolvingMoveTo && (followTarget != null))
             // {

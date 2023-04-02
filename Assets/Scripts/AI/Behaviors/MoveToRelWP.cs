@@ -62,7 +62,7 @@ public class MoveToRelWP : ActionNode
             // {
             //     return State.Failure;
             // }
-            if ((Vector2.Distance(realPos, context.transform.position) <= stopRange) && !context.agent.hasPath)
+            if ((Vector2.Distance(realPos, context.transform.position) <= stopRange) && !context.controller.resolvingMoveTo)
             {
                 if(useMoveSpeed)
                 {
