@@ -10,6 +10,7 @@ public class Hotbar: MonoBehaviour
     void Start(){
       UIManager.Instance.StartAbiltyGlow.AddListener(StartAbiltyGlow);
       UIManager.Instance.EndAbilityGlow.AddListener(EndAbilityGlow);
+      UIManager.Instance.hotbars.Add(this);
     }
     void Update(){
       UpdateGlows();
@@ -192,5 +193,14 @@ public class Hotbar: MonoBehaviour
         }
         
       }
+    }
+    public bool AddHotbutton(GameObject _hotbuttonGO, int _slotNumber)
+    {
+      if(_slotNumber < 0 ||  slots.Count <=_slotNumber)
+      {
+        return false;
+      }
+
+      return slots[_slotNumber].AddHotbutton(_hotbuttonGO);
     }
 }

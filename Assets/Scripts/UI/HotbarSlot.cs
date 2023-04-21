@@ -15,6 +15,20 @@ public class HotbarSlot: MonoBehaviour, IDropHandler
         hotButton.parentSlot = transform;
         hotButton.transform.position = transform.position;
     }
+    public bool AddHotbutton(GameObject _hotbuttonGO)
+    {
+        /* 
+            Really need code here to check if the slot is not already filled
+        */
+
+
+        hotButton = _hotbuttonGO.GetComponent<Hotbutton>();
+        hotButton.parentSlot = transform;
+        hotButton.transform.position = transform.position;
+        hotButton.transform.SetParent(transform);
+        hotButton.transform.SetAsFirstSibling();
+        return true;
+    }
     void Update(){
         if(Input.GetKeyDown(key)){
             Debug.Log("HotbarSlot: " + name + "was activated by the \"" + key + "\" key");
