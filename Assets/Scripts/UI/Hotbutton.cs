@@ -68,7 +68,7 @@ public class Hotbutton: MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
         if(parentSlot != null){
             transform.SetParent(parentSlot);
             transform.SetAsFirstSibling();
-            
+            UIManager.Instance.WriteHotbarPrefs();
         }
         if(image != null){
             image.raycastTarget = true;

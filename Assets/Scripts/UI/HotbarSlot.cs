@@ -9,11 +9,19 @@ public class HotbarSlot: MonoBehaviour, IDropHandler
     public Hotbutton hotButton;
     public GameObject KeyPressedObj;
     public GameObject GlowObj;
+
+    public bool HasHotButton
+    { 
+        get {return transform.childCount > 2;}
+    }
+
+    
     public void OnDrop(PointerEventData eventData){
         GameObject dropped = eventData.pointerDrag;
         hotButton = dropped.GetComponent<Hotbutton>();
         hotButton.parentSlot = transform;
         hotButton.transform.position = transform.position;
+        
     }
     public bool AddHotbutton(GameObject _hotbuttonGO)
     {
@@ -58,5 +66,14 @@ public class HotbarSlot: MonoBehaviour, IDropHandler
     }
     public void DeactivateGlow(){
         GlowObj.SetActive(false);
+    }
+    public Hotbutton GetButton()
+    { 
+        if(!HasHotButton){
+            return null;
+        }
+
+        return transform.GetChild(0).GetComponent<Hotbutton>();
+        
     }
 }

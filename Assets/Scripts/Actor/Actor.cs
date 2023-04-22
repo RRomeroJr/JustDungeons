@@ -176,7 +176,7 @@ public class Actor : NetworkBehaviour
             //     counter = counter + 1;
             // }
             // New hobutton spawn
-            UIManager.Instance.SpawnHotbuttons(combatClass);
+            UIManager.Instance.SetUpHotbars();
             classResources = combatClass.GetClassResources();
             
             if(combatClass.classStats != null){

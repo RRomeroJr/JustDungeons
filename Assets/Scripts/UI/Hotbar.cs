@@ -78,6 +78,14 @@ public class Hotbar: MonoBehaviour
         // Debug.Log(name +  " firing button " + 8);
         slots[7].ActivateSlot();
       }
+      if(Input.GetButtonDown("Hotbar1_9")){
+        if(slots[8] == null){
+            Debug.Log(name +  " slot " + 9 + " is empty!");
+            return;
+        }
+        // Debug.Log(name +  " firing button " + 8);
+        slots[8].ActivateSlot();
+      }
       if(Input.GetButtonUp("Hotbar1_1")){
         if(slots[0] == null){
             
@@ -141,6 +149,14 @@ public class Hotbar: MonoBehaviour
         }
         // Debug.Log(name +  " deactivating button " + 8);
         slots[7].DeactivateSlot();
+      }
+      if(Input.GetButtonUp("Hotbar1_9")){
+        if(slots[8] == null){
+           
+            return;
+        }
+        // Debug.Log(name +  " deactivating button " + 8);
+        slots[8].DeactivateSlot();
       }
     }
     void UpdateGlows()
