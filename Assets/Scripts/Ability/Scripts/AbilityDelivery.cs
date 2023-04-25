@@ -43,6 +43,7 @@ public class AbilityDelivery : NetworkBehaviour
     public bool hitHostile = true;
     public bool hitFriendly = true;
     public bool canHitSelf = false;
+    public bool checkAtFeet = false;
     void OnValidate(){
         if(followTarget && followCaster){
             Debug.LogError(gameObject.name + "| Warning followTarget && followCaster. Chose only one. Will default to caster");
@@ -92,6 +93,10 @@ public class AbilityDelivery : NetworkBehaviour
         if(isServer){
             if(start){
                 Actor hitActor = other.GetComponent<Actor>();
+                if(checkAtFeet && !CheckHitFeet(hitActor))
+                {
+                    return;
+                }   
                 if(checkIgnoreConditons(hitActor) == false){
                     if(type == 0){
                         if (hitActor == target){
@@ -123,6 +128,12 @@ public class AbilityDelivery : NetworkBehaviour
                 if(start){
                     //Debug.Log("Trigger stay server and start");
                 Actor hitActor = other.GetComponent<Actor>();
+
+                if(checkAtFeet && !CheckHitFeet(hitActor))
+                {
+                    return;
+                }   
+
                 if(checkIgnoreConditons(hitActor) == false){
                     //Debug.Log("Actor found and passes conditions");
                     if((type == 2)||(type == 3) || (type == 5)){
@@ -163,7 +174,7 @@ public class AbilityDelivery : NetworkBehaviour
                             
                             if(dist > innerCircleRadius){
 
-                                Debug.DrawLine(other.GetComponent<Collider2D>().bounds.center, safeZoneCenter, Color.red);
+                                // Debug.DrawLine(other.GetComponent<Collider2D>().bounds.center, safeZoneCenter, Color.red);
 
                                 if(checkIgnoreTarget(hitActor) == false){
                                     
@@ -177,7 +188,7 @@ public class AbilityDelivery : NetworkBehaviour
                                 }
                             }
                             else{
-                                Debug.DrawLine(other.GetComponent<Collider2D>().bounds.center, safeZoneCenter, Color.green);
+                                // Debug.DrawLine(other.GetComponent<Collider2D>().bounds.center, safeZoneCenter, Color.green);
                                 
                             }
                             
@@ -322,6 +333,22 @@ public class AbilityDelivery : NetworkBehaviour
             Debug.Log("_hitActor null");
             return false;
         }
+    }
+    bool CheckHitFeet(Actor _hitActor){
+        //returns true if the _histActor should be ignored
+        if(GetComponent<Collider2D>().OverlapPoint(_hitActor.GetComponent<Collider2D>().bounds.BottomCenter()))
+        {
+            Debug.DrawLine(_hitActor.GetComponent<Collider2D>().bounds.BottomCenter(), transform.position, Color.red);
+            return true;
+            
+        }
+        else
+        {
+            Debug.DrawLine(_hitActor.GetComponent<Collider2D>().bounds.BottomCenter(), transform.position, Color.green);
+            return false;
+        }
+        // return GetComponent<Collider2D>().OverlapPoint(_hitActor.GetComponent<Collider2D>().bounds.BottomCenter());
+        
     }
     void addToAoeIgnore(Actor _target, float _remainingtime){
         aoeActorIgnore.Add(new TargetCooldown(_target, _remainingtime));

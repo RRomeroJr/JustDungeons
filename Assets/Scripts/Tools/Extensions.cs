@@ -76,6 +76,15 @@ public static class Extensions
     public static NetworkConnection GetNetworkConnection(this MonoBehaviour _mo){
         return _mo.GetComponent<NetworkIdentity>().connectionToClient;
     }
+    public static Vector2 BottomCenter(this Bounds _bounds)
+    {
+        Vector2 toReturn = new Vector2();
+
+        toReturn.x = _bounds.center.x;
+        toReturn.y = _bounds.min.y;
+
+        return toReturn;
+    }
     
     
     
