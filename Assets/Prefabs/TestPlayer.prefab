@@ -200,7 +200,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   target: {fileID: 3602611100074717268}
-  clientAuthority: 1
+  clientAuthority: 0
   onlySyncOnChange: 1
   bufferResetMultiplier: 5
   positionSensitivity: 0.01
@@ -254,6 +254,10 @@ MonoBehaviour:
   role: 1
   unitColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
   mobId: -1
+  combatClass: {fileID: 11400000, guid: 9209a080bfcf7b54eb03e313f2758bac, type: 2}
+  mainStat: 100
+  target: {fileID: 0}
+  nameplate: {fileID: 0}
   classResources:
   - crType: {fileID: 11400000, guid: f99af011e29c85f4686d63a179cf33d8, type: 2}
     max: 5
@@ -262,18 +266,10 @@ MonoBehaviour:
     outOfCombatRegen: 0
     tickTime: 0
     tickMax: 0
-  mainStat: 100
-  target: {fileID: 0}
-  buffs: []
-  uiManager: {fileID: 0}
-  castBar: {fileID: 0}
-  animator: {fileID: 0}
-  nameplate: {fileID: 0}
   state: 0
   inCombat: 0
   combatLocked: 0
   attackerList: []
-  combatClass: {fileID: 11400000, guid: 9209a080bfcf7b54eb03e313f2758bac, type: 2}
   resourceTickTime: 0
   resourceTickMax: 1
 --- !u!114 &3602611100074717273
@@ -381,10 +377,12 @@ MonoBehaviour:
   showDebug: 0
   <QueuedAbility>k__BackingField: {fileID: 0}
   <QueuedTarget>k__BackingField: {fileID: 0}
-  actor: {fileID: 0}
+  <QueuedRelWP>k__BackingField:
+    Value: {x: 0, y: 0, z: 0}
+  <QueuedRelWP2>k__BackingField:
+    Value: {x: 0, y: 0, z: 0}
   abilityCooldowns: []
   buffs: []
-  uiManager: {fileID: 0}
   onAbilityCastHooks:
     m_PersistentCalls:
       m_Calls: []

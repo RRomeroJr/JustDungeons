@@ -7,7 +7,7 @@ using UnityEditor;
 
 
 namespace TheKiwiCoder {
-    [CreateAssetMenu()]
+    [CreateAssetMenu(fileName = ProjectPaths.behaviorTree + "NewBehaviorTree")]
     public class BehaviourTree : ScriptableObject {
         public Node rootNode;
         public Node.State treeState = Node.State.Running;
