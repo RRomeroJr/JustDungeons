@@ -16,6 +16,7 @@ public class CameraController : MonoBehaviour
     void Start(){
         //offset = new Vector3(target.transform.position.x, target.transform.position.y + 2.75f, -10f);
         CustomNetworkManager.singleton.GamePlayers.CollectionChanged += HandlePlayerAdded;
+        
     }
     void Update(){
         if(Input.GetMouseButton(1)){
@@ -59,6 +60,7 @@ public class CameraController : MonoBehaviour
         if (CustomNetworkManager.singleton.GamePlayers.Last().isLocalPlayer)
         {
             target = CustomNetworkManager.singleton.GamePlayers.Last().transform;
+            offset.y = -1 * target.GetComponent<Renderer>().bounds.extents.y;
         }
     }
 }
