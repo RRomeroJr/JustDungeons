@@ -36,5 +36,5 @@ MonoBehaviour:
     deliveryNVect2: {x: 0, y: 0}
   school: 0
   prefabScale: {x: 1, y: 1, z: 1}
-  aoePrefab: {fileID: 5726915145644695686, guid: caa5883b5e9d4e847862790f239181d7, type: 3}
+  aoePrefab: {fileID: 2685400126559208735, guid: 13abc002491244444ac0797007d7a294, type: 3}
   length: 1
