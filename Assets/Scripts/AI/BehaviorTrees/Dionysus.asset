@@ -57,6 +57,8 @@ MonoBehaviour:
   targetHolder: {fileID: 0}
   useMoveSpeed: 0
   moveSpeed: 0
+  moveToStarted: 0
+  stopRange: 1
 --- !u!114 &-8071363749586900216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,6 +288,8 @@ MonoBehaviour:
   targetHolder: {fileID: 0}
   useMoveSpeed: 1
   moveSpeed: 20
+  moveToStarted: 0
+  stopRange: 1
 --- !u!114 &-2771419206414558020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,6 +306,32 @@ MonoBehaviour:
   started: 0
   guid: 04dcbc9f47c4a6c498797c1df1f14486
   position: {x: -1676.3766, y: 498.80008}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  child: {fileID: -2397871938220123615}
+  percentage: 0.7
+  mustComplete: 0
+  triggered: 1
+--- !u!114 &-2756811417255820201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8b2b3e3551c72145a60bb2642ef1a4c, type: 3}
+  m_Name: AboveHealthPercent
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: ccc30b010233a6448af1a8f6a1d42089
+  position: {x: -1676.0002, y: 461.58252}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -446,7 +476,7 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   children:
-  - {fileID: -2771419206414558020}
+  - {fileID: -2756811417255820201}
   - {fileID: -5454090653610714708}
 --- !u!114 &-336318909889377013
 MonoBehaviour:
@@ -491,7 +521,6 @@ MonoBehaviour:
   - {fileID: 7221063678469256655}
   - {fileID: -6141779489529036425}
   - {fileID: 2191826906436300917}
-  - {fileID: -2771419206414558020}
   - {fileID: -2397871938220123615}
   - {fileID: -7330126254191807548}
   - {fileID: -8273784094258071227}
@@ -525,6 +554,7 @@ MonoBehaviour:
   - {fileID: 6721198417537804147}
   - {fileID: -4629304153494490707}
   - {fileID: 6876587164079399509}
+  - {fileID: -2756811417255820201}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -555,6 +585,8 @@ MonoBehaviour:
   targetHolder: {fileID: 0}
   useMoveSpeed: 0
   moveSpeed: 0
+  moveToStarted: 0
+  stopRange: 1
 --- !u!114 &662109425032271069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -758,6 +790,8 @@ MonoBehaviour:
   targetHolder: {fileID: 0}
   useMoveSpeed: 0
   moveSpeed: 0
+  moveToStarted: 0
+  stopRange: 1
 --- !u!114 &4905867565972754270
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -27,6 +28,7 @@ public class UIManager : MonoBehaviour
     public UnityEvent<Ability_V2> StartAbiltyGlow = new UnityEvent<Ability_V2>();
     public UnityEvent<Ability_V2> EndAbilityGlow = new UnityEvent<Ability_V2>();
     public UnityEvent glowChecks;
+    public List<Hotbar> hotbars = new List<Hotbar>();
     
     public void SpawnBuffBar()
     {
@@ -67,6 +69,7 @@ public class UIManager : MonoBehaviour
         {
             CustomNetworkManager.singleton.GamePlayers.CollectionChanged += AddPlayerFrame;
         }
+        
     }
 
     void AddPlayerFrame(object sender, NotifyCollectionChangedEventArgs e)
@@ -193,22 +196,187 @@ public class UIManager : MonoBehaviour
     }
     public void SpawnHotbuttons(CombatClass _combatClass){
         
-        if(hotbuttonPrefab == null){
+        if(hotbuttonPrefab == null)
+        {
             Debug.LogError("No Hotbutton Prefab in UIManager. Can't spawn ability hotbuttons");
+            return;
+        }
+        // if(_combatClass.defaultBinds != null){
+        //     SetUpHotbars();
+        //     return;
+        // }
+        
+        foreach(Ability_V2 a in _combatClass.abilityList)
+        {
+            SpawnHotbutton(a);
+        }
+    }
+    public void SpawnButtonsFromPrefs(TextAsset _hotbarPrefs){
+
+    }
+    public Hotbutton SpawnHotbutton(Ability_V2 _ability){
+        if(_ability == null){
+            return null;
         }
         Hotbutton hotbuttonInst = null;
-        foreach(Ability_V2 a in _combatClass.abilityList){
-            hotbuttonInst = Instantiate(hotbuttonPrefab, new Vector2(0.0f, 0.0f) + (Vector2)canvas.transform.position, Quaternion.identity, canvas.transform).GetComponent<Hotbutton>();
-            hotbuttonInst.ability = a;
-            hotbuttonInst.canvas = canvas.GetComponent<Canvas>();
-            hotbuttonInst.SetUp();
-        }
+        hotbuttonInst = Instantiate(hotbuttonPrefab, new Vector2(0.0f, 0.0f) + (Vector2)canvas.transform.position, Quaternion.identity, canvas.transform).GetComponent<Hotbutton>();
+        hotbuttonInst.ability = _ability;
+        hotbuttonInst.canvas = canvas.GetComponent<Canvas>();
+        hotbuttonInst.SetUp();
+
+        return hotbuttonInst;
     }
     public void MakeGlow(Ability_V2 _ability){
         if(glowList.Contains(_ability) == false){
             glowList.Add(_ability);
             Debug.Log("UIManager: Making "+ _ability.name + " glow");
         }
+    }
+    [System.Serializable]
+    public class HotbarItem
+    {
+        public int abilityID;
+        public int barNumber;
+        public int slotNumber;
+    }
+    
+    public class PrefsData
+    {
+        public HotbarItem[] HotbarItems;
+    }
+    public void SetUpHotbars()
+    {
+        /*
+            In here I will grab the data from the preferences file then use it to auto set up the hotbars
+
+            Just don't forget to call this somewhere later
+        */
+        if(playerActor.combatClass == null){
+            return;
+        }
+
+        string filePath = Application.dataPath + "/" + playerActor.combatClass.name + "HotbarPrefs.json";
+
+        if(File.Exists(filePath) == false)
+        {
+            // if There is a combatClass but no prefs file
+            // Just spawn all it's abilities in the center of the screen
+
+            SpawnHotbuttons(playerActor.combatClass);
+        }
+
+        Debug.Log("Searching for prefs in: "+ filePath);
+        string jsonString = File.ReadAllText(filePath);
+
+        PrefsData prefsData = null;
+        prefsData = JsonUtility.FromJson<PrefsData>(jsonString);
+        // prefsData = JsonUtility.FromJson<PrefsData>(_hotbarPrefs.text);
+
+        if(prefsData == null){
+            Debug.Log("prefsData is null");
+        }
+        else{
+            Debug.Log("prefsData NOT null");
+        }
+        if(prefsData.HotbarItems == null){
+            Debug.Log("prefsData.HotBarItems is null");
+        }
+        
+
+        for(int i = 0 ; i < prefsData.HotbarItems.Length; i++)
+        {
+            Debug.Log("Player Pref read, ID: " + prefsData.HotbarItems[i].abilityID);
+
+            Ability_V2 _ability = AbilityData.instance.find(prefsData.HotbarItems[i].abilityID);
+            
+            if(_ability == null){
+                continue;
+            }
+
+            Hotbutton _hotButton = SpawnHotbutton(_ability);
+            if(_hotButton == null){
+                continue;
+            }
+
+            
+            AddToHotbars(_hotButton, prefsData.HotbarItems[i].barNumber, prefsData.HotbarItems[i].slotNumber );
+
+
+
+        }
+    }
+    public bool AddToHotbars(Hotbutton _hotbutton, int _hotbarNumber, int _slotNumber){
+        if(_hotbutton == null)
+        {
+            Debug.Log("trying to add null hotbutton to hotbar");
+            return false;
+        }
+        if(_hotbarNumber < 0 || hotbars.Count <= _hotbarNumber)
+        {
+            Debug.Log("Trying to add hotbar item to a hotbar that doesn't exist, _hotbarNumber: " + _hotbarNumber );
+            return false;
+        }
+        if(_slotNumber < 0 || hotbars[_hotbarNumber].slots.Count <= _slotNumber)
+        {
+            Debug.Log("Hotbar slotNumber is out of range for this hotbar, _slotNumber: " + _slotNumber + " _hotbarNumber" + _hotbarNumber);
+            return false;
+        }
+        
+        return hotbars[_hotbarNumber].AddHotbutton(_hotbutton.gameObject, _slotNumber);
+    }
+
+    public void WriteHotbarPrefs(){
+        
+        if(playerActor.combatClass == null)
+        {
+            return;
+        }
+
+        Debug.Log("Trying to written new keybinds..");
+        List<HotbarItem> newUserPrefs = new List<HotbarItem>();
+
+
+        for(int barCount = 0; barCount < hotbars.Count; barCount++)
+        {
+            Hotbar _hb = hotbars[barCount];
+
+            for(int slotCount = 0; slotCount < _hb.slots.Count; slotCount++)
+            {
+                HotbarSlot _slot = _hb.slots[slotCount];
+
+                if(_slot.HasHotButton)
+                {
+                    HotbarItem hotbarItem = new HotbarItem();
+
+                    hotbarItem.abilityID = _slot.GetButton().ability.id;
+                    hotbarItem.barNumber = barCount;
+                    hotbarItem.slotNumber = slotCount;
+
+                    newUserPrefs.Add(hotbarItem);
+                }
+
+
+            }
+        }
+
+        if(newUserPrefs.Count <= 0)
+        {
+            return;
+        }
+
+        PrefsData newPrefsData = new PrefsData();
+
+        newPrefsData.HotbarItems = new HotbarItem[newUserPrefs.Count];
+        for (int i = 0; i < newUserPrefs.Count; i++)
+        {
+            newPrefsData.HotbarItems[i] = newUserPrefs[i];
+        }
+
+        string newJsonString = JsonUtility.ToJson(newPrefsData);
+        File.WriteAllText(Application.dataPath + "/" + playerActor.combatClass.name + "HotbarPrefs.json", newJsonString);
+
+        Debug.Log("New Keybinds written");
+        Debug.Log("newPrefs Length: " + newPrefsData.HotbarItems.Length);
     }
     
 

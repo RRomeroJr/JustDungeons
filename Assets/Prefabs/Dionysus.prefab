@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: -2720667041761104102}
   - component: {fileID: 2915685031530657180}
   - component: {fileID: -1578170218902741199}
+  - component: {fileID: 264135600633094978}
   m_Layer: 7
   m_Name: Dionysus
   m_TagString: Untagged
@@ -192,26 +193,22 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   autoAttackClone: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
-  actor: {fileID: 0}
-  agent: {fileID: 0}
-  autoAttacking: 0
   followTarget: {fileID: 0}
-  resolvingMoveTo: 0
-  facingDirection: {x: 0, y: 0}
   globalCooldown: 0
-  autoAttackRequest: 0
-  moveSpeed: 420
   abilities: []
+  moveSpeed: 420
+  moveSpeedModifier: 1
+  facingDirection: {x: 0, y: 0}
+  holdDirection: 0
   tryingToMove: 0
-  moveToEvent:
-    m_PersistentCalls:
-      m_Calls: []
+  autoAttacking: 0
+  resolvingMoveTo: 0
+  autoAttackRequest: 0
   obstacleMask:
     serializedVersion: 2
     m_Bits: 8
   arenaObject: {fileID: 0}
   enemyStats: {fileID: 11400000, guid: 3176dadcd08b7f745b62870f626a14cb, type: 2}
-  treeRunner: {fileID: 0}
   target: {fileID: 0}
   multiTargets: []
   spawnLocation: {x: 0, y: 0, z: 0}
@@ -284,32 +281,17 @@ MonoBehaviour:
   role: 0
   unitColor: {r: 0.62352943, g: 0, b: 0.5058824, a: 0}
   mobId: 1
-  classResources: []
+  combatClass: {fileID: 0}
   mainStat: 100
   target: {fileID: 0}
-  buffHandler: {fileID: 0}
-  canMove: 1
-  buffs: []
-  isChanneling: 0
-  lastChannelTick: 0
-  queuedAbility: {fileID: 0}
-  queuedTarget: {fileID: 0}
-  queuedRelWP:
-    Value: {x: 0, y: 0, z: 0}
-  queuedRelWP2:
-    Value: {x: 0, y: 0, z: 0}
-  abilityCooldowns: []
-  uiManager: {fileID: 0}
-  castTime: 0
-  castBar: {fileID: 0}
-  onAbilityCastHooks:
-    m_PersistentCalls:
-      m_Calls: []
-  animator: {fileID: 0}
-  combatClass: {fileID: 0}
+  nameplate: {fileID: 0}
+  classResources: []
+  state: 0
+  inCombat: 0
+  combatLocked: 0
+  attackerList: []
   resourceTickTime: 0
   resourceTickMax: 1
-  nameplate: {fileID: 0}
 --- !u!114 &2915685031530657180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,7 +305,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tree: {fileID: 11400000, guid: f0a55e3af83915549a203510ed3c196f, type: 2}
-  controllerReady: 0
 --- !u!114 &-1578170218902741199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,3 +321,35 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   ArenaPrefab: {fileID: 4457653117952653269, guid: b92dd7a8b577a9842ad1e74edfd1d9d7, type: 3}
+--- !u!114 &264135600633094978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096029720338020577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 489a9270251ccbd47bf7265922cd55bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  showDebug: 0
+  <QueuedAbility>k__BackingField: {fileID: 0}
+  <QueuedTarget>k__BackingField: {fileID: 0}
+  <QueuedRelWP>k__BackingField:
+    Value: {x: 0, y: 0, z: 0}
+  <QueuedRelWP2>k__BackingField:
+    Value: {x: 0, y: 0, z: 0}
+  abilityCooldowns: []
+  buffs: []
+  onAbilityCastHooks:
+    m_PersistentCalls:
+      m_Calls: []
+  ReadyToFire: 0
+  IsCasting: 0
+  <IsChanneling>k__BackingField: 0
+  castTime: 0
+  lastChannelTick: 0

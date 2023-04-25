@@ -8,7 +8,7 @@ public class SetFacingDirection : ActionNode
     public HBCTools.Quadrant direction;
     protected override void OnStart()
     {
-        context.controller.facingDirection = HBCTools.QuadrantToVector(direction);
+        context.controller.ServerSetFacingDirection(direction);
     }
 
     protected override void OnStop()

@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 3824381633918992328}
   - component: {fileID: -1627031475114962768}
   - component: {fileID: 4519524986873919313}
+  - component: {fileID: 7852326269123812994}
   m_Layer: 7
   m_Name: ChariotMan
   m_TagString: Untagged
@@ -195,26 +196,22 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   autoAttackClone: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
-  actor: {fileID: 0}
-  agent: {fileID: 0}
-  autoAttacking: 0
   followTarget: {fileID: 0}
-  resolvingMoveTo: 0
-  facingDirection: {x: 0, y: 0}
   globalCooldown: 0
-  autoAttackRequest: 0
-  moveSpeed: 420
   abilities: []
+  moveSpeed: 420
+  moveSpeedModifier: 1
+  facingDirection: {x: 0, y: 0}
+  holdDirection: 0
   tryingToMove: 0
-  moveToEvent:
-    m_PersistentCalls:
-      m_Calls: []
+  autoAttacking: 0
+  resolvingMoveTo: 0
+  autoAttackRequest: 0
   obstacleMask:
     serializedVersion: 2
     m_Bits: 8
   arenaObject: {fileID: 0}
   enemyStats: {fileID: 11400000, guid: 3176dadcd08b7f745b62870f626a14cb, type: 2}
-  treeRunner: {fileID: 0}
   target: {fileID: 0}
   multiTargets: []
   spawnLocation: {x: 0, y: 0, z: 0}
@@ -287,35 +284,17 @@ MonoBehaviour:
   role: 0
   unitColor: {r: 0.9137255, g: 0.7490196, b: 0.49411765, a: 1}
   mobId: 5
-  classResources: []
+  combatClass: {fileID: 0}
   mainStat: 100
   target: {fileID: 0}
-  buffHandler: {fileID: 0}
-  canMove: 1
-  buffs: []
-  isChanneling: 0
-  lastChannelTick: 0
-  queuedAbility: {fileID: 0}
-  queuedTarget: {fileID: 0}
-  queuedRelWP:
-    Value: {x: 0, y: 0, z: 0}
-  queuedRelWP2:
-    Value: {x: 0, y: 0, z: 0}
-  abilityCooldowns: []
-  uiManager: {fileID: 0}
-  castTime: 0
-  castBar: {fileID: 0}
-  onAbilityCastHooks:
-    m_PersistentCalls:
-      m_Calls: []
-  animator: {fileID: 0}
+  nameplate: {fileID: 0}
+  classResources: []
+  state: 0
   inCombat: 0
   combatLocked: 0
   attackerList: []
-  combatClass: {fileID: 0}
   resourceTickTime: 0
   resourceTickMax: 1
-  nameplate: {fileID: 0}
 --- !u!114 &2915685031530657180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,7 +308,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tree: {fileID: 11400000, guid: baece3206ebf9404c97a347040ce4c28, type: 2}
-  controllerReady: 0
 --- !u!114 &-1578170218902741199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,3 +380,35 @@ MonoBehaviour:
   isStopped: 0
   pathSatus: 0
   destination: {x: 0, y: 0, z: 0}
+--- !u!114 &7852326269123812994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096029720338020577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 489a9270251ccbd47bf7265922cd55bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  showDebug: 0
+  <QueuedAbility>k__BackingField: {fileID: 0}
+  <QueuedTarget>k__BackingField: {fileID: 0}
+  <QueuedRelWP>k__BackingField:
+    Value: {x: 0, y: 0, z: 0}
+  <QueuedRelWP2>k__BackingField:
+    Value: {x: 0, y: 0, z: 0}
+  abilityCooldowns: []
+  buffs: []
+  onAbilityCastHooks:
+    m_PersistentCalls:
+      m_Calls: []
+  ReadyToFire: 0
+  IsCasting: 0
+  <IsChanneling>k__BackingField: 0
+  castTime: 0
+  lastChannelTick: 0

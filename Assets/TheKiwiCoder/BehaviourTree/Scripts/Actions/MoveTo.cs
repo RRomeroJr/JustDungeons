@@ -61,7 +61,7 @@ public class MoveTo : ActionNode
             {
                 return State.Failure;
             }
-            if ((Vector2.Distance(pos, context.transform.position) <= stopRange) && !context.agent.hasPath)
+            if ((Vector2.Distance(pos, context.transform.position) <= stopRange) && !context.controller.resolvingMoveTo)
             {
                 if(useMoveSpeed)
                 {

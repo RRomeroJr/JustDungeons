@@ -15,6 +15,7 @@ public class AbilityDelivery : NetworkBehaviour
     */
     
     public Actor caster;
+    
     public Actor target;
     public Vector3 worldPointTarget;
     public List<TargetCooldown> aoeActorIgnore;
@@ -73,7 +74,7 @@ public class AbilityDelivery : NetworkBehaviour
             }
             if(type == 5){ //line aoe
                 //Debug.Log("Start type 5: LineAoe");
-                transform.right = worldPointTarget - transform.position;
+                // transform.right = worldPointTarget - transform.position;
                 
             }
             if(connectedToCaster){

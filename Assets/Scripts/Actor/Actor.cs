@@ -140,6 +140,7 @@ public class Actor : NetworkBehaviour
     {
         buffHandler = GetComponent<IBuff>();
         abilityHandler = GetComponent<AbilityHandler>();
+        buffs = new List<OldBuff.Buff>();
     }
 
     void Start()
@@ -175,7 +176,7 @@ public class Actor : NetworkBehaviour
             //     counter = counter + 1;
             // }
             // New hobutton spawn
-            UIManager.Instance.SpawnHotbuttons(combatClass);
+            UIManager.Instance.SetUpHotbars();
             classResources = combatClass.GetClassResources();
             
             if(combatClass.classStats != null){
