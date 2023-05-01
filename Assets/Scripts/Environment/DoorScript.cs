@@ -1,52 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 
 public class DoorScript : MonoBehaviour
 {
-    [Header("Door Settings")]
-    public GameObject triggerObject;
-    public float openHeight;
-    public float speed;
-
-    [Header("Debug Values")]
-    [SerializeField] private bool isOpen;
-
-    private Vector2 closedPosition;
-    private Vector2 openPosition;
+    
+    // public UnityEvent oneTimeTriggerEvent;
 
     // Start is called before the first frame update
     void Start()
     {
-        isOpen = false;
-        closedPosition = gameObject.transform.position;
-        openPosition = new Vector2(transform.position.x, transform.position.y + openHeight);
+        // oneTimeTriggerEvent.AddListener(OpenDoor);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(triggerObject.GetComponent<TriggerBase>().isActive == true){
-            OpenDoor();
-        }
-        else if(isOpen){
-            CloseDoor();
-        }
+        
     }
 
     // Move door towards open position 
     public void OpenDoor(){
-        transform.position = Vector2.MoveTowards(transform.position, openPosition, speed * Time.deltaTime);
-        isOpen = true;
+        GetComponent<Collider2D>().enabled = false;
+        Color newColor = GetComponent<SpriteRenderer>().color;
+        newColor.a = 0.33f;
+        
+        GetComponent<SpriteRenderer>().color= newColor;
     }
 
     // Move door towards closed position
     public void CloseDoor(){
-        transform.position = Vector2.MoveTowards(transform.position, closedPosition, speed * Time.deltaTime);
-        if (transform.position.Equals(closedPosition))
-        {
-            isOpen = false;
-        }
+        GetComponent<Collider2D>().enabled = true;
+        Color newColor = GetComponent<SpriteRenderer>().color;
+        newColor.a = 1f;
+        GetComponent<SpriteRenderer>().color= newColor;
     }
 }
