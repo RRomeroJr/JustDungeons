@@ -231,7 +231,7 @@ public class EnemyController : Controller
                 otherwise when there are many actors involved
              */
         }
-        GameManager.instance.OnMobAggroed.Invoke(actor);
+        
         return true;
     }
     
