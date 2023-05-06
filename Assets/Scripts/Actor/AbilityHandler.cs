@@ -636,7 +636,7 @@ public class AbilityHandler : NetworkBehaviour
         abilityCooldowns.Add(acRef);
         // Debug.Log("before: " + capacityBefore + "after: " + abilityCooldowns.Capacity);
         //Debug.Log("Host: Updating client cooldowns. Length of list: " + abilityCooldowns.Count);
-        if (tag == "Player" && !isServer)
+        if (tag == "Player" && !isLocalPlayer)
         {
             TRpcUpdateCooldown(acRef);
         }

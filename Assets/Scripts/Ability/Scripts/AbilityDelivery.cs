@@ -169,8 +169,17 @@ public class AbilityDelivery : NetworkBehaviour
                         if ( (hitActor != caster) || canHitSelf){
                         
                             //Debug.Log("Actor found and not caster");
+                            Vector2 hitCheckPoint;
+                            if(checkAtFeet)
+                            {
+                                hitCheckPoint = hitActor.GetComponent<Collider2D>().bounds.BottomCenter();
+                            }
+                            else
+                            {
+                                hitCheckPoint = other.GetComponent<Collider2D>().bounds.center;
+                            }
                             float dist = Vector2.Distance
-                                    (other.GetComponent<Collider2D>().bounds.center, safeZoneCenter);
+                                    (hitCheckPoint, safeZoneCenter);
                             
                             if(dist > innerCircleRadius){
 

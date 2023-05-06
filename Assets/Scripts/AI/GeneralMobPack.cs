@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SaytrMultiboss : Multiboss
+public class GeneralMobPack : Multiboss
 {
     /*
         This will be put on an actor. It will search for other actors with
         this component and store thier refereces in a list. 
     */
-    public float radius = 20.0f;
+    public float radius = 6.5f;
     public int tempIdentifier;
     public bool eventTested = false;
     //public static UnityEvent<uint> comboEvent = new UnityEvent<uint>();
     
     void Start(){
+        partners = new List<Actor>();
+        GameManager.instance.OnActorEnterCombat.AddListener(ChainAggro);
         StartCoroutine(SearchForPartners());
     }
     public override IEnumerator SearchForPartners(){
@@ -24,7 +26,7 @@ public class SaytrMultiboss : Multiboss
             castHits = Physics2D.CircleCastAll(transform.position, radius, Vector2.zero, 0.0f, LayerMask.GetMask("Enemy"));
             foreach(RaycastHit2D hit in castHits){
                 if(hit.collider.gameObject != gameObject){
-                    if(hit.collider.GetComponent<SaytrMultiboss>() != null){
+                    if(hit.collider.GetComponent<GeneralMobPack>() != null){
                         partners.Add(hit.collider.GetComponent<Actor>()); 
                     }
                 }
@@ -56,5 +58,6 @@ public class SaytrMultiboss : Multiboss
                 Debug.Log("Unknocn mob identifer");
                 break;
         }
-    } 
+    }
+
 }

@@ -1,5 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
+public enum CombatTemperment{
+    Hostle,
+    Neutral,
+    Passive
+}
 
 public class EnemyController : Controller
 {
@@ -15,6 +22,9 @@ public class EnemyController : Controller
     public List<Transform> multiTargets;
     public Vector3 spawnLocation;
     public Collider2D collider;
+    public float aggroRadius = 7.0f;
+    public CombatTemperment combatTemperment;
+    public Actor aggroTarget;
     public int phase = 0;
 
     protected override void Awake()
@@ -29,6 +39,7 @@ public class EnemyController : Controller
     {
         base.Start();
         spawnLocation = transform.position;
+        actor.OnEnterCombat.AddListener(OnEnterCombat);
 //        agent.speed = enemyStats.moveSpeed;
     }
 
@@ -54,6 +65,10 @@ public class EnemyController : Controller
             //     agent.SetDestination(followTarget.transform.position);
 
             // }
+            if(combatTemperment == CombatTemperment.Hostle && actor.inCombat == false)
+            {
+                AggroSearch();
+            }                                                      
         }
         if(isServer && !holdDirection)
         {
@@ -88,7 +103,7 @@ public class EnemyController : Controller
     //void onRanged()
     //void onMelee()
     //void onTank()
-
+    
     // Returns true if target is in range and false if no targets are in range
     // Sets the target to the closest target if multiple or a random enemy if random = true
     // Uses a circle raycast centered on the enemy and checks if any gameobjects on the target layer are hit
@@ -185,4 +200,50 @@ public class EnemyController : Controller
         }
         
     }
+    public void AggroSearch(){
+
+        if(FindTargets(LayerMask.GetMask("Player"), aggroRadius))
+        {
+            actor.CheckStartCombatWith(actor.target);
+            
+        }
+
+    }
+    public bool Aggro(Actor _aggroTarget, bool _setAutoAttack = true, bool _checkStartCombatWith = true)
+    {
+        if(_aggroTarget == null)
+            Debug.Log("aggroTarget was null");
+        actor.target = _aggroTarget;
+        aggroTarget = _aggroTarget;
+        followTarget = _aggroTarget.gameObject;
+        autoAttacking = _setAutoAttack;
+
+        if(_checkStartCombatWith){
+            actor.CheckStartCombatWith(_aggroTarget);
+
+            /* There is a annoying sistuation where, an actor hits another actor
+                > Actor adds them to each other's attackers > Combat starts
+                > OnEnterCombat here fires and calls Aggro > Then aggro would 
+                reduntantly check to add the _aggrotarget as an attacker
+
+                So I made this conditional here to stop that reduntant check.
+                I could be alot of unecessary looping through attacker lists
+                otherwise when there are many actors involved
+             */
+        }
+        
+        return true;
+    }
+    
+    void OnEnterCombat()
+    {
+        if(aggroTarget != null)
+        {
+            return;
+        }
+        
+        Aggro(actor.FirstAliveAttacker(), _checkStartCombatWith: false);
+        Debug.Log("1st aggro. Aggroing to.." + actor.target);
+    }
+    
 }

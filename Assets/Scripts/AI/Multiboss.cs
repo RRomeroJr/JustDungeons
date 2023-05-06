@@ -17,12 +17,42 @@ public abstract class Multiboss: MonoBehaviour
     public int lastCombo;
     [SerializeField]protected int comboMax;
     public abstract IEnumerator SearchForPartners();
-    public abstract void OnFindPartners();
+    public virtual void OnFindPartners(){
+        Debug.Log("Multiboss: Partners found!");
+        
+        //Gaurd clause: if you are not the first to reach this, then get the coordinator ref
+        bool spawnCoordinator = true;
+        foreach(Actor a in partners)
+        {   
+            if(a.GetComponent<Multiboss>().multibossCoordinator != null)
+            {
+                multibossCoordinator = a.GetComponent<Multiboss>().multibossCoordinator;
+                spawnCoordinator = false;
+                break;
+            }
+        }
+        
+        // if you made it here and spawnCoordinator then you are are the 1st and need to spawn it
+        if(spawnCoordinator)
+        {
+            GameObject go = new GameObject(GetType()+ "_MutibossCoordinator");
+            go.AddComponent<MultibossCoordinator>();
+            multibossCoordinator = go.GetComponent<MultibossCoordinator>();
+        }
+        
+        multibossCoordinator.comboEvent.AddListener(readyCombo);
+        
+    }
     
     public virtual void SetComboReady(){
         
         comboReady = true;
 
+    }
+    public void readyCombo(int _eventInput){
+        Debug.Log(gameObject.name + " combo readied(" + _eventInput +")");
+        lastCombo = _eventInput;
+        comboReady = true;
     }
     public virtual bool AllPartnersComboReady(){
         
@@ -86,5 +116,21 @@ public abstract class Multiboss: MonoBehaviour
     }
     public int GetComboNumber(){
         return lastCombo;
+    }
+    public bool isPartner(Actor _actorToCheck)
+    {
+        foreach(Actor partner in partners)
+        {
+            if(partner == _actorToCheck)
+                return true;
+        }
+
+        return false;
+    }
+    public void ChainAggro(Actor _actorStartedAggro){
+        if(isPartner(_actorStartedAggro) == false)
+            return;
+
+        GetComponent<Actor>().CheckStartCombatWith(_actorStartedAggro.target);
     }
 }

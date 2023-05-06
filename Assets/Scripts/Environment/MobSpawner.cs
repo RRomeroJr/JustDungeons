@@ -19,6 +19,7 @@ public class MobSpawner: MonoBehaviour
             yield return new WaitForSeconds(15.0f);
             NetworkServer.Spawn(Instantiate(prefab, transform.position, Quaternion.identity));
 
+
         }
     }
     void spawnMobs(){
@@ -27,6 +28,7 @@ public class MobSpawner: MonoBehaviour
         {
             GameObject goRef = Instantiate(mobPrefabList[i], transform.position, Quaternion.identity);
             goRef.GetComponent<Rigidbody2D>().AddForce(new Vector2(0.0f,0.01f));
+            goRef.AddComponent<GeneralMobPack>();
             NetworkServer.Spawn(goRef);
             //goRef.GetComponent<Controller>().moveOffOtherUnits();
         }

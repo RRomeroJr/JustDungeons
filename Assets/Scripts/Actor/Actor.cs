@@ -134,12 +134,31 @@ public class Actor : NetworkBehaviour
     public float resourceTickTime = 0.0f;
     public float resourceTickMax = 1.0f;
 
+    /* 
+        Combat Events: 
+        
+        I know that I already have similar events in GameManager. I thought I would save resources by having
+        a single event instead of one for every mob.
+        
+        But, I think in the long run it might end up being worse. For ex OnEnterCombat here gets hooked into
+        by EnemyController and aggros a NPC when invoked. If I did this with the old events anytime a mob 
+        entered combat it every loaded mob would need to check if it was them that entered combat then aggro.
+        
+        If there was like 100 mobs in the level this probably gets stupid really fast.
+        
+        So I added these two events */
+    public UnityEvent OnEnterCombat = new UnityEvent();
+    public UnityEvent OnLeaveCombat = new UnityEvent();
+    
+
     #region UnityMethods
 
     private void Awake()
     {
         buffHandler = GetComponent<IBuff>();
         abilityHandler = GetComponent<AbilityHandler>();
+        OnEnterCombat = new UnityEvent();
+        OnLeaveCombat = new UnityEvent();
         buffs = new List<OldBuff.Buff>();
     }
 
@@ -208,6 +227,7 @@ public class Actor : NetworkBehaviour
 
         ClassResourceCheckRegen();
     }
+    
     
     void FixedUpdate()
     {
@@ -328,14 +348,7 @@ public class Actor : NetworkBehaviour
             if(_caster == null){
                 return;
             }
-            if (!inCombat && GameManager.instance != null)
-            {
-                inCombat = true;
-                GameManager.instance.OnActorEnterCombat.Invoke(this);
-            }
-            if(attackerList.Contains(_caster) == false && _caster != this){
-                attackerList.Add(_caster);
-            }
+            CheckStartCombatWith(_caster);
             
         }
     }
@@ -825,6 +838,47 @@ public class Actor : NetworkBehaviour
 
     
     // Misc---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    public void CheckStartCombatWith(Actor _actor)
+    {
+        
+        if(CheckAddAttackerList(_actor))
+        {
+            _actor.CheckAddAttackerList(this);
+        }
+        
+    }
+    bool CheckAddAttackerList(Actor _attacker = null)
+    {
+        if(_attacker == null){
+            // Debug.LogError(gameObject.name + " _attacker was null");
+            return false;
+        }
+        if(_attacker == this){
+            // Debug.LogError(gameObject.name + " _attacker was itself");
+            return false;
+        }
+        if(attackerList.Contains(_attacker)){
+            // Debug.LogError(gameObject.name + " already contains attacker" + _attacker.gameObject.name);
+            return false;
+        }
+        // Debug.Log("Adding attacker, " + _attacker.gameObject.name + ", to " +gameObject.name);
+        attackerList.Add(_attacker);
+        return true;
+    }
+    public Actor FirstAliveAttacker()
+    {
+        Debug.Log(attackerList.Count);
+        foreach(Actor a in attackerList)
+        {
+            if(a == null)
+                continue;
+            if(a.state == ActorState.Alive)
+            {
+                return a;
+            }
+        }
+        return null;
+    }
     void UpdateCombatState(){
         if (GameManager.instance == null)
         {
@@ -833,8 +887,14 @@ public class Actor : NetworkBehaviour
         bool result = IsInCombat();
         if(inCombat != result){
             inCombat = result;
-            if(!inCombat && GameManager.instance != null)
+            if(inCombat)
             {
+                OnEnterCombat.Invoke();
+                GameManager.instance.OnActorEnterCombat.Invoke(this);
+            }
+            else
+            {
+                OnLeaveCombat.Invoke();
                 GameManager.instance.OnActorLeaveCombat.Invoke(this);
             }
         }
@@ -844,7 +904,7 @@ public class Actor : NetworkBehaviour
     void CleanUpAttackerList(){
 
     }
-    bool IsInCombat(){
+    public bool IsInCombat(){
         if(combatLocked){
             return true;
         }
@@ -923,6 +983,10 @@ public class Actor : NetworkBehaviour
         canAttack = false;
         canMove = false;
         canCast = false;
+
+        if(GetComponent<DespawnScript>() == null){
+            gameObject.AddComponent<DespawnScript>();
+        }
         OnPlayerIsDead();
     }
 
