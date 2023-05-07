@@ -37,4 +37,4 @@ MonoBehaviour:
   school: 0
   prefabScale: {x: 1, y: 1, z: 1}
   aoePrefab: {fileID: 2685400126559208735, guid: 13abc002491244444ac0797007d7a294, type: 3}
-  length: 1
+  Length: 1

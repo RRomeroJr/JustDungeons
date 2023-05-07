@@ -195,7 +195,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 435df26de56daa749893569e9a0361c9
-  position: {x: 296, y: 561}
+  position: {x: 322, y: 282}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
