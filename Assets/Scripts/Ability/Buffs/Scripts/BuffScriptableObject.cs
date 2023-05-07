@@ -12,7 +12,7 @@ public class BuffScriptableObject : ScriptableObject
     [SerializeField] private GameObject particles;
 
     // Store BuffEffects in a list of custom serializable KeyValuePairs so it can edited in the inspector
-    [SerializeField] private List<CustomKeyValuePair<BuffEffect, float>> buffEffectsList;
+    [SerializeField] private List<SerializableKeyValuePair<BuffEffect, float>> buffEffectsList;
 
     // Buffs default value should not be altered by code or at runtime. All changes will happen in the inspector
     public float TickRate => tickRate;

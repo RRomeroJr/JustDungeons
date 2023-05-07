@@ -14,9 +14,8 @@ public class AbilityDelivery : NetworkBehaviour
 
     */
     
-    public Actor caster;
-    
-    public Actor target;
+    public Actor Caster { get; set; }
+    public Actor Target { get; set; }
     public Vector3 worldPointTarget;
     public List<TargetCooldown> aoeActorIgnore;
 
@@ -370,20 +369,8 @@ public class AbilityDelivery : NetworkBehaviour
                 else
                     aoeActorIgnore.RemoveAt(i);
             }
-        }
     }
-    public Actor getTarget(){
-        return target;
-    }
-    public void setTarget(Actor _target){
-        target = _target;
-    }
-    public Actor getCaster(){
-        return caster;
-    }
-    public void setCaster(Actor _caster){
-        caster = _caster;
-    }
+
     [ClientRpc]
     public void setSafeZoneScale(Vector2 _hostScale){
         transform.GetChild(0).transform.localScale = _hostScale;

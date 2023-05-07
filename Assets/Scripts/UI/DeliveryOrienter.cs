@@ -9,15 +9,15 @@ public class DeliveryOrienter : MonoBehaviour
     void Start()
     {
         delivery = GetComponent<AbilityDelivery>();
-        Vector2 temp = delivery.target.transform.position - transform.position;
+        Vector2 temp = delivery.Target.transform.position - transform.position;
         transform.right = temp;
-        if(delivery.target != null){
-            if((Vector2.Distance((Vector2)delivery.target.transform.position, transform.position) < 0)
+        if(delivery.Target != null){
+            if((Vector2.Distance((Vector2)delivery.Target.transform.position, transform.position) < 0)
                 &&
                 (facingRight)){
                     flip();
             }
-            if((Vector2.Distance((Vector2)delivery.target.transform.position, transform.position) > 0)
+            if((Vector2.Distance((Vector2)delivery.Target.transform.position, transform.position) > 0)
                 &&
                 (!facingRight)){
                     flip();
