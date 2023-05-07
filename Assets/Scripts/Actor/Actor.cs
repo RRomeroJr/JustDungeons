@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using System;
@@ -42,7 +41,7 @@ public class Actor : NetworkBehaviour
     [SerializeField] private int health; // 0
     [SyncVar]
     [SerializeField] private int maxHealth; // 1
-    [SerializeField] private Role role;
+    [field: SerializeField] public Role Role { get; set; }
     public Color unitColor;
     public int mobId = -1;
     public CombatClass combatClass;
@@ -83,6 +82,11 @@ public class Actor : NetworkBehaviour
     private List<Actor> attackerList = new List<Actor>();
 
     #region Properties
+    public string ActorName
+    {
+        get => actorName;
+        set => actorName = value;
+    }
 
     public bool CanMove => canMove;
     public bool CanAttack => canAttack;
@@ -111,7 +115,7 @@ public class Actor : NetworkBehaviour
             health = value;
         }
     }
-
+    public int MaxHealth => maxHealth;
     public int Feared
     {
         get => feared;
@@ -197,7 +201,7 @@ public class Actor : NetworkBehaviour
             // New hobutton spawn
             UIManager.Instance.SetUpHotbars();
             classResources = combatClass.GetClassResources();
-            
+
             if(combatClass.classStats != null){
                 setUpStats(combatClass.classStats);
             }
@@ -227,8 +231,7 @@ public class Actor : NetworkBehaviour
 
         ClassResourceCheckRegen();
     }
-    
-    
+
     void FixedUpdate()
     {
         HandlleBuffs();
@@ -257,6 +260,7 @@ public class Actor : NetworkBehaviour
             return null;
         }
     }
+
     public Actor tryFindTarget(EffectInstruction _eInstruct)
     {
         if (_eInstruct.targetArg == 0)
@@ -272,6 +276,7 @@ public class Actor : NetworkBehaviour
             return null;
         }
     }
+
     public NullibleVector3 tryFindTargetWP(Ability_V2 _ability, Actor passedTarget = null)
     {
         /* In the future I might make a method in the player controller
@@ -294,10 +299,9 @@ public class Actor : NetworkBehaviour
             }
         }
 
-
         return toReturn;
-
     }
+
     public NullibleVector3 GetRealWPOrNull(NullibleVector3 _input = null)
     {
         if (_input == null)
@@ -483,8 +487,6 @@ public class Actor : NetworkBehaviour
 
     #endregion
 
-    
-    
     // Class Resources---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     public bool damageResource(ClassResourceType _crt, int _amount){
@@ -738,14 +740,6 @@ public class Actor : NetworkBehaviour
         }
     }
 
-    
-    public int getMaxHealth(){
-        return maxHealth;
-    }
-    public void setMaxHealth(int _maxHealth){
-        maxHealth = _maxHealth;
-    }
-
     public int getResourceAmount(int index){
         return classResources[index].amount;
     }
@@ -758,25 +752,11 @@ public class Actor : NetworkBehaviour
     public int ResourceTypeCount(){
         return classResources.Count;
     }
-    public string getActorName(){
-        return actorName;
-    }
-    public void setActorName(string _actorName){
-        actorName = _actorName;
-    }
     public List<OldBuff.Buff> getBuffs(){
         return buffs;
     }
     public void setBuffs(List<OldBuff.Buff> _buffs){
         buffs = _buffs;
-    }
-    public Role getRole()
-    {
-        return role;
-    }
-    public void setRole(Role _role)
-    {
-        role = _role;
     }
     [ClientRpc]
     public void rpcSetTarget(Actor _target){
@@ -836,7 +816,6 @@ public class Actor : NetworkBehaviour
         }
     }
 
-    
     // Misc---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     public void CheckStartCombatWith(Actor _actor)
     {
@@ -898,7 +877,6 @@ public class Actor : NetworkBehaviour
                 GameManager.instance.OnActorLeaveCombat.Invoke(this);
             }
         }
-    
     }
     
     void CleanUpAttackerList(){

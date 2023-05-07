@@ -31,7 +31,7 @@ public class Nameplate : MonoBehaviour
        resourceBar =  transform.GetChild(2).GetComponent<Slider>();
        castBar =  transform.GetChild(3).GetComponent<Slider>();
        castName =  transform.GetChild(3).GetComponentInChildren<Text>();
-       unitName.text = actor.getActorName();
+       unitName.text = actor.ActorName;
        canvas = GetComponentInParent<Canvas>();
        actorRenderer = actor.GetComponent<Renderer>();
        selectedEvent.AddListener(SetSelectedScale);
@@ -67,7 +67,7 @@ public class Nameplate : MonoBehaviour
         }
     }
     void updateSliderHealth(){
-        healthBar.maxValue = actor.getMaxHealth();
+        healthBar.maxValue = actor.MaxHealth;
         healthBar.value = actor.Health;
     }
     void updateSliderResource(Slider silder){

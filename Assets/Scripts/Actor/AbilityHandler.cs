@@ -74,18 +74,18 @@ public class AbilityHandler : NetworkBehaviour
         }
         if (IsChanneling)
         {
-            Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is CHANNELING and also somehow free to act!", actor.getActorName(), _ability);
+            Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is CHANNELING and also somehow free to act!", actor.ActorName, _ability);
             return false;
         }
         if (CheckCooldownAndGCD(_ability))
         {
-            Debug.LogFormat("Actor.castAbility3(): {0}'s {1} ability on cooldown", actor.getActorName(), _ability);
+            Debug.LogFormat("Actor.castAbility3(): {0}'s {1} ability on cooldown", actor.ActorName, _ability);
             return false;
         }
         // MirrorTestTools._inst.ClientDebugLog(_ability.getName() + "| Not on cool down or GCD");
         if (!actor.hasTheResources(_ability))
         {
-            Debug.LogFormat("Actor.castAbility3(): {0} does not have the resources", actor.getActorName());
+            Debug.LogFormat("Actor.castAbility3(): {0} does not have the resources", actor.ActorName);
             return false;
         }
 
@@ -115,7 +115,7 @@ public class AbilityHandler : NetworkBehaviour
                 {
                     if (!HBCTools.checkFacing(actor, _target.gameObject))
                     {
-                        Debug.Log("You are not facing target: " + _target.getActorName());
+                        Debug.Log("You are not facing target: " + _target.ActorName);
                         return false;
                     }
                 }
@@ -257,7 +257,7 @@ public class AbilityHandler : NetworkBehaviour
         else
         {// For NPCs
             if (showDebug)
-                Debug.Log(actor.getActorName() + " starting cast: " + QueuedAbility.getName());
+                Debug.Log(actor.ActorName + " starting cast: " + QueuedAbility.getName());
             //gameObject.AddComponent<CastBarNPC>().Init(queuedAbility.getName(), this, queuedTarget, queuedAbility.getCastTime());
         }
     }
@@ -278,7 +278,7 @@ public class AbilityHandler : NetworkBehaviour
         else
         {// For NPCs
             if (showDebug)
-                Debug.Log(actor.getActorName() + " starting cast: " + QueuedAbility.getName());
+                Debug.Log(actor.ActorName + " starting cast: " + QueuedAbility.getName());
 
             //gameObject.AddComponent<CastBarNPC>().Init(queuedAbility.getName(), this, queuedRelWP.Value, queuedAbility.getCastTime());
         }
@@ -432,7 +432,7 @@ public class AbilityHandler : NetworkBehaviour
 
         else
         {
-            Debug.Log(actor.getActorName() + " doesn't have the resources: fireCast");
+            Debug.Log(actor.ActorName + " doesn't have the resources: fireCast");
         }
 
         if (_ability.getCastTime() > 0.0f)
@@ -588,7 +588,7 @@ public class AbilityHandler : NetworkBehaviour
 
         else
         {
-            Debug.Log(actor.getActorName() + " doesn't have the resources: fireChannel");
+            Debug.Log(actor.ActorName + " doesn't have the resources: fireChannel");
         }
     }
 

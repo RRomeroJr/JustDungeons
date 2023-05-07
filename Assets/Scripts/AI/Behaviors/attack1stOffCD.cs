@@ -28,11 +28,11 @@ public class attack1stOffCD : ActionNode
                 }
             }
         else{
-            Debug.LogError(context.actor.getActorName() + " has no abilities!");
+            Debug.LogError(context.actor.ActorName + " has no abilities!");
         }
         
         if(toCast == null){
-            Debug.LogError(context.actor.getActorName() + "Couldn't find an ability to cast");
+            Debug.LogError(context.actor.ActorName + "Couldn't find an ability to cast");
             castFinished = true;
         }
         else{
