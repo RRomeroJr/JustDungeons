@@ -44,7 +44,8 @@ public class AbilityDelivery : NetworkBehaviour
     public bool canHitSelf = false;
     public bool checkAtFeet = false;
     void OnValidate(){
-        if(followTarget && followCaster){
+    [field: SerializeField] public float RotationsPerSecond { get; private set; }
+    [SerializeField] private List<SerializableTuple<float, float>> rotationSequence;
             Debug.LogError(gameObject.name + "| Warning followTarget && followCaster. Chose only one. Will default to caster");
         }
     }
@@ -85,6 +86,10 @@ public class AbilityDelivery : NetworkBehaviour
             if(caster != null){
                 //
             }
+            if (rotationSequence != null && rotationSequence.Count > 0)
+            {
+                rotationSequence.Add(new SerializableTuple<float, float>(rotationSequence[0]));
+                RotationsPerSecond = rotationSequence[0].Item2;
         }
     }
     private void OnTriggerEnter2D(Collider2D other)
@@ -222,6 +227,11 @@ public class AbilityDelivery : NetworkBehaviour
                 
             }
             }
+        // Rotation logic
+        if (!Mathf.Approximately(RotationsPerSecond, 0))
+        {
+            Vector3 rotation = new Vector3(0, 0, RotationsPerSecond * 360) * Time.fixedDeltaTime;
+            transform.Rotate(rotation);
         }
     }
     void Update()
@@ -268,8 +278,19 @@ public class AbilityDelivery : NetworkBehaviour
                         start = true;
                     }
                 }
-
-
+            if (rotationSequence != null && rotationSequence.Count > 0)
+            {
+                rotationSequence[0].Item1 -= Time.deltaTime;
+                // Prep next element of sequence by adding copy to end of list,
+                // adding remaining time to next element, remove current element and update RotationsPerSecond
+                if (rotationSequence[0].Item1 <= 0)
+                {
+                    rotationSequence.Add(new SerializableTuple<float, float>(rotationSequence[1]));
+                    rotationSequence[1].Item1 += rotationSequence[0].Item1;
+                    rotationSequence.RemoveAt(0);
+                    RotationsPerSecond = rotationSequence[0].Item2;
+                }
+            }
             }
             if(useDisconnectTimer){
                 disconnectTimer -= Time.deltaTime;
