@@ -12,5 +12,7 @@ public class UnitFrame : MonoBehaviour
     public Image healthFill;
     public Slider healthBar;
     public Actor actor;
+    public Slider resourceBar;
+    
 
 }

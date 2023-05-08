@@ -91,10 +91,20 @@ public class UIManager : MonoBehaviour
             {
                 frame.healthBar.maxValue = frame.actor.getMaxHealth();
                 frame.healthBar.value = frame.actor.Health;
+                UpdateUnitFrameResource(frame);
             }
         }
     }
-
+    void UpdateUnitFrameResource(UnitFrame unitFrame)
+    {
+        if(unitFrame.actor.ResourceTypeCount() > 0){
+            unitFrame.resourceBar.maxValue = unitFrame.actor.getResourceMax(0);
+            unitFrame.resourceBar.value = unitFrame.actor.getResourceAmount(0);
+        }
+        else{
+            Debug.LogError(GetType() + ", skipping resources");
+        }
+    }
     public void updateUnitFrame(UnitFrame unitFrame, Actor actor){
         
         if(unitFrame.actor != actor ){
@@ -108,9 +118,12 @@ public class UIManager : MonoBehaviour
             unitFrame.unitName.text = unitFrame.actor.getActorName();
             //  Getting health current and max
             unitFrame.healthBar.maxValue = actor.getMaxHealth();
+            
             unitFrame.healthBar.value = actor.Health;
+            
             //  Getting apropriate healthbar color from actor
             unitFrame.healthFill.color = unitFrame.actor.unitColor;
+            UpdateUnitFrameResource(unitFrame);
         }
         else{
             unitFrame.unitName.text = "No actor";
