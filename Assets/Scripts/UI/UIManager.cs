@@ -174,6 +174,10 @@ public class UIManager : MonoBehaviour
     }
     void UpdateTargetOfTarget()
     {
+        if(targetOfTargetFrame == null)
+        {
+            return;
+        }
         if(playerActor == null){ 
             return;
         }
