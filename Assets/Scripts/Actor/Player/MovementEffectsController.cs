@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using UnityEngine.AI;
@@ -7,14 +6,13 @@ using UnityEngine.AI;
 /// <summary>
 /// Handles movement effects that do special things to the player
 /// </summary>
-public class MovementEffectsController : MonoBehaviour
+public sealed class MovementEffectsController : MonoBehaviour
 {
+    [SerializeField] private GameObject indicatorPrefab;
     private GameObject indicatorRef;
-    public GameObject indicatorPrefab;
-    public Vector2 moveDirection;
+    private Vector2 moveDirection;
     private StatusEffectState currentEffectState;
     private NavMeshAgent agent;
-    private Dictionary<StatusEffectState, int> effectDict;
 
     // Start is called before the first frame update
     void Start()
@@ -41,12 +39,15 @@ public class MovementEffectsController : MonoBehaviour
 
     private void HandleEffectChanged(object sender, StatusEffectChangedEventArgs e)
     {
-        effectDict = e.ToDictionary();
+        Dictionary<StatusEffectState, int> effectDict = e.ToDictionary();
         // If new effect does not disable movement and the current effect has not ended, return early
-        if (!StateDisables(e.NewEffect) && effectDict[currentEffectState] > 0)
+        if (!StateDisables(e.NewEffect)
+            && effectDict.TryGetValue(currentEffectState, out int effectValue)
+            && effectValue > 0)
         {
             return;
         }
+
         // End old State
         switch (currentEffectState)
         {

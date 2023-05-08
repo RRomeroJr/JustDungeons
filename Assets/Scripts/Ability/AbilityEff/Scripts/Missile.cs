@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -34,7 +34,7 @@ public class Missile : DeliveryEff
         
         
         
-        delivery.GetComponent<AbilityDelivery>().setCaster(_caster);
+        delivery.GetComponent<AbilityDelivery>().Caster = _caster;
         delivery.GetComponent<AbilityDelivery>().eInstructs = eInstructs;
         delivery.GetComponent<AbilityDelivery>().speed = speed; 
         if(isSkillshot){
@@ -46,7 +46,7 @@ public class Missile : DeliveryEff
         }
         else{
             delivery.GetComponent<AbilityDelivery>().type = 0;
-            delivery.GetComponent<AbilityDelivery>().setTarget(_secondaryTarget);
+            delivery.GetComponent<AbilityDelivery>().Target = _secondaryTarget;
         }
         if(!ignoreDuration){
             delivery.GetComponent<AbilityDelivery>().ignoreDuration = ignoreDuration;

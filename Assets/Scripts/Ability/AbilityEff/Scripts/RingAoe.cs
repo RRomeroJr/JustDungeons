@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -17,8 +17,8 @@ public class RingAoe : Aoe
         //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
         //Debug.Log(_targetWP == null ? "RingAoe: No targetWP" : ("RingAoe: wp = " + _targetWP.Value.ToString()));
         GameObject delivery = Instantiate(aoePrefab, getWP(_secondaryTarget, _targetWP), Quaternion.identity);
-        delivery.GetComponent<AbilityDelivery>().setTarget(_secondaryTarget);
-        delivery.GetComponent<AbilityDelivery>().setCaster(_caster);
+        delivery.GetComponent<AbilityDelivery>().Target = _secondaryTarget;
+        delivery.GetComponent<AbilityDelivery>().Caster = _caster;
         delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_secondaryTarget, _targetWP);
         delivery.GetComponent<AbilityDelivery>().innerCircleRadius = innerCircleRadius;
         delivery.transform.localScale = prefabScale;
@@ -30,11 +30,11 @@ public class RingAoe : Aoe
             delivery.GetComponent<AbilityDelivery>().setSafeZonePosistion((Vector2)delivery.transform.position + innerCirclePosistion);
             // delivery.transform.GetChild(0).transform.position = (Vector2)delivery.transform.position + innerCirclePosistion;
         }
-            
-            //Debug.Log("adding " + eInstructs.Count.ToString() + " to delivery" );
-            //delivery.GetComponent<AbilityDelivery>().safeZoneCenter = innerCirclePosistion;
-        
-        
+
+        //Debug.Log("adding " + eInstructs.Count.ToString() + " to delivery" );
+        //delivery.GetComponent<AbilityDelivery>().safeZoneCenter = innerCirclePosistion;
+
+
         /*
             RR: this works bc the prefab already has variables in AbilityDelivery set to what I want.
             Not sure if this is the best way but it seems to work fine

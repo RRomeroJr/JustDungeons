@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -17,14 +17,14 @@ public class Aoe : DeliveryEff
         //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
         //Debug.Log(_targetWP == null ? "Aoe: No targetWP" : ("Aoe: wp = " + _targetWP.Value.ToString()));
         GameObject delivery = Instantiate(aoePrefab, getWP(_secondaryTarget, _targetWP), Quaternion.identity);
-        delivery.GetComponent<AbilityDelivery>().setTarget(_secondaryTarget);
-        delivery.GetComponent<AbilityDelivery>().setCaster(_caster);
+        delivery.GetComponent<AbilityDelivery>().Target = _secondaryTarget;
+        delivery.GetComponent<AbilityDelivery>().Caster = _caster;
         delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_secondaryTarget, _targetWP);
         delivery.GetComponent<AbilityDelivery>().eInstructs = eInstructs;
         delivery.transform.localScale = Vector3.Scale(delivery.transform.localScale, prefabScale);
         
         NetworkServer.Spawn(delivery);
-        
+
         /*
             RR: this works bc the prefab already has variables in AbilityDelivery set to what I want.
             Not sure if this is the best way but it seems to work fine

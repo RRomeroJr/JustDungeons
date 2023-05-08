@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7317289741359242560, guid: caa5883b5e9d4e847862790f239181d7, type: 3}
+      propertyPath: <RotationsPerSecond>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -133877900714649333, guid: caa5883b5e9d4e847862790f239181d7, type: 3}
       propertyPath: _assetId
       value: 3006570077

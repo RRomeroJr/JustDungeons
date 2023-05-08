@@ -146,7 +146,7 @@ public class EnemyController : Controller
         {
             for (int i = multiTargets.Count - 1; i >= 0; i--)
             {
-                if (multiTargets[i].GetComponent<Actor>().getRole() != r)
+                if (multiTargets[i].GetComponent<Actor>().Role != r)
                 {
                     multiTargets.RemoveAt(i);
                 }

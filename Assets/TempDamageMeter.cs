@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -28,7 +28,7 @@ public class TempDamageMeter : MonoBehaviour
             
             foreach(MeterEntry me in entryList){
                 //Debug.Log("Displaying cooldowns");
-                toDisplay = toDisplay + me.actor.getActorName()+ "| " + ((int)((float)me.total / timePassed)).ToString() + "\n";
+                toDisplay = toDisplay + me.actor.ActorName+ "| " + ((int)((float)me.total / timePassed)).ToString() + "\n";
                 tmpGUI.SetText(toDisplay);
             }
         }

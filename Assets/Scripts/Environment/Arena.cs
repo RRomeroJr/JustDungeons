@@ -49,7 +49,7 @@ public class Arena : NetworkBehaviour
             addToIgnore(otherActor, hitCooldownTime);
         }
         else if(usePercentHealthDmg){
-            otherActor.damageValue((int)(otherActor.getMaxHealth() * percentHealthDmg));
+            otherActor.damageValue((int)(otherActor.MaxHealth * percentHealthDmg));
             addToIgnore(otherActor, hitCooldownTime);
         }
     

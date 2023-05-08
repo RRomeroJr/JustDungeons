@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void logMobDeath(int _mobId){
-        Debug.Log(MobData._inst.find(_mobId).getActorName()+ " has died! spawning new one");
+        Debug.Log(MobData._inst.find(_mobId).ActorName+ " has died! spawning new one");
     }
     public void RespawnDionysus(int _mobId){
         if(NetworkServer.active == false){
