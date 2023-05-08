@@ -15,7 +15,8 @@ public class UIManager : MonoBehaviour
     public GameObject castBarPrefab;
     public GameObject hotbuttonPrefab;
     public GameObject buffBarPrefab;
-    public UnitFrame targetFrame;
+    public UnitFrame targetFrame; // should be TargetFrame but I didn't want to break other scenes by changing ti right now
+    public TargetFrame targetOfTargetFrame;
     public List<UnitFrame> frames = new List<UnitFrame>();
     public static Actor playerActor;
     public static Controller playerController;
@@ -110,6 +111,10 @@ public class UIManager : MonoBehaviour
         if(unitFrame.actor != actor ){
             
             unitFrame.actor = actor;
+            if(unitFrame.GetType() == typeof(TargetFrame))
+            {
+                (unitFrame as TargetFrame).portrait.sprite = actor.GetComponent<SpriteRenderer>().sprite;
+            }
         }
         
         if(unitFrame.actor != null){        
@@ -167,10 +172,32 @@ public class UIManager : MonoBehaviour
         }
 
     }
-
+    void UpdateTargetOfTarget()
+    {
+        if(playerActor == null){ 
+            return;
+        }
+        
+        if(playerActor.target == null || playerActor.target.target == null){
+            if(targetOfTargetFrame.gameObject.active){
+                targetOfTargetFrame.gameObject.SetActive(false);
+            }
+        }
+        else{
+            if(!targetOfTargetFrame.gameObject.active){
+                Debug.Log("Setting target of target to active");
+                targetOfTargetFrame.gameObject.SetActive(true);
+                
+            }
+            
+            //Debug.Log("Updating Targetframe");
+            updateUnitFrame(targetOfTargetFrame, playerActor.target.target);
+        }
+    }
     void Update(){
         UpdateAllyFrames();
         UpdateTargetFrame();
+        UpdateTargetOfTarget();
         CheckClassGlows();
         
     }
