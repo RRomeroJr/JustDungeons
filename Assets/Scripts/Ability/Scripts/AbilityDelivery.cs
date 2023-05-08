@@ -253,7 +253,7 @@ public class AbilityDelivery : NetworkBehaviour
         if (!Mathf.Approximately(RotationsPerSecond, 0))
         {
             Vector3 rotation = new Vector3(0, 0, RotationsPerSecond * 360) * Time.fixedDeltaTime;
-            transform.Rotate(rotation);
+            transform.Rotate(rotation, Space.World);
         }
     }
 
