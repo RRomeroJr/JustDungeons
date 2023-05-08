@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 /*
@@ -101,6 +102,8 @@ public class UIManager : MonoBehaviour
         if(unitFrame.actor.ResourceTypeCount() > 0){
             unitFrame.resourceBar.maxValue = unitFrame.actor.getResourceMax(0);
             unitFrame.resourceBar.value = unitFrame.actor.getResourceAmount(0);
+            unitFrame.resourceBar.fillRect.GetComponent<Image>().color = unitFrame.actor.getResourceType(0).color;
+
         }
         else{
             Debug.LogError(GetType() + ", skipping resources");
@@ -115,6 +118,7 @@ public class UIManager : MonoBehaviour
             {
                 (unitFrame as TargetFrame).portrait.sprite = actor.GetComponent<SpriteRenderer>().sprite;
             }
+            
         }
         
         if(unitFrame.actor != null){        

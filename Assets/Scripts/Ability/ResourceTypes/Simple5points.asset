@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 791448df94d30b4418821c52d3b3c780, type: 3}
   m_Name: Simple5points
   m_EditorClassIdentifier: 
+  color: {r: 1, g: 0.88838583, b: 0.5226415, a: 1}

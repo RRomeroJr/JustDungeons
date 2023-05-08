@@ -8,5 +8,5 @@ using System;
 [CreateAssetMenu(fileName="ClassResource", menuName = "HBCsystem/ClassResource")]
 public class ClassResourceType : ScriptableObject{
     
-    
+    public Color color = Color.black;
 }
