@@ -192,7 +192,7 @@ public class Actor : NetworkBehaviour
 
         if (combatClass != null)
         {
-            int counter = 0;
+            
             // Old setting up of keybinds
             // foreach (Ability_V2 abi in combatClass.abilityList){
             //     GetComponent<Controller>().abilities[counter] = abi;
@@ -230,6 +230,14 @@ public class Actor : NetworkBehaviour
         // Server only logic below  
 
         ClassResourceCheckRegen();
+        if(Input.GetKeyDown("0"))
+        {
+            if(HBCTools.areHostle(UIManager.playerActor, this) == false)
+            {
+                Debug.Log("Friendly nameplates disabled");
+                nameplate.gameObject.SetActive(!nameplate.gameObject.active);
+            }
+        }
     }
 
     void FixedUpdate()
@@ -747,6 +755,10 @@ public class Actor : NetworkBehaviour
         return classResources[index].max;
     }
     public ClassResourceType getResourceType(int index){
+        if(index >= classResources.Count)
+        {
+            return null;
+        }
         return classResources[index].crType;
     }
     public int ResourceTypeCount(){
