@@ -63,7 +63,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e989e1d841ae60048877dfd2b9e0dfb6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -213,6 +213,9 @@ MonoBehaviour:
   multiTargets: []
   spawnLocation: {x: 0, y: 0, z: 0}
   collider: {fileID: 0}
+  aggroRadius: 7
+  combatTemperment: 0
+  aggroTarget: {fileID: 0}
   phase: 0
 --- !u!114 &2096029720338020585
 MonoBehaviour:
@@ -278,7 +281,7 @@ MonoBehaviour:
   actorName: Dionysus
   health: 400
   maxHealth: 9000
-  role: 0
+  <Role>k__BackingField: 0
   unitColor: {r: 0.62352943, g: 0, b: 0.5058824, a: 0}
   mobId: 1
   combatClass: {fileID: 0}
@@ -292,6 +295,12 @@ MonoBehaviour:
   attackerList: []
   resourceTickTime: 0
   resourceTickMax: 1
+  OnEnterCombat:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLeaveCombat:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2915685031530657180
 MonoBehaviour:
   m_ObjectHideFlags: 0

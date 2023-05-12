@@ -31,6 +31,7 @@ public class PlayerController : Controller
     public int tabIndex = -1;
     public GameObject tabTargetAreaPrefab;
     public GameObject tabTargetObj;
+    public Actor hoverActor;
     
     
     
@@ -261,6 +262,7 @@ public class PlayerController : Controller
             // }
             //-------------------------------------------------
             mouseInput();
+            MouseOver();
             switch (state)
             {
                 case PlayerState.Alive:
@@ -316,6 +318,34 @@ public class PlayerController : Controller
                     break;
             }
         }
+    }
+    void MouseOver()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, clickMask);
+        Actor hitActor = null;
+        try{
+            hitActor =  hit.collider.gameObject.GetComponent<Actor>();
+        }
+        catch{
+        }
+
+        if(hitActor == hoverActor)
+        {
+            return;
+        }
+
+        
+        if(hoverActor != null){
+            hoverActor.OnHoverEnd();
+        }
+        
+        hoverActor = hitActor;
+
+        if(hoverActor != null){
+            hoverActor.OnHoverStart();
+        }
+
+        
     }
     void mouseInput(){
         if (Input.GetMouseButtonDown(0)) {

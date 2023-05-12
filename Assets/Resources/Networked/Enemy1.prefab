@@ -62,7 +62,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e989e1d841ae60048877dfd2b9e0dfb6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -113,7 +113,7 @@ MonoBehaviour:
   actorName: Darne
   health: 500
   maxHealth: 500
-  role: 0
+  <Role>k__BackingField: 0
   unitColor: {r: 0.90588236, g: 0.19215684, b: 0.82922316, a: 1}
   mobId: 2
   combatClass: {fileID: 0}
@@ -127,6 +127,12 @@ MonoBehaviour:
   attackerList: []
   resourceTickTime: 0
   resourceTickMax: 1
+  OnEnterCombat:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLeaveCombat:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!61 &6569267623682333742
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -303,6 +309,9 @@ MonoBehaviour:
   multiTargets: []
   spawnLocation: {x: 0, y: 0, z: 0}
   collider: {fileID: 0}
+  aggroRadius: 7
+  combatTemperment: 0
+  aggroTarget: {fileID: 0}
   phase: 0
 --- !u!114 &2007984997200756631
 MonoBehaviour:

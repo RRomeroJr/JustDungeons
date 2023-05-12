@@ -66,7 +66,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e989e1d841ae60048877dfd2b9e0dfb6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -117,24 +117,26 @@ MonoBehaviour:
   actorName: Deoscillate
   health: 3500
   maxHealth: 3500
-  role: 1
+  <Role>k__BackingField: 0
   unitColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
   mobId: -1
-  classResources: []
+  combatClass: {fileID: 11400000, guid: af7e23158c3495640953930651da5fec, type: 2}
   mainStat: 100
   target: {fileID: 0}
-  buffs: []
-  uiManager: {fileID: 0}
-  castBar: {fileID: 0}
-  animator: {fileID: 0}
   nameplate: {fileID: 0}
+  classResources: []
   state: 0
   inCombat: 0
   combatLocked: 0
   attackerList: []
-  combatClass: {fileID: 11400000, guid: af7e23158c3495640953930651da5fec, type: 2}
   resourceTickTime: 0
   resourceTickMax: 1
+  OnEnterCombat:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLeaveCombat:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3602611100074717273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,6 +271,7 @@ MonoBehaviour:
   tabIndex: -1
   tabTargetAreaPrefab: {fileID: 4505040217055121924, guid: fa3284f46140ec7468cd49c49eb43c72, type: 3}
   tabTargetObj: {fileID: 0}
+  hoverActor: {fileID: 0}
 --- !u!114 &568127742855530159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,7 +414,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indicatorPrefab: {fileID: 0}
-  moveDirection: {x: 0, y: 0}
 --- !u!114 &-624355168985202024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -430,10 +432,12 @@ MonoBehaviour:
   showDebug: 0
   <QueuedAbility>k__BackingField: {fileID: 0}
   <QueuedTarget>k__BackingField: {fileID: 0}
-  actor: {fileID: 0}
+  <QueuedRelWP>k__BackingField:
+    Value: {x: 0, y: 0, z: 0}
+  <QueuedRelWP2>k__BackingField:
+    Value: {x: 0, y: 0, z: 0}
   abilityCooldowns: []
   buffs: []
-  uiManager: {fileID: 0}
   onAbilityCastHooks:
     m_PersistentCalls:
       m_Calls: []

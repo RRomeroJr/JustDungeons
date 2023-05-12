@@ -829,6 +829,23 @@ public class Actor : NetworkBehaviour
     }
 
     // Misc---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    public void OnHoverStart()
+    {
+        Material _mat = GetComponent<SpriteRenderer>().material;
+        Color _color = _mat.GetColor("_HoverHighlight");
+        _color.a = 0.24f;
+       
+
+        _mat.SetColor("_HoverHighlight", _color);
+    }
+    public void OnHoverEnd()
+    {
+        Material _mat = GetComponent<SpriteRenderer>().material;
+        Color _color = _mat.GetColor("_HoverHighlight");
+        _color.a = 0.0f;
+
+        _mat.SetColor("_HoverHighlight", _color);
+    }
     public void CheckStartCombatWith(Actor _actor)
     {
         

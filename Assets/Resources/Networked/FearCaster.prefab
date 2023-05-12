@@ -61,7 +61,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e989e1d841ae60048877dfd2b9e0dfb6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -105,38 +105,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df739c0fb2ae5ea4ea3c0e5dd2d3f75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   showDebug: 0
   actorName: Darne
   health: 500
   maxHealth: 500
-  role: 0
+  <Role>k__BackingField: 0
   unitColor: {r: 0.9529412, g: 0.7882353, b: 0.3019608, a: 1}
   mobId: 4
-  classResources: []
+  combatClass: {fileID: 0}
   mainStat: 70
   target: {fileID: 0}
-  canMove: 1
-  buffs: []
-  readyToFire: 0
-  isCasting: 0
-  isChanneling: 0
-  lastChannelTick: 0
-  queuedAbility: {fileID: 0}
-  queuedTarget: {fileID: 0}
-  queuedTargetWP:
-    Value: {x: 0, y: 0, z: 0}
-  abilityCooldowns: []
-  uiManager: {fileID: 0}
-  castTime: 0
-  castBar: {fileID: 0}
-  onAbilityCastHooks:
+  nameplate: {fileID: 0}
+  classResources: []
+  state: 0
+  inCombat: 0
+  combatLocked: 0
+  attackerList: []
+  resourceTickTime: 0
+  resourceTickMax: 1
+  OnEnterCombat:
     m_PersistentCalls:
       m_Calls: []
-  animator: {fileID: 0}
-  silienced: 0
-  tauntImmune: 0
+  OnLeaveCombat:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!61 &6569267623682333742
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -197,9 +192,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
+  _assetId: 3504447985
   serverOnly: 0
   visible: 0
-  m_AssetId: a37956680077bca4f93872b517cf4e7a
   hasSpawned: 0
 --- !u!114 &5391231985131415138
 MonoBehaviour:
@@ -213,25 +208,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0
+  target: {fileID: 6569267623682333739}
   clientAuthority: 0
-  sendInterval: 0.05
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 0
-  bufferTimeMultiplier: 1
-  bufferSizeLimit: 64
-  catchupThreshold: 4
-  catchupMultiplier: 0.1
   onlySyncOnChange: 1
   bufferResetMultiplier: 5
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
@@ -283,7 +272,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tree: {fileID: 11400000, guid: fef883cd1885ee843b3966d8b868a76a, type: 2}
-  controllerReady: 0
 --- !u!114 &-8456821108339157566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,28 +284,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d39e721ed52146f4f80637fca265b2ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   autoAttackClone: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
-  actor: {fileID: 0}
-  agent: {fileID: 0}
-  autoAttacking: 0
   followTarget: {fileID: 0}
-  resolvingMoveTo: 0
-  facingDirection: {x: 0, y: 0}
   globalCooldown: 0
-  autoAttackRequest: 0
+  abilities:
+  - {fileID: 11400000, guid: 8d451a70c98d8f64982645b74666e975, type: 2}
+  - {fileID: 11400000, guid: 0be588aa3cf4cba49be09ec3c7eedf8e, type: 2}
   moveSpeed: 420
+  moveSpeedModifier: 1
+  facingDirection: {x: 0, y: 0}
+  holdDirection: 0
+  tryingToMove: 0
+  autoAttacking: 0
+  resolvingMoveTo: 0
+  autoAttackRequest: 0
   obstacleMask:
     serializedVersion: 2
     m_Bits: 8
   arenaObject: {fileID: 0}
   enemyStats: {fileID: 0}
-  treeRunner: {fileID: 0}
-  abilities:
-  - {fileID: 11400000, guid: 8d451a70c98d8f64982645b74666e975, type: 2}
-  - {fileID: 11400000, guid: 0be588aa3cf4cba49be09ec3c7eedf8e, type: 2}
   target: {fileID: 0}
   multiTargets: []
   spawnLocation: {x: 0, y: 0, z: 0}
   collider: {fileID: 0}
+  aggroRadius: 7
+  combatTemperment: 0
+  aggroTarget: {fileID: 0}
+  phase: 0
