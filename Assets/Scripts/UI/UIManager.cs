@@ -211,6 +211,7 @@ public class UIManager : MonoBehaviour
         if(Input.GetKeyDown("page up"))
         {
             useMouseOver = !useMouseOver;
+            Debug.Log("Mouseover toggled to.. " + useMouseOver);
         }
         
     }
