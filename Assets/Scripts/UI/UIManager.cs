@@ -31,6 +31,7 @@ public class UIManager : MonoBehaviour
     public UnityEvent<Ability_V2> EndAbilityGlow = new UnityEvent<Ability_V2>();
     public UnityEvent glowChecks;
     public List<Hotbar> hotbars = new List<Hotbar>();
+    public bool useMouseOver = true;
     
     public void SpawnBuffBar()
     {
@@ -105,9 +106,9 @@ public class UIManager : MonoBehaviour
             unitFrame.resourceBar.fillRect.GetComponent<Image>().color = unitFrame.actor.getResourceType(0).color;
 
         }
-        else{
-            Debug.LogError(GetType() + ", skipping resources");
-        }
+        // else{
+        //     Debug.LogError(GetType() + ", skipping resources");
+        // }
     }
     public void updateUnitFrame(UnitFrame unitFrame, Actor actor){
         
@@ -207,6 +208,10 @@ public class UIManager : MonoBehaviour
         UpdateTargetFrame();
         UpdateTargetOfTarget();
         CheckClassGlows();
+        if(Input.GetKeyDown("page up"))
+        {
+            useMouseOver = !useMouseOver;
+        }
         
     }
     void UpdateGlows(){

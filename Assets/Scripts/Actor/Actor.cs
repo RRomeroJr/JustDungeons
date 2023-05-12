@@ -153,6 +153,7 @@ public class Actor : NetworkBehaviour
         So I added these two events */
     public UnityEvent OnEnterCombat = new UnityEvent();
     public UnityEvent OnLeaveCombat = new UnityEvent();
+    public Controller controller;
     
 
     #region UnityMethods
@@ -164,6 +165,7 @@ public class Actor : NetworkBehaviour
         OnEnterCombat = new UnityEvent();
         OnLeaveCombat = new UnityEvent();
         buffs = new List<OldBuff.Buff>();
+        controller = GetComponent<Controller>();
     }
 
     void Start()
@@ -232,6 +234,11 @@ public class Actor : NetworkBehaviour
         ClassResourceCheckRegen();
         if(Input.GetKeyDown("0"))
         {
+        /* This should probably be a var in UIManager, but I couldn't think of an 
+            easy way to disable all the nameplates. I could use an event but that
+            seemed like it would be annoying to set up rn.
+            So for now it's here 
+        */ 
             if(HBCTools.areHostle(UIManager.playerActor, this) == false)
             {
                 Debug.Log("Friendly nameplates disabled");
@@ -256,17 +263,35 @@ public class Actor : NetworkBehaviour
             ex.  1 == this actor's target so..
                     _target = target
         */
-        if (target != null)
+
+        if (target != null && HostiltyMatch(_ability, target))
         { //This actor's target
           //Debug.Log(_ability.getName() + " using current target as target");
 
             return target;
         }
-        else
-        {
-            Debug.Log("No target found");
-            return null;
+
+        if(isLocalPlayer)
+        { // Check for mouse over if enabled and this is the local player
+            PlayerController _pc = controller as PlayerController;
+
+            if( UIManager.Instance.useMouseOver && 
+                _pc.hoverActor != null &&
+                HostiltyMatch(_ability, _pc.hoverActor))
+            {
+                return _pc.hoverActor;
+            }
         }
+        
+        if (_ability.isFriendly())
+        { // auto selfcast if ability is friendly if nothing else found
+
+            return this;
+        }
+        
+        Debug.Log("No target found");
+        return null;
+        
     }
 
     public Actor tryFindTarget(EffectInstruction _eInstruct)
@@ -1093,6 +1118,23 @@ public class Actor : NetworkBehaviour
     public bool castAbilityRealWPs(Ability_V2 _ability, Actor _target = null, NullibleVector3 _WP = null, NullibleVector3 _WP2 = null)
     {
         return abilityHandler.CastAbilityRealWPs(_ability, _target, _WP, _WP2);
+    }
+    
+    bool HostiltyMatch(Ability_V2 _ability, Actor _target)
+    {
+        if(_target == null){
+            Debug.LogError("Ability hostilty checked on null _target");
+            return false;
+        }
+        if(_ability.isFriendly() && HBCTools.areHostle(this, _target))
+        {
+            return false;
+        }
+        if(_ability.isHostile() && HBCTools.areHostle(this, _target) == false)
+        {
+            return false;
+        }
+        return true;
     }
     #endregion
 }

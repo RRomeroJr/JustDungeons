@@ -23,6 +23,12 @@ public enum AbilityRanges{
     Ranged,
     
 }
+public enum AbilityHostilty
+{
+    Hostile,
+    Friendly,
+    Neutral
+}
 
 [System.Serializable]
 [CreateAssetMenu(fileName="Ability_V2", menuName = "HBCsystem/Ability_V2")]
@@ -60,6 +66,8 @@ public class Ability_V2 : ScriptableObject{
     public bool mustBeFacing = false;
     public Sprite hotbuttonImage;
     public Color hotbuttonColor = Color.white;
+    public AbilityHostilty hostilty = AbilityHostilty.Neutral;
+    
 
     
     void OnValidate(){
@@ -248,6 +256,19 @@ public class Ability_V2 : ScriptableObject{
         // give it BUT for now this is what it's got to be
 
         return needsWP;
+    }
+    public bool isHostile()
+    {
+        return hostilty == AbilityHostilty.Hostile;
+    }
+    public bool isFriendly()
+    {
+        return hostilty == AbilityHostilty.Friendly;
+    }
+    public bool isNeutral()
+    {
+        return hostilty == AbilityHostilty.Neutral;
+        
     }
 
 }
