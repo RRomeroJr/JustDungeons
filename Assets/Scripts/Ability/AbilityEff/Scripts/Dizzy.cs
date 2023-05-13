@@ -30,7 +30,7 @@ public class Dizzy : AbilityEff
         if(Mathf.Abs(inputVect.magnitude) > 0.0f){
 
             // parentBuff.actor.GetComponent<Controller>().MoveTowards(moveDirection + (Vector2)parentBuff.actor.transform.position);
-            parentBuff.actor.GetComponent<Controller>().MoveInDirection(inputVect.magnitude * moveDirection);
+            // parentBuff.actor.GetComponent<Controller>().MoveInDirection(inputVect.magnitude * moveDirection);
             Debug.DrawLine(parentBuff.actor.transform.position, (moveDirection * 2.5f) + (Vector2)parentBuff.actor.transform.position, Color.green);
         }
         else{

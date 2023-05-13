@@ -42,6 +42,7 @@ public class PlayerController : Controller
     protected override void Awake()
     {
         base.Awake();
+        moveDirection = Vector2.zero; 
     }
     public override void Start()
     {
@@ -69,47 +70,30 @@ public class PlayerController : Controller
         switch (state)
         {
             case PlayerState.Alive:
-                if (!actor.CanMove)
+                Vector2 inputVectRaw = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+                // Vector2 inputVect = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+                // Vector2 inputVect = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+                Vector2 combinedInputVect = new Vector2(
+                                        Mathf.Clamp(Input.GetAxis("Horizontal") + inputVectRaw.x, -1, 1 ),
+                                        Mathf.Clamp(Input.GetAxis("Vertical") + inputVectRaw.y, -1, 1 ));
+                
+                if (Mathf.Abs(inputVectRaw.magnitude) > 0.0f != tryingToMove)
                 {
-                    break;
+                    tryingToMove = !tryingToMove;
+                    CmdSetTryingToMove(tryingToMove);
                 }
-                Vector2 newVect = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
-                if (Mathf.Abs(newVect.magnitude) > 0.2)
+                if (actor.CanMove && GetComponent<BuffHandler>().Dizzy <= 0)
                 {
-                    if (!tryingToMove)
-                    {
-                        CmdSetTryingToMove(true);
-                    }
-
-                    MoveInDirection(newVect);
-
-                    if (Input.GetMouseButton(1) == false)
-                    {
-                        HBCTools.Quadrant newVectQuad;
-                        newVectQuad = HBCTools.GetQuadrant(newVect);
-                        if ((newVect.x == 0.0f) || (newVect.y == 0.0f))
-                        { //don't try to chan
-                            break;
-                        }
-                        if (HBCTools.GetQuadrant(facingDirection) != newVectQuad)
-                        {
-                            facingDirection = HBCTools.QuadrantToVector(newVectQuad);
-                            CmdSetFacingDirection(facingDirection);
-                        }
-                    }
+                    moveDirection = combinedInputVect;
+                    
                 }
-                else
-                {
-                    if (tryingToMove)
-                    {
-                        CmdSetTryingToMove(false);
-                    }
-                }
-                //if(not in deadzone)
-                // Vector2 newVect = new Vector2(Input.GetAxis("Horizontal") * HORIZ_MOVE_ACCEL * Time.deltaTime,
-                //     Input.GetAxis("Vertical") * VERT_MOVE_ACCEL * Time.deltaTime);
-                // gameObject.GetComponent<Rigidbody2D>().velocity = newVect;
+                // if(moveDirection.Value.magnitude < 0.02f){
+                //     break;
+                // }
+
+                MoveInDirection(moveDirection.Value);
+
                 break;
             case PlayerState.Dead:
                 break;
@@ -117,7 +101,20 @@ public class PlayerController : Controller
                 break;
         }
     }
-
+    // public override void MoveInDirection(Vector2 _direction)
+    // {
+    //     base.MoveInDirection(_direction);
+    //     MovementFacingDirection();
+        
+    // }
+    
+    protected override void MovementFacingDirection()
+    {
+        if (Input.GetMouseButton(1) == false)
+        {
+            base.MovementFacingDirection();
+        }
+    }
     Vector2 PlayerToMouse(){
         return (Vector2)(HBCTools.GetMousePosWP() - transform.position);
     }

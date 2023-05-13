@@ -18,6 +18,7 @@ public class AbilityDelivery : NetworkBehaviour
 
     // [SerializeField]public List<AbilityEffect> abilityEffects;
     [SerializeField] public List<EffectInstruction> eInstructs;
+    [SerializeField] public List<BuffScriptableObject> buffs;
     public bool connectedToCaster = false;
     public float delayTimer = 0.0f;
     public bool start = true;
@@ -171,19 +172,8 @@ public class AbilityDelivery : NetworkBehaviour
                 {
                     addToAoeIgnore(other.gameObject.GetComponent<Actor>(), tickRate);
 
-                    if (eInstructs.Count > 0)
-                    {
-                        Actor target_ref = other.gameObject.GetComponent<Actor>();
-                        Debug.Log("AD aoe hit with target_ref: " + target_ref.ActorName);
-                        foreach (EffectInstruction eI in eInstructs)
-                        {
-                            eI.sendToActor(target_ref, null, Caster);
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("No instructs!");
-                    }
+                    Hit(hitActor);
+                    
                 }
 
                 else
@@ -234,7 +224,16 @@ public class AbilityDelivery : NetworkBehaviour
             }
         }
     }
-
+    void Hit(Actor _target)
+    {
+        foreach (EffectInstruction eI in eInstructs){
+            eI.sendToActor(_target, null, Caster);
+        }
+        foreach(BuffScriptableObject b in buffs)
+        {
+            _target.buffHandler.AddBuff(b);
+        }
+    }
     void FixedUpdate()
     {
         if (!isServer || !start)

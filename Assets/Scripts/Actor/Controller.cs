@@ -128,18 +128,35 @@ public class Controller : NetworkBehaviour
         gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, pos, moveSpeed);
     }
 
-    public void MoveInDirection(Vector2 _vect)
-    { //vector with magnitude from 0 to 1 based on input 
-        // _vect = (moveSpeed * Time.deltaTime) * _vect;
+    public void MoveInDirection(Vector2 _direction)
+    { 
+        MoveInDirection(_direction, moveSpeed);
+    }
+    public void MoveInDirection(Vector2 _direction, float _speed)
+    { 
+        // _direction.Normalize();
+        
+        // Vector2 _vect = moveSpeed * (Vector2)moveDirection * Time.fixedDeltaTime;
+        // transform.position = (Vector2)transform.position + _vect;
 
-        // _vect.x *= (moveSpeed * Time.fixedDeltaTime);  //speed is just d is a distance in NavMeshAgent
-        // _vect.y *= (moveSpeed * Time.fixedDeltaTime); // moveSpeed d/t / t == d/t^2
-        if (moveDirection != null)
-        {
-            _vect = _vect.magnitude * (Vector2)moveDirection;
+        Vector2 _vect = _speed * _direction;
+        Rigidbody2D _rb = GetComponent<Rigidbody2D>();
+        _rb.AddForce(_vect);
+        MovementFacingDirection();
+    }
+    protected virtual void MovementFacingDirection()
+    {
+        HBCTools.Quadrant newVectQuad;
+        newVectQuad = HBCTools.GetQuadrant(moveDirection.Value);
+        if ((moveDirection.Value.x != 0.0f) && (moveDirection.Value.y != 0.0f))
+        { 
+            if (HBCTools.GetQuadrant(facingDirection) != newVectQuad)
+            {
+                facingDirection = HBCTools.QuadrantToVector(newVectQuad);
+                CmdSetFacingDirection(facingDirection);
+            }
         }
-        _vect = moveSpeed * _vect;
-        gameObject.GetComponent<Rigidbody2D>().velocity = _vect;
+        
     }
 
     [Command]

@@ -137,6 +137,7 @@ MonoBehaviour:
   OnLeaveCombat:
     m_PersistentCalls:
       m_Calls: []
+  controller: {fileID: 0}
 --- !u!114 &3602611100074717273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,7 +245,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8df7b41371839cf40a06f4cad97dca7e, type: 2}
   - {fileID: 11400000, guid: 5018719afa2dee746bbd7247a8802f72, type: 2}
   - {fileID: 11400000, guid: 789ee262ef9ad0c418009477bd594f0d, type: 2}
-  moveSpeed: 9
+  moveSpeed: 50
   moveSpeedModifier: 1
   facingDirection: {x: 0, y: 0}
   holdDirection: 0
@@ -252,6 +253,7 @@ MonoBehaviour:
   autoAttacking: 0
   resolvingMoveTo: 0
   autoAttackRequest: 0
+  pushVector: {x: 0, y: 0}
   state: 0
   clickMask:
     serializedVersion: 2
@@ -413,7 +415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb0583155630d7e439cbf7e547949754, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  indicatorPrefab: {fileID: 0}
+  indicatorPrefab: {fileID: 2521846024041868146, guid: 7a6ac257c1aeb5d4296dcfa03eb725f5, type: 3}
 --- !u!114 &-624355168985202024
 MonoBehaviour:
   m_ObjectHideFlags: 0

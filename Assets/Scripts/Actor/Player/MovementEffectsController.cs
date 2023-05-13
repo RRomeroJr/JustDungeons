@@ -84,22 +84,25 @@ public sealed class MovementEffectsController : MonoBehaviour
 
     public void ApplyDizzy()
     {
-        Vector2 inputVect = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        Controller _controller = GetComponent<Controller>();
 
-        if (Mathf.Abs(inputVect.magnitude) > 0.0f)
+        if (_controller.tryingToMove)
         {
             //parentBuff.actor.GetComponent<Controller>().MoveInDirection(inputVect.magnitude * moveDirection);
 
-            GetComponent<Controller>().moveDirection = moveDirection;
-            Debug.DrawLine(transform.position, (moveDirection * 2.5f) + (Vector2)transform.position, Color.green);
+            _controller.moveDirection = moveDirection;
+            
+            Debug.DrawLine(transform.position, (moveDirection * 2.5f) + (Vector2)transform.position, Color.blue);
         }
         else
         {
             //moveDirection = Quaternion.Euler(0, 0, power) * moveDirection;
             moveDirection = Quaternion.Euler(0, 0, 1) * moveDirection;
             indicatorRef.transform.up = moveDirection;
-
-            Debug.DrawLine(transform.position, (moveDirection * 5.0f) + (Vector2)transform.position, Color.red);
+            //If moveDirection not set to 0 the player will continuously keep moving
+            _controller.moveDirection = Vector2.zero;
+            _controller.facingDirection = HBCTools.ToNearest45(moveDirection);
+            Debug.DrawLine(transform.position, (moveDirection * 5.0f) + (Vector2)transform.position, Color.white);
         }
     }
     public void StartDizzy()

@@ -73306,6 +73306,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8456821108339157566, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
+      propertyPath: combatTemperment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6083710982085013301, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
       propertyPath: sceneId
       value: 1320023416
@@ -73672,6 +73676,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8456821108339157566, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
+      propertyPath: combatTemperment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6083710982085013301, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
       propertyPath: sceneId
       value: 124835717
@@ -74289,6 +74297,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8456821108339157566, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
+      propertyPath: combatTemperment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6083710982085013301, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
       propertyPath: sceneId
       value: 277411289
@@ -75353,6 +75365,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7343147572883861924, guid: 97279d44881abd14fb0ea01c85d01ced, type: 3}
+      propertyPath: buffs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7343147572883861924, guid: 97279d44881abd14fb0ea01c85d01ced, type: 3}
       propertyPath: worldPointTarget.x
       value: 0.5873
       objectReference: {fileID: 0}
@@ -75362,6 +75378,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7343147572883861924, guid: 97279d44881abd14fb0ea01c85d01ced, type: 3}
       propertyPath: worldPointTarget.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7343147572883861924, guid: 97279d44881abd14fb0ea01c85d01ced, type: 3}
+      propertyPath: buffs.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 00789973e90209a49bb6eb8dfa31b72c, type: 2}
+    - target: {fileID: 7343147572883861924, guid: 97279d44881abd14fb0ea01c85d01ced, type: 3}
+      propertyPath: eInstructs.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7343147572883861924, guid: 97279d44881abd14fb0ea01c85d01ced, type: 3}
@@ -78522,6 +78546,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8456821108339157566, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
+      propertyPath: combatTemperment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6083710982085013301, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
       propertyPath: sceneId
       value: 1201571081
@@ -78954,6 +78982,22 @@ PrefabInstance:
       propertyPath: targetFrame
       value: 
       objectReference: {fileID: 1325738326}
+    - target: {fileID: 808402555786052939, guid: 883e8f8943859224e84ef35ed734a1ce, type: 3}
+      propertyPath: hoverColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 808402555786052939, guid: 883e8f8943859224e84ef35ed734a1ce, type: 3}
+      propertyPath: hoverColor.b
+      value: 0.4811321
+      objectReference: {fileID: 0}
+    - target: {fileID: 808402555786052939, guid: 883e8f8943859224e84ef35ed734a1ce, type: 3}
+      propertyPath: hoverColor.g
+      value: 0.4811321
+      objectReference: {fileID: 0}
+    - target: {fileID: 808402555786052939, guid: 883e8f8943859224e84ef35ed734a1ce, type: 3}
+      propertyPath: hoverColor.r
+      value: 0.4811321
+      objectReference: {fileID: 0}
     - target: {fileID: 808402555786052939, guid: 883e8f8943859224e84ef35ed734a1ce, type: 3}
       propertyPath: buffBarPrefab
       value: 

@@ -174,5 +174,10 @@ public static class HBCTools
     public static float contertToPixels(float _unityUnits){
         return Camera.main.WorldToScreenPoint(Camera.main.transform.position + new Vector3(_unityUnits, 0 , 0)).x;
     }
+    public static Vector2 InputInstantOnset(){
+        return new Vector2(
+            Mathf.Clamp(Input.GetAxis("Horizontal") + Input.GetAxisRaw("Horizontal"), -1, 1 ),
+            Mathf.Clamp(Input.GetAxis("Vertical") + Input.GetAxisRaw("Vertical"), -1, 1 ));
+    }
     
 }
