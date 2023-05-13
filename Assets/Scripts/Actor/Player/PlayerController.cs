@@ -32,6 +32,8 @@ public class PlayerController : Controller
     public GameObject tabTargetAreaPrefab;
     public GameObject tabTargetObj;
     public Actor hoverActor;
+    Renderer rendererRef; // using this to set the point where the character should "rotate" to face mouse
+                        //used to be Bounds but I found out that that is a struct. So I can't save a ref to it
     
     
     
@@ -48,6 +50,8 @@ public class PlayerController : Controller
         if(isLocalPlayer){
             UIManager.playerController = this;
             FindObjectOfType<UIRaycaster>().UIFrameClicked += OnUIFrameClicked;
+            rendererRef = GetComponent<Renderer>();
+            
         }
         // tabTargetObj = Instantiate(tabTargetAreaPrefab, HBCTools.GetMousePosWP(), Quaternion.identity);
         // tabTargetObj.GetComponent<TabTargetGetter>().Init(this);
@@ -443,7 +447,7 @@ public class PlayerController : Controller
 
             Vector2 mouseMoveVect;
             //mouseMoveVect = (Vector2)Input.mousePosition - mouseStart0; //mode 1
-            mouseMoveVect = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)transform.position; //mode 2
+            mouseMoveVect = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - rendererRef.bounds.BottomCenter(); //mode 2
             facingDirection = HBCTools.ToNearest45(mouseMoveVect);
             CmdSetFacingDirection(facingDirection);
             
