@@ -251,6 +251,25 @@ public class Controller : NetworkBehaviour
 
     float getStoppingDistance(GameObject _target)
     {
+        /*
+            This should probably be more intelligent. 
+            
+            Maybe a bunch of different versions like,
+            GetStoppingDistanceMelee...
+            or 
+            GetStoppingDistance(Abilty_V2) that uses the ability range
+
+            But for now it just defaults to standard melee range.
+
+            Melee range as well should change depending on the size of both
+            the attacker and the target. 
+
+            if melee reange is 3.5f, it should be 3.5f from the the edges of the hitbox.
+
+            Not just 3.5 from the center like it is now.
+         */
+
+
         // float selfDiagonal;
         // float targetDiagonal;
         // selfDiagonal = Mathf.Sqrt(Mathf.Pow(gameObject.GetComponent<Renderer>().bounds.size.x, 2)
