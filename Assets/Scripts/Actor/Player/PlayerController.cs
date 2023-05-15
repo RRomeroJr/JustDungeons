@@ -93,6 +93,7 @@ public class PlayerController : Controller
                 // }
 
                 MoveInDirection(moveDirection.Value);
+                MovementFacingDirection();
 
                 break;
             case PlayerState.Dead:
@@ -110,8 +111,10 @@ public class PlayerController : Controller
     
     protected override void MovementFacingDirection()
     {
+        // Debug.Log("PlayerController MovementFacingDirection");
         if (Input.GetMouseButton(1) == false)
         {
+            // Debug.Log("Calling base");
             base.MovementFacingDirection();
         }
     }

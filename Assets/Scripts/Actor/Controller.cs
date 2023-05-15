@@ -64,11 +64,9 @@ public class Controller : NetworkBehaviour
     }
 
     public virtual void Update()
-    {
-        if (tag == "Player")
-        {
-            Debug.DrawLine(transform.position, (facingDirection * 2.5f) + (Vector2)transform.position, Color.green);
-        }
+    {   
+        Debug.DrawLine(transform.position, (facingDirection * 2.5f) + (Vector2)transform.position, Color.green);
+        
         if (globalCooldown > 0.0f)
         {
             globalCooldown -= Time.deltaTime;
@@ -117,10 +115,6 @@ public class Controller : NetworkBehaviour
                 GetComponent<NavMeshAgent>().SetDestination(followTarget.transform.position);
             }
         }
-        else if (rb2d.velocity.magnitude > 0.0f)
-        {
-            facingDirection = HBCTools.ToNearest45(rb2d.velocity);
-        }
     }
 
     public void MoveTowards(Vector3 pos)
@@ -142,10 +136,13 @@ public class Controller : NetworkBehaviour
         Vector2 _vect = _speed * _direction;
         Rigidbody2D _rb = GetComponent<Rigidbody2D>();
         _rb.AddForce(_vect);
-        MovementFacingDirection();
     }
     protected virtual void MovementFacingDirection()
     {
+        if(tryingToMove == false)
+        {
+            return;
+        }
         HBCTools.Quadrant newVectQuad;
         newVectQuad = HBCTools.GetQuadrant(moveDirection.Value);
         if ((moveDirection.Value.x != 0.0f) && (moveDirection.Value.y != 0.0f))

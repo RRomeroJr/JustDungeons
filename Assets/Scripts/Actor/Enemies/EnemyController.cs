@@ -43,6 +43,18 @@ public class EnemyController : Controller
 //        agent.speed = enemyStats.moveSpeed;
     }
 
+    public void FixedUpdate()
+    {
+        if (Mathf.Abs(agent.desiredVelocity.magnitude) > 0.0f != tryingToMove)
+        {
+            tryingToMove = !tryingToMove;
+            CmdSetTryingToMove(tryingToMove);
+        }
+        moveDirection = agent.desiredVelocity;
+        moveDirection.Value.Normalize();
+
+        MovementFacingDirection();
+    }
     // Update is called once per frame
     public override void Update()
     {
@@ -84,11 +96,11 @@ public class EnemyController : Controller
                     facingDirection = HBCTools.ToNearest45(actor.getCastingWPToFace() - (Vector2)transform.position);
                 }
             }
-            else if(followTarget != null && !resolvingMoveTo)
-            {
-                facingDirection = HBCTools.ToNearest45(followTarget.transform.position - transform.position);
+            // else if(followTarget != null && !resolvingMoveTo)
+            // {
+            //     facingDirection = HBCTools.ToNearest45(followTarget.transform.position - transform.position);
                 
-            }
+            // }
         }
        
     }
