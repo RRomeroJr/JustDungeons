@@ -52,13 +52,36 @@ public class EnemyController : Controller
         }
         moveDirection = agent.desiredVelocity;
         moveDirection.Value.Normalize();
-
+        
         MovementFacingDirection();
+    }
+    protected override void MovementFacingDirection()
+    {
+        // Debug.Log("PlayerController MovementFacingDirection");
+        if (tryingToMove == false && holdDirection == false)
+        {
+            Vector2 _posToFace = Vector2.zero;
+            if(resolvingMoveTo)
+            {
+                _posToFace = (Vector2)agent.destination;
+            }
+            else if(followTarget != null)
+            {
+                _posToFace = (Vector2)followTarget.transform.position;
+            }
+            FacePosistion(_posToFace);
+        }
+        else
+        {
+            base.MovementFacingDirection();
+
+        }
     }
     // Update is called once per frame
     public override void Update()
     {
         base.Update();
+        
         if(isServer){
             // if(abilityHandler.IsCasting){
             //     if(actor.getQueuedAbility().castWhileMoving == false){
@@ -96,13 +119,13 @@ public class EnemyController : Controller
                     facingDirection = HBCTools.ToNearest45(actor.getCastingWPToFace() - (Vector2)transform.position);
                 }
             }
-            // else if(followTarget != null && !resolvingMoveTo)
-            // {
-            //     facingDirection = HBCTools.ToNearest45(followTarget.transform.position - transform.position);
+            else if(followTarget != null && !resolvingMoveTo)
+            {
+                facingDirection = HBCTools.ToNearest45(followTarget.transform.position - transform.position);
                 
-            // }
+            }
         }
-       
+    //    Debug.DrawLine(transform.position, (moveDirection.Value) + (Vector2)transform.position, Color.cyan);
     }
     // RR: Now that I'm writing this out it would be easier if 
     //     abilitys had cooldowns before I start doing this
@@ -227,9 +250,10 @@ public class EnemyController : Controller
             Debug.Log("aggroTarget was null");
         actor.target = _aggroTarget;
         aggroTarget = _aggroTarget;
-        followTarget = _aggroTarget.gameObject;
+        SetFollowTarget(_aggroTarget.gameObject);
+        // followTarget = _aggroTarget.gameObject;
         autoAttacking = _setAutoAttack;
-
+        
         if(_checkStartCombatWith){
             actor.CheckStartCombatWith(_aggroTarget);
 

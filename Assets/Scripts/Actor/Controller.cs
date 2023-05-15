@@ -251,13 +251,19 @@ public class Controller : NetworkBehaviour
 
     float getStoppingDistance(GameObject _target)
     {
-        float selfDiagonal;
-        float tragetDiagonal;
-        selfDiagonal = Mathf.Sqrt(Mathf.Pow(gameObject.GetComponent<Renderer>().bounds.size.x, 2)
-                            + Mathf.Pow(gameObject.GetComponent<Renderer>().bounds.size.x, 2));
-        tragetDiagonal = Mathf.Sqrt(Mathf.Pow(followTarget.GetComponent<Collider2D>().bounds.size.x, 2)
-                            + Mathf.Pow(followTarget.GetComponent<Collider2D>().bounds.size.x, 2));
-        return ((tragetDiagonal + selfDiagonal) / 2) * 0.9f;
+        // float selfDiagonal;
+        // float targetDiagonal;
+        // selfDiagonal = Mathf.Sqrt(Mathf.Pow(gameObject.GetComponent<Renderer>().bounds.size.x, 2)
+        //                     + Mathf.Pow(gameObject.GetComponent<Renderer>().bounds.size.x, 2));
+        // targetDiagonal = Mathf.Sqrt(Mathf.Pow(followTarget.GetComponent<Collider2D>().bounds.size.x, 2)
+        //                     + Mathf.Pow(followTarget.GetComponent<Collider2D>().bounds.size.x, 2));
+
+
+        // Smallest of diagonals summed / 2 or 90% of melee range
+        // return Mathf.Min(((targetDiagonal + selfDiagonal) / 2), (Ability_V2.meleeRange * 0.9f));
+
+        //Straight up 90% of melee range
+        return Mathf.Max(Ability_V2.meleeRange * 0.9f);
     }
     public void SetFollowTarget(GameObject _target)
     {
@@ -289,5 +295,16 @@ public class Controller : NetworkBehaviour
         // Convert slow multiplier to speed multiplier. 1.1 slow (10% slow) = 0.9 speed
         float tempSlow = 2.0f - e.Slow;
         moveSpeedModifier = tempSlow * e.Haste;
+    }
+    public void FacePosistion(Vector2 _pos)
+    {
+        Vector2 result =  HBCTools.ToNearest45(_pos - (Vector2)transform.position);
+
+        if(facingDirection == result)
+        {
+            return;
+        }
+
+        facingDirection = result;
     }
 }
