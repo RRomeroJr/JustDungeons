@@ -81,10 +81,26 @@ public class UIManager : MonoBehaviour
         foreach (var player in CustomNetworkManager.singleton.GamePlayers)
         {
             updateUnitFrame(frames[i], player.GetComponent<Actor>());
+            player.GetComponent<BuffHandler>().Buffs.Callback += frames[i].OnBuffsChanged;
             i++;
         }
     }
-
+    // public void UpdateFrameBuffs(UnitFrame _frame)
+    // {
+    //     BuffHandler _bh = _frame.actor.GetComponent<BuffHandler>();
+    //     for(int i = 0; i < _frame.buffs.Length; i++)
+    //     {
+    //         if(i < _bh.Buffs.Count)
+    //         {
+    //             _frame.buffs[i].gameObject.active = true;
+    //             _frame.buffs[i].buff = _bh.Buffs[i];
+    //         }
+    //         else
+    //         {
+    //             _frame.buffs[i].gameObject.active = false;
+    //         }
+    //     }
+    // }
     // Update the max health and current health of all ally frames
     public void UpdateAllyFrames()
     {

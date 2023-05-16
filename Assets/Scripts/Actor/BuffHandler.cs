@@ -3,6 +3,7 @@ using System.Linq;
 using BuffSystem;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// General purpose buff container which implements every buff in the game
@@ -26,6 +27,7 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
     [SerializeField] private float slow;
     [SerializeField] private float haste;
     [SerializeField] private readonly SyncList<Buff> buffs = new();
+    public UnityEvent OnBuffListChanged = new UnityEvent();
 
     #region Events
 
@@ -230,6 +232,7 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         newBuff.Start();
         newBuff.Finished += HandleBuffFinished;
         buffs.Add(newBuff);
+        OnBuffListChanged.Invoke();
     }
 
     [Server]
@@ -238,6 +241,7 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         buff.Finished -= HandleBuffFinished;
         buff.End();
         buffs.Remove(buff);
+        OnBuffListChanged.Invoke();
     }
 
     private void ChangeStatusEffect(StatusEffectState newEffect)
