@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using BuffSystem;
 using UnityEngine;
+using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = ProjectPaths.buffs + "NewBuff", menuName = "HBCsystem/NewBuff")]
 public class BuffScriptableObject : ScriptableObject
@@ -18,6 +19,7 @@ public class BuffScriptableObject : ScriptableObject
     public float TickRate => tickRate;
     public float Duration => duration;
     public bool Stackable => stackable;
+    [SerializeField] public UnityEvent<BuffSystem.Buff, EffectInstruction> onHitHooks;
 
 
     public Sprite Icon

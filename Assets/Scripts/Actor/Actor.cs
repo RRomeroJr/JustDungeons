@@ -153,11 +153,15 @@ public class Actor : NetworkBehaviour
         So I added these two events */
     public UnityEvent OnEnterCombat = new UnityEvent();
     public UnityEvent OnLeaveCombat = new UnityEvent();
+    public UnityEvent<EffectInstruction> OnEffectRecieved = new UnityEvent<EffectInstruction>();
     public Controller controller;
     
 
     #region UnityMethods
-
+    void OnReceivetest(EffectInstruction _ei)
+    {
+        Debug.Log("OnEffectRecieved: " + _ei.effect.effectName);
+    }
     private void Awake()
     {
         buffHandler = GetComponent<IBuff>();
@@ -166,6 +170,7 @@ public class Actor : NetworkBehaviour
         OnLeaveCombat = new UnityEvent();
         buffs = new List<OldBuff.Buff>();
         controller = GetComponent<Controller>();
+        // OnEffectRecieved.AddListener(OnReceivetest);
     }
 
     void Start()
@@ -355,6 +360,7 @@ public class Actor : NetworkBehaviour
         // foreach (var eI in _eInstructs){
         //     eI.startEffect(this, _relWP, _caster);
         // }
+        OnEffectRecieved.Invoke(_eInstruct);
         int i = 0;
         int lastBuffCount = buffs.Count;
         while (i < buffs.Count)
@@ -900,7 +906,7 @@ public class Actor : NetworkBehaviour
     }
     public Actor FirstAliveAttacker()
     {
-        Debug.Log(attackerList.Count);
+        // Debug.Log(attackerList.Count);
         foreach(Actor a in attackerList)
         {
             if(a == null)

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DontStackThisEffect
   m_EditorClassIdentifier: 
   effectName: DontStackThisEffect
-  id: 50
+  id: 57
   power: 0
   powerScale: 1
   parentBuff: {fileID: 0}
@@ -25,7 +25,15 @@ MonoBehaviour:
     Value: {x: 0, y: 0, z: 0}
   targetWP2:
     Value: {x: 0, y: 0, z: 0}
-  eInstructs: []
+  isHostile: 1
+  eInstructs:
+  - effect: {fileID: 11400000, guid: a425d6baf966e0f469e2e7b73aace6e9, type: 2}
+    targetArg: 0
+    powerMod: 0
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
+    deliveryNVect2: {x: 0, y: 0}
   school: -1
   misslePrefab: {fileID: 8996080988287052582, guid: 536d5fb32566009469d083a954ee0fb8, type: 3}
   isSkillshot: 1

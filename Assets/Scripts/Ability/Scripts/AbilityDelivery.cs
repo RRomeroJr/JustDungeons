@@ -123,6 +123,7 @@ public class AbilityDelivery : NetworkBehaviour
 
         if (type == 0 && hitActor == Target)
         {
+            Debug.Log("Sending to " + hitActor.gameObject.name);
             foreach (EffectInstruction eI in eInstructs)
             {
                 eI.sendToActor(hitActor, null, Caster);

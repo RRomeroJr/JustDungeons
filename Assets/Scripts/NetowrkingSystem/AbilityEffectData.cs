@@ -100,6 +100,24 @@ public class AbilityEffectData : ScriptableObject
             // Debug.Log("Effect was not shadowbolt");
         }
     }
+    public void buffNextDontStackThis(BuffSystem.Buff _callingBuff, EffectInstruction inComingEI){
+        // Debug.Log("buffNextDontStackThis");
+        //Finding Correct ID
+        if(inComingEI.effect.id == 81){ //try to do this by a find later
+           
+            Debug.Log(inComingEI.effect.effectName + " DontStackThisDmg found. " + _callingBuff.Stacks.ToString() + " stacks" );
+
+            inComingEI.effect.powerScale *= _callingBuff.Stacks;
+
+            // var callingActorBuffs = _callingBuff.getActor().getBuffs();
+            // callingActorBuffs.Remove(callingActorBuffs.Find(buff => buff.getID() == _callingBuff.getID()));
+        }
+        else
+        {
+            // Debug.Log("Effect wasn't DontSTackThis: " + inComingEI.effect.effectName + ", " + inComingEI.effect.id);
+        }
+            
+    }
     public void onHitTest(Buff _callingBuff, EffectInstruction inComingEI){
         //Finding Correct ID
         if(inComingEI.effect.id == 2){ //try to do this by a find later
@@ -125,7 +143,7 @@ public class AbilityEffectData : ScriptableObject
     }
     public static void cancelIfNotFacing(EffectInstruction _ei){
         if(HBCTools.checkFacing(_ei.effect.target, _ei.effect.caster.gameObject) == false){
-            Debug.Log("Target was not facing canceling effect instruction!");
+            // Debug.Log("Target was not facing canceling effect instruction!");
             _ei.targetArg = -1;
         }
         
@@ -133,7 +151,7 @@ public class AbilityEffectData : ScriptableObject
     }
     public static void cancelIfFacing(EffectInstruction _ei){
         if(HBCTools.checkFacing(_ei.effect.target, _ei.effect.caster.gameObject) == true){
-            Debug.Log("Target was facing canceling effect instruction!");
+            // Debug.Log("Target was facing canceling effect instruction!");
             _ei.targetArg = -1;
         }
         

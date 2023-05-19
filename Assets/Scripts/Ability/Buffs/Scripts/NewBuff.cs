@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace BuffSystem
 {
@@ -24,6 +25,7 @@ namespace BuffSystem
         public GameObject Target => target;
         public float RemainingBuffTime => remainingBuffTime;
         public int Stacks => stackEndTimes.Count + 1;
+        [SerializeField] public UnityEvent<Buff, EffectInstruction> onHitHooks;
 
         #endregion
 
@@ -87,11 +89,27 @@ namespace BuffSystem
             remainingStackTime = buffSO.Duration;
             remainingBuffTime = buffSO.Duration;
             timeTillTick = buffSO.TickRate;
+            onHitHooks = buffSO.onHitHooks;
+            // Debug.Log(target.name);
+            target.GetComponent<Actor>().OnEffectRecieved.AddListener(OnHitHelperMethod);
+            // onHitHooks.AddListener(OnHitHooksTest);
             buffSO.StartBuff(target);
         }
+        void OnHitHelperMethod(EffectInstruction _ei)
+        {
+            // Debug.Log("OnHitHelperMethod");
+            onHitHooks.Invoke(this, _ei);
+
+        }
+        // void OnHitHooksTest(Buff _b, EffectInstruction _ei)
+        // {
+        //     Debug.Log("OnHitHooks invoked");
+        // }
 
         public void End()
         {
+            target.GetComponent<Actor>().OnEffectRecieved.RemoveListener(OnHitHelperMethod);
+            onHitHooks.RemoveAllListeners();
             buffSO.EndBuff(target);
         }
 
