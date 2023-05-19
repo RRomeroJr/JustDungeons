@@ -210,7 +210,7 @@ public class UIManager : MonoBehaviour
         }
         else{
             if(!targetOfTargetFrame.gameObject.active){
-                Debug.Log("Setting target of target to active");
+                // Debug.Log("Setting target of target to active");
                 targetOfTargetFrame.gameObject.SetActive(true);
                 
             }

@@ -377,7 +377,7 @@ public class PlayerController : Controller
 
             if (hit.collider != null) {
                 
-                Debug.Log("Clicked something: " + hit.collider.gameObject.name);
+                // Debug.Log("Clicked something: " + hit.collider.gameObject.name);
             }else{
                 //Debug.Log("Nothing clicked");
                 tabIndex = 0;

@@ -60,10 +60,10 @@ public class GameManager : MonoBehaviour
     {
     }
     void LogEnterCombat(Actor _eventIn){
-        Debug.Log(_eventIn.name + " has ENTERED combat");
+        // Debug.Log(_eventIn.name + " has ENTERED combat");
     }
     void LogLevaveCombat(Actor _eventIn){
-        Debug.Log(_eventIn.name + " LEAVING combat");
+        // Debug.Log(_eventIn.name + " LEAVING combat");
     }
 
     public void logMobDeath(int _mobId){
