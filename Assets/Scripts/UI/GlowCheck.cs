@@ -76,13 +76,13 @@ public class GlowCheck: ScriptableObject
         }
         if(_cond && !active)
         {
-            Debug.Log(ability.name + ".. Start Glowing!");
+            // Debug.Log(ability.name + ".. Start Glowing!");
             UIManager.Instance.glowList.Add(ability);
             active = true;
         }
         else if(!_cond && active)
         {
-            Debug.Log(ability.name + ".. Stop Glowing!");
+            // Debug.Log(ability.name + ".. Stop Glowing!");
             UIManager.Instance.glowList.Remove(ability);
             active = false;
         }

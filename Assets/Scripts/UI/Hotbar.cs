@@ -165,11 +165,11 @@ public class Hotbar: MonoBehaviour
       foreach(HotbarSlot _hs in slots){
         try{
           if(UIManager.Instance.glowList.Contains(_hs.hotButton.ability) && !_hs.GlowObj.activeInHierarchy){
-            Debug.Log("slot found");
+            // Debug.Log("slot found");
             _hs.ActivateGlow();
           }
           else if(!UIManager.Instance.glowList.Contains(_hs.hotButton.ability) && _hs.GlowObj.activeInHierarchy){
-            Debug.Log("slot found");
+            // Debug.Log("slot found");
             _hs.DeactivateGlow();
           }
         }

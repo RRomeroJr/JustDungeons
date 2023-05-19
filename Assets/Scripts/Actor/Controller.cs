@@ -224,11 +224,11 @@ public class Controller : NetworkBehaviour
             }
             yield return new WaitForSeconds(0.02f);
         }
-        Debug.Log(Vector2.Distance(pos, transform.position) + pos.ToString() + transform.position);
-        bool stoppedBefore = agent.isStopped;
+        // Debug.Log(Vector2.Distance(pos, transform.position) + pos.ToString() + transform.position);
+        // bool stoppedBefore = agent.isStopped;
         agent.ResetPath();
-        bool stoppedAfter = agent.isStopped;
-        Debug.Log("before: " + stoppedBefore + "after: " + stoppedAfter);
+        // bool stoppedAfter = agent.isStopped;
+        // Debug.Log("before: " + stoppedBefore + "after: " + stoppedAfter);
         //Debug.Log("Move To Finshed. Distance: " + Vector2.Distance(pos, gameObject.transform.position).ToString() + "Stopping distance: " + agent.stoppingDistance );
         resolvingMoveTo = false;
         if (followTarget != null)

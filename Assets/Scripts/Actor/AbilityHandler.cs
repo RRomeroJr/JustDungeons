@@ -74,8 +74,7 @@ public class AbilityHandler : NetworkBehaviour
         }
          if(_ability.getCastTime() > 0.0f && _ability.castWhileMoving == false && actor.controller.tryingToMove)
         {
-            // if(showDebug)
-            Debug.Log(actor.name + "Cannot cast, trying to move");
+            // Debug.Log(actor.name + "Cannot cast, trying to move");
             return false;
         }
         if (IsChanneling)

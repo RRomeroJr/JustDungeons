@@ -22,7 +22,7 @@ public class FindTargets : ActionNode
     {
         if (context.controller.FindTargets(targetMask, range))
         {
-            Debug.Log("FindTarget node seccessfully found a target!");
+            // Debug.Log("FindTarget node seccessfully found a target!");
             return State.Success;
         }
         return State.Failure;

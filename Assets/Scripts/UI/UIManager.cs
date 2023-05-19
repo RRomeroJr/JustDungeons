@@ -354,7 +354,7 @@ public class UIManager : MonoBehaviour
 
         for(int i = 0 ; i < prefsData.HotbarItems.Length; i++)
         {
-            Debug.Log("Player Pref read, ID: " + prefsData.HotbarItems[i].abilityID);
+            // Debug.Log("Player Pref read, ID: " + prefsData.HotbarItems[i].abilityID);
 
             Ability_V2 _ability = AbilityData.instance.find(prefsData.HotbarItems[i].abilityID);
             

@@ -132,7 +132,7 @@ public static class CustomReadWriteFuctions
         buffClone.firstFrame = reader.ReadBool();
         buffClone.setCaster(reader.ReadActor());
         Actor buffActor = reader.ReadActor();
-        Debug.Log(buffActor.ActorName + " and type is : " + buffActor.GetType().ToString());
+        // Debug.Log(buffActor.ActorName + " and type is : " + buffActor.GetType().ToString());
         buffClone.setActor(buffActor);
         buffClone.target = reader.ReadActor();
         buffClone.setStacks(reader.ReadUInt());
