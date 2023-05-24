@@ -175,15 +175,8 @@ public class Actor : NetworkBehaviour
 
     void Start()
     {
-        if ((isLocalPlayer) || (tag != "Player"))
-        {
-            UIManager.playerActor = this;
-            nameplate = Nameplate.Create(this);
-        }
-        if (isLocalPlayer)
-        {
-            UIManager.Instance.SpawnBuffBar();
-        }
+        InitializeUI();
+
         if (gameObject.layer == LayerMask.NameToLayer("Enemy") && GameManager.instance != null)
         {
             //Buff stats here from GameManager?
@@ -199,20 +192,21 @@ public class Actor : NetworkBehaviour
 
         if (combatClass != null)
         {
-            
+
             // Old setting up of keybinds
             // foreach (Ability_V2 abi in combatClass.abilityList){
             //     GetComponent<Controller>().abilities[counter] = abi;
             //     counter = counter + 1;
             // }
             // New hobutton spawn
-            UIManager.Instance.SetUpHotbars();
             classResources = combatClass.GetClassResources();
 
-            if(combatClass.classStats != null){
+            if (combatClass.classStats != null)
+            {
                 setUpStats(combatClass.classStats);
             }
-            if(combatClass.rac != null){
+            if (combatClass.rac != null)
+            {
                 GetComponent<Animator>().runtimeAnimatorController = combatClass.rac;
             }
         }
@@ -258,6 +252,27 @@ public class Actor : NetworkBehaviour
     }
 
     #endregion
+
+    private void InitializeUI()
+    {
+        if (UIManager.Instance == null)
+        {
+            return;
+        }
+        if (tag != "Player")
+        {
+            nameplate = Nameplate.Create(this);
+        }
+        if (isLocalPlayer)
+        {
+            UIManager.playerActor = this;
+            UIManager.Instance.SpawnBuffBar();
+        }
+        if (combatClass != null)
+        {
+            UIManager.Instance.SetUpHotbars();
+        }
+    }
 
     // Casting: Target finders---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
