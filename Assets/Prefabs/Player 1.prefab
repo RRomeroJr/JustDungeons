@@ -115,8 +115,8 @@ MonoBehaviour:
   syncInterval: 0.1
   showDebug: 1
   actorName: Deoscillate
-  health: 3500
-  maxHealth: 3500
+  health: 3500000
+  maxHealth: 3500000
   <Role>k__BackingField: 0
   unitColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
   mobId: -1
@@ -135,6 +135,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnLeaveCombat:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEffectRecieved:
     m_PersistentCalls:
       m_Calls: []
   controller: {fileID: 0}
@@ -253,7 +256,6 @@ MonoBehaviour:
   autoAttacking: 0
   resolvingMoveTo: 0
   autoAttackRequest: 0
-  pushVector: {x: 0, y: 0}
   state: 0
   clickMask:
     serializedVersion: 2
@@ -340,7 +342,7 @@ NavMeshAgent:
   m_Height: 2.25
   m_BaseOffset: 1.125
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!95 &3747133552387403488
 Animator:
   serializedVersion: 4

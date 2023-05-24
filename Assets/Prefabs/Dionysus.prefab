@@ -176,7 +176,7 @@ NavMeshAgent:
   m_Height: 4
   m_BaseOffset: 2
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &2096029720338020587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,6 +301,10 @@ MonoBehaviour:
   OnLeaveCombat:
     m_PersistentCalls:
       m_Calls: []
+  OnEffectRecieved:
+    m_PersistentCalls:
+      m_Calls: []
+  controller: {fileID: 0}
 --- !u!114 &2915685031530657180
 MonoBehaviour:
   m_ObjectHideFlags: 0

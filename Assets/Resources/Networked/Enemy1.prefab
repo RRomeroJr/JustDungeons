@@ -133,6 +133,10 @@ MonoBehaviour:
   OnLeaveCombat:
     m_PersistentCalls:
       m_Calls: []
+  OnEffectRecieved:
+    m_PersistentCalls:
+      m_Calls: []
+  controller: {fileID: 0}
 --- !u!61 &6569267623682333742
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -259,7 +263,7 @@ NavMeshAgent:
   m_Height: 1
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &8638706385110007143
 MonoBehaviour:
   m_ObjectHideFlags: 0
