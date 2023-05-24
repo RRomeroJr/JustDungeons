@@ -25,6 +25,7 @@ MonoBehaviour:
     Value: {x: 0, y: 0, z: 0}
   targetWP2:
     Value: {x: 0, y: 0, z: 0}
+  isHostile: 1
   eInstructs:
   - effect: {fileID: 11400000, guid: 2c8553226bdc4ac4c84c2b5cb0ff30aa, type: 2}
     targetArg: 0
@@ -36,4 +37,4 @@ MonoBehaviour:
   school: -1
   prefabScale: {x: 1, y: 1, z: 1}
   aoePrefab: {fileID: 947037833593652060, guid: d5d87c7574f2a4e4d91f116ce5d82555, type: 3}
-  length: 20
+  Length: 40
