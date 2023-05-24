@@ -236,7 +236,7 @@ MonoBehaviour:
   health: 400
   maxHealth: 9000
   <Role>k__BackingField: 0
-  unitColor: {r: 0.9137255, g: 0.7490196, b: 0.49411765, a: 0}
+  unitColor: {r: 0.9529412, g: 0.6509804, b: 0.6509804, a: 1}
   mobId: 7
   combatClass: {fileID: 0}
   mainStat: 100
