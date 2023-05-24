@@ -7,7 +7,6 @@ using UnityEngine.Events;
 public class AbilityHandler : NetworkBehaviour
 {
     [Header("Debug Values. Do NOT change in editor.")]
-    private UIManager uiManager;
     private Animator animator;
     private Actor actor;
     [SerializeField] private bool showDebug = false;
@@ -38,7 +37,6 @@ public class AbilityHandler : NetworkBehaviour
     void Start()
     {
         actor = GetComponent<Actor>();
-        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         animator = GetComponent<Animator>();
     }
 
@@ -250,12 +248,16 @@ public class AbilityHandler : NetworkBehaviour
 
     void InitCastBarWithActor()
     {
+        if (UIManager.Instance == null)
+        {
+            return;
+        }
         // Creates a CastBar with target being an Actor
         if (gameObject.tag == "Player")
         { // For player
           //Creating cast bar and setting it's parent to canvas to display it properly
 
-            GameObject newAbilityCast = Instantiate(uiManager.castBarPrefab, uiManager.canvas.transform);
+            GameObject newAbilityCast = Instantiate(UIManager.Instance.castBarPrefab, UIManager.Instance.canvas.transform);
             //                                   v (string cast_name, Actor from_caster, Actor to_target, float cast_time) v
             newAbilityCast.GetComponent<CastBar>().Init(QueuedAbility.getName(), this, QueuedTarget, QueuedAbility.getCastTime());
         }
@@ -270,12 +272,15 @@ public class AbilityHandler : NetworkBehaviour
     void initCastBarWithWP()
     {
         //   Creates Castbar with target being a world point Vector3
-
+        if (UIManager.Instance == null)
+        {
+            return;
+        }
         if (gameObject.tag == "Player")
         { // For player
           //Creating cast bar and setting it's parent to canvas to display it properly
 
-            GameObject newAbilityCast = Instantiate(uiManager.castBarPrefab, uiManager.canvas.transform);
+            GameObject newAbilityCast = Instantiate(UIManager.Instance.castBarPrefab, UIManager.Instance.canvas.transform);
 
             //                                   v (string cast_name, Actor from_caster, Actor to_target, float cast_time) v
             newAbilityCast.GetComponent<CastBar>().Init(QueuedAbility.getName(), this, QueuedRelWP.Value, QueuedAbility.getCastTime());
