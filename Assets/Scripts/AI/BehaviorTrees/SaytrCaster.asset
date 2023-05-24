@@ -242,29 +242,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   range: 16
---- !u!114 &-5923023617786131019
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bd5f608b3bd8144ab24ae29b8d34853, type: 3}
-  m_Name: Attack
-  m_EditorClassIdentifier: 
-  state: 0
-  started: 0
-  guid: 8cddc4a66b4af10479aa544d24641c09
-  position: {x: 861.50226, y: 1598.0002}
-  blackboard:
-    moveToPosition: {x: 0, y: 0, z: 0}
-    target: {fileID: 0}
-    targetPrev: {fileID: 0}
-  description: 
-  drawGizmos: 0
-  ability: {fileID: 11400000, guid: 9cb454ea2eaea2a4b9e749f9872a1d8e, type: 2}
 --- !u!114 &-5769271167773511004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -776,7 +753,6 @@ MonoBehaviour:
   - {fileID: -4632854682982869906}
   - {fileID: -9053354116826676318}
   - {fileID: 2970261717432104746}
-  - {fileID: -5923023617786131019}
   - {fileID: 1897260848843472588}
   - {fileID: 621447818660719777}
   - {fileID: -5769271167773511004}
@@ -951,7 +927,7 @@ MonoBehaviour:
   targetMask:
     serializedVersion: 2
     m_Bits: 64
-  range: 0
+  range: 40
 --- !u!114 &608097101221495970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1393,7 +1369,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: a2f79cb70b288884ca781accdee9a2fd
-  position: {x: 879.92053, y: 1605.6243}
+  position: {x: 955.0001, y: 1601.0002}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
