@@ -332,6 +332,7 @@ public class UIManager : MonoBehaviour
             // Just spawn all it's abilities in the center of the screen
 
             SpawnHotbuttons(playerActor.combatClass);
+            return;
         }
 
         Debug.Log("Searching for prefs in: "+ filePath);
