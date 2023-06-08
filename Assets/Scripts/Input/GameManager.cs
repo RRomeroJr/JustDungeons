@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public uint mobCount = 0;
     public UnityEvent<Actor> OnActorEnterCombat = new UnityEvent<Actor>();
     public UnityEvent<Actor> OnActorLeaveCombat = new UnityEvent<Actor>();
+    public UnityEvent AllPlayersLeaveCombat = new UnityEvent();
     void Awake()
     {
         if(instance == null)
@@ -38,6 +39,7 @@ public class GameManager : MonoBehaviour
         OnMobDeath.AddListener(IncreaseMobCount);
         OnActorEnterCombat.AddListener(LogEnterCombat);
         OnActorLeaveCombat.AddListener(LogLevaveCombat);
+        OnActorLeaveCombat.AddListener(CheckAllPlayersOutOfCombat);
         if(NetworkServer.active){
             NetworkServer.Spawn(gameObject);
             /* This doesn;t work bc this object exists before the server is started*/
@@ -99,4 +101,16 @@ public class GameManager : MonoBehaviour
         NetworkServer.Spawn(Instantiate(prefab, Vector2.zero, Quaternion.identity ));
     }
     
+    void CheckAllPlayersOutOfCombat(Actor _notUsed)
+    {
+        foreach(PlayerGame pg in CustomNetworkManager.singleton.GamePlayers)
+        {
+            if(pg.GetComponent<Actor>().IsInCombat())
+            {
+                return;
+            }
+        }
+
+        AllPlayersLeaveCombat.Invoke();
+    }
 }
