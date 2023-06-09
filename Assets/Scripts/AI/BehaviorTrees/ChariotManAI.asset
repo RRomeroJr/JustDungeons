@@ -607,6 +607,7 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   ability: {fileID: 11400000, guid: 97e10e75bc078e3418ab74d2544eeb4e, type: 2}
+  targetSelf: 0
 --- !u!114 &-1704096713112807213
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -291,6 +291,10 @@ public class Controller : NetworkBehaviour
         {
             agent.stoppingDistance = getStoppingDistance(followTarget);
         }
+        else
+        {
+            agent.ResetPath();
+        }
     }
     [Command]
     protected void CmdSetFacingDirection(Vector2 _ClientFacingDirection)

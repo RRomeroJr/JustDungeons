@@ -8,6 +8,7 @@ public class Attack : ActionNode
     public Ability_V2 ability;
     bool castStarted;
     bool castFinished;
+    public bool targetSelf = false;
     protected override void OnStart()
     {
         //castStarted = false;
@@ -29,8 +30,17 @@ public class Attack : ActionNode
                 context.agent.isStopped = true;
                 
             }
-            //Debug.Log(context.controller.target.GetComponent<Actor>().getActorName());
-            context.actor.castAbility3(ability, context.controller.target.GetComponent<Actor>());
+            //Debug.Log(context.controller.target.GetComponent<Actor>().getActorName()); 
+            Actor _target = null;
+            if(targetSelf)
+            {
+                _target = context.actor;
+            }
+            else
+            {
+                _target = context.controller.target.GetComponent<Actor>();
+            }
+            context.actor.castAbility3(ability, _target);
             //castStarted = true;
         }
         if(castFinished == false){
