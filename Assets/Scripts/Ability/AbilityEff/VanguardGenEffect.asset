@@ -9,23 +9,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cc173cef4ea5f34bbbad702c7bf8db0, type: 3}
-  m_Name: VangaurdAoeSpdEffect
+  m_Script: {fileID: 11500000, guid: 90c83b31e3ed6d64c96f4acd8d919f18, type: 3}
+  m_Name: VanguardGenEffect
   m_EditorClassIdentifier: 
-  effectName: VangaurdAoeSpdEffect
-  id: -1
-  power: 0
+  effectName: VanguardGenEffect
+  id: 70
+  power: 20
   powerScale: 1
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
-  targetIsSecondary: 1
+  targetIsSecondary: 0
   target: {fileID: 0}
   caster: {fileID: 0}
   targetWP:
     Value: {x: 0, y: 0, z: 0}
   targetWP2:
     Value: {x: 0, y: 0, z: 0}
-  eInstructs: []
+  isHostile: 1
   school: -1
-  prefabScale: {x: 1, y: 1, z: 1}
-  aoePrefab: {fileID: 0}
+  crt: {fileID: 11400000, guid: 55f627c33b30c14489770a8e971ecee4, type: 2}

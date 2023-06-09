@@ -10,24 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 630dbee7393b5314ab79662f009e6568, type: 3}
-  m_Name: VangaurdAoeGen
+  m_Name: VanguardSTSpd
   m_EditorClassIdentifier: 
-  abilityName: VangaurdAoeGen
-  eInstructs:
-  - effect: {fileID: 11400000, guid: 27d22639163ef0e42ad401d0c9e5c420, type: 2}
-    targetArg: 1
-    powerMod: 1
-    onSendHooks:
-      m_PersistentCalls:
-        m_Calls: []
-    deliveryNVect2: {x: 0, y: 0}
+  abilityName: VanguardSTSpd
+  eInstructs: []
+  buffs: []
   castTime: 0
   cooldown: 2
   needsActor: 0
   needsWP: 0
-  id: 51
+  id: 53
   abilityTag: 0
-  resourceCosts: []
+  resourceCosts:
+  - amount: 20
+    crType: {fileID: 11400000, guid: 55f627c33b30c14489770a8e971ecee4, type: 2}
   isChannel: 0
   channelDuration: 0
   numberOfTicks: 0
@@ -39,3 +35,4 @@ MonoBehaviour:
   mustBeFacing: 0
   hotbuttonImage: {fileID: 0}
   hotbuttonColor: {r: 0, g: 0, b: 0, a: 0}
+  hostilty: 2

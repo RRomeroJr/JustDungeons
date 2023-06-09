@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 64837299a4b9f8747a4e5a95352fd0ac, type: 3}
-  m_Name: VangaurdStats
+  m_Name: VanguardStats
   m_EditorClassIdentifier: 
   health: 9000
   healthMutliplier: 2.58
