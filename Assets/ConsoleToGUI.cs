@@ -34,7 +34,7 @@
              void OnGUI()
              {
                  //if (!Application.isEditor) //Do not display in editor ( or you can use the UNITY_EDITOR macro to also disable the rest)
-                 if(Input.GetKey("`")){
+                 if(Input.GetKey("=")){
                      myLog = GUI.TextArea(new Rect(10, 10, Screen.width - 10, Screen.height - 10), myLog);
                  }
              }
