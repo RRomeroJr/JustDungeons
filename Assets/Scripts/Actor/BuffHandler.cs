@@ -27,6 +27,8 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
     [SerializeField] private float haste;
     [SerializeField] private readonly SyncList<Buff> buffs = new();
 
+    public SyncList<Buff> Buffs => buffs;
+
     #region Events
 
     /// <summary>
@@ -179,8 +181,6 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         }
     }
 
-    public SyncList<Buff> Buffs => buffs;
-
     #endregion
 
     private void Start()
@@ -274,14 +274,7 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         {
             return false;
         }
-        if (buff.BuffSO.Stackable)
-        {
-            buff.AddStack();
-        }
-        else // Refresh
-        {
-            buff.Refresh();
-        }
+        buff.AddStackAndRefresh();
         return true;
     }
 
