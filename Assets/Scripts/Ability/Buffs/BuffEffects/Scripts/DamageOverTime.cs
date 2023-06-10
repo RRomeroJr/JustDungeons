@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewDamageOverTime", menuName = ProjectPaths.buffEffectsMenu + "DamageOverTime")]
-
 public class DamageOverTime : BuffEffect
 {
-    public override void ApplyEffect(GameObject target, float damageValue)
+    public override void ApplyEffect(GameObject target, float damageValue, int stacks)
     {
         if (target.TryGetComponent(out IDamageOverTime t))
         {
