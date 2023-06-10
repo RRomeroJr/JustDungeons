@@ -113,12 +113,14 @@ namespace BuffSystem
             buffSO.EndBuff(target, Stacks);
         }
 
-        public void AddStackAndRefresh()
+        public void AddStack()
         {
-            if (buffSO.Stackable)
-            {
-                stackEndTimes.Enqueue(Time.time + buffSO.Duration);
-            }
+            stackEndTimes.Enqueue(Time.time + buffSO.Duration);
+            remainingBuffTime = buffSO.Duration;
+        }
+
+        public void Refresh()
+        {
             remainingBuffTime = buffSO.Duration;
         }
 
