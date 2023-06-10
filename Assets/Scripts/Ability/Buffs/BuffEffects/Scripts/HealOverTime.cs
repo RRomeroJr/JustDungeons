@@ -4,7 +4,7 @@
 
 public class HealOverTime : BuffEffect
 {
-    public override void ApplyEffect(GameObject target, float healValue)
+    public override void ApplyEffect(GameObject target, float healValue, int stacks)
     {
         if (target.TryGetComponent(out IHealOverTime t))
         {

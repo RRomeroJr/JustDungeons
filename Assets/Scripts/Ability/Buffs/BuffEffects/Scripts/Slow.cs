@@ -5,7 +5,7 @@ namespace BuffSystem
     [CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewSlowEffect", menuName = ProjectPaths.buffEffectsMenu + "Slow")]
     public class Slow : BuffEffect
     {
-        public override void EndEffect(GameObject target, float effectValue)
+        public override void EndEffect(GameObject target, float effectValue, int stacks)
         {
             if (target.TryGetComponent(out ISlow t))
             {
@@ -13,7 +13,7 @@ namespace BuffSystem
             }
         }
 
-        public override void StartEffect(GameObject target, float effectValue)
+        public override void StartEffect(GameObject target, float effectValue, int stacks)
         {
             if (target.TryGetComponent(out ISlow t))
             {
