@@ -4,9 +4,9 @@
 
 public class HealOverTime : BuffEffect
 {
-    public override void ApplyEffect(GameObject target, float healValue)
+    public override void ApplyEffect(BuffSystem.Buff buff, float healValue)
     {
-        if (target.TryGetComponent(out IHealOverTime t))
+        if (buff.Target.TryGetComponent(out IHealOverTime t))
         {
             t.ApplyHeal(healValue);
         }

@@ -5,17 +5,17 @@ namespace BuffSystem
     [CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewSilenceEffect", menuName = ProjectPaths.buffEffectsMenu + "Silence")]
     public class Silence : BuffEffect
     {
-        public override void EndEffect(GameObject target, float effectValue)
+        public override void EndEffect(BuffSystem.Buff buff, float effectValue)
         {
-            if (target.TryGetComponent(out ISilence t))
+            if (buff.Target.TryGetComponent(out ISilence t))
             {
                 t.Silenced--;
             }
         }
 
-        public override void StartEffect(GameObject target, float effectValue)
+        public override void StartEffect(BuffSystem.Buff buff, float effectValue)
         {
-            if (target.TryGetComponent(out ISilence t))
+            if (buff.Target.TryGetComponent(out ISilence t))
             {
                 t.Silenced++;
             }

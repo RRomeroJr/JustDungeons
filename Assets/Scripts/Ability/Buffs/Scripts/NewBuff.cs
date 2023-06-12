@@ -53,7 +53,7 @@ namespace BuffSystem
                 // Ensure the stack did not run out before the tick proc'd
                 if (remainingStackTime > timeTillTick)
                 {
-                    buffSO.Tick(target);
+                    buffSO.Tick(this);
                     timeTillTick += buffSO.TickRate;
                 }
                 // Only way to break out of loop if remainingStackTime < timeTillTick. Can't be added to while condition
@@ -93,7 +93,7 @@ namespace BuffSystem
             // Debug.Log(target.name);
             target.GetComponent<Actor>().OnEffectRecieved.AddListener(OnHitHelperMethod);
             // onHitHooks.AddListener(OnHitHooksTest);
-            buffSO.StartBuff(target);
+            buffSO.StartBuff(this);
         }
         void OnHitHelperMethod(EffectInstruction _ei)
         {
@@ -110,7 +110,7 @@ namespace BuffSystem
         {
             target.GetComponent<Actor>().OnEffectRecieved.RemoveListener(OnHitHelperMethod);
             onHitHooks.RemoveAllListeners();
-            buffSO.EndBuff(target);
+            buffSO.EndBuff(this);
         }
 
         public void AddStack()

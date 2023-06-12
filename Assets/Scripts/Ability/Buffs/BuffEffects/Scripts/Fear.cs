@@ -5,17 +5,17 @@ namespace BuffSystem
     [CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewFearEffect", menuName = ProjectPaths.buffEffectsMenu + "Fear")]
     public class Fear : BuffEffect
     {
-        public override void EndEffect(GameObject target, float effectValue)
+        public override void EndEffect(BuffSystem.Buff buff, float effectValue)
         {
-            if (target.TryGetComponent(out IFear t))
+            if (buff.Target.TryGetComponent(out IFear t))
             {
                 t.Feared--;
             }
         }
 
-        public override void StartEffect(GameObject target, float effectValue)
+        public override void StartEffect(BuffSystem.Buff buff, float effectValue)
         {
-            if (target.TryGetComponent(out IFear t))
+            if (buff.Target.TryGetComponent(out IFear t))
             {
                 t.Feared++;
             }

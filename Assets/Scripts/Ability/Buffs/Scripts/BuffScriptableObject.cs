@@ -30,7 +30,7 @@ public class BuffScriptableObject : ScriptableObject
         }
     }
 
-    public void StartBuff(GameObject target)
+    public void StartBuff(BuffSystem.Buff buff)
     {
         if (particles != null)
         {
@@ -38,11 +38,11 @@ public class BuffScriptableObject : ScriptableObject
         }
         foreach (var effect in buffEffectsList)
         {
-            effect.Key.StartEffect(target, effect.Value);
+            effect.Key.StartEffect(buff, effect.Value);
         }
     }
 
-    public void Tick(GameObject target)
+    public void Tick(BuffSystem.Buff buff)
     {
         if (particles != null)
         {
@@ -50,15 +50,15 @@ public class BuffScriptableObject : ScriptableObject
         }
         foreach (var effect in buffEffectsList)
         {
-            effect.Key.ApplyEffect(target, effect.Value);
+            effect.Key.ApplyEffect(buff, effect.Value);
         }
     }
 
-    public void EndBuff(GameObject target)
+    public void EndBuff(BuffSystem.Buff buff)
     {
         foreach (var effect in buffEffectsList)
         {
-            effect.Key.EndEffect(target, effect.Value);
+            effect.Key.EndEffect(buff, effect.Value);
         }
     }
 }

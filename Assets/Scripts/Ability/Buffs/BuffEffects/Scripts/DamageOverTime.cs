@@ -4,9 +4,9 @@
 
 public class DamageOverTime : BuffEffect
 {
-    public override void ApplyEffect(GameObject target, float damageValue)
+    public override void ApplyEffect(BuffSystem.Buff buff, float damageValue)
     {
-        if (target.TryGetComponent(out IDamageOverTime t))
+        if (buff.Target.TryGetComponent(out IDamageOverTime t))
         {
             t.ApplyDamage(damageValue);
         }
