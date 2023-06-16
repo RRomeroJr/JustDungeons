@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 630dbee7393b5314ab79662f009e6568, type: 3}
   m_Name: VanguardTaunt
   m_EditorClassIdentifier: 
-  abilityName: 
+  abilityName: VanguardTaunt
   eInstructs:
   - effect: {fileID: 11400000, guid: c1902391c5d878f48b4a9d3394df3a34, type: 2}
     targetArg: 0
