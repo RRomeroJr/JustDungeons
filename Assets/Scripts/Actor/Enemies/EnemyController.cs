@@ -26,7 +26,7 @@ public class EnemyController : Controller
     public CombatTemperment combatTemperment;
     public Actor aggroTarget;
     public int phase = 0;
-
+    public uint tauntImmune = 0;
     protected override void Awake()
     {
         base.Awake();
@@ -80,6 +80,7 @@ public class EnemyController : Controller
     // Update is called once per frame
     public override void Update()
     {
+        AggroSetTargetsCheck();
         base.Update();
         
         if(isServer){
@@ -269,6 +270,26 @@ public class EnemyController : Controller
         }
         
         return true;
+    }
+    void AggroSetTargetsCheck(){
+        if(aggroTarget == null)
+        {
+            return;
+        }
+        
+        if(tauntImmune > 0)
+        {
+            return;
+        }
+        if(actor.target != aggroTarget)
+        {
+            actor.target = aggroTarget;
+        }
+        if(followTarget != aggroTarget.gameObject)
+        {
+            followTarget = aggroTarget.gameObject;
+        }
+        
     }
     
     void OnEnterCombat()
