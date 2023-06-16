@@ -29,6 +29,9 @@ public sealed class MovementEffectsController : MonoBehaviour
     {
         switch (currentEffectState)
         {
+            // case StatusEffectState.Feared:
+            //     ApplyFear();
+            //     break;
             case StatusEffectState.Dizzy:
                 ApplyDizzy();
                 break;
@@ -105,6 +108,7 @@ public sealed class MovementEffectsController : MonoBehaviour
             Debug.DrawLine(transform.position, (moveDirection * 5.0f) + (Vector2)transform.position, Color.white);
         }
     }
+
     public void StartDizzy()
     {
         indicatorRef = Instantiate(indicatorPrefab, transform);
@@ -122,16 +126,27 @@ public sealed class MovementEffectsController : MonoBehaviour
     #endregion
 
     #region Fear
-
+    public void ApplyFear()
+    {
+        if (HBCTools.NT_AuthoritativeClient(GetComponent<NetworkTransform>()))
+        {
+            // agent.speed = GetComponent<Controller>().moveSpeed;
+            Vector3 randomPointOnCircle = UnityEngine.Random.insideUnitCircle.normalized * 10;
+            agent.SetDestination(transform.position + randomPointOnCircle);
+        }
+    }
     public void StartFear()
     {
         if (agent == null)
         {
             return;
         }
+        if(tag == "Player"){
+            agent.enabled = true;
+            // agent.speed = GetComponent<Controller>().moveSpeed * 0.1f;
+        }
         if (HBCTools.NT_AuthoritativeClient(GetComponent<NetworkTransform>()))
         {
-            agent.speed = GetComponent<Controller>().moveSpeed;
             Vector3 randomPointOnCircle = UnityEngine.Random.insideUnitCircle.normalized * 10;
             agent.SetDestination(transform.position + randomPointOnCircle);
         }
@@ -143,9 +158,13 @@ public sealed class MovementEffectsController : MonoBehaviour
         {
             return;
         }
+        
         if (HBCTools.NT_AuthoritativeClient(GetComponent<NetworkTransform>()))
         {
             agent.ResetPath();
+        }
+        if(tag == "Player"){
+            agent.enabled = false;
         }
     }
 
