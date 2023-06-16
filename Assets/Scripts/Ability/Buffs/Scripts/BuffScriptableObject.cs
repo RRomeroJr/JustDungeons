@@ -61,4 +61,11 @@ public class BuffScriptableObject : ScriptableObject
             effect.Key.EndEffect(buff, effect.Value);
         }
     }
+    public void StacksChanged(BuffSystem.Buff buff, int amountChanged)
+    {
+        foreach (var effect in buffEffectsList)
+        {
+            effect.Key.StacksChangedEffect(buff, effect.Value, amountChanged);
+        }
+    }
 }

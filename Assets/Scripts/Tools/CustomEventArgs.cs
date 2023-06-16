@@ -37,3 +37,8 @@ public class SpeedChangedEventArgs : EventArgs
     public float Slow { get; set; }
     public float Haste { get; set; }
 }
+public class DamageTakenModChangedEventArgs : EventArgs
+{
+    public float eDamageTakenMod { get; set; }
+
+}

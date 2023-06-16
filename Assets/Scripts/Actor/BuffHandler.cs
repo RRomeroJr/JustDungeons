@@ -25,6 +25,8 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
     [SerializeField] private int dizzy;
     [SerializeField] private float slow;
     [SerializeField] private float haste;
+    [SerializeField] private float damageTakenMod;
+
     [SerializeField] private readonly SyncList<Buff> buffs = new();
 
     #region Events
@@ -49,6 +51,7 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
     /// New slow or haste buff effect applied
     /// </summary>
     public event EventHandler<SpeedChangedEventArgs> SpeedChanged;
+    public event EventHandler<DamageTakenModChangedEventArgs> DamageTakenModChanged;
 
     #endregion
 
@@ -168,6 +171,7 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
             ChangeSpeed();
         }
     }
+    
 
     public float Slow
     {
@@ -176,6 +180,15 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         {
             slow *= value;
             ChangeSpeed();
+        }
+    }
+    public float DamageTakenMod
+    {
+        get => damageTakenMod;
+        set
+        {
+            damageTakenMod = value;
+            ChangeDamageTakenMod();
         }
     }
 
@@ -191,6 +204,7 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         dizzy = 0;
         slow = 1;
         haste = 1;
+        damageTakenMod = 1;
         if (!isServer)
         {
             buffs.Callback += OnBuffsUpdated;
@@ -261,6 +275,14 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
             Haste = Haste
         };
         OnSpeedChanged(speedChangedEventArgs);
+    }
+    private void ChangeDamageTakenMod()
+    {
+        var damageTakenChangedEventArgs = new DamageTakenModChangedEventArgs
+        {
+            eDamageTakenMod = DamageTakenMod
+        };
+        DamageTakenModChanged?.Invoke(this, damageTakenChangedEventArgs);
     }
 
     /// <summary>

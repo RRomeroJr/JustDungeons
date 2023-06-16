@@ -205,9 +205,16 @@ public class Actor : NetworkBehaviour
             {
                 setUpStats(combatClass.classStats);
             }
+            Debug.Log("Before RAC set up");
             if (combatClass.rac != null)
             {
+                Debug.Log("RAC found in class " + combatClass.name);
                 GetComponent<Animator>().runtimeAnimatorController = combatClass.rac;
+            }
+            else
+            {
+                Debug.Log("NO RAC found in, " + combatClass.name);
+
             }
         }
 
@@ -719,6 +726,9 @@ public class Actor : NetworkBehaviour
         switch (valueType)
         {
             case 0:
+                if(buffHandler != null){
+                    amount = (int)((buffHandler as BuffHandler).DamageTakenMod * amount);
+                }
                 Health -= amount;
                 if (fromActor != null)
                 {
@@ -875,6 +885,7 @@ public class Actor : NetworkBehaviour
     }
 
     // Misc---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
     public void OnHoverStart()
     {
         Material _mat = GetComponent<SpriteRenderer>().material;

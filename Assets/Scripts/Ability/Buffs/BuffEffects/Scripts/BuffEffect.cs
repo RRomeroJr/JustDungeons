@@ -23,4 +23,10 @@ public abstract class BuffEffect : ScriptableObject
     public virtual void StartEffect(BuffSystem.Buff buff, float effectValue)
     {
     }
+    /// <summary>
+    /// Effects that happen when stacks change
+    /// </summary>
+    public virtual void StacksChangedEffect(BuffSystem.Buff buff, float effectValue, int amountChanged)
+    {
+    }
 }
