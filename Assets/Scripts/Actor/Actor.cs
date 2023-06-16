@@ -885,7 +885,9 @@ public class Actor : NetworkBehaviour
     }
 
     // Misc---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+    public bool isTauntable(){
+        return !(tag =="Player" || (controller as EnemyController).tauntImmune > 0);
+    }
     public void OnHoverStart()
     {
         Material _mat = GetComponent<SpriteRenderer>().material;
