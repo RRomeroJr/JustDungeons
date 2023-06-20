@@ -86,7 +86,7 @@ public class AbilityHandler : NetworkBehaviour
             return false;
         }
         // MirrorTestTools._inst.ClientDebugLog(_ability.getName() + "| Not on cool down or GCD");
-        if (!actor.hasTheResources(_ability))
+        if (!actor.HasTheResources(_ability))
         {
             Debug.LogFormat("Actor.castAbility3(): {0} does not have the resources", actor.ActorName);
             return false;
@@ -413,7 +413,7 @@ public class AbilityHandler : NetworkBehaviour
         if (!isServer) { return; }
 
         //Debug.Log("firecast -> isServer");
-        if (actor.hasTheResources(_ability))
+        if (actor.HasTheResources(_ability))
         {
             foreach (AbilityResource ar in _ability.resourceCosts)
             {
@@ -575,7 +575,7 @@ public class AbilityHandler : NetworkBehaviour
         if (!isServer) { return; }
 
         //Debug.Log("firecast -> isServer");
-        if (actor.hasTheResources(_ability))
+        if (actor.HasTheResources(_ability))
         {
             foreach (AbilityResource ar in _ability.resourceCosts)
             {

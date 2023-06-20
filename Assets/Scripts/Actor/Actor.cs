@@ -622,17 +622,20 @@ public class Actor : NetworkBehaviour
         // }
         return false;
     }
-    public void ClassResourceCheckRegen(){
-        
-        foreach(ClassResource _cr in classResources){
-            if(_cr.tickMax > 0.0f){
+    public void ClassResourceCheckRegen()
+    {
+        foreach(ClassResource _cr in classResources)
+        {
+            if (_cr.tickMax <= 0.0f)
+            {
+                continue;
+            }
                 _cr.tickTime += Time.deltaTime;
-                if(_cr.tickTime >= _cr.tickMax){
+            if (_cr.tickTime >= _cr.tickMax)
+            {
                     restoreResource(_cr.crType, _cr.combatRegen);
                     _cr.tickTime -= _cr.tickMax;
                 }
-            }
-
         }
     }
     [ClientRpc]
@@ -652,52 +655,40 @@ public class Actor : NetworkBehaviour
         classResources[index].outOfCombatRegen = _OutOfCombatRegen;
     }
     
-    public bool hasResource(ClassResourceType _crType, int _amount){
-        if(classResources != null){
-            foreach(ClassResource cr in classResources){
-                if(cr.crType == _crType){
-                    if(_amount <= cr.amount ){
-                        //Debug.Log("Has resource AND amount");
+    public bool HasResource(ClassResourceType _crType, int _amount)
+    {
+        if (classResources == null)
+        {
+            Debug.LogWarning("Class Resources are null");
                         return true;
                     }
-                    else{
-                        Debug.LogWarning("Has resource but not amount" + cr.amount + " < " + _amount);
-                        return false;
-                    }
-                    
-                }
+        foreach (ClassResource cr in classResources)
+        {
+            if (cr.crType != _crType)
+            {
+                continue;
             }
+            return _amount <= cr.amount;
         }
-        Debug.LogWarning("Class Resources are null");
         return true;
     }
 
     /// <summary>
     /// Return true if the actor has resource to cast ability. False if not enough resource.
     /// </summary>
-    public bool hasTheResources(Ability_V2 _ability)
-    {
-        if (_ability != null)
-        {
-            if (_ability.resourceCosts == null)
+    public bool HasTheResources(Ability_V2 _ability)
             {
-                return true;
-            }
-            else
-            {
-                if (_ability.resourceCosts.Count == 0)
+        if (_ability == null || _ability.resourceCosts == null || _ability.resourceCosts.Count == 0)
                 {
                     return true;
                 }
                 foreach (AbilityResource ar in _ability.resourceCosts)
                 {
-                    if (hasResource(ar.crType, ar.amount) == false)
+            if (HasResource(ar.crType, ar.amount) == false)
                     {
                         return false;
                     }
                 }
-            }
-        }
         return true;
     }
 
