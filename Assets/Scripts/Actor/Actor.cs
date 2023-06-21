@@ -630,12 +630,12 @@ public class Actor : NetworkBehaviour
             {
                 continue;
             }
-                _cr.tickTime += Time.deltaTime;
+            _cr.tickTime += Time.deltaTime;
             if (_cr.tickTime >= _cr.tickMax)
             {
-                    restoreResource(_cr.crType, _cr.combatRegen);
-                    _cr.tickTime -= _cr.tickMax;
-                }
+                restoreResource(_cr.crType, _cr.combatRegen);
+                _cr.tickTime -= _cr.tickMax;
+            }
         }
     }
     [ClientRpc]
@@ -660,8 +660,8 @@ public class Actor : NetworkBehaviour
         if (classResources == null)
         {
             Debug.LogWarning("Class Resources are null");
-                        return true;
-                    }
+            return true;
+        }
         foreach (ClassResource cr in classResources)
         {
             if (cr.crType != _crType)
@@ -677,18 +677,18 @@ public class Actor : NetworkBehaviour
     /// Return true if the actor has resource to cast ability. False if not enough resource.
     /// </summary>
     public bool HasTheResources(Ability_V2 _ability)
-            {
+    {
         if (_ability == null || _ability.resourceCosts == null || _ability.resourceCosts.Count == 0)
-                {
-                    return true;
-                }
-                foreach (AbilityResource ar in _ability.resourceCosts)
-                {
+        {
+            return true;
+        }
+        foreach (AbilityResource ar in _ability.resourceCosts)
+        {
             if (HasResource(ar.crType, ar.amount) == false)
-                    {
-                        return false;
-                    }
-                }
+            {
+                return false;
+            }
+        }
         return true;
     }
 
@@ -994,7 +994,10 @@ public class Actor : NetworkBehaviour
     [ClientRpc]
     void addDamamgeToMeter(Actor fromActor, int amount)
     {
-        TempDamageMeter.addToEntry(fromActor, amount);
+        if (TempDamageMeter.entryList != null)
+        {
+            TempDamageMeter.addToEntry(fromActor, amount);
+        }
     }
     
     public void LocalPlayerBroadcastTarget(){
