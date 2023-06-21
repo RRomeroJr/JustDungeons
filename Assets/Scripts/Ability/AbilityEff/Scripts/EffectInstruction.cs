@@ -67,7 +67,7 @@ public class EffectInstruction
             onSendHooks.Invoke(this);
         }
         if(targetArg >= 0){
-            inTarget.recieveEffect(this, inTargetWP, inCaster, inSecondaryTarget);
+            inTarget.ReceiveEffect(this, inTargetWP, inCaster, inSecondaryTarget);
         }
         
     }

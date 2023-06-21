@@ -370,44 +370,28 @@ public class Actor : NetworkBehaviour
     }
 
     // Casting: AbilityEff handling---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    public void recieveEffect(EffectInstruction _eInstruct, NullibleVector3 _relWP, Actor _caster, Actor _secondaryTarget = null)
+    public void ReceiveEffect(EffectInstruction _eInstruct, NullibleVector3 _relWP, Actor _caster, Actor _secondaryTarget = null)
     {
-        // foreach (var eI in _eInstructs){
-        //     eI.startEffect(this, _relWP, _caster);
-        // }
         OnEffectRecieved.Invoke(_eInstruct);
-        int i = 0;
-        int lastBuffCount = buffs.Count;
-        while (i < buffs.Count)
+        foreach (var buff in buffs)
         {
-            var buffhitHooks = buffs[i].onHitHooks;
+            var buffhitHooks = buff.onHitHooks;
             if (buffhitHooks != null)
             {
                 if (buffhitHooks.GetPersistentEventCount() > 0)
                 {
-                    Debug.Log("Invokeing onHitHooks: " + buffs[i].getEffectName());
-                    buffhitHooks.Invoke(buffs[i], _eInstruct);
+                    Debug.Log("Invokeing onHitHooks: " + buff.getEffectName());
+                    buffhitHooks.Invoke(buff, _eInstruct);
                 }
-                else
-                {
-                    //Debug.Log("Buff has no hooks");
-                }
-            }
-
-            if (lastBuffCount == buffs.Count)
-            {
-                i++;
             }
         }
+
         //Debug.Log(actorName + " is starting eI for effect (" + _eInstruct.effect.effectName + ") From: " + (_caster != null ? _caster.actorName : "none"));
         //Debug.Log("recieveEffect " + _eInstruct.effect.effectName +"| caster:" + (_caster != null ? _caster.getActorName() : "_caster is null"));
         _eInstruct.startEffect(this, _relWP, _caster, _secondaryTarget);
-        if(_eInstruct.effect.isHostile){
-            if(_caster == null){
-                return;
-            }
+        if (_eInstruct.effect.isHostile && _caster != null)
+        {
             CheckStartCombatWith(_caster);
-            
         }
     }
 
@@ -572,7 +556,7 @@ public class Actor : NetworkBehaviour
                 {
                     updateClassResourceAmount(index, 0);
                 }
-                
+
                 return true;
             }
             index++;
