@@ -45,7 +45,7 @@ public class Nameplate : MonoBehaviour
     }
 
     void Update(){
-        if(actor == null){
+        if(actor == null || !actor.gameObject.active){
             Destroy(canvas.gameObject);
             return;
         }
