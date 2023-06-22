@@ -135,7 +135,7 @@ public class AbilityEffectData : ScriptableObject
             
         // }
         //Debug.Log("positional check reached in AED");
-        Debug.Log(HBCTools.checkIfBehind(_ei.effect.caster, _ei.effect.target).ToString());
+        // Debug.Log(HBCTools.checkIfBehind(_ei.effect.caster, _ei.effect.target).ToString());
         if(HBCTools.checkIfBehind(_ei.effect.caster, _ei.effect.target)){
             _ei.effect.power *= 1.1f;
         }
