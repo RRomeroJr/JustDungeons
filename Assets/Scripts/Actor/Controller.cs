@@ -86,6 +86,10 @@ public class Controller : NetworkBehaviour
         {
             globalCooldown -= Time.deltaTime;
         }
+        if(tag != "Player" && !isServer)
+        {
+            return;
+        }
         if (autoAttacking && actor.target != null)
         {
             if (HBCTools.areHostle(actor, actor.target) == false)
