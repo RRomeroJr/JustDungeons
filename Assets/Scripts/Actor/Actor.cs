@@ -162,6 +162,17 @@ public class Actor : NetworkBehaviour
     {
         Debug.Log("OnEffectRecieved: " + _ei.effect.effectName);
     }
+    void OnEnable()
+    {
+        if (nameplate == null)
+        {
+            nameplate = Nameplate.Create(this);
+        }
+        else if(nameplate.gameObject.active == false)
+        {
+            nameplate.gameObject.active = true;
+        }
+    }
     private void Awake()
     {
         buffHandler = GetComponent<IAllBuffs>();
@@ -266,10 +277,10 @@ public class Actor : NetworkBehaviour
         {
             return;
         }
-        if (tag != "Player")
-        {
-            nameplate = Nameplate.Create(this);
-        }
+        // if (tag != "Player")
+        // {
+        //     nameplate = Nameplate.Create(this);
+        // }
         if (isLocalPlayer)
         {
             UIManager.playerActor = this;
