@@ -23,5 +23,7 @@ MonoBehaviour:
   caster: {fileID: 0}
   targetWP:
     Value: {x: 0, y: 0, z: 0}
-  eInstructs: []
-  buffID: {fileID: 11400000, guid: 0c2c5a35ae9a38c4dae256feed2c80f0, type: 2}
+  targetWP2:
+    Value: {x: 0, y: 0, z: 0}
+  isHostile: 1
+  buffSO: {fileID: 11400000, guid: 0f7e44105b768304e95a81fb1aca11ac, type: 2}
