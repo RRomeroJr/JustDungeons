@@ -50,9 +50,9 @@ public class Actor : NetworkBehaviour
 
     [Header("Debug Values. Do NOT change in editor.")]
     public Actor target;
-    public IBuff buffHandler = null;
+    public IAllBuffs buffHandler = null;
     private List<OldBuff.Buff> buffs;
-    private AbilityHandler abilityHandler;
+    public AbilityHandler abilityHandler;
     public Nameplate nameplate;
     [SerializeField] private List<ClassResource> classResources;
 
@@ -164,7 +164,7 @@ public class Actor : NetworkBehaviour
     }
     private void Awake()
     {
-        buffHandler = GetComponent<IBuff>();
+        buffHandler = GetComponent<IAllBuffs>();
         abilityHandler = GetComponent<AbilityHandler>();
         OnEnterCombat = new UnityEvent();
         OnLeaveCombat = new UnityEvent();
