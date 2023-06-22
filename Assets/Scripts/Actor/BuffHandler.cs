@@ -241,14 +241,15 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
 
         // Create buff if it is not already present
         var newBuff = new Buff(buffSO, this.gameObject);
-        newBuff.Start();
         newBuff.Finished += HandleBuffFinished;
         buffs.Add(newBuff);
+        newBuff.Start();
     }
 
     [Server]
     public void RemoveBuff(Buff buff)
     {
+        
         buff.Finished -= HandleBuffFinished;
         buff.End();
         buffs.Remove(buff);
