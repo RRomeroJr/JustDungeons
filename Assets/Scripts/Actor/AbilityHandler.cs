@@ -383,7 +383,7 @@ public class AbilityHandler : NetworkBehaviour
             if ((GetComponent<Controller>().TryingToMove) && (!QueuedAbility.castWhileMoving))
             {
                 Debug.Log("cast movement cancel");
-                ResetClientCastVars();
+                RpcResetCastVars();
             }
         }
 
@@ -414,7 +414,7 @@ public class AbilityHandler : NetworkBehaviour
             if ((QueuedAbility.NeedsTargetActor()) && (QueuedAbility.NeedsTargetWP()))
             {
                 Debug.Log("Cast that requires Actor and WP not yet supported. clearing queue.");
-                ResetClientCastVars();
+                RpcResetCastVars();
             }
             else if (QueuedAbility.NeedsTargetWP())
             {
@@ -507,14 +507,7 @@ public class AbilityHandler : NetworkBehaviour
             //When the game is running a window seems to break if an instant ability (Like autoattack)
             //goes off closely before a casted ability. So this check was implemented to fix it
 
-            if (tag == "Player")
-            {
-                ResetClientCastVars();
-            }
-            else
-            {
-                ResetCastVars();
-            }
+            RpcResetCastVars();
         }
         if (HBCTools.areHostle(actor, _target))
         {
@@ -564,14 +557,7 @@ public class AbilityHandler : NetworkBehaviour
         if (!IsCasting)
         {
             IsChanneling = false;
-            if (tag == "Player")
-            {
-                ResetClientCastVars();
-            }
-            else
-            {
-                ResetCastVars();
-            }
+            RpcResetCastVars();
             return;
         }
 
@@ -581,14 +567,7 @@ public class AbilityHandler : NetworkBehaviour
             FireChannel(QueuedAbility, QueuedTarget, QueuedRelWP, QueuedRelWP2);
             lastChannelTick = 0.0f;
             IsChanneling = false;
-            if (tag == "Player")
-            {
-                ResetClientCastVars();
-            }
-            else
-            {
-                ResetCastVars();
-            }
+            RpcResetCastVars();
         }
         //check for final hit
         else if (QueuedAbility.channelDuration / (QueuedAbility.numberOfTicks - 1) <= lastChannelTick)
@@ -812,22 +791,14 @@ public class AbilityHandler : NetworkBehaviour
             return;
         }
         Debug.Log(QueuedAbility.getName() + " was interrupted!");
-        ResetClientCastVars();
+        RpcResetCastVars();
         //Make cast bar red for a sec or two
     }
 
     // Casting: Reseting---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     [ClientRpc]
-    public void ResetClientCastVars()
-    {
-        ResetQueue();
-        ReadyToFire = false;
-        IsCasting = false;
-        ResetCastTime();
-    }
-
-    public void ResetCastVars()
+    public void RpcResetCastVars()
     {
         ResetQueue();
         ReadyToFire = false;
