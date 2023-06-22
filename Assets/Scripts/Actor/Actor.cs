@@ -896,6 +896,18 @@ public class Actor : NetworkBehaviour
     }
 
     // Misc---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    /// <summary>
+    /// Buff has interrupted spellcasting
+    /// </summary>
+    public bool isCastImmobile()
+    {
+        if (IsCasting == false)
+        {
+            return false;
+        }
+
+        return !abilityHandler.QueuedAbility.castWhileMoving;
+    }
     public bool isTauntable(){
         return !(tag =="Player" || (controller as EnemyController).tauntImmune > 0);
     }

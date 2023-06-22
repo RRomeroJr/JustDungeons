@@ -6,6 +6,8 @@ using TheKiwiCoder;
 public class SetFollowTarget : ActionNode
 {   
     public bool setToNull = false;
+    public bool setLockedTo = true;
+
     protected override void OnStart()
     {
     }
@@ -17,41 +19,18 @@ public class SetFollowTarget : ActionNode
     protected override State OnUpdate()
     {
         if(setToNull){
-            context.controller.SetFollowTarget(null);
+            context.controller.followTargetLocked = setLockedTo;
+            context.controller.SetFollowTarget(null, true);
             return State.Success;
         }
         else if(context.actor.target != null){
-            context.controller.SetFollowTarget(context.actor.target.gameObject);
+            context.controller.followTargetLocked = setLockedTo;
+            context.controller.SetFollowTarget(context.actor.target.gameObject, true);
+
             return State.Success;
         }
-        
 
-        // if (context.agent.pathPending)
-        // {
-        //     return State.Success;
-        // }
-    
-            return State.Failure;
-        
+        return State.Failure;
 
-
-
-
-        // else if (context.agent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathInvalid)
-        // {
-        //     return State.Failure;
-        // }
-        
-    }
-    float getStoppingDistance(GameObject _target){
-        float selfDiagonal;
-        float tragetDiagonal;
-        selfDiagonal = Mathf.Sqrt(Mathf.Pow(context.gameObject.GetComponent<Renderer>().bounds.size.x, 2)
-                            + Mathf.Pow(context.gameObject.GetComponent<Renderer>().bounds.size.x, 2));
-        tragetDiagonal = Mathf.Sqrt(Mathf.Pow(context.controller.followTarget.GetComponent<Collider2D>().bounds.size.x, 2)
-                            + Mathf.Pow(context.controller.followTarget.GetComponent<Collider2D>().bounds.size.x, 2));
-        return ((tragetDiagonal + selfDiagonal) /2) * 0.9f;
-
-                            
     }
 }

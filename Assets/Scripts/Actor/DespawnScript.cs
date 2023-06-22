@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class DespawnScript: MonoBehaviour
+public class DespawnScript : NetworkBehaviour
 {
-	public float despawnTimer = 10.0f;
+	public float despawnTimer = 3.0f;
     public Actor actor;
 
     void Awake()

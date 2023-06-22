@@ -26,10 +26,10 @@ public class Attack : ActionNode
         
         if(context.actor.IsCasting == false){
             
-            if((ability.getCastTime() > 0.0)&&(ability.castWhileMoving == false)){
-                context.agent.isStopped = true;
+            // if((ability.getCastTime() > 0.0)&&(ability.castWhileMoving == false)){
+            //     context.agent.isStopped = true;
                 
-            }
+            // }
             //Debug.Log(context.controller.target.GetComponent<Actor>().getActorName()); 
             Actor _target = null;
             if(targetSelf)
@@ -48,10 +48,10 @@ public class Attack : ActionNode
         }
         else{
             
-            if((ability.getCastTime() > 0.0)&&(ability.castWhileMoving == false)){
-                //Debug.Log("AttkRelWP: agent isStopped to false");
-                context.agent.isStopped = false;
-            }
+            // if((ability.getCastTime() > 0.0)&&(ability.castWhileMoving == false)){
+            //     //Debug.Log("AttkRelWP: agent isStopped to false");
+            //     context.agent.isStopped = false;
+            // }
                 //Debug.Log("Attck: isStopped " + context.agent.isStopped.ToString());
                 return State.Success;
         }

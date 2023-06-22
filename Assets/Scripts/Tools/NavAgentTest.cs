@@ -24,6 +24,15 @@ public class NavAgentTest: MonoBehaviour
         if(Input.GetKeyDown("9")){
             navAgent.SetDestination(new Vector3(transform.position.x - autoVertDistx, transform.position.y - autoVertDisty, 0.0f));
         }
+        if(Input.GetKeyDown("i"))
+        {
+            navAgent.velocity = Vector2.zero;
+            navAgent.Stop();
+        }
+        if(Input.GetKeyDown("o"))
+        {
+            navAgent.Resume();
+        }
     }
 	
 }

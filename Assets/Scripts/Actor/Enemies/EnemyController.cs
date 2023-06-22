@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Mirror;
 
 public enum CombatTemperment{
     Hostle,
@@ -45,11 +46,12 @@ public class EnemyController : Controller
 
     public void FixedUpdate()
     {
-        if (Mathf.Abs(agent.desiredVelocity.magnitude) > 0.0f != tryingToMove)
-        {
-            tryingToMove = !tryingToMove;
-            CmdSetTryingToMove(tryingToMove);
-        }
+        // if ((Mathf.Abs(agent.desiredVelocity.magnitude) > 0.0f && !agent.isStopped)
+        //         != tryingToMove)
+        // {
+        //     tryingToMove = !tryingToMove;
+        //     CmdSetTryingToMove(tryingToMove);
+        // }
         moveDirection = agent.desiredVelocity;
         moveDirection.Value.Normalize();
         
@@ -58,7 +60,7 @@ public class EnemyController : Controller
     protected override void MovementFacingDirection()
     {
         // Debug.Log("PlayerController MovementFacingDirection");
-        if (tryingToMove == false && holdDirection == false)
+        if (TryingToMove == false && holdDirection == false)
         {
             Vector2 _posToFace = Vector2.zero;
             if(resolvingMoveTo)
@@ -80,10 +82,11 @@ public class EnemyController : Controller
     // Update is called once per frame
     public override void Update()
     {
-        AggroSetTargetsCheck();
-        base.Update();
-        
         if(isServer){
+            AggroSetTargetsCheck();
+
+            base.Update();
+            
             // if(abilityHandler.IsCasting){
             //     if(actor.getQueuedAbility().castWhileMoving == false){
             //         if(agent.isStopped == false){
@@ -271,6 +274,7 @@ public class EnemyController : Controller
         
         return true;
     }
+    [Server]
     void AggroSetTargetsCheck(){
         if(aggroTarget == null)
         {
@@ -287,9 +291,8 @@ public class EnemyController : Controller
         }
         if(followTarget != aggroTarget.gameObject)
         {
-            followTarget = aggroTarget.gameObject;
+            SetFollowTarget(aggroTarget.gameObject);
         }
-        
     }
     
     void OnEnterCombat()
@@ -301,6 +304,13 @@ public class EnemyController : Controller
         
         Aggro(actor.FirstAliveAttacker(), _checkStartCombatWith: false);
         Debug.Log("1st aggro. Aggroing to.." + actor.target);
+    }
+    public void CheckStopToCast(Ability_V2 _toCast)
+    {
+        if(_toCast.getCastTime() > 0.0f || _toCast.isChannel)
+        {
+            StopAgentToCast();
+        }
     }
     
 }

@@ -10,7 +10,8 @@ public class attack1stOffCD : ActionNode
     bool castFinished;
     protected override void OnStart()
     {
-        //Debug.Log("attack1stOffCD START");
+        Debug.Log("attack1stOffCD START");
+        toCast = null;
         //castStarted = false;
         castFinished = false;
         
@@ -56,13 +57,13 @@ public class attack1stOffCD : ActionNode
         
         if(context.actor.IsCasting == false){
             
-            if(toCast.getCastTime() > 0.0){
-                context.agent.isStopped = true;
+            // if(toCast.getCastTime() > 0.0){
+            //     context.agent.isStopped = true;
                 
-            }
+            // }
             //Debug.Log(context.controller.target.GetComponent<Actor>().getActorName());
             
-            context.actor.castAbility3(toCast, context.controller.target.GetComponent<Actor>());
+            context.actor.castAbility3(toCast, context.actor.target);
             //castStarted = true;
         }
         if(castFinished == false){
@@ -70,10 +71,10 @@ public class attack1stOffCD : ActionNode
         }
         else{
             
-            if(context.agent.isStopped){
-                //Debug.Log("AttkRelWP: agent isStopped to false");
-                context.agent.isStopped = false;
-            }
+            // if(context.agent.isStopped){
+                
+            //     context.agent.isStopped = false;
+            // }
                 //Debug.Log("Attck: isStopped " + context.agent.isStopped.ToString());
                 return State.Success;
         }

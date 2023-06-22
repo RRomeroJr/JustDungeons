@@ -26,12 +26,32 @@ public class AbilityHandler : NetworkBehaviour
     // Cast state values
     // When readyToFire is true queuedAbility will fire
     [SerializeField] public bool ReadyToFire = false; // Will True by CastBar for abilities w/ casts. Will only be true for a freme
+    
     [SerializeField] public bool IsCasting = false; // Will be set False by CastBar
+
     [field: SerializeField] public bool IsChanneling { get; private set; } = false;
+    // public UnityEvent CastStarted = new UnityEvent();
+    // public UnityEvent OnRequestingCast = new UnityEvent();
 
     // Cast timers
     public float castTime;
     public float lastChannelTick = 0.0f;
+    private bool requestingCast = false;
+    [field: SerializeField] public bool RequestingCast
+    {
+        get
+        {
+            return requestingCast;
+        }
+        private set
+        {
+            requestingCast = value;
+            // if(requestingCast)
+            // {
+            //     OnRequestingCast.Invoke();
+            // }
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -65,16 +85,53 @@ public class AbilityHandler : NetworkBehaviour
     // Casting: Starting a Cast---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     public bool CastAbility3(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null)
     {
+        if (RequestingCast || IsCasting)
+        {
+            return false;
+        }
+
+        RequestingCast = true;
+
+        bool result = PrivateCastAbility(_ability, _target, _relWP, _relWP2);
+
+        RequestingCast = result;
+
+        if (result && (TryGetComponent(out EnemyController ec)))
+        {
+            ec.CheckStopToCast(_ability);
+            /*
+                If I queued abilities here immediately instead of down in RPCStartCast
+                I could just use an event here that controller could listen to, know that
+                a cast could be starting, check the queued ability, then stop the nav 
+                agent if it casted or a channel
+
+                If I did that rn that would change alot of things, and potentally create
+                some new bugs, bc Mirror's weirdness. RPC functions don't execute as soon
+                as they are called even on the server
+
+                This could lead to issues like casting two abilities quickly together could
+                lead the later one overwritting the 1st in the queue causeing only the 2nd 
+                to fire once RPCStartCast gets called
+
+                So this is my band-aid to get the stopping to cast behavior I want from NPCs
+            */
+        }
+
+        return result;
+        
+    }
+    private bool PrivateCastAbility(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null)
+    {
         if (!actor.CanCast)
         {
             //Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is {2}!", actorName, _ability, EffectState);
             return false;
         }
-         if(_ability.getCastTime() > 0.0f && _ability.castWhileMoving == false && actor.controller.tryingToMove)
-        {
-            // Debug.Log(actor.name + "Cannot cast, trying to move");
-            return false;
-        }
+        // if(_ability.getCastTime() > 0.0f && _ability.castWhileMoving == false && actor.controller.TryingToMove)
+        // {
+        //     Debug.Log(actor.name + "Cannot cast, trying to move");
+        //     return false;
+        // }
         if (IsChanneling)
         {
             Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is CHANNELING and also somehow free to act!", actor.ActorName, _ability);
@@ -201,6 +258,7 @@ public class AbilityHandler : NetworkBehaviour
                 //Debug.Log("Client ignoring fireCast");
             }
         }
+        RequestingCast = false;
     }
 
     [Command]
@@ -222,17 +280,15 @@ public class AbilityHandler : NetworkBehaviour
     {
         //Creates castbar for abilities with cast times
 
-        //Debug.Log("Trying to create a castBar for " + _ability.getName())
-        IsCasting = true;
-        // if(MirrorTestTools._inst != null)
-        //             MirrorTestTools._inst.ClientDebugLog("prepcast() isCasting = " + isCasting.ToString());
-        // Creating CastBar or CastBarNPC with apropriate variables   
         if (QueuedAbility.NeedsTargetActor() && QueuedAbility.NeedsTargetWP())
         {
             Debug.Log("Spell that needs an Actor and WP are not yet suported");
             IsCasting = false;
+            return;
         }
-        else if (QueuedAbility.NeedsTargetActor())
+
+        IsCasting = true;
+        if (QueuedAbility.NeedsTargetActor())
         {
             InitCastBarWithActor();
         }
@@ -324,8 +380,9 @@ public class AbilityHandler : NetworkBehaviour
         }
         if (isServer)
         {
-            if ((GetComponent<Controller>().tryingToMove) && (!QueuedAbility.castWhileMoving))
+            if ((GetComponent<Controller>().TryingToMove) && (!QueuedAbility.castWhileMoving))
             {
+                Debug.Log("cast movement cancel");
                 ResetClientCastVars();
             }
         }
@@ -496,7 +553,7 @@ public class AbilityHandler : NetworkBehaviour
         if (QueuedAbility.isChannel == false)
         {
             //wtf how?
-            Debug.Log(QueuedAbility.getName() + "is queued and anout to be channeled BUT isn't a channel| _ability " + _ability.getName());
+            Debug.Log(QueuedAbility.getName() + "is queued and about to be channeled BUT isn't a channel| _ability " + _ability.getName());
         }
         FireChannel(QueuedAbility, QueuedTarget, QueuedRelWP, QueuedRelWP2);
 

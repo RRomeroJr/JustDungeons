@@ -34,6 +34,18 @@ public class PlayerController : Controller
     public Actor hoverActor;
     Renderer rendererRef; // using this to set the point where the character should "rotate" to face mouse
                         //used to be Bounds but I found out that that is a struct. So I can't save a ref to it
+
+    public override bool TryingToMove
+    {
+        get
+        {
+            if(Mathf.Abs(new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).magnitude) > 0.0f)
+            {
+                return true;
+            }
+            return base.TryingToMove;
+        }
+    }
     
     
     
@@ -77,11 +89,11 @@ public class PlayerController : Controller
                                         Mathf.Clamp(Input.GetAxis("Horizontal") + inputVectRaw.x, -1, 1 ),
                                         Mathf.Clamp(Input.GetAxis("Vertical") + inputVectRaw.y, -1, 1 ));
                 
-                if (Mathf.Abs(inputVectRaw.magnitude) > 0.0f != tryingToMove)
-                {
-                    tryingToMove = !tryingToMove;
-                    CmdSetTryingToMove(tryingToMove);
-                }
+                // if (Mathf.Abs(inputVectRaw.magnitude) > 0.0f != tryingToMove)
+                // {
+                //     tryingToMove = !tryingToMove;
+                //     CmdSetTryingToMove(tryingToMove);
+                // }
 
                 if (actor.CanMove && GetComponent<BuffHandler>().Dizzy <= 0)
                 {

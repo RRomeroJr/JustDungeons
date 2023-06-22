@@ -45,53 +45,6 @@ MonoBehaviour:
     targetPrev: {fileID: 0}
   description: 
   drawGizmos: 0
---- !u!114 &-3751286815748729216
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e658b1bd308bc5c429f5a9b404a04943, type: 3}
-  m_Name: Inverter
-  m_EditorClassIdentifier: 
-  state: 0
-  started: 0
-  guid: cb25602808ffb87438dc09eb9c831ee3
-  position: {x: -152, y: 122.399994}
-  blackboard:
-    moveToPosition: {x: 0, y: 0, z: 0}
-    target: {fileID: 0}
-    targetPrev: {fileID: 0}
-  description: 
-  drawGizmos: 0
-  child: {fileID: -1928682084682452262}
---- !u!114 &-1928682084682452262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62399ae9ac63e624684a55524aef6b85, type: 3}
-  m_Name: TargetCheck
-  m_EditorClassIdentifier: 
-  state: 0
-  started: 0
-  guid: 379faf1716839874b8230547516435e1
-  position: {x: -151.19998, y: 211.19998}
-  blackboard:
-    moveToPosition: {x: 0, y: 0, z: 0}
-    target: {fileID: 0}
-    targetPrev: {fileID: 0}
-  description: 
-  drawGizmos: 0
-  child: {fileID: 7572015152233797326}
-  ContinueIfHasTargetIs: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,62 +62,12 @@ MonoBehaviour:
   nodes:
   - {fileID: -9208605561022947831}
   - {fileID: 7213465838841773919}
-  - {fileID: -3751286815748729216}
-  - {fileID: -1928682084682452262}
-  - {fileID: 7572015152233797326}
-  - {fileID: 4407313201108063830}
-  - {fileID: 5724029134781093190}
   - {fileID: 5747802100427917405}
   - {fileID: -9099610375805135186}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
---- !u!114 &4407313201108063830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f168bf7164d5ba848be04f89ad79317a, type: 3}
-  m_Name: FollowTarget
-  m_EditorClassIdentifier: 
-  state: 0
-  started: 0
-  guid: 69b5b3cf8586677478630c3ab88e45b0
-  position: {x: 16, y: 252}
-  blackboard:
-    moveToPosition: {x: 0, y: 0, z: 0}
-    target: {fileID: 0}
-    targetPrev: {fileID: 0}
-  description: 
-  drawGizmos: 0
---- !u!114 &5724029134781093190
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bbcff87445f36e4582938670d757ed5, type: 3}
-  m_Name: Succeed
-  m_EditorClassIdentifier: 
-  state: 0
-  started: 0
-  guid: 972930fecde784944b1431b103886eeb
-  position: {x: 16.419487, y: 147.20001}
-  blackboard:
-    moveToPosition: {x: 0, y: 0, z: 0}
-    target: {fileID: 0}
-    targetPrev: {fileID: 0}
-  description: 
-  drawGizmos: 0
-  child: {fileID: 4407313201108063830}
 --- !u!114 &5747802100427917405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,32 +116,4 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   children:
-  - {fileID: -3751286815748729216}
-  - {fileID: 5724029134781093190}
   - {fileID: -9099610375805135186}
---- !u!114 &7572015152233797326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7302d8b8c9a258408e8b0829db973ae, type: 3}
-  m_Name: FindTargets
-  m_EditorClassIdentifier: 
-  state: 0
-  started: 0
-  guid: da52e5103db98e641a91290d9533459b
-  position: {x: -150.4, y: 299.19998}
-  blackboard:
-    moveToPosition: {x: 0, y: 0, z: 0}
-    target: {fileID: 0}
-    targetPrev: {fileID: 0}
-  description: 
-  drawGizmos: 0
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 64
-  range: 10

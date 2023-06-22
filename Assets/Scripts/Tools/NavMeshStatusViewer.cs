@@ -60,6 +60,13 @@ public class NavMeshStatusViewer: MonoBehaviour
         }
         
         Debug.DrawLine(transform.position, navAgent.destination, lineColor);
+        Vector3 desiredDirection = navAgent.velocity;
+        desiredDirection.Normalize();
+
+        desiredDirection = 2.5f * desiredDirection;
+
+        Debug.DrawLine((Vector2)transform.position, (Vector2)(transform.position + desiredDirection), Color.green);
+
         // Debug.DrawLine(transform.position, destination, lineColor);
 
     }

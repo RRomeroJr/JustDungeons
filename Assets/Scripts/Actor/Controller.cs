@@ -14,6 +14,7 @@ public class Controller : NetworkBehaviour
     [Header("Automatic")]
     protected Actor actor;
     protected AbilityHandler abilityHandler;
+    public bool followTargetLocked = false;
     public GameObject followTarget;
     public float globalCooldown = 0.0f;
     public const float gcdBase = 2.0f;
@@ -34,10 +35,23 @@ public class Controller : NetworkBehaviour
 
     // State Values
     public bool holdDirection = false;
-    public bool tryingToMove = false;
+    public bool holdPosistion = false;
+    // public bool tryingToMove = false;
     public bool autoAttacking;
     public bool resolvingMoveTo;
     public bool autoAttackRequest = false;
+
+    public virtual bool TryingToMove
+    {
+        get
+        {
+            if(agent.enabled == false)
+            {
+                return false;
+            }
+            return Mathf.Abs(agent.velocity.magnitude) > 0.0f && !agent.isStopped;
+        }
+    }
 
     protected virtual void Awake()
     {
@@ -47,6 +61,7 @@ public class Controller : NetworkBehaviour
         actor = GetComponent<Actor>();
         rb2d = GetComponent<Rigidbody2D>();
         abilityHandler = GetComponent<AbilityHandler>();
+        // GetComponent<AbilityHandler>().OnRequestingCast.AddListener(StopAgentToCast);
     }
 
     public virtual void Start()
@@ -100,20 +115,8 @@ public class Controller : NetworkBehaviour
             {
                 autoAttackRequest = false;
             }
-            if (!resolvingMoveTo && !holdDirection && followTarget != null)
-            {
-                /*
+            CheckToFollowSomething();
 
-                    This should probably be in EnemyControler and not here. I didn't move it bc 
-                    I don't remember why I added holdDirection to the conditions and I didn't 
-                    want to break ChariotMan
-
-                */
-                // if(!HBCTools.checkFacing(actor, followTarget)){
-                //     facingDirection = HBCTools.ToNearest45(followTarget.transform.position - transform.position);
-                // }
-                GetComponent<NavMeshAgent>().SetDestination(followTarget.transform.position);
-            }
         }
     }
 
@@ -139,7 +142,7 @@ public class Controller : NetworkBehaviour
     }
     protected virtual void MovementFacingDirection()
     {
-        if(tryingToMove == false)
+        if(TryingToMove == false)
         {
             return;
         }
@@ -174,11 +177,11 @@ public class Controller : NetworkBehaviour
             autoAttackRequest = abilityHandler.CastAbility3(autoAttackClone); //eventually the req becomes true
         }
     }
-    [Command]
-    public void CmdSetTryingToMove(bool _valFromClient)
-    {
-        tryingToMove = _valFromClient;
-    }
+    // [Command]
+    // public void CmdSetTryingToMove(bool _valFromClient)
+    // {
+    //     tryingToMove = _valFromClient;
+    // }
     public bool moveToPoint(Vector2 pos)
     {
         if (resolvingMoveTo)
@@ -284,8 +287,13 @@ public class Controller : NetworkBehaviour
         //Straight up 90% of melee range
         return Mathf.Max(Ability_V2.meleeRange * 0.9f);
     }
-    public void SetFollowTarget(GameObject _target)
+    public bool SetFollowTarget(GameObject _target, bool ignoreLock = false)
     {
+        if(followTargetLocked  && !ignoreLock)
+        {
+            // Debug.Log("SetfollowTarget ignored. followTargetLocked");
+            return false;
+        }
         followTarget = _target;
         if (followTarget != null)
         {
@@ -295,6 +303,7 @@ public class Controller : NetworkBehaviour
         {
             agent.ResetPath();
         }
+        return true;
     }
     [Command]
     protected void CmdSetFacingDirection(Vector2 _ClientFacingDirection)
@@ -330,4 +339,59 @@ public class Controller : NetworkBehaviour
 
         facingDirection = result;
     }
+    public bool ShouldFollowSomething()
+    {
+        if(followTarget == null){
+            return false;
+        }
+        if  ( !(resolvingMoveTo || holdDirection || holdPosistion) )
+        {
+
+            if( !(actor.isCastImmobile() || actor.abilityHandler.RequestingCast))
+            {
+                return true;
+            }
+
+        }
+        return false;
+    }
+    public void StopAgentToCast()
+    {
+        Debug.Log(name + ": StopAgentToCast");
+        if(agent.enabled == false)
+        {
+            return;
+        }
+        Debug.Log(agent.isStopped + ": isStopped");
+        if(agent.isStopped == false)
+        {
+            Debug.Log(name + ": Stopping");
+            agent.velocity = Vector2.zero;
+            agent.isStopped = true;
+        }
+    }
+    public void CheckToFollowSomething()
+    {
+        if (ShouldFollowSomething())
+        {
+            // GameObject thingToFollow = GetSomethingToFollow();
+            // if(thingToFollow == null)
+            // {
+            //     return;
+            // }
+
+
+            GetComponent<NavMeshAgent>().SetDestination(followTarget.transform.position);
+            if(agent.enabled){
+                if(agent.isStopped)
+                {
+                    agent.isStopped = false;
+                    Debug.Log("Unstopping to follow something");
+                }
+            }
+        }
+    }
+    
+
+    
 }

@@ -32,10 +32,10 @@ public class AttackRelativeWP : ActionNode
     {   
         if(!castStarted){
             
-            if(ability.getCastTime() > 0.0){
-                context.agent.isStopped = true;
+            // if(ability.getCastTime() > 0.0){
+            //     context.agent.isStopped = true;
                 
-            }
+            // }
             //Debug.Log(context.controller.target.GetComponent<Actor>().getActorName());
             Vector2 randomOffset = Vector2.zero;
             
@@ -76,10 +76,10 @@ public class AttackRelativeWP : ActionNode
         }
         else{
             
-            if(context.agent.isStopped){
-               // Debug.Log("AttkRelWP: agent isStopped to false");
-                context.agent.isStopped = false;
-            }
+            // if(context.agent.isStopped){
+            
+            //     context.agent.isStopped = false;
+            // }
                 //Debug.Log("Attck: isStopped " + context.agent.isStopped.ToString());
                 return State.Success;
         }

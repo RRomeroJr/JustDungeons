@@ -89,7 +89,7 @@ public sealed class MovementEffectsController : MonoBehaviour
     {
         Controller _controller = GetComponent<Controller>();
 
-        if (_controller.tryingToMove)
+        if (_controller.TryingToMove)
         {
             //parentBuff.actor.GetComponent<Controller>().MoveInDirection(inputVect.magnitude * moveDirection);
 
