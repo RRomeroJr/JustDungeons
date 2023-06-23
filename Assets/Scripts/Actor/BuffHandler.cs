@@ -292,20 +292,49 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
     /// <returns>True if the buff was refreshed or stacked, false if it was not present</returns>
     private bool RefreshOrStackBuff(BuffScriptableObject buffSO)
     {
-        var buff = buffs.FirstOrDefault(b => b.BuffSO == buffSO);
-        if (buff == null)
+        // var buff = buffs.FirstOrDefault(b => b.BuffSO == buffSO);
+        var index = buffs.FindIndex(b => b.BuffSO == buffSO);
+        if ( (index < 0 ) || (buffs.Count <= index) )
         {
             return false;
         }
-        if (buff.BuffSO.Stackable)
+        // if (buff == null)
+        // {
+        //     return false;
+        // }
+        if (buffs[index].BuffSO.Stackable)
         {
-            buff.AddStack();
+            buffs[index].AddStack();
+            RpcRefreshOrStackBuff(index);
         }
         else // Refresh
         {
-            buff.Refresh();
+            buffs[index].Refresh();
+            RpcRefreshOrStackBuff(index);
         }
         return true;
+    }
+    [ClientRpc]
+    private void RpcRefreshOrStackBuff(int _indexFromServer)
+    {
+        if(isServer)
+        {
+            return;
+        }
+        if ( (_indexFromServer < 0 ) || (buffs.Count <= _indexFromServer) )
+        {
+            return;
+        }
+
+        if (buffs[_indexFromServer].BuffSO.Stackable)
+        {
+            buffs[_indexFromServer].AddStack();
+        }
+        else // Refresh
+        {
+            buffs[_indexFromServer].Refresh();
+        }
+        return;
     }
 
     private void HandleBuffFinished(object sender, EventArgs e)
