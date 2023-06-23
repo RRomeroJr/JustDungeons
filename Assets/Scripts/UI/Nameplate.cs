@@ -85,9 +85,15 @@ public class Nameplate : MonoBehaviour
         }
         
         //Actor has a queued ability
-        
-        castBar.maxValue = actor.getQueuedAbility().getCastTime();
+        if(actor.abilityHandler.IsChanneling)
+        {
+            castBar.maxValue = actor.getQueuedAbility().channelDuration;
+        }
+        else
+        {
+            castBar.maxValue = actor.getQueuedAbility().getCastTime();
+        }
         castBar.value = actor.castTime;
-        castName.text =actor.getQueuedAbility().getName();
+        castName.text = actor.getQueuedAbility().getName();
     }
 }

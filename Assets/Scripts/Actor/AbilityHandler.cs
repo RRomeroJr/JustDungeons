@@ -534,6 +534,11 @@ public class AbilityHandler : NetworkBehaviour
         }
 
         QueueAbility(_ability, _target, _relWP, _relWP2);
+        if(QueuedAbility.getCastTime() <= 0.0f)
+        {
+            PrepCast();
+        }
+
         if (QueuedAbility.isChannel == false)
         {
             //wtf how?
