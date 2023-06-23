@@ -160,4 +160,13 @@ public static class CustomReadWriteFuctions
     {
         return new BuffSystem.Buff(reader.Read<BuffScriptableObject>(), reader.Read<GameObject>());
     }
+    public static void WriteCombatClass(this NetworkWriter writer, CombatClass cc)
+    {
+       writer.WriteString(cc.name);
+    }
+
+    public static CombatClass ReadCombatClass(this NetworkReader reader)
+    {
+        return Resources.Load<CombatClass>(reader.ReadString());
+    }
 }

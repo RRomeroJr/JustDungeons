@@ -44,6 +44,7 @@ public class Actor : NetworkBehaviour
     [field: SerializeField] public Role Role { get; set; }
     public Color unitColor;
     public int mobId = -1;
+    [SyncVar]
     public CombatClass combatClass;
     [SyncVar]
     public float mainStat = 100.0f;
