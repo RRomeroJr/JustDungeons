@@ -24,14 +24,10 @@ public sealed class MovementEffectsController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         switch (currentEffectState)
         {
-            // case StatusEffectState.Feared:
-            //     ApplyFear();
-            //     break;
             case StatusEffectState.Dizzy:
                 ApplyDizzy();
                 break;
@@ -100,7 +96,7 @@ public sealed class MovementEffectsController : MonoBehaviour
         else
         {
             //moveDirection = Quaternion.Euler(0, 0, power) * moveDirection;
-            moveDirection = Quaternion.Euler(0, 0, 1) * moveDirection;
+            moveDirection = Quaternion.Euler(0, 0, 13.0f) * moveDirection;
             indicatorRef.transform.up = moveDirection;
             //If moveDirection not set to 0 the player will continuously keep moving
             _controller.moveDirection = Vector2.zero;
