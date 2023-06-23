@@ -62,9 +62,12 @@ public class PlayerController : Controller
         lastTabVector = Vector2.right;
         if(isLocalPlayer){
             UIManager.playerController = this;
-            FindObjectOfType<UIRaycaster>().UIFrameClicked += OnUIFrameClicked;
+            var uiRaycaster = FindObjectOfType<UIRaycaster>();
+            if (uiRaycaster != null)
+            {
+                uiRaycaster.UIFrameClicked += OnUIFrameClicked;
+            }
             rendererRef = GetComponent<Renderer>();
-            
         }
         // tabTargetObj = Instantiate(tabTargetAreaPrefab, HBCTools.GetMousePosWP(), Quaternion.identity);
         // tabTargetObj.GetComponent<TabTargetGetter>().Init(this);

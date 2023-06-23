@@ -397,44 +397,28 @@ public class Actor : NetworkBehaviour
     }
 
     // Casting: AbilityEff handling---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    public void recieveEffect(EffectInstruction _eInstruct, NullibleVector3 _relWP, Actor _caster, Actor _secondaryTarget = null)
+    public void ReceiveEffect(EffectInstruction _eInstruct, NullibleVector3 _relWP, Actor _caster, Actor _secondaryTarget = null)
     {
-        // foreach (var eI in _eInstructs){
-        //     eI.startEffect(this, _relWP, _caster);
-        // }
         OnEffectRecieved.Invoke(_eInstruct);
-        int i = 0;
-        int lastBuffCount = buffs.Count;
-        while (i < buffs.Count)
+        foreach (var buff in buffs)
         {
-            var buffhitHooks = buffs[i].onHitHooks;
+            var buffhitHooks = buff.onHitHooks;
             if (buffhitHooks != null)
             {
                 if (buffhitHooks.GetPersistentEventCount() > 0)
                 {
-                    Debug.Log("Invokeing onHitHooks: " + buffs[i].getEffectName());
-                    buffhitHooks.Invoke(buffs[i], _eInstruct);
+                    Debug.Log("Invokeing onHitHooks: " + buff.getEffectName());
+                    buffhitHooks.Invoke(buff, _eInstruct);
                 }
-                else
-                {
-                    //Debug.Log("Buff has no hooks");
-                }
-            }
-
-            if (lastBuffCount == buffs.Count)
-            {
-                i++;
             }
         }
+
         //Debug.Log(actorName + " is starting eI for effect (" + _eInstruct.effect.effectName + ") From: " + (_caster != null ? _caster.actorName : "none"));
         //Debug.Log("recieveEffect " + _eInstruct.effect.effectName +"| caster:" + (_caster != null ? _caster.getActorName() : "_caster is null"));
         _eInstruct.startEffect(this, _relWP, _caster, _secondaryTarget);
-        if(_eInstruct.effect.isHostile){
-            if(_caster == null){
-                return;
-            }
+        if (_eInstruct.effect.isHostile && _caster != null)
+        {
             CheckStartCombatWith(_caster);
-            
         }
     }
 
@@ -599,7 +583,7 @@ public class Actor : NetworkBehaviour
                 {
                     updateClassResourceAmount(index, 0);
                 }
-                
+
                 return true;
             }
             index++;
@@ -649,17 +633,20 @@ public class Actor : NetworkBehaviour
         // }
         return false;
     }
-    public void ClassResourceCheckRegen(){
-        
-        foreach(ClassResource _cr in classResources){
-            if(_cr.tickMax > 0.0f){
-                _cr.tickTime += Time.deltaTime;
-                if(_cr.tickTime >= _cr.tickMax){
-                    restoreResource(_cr.crType, _cr.combatRegen);
-                    _cr.tickTime -= _cr.tickMax;
-                }
+    public void ClassResourceCheckRegen()
+    {
+        foreach(ClassResource _cr in classResources)
+        {
+            if (_cr.tickMax <= 0.0f)
+            {
+                continue;
             }
-
+            _cr.tickTime += Time.deltaTime;
+            if (_cr.tickTime >= _cr.tickMax)
+            {
+                restoreResource(_cr.crType, _cr.combatRegen);
+                _cr.tickTime -= _cr.tickMax;
+            }
         }
     }
     [ClientRpc]
@@ -679,50 +666,38 @@ public class Actor : NetworkBehaviour
         classResources[index].outOfCombatRegen = _OutOfCombatRegen;
     }
     
-    public bool hasResource(ClassResourceType _crType, int _amount){
-        if(classResources != null){
-            foreach(ClassResource cr in classResources){
-                if(cr.crType == _crType){
-                    if(_amount <= cr.amount ){
-                        //Debug.Log("Has resource AND amount");
-                        return true;
-                    }
-                    else{
-                        Debug.LogWarning("Has resource but not amount" + cr.amount + " < " + _amount);
-                        return false;
-                    }
-                    
-                }
-            }
+    public bool HasResource(ClassResourceType _crType, int _amount)
+    {
+        if (classResources == null)
+        {
+            Debug.LogWarning("Class Resources are null");
+            return true;
         }
-        Debug.LogWarning("Class Resources are null");
+        foreach (ClassResource cr in classResources)
+        {
+            if (cr.crType != _crType)
+            {
+                continue;
+            }
+            return _amount <= cr.amount;
+        }
         return true;
     }
 
     /// <summary>
     /// Return true if the actor has resource to cast ability. False if not enough resource.
     /// </summary>
-    public bool hasTheResources(Ability_V2 _ability)
+    public bool HasTheResources(Ability_V2 _ability)
     {
-        if (_ability != null)
+        if (_ability == null || _ability.resourceCosts == null || _ability.resourceCosts.Count == 0)
         {
-            if (_ability.resourceCosts == null)
+            return true;
+        }
+        foreach (AbilityResource ar in _ability.resourceCosts)
+        {
+            if (HasResource(ar.crType, ar.amount) == false)
             {
-                return true;
-            }
-            else
-            {
-                if (_ability.resourceCosts.Count == 0)
-                {
-                    return true;
-                }
-                foreach (AbilityResource ar in _ability.resourceCosts)
-                {
-                    if (hasResource(ar.crType, ar.amount) == false)
-                    {
-                        return false;
-                    }
-                }
+                return false;
             }
         }
         return true;
@@ -1048,7 +1023,10 @@ public class Actor : NetworkBehaviour
     [ClientRpc]
     void addDamamgeToMeter(Actor fromActor, int amount)
     {
-        TempDamageMeter.addToEntry(fromActor, amount);
+        if (TempDamageMeter.entryList != null)
+        {
+            TempDamageMeter.addToEntry(fromActor, amount);
+        }
     }
     
     public void LocalPlayerBroadcastTarget(){

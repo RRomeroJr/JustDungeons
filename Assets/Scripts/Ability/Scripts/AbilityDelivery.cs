@@ -150,6 +150,14 @@ public class AbilityDelivery : NetworkBehaviour
         //Debug.Log("Trigger stay server and start");
         if (!other.TryGetComponent<Actor>(out var hitActor))
         {
+            if (other.TryGetComponent<IDamageable>(out var damageable))
+            {
+                foreach (EffectInstruction eI in eInstructs)
+                {
+                    damageable.Damage(eI.effect.power * eI.effect.powerScale);
+                }
+                addToAoeIgnore(hitActor, tickRate);
+            }
             return;
         }
         if (checkAtFeet && !CheckHitFeet(hitActor))
@@ -169,9 +177,9 @@ public class AbilityDelivery : NetworkBehaviour
                 //Debug.Log("Not caster or canHitSelf");
                 //Debug.Log(hitActor.getActorName());
 
-                if (checkIgnoreTarget(other.gameObject.GetComponent<Actor>()) == false)
+                if (checkIgnoreTarget(hitActor) == false)
                 {
-                    addToAoeIgnore(other.gameObject.GetComponent<Actor>(), tickRate);
+                    addToAoeIgnore(hitActor, tickRate);
 
                     Hit(hitActor);
                     
