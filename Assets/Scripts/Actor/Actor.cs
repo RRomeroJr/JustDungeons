@@ -377,12 +377,21 @@ public class Actor : NetworkBehaviour
     {
         if (_input == null)
         {
+            Debug.Log("GetRealWPOrNull INPUT WAS NULL.. sending null");
             return null;
         }
-        if (_input.Value.magnitude == 0.0f)
-        { //workaround for selecting an actor in editor breaking some channeled spells
-            return null;
-        }
+
+        
+        /*  
+            Enable cond below if not solution to the QueuedRelWP problem
+            and they are serialized
+        */
+
+        // if (_input.Value.magnitude == 0.0f)
+        // { //workaround for selecting an actor in editor breaking some channeled spells;
+        //     Debug.Log("GetRealWPOrNull sending null");
+        //     return null;
+        // }
 
         return new NullibleVector3(_input.Value + transform.position);
     }

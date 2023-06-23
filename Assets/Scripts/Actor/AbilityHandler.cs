@@ -13,8 +13,17 @@ public class AbilityHandler : NetworkBehaviour
     
     [field: SerializeField] public Ability_V2 QueuedAbility { get; private set; } // Used when Ability has a cast time
     [field: SerializeField] public Actor QueuedTarget { get; private set; } // Used when Ability has a cast time
-    [field: SerializeField] public NullibleVector3 QueuedRelWP { get; private set; }
-    [field: SerializeField] public NullibleVector3 QueuedRelWP2 { get; private set; }
+
+    /* WARNING!!!
+            DO NOT SERIALIZE BELOW. Doing so will cause an object to be created if
+            values are null when selected in the editor!
+
+            This will break some abilities that differentiate between null and a
+            value of (0, 0, 0)
+    */
+    public NullibleVector3 QueuedRelWP { get; private set; }
+    public NullibleVector3 QueuedRelWP2 { get; private set; }
+    //~~~~~~~~~~~~~~~~~~~~>> WARNING DO NOT SERIALIZE, LOOK ABOVE <<~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     [SerializeField] public List<AbilityCooldown> abilityCooldowns = new List<AbilityCooldown>();
     [SerializeField] private List<OldBuff.Buff> buffs;
     
