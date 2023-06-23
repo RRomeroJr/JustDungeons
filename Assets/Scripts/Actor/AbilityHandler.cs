@@ -565,20 +565,18 @@ public class AbilityHandler : NetworkBehaviour
     {
         if (!IsCasting)
         {
-            IsChanneling = false;
             RpcResetCastVars();
             return;
         }
 
-        //check for middle hits
+        //check for final hit
         if (castTime <= 0.0f)
         {
             FireChannel(QueuedAbility, QueuedTarget, QueuedRelWP, QueuedRelWP2);
             lastChannelTick = 0.0f;
-            IsChanneling = false;
             RpcResetCastVars();
         }
-        //check for final hit
+        //check for middle hits
         else if (QueuedAbility.channelDuration / (QueuedAbility.numberOfTicks - 1) <= lastChannelTick)
         {
             FireChannel(QueuedAbility, QueuedTarget, QueuedRelWP, QueuedRelWP2);
@@ -812,6 +810,7 @@ public class AbilityHandler : NetworkBehaviour
         ResetQueue();
         ReadyToFire = false;
         IsCasting = false;
+        IsChanneling = false;
         ResetCastTime();
     }
 
