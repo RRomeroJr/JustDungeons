@@ -10,6 +10,8 @@ public abstract class Multiboss: MonoBehaviour
         this component and store thier refereces in a list. 
     */
     public bool searchingForPartners;
+
+    public Actor Actor{ get; private set; }
     public List<Actor> partners;
     public MultibossCoordinator multibossCoordinator;
     public bool comboReady = false;
@@ -17,6 +19,11 @@ public abstract class Multiboss: MonoBehaviour
     public int lastCombo;
     [SerializeField]protected int comboMax;
     public abstract IEnumerator SearchForPartners();
+    public void Awake()
+    {
+        Actor = GetComponent<Actor>();
+    }
+
     public virtual void OnFindPartners(){
         Debug.Log("Multiboss: Partners found!");
         
@@ -131,6 +138,17 @@ public abstract class Multiboss: MonoBehaviour
         if(isPartner(_actorStartedAggro) == false)
             return;
 
-        GetComponent<Actor>().CheckStartCombatWith(_actorStartedAggro.target);
+        Actor.CheckStartCombatWith(_actorStartedAggro.target);
+    }
+    public void RemoveSelfFromPartners()
+    {
+        foreach(Actor partner in partners)
+        {
+            partner.GetComponent<Multiboss>().partners.Remove(Actor);
+        }
+    }
+    void OnDestroy()
+    {
+        RemoveSelfFromPartners();
     }
 }
