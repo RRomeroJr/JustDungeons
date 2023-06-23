@@ -162,11 +162,29 @@ public static class CustomReadWriteFuctions
     }
     public static void WriteCombatClass(this NetworkWriter writer, CombatClass cc)
     {
-       writer.WriteString(cc.name);
+       if(cc != null)
+       {
+            writer.WriteString(cc.name);
+       }
+       else
+       {
+            writer.WriteString("");
+       }
     }
 
     public static CombatClass ReadCombatClass(this NetworkReader reader)
     {
-        return Resources.Load<CombatClass>(reader.ReadString());
+        CombatClass result = null;
+        try
+        {
+            result = Resources.Load<CombatClass>(reader.ReadString());
+
+        }
+        catch
+        {
+
+        }
+
+        return result;
     }
 }
