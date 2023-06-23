@@ -85,29 +85,24 @@ public class PlayerController : Controller
         switch (state)
         {
             case PlayerState.Alive:
+                if(actor.CanMove)
+                {
                 Vector2 inputVectRaw = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
                 // Vector2 inputVect = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
                 // Vector2 inputVect = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
                 Vector2 combinedInputVect = new Vector2(
                                         Mathf.Clamp(Input.GetAxis("Horizontal") + inputVectRaw.x, -1, 1 ),
                                         Mathf.Clamp(Input.GetAxis("Vertical") + inputVectRaw.y, -1, 1 ));
-                
-                // if (Mathf.Abs(inputVectRaw.magnitude) > 0.0f != tryingToMove)
-                // {
-                //     tryingToMove = !tryingToMove;
-                //     CmdSetTryingToMove(tryingToMove);
-                // }
+
 
                 if (actor.CanMove && GetComponent<BuffHandler>().Dizzy <= 0)
                 {
                     moveDirection = combinedInputVect;
                     
                 }
-                // if(moveDirection.Value.magnitude < 0.02f){
-                //     break;
-                // }
 
                 MoveInDirection(moveDirection.Value);
+                }
                 MovementFacingDirection();
 
                 break;
