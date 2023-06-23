@@ -164,6 +164,12 @@ MonoBehaviour:
   killPlayerOnExit: 1
   mobList: []
   destroyIfListEmpty: 1
+  safezone: {fileID: 0}
+  killPlayerInHurtzone: 1
+  usePercentHealthDmg: 0
+  percentHealthDmg: 0
+  actorIgnore: []
+  hitCooldownTime: 3
   arenaRadius: 10
   killZoneRadius: 25
 --- !u!58 &4871385981094262282

@@ -20,8 +20,19 @@ public class Arena : NetworkBehaviour
 
     
     public void OnTriggerExit2D(Collider2D other)
-    {   if(killPlayerOnExit){
-            other.gameObject.GetComponent<Actor>().Health = 0;
+    {   
+        Actor otherActor = other.GetComponent<Actor>();
+        if(otherActor == null){
+            return;
+        }
+        if(otherActor.tag != "Player"){
+            return;
+        }
+        if(IsInSafezone(otherActor)){
+            return;
+        }
+           if(killPlayerOnExit){
+            otherActor.Health = 0;
         }
         
     }
