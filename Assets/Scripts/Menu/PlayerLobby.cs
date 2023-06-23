@@ -54,7 +54,6 @@ public class PlayerLobby : NetworkBehaviour
         DontDestroyOnLoad(this);
         Room.RoomPlayers.Add(this);
         playerSlot = uiController.uiLobby.playerList[Room.RoomPlayers.IndexOf(this)].Q<TextField>("player-name");
-        classSelect = uiController.uiLobby.dropdownClass;
 
         // Subscribe to button events
         uiController.uiLobby.buttonLobbyReady.clicked += CmdReadyUp;
@@ -63,7 +62,12 @@ public class PlayerLobby : NetworkBehaviour
 
         // Bind display name to textfield
         playerSlot.RegisterValueChangedCallback(OnPlayerNameChanged);
-        classSelect.RegisterValueChangedCallback(OnClassChanged);
+
+        if(isLocalPlayer){
+            classSelect = uiController.uiLobby.dropdownClass;
+            classSelect.RegisterValueChangedCallback(OnClassChanged);
+        }
+        
         playerSlot.isReadOnly = false;
         uiController.UpdateUI();
 
