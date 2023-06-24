@@ -41,8 +41,17 @@ namespace BuffSystem
             timeTillTick -= Time.deltaTime;
             remainingBuffTime -= Time.deltaTime;
 
+            // Loop ensures all ticks are processed independent of the frame rate
+            // It allows multiple ticks to be processed if the frame rate is lower than the tick rate
+            // If tick rate is left at zero or negative, buffs tick action is skipped
             while (timeTillTick <= 0 && buffSO.TickRate > 0)
             {
+                // Ensure the buff did not run out before the tick proc'd
+                if (remainingBuffTime <= 0 && remainingBuffTime < timeTillTick)
+                {
+                    break;
+                }
+
                 buffSO.Tick(this);
                 timeTillTick += buffSO.TickRate;
             }
