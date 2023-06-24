@@ -19,8 +19,7 @@ public class BuffScriptableObject : ScriptableObject
     public float TickRate => tickRate;
     public float Duration => duration;
     public bool Stackable => stackable;
-    [SerializeField] public UnityEvent<BuffSystem.Buff, EffectInstruction> onHitHooks;
-
+    [SerializeField] public UnityEvent<Buff, EffectInstruction> onHitHooks;
 
     public Sprite Icon
     {
@@ -30,7 +29,7 @@ public class BuffScriptableObject : ScriptableObject
         }
     }
 
-    public void StartBuff(BuffSystem.Buff buff)
+    public void StartBuff(Buff buff)
     {
         if (particles != null)
         {
@@ -42,7 +41,7 @@ public class BuffScriptableObject : ScriptableObject
         }
     }
 
-    public void Tick(BuffSystem.Buff buff)
+    public void Tick(Buff buff)
     {
         if (particles != null)
         {
@@ -54,14 +53,15 @@ public class BuffScriptableObject : ScriptableObject
         }
     }
 
-    public void EndBuff(BuffSystem.Buff buff)
+    public void EndBuff(Buff buff)
     {
         foreach (var effect in buffEffectsList)
         {
             effect.Key.EndEffect(buff, effect.Value);
         }
     }
-    public void StacksChanged(BuffSystem.Buff buff, int amountChanged)
+
+    public void StacksChanged(Buff buff, int amountChanged)
     {
         foreach (var effect in buffEffectsList)
         {

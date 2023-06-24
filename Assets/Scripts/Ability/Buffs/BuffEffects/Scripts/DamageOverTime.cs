@@ -1,14 +1,16 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewDamageOverTime", menuName = ProjectPaths.buffEffectsMenu + "DamageOverTime")]
-
-public class DamageOverTime : BuffEffect
+namespace BuffSystem
 {
-    public override void ApplyEffect(BuffSystem.Buff buff, float damageValue)
+    [CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewDamageOverTime", menuName = ProjectPaths.buffEffectsMenu + "DamageOverTime")]
+    public class DamageOverTime : BuffEffect
     {
-        if (buff.Target.TryGetComponent(out IDamageOverTime t))
+        public override void ApplyEffect(Buff buff, float damageValue)
         {
-            t.ApplyDamage(damageValue);
+            if (buff.Target.TryGetComponent(out IDamageOverTime t))
+            {
+                t.ApplyDamage(damageValue);
+            }
         }
     }
 }

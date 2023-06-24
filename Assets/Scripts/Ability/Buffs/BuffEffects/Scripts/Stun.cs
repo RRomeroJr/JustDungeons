@@ -1,21 +1,24 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewStunEffect", menuName = ProjectPaths.buffEffectsMenu + "Stun")]
-public class Stun : BuffEffect
+namespace BuffSystem
 {
-    public override void EndEffect(BuffSystem.Buff buff, float effectValue)
+    [CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewStunEffect", menuName = ProjectPaths.buffEffectsMenu + "Stun")]
+    public class Stun : BuffEffect
     {
-        if (buff.Target.TryGetComponent(out IStun t))
+        public override void EndEffect(Buff buff, float effectValue)
         {
-            t.Stunned--;
+            if (buff.Target.TryGetComponent(out IStun t))
+            {
+                t.Stunned--;
+            }
         }
-    }
 
-    public override void StartEffect(BuffSystem.Buff buff, float effectValue)
-    {
-        if (buff.Target.TryGetComponent(out IStun t))
+        public override void StartEffect(Buff buff, float effectValue)
         {
-            t.Stunned++;
+            if (buff.Target.TryGetComponent(out IStun t))
+            {
+                t.Stunned++;
+            }
         }
     }
 }

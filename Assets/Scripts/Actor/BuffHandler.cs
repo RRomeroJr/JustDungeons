@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using BuffSystem;
 using Mirror;
 using UnityEngine;
@@ -171,7 +170,6 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
             ChangeSpeed();
         }
     }
-    
 
     public float Slow
     {
@@ -249,7 +247,6 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
     [Server]
     public void RemoveBuff(Buff buff)
     {
-        
         buff.Finished -= HandleBuffFinished;
         buff.End();
         buffs.Remove(buff);
@@ -277,6 +274,7 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         };
         OnSpeedChanged(speedChangedEventArgs);
     }
+
     private void ChangeDamageTakenMod()
     {
         var damageTakenChangedEventArgs = new DamageTakenModChangedEventArgs
@@ -294,14 +292,10 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
     {
         // var buff = buffs.FirstOrDefault(b => b.BuffSO == buffSO);
         var index = buffs.FindIndex(b => b.BuffSO == buffSO);
-        if ( (index < 0 ) || (buffs.Count <= index) )
+        if ((index < 0) || (buffs.Count <= index))
         {
             return false;
         }
-        // if (buff == null)
-        // {
-        //     return false;
-        // }
         if (buffs[index].BuffSO.Stackable)
         {
             buffs[index].AddStack();
@@ -314,14 +308,15 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         }
         return true;
     }
+
     [ClientRpc]
     private void RpcRefreshOrStackBuff(int _indexFromServer)
     {
-        if(isServer)
+        if (isServer)
         {
             return;
         }
-        if ( (_indexFromServer < 0 ) || (buffs.Count <= _indexFromServer) )
+        if ((_indexFromServer < 0) || (buffs.Count <= _indexFromServer))
         {
             return;
         }
