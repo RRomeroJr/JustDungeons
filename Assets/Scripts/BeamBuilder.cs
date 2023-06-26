@@ -2,17 +2,17 @@
 
 public class BeamBuilder : MonoBehaviour
 {
-    [SerializeField] private float maxWidth;
     [SerializeField] private Sprite[] startSprite;
     [SerializeField] private Material[] middleSprite;
     [SerializeField] private Sprite[] endSprite;
     [SerializeField] private LayerMask mask;
     private Transform end;
-    private float startWidth;
-    private float endWidth;
-    private float middleWidth;
+    private float startLength;
+    private float endLength;
+    private float middleLength;
     private LineRenderer line;
     private MeshCollider collider;
+    public float Length { get; set; }
 
     void Start()
     {
@@ -33,7 +33,10 @@ public class BeamBuilder : MonoBehaviour
         {
             startRenderer.sprite = startSprite[0];
         }
-        line.material = middleSprite[0];
+        if (middleSprite.Length > 0)
+        {
+            line.material = middleSprite[0];
+        }
         if (endSprite.Length > 0)
         {
             endRenderer.sprite = endSprite[0];
@@ -44,22 +47,18 @@ public class BeamBuilder : MonoBehaviour
         end.GetComponent<BoxCollider2D>().size = endRenderer.size;
 
         // Set length of each section
-        endWidth = endRenderer.size.x;
-        startWidth = startRenderer.size.x;
-        line.SetPosition(0, new Vector3(startWidth, 0, 0));
+        endLength = endRenderer.size.x;
+        startLength = startRenderer.size.x;
+        line.SetPosition(0, new Vector3(startLength, 0, 0));
 
         UpdateStart();
 
-        void UpdateStart() => start.localPosition = new Vector2(startWidth * 0.5f, 0);
+        void UpdateStart() => start.localPosition = new Vector2(startLength * 0.5f, 0);
     }
 
     void Update()
     {
         UpdateMiddle();
-        if (middleSprite.Length > 1)
-        {
-            int randomNum = Random.Range(0, middleSprite.Length);
-        }
         UpdateEnd();
     }
 
@@ -71,32 +70,32 @@ public class BeamBuilder : MonoBehaviour
         }
 
         Mesh mesh = new();
-        line.BakeMesh(mesh, true);
+        line.BakeMesh(mesh);
         collider.sharedMesh = mesh;
     }
 
     private void UpdateMiddle()
     {
-        middleWidth = GetMiddleWidth();
-        line.SetPosition(1, new Vector3(startWidth + middleWidth, 0, 0));
-        if (middleWidth > 0)
+        middleLength = GetMiddleWidth();
+        line.SetPosition(1, new Vector3(startLength + middleLength, 0, 0));
+        if (middleLength > 0)
         {
             GenerateMeshCollider();
         }
 
         float GetMiddleWidth()
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, maxWidth - endWidth, mask);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, Length - endLength, mask);
             if (hit.collider == null)
             {
-                return maxWidth - (endWidth + startWidth);
+                return Length - (endLength + startLength);
             }
-            return hit.distance < startWidth ? 0 : hit.distance - startWidth;
+            return hit.distance < startLength ? 0 : hit.distance - startLength;
         }
     }
 
     private void UpdateEnd()
     {
-        end.localPosition = new Vector2(startWidth + middleWidth + (endWidth * 0.5f), 0);
+        end.localPosition = new Vector2(startLength + middleLength + (endLength * 0.5f), 0);
     }
 }
