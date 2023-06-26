@@ -15,7 +15,15 @@ MonoBehaviour:
   effectName: ApplyDizzy
   id: 13
   power: 0
+  powerScale: 1
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 0
-  buffID: {fileID: 11400000, guid: 84db456aa48e8414da8723296f767864, type: 2}
+  target: {fileID: 0}
+  caster: {fileID: 0}
+  targetWP:
+    Value: {x: 0, y: 0, z: 0}
+  targetWP2:
+    Value: {x: 0, y: 0, z: 0}
+  isHostile: 1
+  buffSO: {fileID: 11400000, guid: 00789973e90209a49bb6eb8dfa31b72c, type: 2}
