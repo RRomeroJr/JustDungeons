@@ -13,7 +13,8 @@ public class Taunt : AbilityEff
         {
             // Debug.Log(this.target.name + " tauntable. taunting");
             this.target.GetComponent<EnemyController>().aggroTarget = this.caster;
-            this.target.GetComponent<Controller>().SetFollowTarget(this.caster.gameObject);
+            this.target.CheckStartCombatWith(_caster);
+            // this.target.GetComponent<Controller>().SetFollowTarget(this.caster.gameObject);
         }
         
     }

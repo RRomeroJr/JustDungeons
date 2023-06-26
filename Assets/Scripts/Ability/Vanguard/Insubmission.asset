@@ -10,18 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 630dbee7393b5314ab79662f009e6568, type: 3}
-  m_Name: MenderSpST
+  m_Name: Insubmission
   m_EditorClassIdentifier: 
-  abilityName: MenderSpST
+  abilityName: Insubmission
   eInstructs:
-  - effect: {fileID: 11400000, guid: 512919d4bab6ad64ca7bd94fa6fa9272, type: 2}
-    targetArg: 0
-    powerMod: 1
-    onSendHooks:
-      m_PersistentCalls:
-        m_Calls: []
-    deliveryNVect2: {x: 0, y: 0}
-  - effect: {fileID: 11400000, guid: 029ee1c503be2a44a8e02f07bef79b3f, type: 2}
+  - effect: {fileID: 11400000, guid: 2a2fa5b7be9aa1a448bc457bd46f971c, type: 2}
     targetArg: 1
     powerMod: 1
     onSendHooks:
@@ -31,13 +24,11 @@ MonoBehaviour:
   buffs: []
   castTime: 0
   cooldown: 0
-  needsActor: 1
+  needsActor: 0
   needsWP: 0
-  id: 48
+  id: 61
   abilityTag: 0
-  resourceCosts:
-  - amount: 1
-    crType: {fileID: 11400000, guid: 11a7a1aafb0dd204e93f65399831cb70, type: 2}
+  resourceCosts: []
   isChannel: 0
   channelDuration: 0
   numberOfTicks: 0

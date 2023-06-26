@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8c893311ec16b744b77cf9683178ae3, type: 3}
+  m_Name: Press the Attack
+  m_EditorClassIdentifier: 
+  duration: 40
+  tickRate: 0
+  stackable: 0
+  icon: {fileID: 21300000, guid: 0905f1dde4e41c84a9f28a7105c2b634, type: 3}
+  particles: {fileID: 0}
+  buffEffectsList:
+  - Key: {fileID: 11400000, guid: 6c7539bf06089f64ba22d80929bf2a96, type: 2}
+    Value: 0.34
+  - Key: {fileID: 11400000, guid: 462a879ec2de1ac47a05825e754bd8f1, type: 2}
+    Value: 0.34
+  onHitHooks:
+    m_PersistentCalls:
+      m_Calls: []

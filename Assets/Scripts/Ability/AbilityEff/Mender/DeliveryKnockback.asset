@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90c83b31e3ed6d64c96f4acd8d919f18, type: 3}
-  m_Name: MenderSpRestEffect
+  m_Script: {fileID: 11500000, guid: 73ffaacd21b2ea24b8193df7fa736ca7, type: 3}
+  m_Name: DeliveryKnockback
   m_EditorClassIdentifier: 
-  effectName: MenderSpRestEffect
-  id: 63
-  power: 1
+  effectName: MenderDelKnock
+  id: 87
+  power: 2000
   powerScale: 1
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
@@ -27,4 +27,3 @@ MonoBehaviour:
     Value: {x: 0, y: 0, z: 0}
   isHostile: 1
   school: -1
-  crt: {fileID: 11400000, guid: 3a1268d972f5a6f4c98d0822ba62767d, type: 2}

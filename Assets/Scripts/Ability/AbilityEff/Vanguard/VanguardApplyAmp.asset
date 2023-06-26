@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90c83b31e3ed6d64c96f4acd8d919f18, type: 3}
-  m_Name: MenderSpRestEffect
+  m_Script: {fileID: 11500000, guid: 2e704cf0d5e7d7f4f9682dbffa48de18, type: 3}
+  m_Name: VanguardApplyAmp
   m_EditorClassIdentifier: 
-  effectName: MenderSpRestEffect
-  id: 63
-  power: 1
+  effectName: VanguardApplyAmp
+  id: 85
+  power: 0
   powerScale: 1
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
@@ -25,6 +25,5 @@ MonoBehaviour:
     Value: {x: 0, y: 0, z: 0}
   targetWP2:
     Value: {x: 0, y: 0, z: 0}
-  isHostile: 1
-  school: -1
-  crt: {fileID: 11400000, guid: 3a1268d972f5a6f4c98d0822ba62767d, type: 2}
+  isHostile: 0
+  buffSO: {fileID: 11400000, guid: 04bb1e985aed5cf49a6aaeda9c5f2798, type: 2}
