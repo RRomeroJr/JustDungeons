@@ -55,8 +55,7 @@ MonoBehaviour:
   worldPointTarget: {x: 0, y: 0, z: 0}
   aoeActorIgnore: []
   eInstructs: []
-  buffs:
-  - {fileID: 11400000, guid: 00789973e90209a49bb6eb8dfa31b72c, type: 2}
+  buffs: []
   connectedToCaster: 0
   delayTimer: 0
   start: 1
