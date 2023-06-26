@@ -1,14 +1,16 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewHealOverTime", menuName = ProjectPaths.buffEffectsMenu + "HealOverTime")]
-
-public class HealOverTime : BuffEffect
+namespace BuffSystem
 {
-    public override void ApplyEffect(BuffSystem.Buff buff, float healValue)
+    [CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewHealOverTime", menuName = ProjectPaths.buffEffectsMenu + "HealOverTime")]
+    public class HealOverTime : BuffEffect
     {
-        if (buff.Target.TryGetComponent(out IHealOverTime t))
+        public override void ApplyEffect(Buff buff, float healValue)
         {
-            t.ApplyHeal(healValue);
+            if (buff.Target.TryGetComponent(out IHealOverTime t))
+            {
+                t.ApplyHeal(healValue);
+            }
         }
     }
 }

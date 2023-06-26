@@ -5,20 +5,19 @@ namespace BuffSystem
     [CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewInterruptEffect", menuName = ProjectPaths.buffEffectsMenu + "Interrupt")]
     public class Interrupt : BuffEffect
     {
-        public override void StartEffect(BuffSystem.Buff buff, float effectValue)
+        public override void StartEffect(Buff buff, float effectValue)
         {
-            
-
             if (buff.Target.TryGetComponent(out ISilence t))
             {
 
                 if (buff.Target.GetComponent<Actor>().IsCasting == false)
                 {
-                    try{
+                    try
+                    {
                         t.RemoveBuff(buff);
                         Debug.Log("target not casting ending inturrupt early");
                     }
-                    catch{}
+                    catch { }
                 }
                 else
                 {
@@ -28,12 +27,12 @@ namespace BuffSystem
                 t.Silenced++;
             }
         }
-        public override void EndEffect(BuffSystem.Buff buff, float effectValue)
+        public override void EndEffect(Buff buff, float effectValue)
         {
             if (buff.Target.TryGetComponent(out ISilence t))
             {
                 t.Silenced--;
-           }
+            }
         }
     }
 }

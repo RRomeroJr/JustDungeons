@@ -5,7 +5,7 @@ namespace BuffSystem
     [CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewDizzyEffect", menuName = ProjectPaths.buffEffectsMenu + "Dizzy")]
     public class Dizzy : BuffEffect
     {
-        public override void EndEffect(BuffSystem.Buff buff, float effectValue)
+        public override void EndEffect(Buff buff, float effectValue)
         {
             if (buff.Target.TryGetComponent(out IDizzy t))
             {
@@ -13,7 +13,7 @@ namespace BuffSystem
             }
         }
 
-        public override void StartEffect(BuffSystem.Buff buff, float effectValue)
+        public override void StartEffect(Buff buff, float effectValue)
         {
             if (buff.Target.TryGetComponent(out IDizzy t))
             {

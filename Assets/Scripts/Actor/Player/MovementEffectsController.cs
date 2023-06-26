@@ -28,6 +28,9 @@ public sealed class MovementEffectsController : MonoBehaviour
     {
         switch (currentEffectState)
         {
+            case StatusEffectState.Feared:
+                ApplyFear();
+                break;
             case StatusEffectState.Dizzy:
                 ApplyDizzy();
                 break;
@@ -90,7 +93,7 @@ public sealed class MovementEffectsController : MonoBehaviour
             //parentBuff.actor.GetComponent<Controller>().MoveInDirection(inputVect.magnitude * moveDirection);
 
             _controller.moveDirection = moveDirection;
-            
+
             Debug.DrawLine(transform.position, (moveDirection * 2.5f) + (Vector2)transform.position, Color.blue);
         }
         else
@@ -131,13 +134,15 @@ public sealed class MovementEffectsController : MonoBehaviour
             agent.SetDestination(transform.position + randomPointOnCircle);
         }
     }
+    
     public void StartFear()
     {
         if (agent == null)
         {
             return;
         }
-        if(tag == "Player"){
+        if (tag == "Player")
+        {
             agent.enabled = true;
             // agent.speed = GetComponent<Controller>().moveSpeed * 0.1f;
         }
@@ -154,12 +159,13 @@ public sealed class MovementEffectsController : MonoBehaviour
         {
             return;
         }
-        
+
         if (HBCTools.NT_AuthoritativeClient(GetComponent<NetworkTransform>()))
         {
             agent.ResetPath();
         }
-        if(tag == "Player"){
+        if (tag == "Player")
+        {
             agent.enabled = false;
         }
     }
