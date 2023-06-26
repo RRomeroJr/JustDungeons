@@ -290,6 +290,10 @@ public class Actor : NetworkBehaviour
         if (combatClass != null)
         {
             UIManager.Instance.SetUpHotbars();
+            if(combatClass.name == "Mender")
+            {
+                UIManager.Instance.SpawnHealingGauge();
+            }
         }
     }
 
@@ -817,6 +821,9 @@ public class Actor : NetworkBehaviour
     }
     public int getResourceMax(int index){
         return classResources[index].max;
+    }
+    public ClassResource getResource(int index){
+        return classResources[index];
     }
     public ClassResourceType getResourceType(int index){
         if(index >= classResources.Count)

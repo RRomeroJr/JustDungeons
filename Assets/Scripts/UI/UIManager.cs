@@ -14,10 +14,12 @@ public class UIManager : MonoBehaviour
 {
     public GameObject canvas;
     public GameObject castBarPrefab;
+    public GameObject healingGaugePrefab;
     public GameObject hotbuttonPrefab;
     public GameObject buffBarPrefab;
     public UnitFrame targetFrame; // should be TargetFrame but I didn't want to break other scenes by changing ti right now
     public TargetFrame targetOfTargetFrame;
+    public GameObject classGauge;
     public List<UnitFrame> frames = new List<UnitFrame>();
     public static Actor playerActor;
     public static Controller playerController;
@@ -192,6 +194,11 @@ public class UIManager : MonoBehaviour
             updateUnitFrame(targetFrame, playerActor.target);
         }
 
+    }
+    
+    public void SpawnHealingGauge()
+    {
+        classGauge = Instantiate(healingGaugePrefab, canvas.transform);
     }
     void UpdateTargetOfTarget()
     {
