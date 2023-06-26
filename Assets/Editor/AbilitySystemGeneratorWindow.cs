@@ -99,9 +99,10 @@ public class AbilitySystemGeneratorWindow : EditorWindow
                abilityEffectName = aeRef.GetType().ToString() + "Effect";
             }
             aeRef.effectName = abilityEffectName;
-            AssetDatabase.CreateAsset(aeRef, "Assets/Scripts/Ability/AbilityEff/" + abilityEffectName + ".asset");
+            string aePath = "Assets/Scripts/Ability/AbilityEff/GeneratorOut/" + abilityEffectName + ".asset";
+            AssetDatabase.CreateAsset(aeRef, aePath);
             
-            Debug.Log(aeRef.GetType().ToString() + "| Assets/Scripts/Ability/AbilityEff/" + abilityEffectName + ".asset");
+            Debug.Log(aeRef.GetType().ToString() + "| " + aePath);
             if(addToDatabases){
                addEffectToDatabase(aeRef);
             }
@@ -113,8 +114,10 @@ public class AbilitySystemGeneratorWindow : EditorWindow
                List<EffectInstruction> temp = new List<EffectInstruction>();
                temp.Add(new EffectInstruction(aeRef, 0));
                abilityRef.setEffectInstructions(temp);
-               AssetDatabase.CreateAsset(abilityRef, "Assets/Scripts/Ability/" + abilityName + ".asset");
-               Debug.Log(abilityRef.GetType().ToString() + "| Assets/Scripts/Ability/" + abilityName + ".asset");
+               
+               string abilityPath =  "Assets/Scripts/Ability/GeneratorOut/" + abilityName + ".asset";
+               AssetDatabase.CreateAsset(abilityRef, abilityPath);
+               Debug.Log(abilityRef.GetType().ToString() + "| " + abilityPath);
                if(addToDatabases){
                   addAbilityToDatabase(abilityRef);
                }
