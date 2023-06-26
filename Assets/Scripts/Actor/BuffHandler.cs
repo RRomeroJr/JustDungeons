@@ -26,6 +26,9 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
     [SerializeField] private float slow;
     [SerializeField] private float haste;
     [SerializeField] private float damageTakenMod;
+    [SerializeField] private float damageOutMod;
+    [SerializeField] private float healingTakenMod;
+    [SerializeField] private float healingOutMod;
 
     [SerializeField] private readonly SyncList<Buff> buffs = new();
 
@@ -52,6 +55,7 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
     /// </summary>
     public event EventHandler<SpeedChangedEventArgs> SpeedChanged;
     public event EventHandler<DamageTakenModChangedEventArgs> DamageTakenModChanged;
+    public event EventHandler<CombatModChangedEventArgs> CombatModChanged;
 
     #endregion
 
@@ -191,6 +195,33 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
             ChangeDamageTakenMod();
         }
     }
+    public float DamageOutMod
+    {
+        get => damageOutMod;
+        set
+        {
+            damageOutMod = value;
+            ChangeCombatMod(CombatModIDs.DamageOut);
+        }
+    }
+    public float HealingTakenMod
+    {
+        get => healingTakenMod;
+        set
+        {
+            healingTakenMod = value;
+            ChangeCombatMod(CombatModIDs.HealingTaken);
+        }
+    }
+    public float HealingOutMod
+    {
+        get => healingOutMod;
+        set
+        {
+            healingOutMod = value;
+            ChangeCombatMod(CombatModIDs.HealingOut);
+        }
+    }
 
     public SyncList<Buff> Buffs => buffs;
 
@@ -202,9 +233,12 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         silenced = 0;
         feared = 0;
         dizzy = 0;
-        slow = 1;
-        haste = 1;
-        damageTakenMod = 1;
+        slow = 1.0f;
+        haste = 1.0f;
+        damageTakenMod = 1.0f;
+        damageOutMod = 1.0f;
+        healingTakenMod = 1.0f;
+        healingOutMod = 1.0f;
         if (!isServer)
         {
             buffs.Callback += OnBuffsUpdated;
@@ -284,6 +318,49 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
             eDamageTakenMod = DamageTakenMod
         };
         DamageTakenModChanged?.Invoke(this, damageTakenChangedEventArgs);
+    }
+    private void ChangeCombatMod(CombatModIDs _combatModID)
+    {
+        CombatModChangedEventArgs combatModChangedEventArgs = null;
+        switch(_combatModID)
+        {
+            case(CombatModIDs.DamageTaken):
+                combatModChangedEventArgs = new CombatModChangedEventArgs
+                {
+                    eFloat = DamageTakenMod,
+                    eCombatModID = _combatModID
+                    
+                };
+                break;
+            case(CombatModIDs.DamageOut):
+                combatModChangedEventArgs = new CombatModChangedEventArgs
+                {
+                    eFloat = DamageOutMod,
+                    eCombatModID = _combatModID
+                    
+                };
+                break;
+            case(CombatModIDs.HealingTaken):
+                combatModChangedEventArgs = new CombatModChangedEventArgs
+                {
+                    eFloat = HealingTakenMod,
+                    eCombatModID = _combatModID
+                    
+                };
+                break;
+            case(CombatModIDs.HealingOut):
+                combatModChangedEventArgs = new CombatModChangedEventArgs
+                {
+                    eFloat = HealingOutMod,
+                    eCombatModID = _combatModID
+                    
+                };
+                break;
+            default:
+                break;
+        }
+
+        CombatModChanged?.Invoke(this, combatModChangedEventArgs);
     }
 
     /// <summary>
