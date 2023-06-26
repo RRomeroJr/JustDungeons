@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 8203666079456461169}
   - component: {fileID: 1963600566536989270}
   - component: {fileID: 8279149156707041903}
+  - component: {fileID: -1452446917391700314}
   m_Layer: 7
   m_Name: EnemyBase
   m_TagString: Enemy
@@ -214,7 +215,7 @@ MonoBehaviour:
   actorName: 
   health: 0
   maxHealth: 0
-  role: 0
+  <Role>k__BackingField: 0
   unitColor: {r: 0, g: 0, b: 0, a: 0}
   mobId: -1
   combatClass: {fileID: 0}
@@ -228,6 +229,16 @@ MonoBehaviour:
   attackerList: []
   resourceTickTime: 0
   resourceTickMax: 1
+  OnEnterCombat:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLeaveCombat:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEffectRecieved:
+    m_PersistentCalls:
+      m_Calls: []
+  controller: {fileID: 0}
 --- !u!114 &6911821065057922727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -287,6 +298,7 @@ MonoBehaviour:
   dizzy: 0
   slow: 0
   haste: 0
+  damageTakenMod: 0
 --- !u!114 &1963600566536989270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,7 +314,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  autoAttackClone: {fileID: 0}
+  autoAttackClone: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
   followTarget: {fileID: 0}
   globalCooldown: 0
   abilities: []
@@ -321,7 +333,13 @@ MonoBehaviour:
   enemyStats: {fileID: 0}
   target: {fileID: 0}
   multiTargets: []
+  spawnLocation: {x: 0, y: 0, z: 0}
+  collider: {fileID: 0}
+  aggroRadius: 7
+  combatTemperment: 0
+  aggroTarget: {fileID: 0}
   phase: 0
+  tauntImmune: 0
 --- !u!114 &8279149156707041903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,3 +353,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tree: {fileID: 0}
+--- !u!114 &-1452446917391700314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 642956813314349990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb0583155630d7e439cbf7e547949754, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  indicatorPrefab: {fileID: 2521846024041868146, guid: 7a6ac257c1aeb5d4296dcfa03eb725f5, type: 3}

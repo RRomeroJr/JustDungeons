@@ -2,7 +2,7 @@
 
 namespace BuffSystem
 {
-    [CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewDamageTakenModEffect", menuName = ProjectPaths.buffEffectsMenu + "DamageTaken")]
+    [CreateAssetMenu(fileName = ProjectPaths.buffEffects + "NewDamageTakenMod", menuName = ProjectPaths.buffEffectsMenu + "DamageTaken")]
     public class DamageTakenMod : BuffEffect
     {
         public override void EndEffect(BuffSystem.Buff buff, float effectValue)

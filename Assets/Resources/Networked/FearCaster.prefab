@@ -19,6 +19,9 @@ GameObject:
   - component: {fileID: 3871712234253891919}
   - component: {fileID: 8638706385110007143}
   - component: {fileID: -8456821108339157566}
+  - component: {fileID: -7787531913099909461}
+  - component: {fileID: -6593130573431462916}
+  - component: {fileID: -1070396221362818235}
   m_Layer: 7
   m_Name: FearCaster
   m_TagString: Untagged
@@ -295,7 +298,6 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   globalCooldown: 0
   abilities:
-  - {fileID: 11400000, guid: 8d451a70c98d8f64982645b74666e975, type: 2}
   - {fileID: 11400000, guid: 0be588aa3cf4cba49be09ec3c7eedf8e, type: 2}
   moveSpeed: 420
   moveSpeedModifier: 1
@@ -318,3 +320,77 @@ MonoBehaviour:
   combatTemperment: 0
   aggroTarget: {fileID: 0}
   phase: 0
+  tauntImmune: 0
+--- !u!114 &-7787531913099909461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6569267623682333730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 489a9270251ccbd47bf7265922cd55bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  showDebug: 0
+  <QueuedAbility>k__BackingField: {fileID: 0}
+  <QueuedTarget>k__BackingField: {fileID: 0}
+  <QueuedRelWP>k__BackingField:
+    Value: {x: 0, y: 0, z: 0}
+  <QueuedRelWP2>k__BackingField:
+    Value: {x: 0, y: 0, z: 0}
+  abilityCooldowns: []
+  buffs: []
+  onAbilityCastHooks:
+    m_PersistentCalls:
+      m_Calls: []
+  ReadyToFire: 0
+  IsCasting: 0
+  <IsChanneling>k__BackingField: 0
+  castTime: 0
+  lastChannelTick: 0
+--- !u!114 &-6593130573431462916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6569267623682333730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e46bd3245ea449547948ff01e01d7078, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  fearImmune: 0
+  silenceImmune: 0
+  stunImmune: 0
+  dizzyImmune: 0
+  slowImmune: 0
+  hasteImmune: 0
+  feared: 0
+  silenced: 0
+  stunned: 0
+  dizzy: 0
+  slow: 0
+  haste: 0
+  damageTakenMod: 0
+--- !u!114 &-1070396221362818235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6569267623682333730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb0583155630d7e439cbf7e547949754, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  indicatorPrefab: {fileID: 0}

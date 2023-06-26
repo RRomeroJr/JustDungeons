@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4652856541385686297}
   - component: {fileID: 1320846551749503627}
   - component: {fileID: -1077715848107764833}
+  - component: {fileID: -52102692333240046}
   m_Layer: 0
   m_Name: SaytrGroundAoe
   m_TagString: Untagged
@@ -52,8 +53,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  caster: {fileID: 0}
-  target: {fileID: 0}
   worldPointTarget: {x: 0, y: 0, z: 0}
   aoeActorIgnore: []
   eInstructs:
@@ -64,6 +63,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     deliveryNVect2: {x: 0, y: 0}
+  buffs: []
   connectedToCaster: 0
   delayTimer: 7
   start: 0
@@ -73,7 +73,10 @@ MonoBehaviour:
   tickRate: 1
   aoeCap: 0
   followTarget: 0
-  ignoreDuration: 0
+  followCaster: 0
+  useDisconnectTimer: 0
+  disconnectTimer: 0
+  ignoreDuration: 1
   innerCircleRadius: 0
   safeZoneCenter: {x: 0, y: 0}
   skillshotvector: {x: 0, y: 0}
@@ -83,6 +86,9 @@ MonoBehaviour:
   hitHostile: 1
   hitFriendly: 0
   canHitSelf: 0
+  checkAtFeet: 0
+  <RotationsPerSecond>k__BackingField: 0
+  rotationSequence: []
 --- !u!114 &3926534262364259519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,8 +172,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 835569587
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: d13767ba6bf0a2a4cac4de5d74fd256d, type: 3}
   m_Color: {r: 0.78679246, g: 1, b: 0.98162484, a: 0.4392157}
@@ -209,3 +215,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myRenderer: {fileID: 0}
+--- !u!114 &-52102692333240046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8996080988287052582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cc051e9c870b084cb3f3c979a5f7f73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

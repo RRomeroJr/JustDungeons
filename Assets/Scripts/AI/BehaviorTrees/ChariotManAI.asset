@@ -98,7 +98,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: b3f562f6f4c6b4e48862857393f80d8a
-  position: {x: -654.5139, y: 1002.65356}
+  position: {x: -719.99976, y: 1002.9997}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -106,6 +106,7 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   setToNull: 1
+  setLockedTo: 1
 --- !u!114 &-8144144208429961369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,6 +477,7 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   setToNull: 0
+  setLockedTo: 0
 --- !u!114 &-2841799693173234547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -545,7 +547,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: f8a32d5da49e29c4b8ab065c8565b92f
-  position: {x: -116.513916, y: 1544.6536}
+  position: {x: -113.00013, y: 1545.0002}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -608,6 +610,7 @@ MonoBehaviour:
   drawGizmos: 0
   ability: {fileID: 11400000, guid: 97e10e75bc078e3418ab74d2544eeb4e, type: 2}
   targetSelf: 0
+  tryOnce: 0
 --- !u!114 &-1704096713112807213
 MonoBehaviour:
   m_ObjectHideFlags: 0

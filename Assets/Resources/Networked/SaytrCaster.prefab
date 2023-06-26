@@ -22,6 +22,8 @@ GameObject:
   - component: {fileID: 4519843579600410124}
   - component: {fileID: -8944918247425651855}
   - component: {fileID: 2810046292229468403}
+  - component: {fileID: 204036981867627379}
+  - component: {fileID: -4505251226503624959}
   m_Layer: 7
   m_Name: SaytrCaster
   m_TagString: Untagged
@@ -147,6 +149,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   autoAttackClone: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
+  followTargetLocked: 0
   followTarget: {fileID: 0}
   globalCooldown: 0
   abilities: []
@@ -154,7 +157,7 @@ MonoBehaviour:
   moveSpeedModifier: 1
   facingDirection: {x: 0, y: 0}
   holdDirection: 0
-  tryingToMove: 0
+  holdPosistion: 0
   autoAttacking: 0
   resolvingMoveTo: 0
   autoAttackRequest: 0
@@ -170,7 +173,8 @@ MonoBehaviour:
   aggroRadius: 7
   combatTemperment: 0
   aggroTarget: {fileID: 0}
-  phase: 0
+  phase: 1
+  tauntImmune: 0
 --- !u!114 &2096029720338020585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,6 +245,7 @@ MonoBehaviour:
   combatClass: {fileID: 0}
   mainStat: 100
   target: {fileID: 0}
+  abilityHandler: {fileID: 0}
   nameplate: {fileID: 0}
   classResources: []
   state: 0
@@ -375,10 +380,6 @@ MonoBehaviour:
   showDebug: 0
   <QueuedAbility>k__BackingField: {fileID: 0}
   <QueuedTarget>k__BackingField: {fileID: 0}
-  <QueuedRelWP>k__BackingField:
-    Value: {x: 0, y: 0, z: 0}
-  <QueuedRelWP2>k__BackingField:
-    Value: {x: 0, y: 0, z: 0}
   abilityCooldowns: []
   buffs: []
   onAbilityCastHooks:
@@ -389,3 +390,47 @@ MonoBehaviour:
   <IsChanneling>k__BackingField: 0
   castTime: 0
   lastChannelTick: 0
+--- !u!114 &204036981867627379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096029720338020577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e46bd3245ea449547948ff01e01d7078, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  fearImmune: 0
+  silenceImmune: 0
+  stunImmune: 0
+  dizzyImmune: 0
+  slowImmune: 0
+  hasteImmune: 0
+  feared: 0
+  silenced: 0
+  stunned: 0
+  dizzy: 0
+  slow: 0
+  haste: 0
+  damageTakenMod: 0
+  damageOutMod: 0
+  healingTakenMod: 0
+  healingOutMod: 0
+--- !u!114 &-4505251226503624959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096029720338020577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb0583155630d7e439cbf7e547949754, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  indicatorPrefab: {fileID: 2521846024041868146, guid: 7a6ac257c1aeb5d4296dcfa03eb725f5, type: 3}

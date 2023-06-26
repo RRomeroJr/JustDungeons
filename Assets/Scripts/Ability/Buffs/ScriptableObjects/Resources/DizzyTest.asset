@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c893311ec16b744b77cf9683178ae3, type: 3}
   m_Name: DizzyTest
   m_EditorClassIdentifier: 
-  duration: 7
-  tickRate: 0.1
+  duration: 10
+  tickRate: 0
   stackable: 1
   icon: {fileID: 21300000, guid: 42644e678549a5f4786a287e01aba360, type: 3}
   particles: {fileID: 0}
   buffEffectsList:
   - Key: {fileID: 11400000, guid: 234f95faa96dd314cb29dfe4393fba79, type: 2}
     Value: 0
+  onHitHooks:
+    m_PersistentCalls:
+      m_Calls: []

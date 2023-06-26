@@ -392,7 +392,7 @@ public class AbilityHandler : NetworkBehaviour
             if ((GetComponent<Controller>().TryingToMove) && (!QueuedAbility.castWhileMoving))
             {
                 Debug.Log("cast movement cancel");
-                RpcResetCastVars();
+                RpcResetCastVarsGCDReset();
             }
         }
 
@@ -423,7 +423,7 @@ public class AbilityHandler : NetworkBehaviour
             if ((QueuedAbility.NeedsTargetActor()) && (QueuedAbility.NeedsTargetWP()))
             {
                 Debug.Log("Cast that requires Actor and WP not yet supported. clearing queue.");
-                RpcResetCastVars();
+                RpcResetCastVarsGCDReset();
             }
             else if (QueuedAbility.NeedsTargetWP())
             {
@@ -516,7 +516,7 @@ public class AbilityHandler : NetworkBehaviour
             //When the game is running a window seems to break if an instant ability (Like autoattack)
             //goes off closely before a casted ability. So this check was implemented to fix it
 
-            RpcResetCastVars();
+            RpcResetCastVarsGCDReset();
         }
         if (HBCTools.areHostle(actor, _target))
         {
@@ -809,14 +809,24 @@ public class AbilityHandler : NetworkBehaviour
 
     // Casting: Reseting---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    [ClientRpc]
-    public void RpcResetCastVars()
+    public void ResetCastVars()
     {
         ResetQueue();
         ReadyToFire = false;
         IsCasting = false;
         IsChanneling = false;
         ResetCastTime();
+    }
+    [ClientRpc]
+    public void RpcResetCastVars()
+    {
+        ResetCastVars();
+    }
+    [ClientRpc]
+    public void RpcResetCastVarsGCDReset()
+    {
+        ResetCastVars();
+        GetComponent<Controller>().globalCooldown = 0.0f;
     }
 
     void ResetQueue()

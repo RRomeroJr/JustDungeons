@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
+public enum CombatModIDs
+{
+    DamageTaken, DamageOut, HealingTaken, HealingOut
+}
 public class DamageEventArgs : EventArgs
 {
     public float Damage { get; set; }
@@ -40,5 +44,9 @@ public class SpeedChangedEventArgs : EventArgs
 public class DamageTakenModChangedEventArgs : EventArgs
 {
     public float eDamageTakenMod { get; set; }
-
+}
+public class CombatModChangedEventArgs : EventArgs
+{
+    public float eFloat { get; set; }
+    public CombatModIDs eCombatModID { get; set; }
 }

@@ -46,7 +46,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 0}
   castBarPrefab: {fileID: 6233138377500794409, guid: 8c21386b4558be24e8eaf8d063254509, type: 3}
+  healingGaugePrefab: {fileID: 6233138377500794409, guid: 14cd8e91e222f334d9115af91966159c, type: 3}
+  hotbuttonPrefab: {fileID: 0}
+  buffBarPrefab: {fileID: 0}
   targetFrame: {fileID: 0}
+  targetOfTargetFrame: {fileID: 0}
+  healingGauge: {fileID: 0}
   frames: []
   cameraPrefab: {fileID: 2164995610287419867, guid: 06a8bba7feee03346af1989cd8654e6e, type: 3}
   defaultColor: {r: 0.8584906, g: 0.25430757, b: 0.25430757, a: 1}
+  glowList: []
+  StartAbiltyGlow:
+    m_PersistentCalls:
+      m_Calls: []
+  EndAbilityGlow:
+    m_PersistentCalls:
+      m_Calls: []
+  glowChecks:
+    m_PersistentCalls:
+      m_Calls: []
+  hotbars: []
+  useMouseOver: 1

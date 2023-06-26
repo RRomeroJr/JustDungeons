@@ -13,9 +13,17 @@ MonoBehaviour:
   m_Name: DioApplyDizzy
   m_EditorClassIdentifier: 
   effectName: DioApplyDizzy
-  id: -1
+  id: 24
   power: 0
+  powerScale: 1
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 0
-  buffID: {fileID: 11400000, guid: 7028b7f211e071e4cad9209fc609bccb, type: 2}
+  target: {fileID: 0}
+  caster: {fileID: 0}
+  targetWP:
+    Value: {x: 0, y: 0, z: 0}
+  targetWP2:
+    Value: {x: 0, y: 0, z: 0}
+  isHostile: 1
+  buffSO: {fileID: 11400000, guid: 00789973e90209a49bb6eb8dfa31b72c, type: 2}

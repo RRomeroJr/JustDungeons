@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 791448df94d30b4418821c52d3b3c780, type: 3}
   m_Name: MenderSecondary
   m_EditorClassIdentifier: 
+  color: {r: 0.41708788, g: 0.8526915, b: 0.9528302, a: 1}

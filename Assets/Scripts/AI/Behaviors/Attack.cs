@@ -9,16 +9,22 @@ public class Attack : ActionNode
     bool castStarted;
     bool castFinished;
     public bool targetSelf = false;
+    public bool tryOnce = false;
     protected override void OnStart()
     {
         //castStarted = false;
         castFinished = false;
-        context.actor.onAbilityCastHooks.AddListener(checkCastedAbility);
+        if(!tryOnce)
+        {
+            context.actor.onAbilityCastHooks.AddListener(checkCastedAbility);
+        }
     }
 
     protected override void OnStop()
     {
-        context.actor.onAbilityCastHooks.RemoveListener(checkCastedAbility);
+        if(!tryOnce){
+            context.actor.onAbilityCastHooks.RemoveListener(checkCastedAbility);
+        }
     }
 
     protected override State OnUpdate()
@@ -40,8 +46,22 @@ public class Attack : ActionNode
             {
                 _target = context.controller.target.GetComponent<Actor>();
             }
-            context.actor.castAbility3(ability, _target);
+            
+            if(tryOnce)
+            {
+                return BoolToState(context.actor.castAbility3(ability, _target));
+            }
+            else{
+                context.actor.castAbility3(ability, _target);
+            }
             //castStarted = true;
+        }
+        else
+        {
+            if(tryOnce)
+            {
+                return State.Failure;
+            }
         }
         if(castFinished == false){
             return State.Running;

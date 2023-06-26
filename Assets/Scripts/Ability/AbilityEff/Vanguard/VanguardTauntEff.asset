@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9ece1a486a738441a1b34010cb5464e, type: 3}
   m_Name: VanguardTauntEff
   m_EditorClassIdentifier: 
-  effectName: 
-  id: -1
+  effectName: VanguardTauntEff
+  id: 82
   power: 0
   powerScale: 1
   parentBuff: {fileID: 0}

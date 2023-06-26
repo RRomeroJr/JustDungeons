@@ -290,6 +290,10 @@ public class Actor : NetworkBehaviour
         if (combatClass != null)
         {
             UIManager.Instance.SetUpHotbars();
+            if(combatClass.name == "Mender")
+            {
+                UIManager.Instance.SpawnHealingGauge();
+            }
         }
     }
 
@@ -719,13 +723,17 @@ public class Actor : NetworkBehaviour
             restoreValue(-1 * amount, valueType); //if negative call restore instead with amount's sign flipped
             return;
         }
+        float modifiedAmount = amount;
         switch (valueType)
         {
             case 0:
                 if(buffHandler != null){
-                    amount = (int)((buffHandler as BuffHandler).DamageTakenMod * amount);
+                    modifiedAmount += amount * (buffHandler.DamageTakenMod - 1.0f);
                 }
-                Health -= amount;
+                if(fromActor != null && fromActor.buffHandler != null){
+                    modifiedAmount += amount * (fromActor.buffHandler.DamageOutMod - 1.0f);
+                }
+                Health -= (int)modifiedAmount;
                 if (fromActor != null)
                 {
 
@@ -766,10 +774,18 @@ public class Actor : NetworkBehaviour
             Debug.Log("Amount was Neg calling to damageValue instead");
             damageValue(-1 * amount, valueType); // if negative call damage instead with amount's sign flipped
         }
+
+        float modifiedAmount = amount;
         switch (valueType)
         {
             case 0:
-                Health += amount;
+                if(buffHandler != null){
+                    modifiedAmount += amount * (buffHandler.HealingTakenMod - 1.0f);
+                }
+                if(fromActor != null && fromActor.buffHandler != null){
+                    modifiedAmount += amount * (fromActor.buffHandler.HealingOutMod - 1.0f);
+                }
+                Health += (int)modifiedAmount;
                 if (fromActor != null)
                 {
  
@@ -805,6 +821,9 @@ public class Actor : NetworkBehaviour
     }
     public int getResourceMax(int index){
         return classResources[index].max;
+    }
+    public ClassResource getResource(int index){
+        return classResources[index];
     }
     public ClassResourceType getResourceType(int index){
         if(index >= classResources.Count)

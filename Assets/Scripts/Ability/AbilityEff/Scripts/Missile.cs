@@ -24,8 +24,8 @@ public class Missile : DeliveryEff
         
         
         delivery = Instantiate(misslePrefab);
-        if(targetWP != null){
-            delivery.transform.position += targetWP.Value;
+        if(targetWP2 != null){
+            delivery.transform.position += targetWP2.Value;
 //            Debug.Log("targetWP.Value: " + targetWP.Value + "Spawning Missle there");
         }
         else if(_caster != null){
@@ -39,7 +39,7 @@ public class Missile : DeliveryEff
         delivery.GetComponent<AbilityDelivery>().speed = speed; 
         if(isSkillshot){
             
-            delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_secondaryTarget, targetWP2);
+            delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_secondaryTarget, targetWP);
             
             //Debug.Log("setting delivery to 1");
             delivery.GetComponent<AbilityDelivery>().type = 1;
