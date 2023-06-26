@@ -18,6 +18,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 791d22f9a2517294fbee641e2e6ab063, type: 2}
   - {fileID: 11400000, guid: d073be7588e3d8741ac1c847cf235096, type: 2}
   - {fileID: 11400000, guid: 664045ab61cc4a440977bcb237c7b148, type: 2}
+  - {fileID: 11400000, guid: 7b08b3fe64231904295125dd04f79726, type: 2}
+  - {fileID: 11400000, guid: f2efd72cf47972847af005ca724876c6, type: 2}
   classResources:
   - crType: {fileID: 11400000, guid: 55f627c33b30c14489770a8e971ecee4, type: 2}
     max: 120

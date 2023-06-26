@@ -22,12 +22,28 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b5499d8d42ef81b4b9cd159493b21153, type: 2}
   - {fileID: 11400000, guid: 722fa7e69c249d740829674736b49962, type: 2}
   - {fileID: 11400000, guid: ca240e3b5b83aee44af48f10b6612abe, type: 2}
-  - {fileID: 11400000, guid: 789ee262ef9ad0c418009477bd594f0d, type: 2}
+  - {fileID: 11400000, guid: 7fa77e9ad86869d4bb521d9c98914e20, type: 2}
   classResources:
+  - crType: {fileID: 11400000, guid: 14d8d4dde818cf44396153ffe293ee8d, type: 2}
+    max: 100
+    amount: 0
+    combatRegen: 1
+    outOfCombatRegen: 1
+    tickTime: 0
+    tickMax: 5
   - crType: {fileID: 11400000, guid: 11a7a1aafb0dd204e93f65399831cb70, type: 2}
-    max: 4
+    max: 3
+    amount: 0
+    combatRegen: 1
+    outOfCombatRegen: 1
+    tickTime: 0
+    tickMax: 20
+  - crType: {fileID: 11400000, guid: 3a1268d972f5a6f4c98d0822ba62767d, type: 2}
+    max: 3
     amount: 0
     combatRegen: 0
     outOfCombatRegen: 0
     tickTime: 0
     tickMax: 0
+  rac: {fileID: 0}
+  classGlowChecks: []
