@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5726915145614081702}
   - component: {fileID: 5726915145614081705}
   - component: {fileID: 5726915145614081703}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: -1627082884813370055}
   - component: {fileID: 5726915145644695685}
   - component: {fileID: -7317289741359242560}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BeamBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -228,7 +228,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72eb10b3c5beb964fabd18f3c9b2343b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxWidth: 5
   startSprite: []
   middleSprite: []
   endSprite: []
@@ -264,6 +263,7 @@ MonoBehaviour:
   aoeCap: 0
   followTarget: 0
   followCaster: 0
+  trackTarget: 0
   useDisconnectTimer: 0
   disconnectTimer: 0
   ignoreDuration: 0
@@ -290,7 +290,7 @@ GameObject:
   - component: {fileID: 5726915145837233608}
   - component: {fileID: 7544700216844549526}
   - component: {fileID: 409398054133297265}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Middle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -436,7 +436,7 @@ GameObject:
   - component: {fileID: 5726915146909798964}
   - component: {fileID: 5726915146909798967}
   - component: {fileID: 5726915146909798966}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
