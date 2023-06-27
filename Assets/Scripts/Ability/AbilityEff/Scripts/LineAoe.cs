@@ -23,6 +23,10 @@ public class LineAoe : Aoe
         {
             ability = Instantiate(aoePrefab, _caster.transform.position, Quaternion.identity);
         }
+        if (ability.TryGetComponent(out BeamBuilder beam))
+        {
+            beam.Length = Length;
+        }
         AbilityDelivery abilityDelivery = ability.GetComponent<AbilityDelivery>();
         abilityDelivery.Target = _secondaryTarget != null ? _secondaryTarget : _target;
         abilityDelivery.Caster = _caster;
