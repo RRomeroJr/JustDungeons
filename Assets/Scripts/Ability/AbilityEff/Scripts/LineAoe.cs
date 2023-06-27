@@ -14,10 +14,17 @@ public class LineAoe : Aoe
         //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
         //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
         //Debug.Log(_targetWP == null ? "RingAoe: No targetWP" : ("RingAoe: wp = " + _targetWP.Value.ToString()));
-        GameObject ability = Instantiate(aoePrefab, getWP(_secondaryTarget, _targetWP), Quaternion.identity);
-
+        GameObject ability;
+        if (_targetWP != null)
+        {
+            ability = Instantiate(aoePrefab, getWP(_secondaryTarget, _targetWP), Quaternion.identity);
+        }
+        else
+        {
+            ability = Instantiate(aoePrefab, _caster.transform.position, Quaternion.identity);
+        }
         AbilityDelivery abilityDelivery = ability.GetComponent<AbilityDelivery>();
-        abilityDelivery.Target = _secondaryTarget;
+        abilityDelivery.Target = _secondaryTarget != null ? _secondaryTarget : _target;
         abilityDelivery.Caster = _caster;
         abilityDelivery.worldPointTarget = getWP(_target, _targetWP);
         abilityDelivery.transform.position = getWP(_caster, targetWP2);
