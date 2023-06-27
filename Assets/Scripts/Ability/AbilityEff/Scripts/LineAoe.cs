@@ -21,8 +21,7 @@ public class LineAoe : Aoe
         abilityDelivery.Caster = _caster;
         abilityDelivery.worldPointTarget = getWP(_target, _targetWP);
         abilityDelivery.transform.position = getWP(_caster, targetWP2);
-        abilityDelivery.transform.right = abilityDelivery.worldPointTarget - abilityDelivery.transform.position;
-        ability.transform.localScale = new Vector3(Length, prefabScale.y, prefabScale.z);
+        abilityDelivery.transform.right = Vector3.Normalize(abilityDelivery.worldPointTarget - abilityDelivery.transform.position);
         //Debug.Log(delivery.transform.localScale + "|" + length );
         abilityDelivery.eInstructs = eInstructs;
         NetworkServer.Spawn(ability);
