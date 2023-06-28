@@ -27,4 +27,4 @@ MonoBehaviour:
     Value: {x: 0, y: 0, z: 0}
   isHostile: 0
   school: 0
-  mobPrefab: {fileID: 6569267623682333730, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
+  mobPrefab: {fileID: 3785473732060703294, guid: 88c38521c5b0bc54ea93220e673fc7c8, type: 3}
