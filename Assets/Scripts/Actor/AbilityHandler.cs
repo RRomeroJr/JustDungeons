@@ -31,6 +31,7 @@ public class AbilityHandler : NetworkBehaviour
     // used for buffing any effects at the moment. Only, "Did this actor cast the desired ability?"
     // then, do something
     public UnityEvent<int> onAbilityCastHooks = new UnityEvent<int>();
+    public UnityEvent OnCastStarted = new UnityEvent();
     
     // Cast state values
     // When readyToFire is true queuedAbility will fire
@@ -255,6 +256,7 @@ public class AbilityHandler : NetworkBehaviour
         {
             QueueAbility(_ability, _target, _relWP, _relWP2);
             PrepCast();
+            OnCastStarted.Invoke();
         }
         else
         {
@@ -540,6 +542,8 @@ public class AbilityHandler : NetworkBehaviour
         if(QueuedAbility.getCastTime() <= 0.0f)
         {
             PrepCast();
+            OnCastStarted.Invoke();
+
         }
 
         if (QueuedAbility.isChannel == false)

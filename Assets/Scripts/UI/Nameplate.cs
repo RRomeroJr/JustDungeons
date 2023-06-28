@@ -16,8 +16,7 @@ public class Nameplate : MonoBehaviour
     public Image resourceFill;
     public Slider healthBar;
     public Slider resourceBar;
-    public Slider castBar;
-    public Text castName;
+    public CastBar castBar;
     public Actor actor;
     public Vector2 offset;
     public Canvas canvas;
@@ -27,15 +26,23 @@ public class Nameplate : MonoBehaviour
         offset = new Vector2(0f, 1.5f);
     }
     void Start(){
-       healthBar =  transform.GetChild(1).GetComponent<Slider>();
-       resourceBar =  transform.GetChild(2).GetComponent<Slider>();
-       castBar =  transform.GetChild(3).GetComponent<Slider>();
-       castName =  transform.GetChild(3).GetComponentInChildren<Text>();
-       unitName.text = actor.ActorName;
-       canvas = GetComponentInParent<Canvas>();
-       actorRenderer = actor.GetComponent<Renderer>();
-       selectedEvent.AddListener(SetSelectedScale);
+        healthBar =  transform.GetChild(1).GetComponent<Slider>();
+        resourceBar =  transform.GetChild(2).GetComponent<Slider>();
+        unitName.text = actor.ActorName;
+        castBar.caster = actor.abilityHandler;
+        actor.abilityHandler.OnCastStarted.AddListener(OnCastStarted);
+        canvas = GetComponentInParent<Canvas>();
+        actorRenderer = actor.GetComponent<Renderer>();
+        selectedEvent.AddListener(SetSelectedScale);
        
+    }
+    void OnCastStarted()
+    {
+        if(castBar.gameObject.active == false)
+        {
+            castBar.gameObject.active = true;
+        }
+        castBar.OnAbilityChanged();
     }
     public static Nameplate Create(Actor _actor){
         Nameplate npRef = (Instantiate(UIManager.nameplatePrefab) as GameObject).GetComponentInChildren<Nameplate>();
@@ -52,7 +59,7 @@ public class Nameplate : MonoBehaviour
         transform.position = actor.transform.position + (Vector3)offset;
         updateSliderHealth();
         updateSliderResource(resourceBar);
-        updateSliderCastBar();
+
         if(actor != null){
             canvas.sortingOrder = actorRenderer.sortingOrder;
         }
@@ -77,23 +84,5 @@ public class Nameplate : MonoBehaviour
         }
         
     }
-    void updateSliderCastBar(){
-        if(actor.getQueuedAbility() == null){
-            castBar.value = 0.0f;
-            castName.text = "";
-            return;
-        }
-        
-        //Actor has a queued ability
-        if(actor.abilityHandler.IsChanneling)
-        {
-            castBar.maxValue = actor.getQueuedAbility().channelDuration;
-        }
-        else
-        {
-            castBar.maxValue = actor.getQueuedAbility().getCastTime();
-        }
-        castBar.value = actor.castTime;
-        castName.text = actor.getQueuedAbility().getName();
-    }
+
 }
