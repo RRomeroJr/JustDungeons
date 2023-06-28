@@ -2,6 +2,15 @@
 using Mirror;
 using UnityEngine;
 
+public enum AbilityType
+{
+    Normal,
+    Skillshot = 1,
+    Aoe = 2,
+    RingAoe = 4,
+    LineAoe = 5
+}
+
 public class AbilityDelivery : NetworkBehaviour
 {
     /*
@@ -86,7 +95,7 @@ public class AbilityDelivery : NetworkBehaviour
             if (type == 5)
             { //line aoe
               //Debug.Log("Start type 5: LineAoe");
-              // transform.right = worldPointTarget - transform.position;
+              // transform.right = worldPointTarget - transform.position;         
             }
             if (connectedToCaster)
             {
@@ -149,9 +158,9 @@ public class AbilityDelivery : NetworkBehaviour
         }
 
         //Debug.Log("Trigger stay server and start");
-        if (!other.TryGetComponent<Actor>(out var hitActor))
+        if (!other.TryGetComponent(out Actor hitActor))
         {
-            if (other.TryGetComponent<IDamageable>(out var damageable))
+            if (other.TryGetComponent(out IDamageable damageable))
             {
                 foreach (EffectInstruction eI in eInstructs)
                 {
