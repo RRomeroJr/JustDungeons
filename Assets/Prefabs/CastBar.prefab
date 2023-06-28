@@ -342,5 +342,9 @@ MonoBehaviour:
   castTime: 100
   elaspedTime: 0
   caster: {fileID: 0}
-  target: {fileID: 0}
+  targetActor: {fileID: 0}
+  targetWP: {x: 0, y: 0, z: 0}
+  target: {x: 0, y: 0, z: 0}
+  interruptableColor: {r: 0.94509804, g: 0.8039216, b: 0.42352942, a: 1}
+  uninterruptableColor: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 1}
   start: 0

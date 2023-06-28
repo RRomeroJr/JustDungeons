@@ -14,6 +14,8 @@ public class CastBar : MonoBehaviour
     public Actor targetActor;
     public Vector3 targetWP;
     public Vector3 target;
+    public Color interruptableColor;
+    public Color uninterruptableColor;
     public bool start = false;
     
   void Start(){
@@ -58,6 +60,14 @@ public class CastBar : MonoBehaviour
       
       if(caster.IsCasting)
       {
+        if(caster.QueuedAbility.interruptable && castFill.color != interruptableColor)
+        {
+          castFill.color = interruptableColor;
+        }
+        else if(!caster.QueuedAbility.interruptable && castFill.color != uninterruptableColor)
+        {
+          castFill.color = uninterruptableColor;
+        }
         castBar.value = caster.castTime;
       }
       else
