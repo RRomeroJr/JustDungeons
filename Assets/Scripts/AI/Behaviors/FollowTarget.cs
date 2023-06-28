@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TheKiwiCoder;
 using UnityEngine;
-using TheKiwiCoder;
 
+[Movement]
 public class FollowTarget : ActionNode
 {
     protected override void OnStart()

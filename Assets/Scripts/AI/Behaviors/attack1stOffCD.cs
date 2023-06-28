@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TheKiwiCoder;
 
+[Attack]
 public class attack1stOffCD : ActionNode
 {
     private Ability_V2 toCast = null;

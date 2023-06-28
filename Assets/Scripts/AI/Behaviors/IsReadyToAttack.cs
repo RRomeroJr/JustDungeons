@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TheKiwiCoder;
+﻿using TheKiwiCoder;
 
+[Attack]
 public class IsReadyToAttack : ActionNode
 {
     public Ability_V2 ability;

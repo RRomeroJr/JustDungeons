@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TheKiwiCoder;
+﻿using TheKiwiCoder;
 
+[TargetFinding]
 public class TargetRole : ActionNode
 {
     public Role role;

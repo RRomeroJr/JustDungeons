@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TheKiwiCoder;
 using UnityEngine;
-using TheKiwiCoder;
 
 // Used to check if the set target is within a defined range
 // Does not set a target, target has to be set by another behavior; FindTarget()
+[TargetFinding]
 public class TargetInRange : ActionNode
 {
     public float range;

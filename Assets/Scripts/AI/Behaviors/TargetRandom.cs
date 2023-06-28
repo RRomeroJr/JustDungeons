@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TheKiwiCoder;
+﻿using TheKiwiCoder;
 
+[TargetFinding]
 public class TargetRandom : ActionNode
 {
     protected override void OnStart()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TheKiwiCoder;
 
+[Attack]
 public class Attack : ActionNode
 {
     public Ability_V2 ability;

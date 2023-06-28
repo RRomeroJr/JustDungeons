@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TheKiwiCoder;
 using UnityEngine;
-using TheKiwiCoder;
 
+[TargetFinding]
 public class TargetBehindObstacle : ActionNode
 {
     public LayerMask obstacleMask;
