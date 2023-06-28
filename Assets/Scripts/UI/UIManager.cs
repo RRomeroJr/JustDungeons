@@ -71,6 +71,7 @@ public class UIManager : MonoBehaviour
         updateUnitFrame(partyFrame2, partyFrame2.actor);
         updateUnitFrame(partyFrame3, partyFrame3.actor);*/
         //setUpUnitFrame(partyFrame, partyFrame.actor);
+        targetOfTargetFrame.castBar.gameObject.active = false;
         if (CustomNetworkManager.singleton != null)
         {
             CustomNetworkManager.singleton.GamePlayers.CollectionChanged += AddPlayerFrame;
@@ -132,12 +133,23 @@ public class UIManager : MonoBehaviour
     public void updateUnitFrame(UnitFrame unitFrame, Actor actor){
         
         if(unitFrame.actor != actor ){
-            
-            unitFrame.actor = actor;
             if(unitFrame.GetType() == typeof(TargetFrame))
             {
                 (unitFrame as TargetFrame).portrait.sprite = actor.GetComponent<SpriteRenderer>().sprite;
+
+                if(unitFrame == targetFrame)
+                {
+                    if(unitFrame.actor != null)
+                    {
+                        unitFrame.actor.abilityHandler.OnCastStarted.RemoveListener(OnTargetCast);
+                    }
+                    (unitFrame as TargetFrame).castBar.caster = actor.abilityHandler;
+                    actor.abilityHandler.OnCastStarted.AddListener(OnTargetCast);
+                }
+
             }
+            unitFrame.actor = actor;
+            
             
         }
         
@@ -161,7 +173,14 @@ public class UIManager : MonoBehaviour
         }
 
     }
-    
+    void OnTargetCast()
+    {
+        if((targetFrame as TargetFrame).castBar.gameObject.active == false)
+        {
+            (targetFrame as TargetFrame).castBar.gameObject.active = true;
+        }
+        (targetFrame as TargetFrame).castBar.OnAbilityChanged();
+    }
     // public void setUpUnitFrame(PointerEventData data){
     //     Debug.Log("Test");
     // }

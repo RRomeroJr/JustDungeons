@@ -6,4 +6,13 @@ using UnityEngine.UI;
 public class TargetFrame : UnitFrame
 {
 	public Image portrait;
+	public CastBar castBar;
+	void Start()
+	{
+
+	}
+	void Update()
+	{
+
+	}
 }
