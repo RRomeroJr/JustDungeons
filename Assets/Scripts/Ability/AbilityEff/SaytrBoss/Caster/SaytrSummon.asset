@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea5bf0fd9a4ef0744928048040dac82f, type: 3}
+  m_Name: SaytrSummon
+  m_EditorClassIdentifier: 
+  effectName: SaytrSummon
+  id: 88
+  power: 0
+  powerScale: 1
+  parentBuff: {fileID: 0}
+  parentDelivery: {fileID: 0}
+  targetIsSecondary: 1
+  target: {fileID: 0}
+  caster: {fileID: 0}
+  targetWP:
+    Value: {x: 0, y: 0, z: 0}
+  targetWP2:
+    Value: {x: 0, y: 0, z: 0}
+  isHostile: 0
+  school: 0
+  mobPrefab: {fileID: 6569267623682333730, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
