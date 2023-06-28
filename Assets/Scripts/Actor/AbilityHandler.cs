@@ -285,29 +285,32 @@ public class AbilityHandler : NetworkBehaviour
         QueuedRelWP2 = _queuedRelWP2;
     }
 
-    void PrepCast()
+    /// <summary>
+    /// Sets IsCasting to true, displays castbar
+    /// </summary>
+        void PrepCast()
     {
         //Creates castbar for abilities with cast times
 
-        if (QueuedAbility.NeedsTargetActor() && QueuedAbility.NeedsTargetWP())
-        {
-            Debug.Log("Spell that needs an Actor and WP are not yet suported");
-            IsCasting = false;
-            return;
-        }
 
         IsCasting = true;
-        if (QueuedAbility.NeedsTargetActor())
+
+        try
         {
-            InitCastBarWithActor();
+            if(UIManager.Instance.castBar == null)
+            {
+                UIManager.Instance.castBar = Instantiate(UIManager.Instance.castBarPrefab, UIManager.Instance.canvas.transform);
+                UIManager.Instance.castBar.GetComponent<CastBar>().caster = this;
+            }
+            if(UIManager.Instance.castBar.active == false)
+            {
+                UIManager.Instance.castBar.active = true;
+            }
+                UIManager.Instance.castBar.GetComponent<CastBar>().OnAbilityChanged();
         }
-        else if (QueuedAbility.NeedsTargetWP())
+        catch
         {
-            initCastBarWithWP();
-        }
-        else
-        {
-            InitCastBarWithActor();
+            Debug.LogError("Could not set up cast bar");
         }
     }
 

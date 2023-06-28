@@ -34,6 +34,7 @@ public class UIManager : MonoBehaviour
     public UnityEvent glowChecks;
     public List<Hotbar> hotbars = new List<Hotbar>();
     public bool useMouseOver = true;
+    public GameObject castBar;
     
     public void SpawnBuffBar()
     {

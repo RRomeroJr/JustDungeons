@@ -19,6 +19,7 @@ public class CastBar : MonoBehaviour
   void Start(){
 
   }
+  
   public void Init(string cast_name, AbilityHandler from_caster, Actor to_targetActor, float cast_time){
     castName.text = cast_name;
     caster = from_caster;
@@ -39,26 +40,31 @@ public class CastBar : MonoBehaviour
     elaspedTime = 0.0f;
     start = true;
   }
-    void Update(){
-      if(start){
-        if(caster.IsCasting){
-          if(caster.IsChanneling){
-            castBar.maxValue = caster.QueuedAbility.channelDuration;
-          }
-          castBar.value = caster.castTime;
-          
-        }
-        else{
-          //Debug.Log("CBar: cast Completed!");
+  public void OnAbilityChanged()
+  {
+    castName.text = caster.QueuedAbility.getName();
+    if(caster.IsChanneling)
+    {
+      castBar.maxValue = caster.QueuedAbility.channelDuration;
+    }
+    else
+    {
+      castBar.maxValue = caster.QueuedAbility.getCastTime();;
+    }
+    castTime = caster.QueuedAbility.getCastTime();
 
-          //Check if player can see target?
-          
-          //Signaling back to Player's Actor that cast completed
-          
-          Destroy(gameObject);
-        }
-        
+  }
+    void Update(){
+      
+      if(caster.IsCasting)
+      {
+        castBar.value = caster.castTime;
       }
+      else
+      {
+        gameObject.active = false;
+      }
+      
     }
     void OnDestroy(){
       
