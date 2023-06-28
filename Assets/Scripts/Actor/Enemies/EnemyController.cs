@@ -285,9 +285,12 @@ public class EnemyController : Controller
         {
             return;
         }
-        if(actor.target != aggroTarget)
+        if( !(actor.abilityHandler.IsCasting && actor.abilityHandler.RequestingCast) )
         {
-            actor.target = aggroTarget;
+            if(actor.target != aggroTarget)
+            {
+                actor.target = aggroTarget;
+            }
         }
         if(followTarget != aggroTarget.gameObject)
         {
