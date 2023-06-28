@@ -16,9 +16,28 @@ MonoBehaviour:
   eInstructs:
   - effect: {fileID: 11400000, guid: 94596b2ef2bd6864f9c5fa83ac2d40b0, type: 2}
     targetArg: 0
-  deliveryType: 2
+    powerMod: 1
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
+    deliveryNVect2: {x: 0, y: 0}
+  buffs: []
   castTime: 0
   cooldown: 0
   needsActor: 0
   needsWP: 1
   id: 19
+  abilityTag: 0
+  resourceCosts: []
+  isChannel: 0
+  channelDuration: 0
+  numberOfTicks: 0
+  offGDC: 0
+  rangeClass: 0
+  range: Infinity
+  interruptable: 0
+  castWhileMoving: 0
+  mustBeFacing: 0
+  hotbuttonImage: {fileID: 0}
+  hotbuttonColor: {r: 1, g: 1, b: 1, a: 1}
+  hostilty: 2

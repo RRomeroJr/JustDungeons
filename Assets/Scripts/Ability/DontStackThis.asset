@@ -36,7 +36,7 @@ MonoBehaviour:
   offGDC: 0
   rangeClass: 0
   range: Infinity
-  interruptable: 1
+  interruptable: 0
   castWhileMoving: 0
   mustBeFacing: 0
   hotbuttonImage: {fileID: 0}

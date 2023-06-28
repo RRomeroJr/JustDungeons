@@ -20,6 +20,8 @@ MonoBehaviour:
     onSendHooks:
       m_PersistentCalls:
         m_Calls: []
+    deliveryNVect2: {x: 0, y: 0}
+  buffs: []
   castTime: 0
   cooldown: 0
   needsActor: 0
@@ -31,3 +33,11 @@ MonoBehaviour:
   channelDuration: 0
   numberOfTicks: 0
   offGDC: 0
+  rangeClass: 0
+  range: Infinity
+  interruptable: 0
+  castWhileMoving: 0
+  mustBeFacing: 0
+  hotbuttonImage: {fileID: 0}
+  hotbuttonColor: {r: 1, g: 1, b: 1, a: 1}
+  hostilty: 2
