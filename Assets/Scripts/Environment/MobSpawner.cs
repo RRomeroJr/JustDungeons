@@ -5,11 +5,13 @@ using Mirror;
 
 public class MobSpawner: MonoBehaviour
 {
-    public GameObject mobPrefab;
+    // public GameObject mobPrefab;
     public List<GameObject> mobPrefabList;
+    public bool spawnOnStart = true;
     void Start(){
         //StartCoroutine(tempSpawnTestMob(mobPrefab));
-        if(NetworkServer.active){
+        if(NetworkServer.active && spawnOnStart){
+            Debug.Log("spawning mobs on start");
             spawnMobs();
 
         }
@@ -22,7 +24,7 @@ public class MobSpawner: MonoBehaviour
 
         }
     }
-    void spawnMobs(){
+    public void spawnMobs(){
             
         for (int i = 0; i < mobPrefabList.Count; i++)
         {
