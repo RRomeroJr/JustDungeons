@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [TargetFinding]
-public class TargetBehindObstacle : ActionNode
+public class IsTargetBehindObstacle : ActionNode
 {
     public LayerMask obstacleMask;
     protected override void OnStart()

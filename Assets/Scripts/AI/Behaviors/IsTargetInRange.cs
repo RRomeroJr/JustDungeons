@@ -4,7 +4,7 @@ using UnityEngine;
 // Used to check if the set target is within a defined range
 // Does not set a target, target has to be set by another behavior; FindTarget()
 [TargetFinding]
-public class TargetInRange : ActionNode
+public class IsTargetInRange : ActionNode
 {
     public float range;
     protected override void OnStart()
