@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using BuffSystem;
 using Mirror;
 using UnityEngine;
@@ -435,5 +436,17 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
             Heal = heal
         };
         OnHealTaken(healEventArgs);
+    }
+    
+    public bool RemoveRandomBuff(Predicate<BuffSystem.Buff> _matchExpression)
+    {
+        List<int> indices = buffs.IndicesThatMatch(_matchExpression);
+
+        if(indices == null){
+            return false;
+        }
+
+        RemoveBuff(buffs[indices[UnityEngine.Random.Range(0, indices.Count)]]);
+        return true;
     }
 }

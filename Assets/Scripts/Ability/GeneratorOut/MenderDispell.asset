@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 630dbee7393b5314ab79662f009e6568, type: 3}
-  m_Name: Heal
+  m_Name: MenderDispell
   m_EditorClassIdentifier: 
-  abilityName: Heal
+  abilityName: MenderDispell
   eInstructs:
-  - effect: {fileID: 11400000, guid: ededd9096a4453447b45e4ddb6382b55, type: 2}
+  - effect: {fileID: 11400000, guid: 167dda41ce337a644a1e7d47c8b14127, type: 2}
     targetArg: 0
-    powerMod: 1
+    powerMod: 0
     onSendHooks:
       m_PersistentCalls:
         m_Calls: []
     deliveryNVect2: {x: 0, y: 0}
   buffs: []
-  castTime: 1.5
+  castTime: 0
   cooldown: 0
   needsActor: 1
   needsWP: 0
-  id: 3
+  id: 66
   abilityTag: 0
   resourceCosts: []
   isChannel: 0
@@ -40,4 +40,4 @@ MonoBehaviour:
   mustBeFacing: 0
   hotbuttonImage: {fileID: 0}
   hotbuttonColor: {r: 1, g: 1, b: 1, a: 1}
-  hostilty: 2
+  hostilty: 1

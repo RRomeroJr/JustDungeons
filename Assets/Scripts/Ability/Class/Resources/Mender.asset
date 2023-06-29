@@ -22,7 +22,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b5499d8d42ef81b4b9cd159493b21153, type: 2}
   - {fileID: 11400000, guid: 722fa7e69c249d740829674736b49962, type: 2}
   - {fileID: 11400000, guid: ca240e3b5b83aee44af48f10b6612abe, type: 2}
-  - {fileID: 11400000, guid: 7fa77e9ad86869d4bb521d9c98914e20, type: 2}
+  - {fileID: 11400000, guid: 99032dd67f96a364bbfedb78363b4bd2, type: 2}
   classResources:
   - crType: {fileID: 11400000, guid: 14d8d4dde818cf44396153ffe293ee8d, type: 2}
     max: 100

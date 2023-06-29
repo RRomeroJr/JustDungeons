@@ -20,6 +20,8 @@ public class BuffScriptableObject : ScriptableObject
     public float Duration => duration;
     public bool Stackable => stackable;
     [SerializeField] public UnityEvent<Buff, EffectInstruction> onHitHooks;
+    public bool isDebuff = false;
+    public bool dispellable = false;
 
     public Sprite Icon
     {

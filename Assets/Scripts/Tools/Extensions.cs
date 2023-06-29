@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -85,7 +86,58 @@ public static class Extensions
 
         return toReturn;
     }
+    public static bool RemoveRandom<T>(this IList<T> _listToCheck, Predicate<T> _matchExpression)
+    {
+
+        List<int> indices = new List<int>();
+
+        // Finding indices that match the predicate
+        for(int i = 0; i < _listToCheck.Count; i++)
+        {
+            if( _matchExpression(_listToCheck[i]) )
+            {
+                indices.Add(i);
+            }
+        }
+
+        // If none found return false
+        if(indices.Count <= 0)
+        {
+            return false;
+        }
+
+        // Removing random object that matches
+        int randomIndex = indices[UnityEngine.Random.Range(0, indices.Count)];
+
+        _listToCheck.RemoveAt(randomIndex);
+
+        return true;
     
+    }
+    /// <summary>
+    ///	Returns List<int> of indices that match the predicate. null if none found
+    /// </summary>
+    public static List<int> IndicesThatMatch<T>(this IList<T> _listToCheck, Predicate<T> _matchExpression)
+    {
+
+        List<int> indices = new List<int>();
+
+        // Finding indices that match the predicate
+        for(int i = 0; i < _listToCheck.Count; i++)
+        {
+            if( _matchExpression(_listToCheck[i]) )
+            {
+                indices.Add(i);
+            }
+        }
+
+        // If none found return null
+        if(indices.Count <= 0)
+        {
+            return null;
+        }
+
+        return indices;
     
-    
+    }
 }
