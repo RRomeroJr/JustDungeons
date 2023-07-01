@@ -245,11 +245,11 @@ public class Actor : NetworkBehaviour
     void Update()
     {
         UpdateCombatState();
+        ClassResourceCheckRegen();
 
         if (!isServer) { return; }
         // Server only logic below  
 
-        ClassResourceCheckRegen();
         if(Input.GetKeyDown("0"))
         {
         /* This should probably be a var in UIManager, but I couldn't think of an 
@@ -274,19 +274,21 @@ public class Actor : NetworkBehaviour
 
     private void InitializeUI()
     {
+
+        if(isLocalPlayer == false)
+        {
+            return;
+        }
         if (UIManager.Instance == null)
         {
             return;
         }
+        UIManager.playerActor = this;
+        UIManager.Instance.SpawnBuffBar();
         // if (tag != "Player")
         // {
         //     nameplate = Nameplate.Create(this);
         // }
-        if (isLocalPlayer)
-        {
-            UIManager.playerActor = this;
-            UIManager.Instance.SpawnBuffBar();
-        }
         if (combatClass != null)
         {
             UIManager.Instance.SetUpHotbars();
@@ -640,19 +642,28 @@ public class Actor : NetworkBehaviour
     }
     public void ClassResourceCheckRegen()
     {
-        foreach(ClassResource _cr in classResources)
+        for(int i = 0; i < classResources.Count; i++)
         {
-            if (_cr.tickMax <= 0.0f)
+            if (classResources[i].tickMax <= 0.0f)
             {
                 continue;
             }
-            _cr.tickTime += Time.deltaTime;
-            if (_cr.tickTime >= _cr.tickMax)
+            classResources[i].tickTime += Time.deltaTime;
+            if(isServer)
             {
-                restoreResource(_cr.crType, _cr.combatRegen);
-                _cr.tickTime -= _cr.tickMax;
+                if (classResources[i].tickTime >= classResources[i].tickMax)
+                {
+                    restoreResource(classResources[i].crType, classResources[i].combatRegen);
+                    classResources[i].tickTime -= classResources[i].tickMax;
+                    RpcResetResourceTime(i);
+                }
             }
         }
+        
+    }
+    [ClientRpc]
+    public void RpcResetResourceTime(int index){
+        classResources[index].tickTime = 0.0f;
     }
     [ClientRpc]
     public void updateClassResourceAmount(int index, int _amount){
