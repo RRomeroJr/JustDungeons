@@ -40,3 +40,4 @@ MonoBehaviour:
   mustBeFacing: 0
   hotbuttonImage: {fileID: 21300000, guid: a67b58d6cddcd4345b1e001340de5a76, type: 3}
   hotbuttonColor: {r: 1, g: 1, b: 1, a: 1}
+  hostilty: 1

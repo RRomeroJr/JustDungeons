@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectName: TesterHealEffect
   id: 79
-  power: 0
-  powerScale: 3
+  power: 500
+  powerScale: 1
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 0
@@ -25,4 +25,6 @@ MonoBehaviour:
     Value: {x: 0, y: 0, z: 0}
   targetWP2:
     Value: {x: 0, y: 0, z: 0}
+  isHostile: 0
   school: 0
+  scaleStat: 2
