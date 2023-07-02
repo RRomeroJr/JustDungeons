@@ -30,6 +30,11 @@ public enum ActorState
     Alive,
     Dead
 }
+public enum ActorStats
+{
+    Health, MaxHealth, MainStat, HealingPower
+    // MissingHealth?, CurrentHealth?, PercentHealth?
+}
 
 public class Actor : NetworkBehaviour
 {
@@ -48,6 +53,8 @@ public class Actor : NetworkBehaviour
     public CombatClass combatClass;
     [SyncVar]
     public float mainStat = 100.0f;
+    [SyncVar]
+    public float healingPower = 10.0f;
 
     [Header("Debug Values. Do NOT change in editor.")]
     public Actor target;
@@ -216,6 +223,7 @@ public class Actor : NetworkBehaviour
             if (combatClass.classStats != null)
             {
                 setUpStats(combatClass.classStats);
+
             }
             Debug.Log("Before RAC set up");
             if (combatClass.rac != null)
@@ -909,6 +917,27 @@ public class Actor : NetworkBehaviour
 
         }
     }
+    public float GetStat(ActorStats _stat)
+    {
+        switch (_stat)
+        {
+            case ActorStats.Health:
+                return health;
+                break;
+            case ActorStats.MaxHealth:
+                return maxHealth;
+                break;
+            case ActorStats.MainStat:
+                return mainStat;
+                break;
+            case ActorStats.HealingPower:
+                return healingPower;
+                break;
+            default:
+                return 0.0f;
+                break;
+        }
+    }
 
     // Misc---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     /// <summary>
@@ -1081,6 +1110,9 @@ public class Actor : NetworkBehaviour
         
         maxHealth = (int)(maxHealth * _classStats.healthMutliplier);
         health = maxHealth;
+        mainStat = _classStats.mainStat;
+        healingPower = _classStats.HealingPower;
+
     }
 
     private void PlayerDead()

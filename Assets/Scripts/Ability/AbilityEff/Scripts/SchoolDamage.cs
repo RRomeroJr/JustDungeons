@@ -8,9 +8,10 @@ using UnityEngine;
 public class SchoolDamage : AbilityEff
 {   
     public int school = -1;
+    public ActorStats scaleStat = ActorStats.MainStat;
     public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
         if(caster != null){
-            target.damageValue((int)power + (int)(caster.mainStat * powerScale), fromActor: caster);
+            target.damageValue((int)power + (int)(caster.GetStat(scaleStat) * powerScale), fromActor: caster);
         }
         else{
            target.damageValue((int)power);
@@ -34,6 +35,7 @@ public class SchoolDamage : AbilityEff
         // temp_ref.power = power;
         // temp_ref.powerScale = powerScale;
         temp_ref.school = school;
+        temp_ref.scaleStat = scaleStat;
         // temp_ref.targetIsSecondary = targetIsSecondary;
 
         return temp_ref;
