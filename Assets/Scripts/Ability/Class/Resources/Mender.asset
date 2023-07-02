@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34891822fe1d8d246a9cf35917e7480a, type: 3}
   m_Name: Mender
   m_EditorClassIdentifier: 
-  classStats: {fileID: 0}
+  classStats: {fileID: 11400000, guid: fc616cfe3b7d49e4982549af419a90f4, type: 2}
   abilityList:
   - {fileID: 11400000, guid: 84e6f46a89e41c64a9051984dc75f85c, type: 2}
   - {fileID: 11400000, guid: 8c8a06abb26005a4cabdc14e53c695ba, type: 2}
@@ -25,10 +25,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 99032dd67f96a364bbfedb78363b4bd2, type: 2}
   classResources:
   - crType: {fileID: 11400000, guid: 14d8d4dde818cf44396153ffe293ee8d, type: 2}
-    max: 100
-    amount: 0
-    combatRegen: 1
-    outOfCombatRegen: 1
+    max: 10000
+    amount: 10000
+    combatRegen: 100
+    outOfCombatRegen: 100
     tickTime: 0
     tickMax: 5
   - crType: {fileID: 11400000, guid: 11a7a1aafb0dd204e93f65399831cb70, type: 2}

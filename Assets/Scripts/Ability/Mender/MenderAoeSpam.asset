@@ -21,13 +21,16 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     deliveryNVect2: {x: 0, y: 0}
+  buffs: []
   castTime: 0
   cooldown: 0
   needsActor: 1
   needsWP: 0
-  id: 50
+  id: 49
   abilityTag: 0
-  resourceCosts: []
+  resourceCosts:
+  - amount: 500
+    crType: {fileID: 11400000, guid: 14d8d4dde818cf44396153ffe293ee8d, type: 2}
   isChannel: 0
   channelDuration: 0
   numberOfTicks: 0
@@ -36,3 +39,7 @@ MonoBehaviour:
   range: Infinity
   interruptable: 1
   castWhileMoving: 0
+  mustBeFacing: 0
+  hotbuttonImage: {fileID: 0}
+  hotbuttonColor: {r: 1, g: 1, b: 1, a: 1}
+  hostilty: 2

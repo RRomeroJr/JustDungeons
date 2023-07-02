@@ -28,7 +28,9 @@ MonoBehaviour:
   needsWP: 0
   id: 3
   abilityTag: 0
-  resourceCosts: []
+  resourceCosts:
+  - amount: 250
+    crType: {fileID: 11400000, guid: 14d8d4dde818cf44396153ffe293ee8d, type: 2}
   isChannel: 0
   channelDuration: 0
   numberOfTicks: 0
