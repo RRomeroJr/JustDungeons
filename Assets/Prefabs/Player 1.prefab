@@ -123,6 +123,7 @@ MonoBehaviour:
   combatClass: {fileID: 11400000, guid: af7e23158c3495640953930651da5fec, type: 2}
   mainStat: 100
   target: {fileID: 0}
+  abilityHandler: {fileID: 0}
   nameplate: {fileID: 0}
   classResources: []
   state: 0
@@ -236,6 +237,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   autoAttackClone: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
+  followTargetLocked: 0
   followTarget: {fileID: 0}
   globalCooldown: 0
   abilities:
@@ -252,14 +254,14 @@ MonoBehaviour:
   moveSpeedModifier: 1
   facingDirection: {x: 0, y: 0}
   holdDirection: 0
-  tryingToMove: 0
+  holdPosistion: 0
   autoAttacking: 0
   resolvingMoveTo: 0
   autoAttackRequest: 0
   state: 0
   clickMask:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 32
   mouseSensitivity: 15
   xMouseMove: 0
   clickTime0: 0
@@ -406,6 +408,9 @@ MonoBehaviour:
   slow: 0
   haste: 0
   damageTakenMod: 0
+  damageOutMod: 0
+  healingTakenMod: 0
+  healingOutMod: 0
 --- !u!114 &7692670483740498294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,13 +442,12 @@ MonoBehaviour:
   showDebug: 0
   <QueuedAbility>k__BackingField: {fileID: 0}
   <QueuedTarget>k__BackingField: {fileID: 0}
-  <QueuedRelWP>k__BackingField:
-    Value: {x: 0, y: 0, z: 0}
-  <QueuedRelWP2>k__BackingField:
-    Value: {x: 0, y: 0, z: 0}
   abilityCooldowns: []
   buffs: []
   onAbilityCastHooks:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCastStarted:
     m_PersistentCalls:
       m_Calls: []
   ReadyToFire: 0

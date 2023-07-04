@@ -335,10 +335,10 @@ public class PlayerController : Controller
     }
     void MouseOver()
     {
-        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, clickMask);
+        RaycastHit2D hit = raycastToActors(HBCTools.GetMousePosWP());
         Actor hitActor = null;
         try{
-            hitActor =  hit.collider.gameObject.GetComponent<Actor>();
+            hitActor =  hit.collider.transform.parent.GetComponent<Actor>();
         }
         catch{
         }
@@ -376,10 +376,10 @@ public class PlayerController : Controller
             clickTime0 = 0.0f;
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, clickMask);
+            RaycastHit2D hit = raycastToActors(HBCTools.GetMousePosWP());
             Actor hitActor = null;
             try{
-                hitActor =  hit.collider.gameObject.GetComponent<Actor>();
+                hitActor =  hit.collider.transform.parent.GetComponent<Actor>();
             }
             catch{
             }
@@ -420,10 +420,10 @@ public class PlayerController : Controller
              
 
 
-            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, clickMask);
+            RaycastHit2D hit = raycastToActors(HBCTools.GetMousePosWP());
             Actor hitActor= null;
             try{
-                hitActor =  hit.collider.gameObject.GetComponent<Actor>();
+                hitActor =  hit.collider.transform.parent.GetComponent<Actor>();
             }
             catch{
             }
@@ -516,5 +516,9 @@ public class PlayerController : Controller
     [Command]
     void reqTargetUpdate(Actor _actor){ //in future this should be some sort of act id or something
         updateTargetToClients(_actor);
+    }
+    RaycastHit2D raycastToActors(Vector2 _loc)
+    {
+        return Physics2D.Raycast(_loc, Vector2.zero, Mathf.Infinity, clickMask);
     }
 }

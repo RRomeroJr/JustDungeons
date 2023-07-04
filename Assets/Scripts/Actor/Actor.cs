@@ -194,6 +194,7 @@ public class Actor : NetworkBehaviour
 
     void Start()
     {
+        SpawnClickBox();
         InitializeUI();
 
         if (gameObject.layer == LayerMask.NameToLayer("Enemy") && GameManager.instance != null)
@@ -880,6 +881,10 @@ public class Actor : NetworkBehaviour
         target = _OwnerTarget;
     }
     
+    public void LogClicked()
+    {
+        Debug.Log(gameObject.name + "If you hook this properly could get the Actor Ref");
+    }
     public Vector2 getCastingWPToFace(){
     
         if (abilityHandler.QueuedRelWP2 != null)
@@ -1242,6 +1247,15 @@ public class Actor : NetworkBehaviour
             return false;
         }
         return true;
+    }
+    void SpawnClickBox()
+    {
+        GameObject clickBox = new GameObject("ClickBox");
+        clickBox.layer = LayerMask.NameToLayer("UI");
+        clickBox.transform.parent = transform;
+        clickBox.transform.localPosition = Vector3.zero;
+        clickBox.AddComponent<BoxCollider2D>().isTrigger = true;
+        clickBox.AddComponent<ClickboxManager>();
     }
     #endregion
 }
