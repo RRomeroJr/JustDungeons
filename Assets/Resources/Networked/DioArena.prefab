@@ -165,9 +165,9 @@ MonoBehaviour:
   mobList: []
   destroyIfListEmpty: 1
   safezone: {fileID: 0}
-  killPlayerInHurtzone: 1
-  usePercentHealthDmg: 0
-  percentHealthDmg: 0
+  killPlayerInHurtzone: 0
+  usePercentHealthDmg: 1
+  percentHealthDmg: 0.07
   actorIgnore: []
   hitCooldownTime: 3
   arenaRadius: 10
