@@ -1012,6 +1012,7 @@ MonoBehaviour:
   - {fileID: -7937281248232859273}
   - {fileID: -2808000714058557403}
   - {fileID: -159098332227649566}
+  - {fileID: 6281600043281386151}
   - {fileID: -366666263665507454}
   - {fileID: 8135189457351401730}
   - {fileID: -5308412295129578856}
@@ -1402,14 +1403,16 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: cceb3f1d0b27e6b4ca1de73f70ded38d
-  position: {x: 0, y: 0}
+  position: {x: -2261.4583, y: 1466.4}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
   description: 
   drawGizmos: 0
-  children: []
+  children:
+  - {fileID: 8171310753908402117}
+  - {fileID: 1273614925096385170}
 --- !u!114 &6343513778013052246
 MonoBehaviour:
   m_ObjectHideFlags: 0
