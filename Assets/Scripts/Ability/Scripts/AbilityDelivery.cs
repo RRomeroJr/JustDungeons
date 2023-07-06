@@ -41,6 +41,7 @@ public class AbilityDelivery : NetworkBehaviour
     public bool hitFriendly = true;
     public bool canHitSelf = false;
     public bool checkAtFeet = false;
+    public bool onlyHitTarget = false;
 
     [field: SerializeField] public float RotationsPerSecond { get; private set; }
     [SerializeField] private List<SerializableTuple<float, float>> rotationSequence;
@@ -110,6 +111,11 @@ public class AbilityDelivery : NetworkBehaviour
         {
             return;
         }
+        if ((type != 0) && (type != 1))
+        {
+            return;
+        }
+        
 
         Actor hitActor = other.GetComponent<Actor>();
         if (checkAtFeet && !CheckHitFeet(hitActor))
@@ -121,16 +127,7 @@ public class AbilityDelivery : NetworkBehaviour
             return;
         }
 
-        if (type == 0 && hitActor == Target)
-        {
-            Debug.Log("Sending to " + hitActor.gameObject.name);
-            foreach (EffectInstruction eI in eInstructs)
-            {
-                eI.sendToActor(hitActor, null, Caster);
-            }
-            Destroy(gameObject);
-        }
-        if (type == 1 && hitActor != Caster)
+        if (checkIgnoreTarget(hitActor) == false)
         {
             foreach (EffectInstruction eI in eInstructs)
             {
@@ -138,6 +135,14 @@ public class AbilityDelivery : NetworkBehaviour
             }
             Destroy(gameObject);
         }
+        // if (type == 1 && hitActor != Caster)
+        // {
+        //     foreach (EffectInstruction eI in eInstructs)
+        //     {
+        //         eI.sendToActor(hitActor, null, Caster);
+        //     }
+        //     Destroy(gameObject);
+        // }
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -342,6 +347,7 @@ public class AbilityDelivery : NetworkBehaviour
 
     public bool checkIgnoreTarget(Actor _target)
     {
+        
         foreach (var targetCooldown in aoeActorIgnore)
         {
             if (targetCooldown.actor == _target)
@@ -356,10 +362,17 @@ public class AbilityDelivery : NetworkBehaviour
     bool checkIgnoreConditons(Actor _hitActor)
     {
         //returns true if the _histActor should be ignored
-        if (_hitActor == null)
+        // if (_hitActor == null)
+        // {
+        //     Debug.Log("_hitActor null");
+        // }
+        if(onlyHitTarget && (_hitActor != Target))
         {
-            Debug.Log("_hitActor null");
-            return false;
+            return true;
+        }
+        if((canHitSelf == false) && (_hitActor == Caster))
+        {
+            return true;
         }
 
         if (hitMask == (hitMask | (1 << _hitActor.gameObject.layer)) == false)
