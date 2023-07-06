@@ -115,13 +115,14 @@ MonoBehaviour:
   syncInterval: 0.1
   showDebug: 1
   actorName: Deoscillate
-  health: 3500000
-  maxHealth: 3500000
+  health: 3500
+  maxHealth: 3500
   <Role>k__BackingField: 0
   unitColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
   mobId: -1
   combatClass: {fileID: 11400000, guid: af7e23158c3495640953930651da5fec, type: 2}
-  mainStat: 100
+  mainStat: 400
+  healingPower: 10
   target: {fileID: 0}
   abilityHandler: {fileID: 0}
   nameplate: {fileID: 0}
