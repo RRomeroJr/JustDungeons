@@ -251,7 +251,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8df7b41371839cf40a06f4cad97dca7e, type: 2}
   - {fileID: 11400000, guid: 5018719afa2dee746bbd7247a8802f72, type: 2}
   - {fileID: 11400000, guid: 789ee262ef9ad0c418009477bd594f0d, type: 2}
-  moveSpeed: 50
+  moveSpeed: 65
   moveSpeedModifier: 1
   facingDirection: {x: 0, y: 0}
   holdDirection: 0

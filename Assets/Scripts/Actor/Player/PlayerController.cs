@@ -87,21 +87,27 @@ public class PlayerController : Controller
             case PlayerState.Alive:
                 if(actor.CanMove)
                 {
-                Vector2 inputVectRaw = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-                // Vector2 inputVect = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-                // Vector2 inputVect = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-                Vector2 combinedInputVect = new Vector2(
-                                        Mathf.Clamp(Input.GetAxis("Horizontal") + inputVectRaw.x, -1, 1 ),
-                                        Mathf.Clamp(Input.GetAxis("Vertical") + inputVectRaw.y, -1, 1 ));
+                    Vector2 inputVectRaw = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+                    // Vector2 inputVect = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+                    // Vector2 inputVect = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+                    Vector2 combinedInputVect = new Vector2(
+                                            Mathf.Clamp(Input.GetAxis("Horizontal") + inputVectRaw.x, -1, 1 ),
+                                            Mathf.Clamp(Input.GetAxis("Vertical") + inputVectRaw.y, -1, 1 ));
 
+                    combinedInputVect = Vector2.ClampMagnitude(combinedInputVect, 1.0f);
+                    if (GetComponent<BuffHandler>().Dizzy <= 0)
+                    {
+                        moveDirection = combinedInputVect;
+                    }
+                    if(Input.GetMouseButton(0) && Input.GetMouseButton(1))
+                    {
+                        Vector2 doubleMouseVect = (Vector2)(HBCTools.GetMousePosWP() - transform.position);
+                        doubleMouseVect.Normalize();
 
-                if (actor.CanMove && GetComponent<BuffHandler>().Dizzy <= 0)
-                {
-                    moveDirection = combinedInputVect;
-                    
-                }
+                        moveDirection = Vector2.ClampMagnitude(moveDirection.Value + doubleMouseVect, 1.0f);
+                    }
 
-                MoveInDirection(moveDirection.Value);
+                    MoveInDirection(moveDirection.Value);
                 }
                 MovementFacingDirection();
 

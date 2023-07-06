@@ -141,6 +141,7 @@ public class Controller : NetworkBehaviour
         // transform.position = (Vector2)transform.position + _vect;
 
         Vector2 _vect = _speed * _direction;
+        // Debug.DrawLine(transform.position, (transform.position + (Vector3)(1f *_direction)), Color.cyan);
         Rigidbody2D _rb = GetComponent<Rigidbody2D>();
         _rb.AddForce(_vect);
     }
