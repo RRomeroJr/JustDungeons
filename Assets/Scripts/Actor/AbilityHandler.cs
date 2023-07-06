@@ -290,29 +290,31 @@ public class AbilityHandler : NetworkBehaviour
     /// <summary>
     /// Sets IsCasting to true, displays castbar
     /// </summary>
-        void PrepCast()
+    void PrepCast()
     {
         //Creates castbar for abilities with cast times
 
 
         IsCasting = true;
-
-        try
+        if(isLocalPlayer)
         {
-            if(UIManager.Instance.castBar == null)
+            try
             {
-                UIManager.Instance.castBar = Instantiate(UIManager.Instance.castBarPrefab, UIManager.Instance.canvas.transform);
-                UIManager.Instance.castBar.GetComponent<CastBar>().caster = this;
-            }
-            if(UIManager.Instance.castBar.active == false)
-            {
-                UIManager.Instance.castBar.active = true;
-            }
+                if(UIManager.Instance.castBar == null)
+                {
+                    UIManager.Instance.castBar = Instantiate(UIManager.Instance.castBarPrefab, UIManager.Instance.canvas.transform);
+                    UIManager.Instance.castBar.GetComponent<CastBar>().caster = this;
+                }
+                if(UIManager.Instance.castBar.active == false)
+                {
+                    UIManager.Instance.castBar.active = true;
+                }
                 UIManager.Instance.castBar.GetComponent<CastBar>().OnAbilityChanged();
-        }
-        catch
-        {
-            Debug.LogError("Could not set up cast bar");
+            }
+            catch
+            {
+                Debug.LogError("Could not set up cast bar");
+            }
         }
     }
 
