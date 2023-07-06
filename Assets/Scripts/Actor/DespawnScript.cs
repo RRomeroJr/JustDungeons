@@ -5,7 +5,7 @@ using Mirror;
 
 public class DespawnScript : NetworkBehaviour
 {
-	public float despawnTimer = 3.0f;
+	public float despawnTimer = 0.0f;
     public Actor actor;
 
     void Awake()
