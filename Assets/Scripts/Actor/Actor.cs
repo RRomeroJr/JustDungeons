@@ -1128,7 +1128,7 @@ public class Actor : NetworkBehaviour
         canMove = false;
         canCast = false;
 
-        if(GetComponent<DespawnScript>() == null){
+        if(tag != "Player" && GetComponent<DespawnScript>() == null){
             gameObject.AddComponent<DespawnScript>();
         }
         OnPlayerIsDead();
