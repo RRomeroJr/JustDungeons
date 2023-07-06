@@ -244,6 +244,7 @@ MonoBehaviour:
   mobId: 7
   combatClass: {fileID: 0}
   mainStat: 100
+  healingPower: 10
   target: {fileID: 0}
   abilityHandler: {fileID: 0}
   nameplate: {fileID: 0}
@@ -361,7 +362,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &-541257276171002932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,6 +384,9 @@ MonoBehaviour:
   abilityCooldowns: []
   buffs: []
   onAbilityCastHooks:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCastStarted:
     m_PersistentCalls:
       m_Calls: []
   ReadyToFire: 0
