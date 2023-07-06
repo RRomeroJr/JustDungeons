@@ -743,15 +743,15 @@ public class Actor : NetworkBehaviour
             restoreValue(-1 * amount, valueType); //if negative call restore instead with amount's sign flipped
             return;
         }
-        float modifiedAmount = amount;
+        int modifiedAmount = amount;
         switch (valueType)
         {
             case 0:
                 if(buffHandler != null){
-                    modifiedAmount += amount * (buffHandler.DamageTakenMod - 1.0f);
+                    modifiedAmount += (int)(amount * (buffHandler.DamageTakenMod - 1.0f));
                 }
                 if(fromActor != null && fromActor.buffHandler != null){
-                    modifiedAmount += amount * (fromActor.buffHandler.DamageOutMod - 1.0f);
+                    modifiedAmount += (int)(amount * (fromActor.buffHandler.DamageOutMod - 1.0f));
                 }
                 Health -= (int)modifiedAmount;
                 if (fromActor != null)
@@ -759,18 +759,15 @@ public class Actor : NetworkBehaviour
 
                     if (fromActor.tag == "Player")
                     {
-                        TRpcCreateDamageTextOffensive(fromActor.GetNetworkConnection(), amount);
+                        TRpcCreateDamageTextOffensive(fromActor.GetNetworkConnection(), modifiedAmount);
                     }
-                    addDamamgeToMeter(fromActor, amount);
+                    addDamamgeToMeter(fromActor, modifiedAmount);
                 }
                 if (tag == "Player")
                 {
-                    TRpcCreateDamageTextSelf(amount);
+                    TRpcCreateDamageTextSelf(modifiedAmount);
                 }
-                if (fromActor != null)
-                {
-                    addDamamgeToMeter(fromActor, amount);
-                }
+
                 break;
             case 1:
                 maxHealth -= amount;
@@ -795,15 +792,15 @@ public class Actor : NetworkBehaviour
             damageValue(-1 * amount, valueType); // if negative call damage instead with amount's sign flipped
         }
 
-        float modifiedAmount = amount;
+        int modifiedAmount = amount;
         switch (valueType)
         {
             case 0:
                 if(buffHandler != null){
-                    modifiedAmount += amount * (buffHandler.HealingTakenMod - 1.0f);
+                    modifiedAmount += (int)(amount * (buffHandler.HealingTakenMod - 1.0f));
                 }
                 if(fromActor != null && fromActor.buffHandler != null){
-                    modifiedAmount += amount * (fromActor.buffHandler.HealingOutMod - 1.0f);
+                    modifiedAmount += (int)(amount * (fromActor.buffHandler.HealingOutMod - 1.0f));
                 }
                 Health += (int)modifiedAmount;
                 if (fromActor != null)
@@ -811,18 +808,15 @@ public class Actor : NetworkBehaviour
  
                     if (fromActor.tag == "Player")
                     {
-                        TRpcCreateDamageTextOffensive(fromActor.GetNetworkConnection(), amount);
+                        TRpcCreateDamageTextOffensive(fromActor.GetNetworkConnection(), modifiedAmount);
                     }
-                    addDamamgeToMeter(fromActor, amount);
+                    addDamamgeToMeter(fromActor, modifiedAmount);
                 }
                 if (tag == "Player")
                 {
-                    TRpcCreateDamageTextSelf(amount);
+                    TRpcCreateDamageTextSelf(modifiedAmount);
                 }
-                if (fromActor != null)
-                {
-                    addDamamgeToMeter(fromActor, amount);
-                }
+
                 break;
             case 1:
                 if (maxHealth + amount > maxHealth)
