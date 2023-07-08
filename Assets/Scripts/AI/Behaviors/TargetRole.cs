@@ -1,9 +1,13 @@
 ﻿using TheKiwiCoder;
+using UnityEngine;
 
 [TargetFinding]
 public class TargetRole : ActionNode
 {
+    public LayerMask targetMask;
+    public float range;
     public Role role;
+
     protected override void OnStart()
     {
     }
@@ -14,7 +18,8 @@ public class TargetRole : ActionNode
 
     protected override State OnUpdate()
     {
-        if (context.controller.TargetRole(role))
+        blackboard.targets = context.controller.FindTargetsByRole(targetMask, range, role);
+        if (blackboard.targets.Count > 0)
         {
             return State.Success;
         }

@@ -12,5 +12,6 @@ namespace TheKiwiCoder {
         public Vector3 moveToPosition;
         public Transform target;
         public Transform targetPrev;
+        public List<Transform> targets = new();
     }
 }

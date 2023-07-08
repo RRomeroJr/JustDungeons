@@ -9,6 +9,7 @@ public class FindTargets : ActionNode
 {
     public LayerMask targetMask;
     public float range;
+
     protected override void OnStart()
     {
     }
@@ -19,7 +20,8 @@ public class FindTargets : ActionNode
 
     protected override State OnUpdate()
     {
-        if (context.controller.FindTargets(targetMask, range))
+        blackboard.targets = context.controller.FindTargets(targetMask, range);
+        if (blackboard.targets.Count > 0)
         {
             // Debug.Log("FindTarget node seccessfully found a target!");
             return State.Success;

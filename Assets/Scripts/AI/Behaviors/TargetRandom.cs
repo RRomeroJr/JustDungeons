@@ -1,8 +1,12 @@
 ﻿using TheKiwiCoder;
+using UnityEngine;
 
 [TargetFinding]
 public class TargetRandom : ActionNode
 {
+    public LayerMask targetMask;
+    public float range;
+
     protected override void OnStart()
     {
     }
@@ -13,7 +17,7 @@ public class TargetRandom : ActionNode
 
     protected override State OnUpdate()
     {
-        if (context.controller.TargetRandom())
+        if (context.controller.FindRandomTarget(targetMask, range) != null)
         {
             return State.Success;
         }
