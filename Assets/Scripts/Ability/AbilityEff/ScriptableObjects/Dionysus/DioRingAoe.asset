@@ -23,13 +23,24 @@ MonoBehaviour:
   caster: {fileID: 0}
   targetWP:
     Value: {x: 0, y: 0, z: 0}
+  targetWP2:
+    Value: {x: 0, y: 0, z: 0}
+  isHostile: 1
   eInstructs:
+  - effect: {fileID: 11400000, guid: 901f55705a3cd194db9d7e2afdb56737, type: 2}
+    targetArg: 0
+    powerMod: 1
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
+    deliveryNVect2: {x: 0, y: 0}
   - effect: {fileID: 11400000, guid: d562d56cd9edd344f844918c3ead3845, type: 2}
     targetArg: 0
     powerMod: 1
     onSendHooks:
       m_PersistentCalls:
         m_Calls: []
+    deliveryNVect2: {x: 0, y: 0}
   school: -1
   prefabScale: {x: 30, y: 30, z: 30}
   aoePrefab: {fileID: 8996080988287052582, guid: de75acaee2617ea4fb730d3324628ade, type: 3}

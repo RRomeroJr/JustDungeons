@@ -21,6 +21,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8df7b41371839cf40a06f4cad97dca7e, type: 2}
   - {fileID: 11400000, guid: 5018719afa2dee746bbd7247a8802f72, type: 2}
   - {fileID: 11400000, guid: a41fa9064e944c348ba43061e5ac231c, type: 2}
+  - {fileID: 11400000, guid: 789ee262ef9ad0c418009477bd594f0d, type: 2}
   classResources:
   - crType: {fileID: 11400000, guid: f99af011e29c85f4686d63a179cf33d8, type: 2}
     max: 5

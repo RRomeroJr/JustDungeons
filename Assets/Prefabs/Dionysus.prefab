@@ -193,6 +193,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   autoAttackClone: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
+  followTargetLocked: 0
   followTarget: {fileID: 0}
   globalCooldown: 0
   abilities: []
@@ -200,7 +201,7 @@ MonoBehaviour:
   moveSpeedModifier: 1
   facingDirection: {x: 0, y: 0}
   holdDirection: 0
-  tryingToMove: 0
+  holdPosistion: 0
   autoAttacking: 0
   resolvingMoveTo: 0
   autoAttackRequest: 0
@@ -217,6 +218,7 @@ MonoBehaviour:
   combatTemperment: 0
   aggroTarget: {fileID: 0}
   phase: 0
+  tauntImmune: 0
 --- !u!114 &2096029720338020585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,14 +281,16 @@ MonoBehaviour:
   syncInterval: 0.1
   showDebug: 0
   actorName: Dionysus
-  health: 400
-  maxHealth: 9000
+  health: 35000
+  maxHealth: 35000
   <Role>k__BackingField: 0
   unitColor: {r: 0.62352943, g: 0, b: 0.5058824, a: 0}
   mobId: 1
   combatClass: {fileID: 0}
   mainStat: 100
+  healingPower: 10
   target: {fileID: 0}
+  abilityHandler: {fileID: 0}
   nameplate: {fileID: 0}
   classResources: []
   state: 0
@@ -352,13 +356,12 @@ MonoBehaviour:
   showDebug: 0
   <QueuedAbility>k__BackingField: {fileID: 0}
   <QueuedTarget>k__BackingField: {fileID: 0}
-  <QueuedRelWP>k__BackingField:
-    Value: {x: 0, y: 0, z: 0}
-  <QueuedRelWP2>k__BackingField:
-    Value: {x: 0, y: 0, z: 0}
   abilityCooldowns: []
   buffs: []
   onAbilityCastHooks:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCastStarted:
     m_PersistentCalls:
       m_Calls: []
   ReadyToFire: 0

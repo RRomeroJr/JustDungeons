@@ -129,11 +129,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  caster: {fileID: 0}
-  target: {fileID: 0}
   worldPointTarget: {x: 0, y: 0, z: 0}
   aoeActorIgnore: []
   eInstructs: []
+  buffs: []
   connectedToCaster: 0
   delayTimer: 0
   start: 1
@@ -143,6 +142,9 @@ MonoBehaviour:
   tickRate: 1.5
   aoeCap: 0
   followTarget: 0
+  followCaster: 0
+  useDisconnectTimer: 0
+  disconnectTimer: 0
   ignoreDuration: 1
   innerCircleRadius: 0
   safeZoneCenter: {x: 0, y: 0}
@@ -153,6 +155,10 @@ MonoBehaviour:
   hitHostile: 1
   hitFriendly: 0
   canHitSelf: 0
+  checkAtFeet: 0
+  onlyHitTarget: 0
+  <RotationsPerSecond>k__BackingField: 0
+  rotationSequence: []
 --- !u!114 &3926534262364259519
 MonoBehaviour:
   m_ObjectHideFlags: 0

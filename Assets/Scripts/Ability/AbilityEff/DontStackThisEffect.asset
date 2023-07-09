@@ -36,7 +36,7 @@ MonoBehaviour:
     deliveryNVect2: {x: 0, y: 0}
   school: -1
   misslePrefab: {fileID: 8996080988287052582, guid: 536d5fb32566009469d083a954ee0fb8, type: 3}
-  isSkillshot: 1
+  isSkillshot: 0
   speed: 0.4
   ignoreDuration: 0
   duration: 0.4

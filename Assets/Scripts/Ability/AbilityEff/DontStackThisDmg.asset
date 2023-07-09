@@ -15,7 +15,7 @@ MonoBehaviour:
   effectName: DontStackThisDmg
   id: 81
   power: 0
-  powerScale: 1
+  powerScale: 13
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 0
@@ -27,3 +27,4 @@ MonoBehaviour:
     Value: {x: 0, y: 0, z: 0}
   isHostile: 1
   school: -1
+  scaleStat: 2

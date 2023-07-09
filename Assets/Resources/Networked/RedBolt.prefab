@@ -126,22 +126,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff46075bb51b834689599f53683bd2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  caster: {fileID: 0}
-  target: {fileID: 0}
   worldPointTarget: {x: 0, y: 0, z: 0}
   aoeActorIgnore: []
-  abilityEffects: []
   eInstructs: []
+  buffs: []
+  connectedToCaster: 0
+  delayTimer: 0
+  start: 1
   type: 0
   speed: 0.1
   duration: 0
   tickRate: 1.5
   aoeCap: 0
+  followTarget: 0
+  followCaster: 0
+  useDisconnectTimer: 0
+  disconnectTimer: 0
   ignoreDuration: 1
   innerCircleRadius: 0
   safeZoneCenter: {x: 0, y: 0}
+  skillshotvector: {x: 0, y: 0}
+  hitMask:
+    serializedVersion: 2
+    m_Bits: 192
+  hitHostile: 1
+  hitFriendly: 1
+  canHitSelf: 0
+  checkAtFeet: 0
+  onlyHitTarget: 1
+  <RotationsPerSecond>k__BackingField: 0
+  rotationSequence: []
 --- !u!114 &3926534262364259519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,9 +172,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
+  _assetId: 3161249837
   serverOnly: 0
   visible: 0
-  m_AssetId: 21d077f02007c604892137a553ae8ffe
   hasSpawned: 0
 --- !u!114 &4116171392838694478
 MonoBehaviour:
@@ -171,25 +188,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0
+  target: {fileID: 8927114768485141093}
   clientAuthority: 0
-  sendInterval: 0.05
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 0
-  bufferTimeMultiplier: 1
-  bufferSizeLimit: 64
-  catchupThreshold: 4
-  catchupMultiplier: 0.1
   onlySyncOnChange: 1
   bufferResetMultiplier: 5
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}

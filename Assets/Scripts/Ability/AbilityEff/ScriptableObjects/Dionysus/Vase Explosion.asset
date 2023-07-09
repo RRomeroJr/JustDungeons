@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectName: Vase Explosion
   id: 21
-  power: 10
-  powerScale: 10
+  power: 6
+  powerScale: 16
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 0
@@ -23,4 +23,8 @@ MonoBehaviour:
   caster: {fileID: 0}
   targetWP:
     Value: {x: 0, y: 0, z: 0}
+  targetWP2:
+    Value: {x: 0, y: 0, z: 0}
+  isHostile: 1
   school: -1
+  scaleStat: 2

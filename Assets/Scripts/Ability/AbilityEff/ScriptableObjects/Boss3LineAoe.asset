@@ -27,6 +27,13 @@ MonoBehaviour:
     Value: {x: 0, y: 0, z: 0}
   isHostile: 1
   eInstructs:
+  - effect: {fileID: 11400000, guid: 901f55705a3cd194db9d7e2afdb56737, type: 2}
+    targetArg: 0
+    powerMod: 0
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
+    deliveryNVect2: {x: 0, y: 0}
   - effect: {fileID: 11400000, guid: 2c8553226bdc4ac4c84c2b5cb0ff30aa, type: 2}
     targetArg: 0
     powerMod: 0

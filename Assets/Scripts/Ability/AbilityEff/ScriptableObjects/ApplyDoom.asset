@@ -13,7 +13,17 @@ MonoBehaviour:
   m_Name: ApplyDoom
   m_EditorClassIdentifier: 
   effectName: ApplyDoomEffect
-  id: -1
+  id: 5
   power: 0
+  powerScale: 1
   parentBuff: {fileID: 0}
-  buffID: {fileID: 11400000, guid: 8591ba5fffd726f4fb0713cfa2f13f45, type: 2}
+  parentDelivery: {fileID: 0}
+  targetIsSecondary: 0
+  target: {fileID: 0}
+  caster: {fileID: 0}
+  targetWP:
+    Value: {x: 0, y: 0, z: 0}
+  targetWP2:
+    Value: {x: 0, y: 0, z: 0}
+  isHostile: 1
+  buffSO: {fileID: 11400000, guid: 14fcc10060e4f5a44abf74e444b9eecb, type: 2}

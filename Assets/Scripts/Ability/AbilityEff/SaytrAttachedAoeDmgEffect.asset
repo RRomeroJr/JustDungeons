@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: SaytrAttachedAoeDmgEffect
   m_EditorClassIdentifier: 
   effectName: SaytrAttachedAoeDmgEffect
-  id: -1
+  id: 73
   power: 0
-  powerScale: 1
+  powerScale: 16
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 0
@@ -25,4 +25,6 @@ MonoBehaviour:
     Value: {x: 0, y: 0, z: 0}
   targetWP2:
     Value: {x: 0, y: 0, z: 0}
+  isHostile: 1
   school: -1
+  scaleStat: 2

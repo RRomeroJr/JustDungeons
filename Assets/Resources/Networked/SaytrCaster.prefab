@@ -237,8 +237,8 @@ MonoBehaviour:
   syncInterval: 0.1
   showDebug: 0
   actorName: SaytrCaster
-  health: 400
-  maxHealth: 9000
+  health: 35000
+  maxHealth: 35000
   <Role>k__BackingField: 0
   unitColor: {r: 0.72156864, g: 0.9490196, b: 0.9529412, a: 1}
   mobId: 6

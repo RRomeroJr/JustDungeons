@@ -25,6 +25,7 @@ MonoBehaviour:
     Value: {x: 0, y: 0, z: 0}
   targetWP2:
     Value: {x: 0, y: 0, z: 0}
+  isHostile: 1
   eInstructs:
   - effect: {fileID: 11400000, guid: 190fdc6662cd0ce499b5c4bc6bedb96c, type: 2}
     targetArg: 0

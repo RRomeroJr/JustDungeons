@@ -13,9 +13,18 @@ MonoBehaviour:
   m_Name: miniVaseExplosion
   m_EditorClassIdentifier: 
   effectName: miniVaseExplosion
-  id: -1
+  id: 29
   power: 4
+  powerScale: 12
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 0
+  target: {fileID: 0}
+  caster: {fileID: 0}
+  targetWP:
+    Value: {x: 0, y: 0, z: 0}
+  targetWP2:
+    Value: {x: 0, y: 0, z: 0}
+  isHostile: 1
   school: -1
+  scaleStat: 2
