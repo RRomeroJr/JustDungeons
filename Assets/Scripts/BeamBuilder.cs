@@ -6,6 +6,7 @@ public class BeamBuilder : MonoBehaviour
     [SerializeField] private Material[] middleSprite;
     [SerializeField] private Sprite[] endSprite;
     [SerializeField] private LayerMask mask;
+    [SerializeField] private bool stopOnCollision;
     private Transform end;
     private float startLength;
     private float endLength;
@@ -53,11 +54,23 @@ public class BeamBuilder : MonoBehaviour
 
         UpdateStart();
 
+        // Not stopping on collision will make a fixed length beam
+        if (!stopOnCollision)
+        {
+            middleLength = Length - (endLength + startLength);
+            line.SetPosition(1, new Vector3(startLength, middleLength, 0));
+            UpdateEnd();
+        }
+
         void UpdateStart() => start.localPosition = new Vector2(startLength * 0.5f, 0);
     }
 
     void Update()
     {
+        if (!stopOnCollision)
+        {
+            return;
+        }
         UpdateMiddle();
         UpdateEnd();
     }
