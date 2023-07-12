@@ -45,7 +45,7 @@ public class CastBar : MonoBehaviour
   public void OnAbilityChanged()
   {
     castName.text = caster.QueuedAbility.getName();
-    if(caster.IsChanneling)
+    if(caster.QueuedAbility.isChannel)
     {
       castBar.maxValue = caster.QueuedAbility.channelDuration;
     }
@@ -53,7 +53,7 @@ public class CastBar : MonoBehaviour
     {
       castBar.maxValue = caster.QueuedAbility.getCastTime();;
     }
-    castTime = caster.QueuedAbility.getCastTime();
+    // castTime = caster.QueuedAbility.getCastTime();
 
   }
     void Update(){
@@ -76,6 +76,7 @@ public class CastBar : MonoBehaviour
       }
       
     }
+
     void OnDestroy(){
       
     }
