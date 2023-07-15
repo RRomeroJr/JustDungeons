@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Mirror;
 using UnityEngine;
 
@@ -24,6 +25,7 @@ public class AbilityDelivery : NetworkBehaviour
     public Actor Target { get; set; }
     public Vector3 worldPointTarget;
     public List<TargetCooldown> aoeActorIgnore;
+    private List<DamageableCooldown> aoeDamageableIgnore;
 
     // [SerializeField]public List<AbilityEffect> abilityEffects;
     [SerializeField] public List<EffectInstruction> eInstructs;
@@ -67,6 +69,7 @@ public class AbilityDelivery : NetworkBehaviour
     {
         if (isServer)
         {
+            aoeDamageableIgnore = new();
             foreach (EffectInstruction eI in eInstructs)
             {
                 eI.effect.parentDelivery = this;
@@ -121,7 +124,19 @@ public class AbilityDelivery : NetworkBehaviour
             return;
         }
 
-        Actor hitActor = other.GetComponent<Actor>();
+        if (!other.TryGetComponent(out Actor hitActor))
+        {
+            if (other.TryGetComponent(out IDamageable damageable) && !CheckIgnoreTarget(damageable))
+            {
+                foreach (EffectInstruction eI in eInstructs)
+                {
+                    damageable.Damage(eI.effect.power + Caster.mainStat * eI.effect.powerScale);
+                }
+                AddToAoeIgnore(damageable, tickRate);
+            }
+            return;
+        }
+
         if (checkAtFeet && !CheckHitFeet(hitActor))
         {
             return;
@@ -160,13 +175,13 @@ public class AbilityDelivery : NetworkBehaviour
         //Debug.Log("Trigger stay server and start");
         if (!other.TryGetComponent(out Actor hitActor))
         {
-            if (other.TryGetComponent(out IDamageable damageable))
+            if (other.TryGetComponent(out IDamageable damageable) && !CheckIgnoreTarget(damageable))
             {
                 foreach (EffectInstruction eI in eInstructs)
                 {
-                    damageable.Damage(eI.effect.power * eI.effect.powerScale);
+                    damageable.Damage(eI.effect.power + Caster.mainStat * eI.effect.powerScale);
                 }
-                addToAoeIgnore(hitActor, tickRate);
+                AddToAoeIgnore(damageable, tickRate);
             }
             return;
         }
@@ -370,6 +385,11 @@ public class AbilityDelivery : NetworkBehaviour
         return false;
     }
 
+    public bool CheckIgnoreTarget(IDamageable target)
+    {
+        return aoeDamageableIgnore.Any(x => x.damageable == target);
+    }
+
     bool checkIgnoreConditons(Actor _hitActor)
     {
         //returns true if the _histActor should be ignored
@@ -431,18 +451,26 @@ public class AbilityDelivery : NetworkBehaviour
         aoeActorIgnore.Add(new TargetCooldown(_target, _remainingtime));
     }
 
+    void AddToAoeIgnore(IDamageable target, float remainingtime)
+    {
+        aoeDamageableIgnore.Add(new DamageableCooldown(target, remainingtime));
+    }
+
     void updateTargetCooldowns()
     {
-        if (aoeActorIgnore == null || aoeActorIgnore.Count == 0)
-        {
-            return;
-        }
         for (int i = aoeActorIgnore.Count - 1; i >= 0; i--)
         {
             if (aoeActorIgnore[i].remainingTime > 0)
                 aoeActorIgnore[i].remainingTime -= Time.deltaTime;
             else
                 aoeActorIgnore.RemoveAt(i);
+        }
+        for (int i = aoeDamageableIgnore.Count - 1; i >= 0; i--)
+        {
+            if (aoeDamageableIgnore[i].remainingTime > 0)
+                aoeDamageableIgnore[i].remainingTime -= Time.deltaTime;
+            else
+                aoeDamageableIgnore.RemoveAt(i);
         }
     }
 
