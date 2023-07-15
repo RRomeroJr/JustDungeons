@@ -141,7 +141,7 @@ public class EnemyController : Controller
     //void onRanged()
     //void onMelee()
     //void onTank()
-    
+
     /// <summary>
     /// Find all the targets that are in the mask and in range
     /// </summary>
@@ -162,19 +162,19 @@ public class EnemyController : Controller
 
         Transform closest = null;
         foreach (Transform raycastHitTransform in raycastHits.Select(x => x.transform))
-            {
+        {
             targets.Add(raycastHitTransform);
             if (closest == null || DistanceTo(raycastHitTransform) < DistanceTo(closest))
-                {
+            {
                 closest = raycastHitTransform;
-                }
             }
-
-            // Set target to closest
-            target = closest;
-            actor.target = target.GetComponent<Actor>();
-        return targets;
         }
+
+        // Set target to closest
+        target = closest;
+        actor.target = target.GetComponent<Actor>();
+        return targets;
+    }
 
     /// <summary>
     /// Find all the targets that are in the mask, range, and has role
@@ -189,10 +189,10 @@ public class EnemyController : Controller
         // If no target is found by raycast, set target to null
         if (raycastHits.Length <= 0)
         {
-        target = null;
-        actor.target = null;
+            target = null;
+            actor.target = null;
             return targets;
-    }
+        }
 
         Transform closest = null;
         foreach (Transform raycastHitTransform in raycastHits.Select(x => x.transform))
@@ -200,17 +200,17 @@ public class EnemyController : Controller
             if (raycastHitTransform.GetComponent<Actor>().Role != role)
             {
                 continue;
-                }
+            }
 
             targets.Add(raycastHitTransform);
             if (closest == null || DistanceTo(raycastHitTransform) < DistanceTo(closest))
-                {
+            {
                 closest = raycastHitTransform;
-                }
             }
+        }
 
         // Set target to closest
-            target = closest;
+        target = closest;
         actor.target = target.GetComponent<Actor>();
         return targets;
     }
@@ -266,7 +266,7 @@ public class EnemyController : Controller
     }
     public void AggroSearch(){
 
-        if(FindTargets(LayerMask.GetMask("Player"), aggroRadius))
+        if(FindTargets(LayerMask.GetMask("Player"), aggroRadius).Count > 0)
         {
             actor.CheckStartCombatWith(actor.target);
             
