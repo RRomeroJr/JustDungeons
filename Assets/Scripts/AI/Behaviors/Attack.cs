@@ -47,17 +47,6 @@ public class Attack : ActionNode
                     context.actor.castAbility3(ability, _target);
                 }
             }
-            else // If no actor is attached to target, use the target's position
-            {
-                if (tryOnce)
-                {
-                    return BoolToState(context.actor.castAbilityRealWPs(ability, _WP: new NullibleVector3(blackboard.target.transform.position)));
-                }
-                else
-                {
-                    context.actor.castAbilityRealWPs(ability, _WP: new NullibleVector3(blackboard.target.transform.position));
-                }
-            }
         }
         else
         {
