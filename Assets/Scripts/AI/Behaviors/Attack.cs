@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TheKiwiCoder;
 using UnityEngine;
-using TheKiwiCoder;
 
 [Attack]
 public class Attack : ActionNode
@@ -31,21 +29,21 @@ public class Attack : ActionNode
     protected override State OnUpdate()
     {
         if(context.actor.IsCasting == false){
-            
+
             // if((ability.getCastTime() > 0.0)&&(ability.castWhileMoving == false)){
             //     context.agent.isStopped = true;
-                
+
             // }
-            //Debug.Log(context.controller.target.GetComponent<Actor>().getActorName()); 
-            Actor _target = targetSelf ? context.actor : blackboard.target.GetComponent<Actor>();
+            //Debug.Log(context.controller.target.GetComponent<Actor>().getActorName());
+            Transform _target = targetSelf ? context.actor.transform : blackboard.target;
             if (_target != null)
             {
                 if (tryOnce)
-            {
+                {
                     return BoolToState(context.actor.castAbility3(ability, _target));
-            }
-            else
-            {
+                }
+                else
+                {
                     context.actor.castAbility3(ability, _target);
                 }
             }
@@ -54,11 +52,11 @@ public class Attack : ActionNode
                 if (tryOnce)
                 {
                     return BoolToState(context.actor.castAbilityRealWPs(ability, _WP: new NullibleVector3(blackboard.target.transform.position)));
-            }
+                }
                 else
-            {
+                {
                     context.actor.castAbilityRealWPs(ability, _WP: new NullibleVector3(blackboard.target.transform.position));
-            }
+                }
             }
         }
         else

@@ -29,7 +29,7 @@ public abstract class AbilityEff: ScriptableObject
     //public int targetArg = 0; //0 = target, 1 = self
 
     //public List<Actor> specificTargets;
-    public abstract void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null);
+    public abstract void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null);
     public virtual void buffEndEffect(){
 
     }

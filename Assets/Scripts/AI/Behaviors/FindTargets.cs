@@ -21,6 +21,7 @@ public class FindTargets : ActionNode
     protected override State OnUpdate()
     {
         blackboard.targets = context.controller.FindTargets(targetMask, range);
+        blackboard.target = context.controller.FindClosetTarget(targetMask, range);
         if (blackboard.targets.Count > 0)
         {
             // Debug.Log("FindTarget node seccessfully found a target!");

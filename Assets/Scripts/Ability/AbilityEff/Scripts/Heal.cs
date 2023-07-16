@@ -8,7 +8,8 @@ using UnityEngine;
 public class Heal : AbilityEff
 {   
     public int school;
-    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
+    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    {
         if(target == null){
             Debug.LogError(name + "| no target. returning");
         }

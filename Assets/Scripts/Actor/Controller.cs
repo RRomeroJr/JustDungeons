@@ -92,7 +92,7 @@ public class Controller : NetworkBehaviour
         }
         if (autoAttacking && actor.target != null)
         {
-            if (HBCTools.areHostle(actor, actor.target) == false)
+            if (HBCTools.areHostle(transform, actor.target.transform) == false)
             {
                 autoAttacking = false;
                 return;

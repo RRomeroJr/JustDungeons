@@ -8,7 +8,7 @@ public class LineAoe : Aoe
 {
     public float Length;
 
-    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
         //Debug.Log("Ring Aoe start effect");
         //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());

@@ -114,7 +114,7 @@ public class EnemyController : Controller
                 if(abilityHandler.QueuedAbility.needsActor)
                 {
                     // Debug.Log("cast following actor");
-                    facingDirection = HBCTools.ToNearest45(abilityHandler.QueuedTarget.transform.position - transform.position);
+                    facingDirection = HBCTools.ToNearest45(abilityHandler.QueuedTarget.position - transform.position);
                 }
                 else if(abilityHandler.QueuedAbility.needsWP)
                 {

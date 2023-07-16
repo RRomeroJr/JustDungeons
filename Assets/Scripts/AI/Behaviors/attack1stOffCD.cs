@@ -64,7 +64,7 @@ public class attack1stOffCD : ActionNode
             // }
             //Debug.Log(context.controller.target.GetComponent<Actor>().getActorName());
             
-            context.actor.castAbility3(toCast, context.actor.target);
+            context.actor.castAbility3(toCast, context.actor.target.transform);
             //castStarted = true;
         }
         if(castFinished == false){

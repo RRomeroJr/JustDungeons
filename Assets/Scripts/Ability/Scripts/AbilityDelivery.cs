@@ -22,7 +22,7 @@ public class AbilityDelivery : NetworkBehaviour
     */
 
     public Actor Caster { get; set; }
-    public Actor Target { get; set; }
+    public Transform Target { get; set; }
     public Vector3 worldPointTarget;
     public List<TargetCooldown> aoeActorIgnore;
     private List<DamageableCooldown> aoeDamageableIgnore;
@@ -151,7 +151,7 @@ public class AbilityDelivery : NetworkBehaviour
             Debug.Log("Sending to " + hitActor.gameObject.name);
             foreach (EffectInstruction eI in eInstructs)
             {
-                eI.sendToActor(hitActor, null, Caster);
+                eI.sendToActor(hitActor.transform, null, Caster);
             }
             Destroy(gameObject);
         }
@@ -159,7 +159,7 @@ public class AbilityDelivery : NetworkBehaviour
         {
             foreach (EffectInstruction eI in eInstructs)
             {
-                eI.sendToActor(hitActor, null, Caster);
+                eI.sendToActor(hitActor.transform, null, Caster);
             }
             Destroy(gameObject);
         }
@@ -207,7 +207,6 @@ public class AbilityDelivery : NetworkBehaviour
                     addToAoeIgnore(hitActor, tickRate);
 
                     Hit(hitActor);
-                    
                 }
 
                 else
@@ -245,7 +244,7 @@ public class AbilityDelivery : NetworkBehaviour
                         {
                             foreach (EffectInstruction eI in eInstructs)
                             {
-                                eI.sendToActor(hitActor, null, Caster);
+                                eI.sendToActor(hitActor.transform, null, Caster);
                             }
                         }
                     }
@@ -261,7 +260,7 @@ public class AbilityDelivery : NetworkBehaviour
     void Hit(Actor _target)
     {
         foreach (EffectInstruction eI in eInstructs){
-            eI.sendToActor(_target, null, Caster);
+            eI.sendToActor(_target.transform, null, Caster);
         }
         foreach(BuffScriptableObject b in buffs)
         {
@@ -276,7 +275,7 @@ public class AbilityDelivery : NetworkBehaviour
         }
         if (type == 0)
         {
-            transform.position = Vector2.MoveTowards(transform.position, Target.gameObject.transform.position, speed);
+            transform.position = Vector2.MoveTowards(transform.position, Target.position, speed);
         }
         else if (type == 1)
         {
@@ -307,7 +306,7 @@ public class AbilityDelivery : NetworkBehaviour
             }
             else if (followTarget && Target != null)
             {
-                transform.position = Target.transform.position;
+                transform.position = Target.position;
             }
 
             if ((useDisconnectTimer) && (disconnectTimer <= 0))
@@ -406,12 +405,12 @@ public class AbilityDelivery : NetworkBehaviour
         }
         if (Caster != null)
         {
-            if (hitHostile && HBCTools.areHostle(Caster, _hitActor) == true)
+            if (hitHostile && HBCTools.areHostle(Caster.transform, _hitActor.transform) == true)
             {
                 //Debug.Log(caster.getActorName() + " & " + _hitActor.getActorName() + " are not hostile");
                 return false;
             }
-            if (hitFriendly && HBCTools.areHostle(Caster, _hitActor) == false)
+            if (hitFriendly && HBCTools.areHostle(Caster.transform, _hitActor.transform) == false)
             {
                 //Debug.Log(caster.getActorName() + " & " + _hitActor.getActorName() + " are not friendly");
                 return false;
