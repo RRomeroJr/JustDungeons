@@ -689,6 +689,11 @@ public class AbilityHandler : NetworkBehaviour
     {
         // int capacityBefore = abilityCooldowns.Capacity;
         // AbilityCooldown refBefore = null;
+        float cooldown = _ability.getCooldown();
+        if (Mathf.Approximately(cooldown, 0) || cooldown < 0)
+        {
+            return;
+        }
 
         AbilityCooldown acRef = new AbilityCooldown(_ability);
         abilityCooldowns.Add(acRef);
