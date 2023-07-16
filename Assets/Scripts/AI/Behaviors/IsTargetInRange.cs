@@ -17,7 +17,7 @@ public class IsTargetInRange : ActionNode
 
     protected override State OnUpdate()
     {
-        if (Vector2.Distance(context.controller.target.position, context.controller.transform.position) <= range)
+        if (Vector2.Distance(blackboard.target.position, context.controller.transform.position) <= range)
         {
             return State.Success;
         }

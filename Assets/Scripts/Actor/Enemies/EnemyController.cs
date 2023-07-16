@@ -20,7 +20,6 @@ public class EnemyController : Controller
     [Header("Automatic")]
     public EnemySO enemyStats;
 
-    public Transform target;
     public Vector3 spawnLocation;
     public Collider2D collider;
     public float aggroRadius = 7.0f;
@@ -156,7 +155,7 @@ public class EnemyController : Controller
             if (closest == null || DistanceTo(collider.transform) < DistanceTo(closest))
             {
                 closest = collider.transform;
-        }
+            }
         }
 
         return closest;
@@ -167,14 +166,14 @@ public class EnemyController : Controller
     /// </summary>
     /// <returns>List of Transforms</returns>
     public List<Transform> FindTargets(LayerMask targetMask, float range)
-        {
+    {
         Collider2D[] raycastHits = Physics2D.OverlapCircleAll((Vector2)transform.position, range, targetMask); // May need to optimize with OverlapCircleNonAlloc
         List<Transform> targets = new();
 
         foreach (Collider2D collider in raycastHits)
-            {
+        {
             targets.Add(collider.transform);
-            }
+        }
 
         return targets;
     }
@@ -196,7 +195,7 @@ public class EnemyController : Controller
             }
 
             targets.Add(raycastHitTransform);
-            }
+        }
 
         return targets;
     }

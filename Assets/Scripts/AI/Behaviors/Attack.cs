@@ -37,7 +37,7 @@ public class Attack : ActionNode
                 
             // }
             //Debug.Log(context.controller.target.GetComponent<Actor>().getActorName()); 
-            Actor _target = targetSelf ? context.actor : context.controller.target.GetComponent<Actor>();
+            Actor _target = targetSelf ? context.actor : blackboard.target.GetComponent<Actor>();
             if (_target != null)
             {
                 if (tryOnce)
@@ -53,11 +53,11 @@ public class Attack : ActionNode
             {
                 if (tryOnce)
                 {
-                    return BoolToState(context.actor.castAbilityRealWPs(ability, _WP: new NullibleVector3(context.controller.target.transform.position)));
+                    return BoolToState(context.actor.castAbilityRealWPs(ability, _WP: new NullibleVector3(blackboard.target.transform.position)));
             }
                 else
             {
-                    context.actor.castAbilityRealWPs(ability, _WP: new NullibleVector3(context.controller.target.transform.position));
+                    context.actor.castAbilityRealWPs(ability, _WP: new NullibleVector3(blackboard.target.transform.position));
             }
             }
         }

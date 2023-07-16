@@ -15,15 +15,15 @@ public class FollowTarget : ActionNode
     protected override State OnUpdate()
     {
         //Debug.Log("follow target called");
-        if (Vector2.Distance(context.controller.target.position, context.transform.position) <= context.boxCollider.size.x)
+        if (Vector2.Distance(blackboard.target.position, context.transform.position) <= context.boxCollider.size.x)
         {
             context.agent.ResetPath();
             return State.Success;
         }
 
-        if (context.agent.destination != context.controller.target.position)
+        if (context.agent.destination != blackboard.target.position)
         {
-            context.agent.destination = context.controller.target.position;
+            context.agent.destination = blackboard.target.position;
         }
 
         if (context.agent.pathPending)
