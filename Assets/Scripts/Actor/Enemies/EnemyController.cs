@@ -145,56 +145,49 @@ public class EnemyController : Controller
     /// <summary>
     /// Find all the targets that are in the mask and in range
     /// </summary>
-    /// <remarks>Has side effect of settings the Controller and Actor Target to the closest target</remarks>
+    /// <returns>Transform</returns>
+    public Transform FindClosetTarget(LayerMask targetMask, float range)
+    {
+        Collider2D[] raycastHits = Physics2D.OverlapCircleAll((Vector2)transform.position, range, targetMask); // May need to optimize with OverlapCircleNonAlloc
+        Transform closest = null;
+
+        foreach (Collider2D collider in raycastHits)
+        {
+            if (closest == null || DistanceTo(collider.transform) < DistanceTo(closest))
+            {
+                closest = collider.transform;
+        }
+        }
+
+        return closest;
+    }
+
+    /// <summary>
+    /// Find all the targets that are in the mask and in range
+    /// </summary>
     /// <returns>List of Transforms</returns>
     public List<Transform> FindTargets(LayerMask targetMask, float range)
-    {
+        {
         Collider2D[] raycastHits = Physics2D.OverlapCircleAll((Vector2)transform.position, range, targetMask); // May need to optimize with OverlapCircleNonAlloc
         List<Transform> targets = new();
 
-        // If no target is found by raycast, set target to null
-        if (raycastHits.Length <= 0)
-        {
-            target = null;
-            actor.target = null;
-            return targets;
-        }
-
-        Transform closest = null;
-        foreach (Transform raycastHitTransform in raycastHits.Select(x => x.transform))
-        {
-            targets.Add(raycastHitTransform);
-            if (closest == null || DistanceTo(raycastHitTransform) < DistanceTo(closest))
+        foreach (Collider2D collider in raycastHits)
             {
-                closest = raycastHitTransform;
+            targets.Add(collider.transform);
             }
-        }
 
-        // Set target to closest
-        target = closest;
-        actor.target = target.GetComponent<Actor>();
         return targets;
     }
 
     /// <summary>
     /// Find all the targets that are in the mask, range, and has role
     /// </summary>
-    /// <remarks>Has side effect of settings the Controller and Actor Target to the closest target</remarks>
     /// <returns>List of Transforms</returns>
     public List<Transform> FindTargetsByRole(LayerMask targetMask, float range, Role role)
     {
         Collider2D[] raycastHits = Physics2D.OverlapCircleAll((Vector2)transform.position, range, targetMask); // May need to optimize with OverlapCircleNonAlloc
         List<Transform> targets = new();
 
-        // If no target is found by raycast, set target to null
-        if (raycastHits.Length <= 0)
-        {
-            target = null;
-            actor.target = null;
-            return targets;
-        }
-
-        Transform closest = null;
         foreach (Transform raycastHitTransform in raycastHits.Select(x => x.transform))
         {
             if (raycastHitTransform.GetComponent<Actor>().Role != role)
@@ -203,46 +196,27 @@ public class EnemyController : Controller
             }
 
             targets.Add(raycastHitTransform);
-            if (closest == null || DistanceTo(raycastHitTransform) < DistanceTo(closest))
-            {
-                closest = raycastHitTransform;
             }
-        }
 
-        // Set target to closest
-        target = closest;
-        actor.target = target.GetComponent<Actor>();
         return targets;
     }
 
     /// <summary>
     /// Find random target in the mask and range
     /// </summary>
-    /// <remarks>Has side effect of settings the Controller and Actor Target to the random target</remarks>
-    /// <returns>List of Transforms</returns>
+    /// <returns>Transform</returns>
     public Transform FindRandomTarget(LayerMask targetMask, float range)
     {
         Collider2D[] raycastHits = Physics2D.OverlapCircleAll((Vector2)transform.position, range, targetMask); // May need to optimize with OverlapCircleNonAlloc
 
-        // If no target is found by raycast, set target to null
-        if (raycastHits.Length <= 0)
-        {
-            target = null;
-            actor.target = null;
-            return null;
-        }
-
-        Transform random = raycastHits[Random.Range(0, raycastHits.Length)].transform;
-        target = random;
-        actor.target = random.GetComponent<Actor>();
-        return random;
+        return raycastHits[Random.Range(0, raycastHits.Length)].transform;
     }
 
     public float DistanceTo(Transform pos)
     {
-        float distance = Vector2.Distance(transform.position, pos.transform.position);
-        return distance;
+        return Vector2.Distance(transform.position, pos.transform.position);
     }
+
     void moveOffOtherUnitsOutOfCombat(){
         /*
             Couldn't figure this out. I wanted to detect if a mob was overlaping with another
