@@ -30,7 +30,6 @@ public class Attack : ActionNode
 
     protected override State OnUpdate()
     {
-        
         if(context.actor.IsCasting == false){
             
             // if((ability.getCastTime() > 0.0)&&(ability.castWhileMoving == false)){
@@ -38,24 +37,29 @@ public class Attack : ActionNode
                 
             // }
             //Debug.Log(context.controller.target.GetComponent<Actor>().getActorName()); 
-            Actor _target = null;
-            if(targetSelf)
+            Actor _target = targetSelf ? context.actor : context.controller.target.GetComponent<Actor>();
+            if (_target != null)
             {
-                _target = context.actor;
+                if (tryOnce)
+            {
+                    return BoolToState(context.actor.castAbility3(ability, _target));
             }
             else
             {
-                _target = context.controller.target.GetComponent<Actor>();
+                    context.actor.castAbility3(ability, _target);
+                }
             }
-            
-            if(tryOnce)
+            else // If no actor is attached to target, use the target's position
             {
-                return BoolToState(context.actor.castAbility3(ability, _target));
+                if (tryOnce)
+                {
+                    return BoolToState(context.actor.castAbilityRealWPs(ability, _WP: new NullibleVector3(context.controller.target.transform.position)));
             }
-            else{
-                context.actor.castAbility3(ability, _target);
+                else
+            {
+                    context.actor.castAbilityRealWPs(ability, _WP: new NullibleVector3(context.controller.target.transform.position));
             }
-            //castStarted = true;
+            }
         }
         else
         {
