@@ -13,24 +13,61 @@ public class CameraController : MonoBehaviour
     public Vector2 dragOffset = new Vector2(0.0f,0.0f);
     public float dragSens = 0.1f;
     public float dragMax = 1.5f;
+    public bool dragMode = false;
     void Start(){
         //offset = new Vector3(target.transform.position.x, target.transform.position.y + 2.75f, -10f);
         CustomNetworkManager.singleton.GamePlayers.CollectionChanged += HandlePlayerAdded;
         
     }
     void Update(){
-        if(Input.GetMouseButton(1)){
-            Vector2 mouseMove = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-     
-            // if(mouseMove.magnitude > 0){
-            //     mouseMove.Normalize();
-            //     mouseMove = dragMax * mouseMove;
-            //     dragOffset = mouseMove;
-            // }
+
+        if(Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)){
+            if( Input.GetMouseButton(0) && Input.GetMouseButton(1))
+            {
+                // dragOffset = Vector2.ClampMagnitude(HBCTools.GetMousePosWP() - target.position, dragMax);
+            }
             
-            mouseMove = dragSens * mouseMove;
-            dragOffset = dragOffset + mouseMove;
-            dragOffset = Vector2.ClampMagnitude(dragOffset, dragMax);
+        }
+        if(Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1)){
+            if( !(UIManager.Instance.MouseButtonDrag(0) || UIManager.Instance.MouseButtonDrag(1)) )
+            {
+                dragMode = false;
+                UnlockCursor();
+            }
+            
+        }
+        if(Input.GetMouseButton(0) || Input.GetMouseButton(1)){
+            if(dragMode == false)
+            {
+                if((UIManager.Instance.MouseButtonDrag(0) || UIManager.Instance.MouseButtonDrag(1)))
+                {
+                    // dragOffset = Vector2.ClampMagnitude(HBCTools.GetMousePosWP() - target.position, dragMax);
+                    dragMode = true;
+                    LockCursor();
+                }
+                if(! (UIManager.Instance.MouseButtonShort(0) || UIManager.Instance.MouseButtonShort(1)))
+                {
+                    // dragOffset = Vector2.ClampMagnitude(HBCTools.GetMousePosWP() - target.position, dragMax);
+                    dragMode = true;
+                    LockCursor();
+                }
+
+            }
+            if(dragMode)
+            {
+                Vector2 mouseMove = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+        
+                // if(mouseMove.magnitude > 0){
+                //     mouseMove.Normalize();
+                //     mouseMove = dragMax * mouseMove;
+                //     dragOffset = mouseMove;
+                // }
+                
+                mouseMove = dragSens * mouseMove;
+                dragOffset = dragOffset + mouseMove;
+                dragOffset = Vector2.ClampMagnitude(dragOffset, dragMax);
+
+            }
         }
         if(Input.GetMouseButton(2)){
             dragOffset = Vector2.zero;
@@ -61,6 +98,24 @@ public class CameraController : MonoBehaviour
         {
             target = CustomNetworkManager.singleton.GamePlayers.Last().transform;
             offset.y = -1 * target.GetComponent<Renderer>().bounds.extents.y;
+        }
+    }
+    void LockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+    void UnlockCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+    }
+    void ToggleCursorLock(){
+        if(Cursor.lockState == CursorLockMode.None)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else if(Cursor.lockState == CursorLockMode.Locked)
+        {
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 }
