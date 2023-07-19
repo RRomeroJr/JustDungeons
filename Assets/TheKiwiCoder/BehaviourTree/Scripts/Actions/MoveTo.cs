@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TheKiwiCoder;
 using UnityEngine;
-using TheKiwiCoder;
 
+[Movement]
 public class MoveTo : ActionNode
-{   public Vector2 pos;
+{
+    public Vector2 pos;
     public GameObject targetHolder;
     public bool useMoveSpeed = false;
     public float moveSpeed;
@@ -15,7 +15,7 @@ public class MoveTo : ActionNode
     protected override void OnStart()
     {
         moveToStarted = false;
-        
+
         // try{
         //     realPos = ContextualTargetToGmObj(relTarget).transform.position + (Vector3)relativePos;
         // }
@@ -23,7 +23,7 @@ public class MoveTo : ActionNode
         //     Debug.LogError("MoveToRelWP: Could not get realPos using self");
         //     realPos = context.transform.position + (Vector3)relativePos;
         // }
-        
+
         // if(useMoveSpeed){
         //     context.controller.moveToPoint(pos, moveSpeed);
         // }
@@ -39,15 +39,15 @@ public class MoveTo : ActionNode
     protected override State OnUpdate()
     {
 
-       if(context.controller.arenaObject == null)
+        if (context.controller.arenaObject == null)
         {
             Debug.Log("Skipping MoveToRelWP. Returning Failure");
             return State.Failure;
         }
-        if(!moveToStarted)
+        if (!moveToStarted)
         {
             moveToStarted = context.controller.moveToPoint(pos);
-            if(useMoveSpeed && moveToStarted)
+            if (useMoveSpeed && moveToStarted)
             {
                 moveSpeedHolder = context.agent.speed;
                 context.agent.speed = moveSpeed;
@@ -57,13 +57,13 @@ public class MoveTo : ActionNode
         else
         {
 
-            if(context.agent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathInvalid)
+            if (context.agent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathInvalid)
             {
                 return State.Failure;
             }
             if ((Vector2.Distance(pos, context.transform.position) <= stopRange) && !context.controller.resolvingMoveTo)
             {
-                if(useMoveSpeed)
+                if (useMoveSpeed)
                 {
                     context.agent.speed = moveSpeedHolder;
                 }
@@ -75,5 +75,5 @@ public class MoveTo : ActionNode
             }
         }
     }
-    
+
 }

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using Mirror;
+using System.Linq;
+using System.Data;
 
 public enum CombatTemperment{
     Hostle,
@@ -19,8 +20,6 @@ public class EnemyController : Controller
     [Header("Automatic")]
     public EnemySO enemyStats;
 
-    public Transform target;
-    public List<Transform> multiTargets;
     public Vector3 spawnLocation;
     public Collider2D collider;
     public float aggroRadius = 7.0f;
@@ -32,7 +31,6 @@ public class EnemyController : Controller
     {
         base.Awake();
         collider = GetComponent<Collider2D>();
-        multiTargets = new List<Transform>();
     }
 
     // Start is called before the first frame update
@@ -116,7 +114,7 @@ public class EnemyController : Controller
                 if(abilityHandler.QueuedAbility.needsActor)
                 {
                     // Debug.Log("cast following actor");
-                    facingDirection = HBCTools.ToNearest45(abilityHandler.QueuedTarget.transform.position - transform.position);
+                    facingDirection = HBCTools.ToNearest45(abilityHandler.QueuedTarget.position - transform.position);
                 }
                 else if(abilityHandler.QueuedAbility.needsWP)
                 {
@@ -142,82 +140,82 @@ public class EnemyController : Controller
     //void onRanged()
     //void onMelee()
     //void onTank()
-    
-    // Returns true if target is in range and false if no targets are in range
-    // Sets the target to the closest target if multiple or a random enemy if random = true
-    // Uses a circle raycast centered on the enemy and checks if any gameobjects on the target layer are hit
-    public bool FindTargets(LayerMask targetMask, float range)
-    {
-        Transform closest;
-        Collider2D[] raycastHit = Physics2D.OverlapCircleAll((Vector2)transform.position, range, targetMask); // May need to optimize with OverlapCircleNonAlloc
-        multiTargets.Clear();
 
-        // If a target is found by raycastHit
-        if (raycastHit.Length > 0)
-        {
-            closest = raycastHit[0].transform;
-            multiTargets.Add(raycastHit[0].transform);
-            // Find the closest target if multiple and save all targets in range
-            for (int i = 1; i < raycastHit.Length; i++)
-            {
-                multiTargets.Add(raycastHit[i].transform);
-                if (DistanceTo(raycastHit[i].transform) < DistanceTo(closest))
-                {
-                    closest = raycastHit[i].transform;
-                }
-            }
-            // Set target to closest
-            target = closest;
-            actor.target = target.GetComponent<Actor>();
-            return true;
-        }
-        // Sets target to null. No targets in range
-        target = null;
-        actor.target = null;
-        return false;
-    }
-
-    public bool TargetRole(Role r)
+    /// <summary>
+    /// Find all the targets that are in the mask and in range
+    /// </summary>
+    /// <returns>Transform</returns>
+    public Transform FindClosetTarget(LayerMask targetMask, float range)
     {
+        Collider2D[] raycastHits = Physics2D.OverlapCircleAll((Vector2)transform.position, range, targetMask); // May need to optimize with OverlapCircleNonAlloc
         Transform closest = null;
-        target = null;
-        if (multiTargets.Count > 0)
+
+        foreach (Collider2D collider in raycastHits)
         {
-            for (int i = multiTargets.Count - 1; i >= 0; i--)
+            if (closest == null || DistanceTo(collider.transform) < DistanceTo(closest))
             {
-                if (multiTargets[i].GetComponent<Actor>().Role != r)
-                {
-                    multiTargets.RemoveAt(i);
-                }
-                else if (closest == null ||
-                         DistanceTo(multiTargets[i]) < DistanceTo(closest))
-                {
-                    closest = multiTargets[i];
-                }
+                closest = collider.transform;
             }
-            target = closest;
         }
-        return target == null ? false : true;
+
+        return closest;
     }
 
-    // Sets target to random within multiTarget list
-    // Return true if a random target is selected, false if no target is found
-    public bool TargetRandom()
+    /// <summary>
+    /// Find all the targets that are in the mask and in range
+    /// </summary>
+    /// <returns>List of Transforms</returns>
+    public List<Transform> FindTargets(LayerMask targetMask, float range)
     {
-        if (multiTargets.Count > 0)
+        Collider2D[] raycastHits = Physics2D.OverlapCircleAll((Vector2)transform.position, range, targetMask); // May need to optimize with OverlapCircleNonAlloc
+        List<Transform> targets = new();
+
+        foreach (Collider2D collider in raycastHits)
         {
-            target = multiTargets[Random.Range(0, multiTargets.Count)].transform;
-            actor.target = target.GetComponent<Actor>();
-            return true;
+            targets.Add(collider.transform);
         }
-        return false;
+
+        return targets;
+    }
+
+    /// <summary>
+    /// Find all the targets that are in the mask, range, and has role
+    /// </summary>
+    /// <returns>List of Transforms</returns>
+    public List<Transform> FindTargetsByRole(LayerMask targetMask, float range, Role role)
+    {
+        Collider2D[] raycastHits = Physics2D.OverlapCircleAll((Vector2)transform.position, range, targetMask); // May need to optimize with OverlapCircleNonAlloc
+        List<Transform> targets = new();
+
+        foreach (Transform raycastHitTransform in raycastHits.Select(x => x.transform))
+        {
+            if (raycastHitTransform.GetComponent<Actor>().Role != role)
+            {
+                continue;
+            }
+
+            targets.Add(raycastHitTransform);
+        }
+
+        return targets;
+    }
+
+    /// <summary>
+    /// Find random target in the mask and range
+    /// </summary>
+    /// <returns>Transform</returns>
+    public Transform FindRandomTarget(LayerMask targetMask, float range)
+    {
+        Collider2D[] raycastHits = Physics2D.OverlapCircleAll((Vector2)transform.position, range, targetMask); // May need to optimize with OverlapCircleNonAlloc
+
+        return raycastHits[Random.Range(0, raycastHits.Length)].transform;
     }
 
     public float DistanceTo(Transform pos)
     {
-        float distance = Vector2.Distance(transform.position, pos.transform.position);
-        return distance;
+        return Vector2.Distance(transform.position, pos.transform.position);
     }
+
     void moveOffOtherUnitsOutOfCombat(){
         /*
             Couldn't figure this out. I wanted to detect if a mob was overlaping with another
@@ -241,7 +239,7 @@ public class EnemyController : Controller
     }
     public void AggroSearch(){
 
-        if(FindTargets(LayerMask.GetMask("Player"), aggroRadius))
+        if(FindTargets(LayerMask.GetMask("Player"), aggroRadius).Count > 0)
         {
             actor.CheckStartCombatWith(actor.target);
             

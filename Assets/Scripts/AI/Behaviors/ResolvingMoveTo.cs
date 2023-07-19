@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TheKiwiCoder;
+﻿using TheKiwiCoder;
 
+[Movement]
 public class ResolvingMoveTo : ActionNode
 {
     protected override void OnStart()
     {
- 
+
     }
 
     protected override void OnStop()
@@ -16,11 +14,13 @@ public class ResolvingMoveTo : ActionNode
 
     protected override State OnUpdate()
     {
-       
-        if(context.controller.resolvingMoveTo){
+
+        if (context.controller.resolvingMoveTo)
+        {
             return State.Success;
         }
-        else{
+        else
+        {
             return State.Failure;
         }
     }

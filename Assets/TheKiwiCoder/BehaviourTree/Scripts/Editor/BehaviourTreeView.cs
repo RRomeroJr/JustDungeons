@@ -1,11 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 using System;
 using System.Linq;
+using Unity.VisualScripting;
+
+using Edge = UnityEditor.Experimental.GraphView.Edge;
 
 namespace TheKiwiCoder {
     public class BehaviourTreeView : GraphView {
@@ -168,9 +170,29 @@ namespace TheKiwiCoder {
             Vector2 nodePosition = this.ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
             {
 
-                var types = TypeCache.GetTypesDerivedFrom<ActionNode>();
-                foreach (var type in types) {
-                    evt.menu.AppendAction($"[Action]/{type.Name}", (a) => CreateNode(type, nodePosition));
+                var types = TypeCache.GetTypesDerivedFrom<ActionNode>()
+                                     .OrderByDescending(x => x.HasAttribute<AttackAttribute>())
+                                     .ThenByDescending(x => x.HasAttribute<MovementAttribute>())
+                                     .ThenByDescending(x => x.HasAttribute<TargetFindingAttribute>())
+                                     .ThenBy(x => x.Name);
+                foreach (var type in types)
+                {
+                    if (type.HasAttribute<AttackAttribute>())
+                    {
+                        evt.menu.AppendAction($"[Action]/[Attack]/{type.Name}", (a) => CreateNode(type, nodePosition));
+                    }
+                    else if (type.HasAttribute<MovementAttribute>())
+                    {
+                        evt.menu.AppendAction($"[Action]/[Movement]/{type.Name}", (a) => CreateNode(type, nodePosition));
+                    }
+                    else if (type.HasAttribute<TargetFindingAttribute>())
+                    {
+                        evt.menu.AppendAction($"[Action]/[TargetFinding]/{type.Name}", (a) => CreateNode(type, nodePosition));
+                    }
+                    else
+                    {
+                        evt.menu.AppendAction(actionName: $"[Action]/{type.Name}", (a) => CreateNode(type, nodePosition));
+                    }
                 }
             }
 

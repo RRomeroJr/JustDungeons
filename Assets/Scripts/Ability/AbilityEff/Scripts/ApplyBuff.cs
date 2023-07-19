@@ -12,11 +12,12 @@ public class ApplyBuff : AbilityEff
     // [SerializeField]protected Buff buffID; //Make this actually an id in the future
     [SerializeField]protected BuffScriptableObject buffSO;
     
-    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
+    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    {
         // Debug.Log("Apply Buff");
         // Debug.Log("Apply " + buffID.name + ": to" +(_target != null ? target.ActorName : " No target ") + ", " + (_caster != null ?  _caster.ActorName : " No caster"));
 
-        _target.buffHandler.AddBuff(buffSO);
+        _target.GetComponent<IBuff>().AddBuff(buffSO);
 
         // Buff tempBuff_ref = buffID.clone();
         // tempBuff_ref.target = _secondaryTarget;

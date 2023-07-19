@@ -266,7 +266,7 @@ public class Actor : NetworkBehaviour
             seemed like it would be annoying to set up rn.
             So for now it's here 
         */ 
-            if(HBCTools.areHostle(UIManager.playerActor, this) == false)
+            if(HBCTools.areHostle(UIManager.playerActor.transform, transform) == false)
             {
                 Debug.Log("Friendly nameplates disabled");
                 nameplate.gameObject.SetActive(!nameplate.gameObject.active);
@@ -309,20 +309,20 @@ public class Actor : NetworkBehaviour
     }
 
     // Casting: Target finders---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    public Actor tryFindTarget(Ability_V2 _ability)
+    
+    public Transform tryFindTarget(Ability_V2 _ability, Transform _target)
     {
         /*
             run function from Ability that returns a code for how to find a target
             ex.  1 == this actor's target so..
                     _target = target
         */
-
-        if (target != null && HostiltyMatch(_ability, target))
+        
+        if (target != null && HostiltyMatch(_ability, _target))
         { //This actor's target
           //Debug.Log(_ability.getName() + " using current target as target");
 
-            return target;
+            return _target;
         }
 
         if(isLocalPlayer)
@@ -331,16 +331,16 @@ public class Actor : NetworkBehaviour
 
             if( UIManager.Instance.useMouseOver && 
                 _pc.hoverActor != null &&
-                HostiltyMatch(_ability, _pc.hoverActor))
+                HostiltyMatch(_ability, _pc.hoverActor.transform))
             {
-                return _pc.hoverActor;
+                return _pc.hoverActor.transform;
             }
         }
         
         if (_ability.isFriendly())
         { // auto selfcast if ability is friendly if nothing else found
 
-            return this;
+            return transform;
         }
         
         Debug.Log("No target found");
@@ -364,7 +364,7 @@ public class Actor : NetworkBehaviour
         }
     }
 
-    public NullibleVector3 tryFindTargetWP(Ability_V2 _ability, Actor passedTarget = null)
+    public NullibleVector3 tryFindTargetWP(Ability_V2 _ability, Transform passedTarget = null)
     {
         /* In the future I might make a method in the player controller
             to display a graphic and wait for a mouse click to get the 
@@ -372,7 +372,7 @@ public class Actor : NetworkBehaviour
         NullibleVector3 toReturn = new NullibleVector3();
         if (passedTarget != null)
         {
-            toReturn.Value = passedTarget.transform.position;
+            toReturn.Value = passedTarget.position;
         }
         else
         {
@@ -431,7 +431,7 @@ public class Actor : NetworkBehaviour
 
         //Debug.Log(actorName + " is starting eI for effect (" + _eInstruct.effect.effectName + ") From: " + (_caster != null ? _caster.actorName : "none"));
         //Debug.Log("recieveEffect " + _eInstruct.effect.effectName +"| caster:" + (_caster != null ? _caster.getActorName() : "_caster is null"));
-        _eInstruct.startEffect(this, _relWP, _caster, _secondaryTarget);
+        _eInstruct.startEffect(transform, _relWP, _caster, _secondaryTarget);
         if (_eInstruct.effect.isHostile && _caster != null)
         {
             CheckStartCombatWith(_caster);
@@ -1213,7 +1213,7 @@ public class Actor : NetworkBehaviour
     {
         return abilityHandler.QueuedAbility;
     }
-    public bool castAbility3(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null)
+    public bool castAbility3(Ability_V2 _ability, Transform _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null)
     {
         return abilityHandler.CastAbility3(_ability, _target, _relWP, _relWP2);
     }
@@ -1221,22 +1221,22 @@ public class Actor : NetworkBehaviour
     {
         return abilityHandler.CheckOnCooldown(_ability);
     }
-    public bool castAbilityRealWPs(Ability_V2 _ability, Actor _target = null, NullibleVector3 _WP = null, NullibleVector3 _WP2 = null)
+    public bool castAbilityRealWPs(Ability_V2 _ability, Transform _target = null, NullibleVector3 _WP = null, NullibleVector3 _WP2 = null)
     {
         return abilityHandler.CastAbilityRealWPs(_ability, _target, _WP, _WP2);
     }
     
-    bool HostiltyMatch(Ability_V2 _ability, Actor _target)
+    bool HostiltyMatch(Ability_V2 _ability, Transform _target)
     {
         if(_target == null){
             Debug.LogError("Ability hostilty checked on null _target");
             return false;
         }
-        if(_ability.isFriendly() && HBCTools.areHostle(this, _target))
+        if(_ability.isFriendly() && HBCTools.areHostle(transform, _target))
         {
             return false;
         }
-        if(_ability.isHostile() && HBCTools.areHostle(this, _target) == false)
+        if(_ability.isHostile() && HBCTools.areHostle(transform, _target) == false)
         {
             return false;
         }

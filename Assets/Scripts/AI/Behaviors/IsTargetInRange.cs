@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TheKiwiCoder;
 using UnityEngine;
-using TheKiwiCoder;
 
 // Used to check if the set target is within a defined range
 // Does not set a target, target has to be set by another behavior; FindTarget()
-public class TargetInRange : ActionNode
+[TargetFinding]
+public class IsTargetInRange : ActionNode
 {
     public float range;
     protected override void OnStart()
@@ -18,7 +17,7 @@ public class TargetInRange : ActionNode
 
     protected override State OnUpdate()
     {
-        if (Vector2.Distance(context.controller.target.position, context.controller.transform.position) <= range)
+        if (Vector2.Distance(blackboard.target.position, context.controller.transform.position) <= range)
         {
             return State.Success;
         }

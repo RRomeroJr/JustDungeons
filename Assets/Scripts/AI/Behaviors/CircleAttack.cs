@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TheKiwiCoder;
 using UnityEngine;
-using TheKiwiCoder;
 
+[Attack]
 public class CircleAttack : ActionNode
-{   
+{
     public Ability_V2 ability;
     public Vector2 relativePoint;
     public Vector2 relativePoint2;
@@ -16,7 +15,7 @@ public class CircleAttack : ActionNode
     public float plusMinusY;
     public Vector2 shootDirection = Vector2.right;
     public float spinStep;
-    public float rotated =0.0f;
+    public float rotated = 0.0f;
     // moveDirection = Quaternion.Euler( 0, 0, power) * moveDirection;
     protected override void OnStart()
     {
@@ -25,7 +24,7 @@ public class CircleAttack : ActionNode
         context.actor.onAbilityCastHooks.AddListener(checkCastedAbility);
         rotated = 0.0f;
         // MirrorTestTools._inst.ClientDebugLog("AttackRelativeWP OnStart()");
-        
+
     }
 
     protected override void OnStop()
@@ -34,23 +33,27 @@ public class CircleAttack : ActionNode
     }
 
     protected override State OnUpdate()
-    {   
+    {
         Debug.DrawLine(context.transform.position, (Vector3)shootDirection + context.transform.position, Color.magenta);
-        if(!castStarted){
-            
-            if(ability.getCastTime() > 0.0){
+        if (!castStarted)
+        {
+
+            if (ability.getCastTime() > 0.0)
+            {
                 context.agent.isStopped = true;
-                
+
             }
             //Debug.Log(context.controller.target.GetComponent<Actor>().getActorName());
             Vector2 randomOffset = Vector2.zero;
-            
 
-            if(randomRange){
-                    randomOffset = new Vector2(Random.Range(-plusMinusX, plusMinusX), Random.Range(-plusMinusY, plusMinusY));
-                   
+
+            if (randomRange)
+            {
+                randomOffset = new Vector2(Random.Range(-plusMinusX, plusMinusX), Random.Range(-plusMinusY, plusMinusY));
+
             }
-            switch(relativeTo){
+            switch (relativeTo)
+            {
                 case HBCTools.ContextualTarget.ArenaObject:
                     NullibleVector3 realPos1 = new NullibleVector3();
                     NullibleVector3 realPos2 = new NullibleVector3();
@@ -72,38 +75,45 @@ public class CircleAttack : ActionNode
                     Debug.LogError("Unknown RelativeTarget. trying to usee actor");
                     break;
 
-                //context.actor.castRelativeToGmObj(ability, (context.gameObject.GetComponent<Controller>() as EnemyController).arenaObject.gameObject, relativePoint + randomOffset);
+                    //context.actor.castRelativeToGmObj(ability, (context.gameObject.GetComponent<Controller>() as EnemyController).arenaObject.gameObject, relativePoint + randomOffset);
             }
-          
+
             //castStarted = true;
         }
-        if(castFinished == false){
+        if (castFinished == false)
+        {
             return State.Running;
         }
-        else{
-            if(rotated >= 360.0f){
-                if(context.agent.isStopped){
-                // Debug.Log("AttkRelWP: agent isStopped to false");
+        else
+        {
+            if (rotated >= 360.0f)
+            {
+                if (context.agent.isStopped)
+                {
+                    // Debug.Log("AttkRelWP: agent isStopped to false");
                     context.agent.isStopped = false;
                 }
-                    //Debug.Log("Attck: isStopped " + context.agent.isStopped.ToString());
-                    return State.Success;
-                }
+                //Debug.Log("Attck: isStopped " + context.agent.isStopped.ToString());
+                return State.Success;
             }
-            
-            rotated += spinStep;
-            shootDirection = Quaternion.Euler( 0, 0, spinStep) * shootDirection;
-            castFinished = false;
-            castStarted = false;
-            return State.Running;
-        
+        }
+
+        rotated += spinStep;
+        shootDirection = Quaternion.Euler(0, 0, spinStep) * shootDirection;
+        castFinished = false;
+        castStarted = false;
+        return State.Running;
+
     }
-    void checkCastedAbility(int _id){
-        if(_id == ability.id){
+    void checkCastedAbility(int _id)
+    {
+        if (_id == ability.id)
+        {
             // MirrorTestTools._inst.ClientDebugLog("cast fired MATCH FOUND");
             castFinished = true;
         }
-        else{
+        else
+        {
             //MirrorTestTools._inst.RpcDebugLog("cast fired no match found");
         }
     }

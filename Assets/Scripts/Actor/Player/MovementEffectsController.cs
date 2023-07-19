@@ -5,6 +5,11 @@ using UnityEngine.AI;
 
 /// <summary>
 /// Handles movement effects that do special things to the player
+/// Each effect can have a Start, Apply, Tick, and End effect
+/// Start is called when the effect is first started
+/// End is called when the effect ends
+/// Tick is called everytime the buff that created the effect ticks
+/// Apply is called every frame
 /// </summary>
 public sealed class MovementEffectsController : MonoBehaviour
 {
@@ -28,11 +33,25 @@ public sealed class MovementEffectsController : MonoBehaviour
     {
         switch (currentEffectState)
         {
-            case StatusEffectState.Feared:
-                ApplyFear();
-                break;
             case StatusEffectState.Dizzy:
-                ApplyDizzy();
+                TickDizzy();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void TickEffect(StatusEffectState callingEffect)
+    {
+        if (callingEffect != currentEffectState)
+        {
+            return;
+        }
+
+        switch (callingEffect)
+        {
+            case StatusEffectState.Dizzy:
+                TickDizzy();
                 break;
             default:
                 break;
@@ -84,7 +103,7 @@ public sealed class MovementEffectsController : MonoBehaviour
 
     #region Dizzy
 
-    public void ApplyDizzy()
+    private void TickDizzy()
     {
         Controller _controller = GetComponent<Controller>();
 
@@ -108,14 +127,14 @@ public sealed class MovementEffectsController : MonoBehaviour
         }
     }
 
-    public void StartDizzy()
+    private void StartDizzy()
     {
         indicatorRef = Instantiate(indicatorPrefab, transform);
         //indicatorRef.GetComponent<FolllowObject>().target = this.gameObject;
         indicatorRef.transform.Rotate(moveDirection);
     }
 
-    public void EndDizzy()
+    private void EndDizzy()
     {
         GetComponent<Controller>().moveDirection = null;
         Destroy(indicatorRef);
@@ -125,7 +144,7 @@ public sealed class MovementEffectsController : MonoBehaviour
     #endregion
 
     #region Fear
-    public void ApplyFear()
+    private void ApplyFear()
     {
         if (HBCTools.NT_AuthoritativeClient(GetComponent<NetworkTransform>()))
         {
@@ -134,8 +153,8 @@ public sealed class MovementEffectsController : MonoBehaviour
             agent.SetDestination(transform.position + randomPointOnCircle);
         }
     }
-    
-    public void StartFear()
+
+    private void StartFear()
     {
         if (agent == null)
         {
@@ -153,7 +172,7 @@ public sealed class MovementEffectsController : MonoBehaviour
         }
     }
 
-    public void EndFear()
+    private void EndFear()
     {
         if (agent == null)
         {

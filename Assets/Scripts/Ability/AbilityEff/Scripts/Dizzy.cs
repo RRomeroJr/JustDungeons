@@ -12,7 +12,8 @@ public class Dizzy : AbilityEff
     public Vector2 moveDirection = Vector2.right;
     public GameObject indicatorPrefab;
     GameObject indicatorRef;
-    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
+    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    {
        
         //Hopefully this rotates the moveVector in the y axis by power every frame
         

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -9,7 +9,7 @@ public class SchoolDamage : AbilityEff
 {   
     public int school = -1;
     public ActorStats scaleStat = ActorStats.MainStat;
-    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
+    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
         if(caster != null){
             target.damageValue((int)power + (int)(caster.GetStat(scaleStat) * powerScale), fromActor: caster);
         }

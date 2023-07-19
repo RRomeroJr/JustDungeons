@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TheKiwiCoder;
 using UnityEngine;
-using TheKiwiCoder;
 
-public class TryMoveToRelWP  : ActionNode
+[Movement]
+public class TryMoveToRelWP : ActionNode
 {
     public HBCTools.ContextualTarget relTarget;
     public Vector2 relativePos;
@@ -14,15 +13,16 @@ public class TryMoveToRelWP  : ActionNode
     protected override void OnStart()
     {
         GameObject relTargetGmObj = ContextualTargetToGmObj(relTarget);
-        if(relTargetGmObj == null){
-            Debug.Log("Skipping MoveToRelWP. Couldn't find "+ relTarget.ToString()+". Reuturning Failure");
+        if (relTargetGmObj == null)
+        {
+            Debug.Log("Skipping MoveToRelWP. Couldn't find " + relTarget.ToString() + ". Reuturning Failure");
             return;
         }
         realPos = relTargetGmObj.transform.position + (Vector3)relativePos;
         //Debug.Log("target: " + context.controller.arenaObject.transform.position + " + relativePos: " + relativePos + " = realPos: " + realPos);
-       
+
         successfulStart = context.controller.moveToPoint(realPos);
-        
+
     }
 
     protected override void OnStop()
@@ -31,7 +31,8 @@ public class TryMoveToRelWP  : ActionNode
 
     protected override State OnUpdate()
     {
-        if(!successfulStart){
+        if (!successfulStart)
+        {
             Debug.Log("Unsuccessful start");
             return State.Failure;
         }
@@ -43,7 +44,7 @@ public class TryMoveToRelWP  : ActionNode
         }
         //Debug.Log("TryMoveRelWP success");
         return State.Success;
-        
+
     }
-    
+
 }

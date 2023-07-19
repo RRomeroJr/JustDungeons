@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TheKiwiCoder;
 using UnityEngine;
-using TheKiwiCoder;
 
+[Movement]
 public class MoveTowardsRel : ActionNode
 {
     public HBCTools.ContextualTarget contextualTarget;
@@ -11,7 +10,7 @@ public class MoveTowardsRel : ActionNode
     public float stopDistance;
     public Vector2 relWP;
     Vector2 wp;
-    
+
 
     protected override void OnStart()
     {
@@ -24,13 +23,16 @@ public class MoveTowardsRel : ActionNode
 
     protected override State OnUpdate()
     {
-        if(Vector3.Distance(context.transform.position, (Vector3)wp ) <= stopDistance){
+        if (Vector3.Distance(context.transform.position, (Vector3)wp) <= stopDistance)
+        {
             return State.Success;
         }
-        if(useSpeed){
+        if (useSpeed)
+        {
             context.transform.position = Vector3.MoveTowards(context.transform.position, wp, speed * Time.deltaTime);
         }
-        else{
+        else
+        {
             context.transform.position = Vector3.MoveTowards(context.transform.position, wp, 10 * Time.deltaTime);
 
         }

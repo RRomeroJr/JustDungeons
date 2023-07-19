@@ -1,6 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Mirror;
 using UnityEngine;
+
+public enum AbilityType
+{
+    Normal,
+    Skillshot = 1,
+    Aoe = 2,
+    RingAoe = 4,
+    LineAoe = 5
+}
 
 public class AbilityDelivery : NetworkBehaviour
 {
@@ -12,9 +22,10 @@ public class AbilityDelivery : NetworkBehaviour
     */
 
     public Actor Caster { get; set; }
-    public Actor Target { get; set; }
+    public Transform Target { get; set; }
     public Vector3 worldPointTarget;
     public List<TargetCooldown> aoeActorIgnore;
+    private List<DamageableCooldown> aoeDamageableIgnore;
 
     // [SerializeField]public List<AbilityEffect> abilityEffects;
     [SerializeField] public List<EffectInstruction> eInstructs;
@@ -29,6 +40,7 @@ public class AbilityDelivery : NetworkBehaviour
     public int aoeCap;
     public bool followTarget;
     public bool followCaster;
+    public bool trackTarget;
     public bool useDisconnectTimer = false;
     public float disconnectTimer;
     public bool ignoreDuration = true;
@@ -58,6 +70,7 @@ public class AbilityDelivery : NetworkBehaviour
     {
         if (isServer)
         {
+            aoeDamageableIgnore = new();
             foreach (EffectInstruction eI in eInstructs)
             {
                 eI.effect.parentDelivery = this;
@@ -86,7 +99,7 @@ public class AbilityDelivery : NetworkBehaviour
             if (type == 5)
             { //line aoe
               //Debug.Log("Start type 5: LineAoe");
-              // transform.right = worldPointTarget - transform.position;
+              // transform.right = worldPointTarget - transform.position;         
             }
             if (connectedToCaster)
             {
@@ -111,13 +124,24 @@ public class AbilityDelivery : NetworkBehaviour
         {
             return;
         }
-        if ((type != 0) && (type != 1))
+        if ((type != 0) && (type != 1) && (type != 5))
         {
             return;
         }
-        
 
-        Actor hitActor = other.GetComponent<Actor>();
+        if (!other.TryGetComponent(out Actor hitActor))
+        {
+            if (other.TryGetComponent(out IDamageable damageable) && !CheckIgnoreTarget(damageable))
+            {
+                foreach (EffectInstruction eI in eInstructs)
+                {
+                    damageable.Damage(eI.effect.power + Caster.mainStat * eI.effect.powerScale);
+                }
+                AddToAoeIgnore(damageable, tickRate);
+            }
+            return;
+        }
+
         if (checkAtFeet && !CheckHitFeet(hitActor))
         {
             return;
@@ -131,7 +155,7 @@ public class AbilityDelivery : NetworkBehaviour
         {
             foreach (EffectInstruction eI in eInstructs)
             {
-                eI.sendToActor(hitActor, null, Caster);
+                eI.sendToActor(hitActor.transform, null, Caster);
             }
             Destroy(gameObject);
         }
@@ -139,7 +163,7 @@ public class AbilityDelivery : NetworkBehaviour
         // {
         //     foreach (EffectInstruction eI in eInstructs)
         //     {
-        //         eI.sendToActor(hitActor, null, Caster);
+        //         eI.sendToActor(hitActor.transform, null, Caster);
         //     }
         //     Destroy(gameObject);
         // }
@@ -153,15 +177,15 @@ public class AbilityDelivery : NetworkBehaviour
         }
 
         //Debug.Log("Trigger stay server and start");
-        if (!other.TryGetComponent<Actor>(out var hitActor))
+        if (!other.TryGetComponent(out Actor hitActor))
         {
-            if (other.TryGetComponent<IDamageable>(out var damageable))
+            if (other.TryGetComponent(out IDamageable damageable) && !CheckIgnoreTarget(damageable))
             {
                 foreach (EffectInstruction eI in eInstructs)
                 {
-                    damageable.Damage(eI.effect.power * eI.effect.powerScale);
+                    damageable.Damage(eI.effect.power + Caster.mainStat * eI.effect.powerScale);
                 }
-                addToAoeIgnore(hitActor, tickRate);
+                AddToAoeIgnore(damageable, tickRate);
             }
             return;
         }
@@ -187,7 +211,6 @@ public class AbilityDelivery : NetworkBehaviour
                     addToAoeIgnore(hitActor, tickRate);
 
                     Hit(hitActor);
-                    
                 }
 
                 else
@@ -225,7 +248,7 @@ public class AbilityDelivery : NetworkBehaviour
                         {
                             foreach (EffectInstruction eI in eInstructs)
                             {
-                                eI.sendToActor(hitActor, null, Caster);
+                                eI.sendToActor(hitActor.transform, null, Caster);
                             }
                         }
                     }
@@ -241,7 +264,7 @@ public class AbilityDelivery : NetworkBehaviour
     void Hit(Actor _target)
     {
         foreach (EffectInstruction eI in eInstructs){
-            eI.sendToActor(_target, null, Caster);
+            eI.sendToActor(_target.transform, null, Caster);
         }
         foreach(BuffScriptableObject b in buffs)
         {
@@ -256,11 +279,22 @@ public class AbilityDelivery : NetworkBehaviour
         }
         if (type == 0)
         {
-            transform.position = Vector2.MoveTowards(transform.position, Target.gameObject.transform.position, speed);
+            transform.position = Vector2.MoveTowards(transform.position, Target.position, speed);
         }
         else if (type == 1)
         {
             transform.position = (Vector2)transform.position + skillshotvector;
+        }
+        else if (type == 5)
+        {
+            if (trackTarget)
+            {
+                Vector3 targetLocation = Target != null ? Target.position : worldPointTarget;
+                if (targetLocation != null)
+                {
+                    transform.right = Vector3.Normalize(targetLocation - transform.position);
+                }
+            }
         }
         // Rotation logic
         if (!Mathf.Approximately(RotationsPerSecond, 0))
@@ -280,7 +314,7 @@ public class AbilityDelivery : NetworkBehaviour
             }
             else if (followTarget && Target != null)
             {
-                transform.position = Target.transform.position;
+                transform.position = Target.position;
             }
 
             if ((useDisconnectTimer) && (disconnectTimer <= 0))
@@ -290,10 +324,7 @@ public class AbilityDelivery : NetworkBehaviour
             }
             if (start)
             {
-                if (aoeActorIgnore.Count > 0)
-                {
-                    updateTargetCooldowns();
-                }
+                updateTargetCooldowns();
                 if (!ignoreDuration)
                 {
                     duration -= Time.deltaTime;
@@ -359,6 +390,11 @@ public class AbilityDelivery : NetworkBehaviour
         return false;
     }
 
+    public bool CheckIgnoreTarget(IDamageable target)
+    {
+        return aoeDamageableIgnore.Any(x => x.damageable == target);
+    }
+
     bool checkIgnoreConditons(Actor _hitActor)
     {
         //returns true if the _histActor should be ignored
@@ -382,12 +418,12 @@ public class AbilityDelivery : NetworkBehaviour
         }
         if (Caster != null)
         {
-            if (hitHostile && HBCTools.areHostle(Caster, _hitActor) == true)
+            if (hitHostile && HBCTools.areHostle(Caster.transform, _hitActor.transform) == true)
             {
                 //Debug.Log(caster.getActorName() + " & " + _hitActor.getActorName() + " are not hostile");
                 return false;
             }
-            if (hitFriendly && HBCTools.areHostle(Caster, _hitActor) == false)
+            if (hitFriendly && HBCTools.areHostle(Caster.transform, _hitActor.transform) == false)
             {
                 //Debug.Log(caster.getActorName() + " & " + _hitActor.getActorName() + " are not friendly");
                 return false;
@@ -427,18 +463,26 @@ public class AbilityDelivery : NetworkBehaviour
         aoeActorIgnore.Add(new TargetCooldown(_target, _remainingtime));
     }
 
+    void AddToAoeIgnore(IDamageable target, float remainingtime)
+    {
+        aoeDamageableIgnore.Add(new DamageableCooldown(target, remainingtime));
+    }
+
     void updateTargetCooldowns()
     {
-        if (aoeActorIgnore == null || aoeActorIgnore.Count == 0)
-        {
-            return;
-        }
         for (int i = aoeActorIgnore.Count - 1; i >= 0; i--)
         {
             if (aoeActorIgnore[i].remainingTime > 0)
                 aoeActorIgnore[i].remainingTime -= Time.deltaTime;
             else
                 aoeActorIgnore.RemoveAt(i);
+        }
+        for (int i = aoeDamageableIgnore.Count - 1; i >= 0; i--)
+        {
+            if (aoeDamageableIgnore[i].remainingTime > 0)
+                aoeDamageableIgnore[i].remainingTime -= Time.deltaTime;
+            else
+                aoeDamageableIgnore.RemoveAt(i);
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class BeamBuilder : MonoBehaviour
 {
@@ -6,17 +7,18 @@ public class BeamBuilder : MonoBehaviour
     [SerializeField] private Material[] middleSprite;
     [SerializeField] private Sprite[] endSprite;
     [SerializeField] private LayerMask mask;
+    [SerializeField] private bool stopOnCollision;
     private Transform end;
     private float startLength;
     private float endLength;
     private float middleLength;
     private LineRenderer line;
-    private MeshCollider collider;
+    private PolygonCollider2D collider;
     public float Length { get; set; }
 
     void Start()
     {
-        collider = GetComponentInChildren<MeshCollider>();
+        collider = GetComponentInChildren<PolygonCollider2D>();
 
         // Get transforms
         Transform start = transform.GetChild(0);
@@ -53,11 +55,24 @@ public class BeamBuilder : MonoBehaviour
 
         UpdateStart();
 
+        // Not stopping on collision will make a fixed length beam
+        if (!stopOnCollision)
+        {
+            middleLength = Length - (endLength + startLength);
+            line.SetPosition(1, new Vector3(startLength + middleLength, 0, 0));
+            GenerateMeshCollider();
+            UpdateEnd();
+        }
+
         void UpdateStart() => start.localPosition = new Vector2(startLength * 0.5f, 0);
     }
 
     void Update()
     {
+        if (!stopOnCollision)
+        {
+            return;
+        }
         UpdateMiddle();
         UpdateEnd();
     }
@@ -66,12 +81,18 @@ public class BeamBuilder : MonoBehaviour
     {
         if (collider == null)
         {
-            collider = transform.GetChild(1).gameObject.AddComponent<MeshCollider>();
+            collider = transform.GetChild(1).gameObject.AddComponent<PolygonCollider2D>();
         }
 
         Mesh mesh = new();
         line.BakeMesh(mesh);
-        collider.sharedMesh = mesh;
+        List<Vector2> verts = new List<Vector2>();
+        foreach (Vector2 vertex in mesh.vertices)
+        {
+            verts.Add(vertex);
+        }
+
+        collider.points = verts.ToArray();
     }
 
     private void UpdateMiddle()

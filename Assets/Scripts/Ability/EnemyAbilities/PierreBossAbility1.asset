@@ -25,7 +25,7 @@ MonoBehaviour:
   castTime: 0
   cooldown: 0
   needsActor: 0
-  needsWP: 1
+  needsWP: 0
   id: 58
   abilityTag: 0
   resourceCosts: []
@@ -40,3 +40,4 @@ MonoBehaviour:
   mustBeFacing: 0
   hotbuttonImage: {fileID: 0}
   hotbuttonColor: {r: 1, g: 1, b: 1, a: 1}
+  hostilty: 2

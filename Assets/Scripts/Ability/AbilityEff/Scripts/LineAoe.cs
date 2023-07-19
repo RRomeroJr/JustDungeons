@@ -8,23 +8,33 @@ public class LineAoe : Aoe
 {
     public float Length;
 
-    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
         //Debug.Log("Ring Aoe start effect");
         //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
         //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
         //Debug.Log(_targetWP == null ? "RingAoe: No targetWP" : ("RingAoe: wp = " + _targetWP.Value.ToString()));
-        GameObject ability = Instantiate(aoePrefab, getWP(_secondaryTarget, _targetWP), Quaternion.identity);
+        GameObject ability = Instantiate(aoePrefab, _caster.transform.position, Quaternion.identity);
+        if (ability.TryGetComponent(out BeamBuilder beam))
+        {
+            beam.Length = Length;
+        }
 
         AbilityDelivery abilityDelivery = ability.GetComponent<AbilityDelivery>();
-        abilityDelivery.Target = _secondaryTarget;
+        abilityDelivery.Target = _target;
         abilityDelivery.Caster = _caster;
-        abilityDelivery.worldPointTarget = getWP(_target, _targetWP);
-        abilityDelivery.transform.position = getWP(_caster, targetWP2);
-        abilityDelivery.transform.right = abilityDelivery.worldPointTarget - abilityDelivery.transform.position;
-        ability.transform.localScale = new Vector3(Length, prefabScale.y, prefabScale.z);
-        //Debug.Log(delivery.transform.localScale + "|" + length );
+        abilityDelivery.worldPointTarget = _targetWP.Value;
+        abilityDelivery.transform.position = _caster.transform.position;
         abilityDelivery.eInstructs = eInstructs;
+        abilityDelivery.type = 5;
+        if (_target != null)
+        {
+            abilityDelivery.transform.right = Vector3.Normalize(_target.position - abilityDelivery.transform.position);
+        }
+        else
+        {
+            abilityDelivery.transform.right = Vector3.Normalize(_targetWP.Value - abilityDelivery.transform.position);
+        }
         NetworkServer.Spawn(ability);
     }
 

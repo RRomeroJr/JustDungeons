@@ -85,7 +85,7 @@ namespace OldBuff
         {
             foreach (var eI in eInstructs)
             {
-                eI.startEffect(actor, null, caster);
+                eI.startEffect(actor.transform, null, caster);
             }
         }
         public virtual void onStart()
