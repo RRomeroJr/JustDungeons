@@ -285,7 +285,11 @@ public class AbilityDelivery : NetworkBehaviour
         {
             if (trackTarget)
             {
-                transform.right = Vector3.Normalize(Target.transform.position - transform.position);
+                Vector3 targetLocation = Target != null ? Target.position : worldPointTarget;
+                if (targetLocation != null)
+                {
+                    transform.right = Vector3.Normalize(targetLocation - transform.position);
+                }
             }
         }
         // Rotation logic
@@ -316,10 +320,7 @@ public class AbilityDelivery : NetworkBehaviour
             }
             if (start)
             {
-                if (aoeActorIgnore.Count > 0)
-                {
-                    updateTargetCooldowns();
-                }
+                updateTargetCooldowns();
                 if (!ignoreDuration)
                 {
                     duration -= Time.deltaTime;
