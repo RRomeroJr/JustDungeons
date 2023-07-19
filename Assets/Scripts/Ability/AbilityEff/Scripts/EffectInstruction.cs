@@ -66,12 +66,12 @@ public class EffectInstruction
         if(onSendHooks != null){
             onSendHooks.Invoke(this);
         }
-        if (!inTarget.TryGetComponent(out Actor targetActor))
+        if (effect.target == null)
         {
             effect.startEffect(inTarget, inTargetWP, inCaster, inSecondaryTarget);
         }
         else if (targetArg >= 0){
-            targetActor.ReceiveEffect(this, inTargetWP, inCaster, inSecondaryTarget);
+            effect.target.ReceiveEffect(this, inTargetWP, inCaster, inSecondaryTarget);
         }
     }
     public EffectInstruction(){
