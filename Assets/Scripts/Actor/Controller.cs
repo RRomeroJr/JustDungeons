@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Events;
 
 public class Controller : NetworkBehaviour
 {
     [Header("For Now Needs To Be Assigned")]
     public Ability_V2 autoAttackClone;
-    
+
     [Header("Automatic")]
     protected Actor actor;
     protected AbilityHandler abilityHandler;
@@ -45,7 +43,7 @@ public class Controller : NetworkBehaviour
     {
         get
         {
-            if(agent.enabled == false)
+            if (agent.enabled == false)
             {
                 return false;
             }
@@ -79,14 +77,14 @@ public class Controller : NetworkBehaviour
     }
 
     public virtual void Update()
-    {   
+    {
         Debug.DrawLine(transform.position, (facingDirection * 2.5f) + (Vector2)transform.position, Color.green);
-        
+
         if (globalCooldown > 0.0f)
         {
             globalCooldown -= Time.deltaTime;
         }
-        if(tag != "Player" && !isServer)
+        if (tag != "Player" && !isServer)
         {
             return;
         }
@@ -130,13 +128,14 @@ public class Controller : NetworkBehaviour
     }
 
     public void MoveInDirection(Vector2 _direction)
-    { 
+    {
         MoveInDirection(_direction, moveSpeed);
     }
+
     public void MoveInDirection(Vector2 _direction, float _speed)
-    { 
+    {
         // _direction.Normalize();
-        
+
         // Vector2 _vect = moveSpeed * (Vector2)moveDirection * Time.fixedDeltaTime;
         // transform.position = (Vector2)transform.position + _vect;
 
@@ -145,23 +144,23 @@ public class Controller : NetworkBehaviour
         Rigidbody2D _rb = GetComponent<Rigidbody2D>();
         _rb.AddForce(_vect);
     }
+
     protected virtual void MovementFacingDirection()
     {
-        if(TryingToMove == false)
+        if (TryingToMove == false)
         {
             return;
         }
         HBCTools.Quadrant newVectQuad;
         newVectQuad = HBCTools.GetQuadrant(moveDirection.Value);
         if ((moveDirection.Value.x != 0.0f) && (moveDirection.Value.y != 0.0f))
-        { 
+        {
             if (HBCTools.GetQuadrant(facingDirection) != newVectQuad)
             {
                 facingDirection = HBCTools.QuadrantToVector(newVectQuad);
                 CmdSetFacingDirection(facingDirection);
             }
         }
-        
     }
 
     [Command]
@@ -169,6 +168,7 @@ public class Controller : NetworkBehaviour
     {
         handleAutoAttackRequest();
     }
+
     void handleAutoAttackRequest()
     {
         if (autoAttackRequest == true)
@@ -182,11 +182,13 @@ public class Controller : NetworkBehaviour
             autoAttackRequest = abilityHandler.CastAbility3(autoAttackClone); //eventually the req becomes true
         }
     }
+
     // [Command]
     // public void CmdSetTryingToMove(bool _valFromClient)
     // {
     //     tryingToMove = _valFromClient;
     // }
+
     public bool moveToPoint(Vector2 pos)
     {
         if (resolvingMoveTo)
@@ -197,6 +199,7 @@ public class Controller : NetworkBehaviour
         StartCoroutine(IE_moveToPoint(pos));
         return true;
     }
+
     // public bool moveToPoint(Vector2 pos, float tempMoveSpeed){
     //     if(resolvingMoveTo){
     //         return false;
@@ -204,10 +207,12 @@ public class Controller : NetworkBehaviour
     //     StartCoroutine(IE_moveToPoint(pos, tempMoveSpeed));
     //     return true;
     // }
+
     public void moveOffOtherUnits()
     {
         moveToPoint(Vector2.up + (Vector2)transform.position);
     }
+
     IEnumerator IE_moveToPoint(Vector2 pos)
     {
         /*
@@ -215,7 +220,7 @@ public class Controller : NetworkBehaviour
             then set agent.destination to pos and check to see if it arrived every 0.2s
             or so 
         */
-        
+
         //Debug.Log("No Pending Path move to: " + pos);
         agent.ResetPath();
         agent.SetDestination(pos);
@@ -243,7 +248,7 @@ public class Controller : NetworkBehaviour
         {
             agent.stoppingDistance = getStoppingDistance(followTarget);
         }
-        
+
     }
     //  IEnumerator IE_moveToPoint(Vector2 pos, float tempMoveSpeed){
     //     float moveSpeedHolder = agent.speed;
@@ -292,9 +297,10 @@ public class Controller : NetworkBehaviour
         //Straight up 90% of melee range
         return Mathf.Max(Ability_V2.meleeRange * 0.9f);
     }
+
     public bool SetFollowTarget(GameObject _target, bool ignoreLock = false)
     {
-        if(followTargetLocked  && !ignoreLock)
+        if (followTargetLocked && !ignoreLock)
         {
             // Debug.Log("SetfollowTarget ignored. followTargetLocked");
             return false;
@@ -310,18 +316,22 @@ public class Controller : NetworkBehaviour
         }
         return true;
     }
+
     [Command]
     protected void CmdSetFacingDirection(Vector2 _ClientFacingDirection)
     {
         RpcSetFacingDirection(_ClientFacingDirection);
     }
+
     [ClientRpc(includeOwner = false)]
     protected void RpcSetFacingDirection(Vector2 _ownersFacingDirection)
     {
         facingDirection = _ownersFacingDirection;
     }
+
     [Server]
-    public void ServerSetFacingDirection(HBCTools.Quadrant _direction){
+    public void ServerSetFacingDirection(HBCTools.Quadrant _direction)
+    {
         facingDirection = HBCTools.QuadrantToVector(_direction);
         RpcSetFacingDirection(facingDirection);
     }
@@ -333,70 +343,63 @@ public class Controller : NetworkBehaviour
         float tempSlow = 2.0f - e.Slow;
         moveSpeedModifier = tempSlow * e.Haste;
     }
+
     public void FacePosistion(Vector2 _pos)
     {
-        Vector2 result =  HBCTools.ToNearest45(_pos - (Vector2)transform.position);
+        Vector2 result = HBCTools.ToNearest45(_pos - (Vector2)transform.position);
 
-        if(facingDirection == result)
+        if (facingDirection == result)
         {
             return;
         }
 
         facingDirection = result;
     }
+
     public bool ShouldFollowSomething()
     {
-        if(followTarget == null){
+        if (followTarget == null)
+        {
             return false;
         }
-        if  ( !(resolvingMoveTo || holdDirection || holdPosistion) )
+        if (!(resolvingMoveTo || holdDirection || holdPosistion))
         {
-
-            if( !(actor.isCastImmobile() || actor.abilityHandler.RequestingCast))
+            if (!(actor.isCastImmobile() || actor.abilityHandler.RequestingCast))
             {
                 return true;
             }
-
         }
         return false;
     }
+
     public void StopAgentToCast()
     {
         Debug.Log(name + ": StopAgentToCast");
-        if(agent.enabled == false)
+        if (agent.enabled == false)
         {
             return;
         }
         Debug.Log(agent.isStopped + ": isStopped");
-        if(agent.isStopped == false)
+        if (agent.isStopped == false)
         {
             Debug.Log(name + ": Stopping");
             agent.velocity = Vector2.zero;
             agent.isStopped = true;
         }
     }
+
     public void CheckToFollowSomething()
     {
-        if (ShouldFollowSomething())
+        if (!ShouldFollowSomething() || agent == null)
         {
-            // GameObject thingToFollow = GetSomethingToFollow();
-            // if(thingToFollow == null)
-            // {
-            //     return;
-            // }
+            return;
+        }
 
-
-            GetComponent<NavMeshAgent>().SetDestination(followTarget.transform.position);
-            if(agent.enabled){
-                if(agent.isStopped)
-                {
-                    agent.isStopped = false;
-                    Debug.Log("Unstopping to follow something");
-                }
-            }
+        agent.SetDestination(followTarget.transform.position);
+        if (agent.enabled && agent.isStopped)
+        {
+            agent.isStopped = false;
+            Debug.Log("Unstopping to follow something");
         }
     }
-    
-
-    
 }
