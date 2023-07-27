@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour
     public UnitFrame targetFrame; // should be TargetFrame but I didn't want to break other scenes by changing ti right now
     public TargetFrame targetOfTargetFrame;
     public GameObject classGauge;
-    public List<UnitFrame> frames = new List<UnitFrame>();
+    public List<UnitFrame> frames;
     public static Actor playerActor;
     public static Controller playerController;
     public GameObject cameraPrefab;
@@ -39,32 +39,46 @@ public class UIManager : MonoBehaviour
     public float clickTravelWindow = 66.0f;
     public ClickData clickData0 = new ClickData();
     public ClickData clickData1 = new ClickData();
-    
+    public GameObject inGameMenu;
+
     public void SpawnBuffBar()
     {
         Instantiate(buffBarPrefab, canvas.transform);
     }
 
-    public static UIManager Instance{ get; private set;}
-    void Awake(){
-        if (Instance != null && Instance != this) 
-        { 
-            Destroy(gameObject); 
-        } 
-        else 
-        { 
+    public static UIManager Instance { get; private set; }
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            Debug.Log("UIManager instance set");
+            // DontDestroyOnLoad(gameObject);
         }
         nameplatePrefab = Resources.Load("Nameplate") as GameObject;
         damageTextPrefab = Resources.Load("DamageText") as GameObject;
         //hotbuttonPrefab = Resources.Load("Hotbutton 1") as GameObject;
-        
-    } 
+
+    }
+    void OnDestroy()
+    {
+        Instance = null;
+        playerActor = null;
+        removeCooldownEvent = null;
+        nameplatePrefab = null;
+        damageTextPrefab = null;
+        CustomNetworkManager.singleton.GamePlayers.CollectionChanged -= AddPlayerFrame;
+
+    }
     // Start is called before the first frame update
     void Start()
     {
-        if(cameraPrefab == null){
+        if (cameraPrefab == null)
+        {
             Debug.LogError("Please add a camera prefab to UIManager.cameraPrefab");
         }
         /* Not sure if unit frames should have refences to actors
@@ -80,7 +94,7 @@ public class UIManager : MonoBehaviour
         {
             CustomNetworkManager.singleton.GamePlayers.CollectionChanged += AddPlayerFrame;
         }
-        
+
     }
 
     void AddPlayerFrame(object sender, NotifyCollectionChangedEventArgs e)
@@ -88,6 +102,10 @@ public class UIManager : MonoBehaviour
         int i = 0;
         foreach (var player in CustomNetworkManager.singleton.GamePlayers)
         {
+            if (frames[i] == null)
+            {
+                Debug.Log("frame[" + i + "] was null. Frames.Count: " + frames.Count);
+            }
             updateUnitFrame(frames[i], player.GetComponent<Actor>());
             player.GetComponent<BuffHandler>().Buffs.Callback += frames[i].OnBuffsChanged;
             i++;
@@ -124,7 +142,8 @@ public class UIManager : MonoBehaviour
     }
     void UpdateUnitFrameResource(UnitFrame unitFrame)
     {
-        if(unitFrame.actor.ResourceTypeCount() > 0){
+        if (unitFrame.actor.ResourceTypeCount() > 0)
+        {
             unitFrame.resourceBar.maxValue = unitFrame.actor.getResourceMax(0);
             unitFrame.resourceBar.value = unitFrame.actor.getResourceAmount(0);
             unitFrame.resourceBar.fillRect.GetComponent<Image>().color = unitFrame.actor.getResourceType(0).color;
@@ -134,16 +153,18 @@ public class UIManager : MonoBehaviour
         //     Debug.LogError(GetType() + ", skipping resources");
         // }
     }
-    public void updateUnitFrame(UnitFrame unitFrame, Actor actor){
-        
-        if(unitFrame.actor != actor ){
-            if(unitFrame.GetType() == typeof(TargetFrame))
+    public void updateUnitFrame(UnitFrame unitFrame, Actor actor)
+    {
+
+        if (unitFrame.actor != actor)
+        {
+            if (unitFrame.GetType() == typeof(TargetFrame))
             {
                 (unitFrame as TargetFrame).portrait.sprite = actor.GetComponent<SpriteRenderer>().sprite;
 
-                if(unitFrame == targetFrame)
+                if (unitFrame == targetFrame)
                 {
-                    if(unitFrame.actor != null)
+                    if (unitFrame.actor != null)
                     {
                         unitFrame.actor.abilityHandler.OnCastStarted.RemoveListener(OnTargetCast);
                     }
@@ -153,23 +174,24 @@ public class UIManager : MonoBehaviour
 
             }
             unitFrame.actor = actor;
-            
-            
+
         }
-        
-        if(unitFrame.actor != null){        
-            
+
+        if (unitFrame.actor != null)
+        {
+
             //  Getting name
             unitFrame.unitName.text = unitFrame.actor.ActorName;
             //  Getting health current and max
             unitFrame.healthBar.maxValue = actor.MaxHealth;
             unitFrame.healthBar.value = actor.Health;
-            
+
             //  Getting apropriate healthbar color from actor
             unitFrame.healthFill.color = unitFrame.actor.unitColor;
             UpdateUnitFrameResource(unitFrame);
         }
-        else{
+        else
+        {
             unitFrame.unitName.text = "No actor";
             unitFrame.healthBar.maxValue = 1.0f;
             unitFrame.healthBar.value = 1.0f;
@@ -179,7 +201,7 @@ public class UIManager : MonoBehaviour
     }
     void OnTargetCast()
     {
-        if((targetFrame as TargetFrame).castBar.gameObject.active == false)
+        if ((targetFrame as TargetFrame).castBar.gameObject.active == false)
         {
             (targetFrame as TargetFrame).castBar.gameObject.active = true;
         }
@@ -197,105 +219,124 @@ public class UIManager : MonoBehaviour
     //     entry.callback.AddListener((methodIWant) => { setTarget(); });
 
     // }
-    void UpdateTargetFrame(){
-        if(playerActor == null){ 
+    void UpdateTargetFrame()
+    {
+        if (playerActor == null)
+        {
             return;
         }
-        
-        if(playerActor.target == null){
-            if(targetFrame.gameObject.active){
+
+        if (playerActor.target == null)
+        {
+            if (targetFrame.gameObject.active)
+            {
                 targetFrame.gameObject.SetActive(false);
             }
         }
-        else{
-            if(!targetFrame.gameObject.active){
+        else
+        {
+            if (!targetFrame.gameObject.active)
+            {
                 Debug.Log("Setting target to active");
                 targetFrame.gameObject.SetActive(true);
-                
+
             }
-            
+
             //Debug.Log("Updating Targetframe");
             updateUnitFrame(targetFrame, playerActor.target);
         }
 
     }
-    
+
     public void SpawnHealingGauge()
     {
         classGauge = Instantiate(healingGaugePrefab, canvas.transform);
     }
     void UpdateTargetOfTarget()
     {
-        if(targetOfTargetFrame == null)
+        if (targetOfTargetFrame == null)
         {
             return;
         }
-        if(playerActor == null){ 
+        if (playerActor == null)
+        {
             return;
         }
-        
-        if(playerActor.target == null || playerActor.target.target == null){
-            if(targetOfTargetFrame.gameObject.active){
+
+        if (playerActor.target == null || playerActor.target.target == null)
+        {
+            if (targetOfTargetFrame.gameObject.active)
+            {
                 targetOfTargetFrame.gameObject.SetActive(false);
             }
         }
-        else{
-            if(!targetOfTargetFrame.gameObject.active){
+        else
+        {
+            if (!targetOfTargetFrame.gameObject.active)
+            {
                 // Debug.Log("Setting target of target to active");
                 targetOfTargetFrame.gameObject.SetActive(true);
-                
+
             }
-            
+
             //Debug.Log("Updating Targetframe");
             updateUnitFrame(targetOfTargetFrame, playerActor.target.target);
         }
     }
-    void Update(){
-        if(Input.GetMouseButtonDown(0))
+    void Update()
+    {
+
+        if (Input.GetMouseButtonDown(0))
         {
             clickData0.ClickStart();
         }
-        if(Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1))
         {
             clickData1.ClickStart();
+        }
+        if(Input.GetKeyDown("escape"))
+        {
+            inGameMenu.active = !inGameMenu.active;
         }
         UpdateAllyFrames();
         UpdateTargetFrame();
         UpdateTargetOfTarget();
         CheckClassGlows();
-        if(Input.GetKeyDown("page up"))
+        if (Input.GetKeyDown("page up"))
         {
             useMouseOver = !useMouseOver;
             Debug.Log("Mouseover toggled to.. " + useMouseOver);
         }
-        
+
     }
     void MouseInput()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             clickData0.ClickStart();
         }
-        
-        if(Input.GetMouseButtonUp(0))
+
+        if (Input.GetMouseButtonUp(0))
         {
-             if((clickData0.CalcHoldTime() > clickWindow) || (clickData0.CalcTravel() > clickTravelWindow)){
+            if ((clickData0.CalcHoldTime() > clickWindow) || (clickData0.CalcTravel() > clickTravelWindow))
+            {
 
                 return;
             }
         }
-        
+
     }
     /// <summary>
     ///	If the mouse button is held and mouse posistion moved atleast the clickTravelWindow distance
     /// </summary>
     public bool MouseButtonDrag(int _buttonId)
     {
-        switch(_buttonId){
-            case(0):
+        switch (_buttonId)
+        {
+            case (0):
                 return (Input.GetMouseButton(0) && clickData0.CalcTravel() >= clickTravelWindow);
                 break;
-            case(1):
+            case (1):
                 return (Input.GetMouseButton(1) && clickData1.CalcTravel() >= clickTravelWindow);
                 break;
             default:
@@ -309,11 +350,12 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public bool MouseButtonShort(int _buttonId)
     {
-        switch(_buttonId){
-            case(0):
+        switch (_buttonId)
+        {
+            case (0):
                 return clickData0.CalcHoldTime() <= clickWindow;
                 break;
-            case(1):
+            case (1):
                 return clickData1.CalcHoldTime() <= clickWindow;
                 break;
             default:
@@ -324,11 +366,12 @@ public class UIManager : MonoBehaviour
     }
     public Vector2 MouseButtonDragVector(int _buttonId)
     {
-        switch(_buttonId){
-            case(0):
+        switch (_buttonId)
+        {
+            case (0):
                 return Camera.main.ScreenToWorldPoint(Input.mousePosition) - Camera.main.ScreenToWorldPoint(clickData0.startPos);
                 break;
-            case(1):
+            case (1):
                 return Camera.main.ScreenToWorldPoint(Input.mousePosition) - Camera.main.ScreenToWorldPoint(clickData1.startPos);
                 break;
             default:
@@ -339,11 +382,12 @@ public class UIManager : MonoBehaviour
     }
     public bool MouseButtonHold(int _buttonId)
     {
-        switch(_buttonId){
-            case(0):
+        switch (_buttonId)
+        {
+            case (0):
                 return (Input.GetMouseButton(0) && clickData0.CalcHoldTime() <= clickWindow);
                 break;
-            case(1):
+            case (1):
                 return (Input.GetMouseButton(1) && clickData1.CalcHoldTime() <= clickWindow);
                 break;
             default:
@@ -352,31 +396,38 @@ public class UIManager : MonoBehaviour
         }
         return false;
     }
-    void UpdateGlows(){
+    void UpdateGlows()
+    {
         int current = 0;
-        foreach(Ability_V2 _a in glowList){
+        foreach (Ability_V2 _a in glowList)
+        {
             bool alreadyChecked = glowList.IndexOf(_a) != current;
-            if(!alreadyChecked){
+            if (!alreadyChecked)
+            {
 
             }
         }
     }
-    void CheckClassGlows(){
-        if(playerActor == null || playerActor.combatClass == null){
+    void CheckClassGlows()
+    {
+        if (playerActor == null || playerActor.combatClass == null)
+        {
             return;
         }
         int current = 0;
-        foreach(GlowCheck _gc in playerActor.combatClass.classGlowChecks)
+        foreach (GlowCheck _gc in playerActor.combatClass.classGlowChecks)
         {
             // Debug.Log("invoking class GlowCheck");
             _gc.glowChecks.Invoke();
         }
     }
-    
-    public void setTarget(){
+
+    public void setTarget()
+    {
         Debug.Log("Test");
     }
-    public void setTargetGmObj(GameObject input){
+    public void setTargetGmObj(GameObject input)
+    {
         UnitFrame uF = input.GetComponent<UnitFrame>();
         //Debug.Log(uF != null ? "uF found" : "uF NULL");
         //Debug.Log(temp != null ? "temp actor found" : "temp actor NULL");
@@ -384,9 +435,10 @@ public class UIManager : MonoBehaviour
         //playerActor.target = (temp != null ? temp : null);
         playerActor.target = (uF != null ? uF.actor : null);
     }
-    public void SpawnHotbuttons(CombatClass _combatClass){
-        
-        if(hotbuttonPrefab == null)
+    public void SpawnHotbuttons(CombatClass _combatClass)
+    {
+
+        if (hotbuttonPrefab == null)
         {
             Debug.LogError("No Hotbutton Prefab in UIManager. Can't spawn ability hotbuttons");
             return;
@@ -395,17 +447,20 @@ public class UIManager : MonoBehaviour
         //     SetUpHotbars();
         //     return;
         // }
-        
-        foreach(Ability_V2 a in _combatClass.abilityList)
+
+        foreach (Ability_V2 a in _combatClass.abilityList)
         {
             SpawnHotbutton(a);
         }
     }
-    public void SpawnButtonsFromPrefs(TextAsset _hotbarPrefs){
+    public void SpawnButtonsFromPrefs(TextAsset _hotbarPrefs)
+    {
 
     }
-    public Hotbutton SpawnHotbutton(Ability_V2 _ability){
-        if(_ability == null){
+    public Hotbutton SpawnHotbutton(Ability_V2 _ability)
+    {
+        if (_ability == null)
+        {
             return null;
         }
         Hotbutton hotbuttonInst = null;
@@ -416,10 +471,12 @@ public class UIManager : MonoBehaviour
 
         return hotbuttonInst;
     }
-    public void MakeGlow(Ability_V2 _ability){
-        if(glowList.Contains(_ability) == false){
+    public void MakeGlow(Ability_V2 _ability)
+    {
+        if (glowList.Contains(_ability) == false)
+        {
             glowList.Add(_ability);
-            Debug.Log("UIManager: Making "+ _ability.name + " glow");
+            Debug.Log("UIManager: Making " + _ability.name + " glow");
         }
     }
     [System.Serializable]
@@ -429,7 +486,7 @@ public class UIManager : MonoBehaviour
         public int barNumber;
         public int slotNumber;
     }
-    
+
     public class PrefsData
     {
         public HotbarItem[] HotbarItems;
@@ -441,13 +498,14 @@ public class UIManager : MonoBehaviour
 
             Just don't forget to call this somewhere later
         */
-        if(playerActor.combatClass == null){
+        if (playerActor.combatClass == null)
+        {
             return;
         }
 
         string filePath = Application.dataPath + "/" + playerActor.combatClass.name + "HotbarPrefs.json";
 
-        if(File.Exists(filePath) == false)
+        if (File.Exists(filePath) == false)
         {
             // if There is a combatClass but no prefs file
             // Just spawn all it's abilities in the center of the screen
@@ -456,69 +514,76 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        Debug.Log("Searching for prefs in: "+ filePath);
+        Debug.Log("Searching for prefs in: " + filePath);
         string jsonString = File.ReadAllText(filePath);
 
         PrefsData prefsData = null;
         prefsData = JsonUtility.FromJson<PrefsData>(jsonString);
         // prefsData = JsonUtility.FromJson<PrefsData>(_hotbarPrefs.text);
 
-        if(prefsData == null){
+        if (prefsData == null)
+        {
             Debug.Log("prefsData is null");
         }
-        else{
+        else
+        {
             Debug.Log("prefsData NOT null");
         }
-        if(prefsData.HotbarItems == null){
+        if (prefsData.HotbarItems == null)
+        {
             Debug.Log("prefsData.HotBarItems is null");
         }
-        
 
-        for(int i = 0 ; i < prefsData.HotbarItems.Length; i++)
+
+        for (int i = 0; i < prefsData.HotbarItems.Length; i++)
         {
             // Debug.Log("Player Pref read, ID: " + prefsData.HotbarItems[i].abilityID);
 
             Ability_V2 _ability = AbilityData.instance.find(prefsData.HotbarItems[i].abilityID);
-            
-            if(_ability == null){
+
+            if (_ability == null)
+            {
                 continue;
             }
 
             Hotbutton _hotButton = SpawnHotbutton(_ability);
-            if(_hotButton == null){
+            if (_hotButton == null)
+            {
                 continue;
             }
 
-            
-            AddToHotbars(_hotButton, prefsData.HotbarItems[i].barNumber, prefsData.HotbarItems[i].slotNumber );
+
+            AddToHotbars(_hotButton, prefsData.HotbarItems[i].barNumber, prefsData.HotbarItems[i].slotNumber);
 
 
 
         }
     }
-    public bool AddToHotbars(Hotbutton _hotbutton, int _hotbarNumber, int _slotNumber){
-        if(_hotbutton == null)
+    public bool AddToHotbars(Hotbutton _hotbutton, int _hotbarNumber, int _slotNumber)
+    {
+        if (_hotbutton == null)
         {
             Debug.Log("trying to add null hotbutton to hotbar");
             return false;
         }
-        if(_hotbarNumber < 0 || hotbars.Count <= _hotbarNumber)
+        if (_hotbarNumber < 0 || hotbars.Count <= _hotbarNumber)
         {
-            Debug.Log("Trying to add hotbar item to a hotbar that doesn't exist, _hotbarNumber: " + _hotbarNumber );
+            Debug.Log("Trying to add hotbar item to a hotbar that doesn't exist, _hotbarNumber: " + _hotbarNumber);
             return false;
         }
-        if(_slotNumber < 0 || hotbars[_hotbarNumber].slots.Count <= _slotNumber)
+        if (_slotNumber < 0 || hotbars[_hotbarNumber].slots.Count <= _slotNumber)
         {
             Debug.Log("Hotbar slotNumber is out of range for this hotbar, _slotNumber: " + _slotNumber + " _hotbarNumber" + _hotbarNumber);
             return false;
         }
-        
+
         return hotbars[_hotbarNumber].AddHotbutton(_hotbutton.gameObject, _slotNumber);
     }
 
-    public void WriteHotbarPrefs(){
-        
-        if(playerActor.combatClass == null)
+    public void WriteHotbarPrefs()
+    {
+
+        if (playerActor.combatClass == null)
         {
             return;
         }
@@ -527,15 +592,15 @@ public class UIManager : MonoBehaviour
         List<HotbarItem> newUserPrefs = new List<HotbarItem>();
 
 
-        for(int barCount = 0; barCount < hotbars.Count; barCount++)
+        for (int barCount = 0; barCount < hotbars.Count; barCount++)
         {
             Hotbar _hb = hotbars[barCount];
 
-            for(int slotCount = 0; slotCount < _hb.slots.Count; slotCount++)
+            for (int slotCount = 0; slotCount < _hb.slots.Count; slotCount++)
             {
                 HotbarSlot _slot = _hb.slots[slotCount];
 
-                if(_slot.HasHotButton)
+                if (_slot.HasHotButton)
                 {
                     HotbarItem hotbarItem = new HotbarItem();
 
@@ -550,7 +615,7 @@ public class UIManager : MonoBehaviour
             }
         }
 
-        if(newUserPrefs.Count <= 0)
+        if (newUserPrefs.Count <= 0)
         {
             return;
         }
@@ -569,7 +634,7 @@ public class UIManager : MonoBehaviour
         Debug.Log("New Keybinds written");
         Debug.Log("newPrefs Length: " + newPrefsData.HotbarItems.Length);
     }
-    
+
 
 
 }

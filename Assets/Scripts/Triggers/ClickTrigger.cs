@@ -27,7 +27,7 @@ public class ClickTrigger: Trigger
         if(Input.GetMouseButtonDown(1))
         {
             // Debug.Log("Input heard and read");
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, LayerMask.GetMask("Enemy"));
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, LayerMask.GetMask("Clickables"));
             ClickTrigger _clickTrigger = null;
             try
             {

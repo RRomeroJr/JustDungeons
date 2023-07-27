@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UIElements;
+using Mirror;
 using Mirror.FizzySteam;
 
 public class UIController : MonoBehaviour
@@ -28,6 +29,12 @@ public class UIController : MonoBehaviour
         uiTitle = GetComponent<UITitle>();
         uiLobby = GetComponent<UILobby>();
         EnterTitle();
+        if(NetworkManager.singleton != null)
+        {
+
+            networkManager = NetworkManager.singleton as CustomNetworkManager;
+           
+        }
     }
 
     void EnterTitle()
@@ -73,7 +80,7 @@ public class UIController : MonoBehaviour
             ipAddress = "localhost";
         }
         if(networkManager.transport.GetType() == typeof(FizzySteamworks)){
-            Debug.LogError("Join button not yet implemented!");
+            Debug.LogError("Join button not yet implemented for steam!");
         }
         else{
             networkManager.networkAddress = ipAddress;

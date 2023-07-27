@@ -19,6 +19,10 @@ public class CameraController : MonoBehaviour
         CustomNetworkManager.singleton.GamePlayers.CollectionChanged += HandlePlayerAdded;
         
     }
+    void OnDestroy()
+    {
+        CustomNetworkManager.singleton.GamePlayers.CollectionChanged -= HandlePlayerAdded;
+    }
     void Update(){
 
         if(Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)){
