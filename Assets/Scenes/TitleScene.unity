@@ -508,6 +508,9 @@ MonoBehaviour:
   OnActorLeaveCombat:
     m_PersistentCalls:
       m_Calls: []
+  AllPlayersLeaveCombat:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &587273950 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8731563114936439608, guid: f3e961304dfd74d4982f34862a2b321d, type: 3}
@@ -517,6 +520,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6e55fca1f4e4844593a3dd65a3ecb39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &587273951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587273945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aae6f6559684b8c4fa51bbe3964a2398, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &617980227 stripped
@@ -783,6 +798,10 @@ PrefabInstance:
       propertyPath: mdSingleton
       value: 
       objectReference: {fileID: 11400000, guid: ed836f141ce19be44b047bee6b0e7c23, type: 2}
+    - target: {fileID: 8731563114936439608, guid: f3e961304dfd74d4982f34862a2b321d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3e961304dfd74d4982f34862a2b321d, type: 3}
 --- !u!1 &2018945143
