@@ -1,6 +1,6 @@
 # 2d MMO Dungeon
 
-Multiplayer 2D MMO-style dungeon experience similar in style to modern WoW or FF14.
+Multiplayer 2D MMO-style dungeon experience similar in style to modern WoW or FF14, but with out the systems that waste your time.
 No leveling, no gear, just dungeons.
 
 # Adding to Steam
