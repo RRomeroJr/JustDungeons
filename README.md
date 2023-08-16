@@ -8,7 +8,7 @@ No leveling, no gear, just dungeons.
 - Open Steam
 - Go to Library
 - In the bottom left, +Add Game -> non-steam game
-- Click "browse" and find the folder you extracted to and select "2d_platorfmer_scratch.exe" (Really ought to rename that soon.. This used to be a patchformer))
+- Click "browse" and find the folder you extracted to and select "JustDungeons.exe"
 - Click add selected programs
 - Launch the game by hitting play in Steam
 - To join a game press shift + tab and right click join from your friends list
