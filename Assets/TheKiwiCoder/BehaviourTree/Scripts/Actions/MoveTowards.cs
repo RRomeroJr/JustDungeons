@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TheKiwiCoder;
 using UnityEngine;
-using TheKiwiCoder;
 
+[Movement]
 public class MoveTowards : ActionNode
 {
     public bool useSpeed = true;
@@ -19,17 +18,20 @@ public class MoveTowards : ActionNode
 
     protected override State OnUpdate()
     {
-        if(Vector3.Distance(context.transform.position, (Vector3)target ) <= stopDistance){
+        if (Vector3.Distance(context.transform.position, (Vector3)target) <= stopDistance)
+        {
             return State.Success;
         }
-        if(useSpeed){
+        if (useSpeed)
+        {
             context.transform.position = Vector3.MoveTowards(context.transform.position, target, speed * Time.deltaTime);
         }
-        else{
+        else
+        {
             context.transform.position = Vector3.MoveTowards(context.transform.position, target, 10 * Time.deltaTime);
 
         }
         return State.Success;
     }
-    
+
 }

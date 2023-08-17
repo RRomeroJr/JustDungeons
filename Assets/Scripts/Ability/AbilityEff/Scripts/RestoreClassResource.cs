@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -10,8 +10,12 @@ public class RestoreClassResource : AbilityEff
     public int school = -1;
     public ClassResourceType crt;
 
-    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
-       _target.restoreResource(crt, (int)power);
+    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    {
+        if (_target.TryGetComponent(out Actor targetActor))
+        {
+            targetActor.restoreResource(crt, (int)power);
+        }
     }
     public RestoreClassResource(string _effectName, int _id = -1, float _power = 0, int _school = -1){
         effectName = _effectName;

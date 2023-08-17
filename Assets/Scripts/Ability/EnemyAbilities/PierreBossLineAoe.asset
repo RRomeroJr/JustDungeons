@@ -18,7 +18,7 @@ MonoBehaviour:
   powerScale: 1
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
-  targetIsSecondary: 1
+  targetIsSecondary: 0
   target: {fileID: 0}
   caster: {fileID: 0}
   targetWP:
@@ -37,4 +37,4 @@ MonoBehaviour:
   school: 0
   prefabScale: {x: 1, y: 1, z: 1}
   aoePrefab: {fileID: 2685400126559208735, guid: 13abc002491244444ac0797007d7a294, type: 3}
-  Length: 1
+  Length: 5

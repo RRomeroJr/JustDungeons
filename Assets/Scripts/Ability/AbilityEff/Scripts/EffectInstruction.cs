@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,7 +12,7 @@ public class EffectInstruction
     public UnityEvent<EffectInstruction> onSendHooks;
     public Vector2 deliveryNVect2;
     
-    public void startEffect(Actor inTarget = null, NullibleVector3 inTargetWP = null, Actor inCaster = null, Actor inSecondaryTarget = null){
+    public void startEffect(Transform inTarget = null, NullibleVector3 inTargetWP = null, Actor inCaster = null, Actor inSecondaryTarget = null){
         //Debug.Log(inTargetWP == null ? "eInstruct: No targetWP" : ("eInstruct: wp = " + inTargetWP.Value.ToString()));
         effect.startEffect(inTarget, inTargetWP, inCaster, inSecondaryTarget);
     }
@@ -29,14 +29,14 @@ public class EffectInstruction
                 break;
         }
     }
-    public void sendToActor(Actor inTarget = null, NullibleVector3 inTargetWP = null, Actor inCaster = null, Actor inSecondaryTarget = null, NullibleVector3 inTargetWP2 = null){
+    public void sendToActor(Transform inTarget = null, NullibleVector3 inTargetWP = null, Actor inCaster = null, Actor inSecondaryTarget = null, NullibleVector3 inTargetWP2 = null){
         //Debug.Log(inTargetWP == null ? "eInstruct: No targetWP" : ("eInstruct: wp = " + inTargetWP.Value.ToString()));
         
         switch(targetArg){
             case(0):
                 break;
             case(1):
-                inTarget = inCaster;
+                inTarget = inCaster.transform;
                 break;
             default:
                 Debug.Log("EI: Unknown targetArg " + effect.effectName);
@@ -44,8 +44,8 @@ public class EffectInstruction
         }
         if(effect.targetIsSecondary){
             //Debug.Log("Target is 2ndary!");
-            inSecondaryTarget = inTarget;
-            inTarget = inCaster;
+            inSecondaryTarget = inTarget.GetComponent<Actor>();
+            inTarget = inCaster.transform;
         }
         // switch(targetArg){
         //     case(0):
@@ -59,17 +59,20 @@ public class EffectInstruction
         //         break;
         // }
         //Debug.Log("sendToActor caster" + (inCaster != null ? inCaster.getActorName() : "caster is null"));
-        effect.target = inTarget;
+        effect.target = inTarget.GetComponent<Actor>();
         effect.targetWP = inTargetWP;
         effect.caster = inCaster;
         effect.targetWP2 = inTargetWP2;
         if(onSendHooks != null){
             onSendHooks.Invoke(this);
         }
-        if(targetArg >= 0){
-            inTarget.ReceiveEffect(this, inTargetWP, inCaster, inSecondaryTarget);
+        if (effect.target == null)
+        {
+            effect.startEffect(inTarget, inTargetWP, inCaster, inSecondaryTarget);
         }
-        
+        else if (targetArg >= 0){
+            effect.target.ReceiveEffect(this, inTargetWP, inCaster, inSecondaryTarget);
+        }
     }
     public EffectInstruction(){
 

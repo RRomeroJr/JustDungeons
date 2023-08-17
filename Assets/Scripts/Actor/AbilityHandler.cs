@@ -12,7 +12,7 @@ public class AbilityHandler : NetworkBehaviour
     [SerializeField] private bool showDebug = false;
     
     [field: SerializeField] public Ability_V2 QueuedAbility { get; private set; } // Used when Ability has a cast time
-    [field: SerializeField] public Actor QueuedTarget { get; private set; } // Used when Ability has a cast time
+    [field: SerializeField] public Transform QueuedTarget { get; private set; } // Used when Ability has a cast time
 
     /* WARNING!!!
             DO NOT SERIALIZE BELOW. Doing so will cause an object to be created if
@@ -93,7 +93,7 @@ public class AbilityHandler : NetworkBehaviour
     }
 
     // Casting: Starting a Cast---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    public bool CastAbility3(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null)
+    public bool CastAbility3(Ability_V2 _ability, Transform _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null)
     {
         if (RequestingCast || IsCasting)
         {
@@ -130,7 +130,7 @@ public class AbilityHandler : NetworkBehaviour
         return result;
         
     }
-    private bool PrivateCastAbility(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null)
+    private bool PrivateCastAbility(Ability_V2 _ability, Transform _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null)
     {
         if (!actor.CanCast)
         {
@@ -164,7 +164,7 @@ public class AbilityHandler : NetworkBehaviour
             if (_target == null)
             {
                 //Debug.Log("Try find target..");
-                _target = actor.tryFindTarget(_ability);
+                _target = actor.tryFindTarget(_ability, _target);
             }
             if (_target == null)
             {
@@ -185,7 +185,7 @@ public class AbilityHandler : NetworkBehaviour
                 {
                     if (!HBCTools.checkFacing(actor, _target.gameObject))
                     {
-                        Debug.Log("You are not facing target: " + _target.ActorName);
+                        //Debug.Log("You are not facing target: " + _target.ActorName);
                         return false;
                     }
                 }
@@ -232,7 +232,7 @@ public class AbilityHandler : NetworkBehaviour
         return true;
     }
     [ClientRpc]
-    public void RpcStartCast(Ability_V2 _ability, Actor _target, NullibleVector3 _relWP, NullibleVector3 _relWP2)
+    public void RpcStartCast(Ability_V2 _ability, Transform _target, NullibleVector3 _relWP, NullibleVector3 _relWP2)
     {
         //Debug.Log(actorName + " casted " + _ability.getName());
         // if(MirrorTestTools._inst != null)
@@ -273,12 +273,12 @@ public class AbilityHandler : NetworkBehaviour
     }
 
     [Command]
-    public void CmdStartCast(Ability_V2 _ability, Actor _target, NullibleVector3 _relWP, NullibleVector3 _relWP2)
+    public void CmdStartCast(Ability_V2 _ability, Transform _target, NullibleVector3 _relWP, NullibleVector3 _relWP2)
     {
         CastAbility3(_ability, _target, _relWP, _relWP2);
     }
 
-    void QueueAbility(Ability_V2 _ability, Actor _queuedTarget = null, NullibleVector3 _queuedRelWP = null, NullibleVector3 _queuedRelWP2 = null)
+    void QueueAbility(Ability_V2 _ability, Transform _queuedTarget = null, NullibleVector3 _queuedRelWP = null, NullibleVector3 _queuedRelWP2 = null)
     {
         //Preparing variables for a cast
         QueuedAbility = _ability;
@@ -331,7 +331,10 @@ public class AbilityHandler : NetworkBehaviour
 
             GameObject newAbilityCast = Instantiate(UIManager.Instance.castBarPrefab, UIManager.Instance.canvas.transform);
             //                                   v (string cast_name, Actor from_caster, Actor to_target, float cast_time) v
-            newAbilityCast.GetComponent<CastBar>().Init(QueuedAbility.getName(), this, QueuedTarget, QueuedAbility.getCastTime());
+            if (QueuedTarget.TryGetComponent(out Actor targetActor))
+            {
+                newAbilityCast.GetComponent<CastBar>().Init(QueuedAbility.getName(), this, targetActor, QueuedAbility.getCastTime());
+            }
         }
         else
         {// For NPCs
@@ -366,7 +369,7 @@ public class AbilityHandler : NetworkBehaviour
         }
     }
 
-    public bool CastAbilityRealWPs(Ability_V2 _ability, Actor _target = null, NullibleVector3 _WP = null, NullibleVector3 _WP2 = null)
+    public bool CastAbilityRealWPs(Ability_V2 _ability, Transform _target = null, NullibleVector3 _WP = null, NullibleVector3 _WP2 = null)
     {
         if (_WP != null)
         {
@@ -444,7 +447,7 @@ public class AbilityHandler : NetworkBehaviour
     }
 
     [Server]
-    public void FireCast(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null)
+    public void FireCast(Ability_V2 _ability, Transform _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null)
     {
         // EI_Clones will be passed into an event that will allow them to be modified as need by other effects, stats, Buffs, etc.
         // Debug.Log("FireCast()");
@@ -498,9 +501,12 @@ public class AbilityHandler : NetworkBehaviour
             {
                 eI.sendToActor(_target, actor.GetRealWPOrNull(_relWP), actor, inTargetWP2: actor.GetRealWPOrNull(_relWP2));
             }
-            foreach (BuffScriptableObject buff in _ability.buffs)
+            if (_target.TryGetComponent(out BuffHandler targetBuffHandler))
             {
-                _target.buffHandler.AddBuff(buff);
+                foreach (BuffScriptableObject buff in _ability.buffs)
+                {
+                    targetBuffHandler.AddBuff(buff);
+                }
             }
             AddToCooldowns(_ability);
             if (onAbilityCastHooks != null)
@@ -525,13 +531,13 @@ public class AbilityHandler : NetworkBehaviour
 
             RpcResetCastVarsGCDReset();
         }
-        if (HBCTools.areHostle(actor, _target))
+        if (HBCTools.areHostle(transform, _target))
         {
             GetComponent<Controller>().autoAttacking = true;
         }
     }
 
-    public void StartChannel(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null)
+    public void StartChannel(Ability_V2 _ability, Transform _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null)
     {
         // EI_Clones will be passed into an event that will allow them to be modified as need by other effects, stats, Buffs, etc.
         if (_ability.isChannel == false)
@@ -599,7 +605,7 @@ public class AbilityHandler : NetworkBehaviour
     }
 
     [Server]
-    public void FireChannel(Ability_V2 _ability, Actor _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null)
+    public void FireChannel(Ability_V2 _ability, Transform _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null)
     {
         // EI_Clones will be passed into an event that will allow them to be modified as need by other effects, stats, Buffs, etc.
         List<EffectInstruction> EI_clones = _ability.getEffectInstructions().cloneInstructs();
@@ -698,6 +704,11 @@ public class AbilityHandler : NetworkBehaviour
     {
         // int capacityBefore = abilityCooldowns.Capacity;
         // AbilityCooldown refBefore = null;
+        float cooldown = _ability.getCooldown();
+        if (Mathf.Approximately(cooldown, 0) || cooldown < 0)
+        {
+            return;
+        }
 
         AbilityCooldown acRef = new AbilityCooldown(_ability);
         abilityCooldowns.Add(acRef);

@@ -27,14 +27,14 @@ public class TargetPartner : ActionNode
             return State.Failure;
         }
         if(optMobTypePrefab == null){
-            context.controller.target = context.gameObject.GetComponent<Multiboss>().partners[0].transform;
+            blackboard.target = context.gameObject.GetComponent<Multiboss>().partners[0].transform;
             context.actor.target = context.gameObject.GetComponent<Multiboss>().partners[0];
             return State.Success;
         }
         else{
             foreach(Actor a in context.gameObject.GetComponent<Multiboss>().partners){
                 if(a.mobId == optMobTypePrefab.GetComponent<Actor>().mobId){
-                    context.controller.target = a.transform;
+                    blackboard.target = a.transform;
                     context.actor.target = a;
                     return State.Success;
                 }

@@ -1,6 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/MenderHotbarPrefs.json.meta
 guid: 4ee48c5f676eba349a4ed7c2e5da7538
 TextScriptImporter:
+========
+guid: ccb391b8c30913147af71d831406a8fa
+folderAsset: yes
+DefaultImporter:
+>>>>>>>> 70253f2df1ba7cd53b735de942f0748f44b48a8d:Assets/Prefabs/Abilities/PierreBoss.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

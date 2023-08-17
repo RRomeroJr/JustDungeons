@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TheKiwiCoder;
 using UnityEngine;
-using TheKiwiCoder;
 
+[Attack]
 public class Attack : ActionNode
 {
     public Ability_V2 ability;
@@ -29,32 +28,25 @@ public class Attack : ActionNode
 
     protected override State OnUpdate()
     {
-        
         if(context.actor.IsCasting == false){
-            
+
             // if((ability.getCastTime() > 0.0)&&(ability.castWhileMoving == false)){
             //     context.agent.isStopped = true;
-                
+
             // }
-            //Debug.Log(context.controller.target.GetComponent<Actor>().getActorName()); 
-            Actor _target = null;
-            if(targetSelf)
+            //Debug.Log(context.controller.target.GetComponent<Actor>().getActorName());
+            Transform _target = targetSelf ? context.actor.transform : blackboard.target;
+            if (_target != null)
             {
-                _target = context.actor;
+                if (tryOnce)
+                {
+                    return BoolToState(context.actor.castAbility3(ability, _target));
+                }
+                else
+                {
+                    context.actor.castAbility3(ability, _target);
+                }
             }
-            else
-            {
-                _target = context.controller.target.GetComponent<Actor>();
-            }
-            
-            if(tryOnce)
-            {
-                return BoolToState(context.actor.castAbility3(ability, _target));
-            }
-            else{
-                context.actor.castAbility3(ability, _target);
-            }
-            //castStarted = true;
         }
         else
         {

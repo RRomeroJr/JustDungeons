@@ -9,7 +9,8 @@ using UnityEngine.AI;
 public class Charge : AbilityEff
 {   
     public int school = -1;
-    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
+    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    {
        //parentBuff.actor.transform.position = Vector2.MoveTowards(parentBuff.actor.transform.position, parentBuff.target.transform.position, power);
 
         parentBuff.actor.GetComponent<NavMeshAgent>().SetDestination(parentBuff.target.transform.position);

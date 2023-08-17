@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -55,7 +55,7 @@ public static class HBCTools
         toReturn = new Vector3(UnityEngine.Random.Range(-radius, radius), UnityEngine.Random.Range(-radius, radius), 0);
         return target + toReturn;
     }
-    public static bool areHostle(Actor a1, Actor a2){
+    public static bool areHostle(Transform a1, Transform a2){
         if(a1 == null){
             Debug.LogWarning("isHostle: arg1 was null");
             return false;
