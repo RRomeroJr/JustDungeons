@@ -4,7 +4,7 @@ using UnityEngine.Events;
 using System;
 using Mirror;
 /*
-     Container many for any RPG related elements
+     Container many for any RPG related elements.
 */
 
 public enum Role
