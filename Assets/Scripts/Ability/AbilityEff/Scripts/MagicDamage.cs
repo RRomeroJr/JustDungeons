@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -8,8 +8,12 @@ using UnityEngine;
 public class MagicDamage : AbilityEff
 {   
     public int school = -1;
-    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
-       _target.damageValue((int)power);
+    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    {
+        if (_target.TryGetComponent(out Actor targetActor))
+        {
+            targetActor.damageValue((int)power);
+        }
     }
     public MagicDamage(string _effectName, int _id = -1, float _power = 0, int _school = -1){
         effectName = _effectName;

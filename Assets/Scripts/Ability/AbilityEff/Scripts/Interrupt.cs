@@ -9,7 +9,8 @@ public class Interrupt : AbilityEff
     public bool seccessful = false;
     public int school;
 	
-    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
+    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    {
        //Debug.Log("Interrupt start effect");
         //target.interruptCast();
         

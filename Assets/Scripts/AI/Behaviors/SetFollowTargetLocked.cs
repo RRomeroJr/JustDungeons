@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TheKiwiCoder;
+﻿using TheKiwiCoder;
 
+[Movement]
 public class SetFollowTargetLocked : ActionNode
 {
     public bool setTo = true;
@@ -18,6 +16,6 @@ public class SetFollowTargetLocked : ActionNode
     {
         context.controller.followTargetLocked = setTo;
         return State.Success;
-        
+
     }
 }

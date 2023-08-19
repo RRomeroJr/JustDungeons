@@ -372,6 +372,17 @@ public class CustomNetworkManager : NetworkManager
             ServerChangeScene("MMO dungeon");
         }
     }
+    public void StartGame(string _sceneName)
+    {
+        if (SceneManager.GetActiveScene().path == menuScene)
+        {
+            if (!IsReadyToStart())
+            {
+                return;
+            }
+            ServerChangeScene(_sceneName);
+        }
+    }
     public void SteamHostLobby()
     {
         

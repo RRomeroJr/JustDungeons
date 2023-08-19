@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TheKiwiCoder;
 using UnityEngine;
-using TheKiwiCoder;
 
+[Movement]
 public class MoveToRelWP : ActionNode
-{   
+{
     public HBCTools.ContextualTarget relTarget;
     public Vector2 relativePos;
     Vector2 realPos;
@@ -15,23 +14,25 @@ public class MoveToRelWP : ActionNode
     public float debugDist;
     public bool debugHasPath;
     float moveSpeedHolder;
-        
+
 
     protected override void OnStart()
     {
         moveToStarted = false;
-        
+
         debugDist = 0.0f;
         debugHasPath = context.agent.isStopped;
-        
-        try{
+
+        try
+        {
             realPos = ContextualTargetToGmObj(relTarget).transform.position + (Vector3)relativePos;
         }
-        catch{
+        catch
+        {
             Debug.LogError("MoveToRelWP: Could not get realPos using self");
             realPos = context.transform.position + (Vector3)relativePos;
         }
-       
+
     }
 
     protected override void OnStop()
@@ -40,15 +41,15 @@ public class MoveToRelWP : ActionNode
 
     protected override State OnUpdate()
     {
-        if(context.controller.arenaObject == null)
+        if (context.controller.arenaObject == null)
         {
             Debug.Log("Skipping MoveToRelWP. Returning Failure");
             return State.Failure;
         }
-        if(!moveToStarted)
+        if (!moveToStarted)
         {
             moveToStarted = context.controller.moveToPoint(realPos);
-            if(useMoveSpeed && moveToStarted)
+            if (useMoveSpeed && moveToStarted)
             {
                 moveSpeedHolder = context.agent.speed;
                 context.agent.speed = moveSpeed;
@@ -64,7 +65,7 @@ public class MoveToRelWP : ActionNode
             // }
             if ((Vector2.Distance(realPos, context.transform.position) <= stopRange) && !context.controller.resolvingMoveTo)
             {
-                if(useMoveSpeed)
+                if (useMoveSpeed)
                 {
                     context.agent.speed = moveSpeedHolder;
                 }

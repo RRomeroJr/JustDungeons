@@ -9,6 +9,7 @@ public class PlayerLobby : NetworkBehaviour
     private UIController uiController;
     private TextField playerSlot;
     private DropdownField classSelect;
+    private DropdownField dungeonSelect;
 
     [SyncVar(hook = nameof(HandleDisplayNameChanged))]
     public string DisplayName = "Loading...";
@@ -65,6 +66,8 @@ public class PlayerLobby : NetworkBehaviour
 
         if(isLocalPlayer){
             classSelect = uiController.uiLobby.dropdownClass;
+            classSelect.RegisterValueChangedCallback(OnClassChanged);
+            dungeonSelect = uiController.uiLobby.dropdownDungeon;
             classSelect.RegisterValueChangedCallback(OnClassChanged);
         }
         
@@ -132,7 +135,13 @@ public class PlayerLobby : NetworkBehaviour
         {
             return;
         }
-        Room.StartGame();
+        if(dungeonSelect.text == ""){
+            Room.StartGame();
+        }
+        else
+        {
+            Room.StartGame(dungeonSelect.text);
+        }
     }
 
     [Command]

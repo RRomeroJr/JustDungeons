@@ -13,7 +13,8 @@ public class Fear : AbilityEff
     public float navMeshSpeed = 3.0f; //in the future this should change the moveSpeedMod
     bool hasAuthOverNT = false;
     
-    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
+    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    {
        if(hasAuthOverNT){
             //parentBuff.actor.transform.position = Vector2.MoveTowards(parentBuff.actor.transform.position, parentBuff.target.transform.position, power);
 

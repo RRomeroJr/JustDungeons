@@ -10,7 +10,8 @@ public class DisableMovement : AbilityEff
 {   
     public int school = -1;
     
-    public override void startEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
+    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    {
        
         
     }

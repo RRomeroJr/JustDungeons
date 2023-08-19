@@ -15,7 +15,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 9274dd38109db244b89b57243054858b
-  position: {x: 106, y: 561}
+  position: {x: 311, y: 561}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -31,6 +31,32 @@ MonoBehaviour:
   randomRange: 0
   plusMinusX: 0
   plusMinusY: 0
+--- !u!114 &-6958102242423987460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7302d8b8c9a258408e8b0829db973ae, type: 3}
+  m_Name: FindTargets
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 5ef101d2a5985d840a993117511d52bd
+  position: {x: 122, y: 561}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+  description: 
+  drawGizmos: 0
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 64
+  range: 20
 --- !u!114 &-6438692752516698948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,38 +100,12 @@ MonoBehaviour:
   - {fileID: -8121240333268996007}
   - {fileID: -6438692752516698948}
   - {fileID: 5321716782739802130}
-  - {fileID: 386133203965889914}
   - {fileID: 5465895258313610491}
+  - {fileID: -6958102242423987460}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
---- !u!114 &386133203965889914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7302d8b8c9a258408e8b0829db973ae, type: 3}
-  m_Name: FindTargets
-  m_EditorClassIdentifier: 
-  state: 0
-  started: 0
-  guid: 9a07ff9a44761774da25bdb94f50da9b
-  position: {x: -331, y: 570}
-  blackboard:
-    moveToPosition: {x: 0, y: 0, z: 0}
-    target: {fileID: 0}
-    targetPrev: {fileID: 0}
-  description: 
-  drawGizmos: 0
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 64
-  range: 10
 --- !u!114 &1057030606057929666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,7 +169,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 5316894fd1dc3644e9ec8a07cf58d14f
-  position: {x: -44, y: 258}
+  position: {x: -44, y: 248}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -177,9 +177,9 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   children:
-  - {fileID: 386133203965889914}
   - {fileID: -6438692752516698948}
-  - {fileID: -8121240333268996007}
+  - {fileID: -6958102242423987460}
+  - {fileID: 5465895258313610491}
 --- !u!114 &5465895258313610491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,7 +195,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 435df26de56daa749893569e9a0361c9
-  position: {x: 322, y: 282}
+  position: {x: 512, y: 561}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -203,3 +203,5 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   ability: {fileID: 11400000, guid: fa5e2a011eac8c344bb7ee3f55ac856d, type: 2}
+  targetSelf: 0
+  tryOnce: 0
