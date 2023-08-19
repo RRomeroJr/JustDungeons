@@ -23,6 +23,7 @@
             </ui:VisualElement>
             <ui:VisualElement name="buttons-container" class="content-container">
                 <ui:DropdownField label="Class" name="class-select" class="title-button" />
+                <ui:DropdownField label="Dungeon" name="dungeon-select" class="title-button" />
                 <ui:VisualElement name="horizontal-button-container" style="flex-direction: row; flex-wrap: nowrap; flex-grow: 1; flex-shrink: 1; width: 100%; flex-basis: auto; height: 85px; padding-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; margin-bottom: 4px; margin-left: 0; margin-right: 0; margin-top: 0;">
                     <ui:Button text="READY" display-tooltip-when-elided="true" name="button-ready" class="title-button ready-button" style="height: 100%; margin-right: 4px; margin-bottom: 0; margin-top: 0;" />
                     <ui:Button text="START " display-tooltip-when-elided="true" name="button-start" class="title-button start-button" style="height: 100%; margin-left: 4px; margin-top: 0; margin-bottom: 0;" />

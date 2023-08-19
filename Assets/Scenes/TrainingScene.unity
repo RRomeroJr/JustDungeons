@@ -73098,9 +73098,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 981c1fab2edc0e247a57d7adf40873c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobPrefab: {fileID: 6569267623682333730, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
   mobPrefabList:
   - {fileID: 6569267623682333730, guid: 92797d1b59dee00468f3e221176006b8, type: 3}
+  spawnOnStart: 1
 --- !u!4 &113959049
 Transform:
   m_ObjectHideFlags: 0
@@ -75244,6 +75244,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8456821108339157566, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
+      propertyPath: combatTemperment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3871712234253891919, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
       propertyPath: m_Height
       value: 4
@@ -75266,11 +75270,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6569267623682333737, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
       propertyPath: health
-      value: 5000
+      value: 5000000
       objectReference: {fileID: 0}
     - target: {fileID: 6569267623682333737, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
       propertyPath: maxHealth
-      value: 5000
+      value: 5000000
       objectReference: {fileID: 0}
     - target: {fileID: 6569267623682333739, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
       propertyPath: m_RootOrder
@@ -75351,11 +75355,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 981c1fab2edc0e247a57d7adf40873c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobPrefab: {fileID: 6569267623682333730, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
   mobPrefabList:
   - {fileID: 6569267623682333730, guid: a37956680077bca4f93872b517cf4e7a, type: 3}
   - {fileID: 6569267623682333730, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
   - {fileID: 6569267623682333730, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
+  spawnOnStart: 1
 --- !u!4 &1439132251
 Transform:
   m_ObjectHideFlags: 0
@@ -77176,11 +77180,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 981c1fab2edc0e247a57d7adf40873c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobPrefab: {fileID: 6569267623682333730, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
   mobPrefabList:
   - {fileID: 6569267623682333730, guid: 9bcb1407defcfa041973a28fadbfe3ec, type: 3}
   - {fileID: 6569267623682333730, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
   - {fileID: 6569267623682333730, guid: 6b6b57cfd4401ee44bb65a89278b66fb, type: 3}
+  spawnOnStart: 1
 --- !u!4 &1771309416
 Transform:
   m_ObjectHideFlags: 0
