@@ -318,12 +318,23 @@ public class Actor : NetworkBehaviour
                     _target = target
         */
         
-        if (target != null && HostiltyMatch(_ability, _target))
+        if (target != null && HostiltyMatch(_ability, target.transform))
         { //This actor's target
           //Debug.Log(_ability.getName() + " using current target as target");
 
-            return _target;
+            return target.transform;
         }
+        // else
+        // {
+        //     if(target != null)
+        //     {
+        //         Debug.Log("target: " + (target? target.gameObject.name : "null"));
+        //     }
+        //     if(!HostiltyMatch(_ability, target.transform))
+        //     {
+        //         Debug.Log("You can't cast that on that target");
+        //     }
+        // }
 
         if(isLocalPlayer)
         { // Check for mouse over if enabled and this is the local player
