@@ -128,7 +128,20 @@ public class AbilityEffectData : ScriptableObject
             Debug.Log("Effect was not correct:" + inComingEI.effect.id.ToString() + " != 2");
         }
     }
-    public static void positionalDmgBuffTest(EffectInstruction _ei){
+    // public static void positionalDmgBuffTest(EffectInstruction _ei){
+    //     // if behind or on side or in front w/e 
+    //     // ei.effect.power *= some val
+    //     // if(HBCTools.checkIfBehind(_ei.effect.caster, _ei.effect.target)){
+            
+    //     // }
+    //     //Debug.Log("positional check reached in AED");
+    //     // Debug.Log(HBCTools.checkIfBehind(_ei.effect.caster, _ei.effect.target).ToString());
+    //     if(HBCTools.checkIfBehind(_ei.effect.caster, _ei.effect.target)){
+    //         _ei.effect.power *= 1.1f;
+    //     }
+        
+    // }
+    public static void positionalRear(EffectInstruction _ei){
         // if behind or on side or in front w/e 
         // ei.effect.power *= some val
         // if(HBCTools.checkIfBehind(_ei.effect.caster, _ei.effect.target)){
@@ -137,6 +150,21 @@ public class AbilityEffectData : ScriptableObject
         //Debug.Log("positional check reached in AED");
         // Debug.Log(HBCTools.checkIfBehind(_ei.effect.caster, _ei.effect.target).ToString());
         if(HBCTools.checkIfBehind(_ei.effect.caster, _ei.effect.target)){
+            // Debug.Log("Rear check passed. Buffing " + _ei.effect.effectName + "'s power" + _ei.effect.power + " => " +(_ei.effect.power * 1.1));
+            _ei.effect.power *= 1.1f;
+        }
+        
+    }
+    public static void positionalFlank(EffectInstruction _ei){
+        // if behind or on side or in front w/e 
+        // ei.effect.power *= some val
+        // if(HBCTools.checkIfBehind(_ei.effect.caster, _ei.effect.target)){
+            
+        // }
+        //Debug.Log("positional check reached in AED");
+        // Debug.Log(HBCTools.checkIfBehind(_ei.effect.caster, _ei.effect.target).ToString());
+        if(HBCTools.checkIfFlank(_ei.effect.caster, _ei.effect.target)){
+            // Debug.Log("Flank check passed. Buffing " + _ei.effect.effectName + "'s power" + _ei.effect.power + " => " +(_ei.effect.power * 1.1));
             _ei.effect.power *= 1.1f;
         }
         

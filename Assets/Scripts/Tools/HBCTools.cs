@@ -34,6 +34,22 @@ public static class HBCTools
         }
         
     }
+    public static bool checkIfFlank(Actor actorToCheck, Actor target){
+        // get a vector corressonding to the distance btwn the actorToCheck and taget
+        Vector2 angleFromTarget = (Vector2)(actorToCheck.transform.position - target.transform.position);
+        angleFromTarget.Normalize();
+
+        //Vector2.Angle(a1, a2)
+        float angleDifference = Vector2.Angle(target.GetComponent<Controller>().facingDirection, angleFromTarget);
+
+        if((45.0f <= angleDifference)&&(angleDifference < 135.0f)){
+            return true;
+        }
+        else{
+            return false;
+        }
+        
+    }
     public static bool checkFacing(Actor actorToCheck, GameObject target){
         // get a vector corressonding to the distance btwn the actorToCheck and taget
         Vector2 angleFromTarget = (Vector2)(target.transform.position  - actorToCheck.transform.position );
