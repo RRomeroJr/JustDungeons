@@ -26,7 +26,19 @@ MonoBehaviour:
     powerMod: 1
     onSendHooks:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 11400000, guid: 05f702353c4ce0740bbec34a6703ccf0, type: 2}
+          m_TargetAssemblyTypeName: AbilityEffectData, Assembly-CSharp
+          m_MethodName: positionalFlank
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     deliveryNVect2: {x: 0, y: 0}
   buffs: []
   castTime: 0
@@ -41,9 +53,10 @@ MonoBehaviour:
   numberOfTicks: 0
   offGDC: 0
   rangeClass: 1
-  range: 3.5
+  range: 3.2
   interruptable: 1
   castWhileMoving: 0
   mustBeFacing: 0
   hotbuttonImage: {fileID: 0}
   hotbuttonColor: {r: 1, g: 1, b: 1, a: 1}
+  hostilty: 2

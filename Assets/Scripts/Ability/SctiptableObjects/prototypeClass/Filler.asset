@@ -22,7 +22,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 11400000, guid: 05f702353c4ce0740bbec34a6703ccf0, type: 2}
           m_TargetAssemblyTypeName: AbilityEffectData, Assembly-CSharp
-          m_MethodName: positionalDmgBuffTest
+          m_MethodName: positionalRear
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -53,9 +53,10 @@ MonoBehaviour:
   numberOfTicks: 0
   offGDC: 0
   rangeClass: 1
-  range: 3.5
+  range: 3.2
   interruptable: 1
   castWhileMoving: 0
   mustBeFacing: 1
   hotbuttonImage: {fileID: 0}
   hotbuttonColor: {r: 1, g: 1, b: 1, a: 1}
+  hostilty: 2
