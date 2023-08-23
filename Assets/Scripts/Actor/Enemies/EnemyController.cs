@@ -252,9 +252,11 @@ public class EnemyController : Controller
             Debug.Log("aggroTarget was null");
         actor.target = _aggroTarget;
         aggroTarget = _aggroTarget;
-        SetFollowTarget(_aggroTarget.gameObject);
-        // followTarget = _aggroTarget.gameObject;
-        autoAttacking = _setAutoAttack;
+        if(combatTemperment != CombatTemperment.Passive)
+        {
+            SetFollowTarget(_aggroTarget.gameObject);
+            autoAttacking = _setAutoAttack;
+        }
         
         if(_checkStartCombatWith){
             actor.CheckStartCombatWith(_aggroTarget);
@@ -290,7 +292,7 @@ public class EnemyController : Controller
                 actor.target = aggroTarget;
             }
         }
-        if(followTarget != aggroTarget.gameObject)
+        if((combatTemperment != CombatTemperment.Passive)&&(followTarget != aggroTarget.gameObject))
         {
             SetFollowTarget(aggroTarget.gameObject);
         }
