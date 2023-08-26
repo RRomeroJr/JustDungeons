@@ -40,6 +40,7 @@ public class UIManager : MonoBehaviour
     public ClickData clickData0 = new ClickData();
     public ClickData clickData1 = new ClickData();
     public GameObject inGameMenu;
+    public bool draggingObject = false;
 
     public void SpawnBuffBar()
     {

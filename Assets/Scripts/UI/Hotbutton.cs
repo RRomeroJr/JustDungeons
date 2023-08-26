@@ -56,6 +56,7 @@ public class Hotbutton: MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
         if(image != null){
             image.raycastTarget = false;
         }
+        UIManager.Instance.draggingObject = true;
         // if(tempAbilityNameText != null){
         //     tempAbilityNameText.raycastTarget = false;
         // }
@@ -73,7 +74,7 @@ public class Hotbutton: MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
         if(image != null){
             image.raycastTarget = true;
         }
-        
+        UIManager.Instance.draggingObject = false;
         // if(tempAbilityNameText != null){
         //     tempAbilityNameText.raycastTarget = true;
         // }

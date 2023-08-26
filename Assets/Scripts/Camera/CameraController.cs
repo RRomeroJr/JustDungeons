@@ -41,36 +41,38 @@ public class CameraController : MonoBehaviour
             
         }
         if(Input.GetMouseButton(0) || Input.GetMouseButton(1)){
-            if(dragMode == false)
-            {
-                if((UIManager.Instance.MouseButtonDrag(0) || UIManager.Instance.MouseButtonDrag(1)))
+            if(UIManager.Instance.draggingObject == false){
+                if(dragMode == false)
                 {
-                    // dragOffset = Vector2.ClampMagnitude(HBCTools.GetMousePosWP() - target.position, dragMax);
-                    dragMode = true;
-                    LockCursor();
+                    if((UIManager.Instance.MouseButtonDrag(0) || UIManager.Instance.MouseButtonDrag(1)))
+                    {
+                        // dragOffset = Vector2.ClampMagnitude(HBCTools.GetMousePosWP() - target.position, dragMax);
+                        dragMode = true;
+                        LockCursor();
+                    }
+                    if(! (UIManager.Instance.MouseButtonShort(0) || UIManager.Instance.MouseButtonShort(1)))
+                    {
+                        // dragOffset = Vector2.ClampMagnitude(HBCTools.GetMousePosWP() - target.position, dragMax);
+                        dragMode = true;
+                        LockCursor();
+                    }
+
                 }
-                if(! (UIManager.Instance.MouseButtonShort(0) || UIManager.Instance.MouseButtonShort(1)))
+                if(dragMode)
                 {
-                    // dragOffset = Vector2.ClampMagnitude(HBCTools.GetMousePosWP() - target.position, dragMax);
-                    dragMode = true;
-                    LockCursor();
+                    Vector2 mouseMove = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+            
+                    // if(mouseMove.magnitude > 0){
+                    //     mouseMove.Normalize();
+                    //     mouseMove = dragMax * mouseMove;
+                    //     dragOffset = mouseMove;
+                    // }
+                    
+                    mouseMove = dragSens * mouseMove;
+                    dragOffset = dragOffset + mouseMove;
+                    dragOffset = Vector2.ClampMagnitude(dragOffset, dragMax);
+
                 }
-
-            }
-            if(dragMode)
-            {
-                Vector2 mouseMove = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-        
-                // if(mouseMove.magnitude > 0){
-                //     mouseMove.Normalize();
-                //     mouseMove = dragMax * mouseMove;
-                //     dragOffset = mouseMove;
-                // }
-                
-                mouseMove = dragSens * mouseMove;
-                dragOffset = dragOffset + mouseMove;
-                dragOffset = Vector2.ClampMagnitude(dragOffset, dragMax);
-
             }
         }
         if(Input.GetMouseButton(2)){
