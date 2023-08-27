@@ -41,6 +41,7 @@ public class UIManager : MonoBehaviour
     public ClickData clickData1 = new ClickData();
     public GameObject inGameMenu;
     public bool draggingObject = false;
+    public ClickManager clickManager;
 
     public void SpawnBuffBar()
     {
@@ -63,6 +64,7 @@ public class UIManager : MonoBehaviour
         nameplatePrefab = Resources.Load("Nameplate") as GameObject;
         damageTextPrefab = Resources.Load("DamageText") as GameObject;
         //hotbuttonPrefab = Resources.Load("Hotbutton 1") as GameObject;
+        
 
     }
     void OnDestroy()
@@ -81,6 +83,10 @@ public class UIManager : MonoBehaviour
         if (cameraPrefab == null)
         {
             Debug.LogError("Please add a camera prefab to UIManager.cameraPrefab");
+        }
+        if(!clickManager)
+        {
+            clickManager = gameObject.AddComponent<ClickManager>();
         }
         /* Not sure if unit frames should have refences to actors
            like this. Later I might change this so the UIManager
@@ -286,15 +292,6 @@ public class UIManager : MonoBehaviour
     }
     void Update()
     {
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            clickData0.ClickStart();
-        }
-        if (Input.GetMouseButtonDown(1))
-        {
-            clickData1.ClickStart();
-        }
         if(Input.GetKeyDown("escape"))
         {
             inGameMenu.active = !inGameMenu.active;
@@ -310,93 +307,20 @@ public class UIManager : MonoBehaviour
         }
 
     }
-    void MouseInput()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            clickData0.ClickStart();
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            if ((clickData0.CalcHoldTime() > clickWindow) || (clickData0.CalcTravel() > clickTravelWindow))
-            {
-
-                return;
-            }
-        }
-
-    }
     /// <summary>
     ///	If the mouse button is held and mouse posistion moved atleast the clickTravelWindow distance
     /// </summary>
-    public bool MouseButtonDrag(int _buttonId)
-    {
-        switch (_buttonId)
-        {
-            case (0):
-                return (Input.GetMouseButton(0) && clickData0.CalcTravel() >= clickTravelWindow);
-                break;
-            case (1):
-                return (Input.GetMouseButton(1) && clickData1.CalcTravel() >= clickTravelWindow);
-                break;
-            default:
-                Debug.LogError("Unknown mouse button for click");
-                break;
-        }
-        return false;
-    }
+    public bool MouseButtonDrag(int _buttonId) => clickManager.MouseButtonDrag(_buttonId);
+    
     /// <summary>
     ///	If the mouse button was held for less than or equal to the clickWindow
     /// </summary>
-    public bool MouseButtonShort(int _buttonId)
-    {
-        switch (_buttonId)
-        {
-            case (0):
-                return clickData0.CalcHoldTime() <= clickWindow;
-                break;
-            case (1):
-                return clickData1.CalcHoldTime() <= clickWindow;
-                break;
-            default:
-                Debug.LogError("Unknown mouse button for click");
-                break;
-        }
-        return false;
-    }
-    public Vector2 MouseButtonDragVector(int _buttonId)
-    {
-        switch (_buttonId)
-        {
-            case (0):
-                return Camera.main.ScreenToWorldPoint(Input.mousePosition) - Camera.main.ScreenToWorldPoint(clickData0.startPos);
-                break;
-            case (1):
-                return Camera.main.ScreenToWorldPoint(Input.mousePosition) - Camera.main.ScreenToWorldPoint(clickData1.startPos);
-                break;
-            default:
-                Debug.LogError("Unknown mouse button for Drag vector");
-                break;
-        }
-        return Vector2.zero;
-    }
-    public bool MouseButtonHold(int _buttonId)
-    {
-        switch (_buttonId)
-        {
-            case (0):
-                return (Input.GetMouseButton(0) && clickData0.CalcHoldTime() <= clickWindow);
-                break;
-            case (1):
-                return (Input.GetMouseButton(1) && clickData1.CalcHoldTime() <= clickWindow);
-                break;
-            default:
-                Debug.LogError("Unknown mouse button for click");
-                break;
-        }
-        return false;
-    }
+    public bool MouseButtonShort(int _buttonId) => clickManager.MouseButtonShort(_buttonId);
+    
+    public Vector2 MouseButtonDragVector(int _buttonId) => clickManager.MouseButtonDragVector(_buttonId);
+  
+    public bool MouseButtonHold(int _buttonId) => clickManager.MouseButtonHold(_buttonId);
+    
     void UpdateGlows()
     {
         int current = 0;
