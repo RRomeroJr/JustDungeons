@@ -15,16 +15,6 @@ public class PlayerController : Controller
 {
    
     public PlayerState state;
-    public LayerMask clickMask;
-    public float mouseSensitivity = 15f;
-    public float xMouseMove = 0.0f;
-    public float clickTime0 = 0.0f;
-    public float clickTime1 = 0.0f;
-    public Vector2 mouseStart0;
-    public Vector2 mouseStart1;
-    public Vector2 mousePos;
-    public float clickWindow = 0.66f;
-    public float clickTravelWindow = 66.0f;
     public List<Actor> tabableTargets;
     public Vector2 lastTabVector;
     public Vector2 currentTabVector;
@@ -341,20 +331,13 @@ public class PlayerController : Controller
     }
     void MouseOver()
     {
-        RaycastHit2D hit = raycastToActors(HBCTools.GetMousePosWP());
-        Actor hitActor = null;
-        try{
-            hitActor =  hit.collider.transform.parent.GetComponent<Actor>();
-        }
-        catch{
-        }
+        Actor hitActor = Targeting.LookForNewTarget();
 
         if(hitActor == hoverActor)
         {
             return;
         }
 
-        
         if(hoverActor != null){
             hoverActor.OnHoverEnd();
         }
@@ -368,100 +351,35 @@ public class PlayerController : Controller
         
     }
     void mouseInput(){
-        if (Input.GetMouseButtonDown(0)) {
-            clickTime0 = 0.0f;
-            mouseStart0 = Input.mousePosition;
-            
-        }
-        if (Input.GetMouseButtonUp(0)) {
-            float mouseTravel = Vector2.Distance(mouseStart0, Input.mousePosition);
-            if((clickTime0 > clickWindow) || (mouseTravel > clickTravelWindow)){
-                clickTime0 = 0.0f;
-                return;
-            }
-            clickTime0 = 0.0f;
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if ((Input.GetMouseButtonUp(0) && UIManager.Instance.MouseButtonShort(0)) ||
+                (Input.GetMouseButtonUp(1) && UIManager.Instance.MouseButtonShort(1)))
+        {
 
-            RaycastHit2D hit = raycastToActors(HBCTools.GetMousePosWP());
-            Actor hitActor = null;
-            try{
-                hitActor =  hit.collider.transform.parent.GetComponent<Actor>();
-            }
-            catch{
-            }
-            //Debug.Log("mousePos "+ mousePos.ToString());
+            Actor hitActor = Targeting.LookForNewTarget();
 
-            if (hit.collider != null) {
-                
-                // Debug.Log("Clicked something: " + hit.collider.gameObject.name);
-            }else{
-                //Debug.Log("Nothing clicked");
+            if (hitActor == null) // No target was found
+            {
                 tabIndex = 0;
+                autoAttacking = false;
             }
-            // if(HBCTools.areHostle(actor, hitActor) == false){//actor in this case being the player
-            //     actor.GetComponent<Controller>().autoAttacking = false;
-            // }
-            actor.SetTarget(hitActor);
-            
-        }
-        if(Input.GetMouseButton(0)){
-            clickTime0 += Time.deltaTime;
-        }
-        if (Input.GetMouseButtonDown(1)) {
-            clickTime1 = 0.0f;
-            mouseStart1 = Input.mousePosition; //used for manual turning
-            
-        }
+            else if (Input.GetMouseButtonUp(1)) //If a target found and was right-clicked
+            {
+                if (HBCTools.areHostle(transform, hitActor.transform))
+                {
+                    autoAttacking = true;
+                }
+                else
+                {
+                    autoAttacking = false;
+                }
+            }
         
-        if (Input.GetMouseButtonUp(1)) {
-            float mouseTravel = Vector2.Distance(mouseStart1, Input.mousePosition);
-            //Debug.Log(mouseTravel.ToString());
-            if((clickTime1 > clickWindow) || (mouseTravel > clickTravelWindow)){
-                clickTime1 = 0.0f;
-                return;
-            }
-
-            clickTime1 = 0.0f;
-             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-             
-
-
-            RaycastHit2D hit = raycastToActors(HBCTools.GetMousePosWP());
-            Actor hitActor= null;
-            try{
-                hitActor =  hit.collider.transform.parent.GetComponent<Actor>();
-            }
-            catch{
-            }
-            //Debug.Log("mousePos "+ mousePos.ToString());
-
-            if (hit.collider != null) {
-                
-                Debug.Log("Clicked something: " + hit.collider.gameObject.name);
-                // set controller's target w/ actor hit by raycast
-                
-                if(HBCTools.areHostle(transform, hitActor.transform)){//actor in this case being the player
-                    actor.GetComponent<Controller>().autoAttacking = true;
-                }
-                else{
-                    actor.GetComponent<Controller>().autoAttacking = false;
-                }
-                
-                
-            }else{
-                //Debug.Log("Nothing clicked");
-                actor.GetComponent<Controller>().autoAttacking = false;
-                tabIndex = 0;
-            }
-            
             actor.SetTarget(hitActor);
         }
         if(Input.GetMouseButton(1)){
-            clickTime1 += Time.deltaTime;
-
-            xMouseMove += Input.GetAxis("Mouse X") * mouseSensitivity * -1.0f;
 
             Vector2 mouseMoveVect;
+
             //mouseMoveVect = (Vector2)Input.mousePosition - mouseStart0; //mode 1
             mouseMoveVect = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - rendererRef.bounds.BottomCenter(); //mode 2
             facingDirection = HBCTools.ToNearest45(mouseMoveVect);
@@ -523,8 +441,5 @@ public class PlayerController : Controller
     void reqTargetUpdate(Actor _actor){ //in future this should be some sort of act id or something
         updateTargetToClients(_actor);
     }
-    RaycastHit2D raycastToActors(Vector2 _loc)
-    {
-        return Physics2D.Raycast(_loc, Vector2.zero, Mathf.Infinity, clickMask);
-    }
+   
 }
