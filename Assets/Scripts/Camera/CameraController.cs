@@ -23,7 +23,7 @@ public class CameraController : MonoBehaviour
     {
         CustomNetworkManager.singleton.GamePlayers.CollectionChanged -= HandlePlayerAdded;
     }
-    void Update(){
+    void LateUpdate(){
 
         if(Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)){
             if( Input.GetMouseButton(0) && Input.GetMouseButton(1))
