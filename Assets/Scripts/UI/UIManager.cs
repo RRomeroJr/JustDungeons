@@ -63,6 +63,7 @@ public class UIManager : MonoBehaviour
         }
         nameplatePrefab = Resources.Load("Nameplate") as GameObject;
         damageTextPrefab = Resources.Load("DamageText") as GameObject;
+        removeCooldownEvent = new UnityEvent<int>();
         //hotbuttonPrefab = Resources.Load("Hotbutton 1") as GameObject;
         
 
