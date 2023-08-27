@@ -308,7 +308,7 @@ public class UIManager : MonoBehaviour
 
     }
     /// <summary>
-    ///	If the mouse button is held and mouse posistion moved atleast the clickTravelWindow distance
+    ///	If the mouse button is active and mouse posistion moved atleast the clickTravelWindow distance
     /// </summary>
     public bool MouseButtonDrag(int _buttonId) => clickManager.MouseButtonDrag(_buttonId);
     
@@ -316,6 +316,8 @@ public class UIManager : MonoBehaviour
     ///	If the mouse button was held for less than or equal to the clickWindow
     /// </summary>
     public bool MouseButtonShort(int _buttonId) => clickManager.MouseButtonShort(_buttonId);
+    public bool MouseButtonLong(int _buttonId) => !clickManager.MouseButtonShort(_buttonId);
+    public bool MouseButtonClick(int _buttonId) => clickManager.MouseButtonClick(_buttonId);
     
     public Vector2 MouseButtonDragVector(int _buttonId) => clickManager.MouseButtonDragVector(_buttonId);
   

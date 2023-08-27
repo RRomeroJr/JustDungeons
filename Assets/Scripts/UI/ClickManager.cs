@@ -51,7 +51,7 @@ public class ClickManager : NetworkBehaviour
         return false;
     }
     /// <summary>
-    ///	If the mouse button was held for less than or equal to the clickWindow
+    ///	If current/ last click was "short" (less than or equal to the clickWindow)
     /// </summary>
     public bool MouseButtonShort(int _buttonId)
     {
@@ -62,6 +62,26 @@ public class ClickManager : NetworkBehaviour
                 break;
             case (1):
                 return clickData1.CalcHoldTime() <= clickWindow;
+                break;
+            default:
+                Debug.LogError("Unknown mouse button for click");
+                break;
+        }
+        Debug.Log("CM short: " + false);
+        return false;
+    }
+    /// <summary>
+    ///	If there is a MouseButtonUp && it was "short".
+    /// </summary>
+    public bool MouseButtonClick(int _buttonId)
+    {
+        switch (_buttonId)
+        {
+            case (0):
+                return Input.GetMouseButtonUp(0) && (clickData0.CalcHoldTime() < clickWindow);
+                break;
+            case (1):
+                return Input.GetMouseButtonUp(1) && (clickData1.CalcHoldTime() < clickWindow);
                 break;
             default:
                 Debug.LogError("Unknown mouse button for click");
@@ -91,10 +111,10 @@ public class ClickManager : NetworkBehaviour
         switch (_buttonId)
         {
             case (0):
-                return (Input.GetMouseButton(0) && clickData0.CalcHoldTime() <= clickWindow);
+                return Input.GetMouseButton(0) && (clickData0.CalcHoldTime() >= clickWindow);
                 break;
             case (1):
-                return (Input.GetMouseButton(1) && clickData1.CalcHoldTime() <= clickWindow);
+                return Input.GetMouseButton(1) && (clickData1.CalcHoldTime() >= clickWindow);
                 break;
             default:
                 Debug.LogError("Unknown mouse button for click");

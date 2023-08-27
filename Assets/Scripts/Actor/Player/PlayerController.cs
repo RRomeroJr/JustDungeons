@@ -351,8 +351,7 @@ public class PlayerController : Controller
         
     }
     void mouseInput(){
-        if ((Input.GetMouseButtonUp(0) && UIManager.Instance.MouseButtonShort(0)) ||
-                (Input.GetMouseButtonUp(1) && UIManager.Instance.MouseButtonShort(1)))
+        if (UIManager.Instance.MouseButtonClick(0) || UIManager.Instance.MouseButtonClick(1))
         {
 
             Actor hitActor = Targeting.LookForNewTarget();
