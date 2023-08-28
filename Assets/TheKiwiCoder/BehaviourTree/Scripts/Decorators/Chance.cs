@@ -24,7 +24,7 @@ namespace TheKiwiCoder {
             
             if(roll > chanceToProceed)
             {
-                Debug.Log(roll + " > " + chanceToProceed);
+                // Debug.Log(roll + " > " + chanceToProceed);
                 return State.Failure;
             }
             

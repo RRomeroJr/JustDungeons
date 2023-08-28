@@ -11,7 +11,7 @@ public class ClickData
     public Vector2 startPos;
     public void ClickStart()
     {
-        Debug.Log("ClickStart");
+        // Debug.Log("ClickStart");
         timeStart = Time.time;
         startPos = Input.mousePosition;
     }

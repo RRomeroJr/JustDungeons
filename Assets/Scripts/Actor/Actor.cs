@@ -404,7 +404,7 @@ public class Actor : NetworkBehaviour
     {
         if (_input == null)
         {
-            Debug.Log("GetRealWPOrNull INPUT WAS NULL.. sending null");
+            // Debug.Log("GetRealWPOrNull INPUT WAS NULL.. sending null");
             return null;
         }
 

@@ -362,15 +362,13 @@ public class Controller : NetworkBehaviour
     }
     public void StopAgentToCast()
     {
-        Debug.Log(name + ": StopAgentToCast");
         if(agent.enabled == false)
         {
             return;
         }
-        Debug.Log(agent.isStopped + ": isStopped");
         if(agent.isStopped == false)
         {
-            Debug.Log(name + ": Stopping");
+            // Debug.Log(name + ": Stopping");
             agent.velocity = Vector2.zero;
             agent.isStopped = true;
         }
@@ -391,7 +389,7 @@ public class Controller : NetworkBehaviour
                 if(agent.isStopped)
                 {
                     agent.isStopped = false;
-                    Debug.Log("Unstopping to follow something");
+                    // Debug.Log("Unstopping to follow something");
                 }
             }
         }
