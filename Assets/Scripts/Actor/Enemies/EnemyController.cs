@@ -238,11 +238,11 @@ public class EnemyController : Controller
         
     }
     public void AggroSearch(){
+        Transform res = FindClosetTarget(LayerMask.GetMask("Player"), aggroRadius);
 
-        if(FindTargets(LayerMask.GetMask("Player"), aggroRadius).Count > 0)
+        if (res)
         {
-            actor.CheckStartCombatWith(actor.target);
-            
+            actor.CheckStartCombatWith(res.GetComponent<Actor>());
         }
 
     }
