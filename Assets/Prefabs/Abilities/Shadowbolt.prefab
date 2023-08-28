@@ -143,6 +143,7 @@ MonoBehaviour:
   aoeCap: 0
   followTarget: 0
   followCaster: 0
+  trackTarget: 0
   useDisconnectTimer: 0
   disconnectTimer: 0
   ignoreDuration: 1
@@ -156,7 +157,7 @@ MonoBehaviour:
   hitFriendly: 0
   canHitSelf: 0
   checkAtFeet: 0
-  onlyHitTarget: 1
+  onlyHitTarget: 0
   <RotationsPerSecond>k__BackingField: 0
   rotationSequence: []
 --- !u!114 &3926534262364259519
