@@ -213,7 +213,7 @@ public class UIManager : MonoBehaviour
         {
             (targetFrame as TargetFrame).castBar.gameObject.active = true;
         }
-        (targetFrame as TargetFrame).castBar.OnAbilityChanged();
+        (targetFrame as TargetFrame).castBar.OnCastStarted();
     }
     // public void setUpUnitFrame(PointerEventData data){
     //     Debug.Log("Test");

@@ -42,7 +42,7 @@ public class Nameplate : MonoBehaviour
         {
             castBar.gameObject.active = true;
         }
-        castBar.OnAbilityChanged();
+        castBar.OnCastStarted();
     }
     public static Nameplate Create(Actor _actor){
         Nameplate npRef = (Instantiate(UIManager.nameplatePrefab) as GameObject).GetComponentInChildren<Nameplate>();

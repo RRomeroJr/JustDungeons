@@ -42,19 +42,19 @@ public class CastBar : MonoBehaviour
     elaspedTime = 0.0f;
     start = true;
   }
-  public void OnAbilityChanged()
+  public void OnCastStarted()
   {
     castName.text = caster.QueuedAbility.getName();
-    if(caster.QueuedAbility.isChannel)
+    if(caster.IsChanneling)
     {
       castBar.maxValue = caster.QueuedAbility.channelDuration;
+      // Debug.Log("max set by channelDur: " + caster.QueuedAbility.channelDuration);
     }
     else
     {
-      castBar.maxValue = caster.QueuedAbility.getCastTime();;
+      castBar.maxValue = caster.QueuedAbility.getCastTime();
+      // Debug.Log("max set by castTime: " + caster.QueuedAbility.getCastTime());
     }
-    // castTime = caster.QueuedAbility.getCastTime();
-
   }
     void Update(){
       
