@@ -501,11 +501,14 @@ public class AbilityHandler : NetworkBehaviour
             {
                 eI.sendToActor(_target, actor.GetRealWPOrNull(_relWP), actor, inTargetWP2: actor.GetRealWPOrNull(_relWP2));
             }
-            if (_target.TryGetComponent(out BuffHandler targetBuffHandler))
+            if(_target)
             {
-                foreach (BuffScriptableObject buff in _ability.buffs)
+                if (_target.TryGetComponent(out BuffHandler targetBuffHandler))
                 {
-                    targetBuffHandler.AddBuff(buff);
+                    foreach (BuffScriptableObject buff in _ability.buffs)
+                    {
+                        targetBuffHandler.AddBuff(buff);
+                    }
                 }
             }
             AddToCooldowns(_ability);
