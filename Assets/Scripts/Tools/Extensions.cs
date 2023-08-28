@@ -154,7 +154,7 @@ public static class Extensions
         }
     }
     /// <summary>
-    ///	Safe way to get transform of Monobeviour. Returns null is the MO is null
+    ///	Safe way to a Comp from a transform. Will return null if transform is null
     /// </summary>
     public static T GetComponentSafe<T>(this Transform _trans)
     {
@@ -166,6 +166,24 @@ public static class Extensions
         {
             return default;
         }
+    }
+    /// <summary>
+    ///	TryGetCompontent but safe. Will return false if called on null transform
+    /// </summary>
+    public static bool TryGetComponentSafe<T>(this Transform _trans, out T _someComp)
+    {
+        try
+        {
+            if(_trans.TryGetComponent(out T _outC))
+            {
+                _someComp = _outC;
+                return true;
+            }
+        }
+        catch{}
+
+        _someComp = default(T);
+        return false;
     }
 
 }
