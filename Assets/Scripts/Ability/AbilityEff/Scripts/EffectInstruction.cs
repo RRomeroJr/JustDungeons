@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -36,7 +37,7 @@ public class EffectInstruction
             case(0):
                 break;
             case(1):
-                inTarget = inCaster.transform;
+                inTarget = inCaster.transformSafe();
                 break;
             default:
                 Debug.Log("EI: Unknown targetArg " + effect.effectName);
@@ -44,8 +45,8 @@ public class EffectInstruction
         }
         if(effect.targetIsSecondary){
             //Debug.Log("Target is 2ndary!");
-            inSecondaryTarget = inTarget.GetComponent<Actor>();
-            inTarget = inCaster.transform;
+            inSecondaryTarget = inTarget.GetComponentSafe<Actor>();
+            inTarget = inCaster.transformSafe();
         }
         // switch(targetArg){
         //     case(0):
@@ -59,7 +60,7 @@ public class EffectInstruction
         //         break;
         // }
         //Debug.Log("sendToActor caster" + (inCaster != null ? inCaster.getActorName() : "caster is null"));
-        effect.target = inTarget.GetComponent<Actor>();
+        effect.target = inTarget.GetComponentSafe<Actor>();
         effect.targetWP = inTargetWP;
         effect.caster = inCaster;
         effect.targetWP2 = inTargetWP2;
