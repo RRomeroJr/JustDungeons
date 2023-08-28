@@ -309,7 +309,7 @@ public class AbilityHandler : NetworkBehaviour
                 {
                     UIManager.Instance.castBar.active = true;
                 }
-                UIManager.Instance.castBar.GetComponent<CastBar>().OnAbilityChanged();
+                
             }
             catch
             {
@@ -548,29 +548,20 @@ public class AbilityHandler : NetworkBehaviour
             //wtf how?
             Debug.Log(_ability.getName() + "is not a channel BUT is being channeled");
         }
+        IsChanneling = true;
+        lastChannelTick = 0.0f;
+        ReadyToFire = false;
+        castTime = _ability.channelDuration;
+        IsCasting = true;
 
         QueueAbility(_ability, _target, _relWP, _relWP2);
         if(QueuedAbility.getCastTime() <= 0.0f)
         {
             PrepCast();
-            OnCastStarted.Invoke();
-
         }
+        //Note: this means that channel's with a castime fire OnCastStarted twice
+        OnCastStarted.Invoke();
 
-        if (QueuedAbility.isChannel == false)
-        {
-            //wtf how?
-            IsChanneling = true;
-        }
-        else
-        {
-            IsChanneling = true;
-        }
-
-        lastChannelTick = 0.0f;
-        ReadyToFire = false;
-        castTime = _ability.channelDuration;
-        IsCasting = true;
         if (onAbilityCastHooks != null)
         {
             onAbilityCastHooks.Invoke(_ability.id);
@@ -580,6 +571,8 @@ public class AbilityHandler : NetworkBehaviour
             //wtf how?
             Debug.Log(QueuedAbility.getName() + "is queued and about to be channeled BUT isn't a channel| _ability " + _ability.getName());
         }
+
+        //1st fire
         FireChannel(QueuedAbility, QueuedTarget, QueuedRelWP, QueuedRelWP2);
 
     }
