@@ -47,7 +47,7 @@ public class Missile : DeliveryEff
         }
         else{
             delivery.GetComponent<AbilityDelivery>().type = 0;
-            delivery.GetComponent<AbilityDelivery>().Target = _secondaryTarget.transform;
+            delivery.GetComponent<AbilityDelivery>().Target = _secondaryTarget.transformSafe();
         }
         if(!ignoreDuration){
             delivery.GetComponent<AbilityDelivery>().ignoreDuration = ignoreDuration;
@@ -62,7 +62,6 @@ public class Missile : DeliveryEff
             RR: this works bc the prefab already has variable set to what I want.
             Not sure if this is the best way but it seems to work fine
         */
-       
     }
     public Missile(string _effectName, GameObject _misslePrefab, int _id = -1, float _power = 0, int _school = -1){
         effectName = _effectName;

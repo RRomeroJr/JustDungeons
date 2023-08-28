@@ -24,7 +24,12 @@ public class LineAoe : Aoe
         abilityDelivery.Target = _target;
         abilityDelivery.Caster = _caster;
         abilityDelivery.worldPointTarget = _targetWP.Value;
+
+        //  A LineAoe with no caster doesn't make much sense to me
+        //  Feel like you would just use a normal aoe
+        //  vv so I'll leave this unsafe vv
         abilityDelivery.transform.position = _caster.transform.position;
+
         abilityDelivery.eInstructs = eInstructs;
         abilityDelivery.type = 5;
         if (_target != null)
@@ -36,6 +41,7 @@ public class LineAoe : Aoe
             abilityDelivery.transform.right = Vector3.Normalize(_targetWP.Value - abilityDelivery.transform.position);
         }
         NetworkServer.Spawn(ability);
+        
     }
 
     public LineAoe(string _effectName, GameObject _aoePrefab, int _id = -1, float _power = 0, int _school = -1)

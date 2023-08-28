@@ -14,22 +14,24 @@ public class Aoe : DeliveryEff
     
     public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
-        //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
-        //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
-        //Debug.Log(_targetWP == null ? "Aoe: No targetWP" : ("Aoe: wp = " + _targetWP.Value.ToString()));
-        GameObject delivery = Instantiate(aoePrefab, getWP(_secondaryTarget, _targetWP), Quaternion.identity);
-        delivery.GetComponent<AbilityDelivery>().Target = _secondaryTarget.transform;
-        delivery.GetComponent<AbilityDelivery>().Caster = _caster;
-        delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_secondaryTarget, _targetWP);
-        delivery.GetComponent<AbilityDelivery>().eInstructs = eInstructs;
-        delivery.transform.localScale = Vector3.Scale(delivery.transform.localScale, prefabScale);
         
-        NetworkServer.Spawn(delivery);
+            //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
+            //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
+            //Debug.Log(_targetWP == null ? "Aoe: No targetWP" : ("Aoe: wp = " + _targetWP.Value.ToString()));
+            GameObject delivery = Instantiate(aoePrefab, getWP(_secondaryTarget, _targetWP), Quaternion.identity);
+            delivery.GetComponent<AbilityDelivery>().Target = _secondaryTarget.transformSafe();
+            delivery.GetComponent<AbilityDelivery>().Caster = _caster;
+            delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_secondaryTarget, _targetWP);
+            delivery.GetComponent<AbilityDelivery>().eInstructs = eInstructs;
+            delivery.transform.localScale = Vector3.Scale(delivery.transform.localScale, prefabScale);
+            
+            NetworkServer.Spawn(delivery);
 
-        /*
-            RR: this works bc the prefab already has variables in AbilityDelivery set to what I want.
-            Not sure if this is the best way but it seems to work fine
-        */
+            /*
+                RR: this works bc the prefab already has variables in AbilityDelivery set to what I want.
+                Not sure if this is the best way but it seems to work fine
+            */
+        
        
     }
     public Aoe(string _effectName, GameObject _aoePrefab, int _id = -1, float _power = 0, int _school = -1){

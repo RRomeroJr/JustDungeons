@@ -18,7 +18,7 @@ public class RingAoe : Aoe
         //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
         //Debug.Log(_targetWP == null ? "RingAoe: No targetWP" : ("RingAoe: wp = " + _targetWP.Value.ToString()));
         GameObject delivery = Instantiate(aoePrefab, getWP(_secondaryTarget, _targetWP), Quaternion.identity);
-        delivery.GetComponent<AbilityDelivery>().Target = _secondaryTarget.transform;
+        delivery.GetComponent<AbilityDelivery>().Target = _secondaryTarget.transformSafe();
         delivery.GetComponent<AbilityDelivery>().Caster = _caster;
         delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_secondaryTarget, _targetWP);
         delivery.GetComponent<AbilityDelivery>().innerCircleRadius = innerCircleRadius;
@@ -40,7 +40,7 @@ public class RingAoe : Aoe
             RR: this works bc the prefab already has variables in AbilityDelivery set to what I want.
             Not sure if this is the best way but it seems to work fine
         */
-       
+    
     }
     public RingAoe(string _effectName, GameObject _aoePrefab, int _id = -1, float _power = 0, int _school = -1){
         effectName = _effectName;
