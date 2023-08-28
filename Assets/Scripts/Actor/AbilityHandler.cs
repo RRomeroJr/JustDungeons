@@ -532,7 +532,7 @@ public class AbilityHandler : NetworkBehaviour
             //When the game is running a window seems to break if an instant ability (Like autoattack)
             //goes off closely before a casted ability. So this check was implemented to fix it
 
-            RpcResetCastVarsGCDReset();
+            RpcResetCastVars();
         }
         if (HBCTools.areHostle(transform, _target))
         {
