@@ -9,7 +9,6 @@ using Mirror;
 
 public static class Extensions
 {
-    
     public static List<AbilityEff> cloneEffects(this List<AbilityEff> AE_list){
         List<AbilityEff> listToReturn = new List<AbilityEff>();
         if(AE_list.Count > 0){
@@ -140,4 +139,33 @@ public static class Extensions
         return indices;
     
     }
+    /// <summary>
+    ///	Safe way to get transform of Monobeviour. Returns null is the MO is null
+    /// </summary>
+    public static Transform transformSafe(this MonoBehaviour _mo)
+    {
+        try
+        {
+            return _mo.transform;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+    /// <summary>
+    ///	Safe way to get transform of Monobeviour. Returns null is the MO is null
+    /// </summary>
+    public static T GetComponentSafe<T>(this Transform _trans)
+    {
+        try
+        {
+            return _trans.GetComponent<T>();
+        }
+        catch
+        {
+            return default;
+        }
+    }
+
 }
