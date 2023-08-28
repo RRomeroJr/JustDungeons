@@ -168,7 +168,7 @@ public static class Extensions
         }
     }
     /// <summary>
-    ///	TryGetCompontent but safe. Will return false if called on null transform
+    ///	TryGetCompontent but safe. Will return false if called on null transform. This may be slow be slow. I'd be careful using it too much
     /// </summary>
     public static bool TryGetComponentSafe<T>(this Transform _trans, out T _someComp)
     {
