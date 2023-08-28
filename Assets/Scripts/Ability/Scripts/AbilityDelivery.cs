@@ -402,7 +402,7 @@ public class AbilityDelivery : NetworkBehaviour
         // {
         //     Debug.Log("_hitActor null");
         // }
-        if(onlyHitTarget && (_hitActor != Target))
+        if(onlyHitTarget && (_hitActor.transform != Target))
         {
             return true;
         }
