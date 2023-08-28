@@ -16,6 +16,7 @@ public class SaytrMultiboss : Multiboss
     
     void Start(){
         StartCoroutine(SearchForPartners());
+        GameManager.instance.OnActorEnterCombat.AddListener(ChainAggro);
     }
     public override IEnumerator SearchForPartners(){
         RaycastHit2D[] castHits = new RaycastHit2D[0];
