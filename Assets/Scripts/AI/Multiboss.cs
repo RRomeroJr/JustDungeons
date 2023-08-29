@@ -151,4 +151,16 @@ public abstract class Multiboss: MonoBehaviour
     {
         RemoveSelfFromPartners();
     }
+
+    public void SetAllPartnersTarget(Actor _newTarget)
+    {
+        if(partners.Count < 0){
+            return;
+        }
+        Actor.SetTarget(_newTarget);
+
+        foreach(Actor partner in partners){
+            partner.SetTarget(_newTarget);
+        }
+    }
 }
