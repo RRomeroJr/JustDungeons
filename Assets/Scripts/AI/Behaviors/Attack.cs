@@ -7,7 +7,7 @@ public class Attack : ActionNode
     public Ability_V2 ability;
     bool castStarted;
     bool castFinished;
-    public bool targetSelf = false;
+    public HBCTools.ContextualTarget contextualTarget = HBCTools.ContextualTarget.Blackboard;
     public bool tryOnce = false;
     protected override void OnStart()
     {
@@ -30,22 +30,15 @@ public class Attack : ActionNode
     {
         if(context.actor.IsCasting == false){
 
-            // if((ability.getCastTime() > 0.0)&&(ability.castWhileMoving == false)){
-            //     context.agent.isStopped = true;
-
-            // }
-            //Debug.Log(context.controller.target.GetComponent<Actor>().getActorName());
-            Transform _target = targetSelf ? context.actor.transform : blackboard.target;
-            if (_target != null)
+            Transform _target = ContextualTargetToGmObj(contextualTarget).transformSafe();
+            
+            if (tryOnce)
             {
-                if (tryOnce)
-                {
-                    return BoolToState(context.actor.castAbility3(ability, _target));
-                }
-                else
-                {
-                    context.actor.castAbility3(ability, _target);
-                }
+                return BoolToState(context.actor.castAbility3(ability, _target));
+            }
+            else
+            {
+                context.actor.castAbility3(ability, _target);
             }
         }
         else
