@@ -83,9 +83,15 @@ namespace TheKiwiCoder {
                         return (_comp as EnemyController).followTarget.gameObject;
                     }
                     break;
-
+                case HBCTools.ContextualTarget.Blackboard:
+                    return blackboard.target.gameObject;
+                    break;
             }
             return null;
+        }
+        public T ContextTargetGetComponent<T>(HBCTools.ContextualTarget _contextualTarget)
+        {
+            return ContextualTargetToGmObj(_contextualTarget).GetComponent<T>();
         }
         public State BoolToState(bool _bool)
         {

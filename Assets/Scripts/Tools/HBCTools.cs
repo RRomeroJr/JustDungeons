@@ -16,7 +16,8 @@ public static class HBCTools
         ArenaObject,
         Self,
         Target,
-        FollowTarget
+        FollowTarget,
+        Blackboard
     }
     public static bool checkIfBehind(Actor actorToCheck, Actor target){
         // get a vector corressonding to the distance btwn the actorToCheck and taget

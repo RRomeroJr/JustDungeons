@@ -154,6 +154,20 @@ public static class Extensions
         }
     }
     /// <summary>
+    ///	Safe way to get transform of GameObject. Returns null is the GO is null
+    /// </summary>
+    public static Transform transformSafe(this GameObject _go)
+    {
+        try
+        {
+            return _go.transform;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+    /// <summary>
     ///	Safe way to a Comp from a transform. Will return null if transform is null
     /// </summary>
     public static T GetComponentSafe<T>(this Transform _trans)
