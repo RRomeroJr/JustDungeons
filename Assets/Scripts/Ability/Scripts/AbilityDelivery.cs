@@ -199,7 +199,7 @@ public class AbilityDelivery : NetworkBehaviour
         }
 
         //Debug.Log("Actor found and passes conditions");
-        if ((type == 2) || (type == 3) || (type == 5))
+        if ((type == 2) || (type == 3) || (type == 5) || (type == 6))
         {
             if ((hitActor != Caster) || canHitSelf)
             {
