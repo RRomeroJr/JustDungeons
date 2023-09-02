@@ -95,13 +95,18 @@ public class Hotbutton: MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
     void Update(){
         
         if(abilityCooldown == null){
+            
             if(UIManager.playerActor.checkOnCooldown(ability)){
                 cooldownIndex = UIManager.playerActor.abilityCooldowns.FindIndex(x => x.abilityName == ability.getName());
                 abilityCooldown = UIManager.playerActor.abilityCooldowns[cooldownIndex];
                 // Debug.Log("abilityCooldown set");
                 cooldownSlider.maxValue = ability.getCooldown();
                 cooldownSlider.value = abilityCooldown.remainingTime;
-
+            }
+            else if(!ability.offGDC)
+            {
+                cooldownSlider.value = UIManager.playerActor.controller.globalCooldown;
+                cooldownSlider.maxValue = Controller.gcdBase;
             }
         }
         else{
