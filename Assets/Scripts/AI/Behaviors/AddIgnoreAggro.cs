@@ -15,7 +15,7 @@ public class AddIgnoreAggro : ActionNode
 
     protected override State OnUpdate()
     {
-        (context.controller as EnemyController).tauntImmune += 1;
+        (context.controller as EnemyController).ignoreAggro += 1;
         return State.Success;
         
     }

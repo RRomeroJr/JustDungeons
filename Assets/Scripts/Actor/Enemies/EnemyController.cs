@@ -27,6 +27,7 @@ public class EnemyController : Controller
     public Actor aggroTarget;
     public int phase = 0;
     public uint tauntImmune = 0;
+    public uint ignoreAggro = 0;
     protected override void Awake()
     {
         base.Awake();
@@ -281,7 +282,7 @@ public class EnemyController : Controller
             return;
         }
         
-        if(tauntImmune > 0)
+        if(ignoreAggro > 0)
         {
             return;
         }
