@@ -2,10 +2,11 @@
 using UnityEngine;
 
 [TargetFinding]
-public class TargetRandom : ActionNode
+public class TargetRoleRandom : ActionNode
 {
     public LayerMask targetMask;
     public float range;
+    public Role role;
 
     protected override void OnStart()
     {
@@ -17,10 +18,10 @@ public class TargetRandom : ActionNode
 
     protected override State OnUpdate()
     {
-        Transform res = context.controller.FindRandomTarget(targetMask, range);
-        if (res != null)
-        {   
-            blackboard.target = res;
+        blackboard.targets = context.controller.FindTargetsByRole(targetMask, range, role);
+        if (blackboard.targets.Count > 0)
+        {
+            blackboard.target = blackboard.targets[UnityEngine.Random.Range(0, blackboard.targets.Count)];
             return State.Success;
         }
         return State.Failure;
