@@ -154,13 +154,24 @@ public abstract class Multiboss: MonoBehaviour
 
     public void SetAllPartnersTarget(Actor _newTarget)
     {
+        Actor.SetTarget(_newTarget);
         if(partners.Count < 0){
             return;
         }
-        Actor.SetTarget(_newTarget);
 
         foreach(Actor partner in partners){
             partner.SetTarget(_newTarget);
+        }
+    }
+    public void ReadyAllPartners()
+    {
+        comboReady = true;
+        if(partners.Count < 0){
+            return;
+        }
+
+        foreach(Actor partner in partners){
+            partner.GetComponent<Multiboss>().comboReady = true;
         }
     }
 }
