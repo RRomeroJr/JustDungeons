@@ -10,17 +10,20 @@ public class Swap : AbilityEff
 	
     public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
+        try
+        {
        
-       if(target == null){
-        return;
-       }
-       if(caster == null){
-        return;
-       }
-        Vector3 casterPos = caster.transform.position;
-        caster.transform.position = target.transform.position;
-        target.transform.position = casterPos;
-
+            if(target == null){
+                return;
+            }
+            if(caster == null){
+                return;
+            }
+            Vector3 casterPos = caster.transform.position;
+            caster.transform.position = target.transform.position;
+            target.transform.position = casterPos;
+        }
+        catch{}
         
     }
     public override void clientEffect()

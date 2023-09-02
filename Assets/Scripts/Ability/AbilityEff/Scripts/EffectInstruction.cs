@@ -15,14 +15,8 @@ public class EffectInstruction
     
     public void startEffect(Transform inTarget = null, NullibleVector3 inTargetWP = null, Actor inCaster = null, Actor inSecondaryTarget = null){
         //Debug.Log(inTargetWP == null ? "eInstruct: No targetWP" : ("eInstruct: wp = " + inTargetWP.Value.ToString()));
-        try
-        {
-            effect.startEffect(inTarget, inTargetWP, inCaster, inSecondaryTarget);
-        }
-        catch(Exception e)
-        {
-            Debug.LogError(e.Message + "\n" + e.StackTrace);
-        }
+
+        effect.startEffect(inTarget, inTargetWP, inCaster, inSecondaryTarget);
     }
     Actor getTarget(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null){
         switch(targetArg){

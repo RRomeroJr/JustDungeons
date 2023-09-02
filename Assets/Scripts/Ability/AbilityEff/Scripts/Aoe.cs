@@ -14,7 +14,8 @@ public class Aoe : DeliveryEff
     
     public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
-        
+        try
+        {            
             //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
             //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
             //Debug.Log(_targetWP == null ? "Aoe: No targetWP" : ("Aoe: wp = " + _targetWP.Value.ToString()));
@@ -31,7 +32,8 @@ public class Aoe : DeliveryEff
                 RR: this works bc the prefab already has variables in AbilityDelivery set to what I want.
                 Not sure if this is the best way but it seems to work fine
             */
-        
+        }
+        catch{}
        
     }
     public Aoe(string _effectName, GameObject _aoePrefab, int _id = -1, float _power = 0, int _school = -1){

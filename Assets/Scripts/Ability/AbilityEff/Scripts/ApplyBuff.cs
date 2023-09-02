@@ -14,7 +14,8 @@ public class ApplyBuff : AbilityEff
     
     public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
-        // Debug.Log("Apply Buff");
+        try
+        {        // Debug.Log("Apply Buff");
         // Debug.Log("Apply " + buffID.name + ": to" +(_target != null ? target.ActorName : " No target ") + ", " + (_caster != null ?  _caster.ActorName : " No caster"));
 
         _target.GetComponent<IBuff>().AddBuff(buffSO);
@@ -26,7 +27,8 @@ public class ApplyBuff : AbilityEff
 
         //below wasn't used
         //tempBuff_ref.eInstructs = eInstructs;
-        
+        }
+        catch{}
     }
     
     public ApplyBuff(){}

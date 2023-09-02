@@ -12,7 +12,10 @@ public class DisableMovement : AbilityEff
     
     public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
-       
+        try
+        {
+        }
+        catch{}  
         
     }
     public override void buffStartEffect()

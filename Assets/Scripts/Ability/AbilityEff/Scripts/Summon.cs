@@ -12,14 +12,18 @@ public class Summon : AbilityEff
 	
     public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
-        if(mobPrefab == null)
-        {
-            Debug.LogError(name + ": mobPrefab was null");
-        }
+        try
+        {        
+            if(mobPrefab == null)
+            {
+                Debug.LogError(name + ": mobPrefab was null");
+            }
 
-        GameObject inst = Instantiate(mobPrefab, targetWP.Value, Quaternion.identity);
-        
-        NetworkServer.Spawn(inst);
+            GameObject inst = Instantiate(mobPrefab, targetWP.Value, Quaternion.identity);
+            
+            NetworkServer.Spawn(inst);
+        }
+        catch{}
     }
     // public override void clientEffect()
     // {

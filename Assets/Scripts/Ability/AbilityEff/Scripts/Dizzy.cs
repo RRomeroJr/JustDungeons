@@ -14,13 +14,15 @@ public class Dizzy : AbilityEff
     GameObject indicatorRef;
     public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
-       
+        try
+        {       
         //Hopefully this rotates the moveVector in the y axis by power every frame
         
         //indicatorRef.transform.position = parentBuff.actor.transform.position;
         
         clientEffect();
-        
+        }
+        catch{}
     }
     public override void clientEffect()
     {

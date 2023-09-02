@@ -11,9 +11,11 @@ public class Interrupt : AbilityEff
 	
     public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
-       //Debug.Log("Interrupt start effect");
+        try
+        {       //Debug.Log("Interrupt start effect");
         //target.interruptCast();
-        
+        }
+        catch{}
         
     }
     public override void clientEffect()

@@ -10,7 +10,8 @@ public class LineAoe : Aoe
 
     public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
-        //Debug.Log("Ring Aoe start effect");
+        try
+        {        //Debug.Log("Ring Aoe start effect");
         //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
         //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
         //Debug.Log(_targetWP == null ? "RingAoe: No targetWP" : ("RingAoe: wp = " + _targetWP.Value.ToString()));
@@ -41,7 +42,8 @@ public class LineAoe : Aoe
             abilityDelivery.transform.right = Vector3.Normalize(_targetWP.Value - abilityDelivery.transform.position);
         }
         NetworkServer.Spawn(ability);
-        
+        }
+        catch{}
     }
 
     public LineAoe(string _effectName, GameObject _aoePrefab, int _id = -1, float _power = 0, int _school = -1)

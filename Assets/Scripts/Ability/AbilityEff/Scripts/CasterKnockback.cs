@@ -10,7 +10,8 @@ public class CasterKnockback : AbilityEff
     public int school = -1;
     public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
-       
+        try
+        {       
        Vector2 force = new Vector2();
        force = _target.transform.position - _caster.transform.position;
        force.Normalize();
@@ -20,6 +21,8 @@ public class CasterKnockback : AbilityEff
         {
             targetActor.Knockback(force);
         }
+        }
+        catch{}
 
     }
     public CasterKnockback(string _effectName, int _id = -1, float _power = 0, int _school = -1){

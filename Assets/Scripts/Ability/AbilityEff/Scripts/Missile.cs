@@ -17,7 +17,8 @@ public class Missile : DeliveryEff
     
     public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
-        //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
+        try
+        {        //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
         //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
         // Debug.Log("startEffect Missile");
         GameObject delivery;
@@ -62,6 +63,8 @@ public class Missile : DeliveryEff
             RR: this works bc the prefab already has variable set to what I want.
             Not sure if this is the best way but it seems to work fine
         */
+        }
+        catch{}
     }
     public Missile(string _effectName, GameObject _misslePrefab, int _id = -1, float _power = 0, int _school = -1){
         effectName = _effectName;

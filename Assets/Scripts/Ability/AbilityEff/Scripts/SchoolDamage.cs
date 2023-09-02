@@ -10,12 +10,18 @@ public class SchoolDamage : AbilityEff
     public int school = -1;
     public ActorStats scaleStat = ActorStats.MainStat;
     public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
-        if(caster != null){
-            target.damageValue((int)power + (int)(caster.GetStat(scaleStat) * powerScale), fromActor: caster);
+        try
+        {
+            if(caster != null){
+                target.damageValue((int)power + (int)(caster.GetStat(scaleStat) * powerScale), fromActor: caster);
+            }
+            else{
+                target.damageValue((int)power);
+            }
         }
-        else{
-           target.damageValue((int)power);
-
+        catch
+        {
+            // DebugMsgs(_target, _caster: _caster);
         }
     //    Debug.Log(power.ToString() + " + " + caster.mainStat.ToString() + " * " + powerScale.ToString());
     }
@@ -39,5 +45,25 @@ public class SchoolDamage : AbilityEff
         // temp_ref.targetIsSecondary = targetIsSecondary;
 
         return temp_ref;
+    }
+
+    public void DebugMsgs(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    {
+        if(!_target)
+        {
+            Debug.LogError(effectName + ": no _target");
+        }
+        if(!target)
+        {
+            Debug.LogError(effectName + ": no effect.target");
+        }
+        if(!_caster)
+        {
+            Debug.LogError(effectName + ": no _caster");
+        }
+        if(!caster)
+        {
+            Debug.LogError(effectName + ": no effect.caster");
+        }
     }
 }

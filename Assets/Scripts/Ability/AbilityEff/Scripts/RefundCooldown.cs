@@ -11,7 +11,10 @@ public class RefundCooldown : AbilityEff
 	
     public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
-        target.RefundCooldown(ability, power);
+        try
+        {        target.RefundCooldown(ability, power);
+        }
+        catch{}
     }
     public override void clientEffect()
     {

@@ -12,10 +12,13 @@ public class Purge : AbilityEff
     
     public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
         // Debug.Log("Apply Buff");
+        try{
         if (_target.TryGetComponent(out IBuff buffHandler))
         {
             buffHandler.RemoveRandomBuff(b => (b.BuffSO.isDebuff == false) && b.BuffSO.dispellable);
         }
+        }
+        catch{}
     }
     
     public Purge(){}

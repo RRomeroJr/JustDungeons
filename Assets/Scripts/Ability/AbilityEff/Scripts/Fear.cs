@@ -15,7 +15,8 @@ public class Fear : AbilityEff
     
     public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
-       if(hasAuthOverNT){
+        try
+        {       if(hasAuthOverNT){
             //parentBuff.actor.transform.position = Vector2.MoveTowards(parentBuff.actor.transform.position, parentBuff.target.transform.position, power);
 
             //parentBuff.actor.GetComponent<NavMeshAgent>().SetDestination(HBCtools.randomPointInRadius(parentBuff.Actor.transform.position, 4.0f));
@@ -33,6 +34,8 @@ public class Fear : AbilityEff
                 
             }
        }
+       }
+        catch{}
     }
     public override void buffStartEffect()
     {

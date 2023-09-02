@@ -10,7 +10,9 @@ public class Heal : AbilityEff
     public int school;
     public ActorStats scaleStat = ActorStats.HealingPower;
     public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
-        if(target == null){
+        try
+        {
+            if(target == null){
             Debug.LogError(name + "| no target. returning");
         }
        if(caster !=null){
@@ -19,6 +21,8 @@ public class Heal : AbilityEff
         else{
             target.restoreValue((int)power);
         }
+        }
+        catch{}
     }
     public Heal(string _effectName, int _id = -1, float _power = 0, int _school = -1){
         effectName = _effectName;

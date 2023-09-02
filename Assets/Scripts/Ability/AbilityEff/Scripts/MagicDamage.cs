@@ -10,10 +10,13 @@ public class MagicDamage : AbilityEff
     public int school = -1;
     public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
-        if (_target.TryGetComponent(out Actor targetActor))
+        try
+        {        if (_target.TryGetComponent(out Actor targetActor))
         {
             targetActor.damageValue((int)power);
         }
+        }
+        catch{}
     }
     public MagicDamage(string _effectName, int _id = -1, float _power = 0, int _school = -1){
         effectName = _effectName;
