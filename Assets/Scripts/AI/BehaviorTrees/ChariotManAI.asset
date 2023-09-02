@@ -623,7 +623,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 400ef50c586191b4db811b23c4c4deb8
-  position: {x: -37.514, y: 731.65356}
+  position: {x: -43.999935, y: 731.2}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -632,7 +632,7 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   ability: {fileID: 11400000, guid: 97e10e75bc078e3418ab74d2544eeb4e, type: 2}
-  targetSelf: 0
+  contextualTarget: 2
   tryOnce: 0
 --- !u!114 &-1704096713112807213
 MonoBehaviour:
@@ -814,6 +814,7 @@ MonoBehaviour:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
+    targets: []
   description: 
   drawGizmos: 0
   children:
@@ -1456,6 +1457,7 @@ MonoBehaviour:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
+    targets: []
   description: 
   drawGizmos: 0
   children:
