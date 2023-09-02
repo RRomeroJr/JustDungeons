@@ -85,7 +85,7 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   ability: {fileID: 11400000, guid: 4ab42603cefb69643b9deea4be861e99, type: 2}
-  targetSelf: 0
+  contextualTarget: 1
   tryOnce: 0
 --- !u!114 &-7330126254191807548
 MonoBehaviour:
@@ -796,7 +796,7 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   ability: {fileID: 11400000, guid: 4ab42603cefb69643b9deea4be861e99, type: 2}
-  targetSelf: 0
+  contextualTarget: 1
   tryOnce: 0
 --- !u!114 &4648865473694182251
 MonoBehaviour:
@@ -851,7 +851,7 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   ability: {fileID: 11400000, guid: 794222b41b160d344a1822a6d5a2972a, type: 2}
-  targetSelf: 0
+  contextualTarget: 4
   tryOnce: 0
 --- !u!114 &5187434309070107005
 MonoBehaviour:
