@@ -20,6 +20,7 @@ MonoBehaviour:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
+    targets: []
   description: 
   drawGizmos: 0
 --- !u!114 &-5391588442248254115
@@ -42,6 +43,7 @@ MonoBehaviour:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
+    targets: []
   description: 
   drawGizmos: 0
   children:
@@ -67,10 +69,11 @@ MonoBehaviour:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
+    targets: []
   description: 
   drawGizmos: 0
   ability: {fileID: 11400000, guid: 95ae9bfc588f9ab4693b1bc72b7738cf, type: 2}
-  targetSelf: 0
+  contextualTarget: 4
   tryOnce: 1
 --- !u!114 &-3026334861031142509
 MonoBehaviour:
@@ -92,6 +95,7 @@ MonoBehaviour:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
+    targets: []
   description: 
   drawGizmos: 0
 --- !u!114 &-2771419206414558020
@@ -140,10 +144,11 @@ MonoBehaviour:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
+    targets: []
   description: 
   drawGizmos: 0
   ability: {fileID: 11400000, guid: baa5cf8225fc5984cbc3261c7fe52f44, type: 2}
-  targetSelf: 0
+  contextualTarget: 2
   tryOnce: 1
 --- !u!114 &-2145532510516311284
 MonoBehaviour:
@@ -165,6 +170,7 @@ MonoBehaviour:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
+    targets: []
   description: 
   drawGizmos: 0
   children:
@@ -190,6 +196,7 @@ MonoBehaviour:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
+    targets: []
   description: 
   drawGizmos: 0
 --- !u!114 &11400000
@@ -219,6 +226,7 @@ MonoBehaviour:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
+    targets: []
 --- !u!114 &2926658079831878248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,6 +247,7 @@ MonoBehaviour:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
+    targets: []
   description: 
   drawGizmos: 0
   child: {fileID: -4911573394201159968}
@@ -263,6 +272,7 @@ MonoBehaviour:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
+    targets: []
   description: 
   drawGizmos: 0
   child: {fileID: 7221063678469256655}
@@ -286,6 +296,7 @@ MonoBehaviour:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
+    targets: []
   description: 
   drawGizmos: 0
   child: {fileID: -5391588442248254115}
