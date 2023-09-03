@@ -42,10 +42,10 @@ public class Missile : DeliveryEff
         if(isSkillshot){
             
             delivery.GetComponent<AbilityDelivery>().worldPointTarget = getWP(_secondaryTarget, targetWP);
-            
-            //Debug.Log("setting delivery to 1");
-            delivery.GetComponent<AbilityDelivery>().type = 1;
-        }
+
+                //Debug.Log("setting delivery to 1");
+                delivery.GetComponent<AbilityDelivery>().type = AbilityType.Skillshot;
+            }
         else{
             delivery.GetComponent<AbilityDelivery>().type = 0;
             delivery.GetComponent<AbilityDelivery>().Target = _secondaryTarget.transformSafe();

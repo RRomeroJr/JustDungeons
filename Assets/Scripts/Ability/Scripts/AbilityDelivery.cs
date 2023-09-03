@@ -8,8 +8,10 @@ public enum AbilityType
     Normal,
     Skillshot = 1,
     Aoe = 2,
+    TargetedAoe = 3, // Not sure if this is used
     RingAoe = 4,
-    LineAoe = 5
+    LineAoe = 5,
+    LineAoeSimple = 6
 }
 
 public class AbilityDelivery : NetworkBehaviour
@@ -33,7 +35,7 @@ public class AbilityDelivery : NetworkBehaviour
     public bool connectedToCaster = false;
     public float delayTimer = 0.0f;
     public bool start = true;
-    public int type; // 0 detroys when reaches target, 1 = skill shot
+    public AbilityType type; // 0 detroys when reaches target, 1 = skill shot
     public float speed;
     public float duration;
     public float tickRate = 1.5f; // an AoE type will hit you every tickRate secs
@@ -75,7 +77,7 @@ public class AbilityDelivery : NetworkBehaviour
             {
                 eI.effect.parentDelivery = this;
             }
-            if (type == 1)
+            if (type == AbilityType.Skillshot)
             {
                 skillshotvector = worldPointTarget - transform.position;
                 //Debug.Log(worldPointTarget - transform.position);
@@ -84,19 +86,19 @@ public class AbilityDelivery : NetworkBehaviour
                 //Debug.Log(gameObject.name + "| skillshot wpT " + worldPointTarget);
                 //Debug.Log(gameObject.name + "| skillshotvector set:" + worldPointTarget + " + " + transform.position);
             }
-            if (type == 2)
+            if (type == AbilityType.Aoe)
             { // Normal Aoe 
                 //gameObject.transform.position = worldPointTarget;
             }
-            if (type == 3)
+            if (type == AbilityType.TargetedAoe)
             { // This was for targeted aoes but is now obsolete
                 //gameObject.transform.position = target.transform.position;
             }
-            if (type == 4)
+            if (type == AbilityType.RingAoe)
             { //Ring Aoe
                 //gameObject.transform.position = worldPointTarget;
             }
-            if (type == 5)
+            if (type == AbilityType.LineAoe)
             { //line aoe
               //Debug.Log("Start type 5: LineAoe");
               // transform.right = worldPointTarget - transform.position;         
@@ -124,7 +126,7 @@ public class AbilityDelivery : NetworkBehaviour
         {
             return;
         }
-        if ((type != 0) && (type != 1) && (type != 5))
+        if ((type != AbilityType.Normal) && (type != AbilityType.Skillshot) && (type != AbilityType.LineAoe))
         {
             return;
         }
@@ -199,7 +201,7 @@ public class AbilityDelivery : NetworkBehaviour
         }
 
         //Debug.Log("Actor found and passes conditions");
-        if ((type == 2) || (type == 3) || (type == 5) || (type == 6))
+        if ((type == AbilityType.Aoe) || (type == AbilityType.TargetedAoe) || (type == AbilityType.LineAoe) || (type == AbilityType.LineAoeSimple))
         {
             if ((hitActor != Caster) || canHitSelf)
             {
@@ -220,7 +222,7 @@ public class AbilityDelivery : NetworkBehaviour
                 // make version that has a set number for ticks?
             }
         }
-        if (type == 4)
+        if (type == AbilityType.RingAoe)
         {
             //Debug.Log("type 4 onTiggerStay");
             if ((hitActor != Caster) || canHitSelf)
@@ -277,15 +279,15 @@ public class AbilityDelivery : NetworkBehaviour
         {
             return;
         }
-        if (type == 0)
+        if (type == AbilityType.Normal)
         {
             transform.position = Vector2.MoveTowards(transform.position, Target.position, speed);
         }
-        else if (type == 1)
+        else if (type == AbilityType.Skillshot)
         {
             transform.position = (Vector2)transform.position + skillshotvector;
         }
-        else if (type == 5)
+        else if (type == AbilityType.LineAoe)
         {
             if (trackTarget)
             {
@@ -335,7 +337,7 @@ public class AbilityDelivery : NetworkBehaviour
                     }
                 }
 
-                if (type == 4)
+                if (type == AbilityType.RingAoe)
                 {
                     safeZoneCenter = transform.GetChild(0).transform.position;
                 }
