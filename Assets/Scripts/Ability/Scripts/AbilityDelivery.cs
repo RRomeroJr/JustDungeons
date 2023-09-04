@@ -14,6 +14,13 @@ public enum AbilityType
     LineAoeSimple = 6
 }
 
+[System.Serializable]
+public struct RotationElement
+{
+    public float Duration;
+    public float RotationsPerSecond;
+}
+
 public class AbilityDelivery : NetworkBehaviour
 {
     /*
@@ -57,8 +64,7 @@ public class AbilityDelivery : NetworkBehaviour
     public bool checkAtFeet = false;
     public bool onlyHitTarget = false;
 
-    [field: SerializeField] public float RotationsPerSecond { get; private set; }
-    [SerializeField] private List<SerializableTuple<float, float>> rotationSequence;
+    [SerializeField] private List<RotationElement> rotationSequence;
 
     void OnValidate()
     {
