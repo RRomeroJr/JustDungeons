@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class AbilityDeliveryMovementController
+public sealed class AbilityDeliveryTransformationController
 {
     private float _remainingRotationTime;
     private int _rotationIndex;
@@ -17,7 +17,7 @@ public sealed class AbilityDeliveryMovementController
     private float RotationsPerSecond => _rotationSequence[_rotationIndex].RotationsPerSecond;
     private bool IsTracking => _abilityDelivery.trackTarget;
 
-    public AbilityDeliveryMovementController(AbilityDelivery abilityDelivery, List<RotationElement> rotationSequence)
+    public AbilityDeliveryTransformationController(AbilityDelivery abilityDelivery, List<RotationElement> rotationSequence)
     {
         _abilityDelivery = abilityDelivery;
         _rotationSequence = rotationSequence;

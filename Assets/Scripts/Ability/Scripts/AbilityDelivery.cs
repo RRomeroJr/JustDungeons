@@ -66,6 +66,8 @@ public class AbilityDelivery : NetworkBehaviour
 
     [SerializeField] private List<RotationElement> rotationSequence;
 
+    private AbilityDeliveryTransformationController _movementController;
+
     void OnValidate()
     {
         if (followTarget && followCaster)
@@ -101,7 +103,7 @@ public class AbilityDelivery : NetworkBehaviour
             {
                 //
             }
-            _movementController = new AbilityDeliveryMovementController(this, rotationSequence);
+            _movementController = new AbilityDeliveryTransformationController(this, rotationSequence);
             }
         }
 
