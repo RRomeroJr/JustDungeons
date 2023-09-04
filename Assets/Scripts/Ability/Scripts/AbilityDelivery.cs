@@ -49,7 +49,6 @@ public class AbilityDelivery : NetworkBehaviour
     public int aoeCap;
     public bool followTarget;
     public bool followCaster;
-    public bool trackTarget;
     public bool useDisconnectTimer = false;
     public float disconnectTimer;
     public bool ignoreDuration = true;
@@ -65,6 +64,10 @@ public class AbilityDelivery : NetworkBehaviour
     public bool onlyHitTarget = false;
 
     [SerializeField] private List<RotationElement> rotationSequence;
+
+    [Header("Line Aoe Specific")]
+    [Tooltip("Whether or not Line Aoes should point towards their target or not")]
+    public bool trackTarget;
 
     private AbilityDeliveryTransformationController _movementController;
 
