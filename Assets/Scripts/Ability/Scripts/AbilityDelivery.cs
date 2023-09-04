@@ -92,23 +92,6 @@ public class AbilityDelivery : NetworkBehaviour
                 //Debug.Log(gameObject.name + "| skillshot wpT " + worldPointTarget);
                 //Debug.Log(gameObject.name + "| skillshotvector set:" + worldPointTarget + " + " + transform.position);
             }
-            if (type == AbilityType.Aoe)
-            { // Normal Aoe 
-                //gameObject.transform.position = worldPointTarget;
-            }
-            if (type == AbilityType.TargetedAoe)
-            { // This was for targeted aoes but is now obsolete
-                //gameObject.transform.position = target.transform.position;
-            }
-            if (type == AbilityType.RingAoe)
-            { //Ring Aoe
-                //gameObject.transform.position = worldPointTarget;
-            }
-            if (type == AbilityType.LineAoe)
-            { //line aoe
-              //Debug.Log("Start type 5: LineAoe");
-              // transform.right = worldPointTarget - transform.position;         
-            }
             if (connectedToCaster)
             {
                 float tempDist = GetComponent<Renderer>().bounds.size.x / 2.0f;
@@ -118,13 +101,9 @@ public class AbilityDelivery : NetworkBehaviour
             {
                 //
             }
-            if (rotationSequence != null && rotationSequence.Count > 0)
-            {
-                rotationSequence.Add(new SerializableTuple<float, float>(rotationSequence[0]));
-                RotationsPerSecond = rotationSequence[0].Item2;
+            _movementController = new AbilityDeliveryMovementController(this, rotationSequence);
             }
         }
-    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -285,46 +264,16 @@ public class AbilityDelivery : NetworkBehaviour
         {
             return;
         }
-        if (type == AbilityType.Normal)
-        {
-            transform.position = Vector2.MoveTowards(transform.position, Target.position, speed);
-        }
-        else if (type == AbilityType.Skillshot)
-        {
-            transform.position = (Vector2)transform.position + skillshotvector;
-        }
-        else if (type == AbilityType.LineAoe)
-        {
-            if (trackTarget)
-            {
-                Vector3 targetLocation = Target != null ? Target.position : worldPointTarget;
-                if (targetLocation != null)
-                {
-                    transform.right = Vector3.Normalize(targetLocation - transform.position);
-                }
-            }
-        }
-        // Rotation logic
-        if (!Mathf.Approximately(RotationsPerSecond, 0))
-        {
-            Vector3 rotation = new Vector3(0, 0, RotationsPerSecond * 360) * Time.fixedDeltaTime;
-            transform.Rotate(rotation, Space.World);
-        }
+
+        _movementController.Move();
+        _movementController.TrackTarget();
+        _movementController.Rotate();
     }
 
     void Update()
     {
         if (isServer)
         {
-            if (followCaster && Caster != null)
-            {
-                transform.position = Caster.transform.position;
-            }
-            else if (followTarget && Target != null)
-            {
-                transform.position = Target.position;
-            }
-
             if ((useDisconnectTimer) && (disconnectTimer <= 0))
             {
                 followTarget = false;
@@ -354,19 +303,6 @@ public class AbilityDelivery : NetworkBehaviour
                 if (delayTimer <= 0.0f)
                 {
                     start = true;
-                }
-            }
-            if (rotationSequence != null && rotationSequence.Count > 0)
-            {
-                rotationSequence[0].Item1 -= Time.deltaTime;
-                // Prep next element of sequence by adding copy to end of list,
-                // adding remaining time to next element, remove current element and update RotationsPerSecond
-                if (rotationSequence[0].Item1 <= 0)
-                {
-                    rotationSequence.Add(new SerializableTuple<float, float>(rotationSequence[1]));
-                    rotationSequence[1].Item1 += rotationSequence[0].Item1;
-                    rotationSequence.RemoveAt(0);
-                    RotationsPerSecond = rotationSequence[0].Item2;
                 }
             }
         }
