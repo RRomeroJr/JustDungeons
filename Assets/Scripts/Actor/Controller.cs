@@ -95,19 +95,16 @@ public class Controller : NetworkBehaviour
                 autoAttacking = false;
                 return;
             }
-            if (abilityHandler.CheckOnCooldown(autoAttackClone) == false)
+            if (abilityHandler.CheckOnCooldown(autoAttackClone) == false && autoAttackRequest == false)
             {
-                if (autoAttackRequest == false)
+                //request aa commad?
+                if (isServer)
                 {
-                    //request aa commad?
-                    if (isServer)
-                    {
-                        handleAutoAttackRequest();
-                    }
-                    else
-                    {
-                        requestAutoAttack();
-                    }
+                    handleAutoAttackRequest();
+                }
+                else
+                {
+                    requestAutoAttack();
                 }
             }
         }
@@ -183,12 +180,6 @@ public class Controller : NetworkBehaviour
         }
     }
 
-    // [Command]
-    // public void CmdSetTryingToMove(bool _valFromClient)
-    // {
-    //     tryingToMove = _valFromClient;
-    // }
-
     public bool moveToPoint(Vector2 pos)
     {
         if (resolvingMoveTo)
@@ -199,14 +190,6 @@ public class Controller : NetworkBehaviour
         StartCoroutine(IE_moveToPoint(pos));
         return true;
     }
-
-    // public bool moveToPoint(Vector2 pos, float tempMoveSpeed){
-    //     if(resolvingMoveTo){
-    //         return false;
-    //     }
-    //     StartCoroutine(IE_moveToPoint(pos, tempMoveSpeed));
-    //     return true;
-    // }
 
     public void moveOffOtherUnits()
     {
@@ -250,17 +233,6 @@ public class Controller : NetworkBehaviour
         }
 
     }
-    //  IEnumerator IE_moveToPoint(Vector2 pos, float tempMoveSpeed){
-    //     float moveSpeedHolder = agent.speed;
-    //     agent.speed = tempMoveSpeed;
-    //     StartCoroutine(IE_moveToPoint(pos));
-    //     while(resolvingMoveTo){
-    //         yield return new WaitForSeconds(0.2f);
-    //     }
-    //     Debug.Log(actor.getActorName()+": Returning normal agent speed");
-    //     agent.speed = moveSpeedHolder;
-
-    // }
 
     float getStoppingDistance(GameObject _target)
     {
@@ -393,17 +365,11 @@ public class Controller : NetworkBehaviour
             return;
         }
 
-            GetComponent<NavMeshAgent>().SetDestination(followTarget.transform.position);
-            if(agent.enabled){
-                if(agent.isStopped)
-                {
-                    agent.isStopped = false;
-                    // Debug.Log("Unstopping to follow something");
-                }
-            }
+        agent.SetDestination(followTarget.transform.position);
+        if (agent.enabled && agent.isStopped)
+        {
+            agent.isStopped = false;
+            // Debug.Log("Unstopping to follow something");
         }
     }
-    
-
-    
 }

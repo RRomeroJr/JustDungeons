@@ -236,14 +236,17 @@ public class EnemyController : Controller
             Debug.Log("No overlap");
         }
     }
-    public void AggroSearch(){
+
+    public void AggroSearch()
+    {
         Transform res = FindClosetTarget(LayerMask.GetMask("Player"), aggroRadius);
 
         if (res)
         {
             actor.CheckStartCombatWith(res.GetComponent<Actor>());
         }
-
+    }
+    
     public bool Aggro(Actor _aggroTarget, bool _setAutoAttack = true, bool _checkStartCombatWith = true)
     {
         if (_aggroTarget == null)
