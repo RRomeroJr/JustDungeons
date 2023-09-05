@@ -81,198 +81,29 @@ public class AbilityDelivery : NetworkBehaviour
 
     void Start()
     {
-        if (isServer)
-        {
-            aoeDamageableIgnore = new();
-            foreach (EffectInstruction eI in eInstructs)
-            {
-                eI.effect.parentDelivery = this;
-            }
-            if (type == AbilityType.Skillshot)
-            {
-                skillshotvector = worldPointTarget - transform.position;
-                //Debug.Log(worldPointTarget - transform.position);
-                skillshotvector.Normalize();
-                skillshotvector = speed * skillshotvector;
-                //Debug.Log(gameObject.name + "| skillshot wpT " + worldPointTarget);
-                //Debug.Log(gameObject.name + "| skillshotvector set:" + worldPointTarget + " + " + transform.position);
-            }
-            if (connectedToCaster)
-            {
-                float tempDist = GetComponent<Renderer>().bounds.size.x / 2.0f;
-                gameObject.transform.position = Vector2.MoveTowards(Caster.transform.position, worldPointTarget, tempDist);
-            }
-            if (Caster != null)
-            {
-                //
-            }
-            _movementController = new AbilityDeliveryTransformationController(this, rotationSequence);
-            }
-        }
+        if (!isServer) { return; }
+        // Server only logic below
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (!isServer || !start)
+        aoeDamageableIgnore = new();
+        foreach (EffectInstruction eI in eInstructs)
         {
-            return;
+            eI.effect.parentDelivery = this;
         }
-        if ((type != AbilityType.Normal) && (type != AbilityType.Skillshot) && (type != AbilityType.LineAoe))
+        if (type == AbilityType.Skillshot)
         {
-            return;
+            skillshotvector = worldPointTarget - transform.position;
+            //Debug.Log(worldPointTarget - transform.position);
+            skillshotvector.Normalize();
+            skillshotvector = speed * skillshotvector;
+            //Debug.Log(gameObject.name + "| skillshot wpT " + worldPointTarget);
+            //Debug.Log(gameObject.name + "| skillshotvector set:" + worldPointTarget + " + " + transform.position);
         }
-
-        if (!other.TryGetComponent(out Actor hitActor))
+        if (connectedToCaster)
         {
-            if (other.TryGetComponent(out IDamageable damageable) && !CheckIgnoreTarget(damageable))
-            {
-                foreach (EffectInstruction eI in eInstructs)
-                {
-                    damageable.Damage(eI.effect.power + Caster.mainStat * eI.effect.powerScale);
-                }
-                AddToAoeIgnore(damageable, tickRate);
-            }
-            return;
+            float tempDist = GetComponent<Renderer>().bounds.size.x / 2.0f;
+            gameObject.transform.position = Vector2.MoveTowards(Caster.transform.position, worldPointTarget, tempDist);
         }
-
-        if (checkAtFeet && !CheckHitFeet(hitActor))
-        {
-            return;
-        }
-        if (checkIgnoreConditons(hitActor) != false)
-        {
-            return;
-        }
-
-        if (checkIgnoreTarget(hitActor) == false)
-        {
-            foreach (EffectInstruction eI in eInstructs)
-            {
-                eI.sendToActor(hitActor.transform, null, Caster);
-            }
-            Destroy(gameObject);
-        }
-        // if (type == 1 && hitActor != Caster)
-        // {
-        //     foreach (EffectInstruction eI in eInstructs)
-        //     {
-        //         eI.sendToActor(hitActor.transform, null, Caster);
-        //     }
-        //     Destroy(gameObject);
-        // }
-    }
-
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (!isServer || !start)
-        {
-            return;
-        }
-
-        //Debug.Log("Trigger stay server and start");
-        if (!other.TryGetComponent(out Actor hitActor))
-        {
-            if (other.TryGetComponent(out IDamageable damageable) && !CheckIgnoreTarget(damageable))
-            {
-                foreach (EffectInstruction eI in eInstructs)
-                {
-                    damageable.Damage(eI.effect.power + Caster.mainStat * eI.effect.powerScale);
-                }
-                AddToAoeIgnore(damageable, tickRate);
-            }
-            return;
-        }
-        if (checkAtFeet && !CheckHitFeet(hitActor))
-        {
-            return;
-        }
-        if (checkIgnoreConditons(hitActor) != false)
-        {
-            return;
-        }
-
-        //Debug.Log("Actor found and passes conditions");
-        if ((type == AbilityType.Aoe) || (type == AbilityType.TargetedAoe) || (type == AbilityType.LineAoe) || (type == AbilityType.LineAoeSimple))
-        {
-            if ((hitActor != Caster) || canHitSelf)
-            {
-                //Debug.Log("Not caster or canHitSelf");
-                //Debug.Log(hitActor.getActorName());
-
-                if (checkIgnoreTarget(hitActor) == false)
-                {
-                    addToAoeIgnore(hitActor, tickRate);
-
-                    Hit(hitActor);
-                }
-
-                else
-                {
-                    //Debug.Log("2||3 no actor found");
-                }
-                // make version that has a set number for ticks?
-            }
-        }
-        if (type == AbilityType.RingAoe)
-        {
-            //Debug.Log("type 4 onTiggerStay");
-            if ((hitActor != Caster) || canHitSelf)
-            {
-                //Debug.Log("Actor found and not caster");
-                Vector2 hitCheckPoint;
-                if (checkAtFeet)
-                {
-                    hitCheckPoint = hitActor.GetComponent<Collider2D>().bounds.BottomCenter();
-                }
-                else
-                {
-                    hitCheckPoint = other.GetComponent<Collider2D>().bounds.center;
-                }
-                float dist = Vector2.Distance(hitCheckPoint, safeZoneCenter);
-                if (dist > innerCircleRadius)
-                {
-                    // Debug.DrawLine(other.GetComponent<Collider2D>().bounds.center, safeZoneCenter, Color.red);
-
-                    if (checkIgnoreTarget(hitActor) == false)
-                    {
-                        addToAoeIgnore(hitActor, tickRate);
-
-                        if (eInstructs.Count > 0)
-                        {
-                            foreach (EffectInstruction eI in eInstructs)
-                            {
-                                eI.sendToActor(hitActor.transform, null, Caster);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    // Debug.DrawLine(other.GetComponent<Collider2D>().bounds.center, safeZoneCenter, Color.green);
-                }
-                // make version that has a set number for ticks?
-            }
-        }
-    }
-    void Hit(Actor _target)
-    {
-        foreach (EffectInstruction eI in eInstructs){
-            eI.sendToActor(_target.transform, null, Caster);
-        }
-        foreach(BuffScriptableObject b in buffs)
-        {
-            _target.buffHandler.AddBuff(b);
-        }
-    }
-    void FixedUpdate()
-    {
-        if (!isServer || !start)
-        {
-            return;
-        }
-
-        _movementController.Move();
-        _movementController.TrackTarget();
-        _movementController.Rotate();
+        _movementController = new AbilityDeliveryTransformationController(this, rotationSequence);
     }
 
     void Update()
@@ -286,7 +117,7 @@ public class AbilityDelivery : NetworkBehaviour
             }
             if (start)
             {
-                updateTargetCooldowns();
+                UpdateTargetCooldowns();
                 if (!ignoreDuration)
                 {
                     duration -= Time.deltaTime;
@@ -317,6 +148,179 @@ public class AbilityDelivery : NetworkBehaviour
         }
     }
 
+    void FixedUpdate()
+    {
+        if (!isServer || !start)
+        {
+            return;
+        }
+
+        _movementController.Move();
+        _movementController.TrackTarget();
+        _movementController.Rotate();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!isServer || !start)
+        {
+            return;
+        }
+        if (type is not (AbilityType.Normal or AbilityType.Skillshot))
+        {
+            return;
+        }
+
+        // IDamageable Logic
+        if (HitDamageable(other))
+        {
+            return;
+        }
+
+        // Actor Logic
+        if (other.TryGetComponent(out Actor hitActor) == false)
+        {
+            return;
+        }
+        if (checkAtFeet && !CheckHitFeet(hitActor))
+        {
+            return;
+        }
+        if (CheckIgnoreConditons(hitActor) != false)
+        {
+            return;
+        }
+
+        if (CheckIgnoreTarget(hitActor) == false)
+        {
+            foreach (EffectInstruction eI in eInstructs)
+            {
+                eI.sendToActor(hitActor.transform, null, Caster);
+            }
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (!isServer || !start)
+        {
+            return;
+        }
+
+        // IDamageable Logic
+        if (HitDamageable(other))
+        {
+            return;
+        }
+
+        // Actor Logic
+        if (other.TryGetComponent(out Actor hitActor) == false)
+        {
+            return;
+        }
+        if (checkAtFeet && !CheckHitFeet(hitActor))
+        {
+            return;
+        }
+        if (CheckIgnoreConditons(hitActor) != false)
+        {
+            return;
+        }
+
+        //Debug.Log("Actor found and passes conditions");
+        if (type is AbilityType.Aoe or AbilityType.TargetedAoe or AbilityType.LineAoe or AbilityType.LineAoeSimple)
+        {
+            if ((hitActor != Caster) || canHitSelf)
+            {
+                //Debug.Log("Not caster or canHitSelf");
+                //Debug.Log(hitActor.getActorName());
+
+                if (CheckIgnoreTarget(hitActor) == false)
+                {
+                    AddToAoeIgnore(hitActor, tickRate);
+
+                    Hit(hitActor);
+                }
+
+                else
+                {
+                    //Debug.Log("2||3 no actor found");
+                }
+                // make version that has a set number for ticks?
+            }
+        }
+        if (type is AbilityType.RingAoe)
+        {
+            //Debug.Log("type 4 onTiggerStay");
+            if ((hitActor != Caster) || canHitSelf)
+            {
+                //Debug.Log("Actor found and not caster");
+                Vector2 hitCheckPoint;
+                if (checkAtFeet)
+                {
+                    hitCheckPoint = hitActor.GetComponent<Collider2D>().bounds.BottomCenter();
+                }
+                else
+                {
+                    hitCheckPoint = other.GetComponent<Collider2D>().bounds.center;
+                }
+                float dist = Vector2.Distance(hitCheckPoint, safeZoneCenter);
+                if (dist > innerCircleRadius)
+                {
+                    // Debug.DrawLine(other.GetComponent<Collider2D>().bounds.center, safeZoneCenter, Color.red);
+
+                    if (CheckIgnoreTarget(hitActor) == false)
+                    {
+                        AddToAoeIgnore(hitActor, tickRate);
+
+                        if (eInstructs.Count > 0)
+                        {
+                            foreach (EffectInstruction eI in eInstructs)
+                            {
+                                eI.sendToActor(hitActor.transform, null, Caster);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // Debug.DrawLine(other.GetComponent<Collider2D>().bounds.center, safeZoneCenter, Color.green);
+                }
+                // make version that has a set number for ticks?
+            }
+        }
+    }
+
+    private bool HitDamageable(Collider2D collider)
+    {
+        if (collider.TryGetComponent(out IDamageable damageable) == false)
+        {
+            return false;
+        }
+        if (CheckIgnoreTarget(damageable) == false)
+        {
+            foreach (EffectInstruction eI in eInstructs)
+            {
+                damageable.Damage(eI.effect.power + Caster.mainStat * eI.effect.powerScale);
+            }
+            AddToAoeIgnore(damageable, tickRate);
+        }
+        return true;
+    }
+
+    void Hit(Actor _target)
+    {
+        foreach (EffectInstruction eI in eInstructs)
+        {
+            eI.sendToActor(_target.transform, null, Caster);
+        }
+        foreach (BuffScriptableObject b in buffs)
+        {
+            _target.buffHandler.AddBuff(b);
+        }
+    }
+
     Vector3 getWorldPointTarget()
     {
         Vector3 scrnPos = Input.mousePosition;
@@ -325,9 +329,8 @@ public class AbilityDelivery : NetworkBehaviour
         return worldPoint;
     }
 
-    public bool checkIgnoreTarget(Actor _target)
+    public bool CheckIgnoreTarget(Actor _target)
     {
-        
         foreach (var targetCooldown in aoeActorIgnore)
         {
             if (targetCooldown.actor == _target)
@@ -344,18 +347,13 @@ public class AbilityDelivery : NetworkBehaviour
         return aoeDamageableIgnore.Any(x => x.damageable == target);
     }
 
-    bool checkIgnoreConditons(Actor _hitActor)
+    bool CheckIgnoreConditons(Actor _hitActor)
     {
-        //returns true if the _histActor should be ignored
-        // if (_hitActor == null)
-        // {
-        //     Debug.Log("_hitActor null");
-        // }
-        if(onlyHitTarget && (_hitActor.transform != Target))
+        if (onlyHitTarget && (_hitActor.transform != Target))
         {
             return true;
         }
-        if((canHitSelf == false) && (_hitActor == Caster))
+        if ((canHitSelf == false) && (_hitActor == Caster))
         {
             return true;
         }
@@ -404,10 +402,9 @@ public class AbilityDelivery : NetworkBehaviour
             Debug.DrawLine(_hitActor.GetComponent<Collider2D>().bounds.BottomCenter(), transform.position, Color.green);
             return false;
         }
-        // return GetComponent<Collider2D>().OverlapPoint(_hitActor.GetComponent<Collider2D>().bounds.BottomCenter());
     }
 
-    void addToAoeIgnore(Actor _target, float _remainingtime)
+    void AddToAoeIgnore(Actor _target, float _remainingtime)
     {
         aoeActorIgnore.Add(new TargetCooldown(_target, _remainingtime));
     }
@@ -417,7 +414,7 @@ public class AbilityDelivery : NetworkBehaviour
         aoeDamageableIgnore.Add(new DamageableCooldown(target, remainingtime));
     }
 
-    void updateTargetCooldowns()
+    void UpdateTargetCooldowns()
     {
         for (int i = aoeActorIgnore.Count - 1; i >= 0; i--)
         {
@@ -436,13 +433,13 @@ public class AbilityDelivery : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void setSafeZoneScale(Vector2 _hostScale)
+    public void SetSafeZoneScale(Vector2 _hostScale)
     {
         transform.GetChild(0).transform.localScale = _hostScale;
     }
 
     [ClientRpc]
-    public void setSafeZonePosistion(Vector2 _hostPos)
+    public void SetSafeZonePosistion(Vector2 _hostPos)
     {
         transform.GetChild(0).transform.position = _hostPos;
     }
