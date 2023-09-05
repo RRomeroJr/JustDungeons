@@ -50,7 +50,7 @@ public sealed class MovementEffectsController : MonoBehaviour
 
         switch (callingEffect)
         {
-            case StatusEffectState.Dizzy:
+            case StatusEffectState.Feared:
                 TickFear();
                 break;
             default:
