@@ -304,11 +304,13 @@ public class AbilityHandler : NetworkBehaviour
                 {
                     UIManager.Instance.castBar = Instantiate(UIManager.Instance.castBarPrefab, UIManager.Instance.canvas.transform);
                     UIManager.Instance.castBar.GetComponent<CastBar>().caster = this;
+                    
                 }
                 if(UIManager.Instance.castBar.active == false)
                 {
                     UIManager.Instance.castBar.active = true;
                 }
+                UIManager.Instance.castBar.GetComponent<CastBar>().OnCastStarted();
                 
             }
             catch
