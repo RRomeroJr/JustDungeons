@@ -26,10 +26,10 @@ public class RingAoe : Aoe
         delivery.transform.localScale = prefabScale;
         delivery.GetComponent<AbilityDelivery>().eInstructs = eInstructs;
         NetworkServer.Spawn(delivery);
-        delivery.GetComponent<AbilityDelivery>().setSafeZoneScale(Vector3.one * ( ( 2* innerCircleRadius) / prefabScale.x));
+        delivery.GetComponent<AbilityDelivery>().SetSafeZoneScale(Vector3.one * ( ( 2* innerCircleRadius) / prefabScale.x));
         // delivery.transform.GetChild(0).transform.localScale = Vector3.one * ( ( 2* innerCircleRadius) / prefabScale.x);
         if(usePosition){
-            delivery.GetComponent<AbilityDelivery>().setSafeZonePosistion((Vector2)delivery.transform.position + innerCirclePosistion);
+            delivery.GetComponent<AbilityDelivery>().SetSafeZonePosistion((Vector2)delivery.transform.position + innerCirclePosistion);
             // delivery.transform.GetChild(0).transform.position = (Vector2)delivery.transform.position + innerCirclePosistion;
         }
 

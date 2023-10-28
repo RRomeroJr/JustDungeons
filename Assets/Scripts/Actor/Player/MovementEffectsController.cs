@@ -34,7 +34,7 @@ public sealed class MovementEffectsController : MonoBehaviour
         switch (currentEffectState)
         {
             case StatusEffectState.Dizzy:
-                TickDizzy();
+                ApplyDizzy();
                 break;
             default:
                 break;
@@ -50,8 +50,8 @@ public sealed class MovementEffectsController : MonoBehaviour
 
         switch (callingEffect)
         {
-            case StatusEffectState.Dizzy:
-                TickDizzy();
+            case StatusEffectState.Feared:
+                TickFear();
                 break;
             default:
                 break;
@@ -103,7 +103,7 @@ public sealed class MovementEffectsController : MonoBehaviour
 
     #region Dizzy
 
-    private void TickDizzy()
+    private void ApplyDizzy()
     {
         Controller _controller = GetComponent<Controller>();
 
@@ -144,7 +144,7 @@ public sealed class MovementEffectsController : MonoBehaviour
     #endregion
 
     #region Fear
-    private void ApplyFear()
+    private void TickFear()
     {
         if (HBCTools.NT_AuthoritativeClient(GetComponent<NetworkTransform>()))
         {

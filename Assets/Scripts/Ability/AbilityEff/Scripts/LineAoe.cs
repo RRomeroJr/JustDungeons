@@ -32,7 +32,7 @@ public class LineAoe : Aoe
         abilityDelivery.transform.position = _caster.transform.position;
 
         abilityDelivery.eInstructs = eInstructs;
-        abilityDelivery.type = 5;
+        abilityDelivery.type = AbilityType.LineAoe;
         if (_target != null)
         {
             abilityDelivery.transform.right = Vector3.Normalize(_target.position - abilityDelivery.transform.position);
