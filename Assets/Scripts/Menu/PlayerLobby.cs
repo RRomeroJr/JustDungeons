@@ -2,6 +2,8 @@
 using Mirror;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Mirror.FizzySteam;
+using Steamworks;
 
 public class PlayerLobby : NetworkBehaviour
 {
@@ -43,6 +45,7 @@ public class PlayerLobby : NetworkBehaviour
     void Awake()
     {
         uiController = GameObject.Find("UIDocument").GetComponent<UIController>();
+
     }
 
     public override void OnStartAuthority()
@@ -69,6 +72,11 @@ public class PlayerLobby : NetworkBehaviour
             classSelect.RegisterValueChangedCallback(OnClassChanged);
             dungeonSelect = uiController.uiLobby.dropdownDungeon;
             classSelect.RegisterValueChangedCallback(OnClassChanged);
+            //Set Name to Steam name if on Steam
+            if(NetworkManager.singleton.transport.GetType() == typeof(FizzySteamworks))
+            {
+                CmdSetDisplayName(SteamFriends.GetPersonaName());
+            }
         }
         
         playerSlot.isReadOnly = false;
@@ -79,6 +87,8 @@ public class PlayerLobby : NetworkBehaviour
         {
             uiController.uiLobby.buttonLobbyStart.style.display = DisplayStyle.None;
         }
+
+       
     }
 
     private void OnClassChanged(ChangeEvent<string> evt)
@@ -86,6 +96,16 @@ public class PlayerLobby : NetworkBehaviour
         if (isServer)
         {
             combatClass = evt.newValue;
+            if(CustomNetworkManager.singleton.playerInfo.ContainsKey(connectionToClient))
+            {
+                Debug.Log("Connection found! changing " + CustomNetworkManager.singleton.playerInfo[connectionToClient].name
+                 + "'s PlayerData.combatClass to " + evt.newValue);
+                CustomNetworkManager.singleton.playerInfo[connectionToClient].combatClass = evt.newValue;
+            }
+            else
+            {
+                Debug.LogError("Could not NetworkConnectionToClient");
+            }
             return;
         }
         CmdSetCombatClass(evt.newValue);
@@ -96,6 +116,16 @@ public class PlayerLobby : NetworkBehaviour
         if (isServer)
         {
             DisplayName = evt.newValue;
+            if(CustomNetworkManager.singleton.playerInfo.ContainsKey(connectionToClient))
+            {
+                Debug.Log("Connection found! " + CustomNetworkManager.singleton.playerInfo[connectionToClient].name
+                 + "'s PlayerData.name to " + evt.newValue);
+                CustomNetworkManager.singleton.playerInfo[connectionToClient].name = evt.newValue;
+            }
+            else
+            {
+                Debug.LogError("Could not NetworkConnectionToClient");
+            }
             return;
         }
         CmdSetDisplayName(evt.newValue);

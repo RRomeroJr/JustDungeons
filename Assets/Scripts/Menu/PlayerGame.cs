@@ -8,31 +8,41 @@ public class PlayerGame : NetworkBehaviour
 {
     [SyncVar]
     private string displayName = "Loading...";
-
-    private CustomNetworkManager room;
-    private CustomNetworkManager Room
-    {
-        get
-        {
-            if (room != null)
-            {
-                return room;
-            }
-            return room = NetworkManager.singleton as CustomNetworkManager;
-        }
-    }
-
+    
     public override void OnStartClient()
     {
         DontDestroyOnLoad(this);
         GetComponent<Actor>().enabled = true;
-        Room.GamePlayers.Add(this);
-        //GetComponent<ClickManager>().enabled = true;
+
+
+        // Player Game no longer activates itself due to weirdness with the ReplacePlayerForConnection method
+        // They have to be replaced by the new Player obj as it's created to no caue issues
+        // See CustomNetworkManager.ReplacePlayer()
+
+        if(!CustomNetworkManager.singleton.GamePlayers.Contains(this))
+        {// Think about this check as, if not already handled by the CustomNetworkManager
+        
+            CustomNetworkManager.singleton.GamePlayers.Add(this);
+            Debug.Log(gameObject.name + " added PlayerGame to GamePlayers");
+        }
+
     }
 
     public override void OnStopClient()
     {
-        Room.GamePlayers.Remove(this);
+        // Player Game no longer activates itself due to weirdness with the ReplacePlayerForConnection method
+        // They have to be replaced by the new Player obj as it's created to no caue issues
+        // See CustomNetowrkManager.ReplacePlayer()
+
+        if(CustomNetworkManager.singleton.GamePlayers.Contains(this))
+        {// Think about this check as, if not already handled by the CustomNetworkManager
+        
+            CustomNetworkManager.singleton.GamePlayers.Remove(this);
+        }
+    }
+    public void OnReplace()
+    {
+        CustomNetworkManager.singleton.GamePlayers.Remove(this);
     }
 
     [Server]
