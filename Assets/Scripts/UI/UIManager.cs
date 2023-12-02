@@ -40,6 +40,7 @@ public class UIManager : MonoBehaviour
     public ClickData clickData0 = new ClickData();
     public ClickData clickData1 = new ClickData();
     public GameObject inGameMenu;
+    public GameObject respawnButton;
     public bool draggingObject = false;
     public ClickManager clickManager;
 
@@ -76,6 +77,7 @@ public class UIManager : MonoBehaviour
         nameplatePrefab = null;
         damageTextPrefab = null;
         CustomNetworkManager.singleton.GamePlayers.CollectionChanged -= AddPlayerFrame;
+        respawnButton.GetComponent<Button>().onClick.RemoveListener(RespawnLocalPlayer);
 
     }
     // Start is called before the first frame update
@@ -101,8 +103,13 @@ public class UIManager : MonoBehaviour
         if (CustomNetworkManager.singleton != null)
         {
             CustomNetworkManager.singleton.GamePlayers.CollectionChanged += AddPlayerFrame;
+            respawnButton.GetComponent<Button>().onClick.AddListener(RespawnLocalPlayer);
         }
 
+    }
+    void RespawnLocalPlayer()
+    {
+        CustomNetworkManager.singleton.Respawn(playerActor.connectionToClient);
     }
 
     void AddPlayerFrame(object sender, NotifyCollectionChangedEventArgs e)
@@ -305,6 +312,20 @@ public class UIManager : MonoBehaviour
         {
             useMouseOver = !useMouseOver;
             Debug.Log("Mouseover toggled to.. " + useMouseOver);
+        }
+        if((playerActor && playerActor.state == ActorState.Dead) || !playerActor)
+        {
+            if(!respawnButton.active)
+            {
+                respawnButton.active = true;
+            }
+        }
+        else 
+        {
+            if(respawnButton.active)
+            {
+                respawnButton.active = false;
+            }
         }
 
     }
