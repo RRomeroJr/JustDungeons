@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Video;
 
 public class Controller : NetworkBehaviour
 {
@@ -372,4 +373,9 @@ public class Controller : NetworkBehaviour
             // Debug.Log("Unstopping to follow something");
         }
     }
+    protected virtual void OnEnterCombat()
+    {}
+
+    protected virtual void OnLeaveCombat()
+    {}
 }

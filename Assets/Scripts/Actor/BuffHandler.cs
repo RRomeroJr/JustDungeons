@@ -286,6 +286,16 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         buff.End();
         buffs.Remove(buff);
     }
+    [Server]
+    public void RemoveAll()
+    {
+        foreach(Buff buff in buffs)
+        {
+            buff.Finished -= HandleBuffFinished;
+            buff.End();
+            buffs.Remove(buff);
+        }
+    }
 
     private void ChangeStatusEffect(StatusEffectState newEffect)
     {

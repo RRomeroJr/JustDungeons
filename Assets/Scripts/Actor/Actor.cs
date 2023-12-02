@@ -87,7 +87,7 @@ public class Actor : NetworkBehaviour
     
     //Attacker List
     [SerializeField]
-    private List<Actor> attackerList = new List<Actor>();
+    public List<Actor> attackerList = new List<Actor>();
 
     #region Properties
     public string ActorName

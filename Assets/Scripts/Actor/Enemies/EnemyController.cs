@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using System.Data;
 using System.Linq;
 using Mirror;
 using UnityEngine;
+using TheKiwiCoder;
 
 public enum CombatTemperment
 {
@@ -19,6 +21,7 @@ public class EnemyController : Controller
     [Header("Automatic")]
 
     public float aggroRadius = 7.0f;
+    public Vector2 resetPoint = Vector2.zero;
     public CombatTemperment combatTemperment;
     public Actor aggroTarget;
     public int phase = 0;
@@ -33,7 +36,9 @@ public class EnemyController : Controller
     public override void Start()
     {
         base.Start();
+        resetPoint = transform.position;
         actor.OnEnterCombat.AddListener(OnEnterCombat);
+        actor.OnLeaveCombat.AddListener(OnLeaveCombat);
         //        agent.speed = enemyStats.moveSpeed;
     }
 
@@ -268,7 +273,7 @@ public class EnemyController : Controller
                 reduntantly check to add the _aggrotarget as an attacker
 
                 So I made this conditional here to stop that reduntant check.
-                I could be alot of unecessary looping through attacker lists
+                I could be alot of unnecessary looping through attacker lists
                 otherwise when there are many actors involved
              */
         }
@@ -301,7 +306,7 @@ public class EnemyController : Controller
         }
     }
 
-    private void OnEnterCombat()
+    protected override void OnEnterCombat()
     {
         if (aggroTarget != null)
         {
@@ -309,7 +314,13 @@ public class EnemyController : Controller
         }
 
         Aggro(actor.FirstAliveAttacker(), _checkStartCombatWith: false);
+        resetPoint = transform.position;
         Debug.Log("1st aggro. Aggroing to.." + actor.target);
+    }
+    protected override void OnLeaveCombat()
+    {
+        StartCoroutine(Reset());
+        Debug.Log(gameObject.name + ": " + actor.name + " OnLeaveCombat");
     }
 
     public void CheckStopToCast(Ability_V2 _toCast)
@@ -318,5 +329,36 @@ public class EnemyController : Controller
         {
             StopAgentToCast();
         }
+    }
+    public IEnumerator Reset()
+    {
+        if(gameObject.TryGetComponent(out BuffHandler _comp))
+        {
+            _comp.RemoveAll();
+        }
+        actor.attackerList.Clear();
+        SetFollowTarget(null, true);
+        aggroTarget = null;
+        actor.SetTarget(null);
+        GetComponent<BehaviourTreeRunner>().tree.rootNode.state = Node.State.Success;
+        while(true)
+        {
+            if(moveToPoint(resetPoint))
+            {
+                Debug.Log("moving to resetPoint: " +  resetPoint);
+                break;
+            }
+            yield return new WaitForSeconds(0.0167f);
+        }
+        while(resolvingMoveTo)
+        {
+            yield return new WaitForSeconds(0.0167f);
+        }
+        //refull hp here
+        //this could go wrong if max hp is buffed. Need a way to clear all effects 1st
+        actor.Health = actor.MaxHealth;
+        resetPoint = transform.position;
+        GetComponent<BehaviourTreeRunner>().tree.Reset();
+        GetComponent<BehaviourTreeRunner>().tree.rootNode.state = Node.State.Running;
     }
 }
