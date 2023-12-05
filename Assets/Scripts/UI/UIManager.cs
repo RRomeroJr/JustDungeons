@@ -43,10 +43,15 @@ public class UIManager : MonoBehaviour
     public GameObject respawnButton;
     public bool draggingObject = false;
     public ClickManager clickManager;
+    public GameObject buffBar;
 
     public void SpawnBuffBar()
     {
-        Instantiate(buffBarPrefab, canvas.transform);
+        if(buffBar)
+        {
+            Destroy(buffBar);
+        }
+        buffBar = Instantiate(buffBarPrefab, canvas.transform);
     }
 
     public static UIManager Instance { get; private set; }
