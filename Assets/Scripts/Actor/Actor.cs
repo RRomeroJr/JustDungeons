@@ -253,6 +253,10 @@ public class Actor : NetworkBehaviour
 
     void Update()
     {
+        if((Health <= 0) && state != ActorState.Dead)
+        {
+            PlayerDead();
+        }
         UpdateCombatState();
         ClassResourceCheckRegen();
 
