@@ -13,7 +13,7 @@ public class DeliveryKnockback : AbilityEff
         try
         {       
        Vector2 force = new Vector2();
-       force = _target.transform.position - parentDelivery.transform.position;
+       force = _target.transform.GetComponent<Collider2D>().bounds.BottomCenter() - (Vector2)parentDelivery.transform.position;
        force.Normalize();
        force *= power;
 
