@@ -66,11 +66,35 @@ MonoBehaviour:
   - {fileID: 7213465838841773919}
   - {fileID: 5747802100427917405}
   - {fileID: -9099610375805135186}
+  - {fileID: 5291382554581963491}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
     targetPrev: {fileID: 0}
     targets: []
+--- !u!114 &5291382554581963491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd9ab34263a8ad249a0cb97218904b7e, type: 3}
+  m_Name: InCombat
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 5fce20a6240355545a8056b5a4a904cb
+  position: {x: -127.20001, y: 137.728}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: 
+  drawGizmos: 0
 --- !u!114 &5747802100427917405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,4 +145,5 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   children:
+  - {fileID: 5291382554581963491}
   - {fileID: -9099610375805135186}
