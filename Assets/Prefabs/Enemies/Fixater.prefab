@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &4351754448381948312
+--- !u!1001 &6412964433382893733
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,14 +10,6 @@ PrefabInstance:
     - target: {fileID: 80392180738684844, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 80392180738684844, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.24
-      objectReference: {fileID: 0}
-    - target: {fileID: 80392180738684844, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.24
       objectReference: {fileID: 0}
     - target: {fileID: 80392180738684844, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
       propertyPath: m_LocalPosition.x
@@ -59,77 +51,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 80392180738684844, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 642956813314349990, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
       propertyPath: m_Name
-      value: Satyr Mirror Image
+      value: Fixater
       objectReference: {fileID: 0}
     - target: {fileID: 1623363416638621411, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
       propertyPath: _assetId
-      value: 4067617820
+      value: 1180442720
       objectReference: {fileID: 0}
     - target: {fileID: 2453500296045010687, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
-      propertyPath: m_Size.x
-      value: 0.48
+      propertyPath: m_Color.b
+      value: 0.48235294
       objectReference: {fileID: 0}
     - target: {fileID: 2453500296045010687, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
-      propertyPath: m_Size.y
-      value: 0.48
+      propertyPath: m_Color.g
+      value: 0.19215687
       objectReference: {fileID: 0}
     - target: {fileID: 2453500296045010687, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: cd8a59d0015783240b0f6ab0d490b65a, type: 3}
-    - target: {fileID: 2453500296045010687, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2453500296045010687, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3370007419087957883, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
-      propertyPath: m_Size.x
-      value: 1.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 3370007419087957883, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
-      propertyPath: m_Size.y
-      value: 1.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 3370007419087957883, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3370007419087957883, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
-      propertyPath: m_SpriteTilingProperty.newSize.x
-      value: 0.48
-      objectReference: {fileID: 0}
-    - target: {fileID: 3370007419087957883, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
-      propertyPath: m_SpriteTilingProperty.newSize.y
-      value: 0.48
-      objectReference: {fileID: 0}
-    - target: {fileID: 3370007419087957883, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 1.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 3370007419087957883, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 1.75
+      propertyPath: m_Color.r
+      value: 0.90588236
       objectReference: {fileID: 0}
     - target: {fileID: 3505075907121208347, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
       propertyPath: health
-      value: 3500
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 3505075907121208347, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
+      propertyPath: mainStat
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 3505075907121208347, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
       propertyPath: actorName
-      value: Mirror Image
+      value: Fixater
       objectReference: {fileID: 0}
     - target: {fileID: 3505075907121208347, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
       propertyPath: maxHealth
-      value: 3500
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 3505075907121208347, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
       propertyPath: unitColor.a
@@ -137,51 +93,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3505075907121208347, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
       propertyPath: unitColor.b
-      value: 0.38897014
+      value: 0.48235294
       objectReference: {fileID: 0}
     - target: {fileID: 3505075907121208347, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
       propertyPath: unitColor.g
-      value: 0.34901956
+      value: 0.19215687
       objectReference: {fileID: 0}
     - target: {fileID: 3505075907121208347, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
       propertyPath: unitColor.r
-      value: 0.93333334
-      objectReference: {fileID: 0}
-    - target: {fileID: 3505075907121208347, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
-      propertyPath: <Role>k__BackingField
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5112569708827529779, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7564391616486250014, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
-      propertyPath: m_Enabled
-      value: 1
+      value: 0.90588236
       objectReference: {fileID: 0}
     - target: {fileID: 8279149156707041903, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
       propertyPath: tree
       value: 
-      objectReference: {fileID: 11400000, guid: f45682c558c91bb4e9c3c7713e60973b, type: 2}
+      objectReference: {fileID: 11400000, guid: 70f5b7b49785b9b4f8cf7a65ba4f7caa, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
---- !u!1 &3785473732060703294 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 642956813314349990, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
-  m_PrefabInstance: {fileID: 4351754448381948312}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3922294788393561044
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3785473732060703294}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cc051e9c870b084cb3f3c979a5f7f73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
