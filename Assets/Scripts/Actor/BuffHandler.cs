@@ -291,9 +291,7 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
     {
         foreach(Buff buff in buffs)
         {
-            buff.Finished -= HandleBuffFinished;
-            buff.End();
-            buffs.Remove(buff);
+            RemoveBuff(buff);
         }
     }
 
@@ -459,4 +457,5 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         RemoveBuff(buffs[indices[UnityEngine.Random.Range(0, indices.Count)]]);
         return true;
     }
+
 }
