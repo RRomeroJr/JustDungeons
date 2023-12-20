@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 8638706385110007143}
   - component: {fileID: -8456821108339157566}
   - component: {fileID: 2007984997200756631}
+  - component: {fileID: 8131685176945106487}
   m_Layer: 7
   m_Name: Enemy1
   m_TagString: Untagged
@@ -118,7 +119,9 @@ MonoBehaviour:
   mobId: 2
   combatClass: {fileID: 0}
   mainStat: 70
+  healingPower: 10
   target: {fileID: 0}
+  abilityHandler: {fileID: 0}
   nameplate: {fileID: 0}
   classResources: []
   state: 0
@@ -293,6 +296,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   autoAttackClone: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
+  followTargetLocked: 0
   followTarget: {fileID: 0}
   globalCooldown: 0
   abilities: []
@@ -300,23 +304,18 @@ MonoBehaviour:
   moveSpeedModifier: 1
   facingDirection: {x: 0, y: 0}
   holdDirection: 0
-  tryingToMove: 0
+  holdPosistion: 0
   autoAttacking: 0
   resolvingMoveTo: 0
   autoAttackRequest: 0
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 8
   arenaObject: {fileID: 0}
-  enemyStats: {fileID: 0}
-  target: {fileID: 0}
-  multiTargets: []
-  spawnLocation: {x: 0, y: 0, z: 0}
-  collider: {fileID: 0}
   aggroRadius: 7
+  resetPoint: {x: 0, y: 0}
   combatTemperment: 0
   aggroTarget: {fileID: 0}
   phase: 0
+  tauntImmune: 0
+  ignoreAggro: 0
 --- !u!114 &2007984997200756631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,13 +334,12 @@ MonoBehaviour:
   showDebug: 0
   <QueuedAbility>k__BackingField: {fileID: 0}
   <QueuedTarget>k__BackingField: {fileID: 0}
-  <QueuedRelWP>k__BackingField:
-    Value: {x: 0, y: 0, z: 0}
-  <QueuedRelWP2>k__BackingField:
-    Value: {x: 0, y: 0, z: 0}
   abilityCooldowns: []
   buffs: []
   onAbilityCastHooks:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCastStarted:
     m_PersistentCalls:
       m_Calls: []
   ReadyToFire: 0
@@ -349,3 +347,99 @@ MonoBehaviour:
   <IsChanneling>k__BackingField: 0
   castTime: 0
   lastChannelTick: 0
+--- !u!82 &8131685176945106487
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6569267623682333730}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

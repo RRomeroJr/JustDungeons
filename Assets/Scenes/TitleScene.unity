@@ -534,6 +534,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aae6f6559684b8c4fa51bbe3964a2398, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &587273952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587273945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1e4d14b33a17a14791cee7e24970b1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxVol: 1
+  musicVol: 1
+  uiVol: 1
+  testSound:
+    audioClip: {fileID: 8300000, guid: 28d6334728df0a14ca0ec8b419842a8e, type: 3}
+    baseVol: 1
+    soundTag: 0
+  sounds:
+  - audioClip: {fileID: 8300000, guid: cccffe7660f5b074e9d89264d6151567, type: 3}
+    baseVol: 1
+    soundTag: 0
+--- !u!114 &587273953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587273945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d091dc38c57b91640986ca61e3b1d1a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &617980227 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 46840149982861213, guid: d68550adfc0deb243a1806a2bde6e04d, type: 3}
