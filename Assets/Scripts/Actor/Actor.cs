@@ -6,15 +6,16 @@ using Mirror;
 /*
      Container many for any RPG related elements.
 */
-
+[System.Flags]
 public enum Role
 {
-    Healer,
-    Tank,
-    Melee,
-    Ranged
+    None = 0,
+    Healer = 1,
+    Tank = 2,
+    Melee = 4,
+    Ranged = 8,
+    Everything = -1 //Named for intuitive understanding when checking for roles
 }
-
 public enum StatusEffectState
 {
     None = 0,
@@ -993,6 +994,10 @@ public class Actor : NetworkBehaviour
         {
             _actor.CheckAddAttackerList(this);
         }
+        // else
+        // {
+        //     Debug.Log(gameObject.name + "attacker " + _actor.gameObject.name + " not added");
+        // }
         
     }
     bool CheckAddAttackerList(Actor _attacker = null)

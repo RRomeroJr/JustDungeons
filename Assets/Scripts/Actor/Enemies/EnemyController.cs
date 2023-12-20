@@ -50,10 +50,12 @@ public class EnemyController : Controller
         //     tryingToMove = !tryingToMove;
         //     CmdSetTryingToMove(tryingToMove);
         // }
+        // CheckOverlaps();
         moveDirection = agent.desiredVelocity;
         moveDirection.Value.Normalize();
 
         MovementFacingDirection();
+        
     }
 
     protected override void MovementFacingDirection()
@@ -185,19 +187,37 @@ public class EnemyController : Controller
     /// Find all the targets that are in the mask, range, and has role
     /// </summary>
     /// <returns>List of Transforms</returns>
-    public List<Transform> FindTargetsByRole(LayerMask targetMask, float range, Role role)
+    public List<Transform> FindTargetsByRole(LayerMask targetMask, float range, Role roleMask)
     {
         Collider2D[] raycastHits = Physics2D.OverlapCircleAll((Vector2)transform.position, range, targetMask);
         List<Transform> targets = new();
-
-        foreach (Transform raycastHitTransform in raycastHits.Select(x => x.transform))
+        
+        if(roleMask == Role.Everything)
         {
-            if (raycastHitTransform.GetComponent<Actor>().Role != role)
+            foreach (Transform raycastHitTransform in raycastHits.Select(x => x.transform))
             {
-                continue;
+                targets.Add(raycastHitTransform);
             }
-
-            targets.Add(raycastHitTransform);
+        }
+        else if(roleMask != Role.None)
+        {
+            foreach (Transform raycastHitTransform in raycastHits.Select(x => x.transform))
+            {
+                if ((raycastHitTransform.GetComponent<Actor>().Role & roleMask) != 0) //if Role matches mask
+                {
+                    targets.Add(raycastHitTransform);
+                }
+            }
+        }
+        else // roleMask == Role.None
+        {
+            foreach (Transform raycastHitTransform in raycastHits.Select(x => x.transform))
+            {
+                if(raycastHitTransform.GetComponent<Actor>().Role == Role.None)
+                {
+                    targets.Add(raycastHitTransform);
+                }
+            }
         }
 
         return targets;
@@ -256,6 +276,7 @@ public class EnemyController : Controller
     {
         if (_aggroTarget == null)
             Debug.Log("aggroTarget was null");
+        // Debug.Log(gameObject.name + "aggroing to " + _aggroTarget.name);
         actor.target = _aggroTarget;
         aggroTarget = _aggroTarget;
         if(combatTemperment != CombatTemperment.Passive)
@@ -315,7 +336,7 @@ public class EnemyController : Controller
 
         Aggro(actor.FirstAliveAttacker(), _checkStartCombatWith: false);
         resetPoint = transform.position;
-        Debug.Log("1st aggro. Aggroing to.." + actor.target);
+        Debug.Log(gameObject.name + ": 1st aggro. Aggroing to.." + actor.target);
     }
     protected override void OnLeaveCombat()
     {
@@ -360,5 +381,41 @@ public class EnemyController : Controller
         resetPoint = transform.position;
         GetComponent<BehaviourTreeRunner>().tree.Reset();
         GetComponent<BehaviourTreeRunner>().tree.rootNode.state = Node.State.Running;
+    }
+
+    void CheckOverlaps()
+    {
+
+        /*
+            This actually isn't going to work because if there are more enemies then can fit in the radius
+            they will bump each other out of melee range
+
+            I actually need them to pathfind to a point on the circle that doesn't overlap with anyone.
+            And just like in wow keep circling if none are found
+        */
+        if(!followTarget)
+        {
+            return;
+        }
+        if(resolvingMoveTo)
+        {
+            return;
+        }
+
+        float _dist = Mathf.Abs((transform.position - followTarget.transform.position).magnitude);
+        if(_dist <= agent.stoppingDistance)
+        {
+            if(agent.obstacleAvoidanceType != UnityEngine.AI.ObstacleAvoidanceType.LowQualityObstacleAvoidance)
+            {
+                agent.obstacleAvoidanceType = UnityEngine.AI.ObstacleAvoidanceType.LowQualityObstacleAvoidance;
+            }
+        }
+        else
+        {
+            if(agent.obstacleAvoidanceType != UnityEngine.AI.ObstacleAvoidanceType.NoObstacleAvoidance)
+            {
+                agent.obstacleAvoidanceType = UnityEngine.AI.ObstacleAvoidanceType.NoObstacleAvoidance;
+            }
+        }
     }
 }
