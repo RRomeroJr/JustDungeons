@@ -546,11 +546,12 @@ public class CustomNetworkManager : NetworkManager
     }
     public void Respawn(NetworkConnectionToClient conn)
     {
-        if(playerInfo.ContainsKey(conn))
-        {
-            ReplacePlayer(conn, NewPlayerObj(playerInfo[conn]));
-            
-        }
+        // if(playerInfo.ContainsKey(conn))
+        // {
+        //     ReplacePlayer(conn, NewPlayerObj(playerInfo[conn]));
+        // }
+        conn.identity.transform.position = GetStartPosition().position;
+        conn.identity.GetComponent<Actor>().Revive();
     }
 
 }

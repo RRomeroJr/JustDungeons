@@ -1148,12 +1148,22 @@ public class Actor : NetworkBehaviour
         OnPlayerIsDead();
     }
 
-    private void PlayerAlive()
+    public void PlayerAlive()
     {
         state = ActorState.Alive;
         canAttack = true;
         canMove = true;
         canCast = true;
+        OnPlayerIsAlive();
+    }
+    public void Revive()
+    {
+        (buffHandler as BuffHandler).RemoveAll();
+        state = ActorState.Alive;
+        canAttack = true;
+        canMove = true;
+        canCast = true;
+        health = maxHealth;
         OnPlayerIsAlive();
     }
     private void HandleHealTaken(object sender, HealEventArgs e)
