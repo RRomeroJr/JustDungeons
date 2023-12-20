@@ -30,6 +30,16 @@ public class AbilityDelivery : NetworkBehaviour
         3 = AoE w/ duration target
     */
 
+    // public Actor caster; 
+    // public Actor Caster { 
+    //     get {return caster;}
+    //     set {caster = value;}
+    // }
+    // public Transform target;
+    // public Transform Target { 
+    //     get {return target;}
+    //     set {target = value;}
+    // }
     public Actor Caster { get; set; }
     public Transform Target { get; set; }
     public Vector3 worldPointTarget;
@@ -150,12 +160,27 @@ public class AbilityDelivery : NetworkBehaviour
 
     void FixedUpdate()
     {
-        if (!isServer || !start)
+        if (!isServer)
+        {
+            return;
+        }
+        /*
+            Richie: I need Aoes to track before they are actually active
+            I use it as a rudimentary targeting indicator.
+
+            You add a delay, which prevents start from becoming true for the
+            duration. But durring that time the Aoe will track.
+
+            Move is the only one I need. Sorry if this change broke something else
+
+            I left the others below this check in hopes not to break more things
+        */
+        _movementController.Move();
+        if (!start)
         {
             return;
         }
 
-        _movementController.Move();
         _movementController.TrackTarget();
         _movementController.Rotate();
     }
