@@ -31,7 +31,7 @@ public class ToDeliveryEffectWindow : EditorWindow
             
         }
        EditorGUILayout.HelpBox(
-         "\n> ~~~~~ ~~~~~WARNING!~~~~~ ~~~~~ <\n\n if you undo this action the created DeliveryEffect will remain! You will have to delete it manually to get rid of it.",
+         "\nUpper range is not inclusive\n> ~~~~~ ~~~~~WARNING!~~~~~ ~~~~~ <\n\n if you undo this action the created DeliveryEffect will remain! You will have to delete it manually to get rid of it.",
                       MessageType.Warning); 
 
     }
@@ -78,7 +78,7 @@ public class ToDeliveryEffectWindow : EditorWindow
             }
             aeRef.effectName = abilityEffectName;
             
-            AssetDatabase.CreateAsset(aeRef, "Assets/Scripts/Ability/AbilityEff/" + abilityEffectName + ".asset");
+            AssetDatabase.CreateAsset(aeRef, "Assets/Scripts/Ability/AbilityEff/GeneratorOut" + abilityEffectName + ".asset");
             
             EffectInstruction eiContainer = new EffectInstruction();
             eiContainer.effect = aeRef;
