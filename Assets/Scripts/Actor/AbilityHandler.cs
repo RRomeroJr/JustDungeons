@@ -521,6 +521,7 @@ public class AbilityHandler : NetworkBehaviour
             if (gameObject.tag == "Player")
             {
                 AnimateAbility(_ability);
+                PlaySounds(_ability);
             }
         }
 
@@ -654,6 +655,7 @@ public class AbilityHandler : NetworkBehaviour
             if (gameObject.tag == "Player")
             {
                 AnimateAbility(_ability);
+                PlaySounds(_ability);
             }
         }
 
@@ -873,5 +875,18 @@ public class AbilityHandler : NetworkBehaviour
         {
             animator.SetTrigger("SpecialWeapon");
         }
+    }
+    [ClientRpc]
+    void PlaySounds(Ability_V2 _ability)
+    {
+        //ph look for audioClip in a list of clips in AudioManager
+        // Sound s = AudioManager.instance.testSound;
+
+        // GetComponent<AudioSource>().PlayOneShot(s.audioClip, s.baseVol * AudioManager.instance.GetChannelVolume(s.soundTag));
+        AudioSource _as = GetComponent<AudioSource>(); 
+        if(_as){
+            AudioManager.PlayFromSource(GetComponent<AudioSource>(), "mixkit-sword-slash-swoosh-1476");
+        }
+
     }
 }
