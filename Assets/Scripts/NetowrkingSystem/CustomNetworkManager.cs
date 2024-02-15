@@ -8,7 +8,6 @@ using System.Linq;
 using DapperDino;
 using System.Collections.ObjectModel;
 using Steamworks;
-using UnityEditor.Experimental.RestService;
 
 /*
 	Documentation: https://mirror-networking.gitbook.io/docs/components/network-manager
@@ -92,11 +91,14 @@ public class CustomNetworkManager : NetworkManager
             {
                 Debug.Log("No entries in playerInfo");
             }
-            foreach(KeyValuePair<NetworkConnectionToClient, PlayerData> entry in playerInfo)
+            else
             {
-                Debug.Log(entry.Value.name + ": " + entry.Value.combatClass);
+                foreach(KeyValuePair<NetworkConnectionToClient, PlayerData> entry in playerInfo)
+                {
+                    Debug.Log(entry.Value.name + ": " + entry.Value.combatClass);
+                }
+                Debug.Log("Number of GamePlayers: " + GamePlayers.Count);
             }
-            Debug.Log("Number of GamePlayers: " + GamePlayers.Count);
 
         }
         if(Input.GetKeyDown(","))
@@ -540,7 +542,9 @@ public class CustomNetworkManager : NetworkManager
         gameplayerInstance.SetDisplayName(_pd.name);
         var playerActor = gameplayerInstance.GetComponent<Actor>();
         playerActor.ActorName = _pd.name;
-        playerActor.combatClass = Resources.Load<CombatClass>(_pd.combatClass);
+        // 2/6/24 the default class is set by setting it in the Player 1 prefab
+        playerActor.combatClass ??= Resources.Load<CombatClass>(_pd.combatClass);
+        
 
         return gameplayerInstance.gameObject;
     }

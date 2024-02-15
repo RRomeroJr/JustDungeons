@@ -17,7 +17,7 @@ public class SummonedCreature : NetworkBehaviour
         if(summoner == null){
             Debug.LogError(gameObject.name + ": No summoned creature with no summoner");
         }
-        Debug.Log(GetType() + " start");
+        // Debug.Log(GetType() + " start");
         summoner.OnEnterCombat.AddListener(OnSummonerEnterCombat);
         foreach(Actor summonerAttacker in summoner.attackerList)
         {
