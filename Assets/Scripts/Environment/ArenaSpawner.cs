@@ -55,10 +55,14 @@ public class ArenaSpawner: NetworkBehaviour
 
             Arena arenaRef = CreateArenaInstance();
             // Arena arenaRef = Instantiate(ArenaPrefab, transform.position, Quaternion.identity);
+            if(enemyController.arenaObject)
+            {
+                Destroy(enemyController.arenaObject.gameObject);
+            }
             enemyController.arenaObject = arenaRef;
             arenaRef.mobList.Add(GetComponent<Actor>());
             NetworkServer.Spawn(arenaRef.gameObject);
-            Destroy(this);
+            // Destroy(this);
         }
     }
     protected virtual Arena CreateArenaInstance() // Made for easy override
