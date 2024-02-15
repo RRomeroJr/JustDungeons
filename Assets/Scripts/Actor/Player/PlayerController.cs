@@ -13,8 +13,6 @@ public enum PlayerState
 
 public class PlayerController : Controller
 {
-   
-    public PlayerState state;
     public List<Actor> tabableTargets;
     public Vector2 lastTabVector;
     public Vector2 currentTabVector;
@@ -71,10 +69,10 @@ public class PlayerController : Controller
         {
             return;
         }
-
-        switch (state)
+        switch (actor.state)
         {
-            case PlayerState.Alive:
+            case ActorState.Alive:
+                // Debug.Log(gameObject.name + "Alive");
                 if(actor.CanMove)
                 {
                     Vector2 inputVectRaw = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
@@ -96,13 +94,17 @@ public class PlayerController : Controller
 
                         moveDirection = Vector2.ClampMagnitude(moveDirection.Value + doubleMouseVect, 1.0f);
                     }
-
                     MoveInDirection(moveDirection.Value);
+                }
+                else
+                {
+                    // Debug.Log(gameObject.name + "Alive can't move");
                 }
                 MovementFacingDirection();
 
                 break;
-            case PlayerState.Dead:
+            case ActorState.Dead:
+                // Debug.Log(gameObject.name + "Dead");
                 break;
             default:
                 break;
@@ -273,9 +275,9 @@ public class PlayerController : Controller
             //-------------------------------------------------
             mouseInput();
             MouseOver();
-            switch (state)
+            switch (actor.state)
             {
-                case PlayerState.Alive:
+                case ActorState.Alive:
                     // if (Input.GetKeyDown("1"))
                     // {
                     //     if (abilities[0] != null)
@@ -322,7 +324,7 @@ public class PlayerController : Controller
                     //         actor.castAbility3(abilities[8]);
                     // }
                     break;
-                case PlayerState.Dead:
+                case ActorState.Dead:
                     break;
                 default:
                     break;
@@ -389,14 +391,14 @@ public class PlayerController : Controller
 
     void HandlePlayerDead(object sender, EventArgs e)
     {
-        state = PlayerState.Dead;
+        actor.state = ActorState.Dead;
         TempSpriteManager sprite = GetComponent<TempSpriteManager>();
         transform.Rotate(0f, 0f, 90.0f);
         sprite.enabled = false; // temp fix for being able to move sprite while dead
     }
     void HandlePlayerAlive(object sender, EventArgs e)
     {
-        state = PlayerState.Alive;
+        actor.state = ActorState.Alive;
         TempSpriteManager sprite = GetComponent<TempSpriteManager>();
         transform.rotation = Quaternion.identity;
         sprite.enabled = true; // temp fix for being able to move sprite while dead

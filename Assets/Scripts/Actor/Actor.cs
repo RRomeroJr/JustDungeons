@@ -73,6 +73,7 @@ public class Actor : NetworkBehaviour
 
     [Header("Actor State")]
     public ActorState state = ActorState.Alive;
+    [SerializeField]
     [SyncVar]
     private bool canMove = true;
     [SyncVar]
@@ -106,22 +107,34 @@ public class Actor : NetworkBehaviour
         get => health;
         set
         {
-            if (state == ActorState.Dead)
-            {
-                return;
-            }
+            // if (state == ActorState.Dead)
+            // {
+            //     return;
+            // }
             if (value <= 0)
             {
                 health = 0;
-                PlayerDead();
+                if(state == ActorState.Alive)
+                {
+                    PlayerDead();
+                }
                 return;
             }
+
+            //Only happens if value > 0
             if (value > maxHealth)
             {
                 health = maxHealth;
-                return;
             }
-            health = value;
+            else
+            {
+                health = value;
+            }
+            if(state == ActorState.Dead)
+            {
+                PlayerAlive();
+            }
+            
         }
     }
     public int MaxHealth => maxHealth;
@@ -258,6 +271,10 @@ public class Actor : NetworkBehaviour
         {
             PlayerDead();
         }
+        else if((Health > 0) && state != ActorState.Alive)
+        {
+            PlayerAlive();
+        }
         UpdateCombatState();
         ClassResourceCheckRegen();
 
@@ -310,6 +327,10 @@ public class Actor : NetworkBehaviour
             {
                 UIManager.Instance.SpawnHealingGauge();
             }
+        }
+        else
+        {
+            Debug.LogErrorFormat("{0}: {1} has no combat class", gameObject.name, actorName);
         }
     }
 
@@ -486,7 +507,7 @@ public class Actor : NetworkBehaviour
         int buffIndex = buffs.FindIndex(x => x == _callingBuff);
 
         buffs.RemoveAt(buffIndex);
-        Debug.Log("Removed index: " + buffIndex);
+        // Debug.Log("Removed index: " + buffIndex);
 
         RpcRemoveBuffIndex(buffIndex);
     }
@@ -496,7 +517,7 @@ public class Actor : NetworkBehaviour
         int buffIndex = buffs.FindIndex(x => x == _callingBuff);
 
         buffs.RemoveAt(buffIndex);
-        Debug.Log("Removed index: " + buffIndex);
+        // Debug.Log("Removed index: " + buffIndex);
     }
 
     [ClientRpc]
@@ -506,7 +527,7 @@ public class Actor : NetworkBehaviour
         {
             return;
         }
-        Debug.Log("Host saying to remove buff index: " + hostIndex);
+        // Debug.Log("Host saying to remove buff index: " + hostIndex);
         buffs[hostIndex].onFinish();
     }
 
@@ -576,7 +597,7 @@ public class Actor : NetworkBehaviour
         }
         if (showDebug)
         {
-            Debug.Log(actorName + ": Removing.. " + _buff.getEffectName());
+            // Debug.Log(actorName + ": Removing.. " + _buff.getEffectName());
         }
         //buffs[listPos].OnEffectFinish(); // AE has a caster and target now so the args could be null?
         buffs.RemoveAt(listPos);
@@ -1123,6 +1144,11 @@ public class Actor : NetworkBehaviour
     public void Knockback(Vector2 _hostVect){
         GetComponent<Rigidbody2D>().AddForce(_hostVect);
     }
+    [TargetRpc]
+    public void TrpcSetTransform(Vector2 _posFromServer)
+    {
+        transform.position = _posFromServer;
+    }
     public void setUpStats(ClassStats _classStats){
         //maxHealth = _classStats.health;
         //health = maxHealth;
@@ -1141,7 +1167,7 @@ public class Actor : NetworkBehaviour
         canAttack = false;
         canMove = false;
         canCast = false;
-
+        GameManager.instance.OnMobDeath?.Invoke(this);
         if(tag != "Player" && GetComponent<DespawnScript>() == null){
             gameObject.AddComponent<DespawnScript>();
         }
@@ -1158,13 +1184,13 @@ public class Actor : NetworkBehaviour
     }
     public void Revive()
     {
+        // Debug.Log(name + "Revive");
         (buffHandler as BuffHandler).RemoveAll();
-        state = ActorState.Alive;
-        canAttack = true;
-        canMove = true;
-        canCast = true;
-        health = maxHealth;
-        OnPlayerIsAlive();
+        // state = ActorState.Alive;
+        // canAttack = true;
+        // canMove = true;
+        // canCast = true;
+        Health = MaxHealth;
     }
     private void HandleHealTaken(object sender, HealEventArgs e)
     {
@@ -1219,6 +1245,7 @@ public class Actor : NetworkBehaviour
 
     protected virtual void OnPlayerIsAlive()
     {
+        // Debug.Log(name + "OnPlayerIsAlive");
         PlayerIsAlive?.Invoke(this, EventArgs.Empty);
     }
 
@@ -1259,7 +1286,7 @@ public class Actor : NetworkBehaviour
     bool HostiltyMatch(Ability_V2 _ability, Transform _target)
     {
         if(_target == null){
-            Debug.LogError("Ability hostilty checked on null _target");
+            // Debug.LogError("Ability hostilty checked on null _target");
             return false;
         }
         if(_ability.isFriendly() && HBCTools.areHostle(transform, _target))
@@ -1282,4 +1309,16 @@ public class Actor : NetworkBehaviour
         clickBox.AddComponent<ClickboxManager>();
     }
     #endregion
+    [Command]
+    public void CmdRespawnPlayer()
+    {
+        if(tag != "Player")
+        {
+            return;
+        }
+        // Debug.LogFormat("{0} CmdRespawnPlayer", gameObject.name);
+        // transform.position = CustomNetworkManager.singleton.GetStartPosition().position;
+        // TrpcSetTransform(CustomNetworkManager.singleton.GetStartPosition().position);
+        Revive();
+    }
 }

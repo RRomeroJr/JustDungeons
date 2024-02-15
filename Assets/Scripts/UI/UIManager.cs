@@ -114,7 +114,16 @@ public class UIManager : MonoBehaviour
     }
     void RespawnLocalPlayer()
     {
-        CustomNetworkManager.singleton.Respawn(playerActor.connectionToClient);
+        //I really don't like this line being here
+        // 1) I feel like it should be in a different method
+        // 2) I wish I could do this from the host, but I can't
+        //    figure out a good way to move a client with 
+        //    client authoritive movement
+        // 
+        // It is what it is
+        playerActor.transform.position = CustomNetworkManager.singleton.GetStartPosition().position;
+        
+        playerActor.CmdRespawnPlayer();
     }
 
     void AddPlayerFrame(object sender, NotifyCollectionChangedEventArgs e)
@@ -452,7 +461,7 @@ public class UIManager : MonoBehaviour
 
             Just don't forget to call this somewhere later
         */
-        if (playerActor.combatClass == null)
+                if (playerActor.combatClass == null)
         {
             return;
         }
@@ -463,7 +472,7 @@ public class UIManager : MonoBehaviour
         {
             // if There is a combatClass but no prefs file
             // Just spawn all it's abilities in the center of the screen
-
+            
             SpawnHotbuttons(playerActor.combatClass);
             return;
         }
