@@ -461,7 +461,8 @@ public class UIManager : MonoBehaviour
 
             Just don't forget to call this somewhere later
         */
-                if (playerActor.combatClass == null)
+        Debug.Log("SetUpHotbars called");
+        if (playerActor.combatClass == null)
         {
             return;
         }
@@ -472,12 +473,11 @@ public class UIManager : MonoBehaviour
         {
             // if There is a combatClass but no prefs file
             // Just spawn all it's abilities in the center of the screen
-            
+            Debug.LogError("No hotbar prefs found spawning hotbttons in middle");
             SpawnHotbuttons(playerActor.combatClass);
             return;
         }
 
-        Debug.Log("Searching for prefs in: " + filePath);
         string jsonString = File.ReadAllText(filePath);
 
         PrefsData prefsData = null;
@@ -486,11 +486,11 @@ public class UIManager : MonoBehaviour
 
         if (prefsData == null)
         {
-            Debug.Log("prefsData is null");
+            Debug.LogError("No prefs found in: " + filePath);
         }
         else
         {
-            Debug.Log("prefsData NOT null");
+            Debug.Log("Prefs found in: " + filePath);
         }
         if (prefsData.HotbarItems == null)
         {
