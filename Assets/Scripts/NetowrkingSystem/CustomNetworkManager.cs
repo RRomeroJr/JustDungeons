@@ -90,6 +90,7 @@ public class CustomNetworkManager : NetworkManager
             if(playerInfo.Count == 0)
             {
                 Debug.Log("No entries in playerInfo");
+                MsgBox.DisplayMsg("No entries in playerInfo");
             }
             else
             {
@@ -98,6 +99,7 @@ public class CustomNetworkManager : NetworkManager
                     Debug.Log(entry.Value.name + ": " + entry.Value.combatClass);
                 }
                 Debug.Log("Number of GamePlayers: " + GamePlayers.Count);
+                MsgBox.DisplayMsg("Number of GamePlayers: " + GamePlayers.Count);
             }
 
         }
