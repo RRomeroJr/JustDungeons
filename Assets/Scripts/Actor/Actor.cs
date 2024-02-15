@@ -797,8 +797,8 @@ public class Actor : NetworkBehaviour
                     if (fromActor.tag == "Player")
                     {
                         TRpcCreateDamageTextOffensive(fromActor.GetNetworkConnection(), modifiedAmount);
+                        addDamamgeToMeter(fromActor, modifiedAmount);
                     }
-                    addDamamgeToMeter(fromActor, modifiedAmount);
                 }
                 if (tag == "Player")
                 {
@@ -847,7 +847,7 @@ public class Actor : NetworkBehaviour
                     {
                         TRpcCreateDamageTextOffensive(fromActor.GetNetworkConnection(), modifiedAmount);
                     }
-                    addDamamgeToMeter(fromActor, modifiedAmount);
+                    // addDamamgeToMeter(fromActor, modifiedAmount);
                 }
                 if (tag == "Player")
                 {
