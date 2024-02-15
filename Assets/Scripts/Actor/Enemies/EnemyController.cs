@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections;
 using System.Data;
 using System.Linq;
@@ -232,7 +232,7 @@ public class EnemyController : Controller
     {
         Collider2D[] raycastHits = Physics2D.OverlapCircleAll((Vector2)transform.position, range, targetMask);
 
-        return raycastHits[Random.Range(0, raycastHits.Length)].transform;
+        return raycastHits.Length > 0 ? raycastHits[Random.Range(0, raycastHits.Length)].transform : null;
     }
 
     private float DistanceTo(Transform pos)
