@@ -30,6 +30,7 @@ public class TempSpriteManager : MonoBehaviour
 
     void Update()
     {
+
         UpdateFacingDown();
         
         if(ShouldFlip()){
@@ -58,17 +59,9 @@ public class TempSpriteManager : MonoBehaviour
     
     void UpdateFacingDown(){
         
-        if(controller.facingDirection.y >= 0.0f){
-            if(facingDown){
-                facingDown = !facingDown;
-                animator.SetBool("facingDown", facingDown);
-            }
-        }
-        else{
-            if(!facingDown){
-                facingDown = !facingDown;
-                animator.SetBool("facingDown", facingDown);
-            }
+        if((controller.facingDirection.y < 0.0f) != facingDown){
+            facingDown = !facingDown;
+            animator?.SetBool("facingDown", facingDown);
         }
     }
    
