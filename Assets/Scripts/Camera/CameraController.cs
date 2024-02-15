@@ -103,7 +103,7 @@ public class CameraController : MonoBehaviour
         {
             if (ele.isLocalPlayer)
             {
-                target = CustomNetworkManager.singleton.GamePlayers.Last().transform;
+                target = ele.transform;
                 offset.y = -1 * target.GetComponent<Renderer>().bounds.extents.y;
                 break;
             }
