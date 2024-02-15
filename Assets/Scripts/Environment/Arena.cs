@@ -6,6 +6,7 @@ public class Arena : NetworkBehaviour
 {
     public bool killPlayerOnExit = false;
     public List<Actor> mobList;
+    public List<Actor> playerList;
     public bool destroyIfListEmpty = true;
     [SerializeField]
     protected GameObject safezone; 
@@ -19,8 +20,34 @@ public class Arena : NetworkBehaviour
     public float hitCooldownTime = 3.0f;
 
     
+    public void OnTriggerEnter2D(Collider2D other)
+    {   
+        if(!isServer)
+        {
+            return;
+        }
+        Actor otherActor = other.GetComponent<Actor>();
+        if(otherActor == null)
+        {
+            return;
+        }
+        if(otherActor.tag != "Player")
+        {
+            return;
+        }
+        if(playerList.Contains(otherActor))
+        {
+            return;
+        }
+        playerList.Add(otherActor);
+        
+    }
     public void OnTriggerExit2D(Collider2D other)
     {   
+        if(!isServer)
+        {
+            return;
+        }
         Actor otherActor = other.GetComponent<Actor>();
         if(otherActor == null){
             return;
@@ -31,13 +58,25 @@ public class Arena : NetworkBehaviour
         if(IsInSafezone(otherActor)){
             return;
         }
-           if(killPlayerOnExit){
+        if(killPlayerOnExit){
             otherActor.Health = 0;
+            if(!PlayersAlive())
+            {
+                Destroy(gameObject);
+            }
+        }
+        if(playerList.Contains(otherActor))
+        {
+            playerList.Remove(otherActor);
         }
         
     }
     public virtual void OnTriggerStay2D(Collider2D other)
     {   
+        if(!isServer)
+        {
+            return;
+        }
         Actor otherActor = other.GetComponent<Actor>();
         if(otherActor == null){
             return;
@@ -63,7 +102,26 @@ public class Arena : NetworkBehaviour
             otherActor.damageValue((int)(otherActor.MaxHealth * percentHealthDmg));
             addToIgnore(otherActor, hitCooldownTime);
         }
-    
+        
+        if(playerList.Count > 0 && !PlayersAlive())
+        {
+            Destroy(gameObject);
+        }
+
+    }
+    /// <summary>
+    ///	Returns true if atleast 1 player alive
+    /// </summary>
+    bool PlayersAlive()
+    {
+        foreach(Actor a in playerList)
+        {
+            if(a.state == ActorState.Alive)
+            {
+                return true;
+            }
+        }
+        return false;
     }
     void Update(){
         if(isServer){
@@ -78,6 +136,10 @@ public class Arena : NetworkBehaviour
         
     }
     void FixedUpdate(){
+        if(!isServer)
+        {
+            return;
+        }
         for (int i = 0; i < mobList.Count; i++)
         {
             if(mobList[i] == null){
