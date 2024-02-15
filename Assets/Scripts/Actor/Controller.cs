@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Video;
 
 public class Controller : NetworkBehaviour
 {
@@ -39,6 +38,7 @@ public class Controller : NetworkBehaviour
     public bool autoAttacking;
     public bool resolvingMoveTo;
     public bool autoAttackRequest = false;
+    public bool circling = false;
 
     public virtual bool TryingToMove
     {
@@ -115,6 +115,14 @@ public class Controller : NetworkBehaviour
             {
                 autoAttackRequest = false;
             }
+            CheckToFollowSomething();
+
+        }
+    }
+    public virtual void FixedUpdate()
+    {
+        if (isServer)
+        {
             CheckToFollowSomething();
 
         }
@@ -278,6 +286,10 @@ public class Controller : NetworkBehaviour
             // Debug.Log("SetfollowTarget ignored. followTargetLocked");
             return false;
         }
+        if(_target == followTarget)
+        {
+            return true;
+        }
         followTarget = _target;
         if (followTarget != null)
         {
@@ -365,13 +377,98 @@ public class Controller : NetworkBehaviour
         {
             return;
         }
-
-        agent.SetDestination(followTarget.transform.position);
+        if(CheckToCircle())
+        {
+            CircleFollowTarget();
+        }
+        else
+        {
+            agent.SetDestination(followTarget.transform.position);
+        }
         if (agent.enabled && agent.isStopped)
         {
             agent.isStopped = false;
             // Debug.Log("Unstopping to follow something");
         }
+    }
+    bool CheckToCircle()
+    {
+        if(Vector2.Distance(followTarget.transform.position, transform.position) > getStoppingDistance(followTarget))
+        {
+            if(circling) //Cancle circling if should just run at target
+            {
+                circling = false;
+                agent.stoppingDistance = getStoppingDistance(followTarget);
+            }
+            return false;
+        }
+
+        //Overlap checks
+        List<Collider2D> results = new List<Collider2D>();
+        ContactFilter2D cf2d = new ContactFilter2D();
+        cf2d.layerMask = LayerMask.GetMask("Enemy");
+
+        GetComponent<Collider2D>().OverlapCollider(cf2d, results);
+
+        if(ShouldCircle(results) != circling)
+        {
+            circling = !circling;
+            if(circling) //Start
+            {
+                // Debug.Log(gameObject.name + " start circling");
+                agent.stoppingDistance = 0.0f;
+            }
+            else //End
+            {
+                // Debug.Log(gameObject.name + " end circling");
+                agent.stoppingDistance = getStoppingDistance(followTarget);
+            }
+        }
+        return circling;
+    }
+    /// <summary>
+    ///	Npc should keep circling if it is overlapping at least 1 other npc that isn't circling.
+    /// </summary>
+    bool ShouldCircle(List<Collider2D> _overlaps)
+    {
+        if(_overlaps == null || _overlaps.Count <= 0)
+        {
+            return false;
+        }
+        else
+        {
+            foreach(Collider2D c2d in _overlaps)
+            {
+                if(c2d.TryGetComponent(out EnemyController _ec))
+                {
+                    if(_ec.circling == false)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    void CircleFollowTarget()
+    {
+        Vector2 followTargetToThis = (Vector2)(transform.position - followTarget.transform.position);
+        followTargetToThis.Normalize();
+        followTargetToThis = 2.5f * followTargetToThis;
+        
+        float chord = agent.speed * Time.fixedDeltaTime;
+
+        float anglePerFixedUpdate = //Law of cosines to get this angle
+        Mathf.Acos((2 * Mathf.Pow(followTargetToThis.magnitude, 2) - Mathf.Pow(chord, 2))
+         / (2 * Mathf.Pow(followTargetToThis.magnitude, 2)));
+        anglePerFixedUpdate *= Mathf.Rad2Deg;
+
+        // Debug.LogFormat("{0} dist, {1} chord len, {2} angle", followTargetToThis.magnitude, chord, anglePerFixedUpdate);
+
+        Vector2 rotated = Quaternion.Euler(0, 0, anglePerFixedUpdate) * followTargetToThis;
+        rotated.Normalize();
+        // Debug.DrawLine(followTarget.transform.position, (Vector2) followTarget.transform.position + (2.5f * rotated), Color.white, Time.fixedDeltaTime);
+        agent.SetDestination( ((Vector2)followTarget.transform.position + (2.5f * rotated)));
     }
     protected virtual void OnEnterCombat()
     {}
