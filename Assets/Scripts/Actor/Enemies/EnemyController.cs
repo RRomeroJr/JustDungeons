@@ -27,6 +27,7 @@ public class EnemyController : Controller
     public int phase = 0;
     public uint tauntImmune = 0;
     public uint ignoreAggro = 0;
+
     protected override void Awake()
     {
         base.Awake();
@@ -44,6 +45,7 @@ public class EnemyController : Controller
 
     public void FixedUpdate()
     {
+        if (!isServer) { return; }
         // if ((Mathf.Abs(agent.desiredVelocity.magnitude) > 0.0f && !agent.isStopped)
         //         != tryingToMove)
         // {
@@ -57,7 +59,6 @@ public class EnemyController : Controller
         MovementFacingDirection();
         
     }
-
     protected override void MovementFacingDirection()
     {
         // Debug.Log("PlayerController MovementFacingDirection");
@@ -119,17 +120,17 @@ public class EnemyController : Controller
                 if (abilityHandler.QueuedAbility.needsActor)
                 {
                     // Debug.Log("cast following actor");
-                    facingDirection = HBCTools.ToNearest45(abilityHandler.QueuedTarget.position - transform.position);
+                    // facingDirection = HBCTools.ToNearest45(abilityHandler.QueuedTarget.position - transform.position);
+                    ServerSetFacingDirection(HBCTools.GetQuadrant(abilityHandler.QueuedTarget.position - transform.position));
                 }
                 else if (abilityHandler.QueuedAbility.needsWP)
                 {
-                    facingDirection = HBCTools.ToNearest45(actor.getCastingWPToFace() - (Vector2)transform.position);
+                    ServerSetFacingDirection(HBCTools.GetQuadrant(actor.getCastingWPToFace() - (Vector2)transform.position));
                 }
             }
             else if (followTarget != null && !resolvingMoveTo)
             {
-                facingDirection = HBCTools.ToNearest45(followTarget.transform.position - transform.position);
-
+                ServerSetFacingDirection(HBCTools.GetQuadrant(followTarget.transform.position - transform.position));
             }
         }
         //    Debug.DrawLine(transform.position, (moveDirection.Value) + (Vector2)transform.position, Color.cyan);
