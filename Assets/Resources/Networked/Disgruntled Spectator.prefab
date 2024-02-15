@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 7236885642330284470}
   - component: {fileID: 2297492397918982493}
   m_Layer: 7
-  m_Name: Enemy1
+  m_Name: Disgruntled Spectator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -113,7 +113,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   showDebug: 0
-  actorName: Darne
+  actorName: Disgruntled Spectator
   health: 500
   maxHealth: 500
   <Role>k__BackingField: 0
