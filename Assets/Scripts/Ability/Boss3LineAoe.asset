@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Boss3LineAoe
   eInstructs:
-  - effect: {fileID: 11400000, guid: 275e373fc9b536d4d94162ffb2cfe153, type: 2}
+  - effect: {fileID: 11400000, guid: 6e48d29b4d4ae2741824cdb4dc0ff591, type: 2}
     targetArg: 0
     powerMod: 1
     onSendHooks:
