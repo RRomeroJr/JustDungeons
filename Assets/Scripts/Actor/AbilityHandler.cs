@@ -693,8 +693,9 @@ public class AbilityHandler : NetworkBehaviour
                 abilityCooldowns[i].remainingTime -= Time.deltaTime;
             else
             {
+                AbilityCooldown temp = abilityCooldowns[i];
                 abilityCooldowns.RemoveAt(i);
-                UIManager.removeCooldownEvent.Invoke(i);
+                UIManager.removeCooldownEvent.Invoke(temp);
                 i--;
             }
         }
@@ -736,8 +737,9 @@ public class AbilityHandler : NetworkBehaviour
                 abilityCooldowns[i].remainingTime -= flatAmt;
                 if (abilityCooldowns[i].remainingTime <= 0)
                 {
+                    AbilityCooldown temp = abilityCooldowns[i];
                     abilityCooldowns.RemoveAt(i);
-                    UIManager.removeCooldownEvent.Invoke(i);
+                    UIManager.removeCooldownEvent.Invoke(temp);
                 }
                 if (isServer && !isLocalPlayer && tag == "Player")
                 {

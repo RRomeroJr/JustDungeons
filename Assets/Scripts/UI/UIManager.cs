@@ -27,7 +27,7 @@ public class UIManager : MonoBehaviour
     public static GameObject nameplatePrefab;
     public static GameObject damageTextPrefab;
     public Color defaultColor;
-    public static UnityEvent<int> removeCooldownEvent = new UnityEvent<int>();
+    public static UnityEvent<AbilityCooldown> removeCooldownEvent = new UnityEvent<AbilityCooldown>();
     public List<Ability_V2> glowList = new List<Ability_V2>();
     public UnityEvent<Ability_V2> StartAbiltyGlow = new UnityEvent<Ability_V2>();
     public UnityEvent<Ability_V2> EndAbilityGlow = new UnityEvent<Ability_V2>();
@@ -69,7 +69,7 @@ public class UIManager : MonoBehaviour
         }
         nameplatePrefab = Resources.Load("Nameplate") as GameObject;
         damageTextPrefab = Resources.Load("DamageText") as GameObject;
-        removeCooldownEvent = new UnityEvent<int>();
+        removeCooldownEvent = new UnityEvent<AbilityCooldown>();
         //hotbuttonPrefab = Resources.Load("Hotbutton 1") as GameObject;
         
 
