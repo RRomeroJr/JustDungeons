@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: -8456821108339157566}
   - component: {fileID: 2007984997200756631}
   - component: {fileID: 8131685176945106487}
+  - component: {fileID: 7236885642330284470}
+  - component: {fileID: 2297492397918982493}
   m_Layer: 7
   m_Name: Enemy1
   m_TagString: Untagged
@@ -84,7 +86,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: d3fc2c72d1c3e6e428b389df2192583e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c386f6a3e4f21aa4cb3472643e85775a, type: 3}
   m_Color: {r: 0.7249049, g: 0.19138479, b: 0.9056604, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -125,6 +127,7 @@ MonoBehaviour:
   nameplate: {fileID: 0}
   classResources: []
   state: 0
+  canMove: 1
   inCombat: 0
   combatLocked: 0
   attackerList: []
@@ -185,7 +188,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!114 &6083710982085013301
 MonoBehaviour:
@@ -256,7 +259,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: Infinity
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -308,6 +311,7 @@ MonoBehaviour:
   autoAttacking: 0
   resolvingMoveTo: 0
   autoAttackRequest: 0
+  circling: 0
   arenaObject: {fileID: 0}
   aggroRadius: 7
   resetPoint: {x: 0, y: 0}
@@ -443,3 +447,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &7236885642330284470
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6569267623682333730}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b193b3e683f41e64c896b3baed38be9c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2297492397918982493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6569267623682333730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f9d1d7bed21ae1409ac31d1d11703eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  up: {fileID: 0}
+  down: {fileID: 0}
+  facingRight: 1
+  facingDown: 1
+  spriteRenderer: {fileID: 0}
+  animator: {fileID: 0}
+  controller: {fileID: 0}

@@ -22,6 +22,8 @@ GameObject:
   - component: {fileID: -7787531913099909461}
   - component: {fileID: -6593130573431462916}
   - component: {fileID: -1070396221362818235}
+  - component: {fileID: -6482934022369105480}
+  - component: {fileID: -6630645861579168084}
   m_Layer: 7
   m_Name: FearCaster
   m_TagString: Untagged
@@ -85,7 +87,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: d3fc2c72d1c3e6e428b389df2192583e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c386f6a3e4f21aa4cb3472643e85775a, type: 3}
   m_Color: {r: 0.9528302, g: 0.78690255, b: 0.30023137, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -120,10 +122,13 @@ MonoBehaviour:
   mobId: 4
   combatClass: {fileID: 0}
   mainStat: 70
+  healingPower: 10
   target: {fileID: 0}
+  abilityHandler: {fileID: 0}
   nameplate: {fileID: 0}
   classResources: []
   state: 0
+  canMove: 1
   inCombat: 0
   combatLocked: 0
   attackerList: []
@@ -295,6 +300,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   autoAttackClone: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
+  followTargetLocked: 0
   followTarget: {fileID: 0}
   globalCooldown: 0
   abilities:
@@ -303,24 +309,19 @@ MonoBehaviour:
   moveSpeedModifier: 1
   facingDirection: {x: 0, y: 0}
   holdDirection: 0
-  tryingToMove: 0
+  holdPosistion: 0
   autoAttacking: 0
   resolvingMoveTo: 0
   autoAttackRequest: 0
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 8
+  circling: 0
   arenaObject: {fileID: 0}
-  enemyStats: {fileID: 0}
-  target: {fileID: 0}
-  multiTargets: []
-  spawnLocation: {x: 0, y: 0, z: 0}
-  collider: {fileID: 0}
   aggroRadius: 7
+  resetPoint: {x: 0, y: 0}
   combatTemperment: 0
   aggroTarget: {fileID: 0}
   phase: 0
   tauntImmune: 0
+  ignoreAggro: 0
 --- !u!114 &-7787531913099909461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,13 +340,12 @@ MonoBehaviour:
   showDebug: 0
   <QueuedAbility>k__BackingField: {fileID: 0}
   <QueuedTarget>k__BackingField: {fileID: 0}
-  <QueuedRelWP>k__BackingField:
-    Value: {x: 0, y: 0, z: 0}
-  <QueuedRelWP2>k__BackingField:
-    Value: {x: 0, y: 0, z: 0}
   abilityCooldowns: []
   buffs: []
   onAbilityCastHooks:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCastStarted:
     m_PersistentCalls:
       m_Calls: []
   ReadyToFire: 0
@@ -381,6 +381,9 @@ MonoBehaviour:
   slow: 0
   haste: 0
   damageTakenMod: 0
+  damageOutMod: 0
+  healingTakenMod: 0
+  healingOutMod: 0
 --- !u!114 &-1070396221362818235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,3 +397,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indicatorPrefab: {fileID: 0}
+--- !u!95 &-6482934022369105480
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6569267623682333730}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b193b3e683f41e64c896b3baed38be9c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-6630645861579168084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6569267623682333730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f9d1d7bed21ae1409ac31d1d11703eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  up: {fileID: 0}
+  down: {fileID: 0}
+  facingRight: 1
+  facingDown: 1
+  spriteRenderer: {fileID: 0}
+  animator: {fileID: 0}
+  controller: {fileID: 0}
