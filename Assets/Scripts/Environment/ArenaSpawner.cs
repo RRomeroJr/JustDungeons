@@ -6,14 +6,14 @@ using Mirror;
 public class ArenaSpawner: NetworkBehaviour
 {
 	public Arena ArenaPrefab;
-    void Awake(){
+    protected void Awake(){
         GameManager.instance.OnActorEnterCombat.AddListener(SpawnOrWait);
         
     }
-    void Start(){
+    protected void Start(){
         
     }
-    void SpawnOrWait(Actor _eventIn){
+    protected void SpawnOrWait(Actor _eventIn){
         if(NetworkServer.active == false){
             Debug.Log("Client ignoring spawn arena component");
             return;
@@ -31,7 +31,7 @@ public class ArenaSpawner: NetworkBehaviour
         SpawnArena(_eventIn);
     }
 
-    void SpawnArena(Actor _eventIn){
+    protected void SpawnArena(Actor _eventIn){
         if(NetworkServer.active == false){
             Debug.Log("Client ignoring spawn arena component");
             return;
@@ -53,15 +53,25 @@ public class ArenaSpawner: NetworkBehaviour
                 return;
             }
 
-            Arena arenaRef = Instantiate(ArenaPrefab, transform.position, Quaternion.identity);
+            Arena arenaRef = CreateArenaInstance();
+            // Arena arenaRef = Instantiate(ArenaPrefab, transform.position, Quaternion.identity);
+            if(enemyController.arenaObject)
+            {
+                Destroy(enemyController.arenaObject.gameObject);
+            }
             enemyController.arenaObject = arenaRef;
             arenaRef.mobList.Add(GetComponent<Actor>());
             NetworkServer.Spawn(arenaRef.gameObject);
-            Destroy(this);
+            // Destroy(this);
         }
-        
     }
-    IEnumerator WaitForPartnerSpawnArena(){
+    protected virtual Arena CreateArenaInstance() // Made for easy override
+    {
+        Arena arenaRef = Instantiate(ArenaPrefab, transform.position, Quaternion.identity);
+        return arenaRef;
+
+    }
+    protected IEnumerator WaitForPartnerSpawnArena(){
         EnemyController enemyController = GetComponent<EnemyController>();
         Multiboss mbComp = GetComponent<Multiboss>();
         while(enemyController.arenaObject == null)

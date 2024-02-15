@@ -23,8 +23,8 @@ public class DungeonInfo : MonoBehaviour
     {
         
         string toDisplay = "Time: ";
-        toDisplay = toDisplay + GameManager.instance.timer.ToString();
-        toDisplay = toDisplay + "\nMob Count: " + GameManager.instance.mobCount.ToString();
+        toDisplay = toDisplay + LevelManager.instance.timer.ToString();
+        toDisplay = toDisplay + "\nMob Count: " + LevelManager.instance.mobCount.ToString();
         tmpGUI.SetText(toDisplay);
         
     }

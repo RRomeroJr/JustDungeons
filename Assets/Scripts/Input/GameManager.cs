@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     //Assume that actor get you a COPY of the abililty that they want to cast
     // or.. I could copy it for them... and replace the ref with ref keyword
-    public UnityEvent<int> OnMobDeath;
+    public UnityEvent<Actor> OnMobDeath;
     public int dungeonScalingLevel = 0;
     public float dungeonHealthScaling = 0.1f;
     public float dungeonDamageScaling = 0.1f;
@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public UnityEvent<Actor> OnActorEnterCombat = new UnityEvent<Actor>();
     public UnityEvent<Actor> OnActorLeaveCombat = new UnityEvent<Actor>();
     public UnityEvent AllPlayersLeaveCombat = new UnityEvent();
+    public UnityEvent OnDungeonComplete = new UnityEvent();
     void Awake()
     {
         if(instance == null)
@@ -35,8 +36,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        OnMobDeath.AddListener(RespawnDionysus);
-        OnMobDeath.AddListener(IncreaseMobCount);
+        // OnMobDeath.AddListener(RespawnDionysus);
+        // OnMobDeath.AddListener(IncreaseMobCount);
         OnActorEnterCombat.AddListener(LogEnterCombat);
         OnActorLeaveCombat.AddListener(LogLevaveCombat);
         OnActorLeaveCombat.AddListener(CheckAllPlayersOutOfCombat);
@@ -71,17 +72,14 @@ public class GameManager : MonoBehaviour
     public void logMobDeath(int _mobId){
         Debug.Log(MobData._inst.find(_mobId).ActorName+ " has died! spawning new one");
     }
-    public void RespawnDionysus(int _mobId){
+    public void RespawnDionysus(Actor _a){
         if(NetworkServer.active == false){
             return;
         }
-        if(_mobId == 1){
-            Debug.Log("Respawning Dionysus after death in 7 secs");
-            StartCoroutine(spawnInXSecs(7.0f, MobData._inst.find(1).gameObject));
-        }
-        else{
-            Debug.Log("Mob that wasn't Dio died");
-        }
+        Debug.Log("Respawning Dionysus after death in 7 secs");
+        StartCoroutine(spawnInXSecs(7.0f, MobData._inst.find(1).gameObject));
+
+
     }
 
     IEnumerator spawnInXSecs(float time, GameObject prefab){

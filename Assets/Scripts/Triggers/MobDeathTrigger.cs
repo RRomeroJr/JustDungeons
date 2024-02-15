@@ -7,6 +7,7 @@ public class MobDeathTrigger: Trigger
 {
 	
     public List<Actor> actorsTocheck;
+    public bool waitToPopulate = false; 
     
     void Awake()
     {
@@ -29,17 +30,28 @@ public class MobDeathTrigger: Trigger
 
         foreach(Actor actorToCheck in actorsTocheck)
         {
-            if(actorToCheck != null){
-
-                atleastOneAlive = actorToCheck.state == ActorState.Alive;
+            if(waitToPopulate){ // There was atleast 1 actor in the list so no longer waiting to populate
+                waitToPopulate = false;
             }
-
-            if(atleastOneAlive)
-                break;
+            if(actorToCheck != null){
+                if(actorToCheck.state == ActorState.Alive)
+                {
+                    atleastOneAlive = true;
+                    break;
+                }
+            }
             
         }
+       
+        return !(atleastOneAlive || waitToPopulate);
+    }
 
-        return !atleastOneAlive;
+    public void PopulateActorList(List<Actor> _list)
+    {
+        foreach(Actor a in _list)
+        {
+            actorsTocheck.Add(a);
+        }
     }
    
 }

@@ -20,8 +20,19 @@ public class Summon : AbilityEff
             }
 
             GameObject inst = Instantiate(mobPrefab, targetWP.Value, Quaternion.identity);
-            
+
+            SummonedCreature _sc;
+            if(inst.TryGetComponent(out SummonedCreature _comp))
+            {
+                _sc = _comp;
+            }
+            else
+            {
+                _sc = inst.AddComponent<SummonedCreature>();
+            }
+            _sc.summoner = caster;
             NetworkServer.Spawn(inst);
+            
         }
         catch{}
     }

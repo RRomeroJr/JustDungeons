@@ -521,6 +521,7 @@ public class AbilityHandler : NetworkBehaviour
             if (gameObject.tag == "Player")
             {
                 AnimateAbility(_ability);
+                PlaySounds(_ability);
             }
         }
 
@@ -654,6 +655,7 @@ public class AbilityHandler : NetworkBehaviour
             if (gameObject.tag == "Player")
             {
                 AnimateAbility(_ability);
+                PlaySounds(_ability);
             }
         }
 
@@ -691,8 +693,9 @@ public class AbilityHandler : NetworkBehaviour
                 abilityCooldowns[i].remainingTime -= Time.deltaTime;
             else
             {
+                AbilityCooldown temp = abilityCooldowns[i];
                 abilityCooldowns.RemoveAt(i);
-                UIManager.removeCooldownEvent.Invoke(i);
+                UIManager.removeCooldownEvent.Invoke(temp);
                 i--;
             }
         }
@@ -734,8 +737,9 @@ public class AbilityHandler : NetworkBehaviour
                 abilityCooldowns[i].remainingTime -= flatAmt;
                 if (abilityCooldowns[i].remainingTime <= 0)
                 {
+                    AbilityCooldown temp = abilityCooldowns[i];
                     abilityCooldowns.RemoveAt(i);
-                    UIManager.removeCooldownEvent.Invoke(i);
+                    UIManager.removeCooldownEvent.Invoke(temp);
                 }
                 if (isServer && !isLocalPlayer && tag == "Player")
                 {
@@ -873,5 +877,18 @@ public class AbilityHandler : NetworkBehaviour
         {
             animator.SetTrigger("SpecialWeapon");
         }
+    }
+    [ClientRpc]
+    void PlaySounds(Ability_V2 _ability)
+    {
+        //ph look for audioClip in a list of clips in AudioManager
+        // Sound s = AudioManager.instance.testSound;
+
+        // GetComponent<AudioSource>().PlayOneShot(s.audioClip, s.baseVol * AudioManager.instance.GetChannelVolume(s.soundTag));
+        AudioSource _as = GetComponent<AudioSource>(); 
+        if(_as){
+            AudioManager.PlayFromSource(GetComponent<AudioSource>(), "mixkit-sword-slash-swoosh-1476");
+        }
+
     }
 }

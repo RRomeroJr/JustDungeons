@@ -6,7 +6,7 @@ public class TargetRole : ActionNode
 {
     public LayerMask targetMask;
     public float range;
-    public Role role;
+    public Role role = Role.Everything;
 
     protected override void OnStart()
     {

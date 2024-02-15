@@ -24,8 +24,8 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   ability: {fileID: 11400000, guid: c141abadade7e9a408aacc8f9f927a3f, type: 2}
-  relativePoint: {x: 0, y: 0}
-  relativePoint2: {x: 1, y: 0}
+  relativePoint: {x: 1, y: 0}
+  relativePoint2: {x: 0, y: 0}
   relativeTo: 1
   castStarted: 0
   castFinished: 0
@@ -82,10 +82,35 @@ MonoBehaviour:
   children:
   - {fileID: 9150740524698074661}
   - {fileID: -6293162388585713411}
+  - {fileID: -8439102600243683999}
   - {fileID: 3636216687044013529}
   - {fileID: -234095500234933970}
   - {fileID: 1134781508694993298}
   - {fileID: 7907257748347797807}
+--- !u!114 &-8439102600243683999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74c6145b391e44a4b89d5885d48e1b90, type: 3}
+  m_Name: HoldDirection
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 30110cc62d089ea448ac2897cd31c290
+  position: {x: 2155.2, y: 1530.4}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: 
+  drawGizmos: 0
+  setTo: 1
 --- !u!114 &-8248654944630677637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,7 +294,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 03707e42c83d4734b8db2788299ebf94
-  position: {x: 2057.0793, y: 1530.9998}
+  position: {x: 2001.2869, y: 1531.6}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -357,8 +382,8 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   ability: {fileID: 11400000, guid: c141abadade7e9a408aacc8f9f927a3f, type: 2}
-  relativePoint: {x: 0, y: 0}
-  relativePoint2: {x: 0, y: 1}
+  relativePoint: {x: 0, y: 1}
+  relativePoint2: {x: 0, y: 0}
   relativeTo: 1
   castStarted: 0
   castFinished: 0
@@ -520,8 +545,8 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   ability: {fileID: 11400000, guid: c141abadade7e9a408aacc8f9f927a3f, type: 2}
-  relativePoint: {x: 0, y: 0}
-  relativePoint2: {x: 0, y: -1}
+  relativePoint: {x: 0, y: -1}
+  relativePoint2: {x: 0, y: 0}
   relativeTo: 1
   castStarted: 0
   castFinished: 0
@@ -543,7 +568,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: c3299f6581bd2fe4caefd46faeae27fd
-  position: {x: -2682.9644, y: 1455}
+  position: {x: -2679.1772, y: 1450.4}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -954,6 +979,7 @@ MonoBehaviour:
   - {fileID: -293061783779330607}
   - {fileID: 8815113391263055988}
   - {fileID: 6281600043281386151}
+  - {fileID: -8439102600243683999}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -1077,8 +1103,8 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   ability: {fileID: 11400000, guid: c141abadade7e9a408aacc8f9f927a3f, type: 2}
-  relativePoint: {x: 0, y: 0}
-  relativePoint2: {x: -1, y: 0}
+  relativePoint: {x: -1, y: 0}
+  relativePoint2: {x: 0, y: 0}
   relativeTo: 1
   castStarted: 0
   castFinished: 0
@@ -1835,7 +1861,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 462be24adb6bcec44b6a4ce14cb8966c
-  position: {x: 1907.0793, y: 1530.9998}
+  position: {x: 1851.6869, y: 1531.6}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}

@@ -286,6 +286,14 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         buff.End();
         buffs.Remove(buff);
     }
+    [Server]
+    public void RemoveAll()
+    {
+        foreach(Buff buff in buffs)
+        {
+            RemoveBuff(buff);
+        }
+    }
 
     private void ChangeStatusEffect(StatusEffectState newEffect)
     {
@@ -449,4 +457,5 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         RemoveBuff(buffs[indices[UnityEngine.Random.Range(0, indices.Count)]]);
         return true;
     }
+
 }

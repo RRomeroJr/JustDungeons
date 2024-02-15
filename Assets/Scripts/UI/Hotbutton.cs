@@ -16,7 +16,7 @@ public class Hotbutton: MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
     public Slider cooldownSlider;
    
     private AbilityCooldown abilityCooldown;
-    public int cooldownIndex = -1;
+    // public int cooldownIndex = -1;
     public TextMeshProUGUI tempAbilityNameText;
 
     //public DebugTimer debugTimer = new DebugTimer(2.0f);
@@ -37,15 +37,14 @@ public class Hotbutton: MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
     void Awake(){
         image = GetComponent<Image>();
         UIManager.removeCooldownEvent.AddListener(OnCooldownRemoved);
-        
         abilityCooldown = null;
 
     }
-    void OnCooldownRemoved(int _removedIndex){
-        if(_removedIndex == cooldownIndex){
+    void OnCooldownRemoved(AbilityCooldown _removedCD){
+        if(_removedCD == abilityCooldown){
             // Debug.Log("Event nulling abilityCooldown");
             abilityCooldown = null;
-            cooldownIndex = -1;
+            // cooldownIndex = -1;
             
         }
     }
@@ -97,8 +96,8 @@ public class Hotbutton: MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
         if(abilityCooldown == null){
             
             if(UIManager.playerActor.checkOnCooldown(ability)){
-                cooldownIndex = UIManager.playerActor.abilityCooldowns.FindIndex(x => x.abilityName == ability.getName());
-                abilityCooldown = UIManager.playerActor.abilityCooldowns[cooldownIndex];
+                abilityCooldown = UIManager.playerActor.abilityCooldowns.Find(x => x.abilityName == ability.getName());
+                // abilityCooldown = UIManager.playerActor.abilityCooldowns[cooldownIndex];
                 // Debug.Log("abilityCooldown set");
                 cooldownSlider.maxValue = ability.getCooldown();
                 cooldownSlider.value = abilityCooldown.remainingTime;

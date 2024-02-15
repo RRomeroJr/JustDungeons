@@ -17,7 +17,7 @@ public class DespawnScript : NetworkBehaviour
             Destroy(this);
         }
         else{
-            Debug.Log(gameObject.name + "." + GetType() + ": Spawning in " + despawnTimer);
+            Debug.Log(gameObject.name + "." + GetType() + ": Destroying in " + despawnTimer);
         }
     }
     void Update()

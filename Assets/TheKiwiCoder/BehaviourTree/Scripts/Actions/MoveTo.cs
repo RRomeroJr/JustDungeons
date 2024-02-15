@@ -38,12 +38,6 @@ public class MoveTo : ActionNode
 
     protected override State OnUpdate()
     {
-
-        if (context.controller.arenaObject == null)
-        {
-            Debug.Log("Skipping MoveToRelWP. Returning Failure");
-            return State.Failure;
-        }
         if (!moveToStarted)
         {
             moveToStarted = context.controller.moveToPoint(pos);

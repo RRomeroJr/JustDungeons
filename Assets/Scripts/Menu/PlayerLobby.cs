@@ -2,6 +2,8 @@
 using Mirror;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Mirror.FizzySteam;
+using Steamworks;
 
 public class PlayerLobby : NetworkBehaviour
 {
@@ -15,7 +17,7 @@ public class PlayerLobby : NetworkBehaviour
     public string DisplayName = "Loading...";
     [SyncVar(hook = nameof(HandleReadyStatusChanged))]
     public bool IsReady = false;
-    [SyncVar]
+    [SyncVar(hook = nameof(OnCombatClassSync))]
     public string combatClass;
 
     private bool isLeader;
@@ -43,6 +45,7 @@ public class PlayerLobby : NetworkBehaviour
     void Awake()
     {
         uiController = GameObject.Find("UIDocument").GetComponent<UIController>();
+
     }
 
     public override void OnStartAuthority()
@@ -68,10 +71,16 @@ public class PlayerLobby : NetworkBehaviour
             classSelect = uiController.uiLobby.dropdownClass;
             classSelect.RegisterValueChangedCallback(OnClassChanged);
             dungeonSelect = uiController.uiLobby.dropdownDungeon;
-            classSelect.RegisterValueChangedCallback(OnClassChanged);
+            // classSelect.RegisterValueChangedCallback(OnClassChanged);
+            //Set Name to Steam name if on Steam
+            if(NetworkManager.singleton.transport.GetType() == typeof(FizzySteamworks))
+            {
+                CmdSetDisplayName(SteamFriends.GetPersonaName());
+            }
         }
         
         playerSlot.isReadOnly = false;
+        // classSelect.index = 1;
         uiController.UpdateUI();
 
         // Hide start button if not host
@@ -79,15 +88,27 @@ public class PlayerLobby : NetworkBehaviour
         {
             uiController.uiLobby.buttonLobbyStart.style.display = DisplayStyle.None;
         }
+
+       
     }
 
     private void OnClassChanged(ChangeEvent<string> evt)
     {
-        if (isServer)
-        {
-            combatClass = evt.newValue;
-            return;
-        }
+        // if (isServer)
+        // {
+        //     combatClass = evt.newValue;
+        //     if(CustomNetworkManager.singleton.playerInfo.ContainsKey(connectionToClient))
+        //     {
+        //         Debug.Log("Connection found! changing " + CustomNetworkManager.singleton.playerInfo[connectionToClient].name
+        //          + "'s PlayerData.combatClass to " + evt.newValue);
+        //         CustomNetworkManager.singleton.playerInfo[connectionToClient].combatClass = evt.newValue;
+        //     }
+        //     else
+        //     {
+        //         Debug.LogError("Could not NetworkConnectionToClient");
+        //     }
+        //     return;
+        // }
         CmdSetCombatClass(evt.newValue);
     }
 
@@ -96,6 +117,16 @@ public class PlayerLobby : NetworkBehaviour
         if (isServer)
         {
             DisplayName = evt.newValue;
+            if(CustomNetworkManager.singleton.playerInfo.ContainsKey(connectionToClient))
+            {
+                Debug.Log("Connection found! " + CustomNetworkManager.singleton.playerInfo[connectionToClient].name
+                 + "'s PlayerData.name to " + evt.newValue);
+                CustomNetworkManager.singleton.playerInfo[connectionToClient].name = evt.newValue;
+            }
+            else
+            {
+                Debug.LogError("Could not NetworkConnectionToClient");
+            }
             return;
         }
         CmdSetDisplayName(evt.newValue);
@@ -109,6 +140,24 @@ public class PlayerLobby : NetworkBehaviour
 
     public void HandleReadyStatusChanged(bool oldValue, bool newValue) => uiController.UpdateUI();
     public void HandleDisplayNameChanged(string oldValue, string newValue) => uiController.UpdateUI();
+    public void OnCombatClassSync(string oldValue, string newValue)
+    {
+        if (isServer)
+        {
+            // combatClass = newValue;
+            if(CustomNetworkManager.singleton.playerInfo.ContainsKey(connectionToClient))
+            {
+                Debug.Log("Connection found! changing " + CustomNetworkManager.singleton.playerInfo[connectionToClient].name
+                 + "'s PlayerData.combatClass to " + newValue);
+                CustomNetworkManager.singleton.playerInfo[connectionToClient].combatClass = newValue;
+            }
+            else
+            {
+                Debug.LogError("Could not NetworkConnectionToClient");
+            }
+
+        }
+    }
 
     [Command]
     private void CmdSetDisplayName(string displayName)
@@ -118,6 +167,11 @@ public class PlayerLobby : NetworkBehaviour
 
     [Command]
     private void CmdSetCombatClass(string c)
+    {
+        combatClass = c;
+    }
+    [ClientRpc]
+    private void OnCombatClassSync(string c)
     {
         combatClass = c;
     }

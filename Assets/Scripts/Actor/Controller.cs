@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Events;
 
 public class Controller : NetworkBehaviour
 {
     [Header("For Now Needs To Be Assigned")]
     public Ability_V2 autoAttackClone;
-    
+
     [Header("Automatic")]
     protected Actor actor;
     protected AbilityHandler abilityHandler;
@@ -40,12 +38,13 @@ public class Controller : NetworkBehaviour
     public bool autoAttacking;
     public bool resolvingMoveTo;
     public bool autoAttackRequest = false;
+    public bool circling = false;
 
     public virtual bool TryingToMove
     {
         get
         {
-            if(agent.enabled == false)
+            if (agent.enabled == false)
             {
                 return false;
             }
@@ -79,14 +78,14 @@ public class Controller : NetworkBehaviour
     }
 
     public virtual void Update()
-    {   
+    {
         Debug.DrawLine(transform.position, (facingDirection * 2.5f) + (Vector2)transform.position, Color.green);
-        
+
         if (globalCooldown > 0.0f)
         {
             globalCooldown -= Time.deltaTime;
         }
-        if(tag != "Player" && !isServer)
+        if (tag != "Player" && !isServer)
         {
             return;
         }
@@ -97,19 +96,16 @@ public class Controller : NetworkBehaviour
                 autoAttacking = false;
                 return;
             }
-            if (abilityHandler.CheckOnCooldown(autoAttackClone) == false)
+            if (abilityHandler.CheckOnCooldown(autoAttackClone) == false && autoAttackRequest == false)
             {
-                if (autoAttackRequest == false)
+                //request aa commad?
+                if (isServer)
                 {
-                    //request aa commad?
-                    if (isServer)
-                    {
-                        handleAutoAttackRequest();
-                    }
-                    else
-                    {
-                        requestAutoAttack();
-                    }
+                    handleAutoAttackRequest();
+                }
+                else
+                {
+                    requestAutoAttack();
                 }
             }
         }
@@ -123,6 +119,14 @@ public class Controller : NetworkBehaviour
 
         }
     }
+    public virtual void FixedUpdate()
+    {
+        if (isServer)
+        {
+            CheckToFollowSomething();
+
+        }
+    }
 
     public void MoveTowards(Vector3 pos)
     {
@@ -130,13 +134,14 @@ public class Controller : NetworkBehaviour
     }
 
     public void MoveInDirection(Vector2 _direction)
-    { 
+    {
         MoveInDirection(_direction, moveSpeed);
     }
+
     public void MoveInDirection(Vector2 _direction, float _speed)
-    { 
+    {
         // _direction.Normalize();
-        
+
         // Vector2 _vect = moveSpeed * (Vector2)moveDirection * Time.fixedDeltaTime;
         // transform.position = (Vector2)transform.position + _vect;
 
@@ -145,23 +150,23 @@ public class Controller : NetworkBehaviour
         Rigidbody2D _rb = GetComponent<Rigidbody2D>();
         _rb.AddForce(_vect);
     }
+
     protected virtual void MovementFacingDirection()
     {
-        if(TryingToMove == false)
+        if (TryingToMove == false)
         {
             return;
         }
         HBCTools.Quadrant newVectQuad;
         newVectQuad = HBCTools.GetQuadrant(moveDirection.Value);
         if ((moveDirection.Value.x != 0.0f) && (moveDirection.Value.y != 0.0f))
-        { 
+        {
             if (HBCTools.GetQuadrant(facingDirection) != newVectQuad)
             {
                 facingDirection = HBCTools.QuadrantToVector(newVectQuad);
                 CmdSetFacingDirection(facingDirection);
             }
         }
-        
     }
 
     [Command]
@@ -169,6 +174,7 @@ public class Controller : NetworkBehaviour
     {
         handleAutoAttackRequest();
     }
+
     void handleAutoAttackRequest()
     {
         if (autoAttackRequest == true)
@@ -182,11 +188,7 @@ public class Controller : NetworkBehaviour
             autoAttackRequest = abilityHandler.CastAbility3(autoAttackClone); //eventually the req becomes true
         }
     }
-    // [Command]
-    // public void CmdSetTryingToMove(bool _valFromClient)
-    // {
-    //     tryingToMove = _valFromClient;
-    // }
+
     public bool moveToPoint(Vector2 pos)
     {
         if (resolvingMoveTo)
@@ -197,17 +199,12 @@ public class Controller : NetworkBehaviour
         StartCoroutine(IE_moveToPoint(pos));
         return true;
     }
-    // public bool moveToPoint(Vector2 pos, float tempMoveSpeed){
-    //     if(resolvingMoveTo){
-    //         return false;
-    //     }
-    //     StartCoroutine(IE_moveToPoint(pos, tempMoveSpeed));
-    //     return true;
-    // }
+
     public void moveOffOtherUnits()
     {
         moveToPoint(Vector2.up + (Vector2)transform.position);
     }
+
     IEnumerator IE_moveToPoint(Vector2 pos)
     {
         /*
@@ -215,7 +212,7 @@ public class Controller : NetworkBehaviour
             then set agent.destination to pos and check to see if it arrived every 0.2s
             or so 
         */
-        
+
         //Debug.Log("No Pending Path move to: " + pos);
         agent.ResetPath();
         agent.SetDestination(pos);
@@ -243,19 +240,8 @@ public class Controller : NetworkBehaviour
         {
             agent.stoppingDistance = getStoppingDistance(followTarget);
         }
-        
-    }
-    //  IEnumerator IE_moveToPoint(Vector2 pos, float tempMoveSpeed){
-    //     float moveSpeedHolder = agent.speed;
-    //     agent.speed = tempMoveSpeed;
-    //     StartCoroutine(IE_moveToPoint(pos));
-    //     while(resolvingMoveTo){
-    //         yield return new WaitForSeconds(0.2f);
-    //     }
-    //     Debug.Log(actor.getActorName()+": Returning normal agent speed");
-    //     agent.speed = moveSpeedHolder;
 
-    // }
+    }
 
     float getStoppingDistance(GameObject _target)
     {
@@ -292,12 +278,17 @@ public class Controller : NetworkBehaviour
         //Straight up 90% of melee range
         return Mathf.Max(Ability_V2.meleeRange * 0.9f);
     }
+
     public bool SetFollowTarget(GameObject _target, bool ignoreLock = false)
     {
-        if(followTargetLocked  && !ignoreLock)
+        if (followTargetLocked && !ignoreLock)
         {
             // Debug.Log("SetfollowTarget ignored. followTargetLocked");
             return false;
+        }
+        if(_target == followTarget)
+        {
+            return true;
         }
         followTarget = _target;
         if (followTarget != null)
@@ -310,18 +301,22 @@ public class Controller : NetworkBehaviour
         }
         return true;
     }
+
     [Command]
     protected void CmdSetFacingDirection(Vector2 _ClientFacingDirection)
     {
         RpcSetFacingDirection(_ClientFacingDirection);
     }
+
     [ClientRpc(includeOwner = false)]
     protected void RpcSetFacingDirection(Vector2 _ownersFacingDirection)
     {
         facingDirection = _ownersFacingDirection;
     }
+
     [Server]
-    public void ServerSetFacingDirection(HBCTools.Quadrant _direction){
+    public void ServerSetFacingDirection(HBCTools.Quadrant _direction)
+    {
         facingDirection = HBCTools.QuadrantToVector(_direction);
         RpcSetFacingDirection(facingDirection);
     }
@@ -333,68 +328,151 @@ public class Controller : NetworkBehaviour
         float tempSlow = 2.0f - e.Slow;
         moveSpeedModifier = tempSlow * e.Haste;
     }
+
     public void FacePosistion(Vector2 _pos)
     {
-        Vector2 result =  HBCTools.ToNearest45(_pos - (Vector2)transform.position);
+        Vector2 result = HBCTools.ToNearest45(_pos - (Vector2)transform.position);
 
-        if(facingDirection == result)
+        if (facingDirection == result)
         {
             return;
         }
 
         facingDirection = result;
     }
+
     public bool ShouldFollowSomething()
     {
-        if(followTarget == null){
+        if (followTarget == null)
+        {
             return false;
         }
-        if  ( !(resolvingMoveTo || holdDirection || holdPosistion) )
+        if (!(resolvingMoveTo || holdDirection || holdPosistion))
         {
-
-            if( !(actor.isCastImmobile() || actor.abilityHandler.RequestingCast))
+            if (!(actor.isCastImmobile() || actor.abilityHandler.RequestingCast))
             {
                 return true;
             }
-
         }
         return false;
     }
+
     public void StopAgentToCast()
     {
-        if(agent.enabled == false)
+        if (agent.enabled == false)
         {
             return;
         }
-        if(agent.isStopped == false)
+        if (agent.isStopped == false)
         {
             // Debug.Log(name + ": Stopping");
             agent.velocity = Vector2.zero;
             agent.isStopped = true;
         }
     }
+
     public void CheckToFollowSomething()
     {
-        if (ShouldFollowSomething())
+        if (!ShouldFollowSomething() || agent == null)
         {
-            // GameObject thingToFollow = GetSomethingToFollow();
-            // if(thingToFollow == null)
-            // {
-            //     return;
-            // }
+            return;
+        }
+        if(CheckToCircle())
+        {
+            CircleFollowTarget();
+        }
+        else
+        {
+            agent.SetDestination(followTarget.transform.position);
+        }
+        if (agent.enabled && agent.isStopped)
+        {
+            agent.isStopped = false;
+            // Debug.Log("Unstopping to follow something");
+        }
+    }
+    bool CheckToCircle()
+    {
+        if(Vector2.Distance(followTarget.transform.position, transform.position) > getStoppingDistance(followTarget))
+        {
+            if(circling) //Cancle circling if should just run at target
+            {
+                circling = false;
+                agent.stoppingDistance = getStoppingDistance(followTarget);
+            }
+            return false;
+        }
 
+        //Overlap checks
+        List<Collider2D> results = new List<Collider2D>();
+        ContactFilter2D cf2d = new ContactFilter2D();
+        cf2d.layerMask = LayerMask.GetMask("Enemy");
 
-            GetComponent<NavMeshAgent>().SetDestination(followTarget.transform.position);
-            if(agent.enabled){
-                if(agent.isStopped)
+        GetComponent<Collider2D>().OverlapCollider(cf2d, results);
+
+        if(ShouldCircle(results) != circling)
+        {
+            circling = !circling;
+            if(circling) //Start
+            {
+                // Debug.Log(gameObject.name + " start circling");
+                agent.stoppingDistance = 0.0f;
+            }
+            else //End
+            {
+                // Debug.Log(gameObject.name + " end circling");
+                agent.stoppingDistance = getStoppingDistance(followTarget);
+            }
+        }
+        return circling;
+    }
+    /// <summary>
+    ///	Npc should keep circling if it is overlapping at least 1 other npc that isn't circling.
+    /// </summary>
+    bool ShouldCircle(List<Collider2D> _overlaps)
+    {
+        if(_overlaps == null || _overlaps.Count <= 0)
+        {
+            return false;
+        }
+        else
+        {
+            foreach(Collider2D c2d in _overlaps)
+            {
+                if(c2d.TryGetComponent(out EnemyController _ec))
                 {
-                    agent.isStopped = false;
-                    // Debug.Log("Unstopping to follow something");
+                    if(_ec.circling == false)
+                    {
+                        return true;
+                    }
                 }
             }
         }
+        return false;
     }
-    
+    void CircleFollowTarget()
+    {
+        Vector2 followTargetToThis = (Vector2)(transform.position - followTarget.transform.position);
+        followTargetToThis.Normalize();
+        followTargetToThis = 2.5f * followTargetToThis;
+        
+        float chord = agent.speed * Time.fixedDeltaTime;
 
-    
+        float anglePerFixedUpdate = //Law of cosines to get this angle
+        Mathf.Acos((2 * Mathf.Pow(followTargetToThis.magnitude, 2) - Mathf.Pow(chord, 2))
+         / (2 * Mathf.Pow(followTargetToThis.magnitude, 2)));
+        anglePerFixedUpdate *= Mathf.Rad2Deg;
+
+        // Debug.LogFormat("{0} dist, {1} chord len, {2} angle", followTargetToThis.magnitude, chord, anglePerFixedUpdate);
+
+        Vector2 rotated = Quaternion.Euler(0, 0, anglePerFixedUpdate) * followTargetToThis;
+        rotated.Normalize();
+        // Debug.DrawLine(followTarget.transform.position, (Vector2) followTarget.transform.position + (2.5f * rotated), Color.white, Time.fixedDeltaTime);
+        agent.SetDestination( ((Vector2)followTarget.transform.position + (2.5f * rotated)));
+    }
+    protected virtual void OnEnterCombat()
+    {}
+
+    protected virtual void OnLeaveCombat()
+    {}
 }

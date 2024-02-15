@@ -12,15 +12,15 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -7317289741359242560, guid: caa5883b5e9d4e847862790f239181d7, type: 3}
-      propertyPath: duration
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -7317289741359242560, guid: caa5883b5e9d4e847862790f239181d7, type: 3}
       propertyPath: trackTarget
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7317289741359242560, guid: caa5883b5e9d4e847862790f239181d7, type: 3}
       propertyPath: followCaster
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7317289741359242560, guid: caa5883b5e9d4e847862790f239181d7, type: 3}
+      propertyPath: rotationSequence2.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7317289741359242560, guid: caa5883b5e9d4e847862790f239181d7, type: 3}

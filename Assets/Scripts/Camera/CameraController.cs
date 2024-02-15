@@ -99,10 +99,15 @@ public class CameraController : MonoBehaviour
 
     void HandlePlayerAdded(object sender, EventArgs e)
     {
-        if (CustomNetworkManager.singleton.GamePlayers.Last().isLocalPlayer)
+        foreach(var ele in CustomNetworkManager.singleton.GamePlayers)
         {
-            target = CustomNetworkManager.singleton.GamePlayers.Last().transform;
-            offset.y = -1 * target.GetComponent<Renderer>().bounds.extents.y;
+            if (ele.isLocalPlayer)
+            {
+                target = ele.transform;
+                offset.y = -1 * target.GetComponent<Renderer>().bounds.extents.y;
+                break;
+            }
+
         }
     }
     void LockCursor()

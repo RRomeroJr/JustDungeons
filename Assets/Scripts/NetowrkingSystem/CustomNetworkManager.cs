@@ -38,6 +38,7 @@ public class CustomNetworkManager : NetworkManager
     protected Callback<LobbyCreated_t> lobbyCreated;
     protected Callback<GameLobbyJoinRequested_t> gameLobbyJoinRequested;
     protected Callback<LobbyEnter_t> lobbyEntered;
+    public Dictionary<NetworkConnectionToClient, PlayerData> playerInfo = new Dictionary<NetworkConnectionToClient, PlayerData>();
 
     private const string HostAddressKey = "HostAddress";
 
@@ -80,6 +81,40 @@ public class CustomNetworkManager : NetworkManager
     public override void LateUpdate()
     {
         base.LateUpdate();
+    }
+   
+    public override void Update()
+    {
+        if(Input.GetKeyDown("n"))
+        {
+            if(playerInfo.Count == 0)
+            {
+                Debug.Log("No entries in playerInfo");
+                MsgBox.DisplayMsg("No entries in playerInfo");
+            }
+            else
+            {
+                foreach(KeyValuePair<NetworkConnectionToClient, PlayerData> entry in playerInfo)
+                {
+                    Debug.Log(entry.Value.name + ": " + entry.Value.combatClass);
+                }
+                Debug.Log("Number of GamePlayers: " + GamePlayers.Count);
+                MsgBox.DisplayMsg("Number of GamePlayers: " + GamePlayers.Count);
+            }
+
+        }
+        if(Input.GetKeyDown(","))
+        {
+            if(playerInfo.Count == 0)
+            {
+                Debug.Log("No entries in playerInfo");
+            }
+            foreach(KeyValuePair<NetworkConnectionToClient, PlayerData> entry in playerInfo)
+            {
+                Respawn(entry.Key);
+            }
+        }
+
     }
 
     /// <summary>
@@ -139,23 +174,37 @@ public class CustomNetworkManager : NetworkManager
     /// <param name="sceneName">The name of the new scene.</param>
     public override void OnServerSceneChanged(string sceneName)
     {
-        for (int i = RoomPlayers.Count - 1; i >= 0; i--)
+        // for (int i = RoomPlayers.Count - 1; i >= 0; i--)
+        // {
+        //     var conn = RoomPlayers[i].connectionToClient;
+        //     Transform startPos = GetStartPosition();
+        //     // var gameplayerInstance = Instantiate(gamePlayerPrefab);
+        //     var gameplayerInstance = startPos != null
+        //         ? Instantiate(gamePlayerPrefab, startPos.position, startPos.rotation)
+        //         : Instantiate(gamePlayerPrefab);
+        //     gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
+        //     var playerActor = gameplayerInstance.GetComponent<Actor>();
+        //     playerActor.ActorName = RoomPlayers[i].DisplayName;
+        //     playerActor.combatClass = Resources.Load<CombatClass>(RoomPlayers[i].combatClass);
+
+        //     NetworkServer.Destroy(conn.identity.gameObject);
+
+        //     NetworkServer.ReplacePlayerForConnection(conn, gameplayerInstance.gameObject);
+        // }
+        // if(SceneManager.GetActiveScene().path == menuScene)
+        // {
+        //     return;
+        // }
+        foreach(KeyValuePair<NetworkConnectionToClient, PlayerData> entry in playerInfo)
         {
-            var conn = RoomPlayers[i].connectionToClient;
-            Transform startPos = GetStartPosition();
-            // var gameplayerInstance = Instantiate(gamePlayerPrefab);
-            var gameplayerInstance = startPos != null
-                ? Instantiate(gamePlayerPrefab, startPos.position, startPos.rotation)
-                : Instantiate(gamePlayerPrefab);
-            gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
-            var playerActor = gameplayerInstance.GetComponent<Actor>();
-            playerActor.ActorName = RoomPlayers[i].DisplayName;
-            playerActor.combatClass = Resources.Load<CombatClass>(RoomPlayers[i].combatClass);
+            var gameplayerInstance = NewPlayerObj(entry.Value);
 
-            NetworkServer.Destroy(conn.identity.gameObject);
-
-            NetworkServer.ReplacePlayerForConnection(conn, gameplayerInstance.gameObject);
+            NetworkServer.Destroy(entry.Key.identity.gameObject);
+            NetworkServer.ReplacePlayerForConnection(entry.Key, gameplayerInstance.gameObject);
+            
         }
+        // RoomPlayers.Clear();
+       
     }
 
     /// <summary>
@@ -223,6 +272,13 @@ public class CustomNetworkManager : NetworkManager
             PlayerLobby roomPlayerInstance = Instantiate(roomPlayerPrefab);
             roomPlayerInstance.IsLeader = isLeader;
             NetworkServer.AddPlayerForConnection(conn, roomPlayerInstance.gameObject);
+
+            PlayerData playerData = new PlayerData();
+
+            playerData.name = roomPlayerInstance.DisplayName;
+            playerData.combatClass = roomPlayerInstance.combatClass;
+
+            playerInfo[conn] = playerData;
         }
     }
 
@@ -237,6 +293,11 @@ public class CustomNetworkManager : NetworkManager
         {
             var player = conn.identity.GetComponent<PlayerLobby>();
             RoomPlayers.Remove(player);
+            
+            if(playerInfo.ContainsKey(conn))
+            {
+                playerInfo.Remove(conn);
+            }
         }
         base.OnServerDisconnect(conn);
     }
@@ -434,6 +495,69 @@ public class CustomNetworkManager : NetworkManager
         
         //Then using the data Steam stored for us set up Mirror things
         networkAddress = hostAddress;
-        StartClient(); 
+        StartClient();
+        
     }
+    /// <summary>
+    /// Pass new playerObj and connection should be made with that conn and the new object
+    /// </summary>
+    public void ReplacePlayer(NetworkConnectionToClient conn, GameObject newPlayerObj)
+    {
+        // Cache a reference to the current player object
+        GameObject oldPlayer = conn.identity.gameObject;
+
+        var oldPlayerIndex = GamePlayers.IndexOf(oldPlayer.GetComponent<PlayerGame>());
+        if(oldPlayerIndex == -1)
+        {
+            Debug.LogError("oldPlayerIndex not found: " + oldPlayer.gameObject.name);
+        }
+        else
+        {
+            
+            // Instantiate the new player object and broadcast to clients
+            // Include true for keepAuthority paramater to prevent ownership change
+            NetworkServer.ReplacePlayerForConnection(conn, newPlayerObj, true);
+
+            // Replacing PlayerGame in GamePlayers with the new PlayerGame
+            // Really important to do this because ReplacePlayerForConnection needs
+            // a delay to work properly, causing 2 players for the same person to exist
+            // briefly
+
+            // Code that is listening to this collection rely on finding the localPlayer
+            // But localPlayer doesn't get set untill ReplacePlayerForConnection is finished
+            // So this must be done after
+            GamePlayers[oldPlayerIndex] = newPlayerObj.GetComponent<PlayerGame>();
+
+            // Remove the previous player object that's now been replaced
+            // Delay is required to allow replacement to complete.
+            Destroy(oldPlayer, 0.1f);
+
+        }
+
+    }
+    public GameObject NewPlayerObj(PlayerData _pd)
+    {
+        Transform startPos = GetStartPosition();
+        var gameplayerInstance = startPos != null
+            ? Instantiate(gamePlayerPrefab, startPos.position, startPos.rotation)
+            : Instantiate(gamePlayerPrefab);
+        gameplayerInstance.SetDisplayName(_pd.name);
+        var playerActor = gameplayerInstance.GetComponent<Actor>();
+        playerActor.ActorName = _pd.name;
+        // 2/6/24 the default class is set by setting it in the Player 1 prefab
+        playerActor.combatClass ??= Resources.Load<CombatClass>(_pd.combatClass);
+        
+
+        return gameplayerInstance.gameObject;
+    }
+    public void Respawn(NetworkConnectionToClient conn)
+    {
+        // if(playerInfo.ContainsKey(conn))
+        // {
+        //     ReplacePlayer(conn, NewPlayerObj(playerInfo[conn]));
+        // }
+        conn.identity.transform.position = GetStartPosition().position;
+        conn.identity.GetComponent<Actor>().Revive();
+    }
+
 }

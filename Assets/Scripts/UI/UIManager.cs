@@ -27,7 +27,7 @@ public class UIManager : MonoBehaviour
     public static GameObject nameplatePrefab;
     public static GameObject damageTextPrefab;
     public Color defaultColor;
-    public static UnityEvent<int> removeCooldownEvent = new UnityEvent<int>();
+    public static UnityEvent<AbilityCooldown> removeCooldownEvent = new UnityEvent<AbilityCooldown>();
     public List<Ability_V2> glowList = new List<Ability_V2>();
     public UnityEvent<Ability_V2> StartAbiltyGlow = new UnityEvent<Ability_V2>();
     public UnityEvent<Ability_V2> EndAbilityGlow = new UnityEvent<Ability_V2>();
@@ -40,12 +40,18 @@ public class UIManager : MonoBehaviour
     public ClickData clickData0 = new ClickData();
     public ClickData clickData1 = new ClickData();
     public GameObject inGameMenu;
+    public GameObject respawnButton;
     public bool draggingObject = false;
     public ClickManager clickManager;
+    public GameObject buffBar;
 
     public void SpawnBuffBar()
     {
-        Instantiate(buffBarPrefab, canvas.transform);
+        if(buffBar)
+        {
+            Destroy(buffBar);
+        }
+        buffBar = Instantiate(buffBarPrefab, canvas.transform);
     }
 
     public static UIManager Instance { get; private set; }
@@ -63,7 +69,7 @@ public class UIManager : MonoBehaviour
         }
         nameplatePrefab = Resources.Load("Nameplate") as GameObject;
         damageTextPrefab = Resources.Load("DamageText") as GameObject;
-        removeCooldownEvent = new UnityEvent<int>();
+        removeCooldownEvent = new UnityEvent<AbilityCooldown>();
         //hotbuttonPrefab = Resources.Load("Hotbutton 1") as GameObject;
         
 
@@ -76,6 +82,7 @@ public class UIManager : MonoBehaviour
         nameplatePrefab = null;
         damageTextPrefab = null;
         CustomNetworkManager.singleton.GamePlayers.CollectionChanged -= AddPlayerFrame;
+        respawnButton.GetComponent<Button>().onClick.RemoveListener(RespawnLocalPlayer);
 
     }
     // Start is called before the first frame update
@@ -101,8 +108,22 @@ public class UIManager : MonoBehaviour
         if (CustomNetworkManager.singleton != null)
         {
             CustomNetworkManager.singleton.GamePlayers.CollectionChanged += AddPlayerFrame;
+            respawnButton.GetComponent<Button>().onClick.AddListener(RespawnLocalPlayer);
         }
 
+    }
+    void RespawnLocalPlayer()
+    {
+        //I really don't like this line being here
+        // 1) I feel like it should be in a different method
+        // 2) I wish I could do this from the host, but I can't
+        //    figure out a good way to move a client with 
+        //    client authoritive movement
+        // 
+        // It is what it is
+        playerActor.transform.position = CustomNetworkManager.singleton.GetStartPosition().position;
+        
+        playerActor.CmdRespawnPlayer();
     }
 
     void AddPlayerFrame(object sender, NotifyCollectionChangedEventArgs e)
@@ -306,6 +327,20 @@ public class UIManager : MonoBehaviour
             useMouseOver = !useMouseOver;
             Debug.Log("Mouseover toggled to.. " + useMouseOver);
         }
+        if((playerActor && playerActor.state == ActorState.Dead) || !playerActor)
+        {
+            if(!respawnButton.active)
+            {
+                respawnButton.active = true;
+            }
+        }
+        else 
+        {
+            if(respawnButton.active)
+            {
+                respawnButton.active = false;
+            }
+        }
 
     }
     /// <summary>
@@ -426,6 +461,7 @@ public class UIManager : MonoBehaviour
 
             Just don't forget to call this somewhere later
         */
+        Debug.Log("SetUpHotbars called");
         if (playerActor.combatClass == null)
         {
             return;
@@ -437,12 +473,11 @@ public class UIManager : MonoBehaviour
         {
             // if There is a combatClass but no prefs file
             // Just spawn all it's abilities in the center of the screen
-
+            Debug.LogError("No hotbar prefs found spawning hotbttons in middle");
             SpawnHotbuttons(playerActor.combatClass);
             return;
         }
 
-        Debug.Log("Searching for prefs in: " + filePath);
         string jsonString = File.ReadAllText(filePath);
 
         PrefsData prefsData = null;
@@ -451,11 +486,11 @@ public class UIManager : MonoBehaviour
 
         if (prefsData == null)
         {
-            Debug.Log("prefsData is null");
+            Debug.LogError("No prefs found in: " + filePath);
         }
         else
         {
-            Debug.Log("prefsData NOT null");
+            Debug.Log("Prefs found in: " + filePath);
         }
         if (prefsData.HotbarItems == null)
         {

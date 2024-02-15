@@ -46,6 +46,10 @@ namespace TheKiwiCoder {
                 children.ForEach((n) => Traverse(n, visiter));
             }
         }
+        public void Reset()
+        {
+            Traverse(rootNode, (_node) => { _node.started = false;});
+        }
 
         public BehaviourTree Clone() {
             BehaviourTree tree = Instantiate(this);

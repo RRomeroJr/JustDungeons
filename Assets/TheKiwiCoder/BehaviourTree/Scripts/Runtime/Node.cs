@@ -9,7 +9,7 @@ namespace TheKiwiCoder {
             Failure,
             Success
         }
-
+        
         [HideInInspector] public State state = State.Running;
         [HideInInspector] public bool started = false;
         [HideInInspector] public string guid;
@@ -81,6 +81,12 @@ namespace TheKiwiCoder {
                     _comp = context.gameObject.GetComponent<EnemyController>();
                     if(_comp != null){
                         return (_comp as EnemyController).followTarget.gameObject;
+                    }
+                    break;
+                case HBCTools.ContextualTarget.AggroTarget:
+                    _comp = context.gameObject.GetComponent<EnemyController>();
+                    if(_comp != null){
+                        return (_comp as EnemyController).aggroTarget.gameObject;
                     }
                     break;
                 case HBCTools.ContextualTarget.Blackboard:
