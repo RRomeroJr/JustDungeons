@@ -114,6 +114,8 @@ public class AbilityDelivery : NetworkBehaviour
             gameObject.transform.position = Vector2.MoveTowards(Caster.transform.position, worldPointTarget, tempDist);
         }
         _movementController = new AbilityDeliveryTransformationController(this, rotationSequence);
+        _movementController.TrackTarget();
+        _movementController.Rotate();
     }
 
     void Update()
