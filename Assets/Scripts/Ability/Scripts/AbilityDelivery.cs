@@ -71,6 +71,7 @@ public class AbilityDelivery : NetworkBehaviour
     public bool hitFriendly = true;
     public bool canHitSelf = false;
     public bool checkAtFeet = false;
+    public bool aimAtCollider = false;
     public bool onlyHitTarget = false;
 
     [SerializeField] private List<RotationElement> rotationSequence;
