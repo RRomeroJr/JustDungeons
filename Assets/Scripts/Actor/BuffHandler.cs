@@ -328,44 +328,30 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
     }
     private void ChangeCombatMod(CombatModIDs _combatModID)
     {
-        CombatModChangedEventArgs combatModChangedEventArgs = null;
-        switch(_combatModID)
+        CombatModChangedEventArgs combatModChangedEventArgs = _combatModID switch
         {
-            case(CombatModIDs.DamageTaken):
-                combatModChangedEventArgs = new CombatModChangedEventArgs
-                {
-                    eFloat = DamageTakenMod,
-                    eCombatModID = _combatModID
-                    
-                };
-                break;
-            case(CombatModIDs.DamageOut):
-                combatModChangedEventArgs = new CombatModChangedEventArgs
-                {
-                    eFloat = DamageOutMod,
-                    eCombatModID = _combatModID
-                    
-                };
-                break;
-            case(CombatModIDs.HealingTaken):
-                combatModChangedEventArgs = new CombatModChangedEventArgs
-                {
-                    eFloat = HealingTakenMod,
-                    eCombatModID = _combatModID
-                    
-                };
-                break;
-            case(CombatModIDs.HealingOut):
-                combatModChangedEventArgs = new CombatModChangedEventArgs
-                {
-                    eFloat = HealingOutMod,
-                    eCombatModID = _combatModID
-                    
-                };
-                break;
-            default:
-                break;
-        }
+            CombatModIDs.DamageTaken => new CombatModChangedEventArgs
+            {
+                eFloat = DamageTakenMod,
+                eCombatModID = _combatModID
+            },
+            CombatModIDs.DamageOut => new CombatModChangedEventArgs
+            {
+                eFloat = DamageOutMod,
+                eCombatModID = _combatModID
+            },
+            CombatModIDs.HealingTaken => new CombatModChangedEventArgs
+            {
+                eFloat = HealingTakenMod,
+                eCombatModID = _combatModID
+            },
+            CombatModIDs.HealingOut => new CombatModChangedEventArgs
+            {
+                eFloat = HealingOutMod,
+                eCombatModID = _combatModID
+            },
+            _ => null
+        };
 
         CombatModChanged?.Invoke(this, combatModChangedEventArgs);
     }
@@ -445,7 +431,7 @@ public class BuffHandler : NetworkBehaviour, IAllBuffs
         };
         OnHealTaken(healEventArgs);
     }
-    
+
     public bool RemoveRandomBuff(Predicate<BuffSystem.Buff> _matchExpression)
     {
         List<int> indices = buffs.IndicesThatMatch(_matchExpression);
