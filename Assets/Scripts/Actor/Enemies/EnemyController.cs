@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections;
 using System.Data;
 using System.Linq;
@@ -178,6 +178,28 @@ public class EnemyController : Controller
 
         foreach (Collider2D collider in raycastHits)
         {
+            targets.Add(collider.transform);
+        }
+
+        return targets;
+    }
+
+    /// <summary>
+    /// Find all the targets that are in the mask and in range along with the closest one
+    /// </summary>
+    /// <returns>List of Transforms, out Transform of the cloest target</returns>
+    public List<Transform> FindTargets(LayerMask targetMask, float range, out Transform closest)
+    {
+        Collider2D[] raycastHits = Physics2D.OverlapCircleAll((Vector2)transform.position, range, targetMask);
+        List<Transform> targets = new();
+        closest = null;
+
+        foreach (Collider2D collider in raycastHits)
+        {
+            if (closest == null || DistanceTo(collider.transform) < DistanceTo(closest))
+            {
+                closest = collider.transform;
+            }
             targets.Add(collider.transform);
         }
 
