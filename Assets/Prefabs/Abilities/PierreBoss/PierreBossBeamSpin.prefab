@@ -16,36 +16,28 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -7317289741359242560, guid: caa5883b5e9d4e847862790f239181d7, type: 3}
-      propertyPath: tickRate
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -7317289741359242560, guid: caa5883b5e9d4e847862790f239181d7, type: 3}
-      propertyPath: aimAtFeet
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -7317289741359242560, guid: caa5883b5e9d4e847862790f239181d7, type: 3}
       propertyPath: trackTarget
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7317289741359242560, guid: caa5883b5e9d4e847862790f239181d7, type: 3}
       propertyPath: followCaster
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7317289741359242560, guid: caa5883b5e9d4e847862790f239181d7, type: 3}
-      propertyPath: aimAtCollider
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -7317289741359242560, guid: caa5883b5e9d4e847862790f239181d7, type: 3}
-      propertyPath: rotationSequence2.Array.size
+      propertyPath: rotationSequence.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7317289741359242560, guid: caa5883b5e9d4e847862790f239181d7, type: 3}
       propertyPath: <RotationsPerSecond>k__BackingField
-      value: 0
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7317289741359242560, guid: caa5883b5e9d4e847862790f239181d7, type: 3}
+      propertyPath: rotationSequence.Array.data[0].RotationsPerSecond
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: -133877900714649333, guid: caa5883b5e9d4e847862790f239181d7, type: 3}
       propertyPath: _assetId
-      value: 3006570077
+      value: 423439385
       objectReference: {fileID: 0}
     - target: {fileID: 409398054133297265, guid: caa5883b5e9d4e847862790f239181d7, type: 3}
       propertyPath: m_Convex
@@ -109,7 +101,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5726915145644695685, guid: caa5883b5e9d4e847862790f239181d7, type: 3}
       propertyPath: stopOnCollision
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5726915145644695685, guid: caa5883b5e9d4e847862790f239181d7, type: 3}
       propertyPath: endSprite.Array.size
@@ -141,7 +133,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5726915145644695686, guid: caa5883b5e9d4e847862790f239181d7, type: 3}
       propertyPath: m_Name
-      value: PierreBossBeam
+      value: PierreBossBeamSpin
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5726915145837233611, guid: caa5883b5e9d4e847862790f239181d7, type: 3}

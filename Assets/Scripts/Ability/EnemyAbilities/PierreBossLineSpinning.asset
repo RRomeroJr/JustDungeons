@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0fabf0550d62678469539a6a6393e7a8, type: 3}
-  m_Name: PierreBossLineAoe
+  m_Name: PierreBossLineSpinning
   m_EditorClassIdentifier: 
-  effectName: PierreBossBeam
+  effectName: PierreBossBeamSpinning
   id: 80
   power: 10
   powerScale: 1
@@ -36,5 +36,5 @@ MonoBehaviour:
     deliveryNVect2: {x: 0, y: 0}
   school: 0
   prefabScale: {x: 1, y: 1, z: 1}
-  aoePrefab: {fileID: 2685400126559208735, guid: 13abc002491244444ac0797007d7a294, type: 3}
-  Length: 10
+  aoePrefab: {fileID: 2685400126559208735, guid: 9e16fc6e647d9744a874a0f3a2c0cfe3, type: 3}
+  Length: 5

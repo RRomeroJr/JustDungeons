@@ -251,12 +251,14 @@ MonoBehaviour:
   actorName: Deoscillate
   health: 3500
   maxHealth: 3500
-  role: 1
+  <Role>k__BackingField: 0
   unitColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
   mobId: -1
   combatClass: {fileID: 11400000, guid: 9209a080bfcf7b54eb03e313f2758bac, type: 2}
   mainStat: 100
+  healingPower: 10
   target: {fileID: 0}
+  abilityHandler: {fileID: 0}
   nameplate: {fileID: 0}
   classResources:
   - crType: {fileID: 11400000, guid: f99af011e29c85f4686d63a179cf33d8, type: 2}
@@ -267,11 +269,22 @@ MonoBehaviour:
     tickTime: 0
     tickMax: 0
   state: 0
+  canMove: 1
   inCombat: 0
   combatLocked: 0
   attackerList: []
   resourceTickTime: 0
   resourceTickMax: 1
+  OnEnterCombat:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLeaveCombat:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEffectRecieved:
+    m_PersistentCalls:
+      m_Calls: []
+  controller: {fileID: 0}
 --- !u!114 &3602611100074717273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +333,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   autoAttackClone: {fileID: 11400000, guid: ebfe26698b0128644924e40382f15b35, type: 2}
+  followTargetLocked: 0
   followTarget: {fileID: 0}
   globalCooldown: 0
   abilities:
@@ -332,33 +346,22 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8df7b41371839cf40a06f4cad97dca7e, type: 2}
   - {fileID: 11400000, guid: 5018719afa2dee746bbd7247a8802f72, type: 2}
   - {fileID: 11400000, guid: 789ee262ef9ad0c418009477bd594f0d, type: 2}
-  moveSpeed: 10
+  moveSpeed: 100
   moveSpeedModifier: 1
   facingDirection: {x: 0, y: 0}
   holdDirection: 0
-  tryingToMove: 0
+  holdPosistion: 0
   autoAttacking: 0
   resolvingMoveTo: 0
   autoAttackRequest: 0
-  state: 0
-  clickMask:
-    serializedVersion: 2
-    m_Bits: 192
-  mouseSensitivity: 15
-  xMouseMove: 0
-  clickTime0: 0
-  clickTime1: 0
-  mouseStart0: {x: 0, y: 0}
-  mouseStart1: {x: 0, y: 0}
-  mousePos: {x: 0, y: 0}
-  clickWindow: 0.66
-  clickTravelWindow: 66
+  circling: 0
   tabableTargets: []
   lastTabVector: {x: 0, y: 0}
   currentTabVector: {x: 0, y: 0}
   tabIndex: -1
   tabTargetAreaPrefab: {fileID: 0}
   tabTargetObj: {fileID: 0}
+  hoverActor: {fileID: 0}
 --- !u!114 &-1436756951404241941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,13 +380,12 @@ MonoBehaviour:
   showDebug: 0
   <QueuedAbility>k__BackingField: {fileID: 0}
   <QueuedTarget>k__BackingField: {fileID: 0}
-  <QueuedRelWP>k__BackingField:
-    Value: {x: 0, y: 0, z: 0}
-  <QueuedRelWP2>k__BackingField:
-    Value: {x: 0, y: 0, z: 0}
   abilityCooldowns: []
   buffs: []
   onAbilityCastHooks:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCastStarted:
     m_PersistentCalls:
       m_Calls: []
   ReadyToFire: 0
@@ -418,6 +420,10 @@ MonoBehaviour:
   dizzy: 0
   slow: 0
   haste: 0
+  damageTakenMod: 0
+  damageOutMod: 0
+  healingTakenMod: 0
+  healingOutMod: 0
 --- !u!114 &-1590596943024381783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,7 +437,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indicatorPrefab: {fileID: 2521846024041868146, guid: 7a6ac257c1aeb5d4296dcfa03eb725f5, type: 3}
-  moveDirection: {x: 0, y: 0}
 --- !u!114 &-2379056406537448589
 MonoBehaviour:
   m_ObjectHideFlags: 0

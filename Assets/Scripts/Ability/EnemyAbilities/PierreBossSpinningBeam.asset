@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 630dbee7393b5314ab79662f009e6568, type: 3}
-  m_Name: PierreBossAbility1
+  m_Name: PierreBossSpinningBeam
   m_EditorClassIdentifier: 
-  abilityName: PierreBossAbility1
+  abilityName: PierreBossSpinningBeam
   eInstructs:
-  - effect: {fileID: 11400000, guid: 195ebe4b9ae7b5b46a6796fb9acca288, type: 2}
+  - effect: {fileID: 11400000, guid: 0a1f232e5f3fcbb4886df8de787a562f, type: 2}
     targetArg: 0
     powerMod: 1
     onSendHooks:
@@ -26,7 +26,7 @@ MonoBehaviour:
   cooldown: 0
   needsActor: 0
   needsWP: 0
-  id: 58
+  id: 69
   abilityTag: 0
   resourceCosts: []
   isChannel: 0

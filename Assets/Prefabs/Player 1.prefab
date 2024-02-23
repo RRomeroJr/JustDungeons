@@ -129,6 +129,7 @@ MonoBehaviour:
   nameplate: {fileID: 0}
   classResources: []
   state: 0
+  canMove: 1
   inCombat: 0
   combatLocked: 0
   attackerList: []
@@ -260,7 +261,7 @@ MonoBehaviour:
   autoAttacking: 0
   resolvingMoveTo: 0
   autoAttackRequest: 0
-  state: 0
+  circling: 0
   tabableTargets: []
   lastTabVector: {x: 0, y: 0}
   currentTabVector: {x: 0, y: 0}
