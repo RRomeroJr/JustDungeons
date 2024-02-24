@@ -6,6 +6,8 @@ using UnityEngine.AI;
 
 public class Controller : NetworkBehaviour
 {
+    public Vector2 moveView;
+    public float moveViewMag;
     [Header("For Now Needs To Be Assigned")]
     public Ability_V2 autoAttackClone;
 
@@ -39,6 +41,7 @@ public class Controller : NetworkBehaviour
     public bool resolvingMoveTo;
     public bool autoAttackRequest = false;
     public bool circling = false;
+    public BuffHandler buffHandler;
 
     public virtual bool TryingToMove
     {
@@ -60,6 +63,7 @@ public class Controller : NetworkBehaviour
         actor = GetComponent<Actor>();
         rb2d = GetComponent<Rigidbody2D>();
         abilityHandler = GetComponent<AbilityHandler>();
+        buffHandler = GetComponent<BuffHandler>();
         // GetComponent<AbilityHandler>().OnRequestingCast.AddListener(StopAgentToCast);
     }
 
@@ -148,6 +152,8 @@ public class Controller : NetworkBehaviour
         Vector2 _vect = _speed * _direction;
         // Debug.DrawLine(transform.position, (transform.position + (Vector3)(1f *_direction)), Color.cyan);
         Rigidbody2D _rb = GetComponent<Rigidbody2D>();
+        moveView = _vect;
+        moveViewMag = _vect.magnitude;
         _rb.AddForce(_vect);
     }
 
