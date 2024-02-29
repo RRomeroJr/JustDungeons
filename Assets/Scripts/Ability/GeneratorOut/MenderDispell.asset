@@ -23,20 +23,20 @@ MonoBehaviour:
     deliveryNVect2: {x: 0, y: 0}
   buffs: []
   castTime: 0
-  cooldown: 0
+  cooldown: 8
   needsActor: 1
   needsWP: 0
   id: 66
   abilityTag: 0
   resourceCosts:
-  - amount: 150
+  - amount: 575
     crType: {fileID: 11400000, guid: 14d8d4dde818cf44396153ffe293ee8d, type: 2}
   isChannel: 0
   channelDuration: 0
   numberOfTicks: 0
   offGDC: 0
-  rangeClass: 0
-  range: Infinity
+  rangeClass: 2
+  range: 11
   interruptable: 1
   castWhileMoving: 0
   mustBeFacing: 0

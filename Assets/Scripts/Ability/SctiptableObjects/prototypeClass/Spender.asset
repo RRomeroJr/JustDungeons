@@ -51,7 +51,7 @@ MonoBehaviour:
   range: 3.2
   interruptable: 1
   castWhileMoving: 0
-  mustBeFacing: 0
+  mustBeFacing: 1
   hotbuttonImage: {fileID: -1642186196, guid: f8f95a62a02698748817fc0538d0092e, type: 3}
   hotbuttonColor: {r: 1, g: 1, b: 1, a: 1}
-  hostilty: 2
+  hostilty: 0

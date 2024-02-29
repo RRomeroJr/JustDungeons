@@ -25,6 +25,6 @@ MonoBehaviour:
     Value: {x: 0, y: 0, z: 0}
   targetWP2:
     Value: {x: 0, y: 0, z: 0}
-  isHostile: 1
+  isHostile: 0
   school: -1
   crt: {fileID: 11400000, guid: 55f627c33b30c14489770a8e971ecee4, type: 2}

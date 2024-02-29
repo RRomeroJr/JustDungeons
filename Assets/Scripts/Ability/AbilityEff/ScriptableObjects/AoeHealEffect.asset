@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab280ef85a84cbd4f95810701236dcb0, type: 3}
-  m_Name: MenderSpDmgEffect
+  m_Script: {fileID: 11500000, guid: fc40a9c75cd995e479813cea6f96db40, type: 3}
+  m_Name: AoeHealEffect
   m_EditorClassIdentifier: 
-  effectName: MenderSpDmgEffect
-  id: -1
+  effectName: AoeHealEffect
+  id: 4
   power: 0
-  powerScale: 20
+  powerScale: 1.67
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 0
@@ -25,6 +25,6 @@ MonoBehaviour:
     Value: {x: 0, y: 0, z: 0}
   targetWP2:
     Value: {x: 0, y: 0, z: 0}
-  isHostile: 1
+  isHostile: 0
   school: -1
-  scaleStat: 2
+  scaleStat: 3

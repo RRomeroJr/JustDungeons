@@ -33,8 +33,8 @@ MonoBehaviour:
   channelDuration: 0
   numberOfTicks: 0
   offGDC: 0
-  rangeClass: 0
-  range: Infinity
+  rangeClass: 2
+  range: 11
   interruptable: 1
   castWhileMoving: 0
   mustBeFacing: 0

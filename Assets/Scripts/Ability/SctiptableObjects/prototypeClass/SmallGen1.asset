@@ -41,9 +41,10 @@ MonoBehaviour:
   numberOfTicks: 0
   offGDC: 0
   rangeClass: 1
-  range: 3.5
+  range: 3.2
   interruptable: 1
   castWhileMoving: 0
-  mustBeFacing: 0
+  mustBeFacing: 1
   hotbuttonImage: {fileID: 0}
   hotbuttonColor: {r: 1, g: 1, b: 1, a: 1}
+  hostilty: 0

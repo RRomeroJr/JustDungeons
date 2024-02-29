@@ -13,9 +13,18 @@ MonoBehaviour:
   m_Name: SmallGen1DmgEffect
   m_EditorClassIdentifier: 
   effectName: SmallGen2DmgEffect
-  id: -1
-  power: 6
+  id: 37
+  power: 0
+  powerScale: 1.15
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 0
+  target: {fileID: 0}
+  caster: {fileID: 0}
+  targetWP:
+    Value: {x: 0, y: 0, z: 0}
+  targetWP2:
+    Value: {x: 0, y: 0, z: 0}
+  isHostile: 1
   school: -1
+  scaleStat: 2

@@ -14,6 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: VanguardAoeGen
   eInstructs:
+  - effect: {fileID: 11400000, guid: 9864ac9c4683b1343ae965caf9b97a62, type: 2}
+    targetArg: 1
+    powerMod: 1
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
+    deliveryNVect2: {x: 0, y: 0}
   - effect: {fileID: 11400000, guid: 27d22639163ef0e42ad401d0c9e5c420, type: 2}
     targetArg: 1
     powerMod: 1
@@ -24,7 +31,7 @@ MonoBehaviour:
   buffs: []
   castTime: 0
   cooldown: 2
-  needsActor: 0
+  needsActor: 1
   needsWP: 0
   id: 51
   abilityTag: 0
@@ -33,11 +40,11 @@ MonoBehaviour:
   channelDuration: 0
   numberOfTicks: 0
   offGDC: 0
-  rangeClass: 0
-  range: Infinity
+  rangeClass: 1
+  range: 3.2
   interruptable: 1
   castWhileMoving: 0
-  mustBeFacing: 0
+  mustBeFacing: 1
   hotbuttonImage: {fileID: 0}
   hotbuttonColor: {r: 0, g: 0, b: 0, a: 0}
-  hostilty: 2
+  hostilty: 0

@@ -15,21 +15,21 @@ MonoBehaviour:
   abilityName: MenderAoeSpam
   eInstructs:
   - effect: {fileID: 11400000, guid: 83f3e94e03a55f64296a18e20c0c010e, type: 2}
-    targetArg: 0
+    targetArg: 1
     powerMod: 0
     onSendHooks:
       m_PersistentCalls:
         m_Calls: []
     deliveryNVect2: {x: 0, y: 0}
   buffs: []
-  castTime: 0
+  castTime: 2
   cooldown: 0
-  needsActor: 1
+  needsActor: 0
   needsWP: 0
   id: 49
   abilityTag: 0
   resourceCosts:
-  - amount: 500
+  - amount: 400
     crType: {fileID: 11400000, guid: 14d8d4dde818cf44396153ffe293ee8d, type: 2}
   isChannel: 0
   channelDuration: 0
@@ -42,4 +42,4 @@ MonoBehaviour:
   mustBeFacing: 0
   hotbuttonImage: {fileID: 0}
   hotbuttonColor: {r: 1, g: 1, b: 1, a: 1}
-  hostilty: 2
+  hostilty: 0

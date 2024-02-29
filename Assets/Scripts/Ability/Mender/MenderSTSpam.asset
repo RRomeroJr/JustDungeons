@@ -29,17 +29,17 @@ MonoBehaviour:
   id: 46
   abilityTag: 0
   resourceCosts:
-  - amount: 250
+  - amount: 400
     crType: {fileID: 11400000, guid: 14d8d4dde818cf44396153ffe293ee8d, type: 2}
   isChannel: 0
   channelDuration: 0
   numberOfTicks: 0
   offGDC: 0
-  rangeClass: 0
-  range: Infinity
+  rangeClass: 2
+  range: 11
   interruptable: 1
   castWhileMoving: 0
-  mustBeFacing: 0
+  mustBeFacing: 1
   hotbuttonImage: {fileID: 0}
   hotbuttonColor: {r: 1, g: 1, b: 1, a: 1}
-  hostilty: 2
+  hostilty: 0

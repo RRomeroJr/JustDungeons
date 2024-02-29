@@ -26,7 +26,14 @@ MonoBehaviour:
   targetWP2:
     Value: {x: 0, y: 0, z: 0}
   isHostile: 1
-  eInstructs: []
+  eInstructs:
+  - effect: {fileID: 11400000, guid: 3737de7cadf37e4448433502ed573ec1, type: 2}
+    targetArg: 0
+    powerMod: 0
+    onSendHooks:
+      m_PersistentCalls:
+        m_Calls: []
+    deliveryNVect2: {x: 0, y: 0}
   school: -1
   prefabScale: {x: 1, y: 1, z: 1}
   aoePrefab: {fileID: 8996080988287052582, guid: 155a730e93159c145886277542ae8798, type: 3}

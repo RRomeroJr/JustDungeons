@@ -23,5 +23,8 @@ MonoBehaviour:
   caster: {fileID: 0}
   targetWP:
     Value: {x: 0, y: 0, z: 0}
+  targetWP2:
+    Value: {x: 0, y: 0, z: 0}
+  isHostile: 0
   school: -1
   crt: {fileID: 11400000, guid: f99af011e29c85f4686d63a179cf33d8, type: 2}

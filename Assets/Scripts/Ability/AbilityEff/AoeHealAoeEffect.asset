@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4cc173cef4ea5f34bbbad702c7bf8db0, type: 3}
-  m_Name: AoeHealEffect
+  m_Name: AoeHealAoeEffect
   m_EditorClassIdentifier: 
-  effectName: AoeHealEffect
+  effectName: AoeHealAoeEffect
   id: 44
   power: 0
   powerScale: 1
@@ -23,13 +23,17 @@ MonoBehaviour:
   caster: {fileID: 0}
   targetWP:
     Value: {x: 0, y: 0, z: 0}
+  targetWP2:
+    Value: {x: 0, y: 0, z: 0}
+  isHostile: 0
   eInstructs:
-  - effect: {fileID: 11400000, guid: ededd9096a4453447b45e4ddb6382b55, type: 2}
+  - effect: {fileID: 11400000, guid: 9646df1835c04994cb565bb83db8aa05, type: 2}
     targetArg: 0
     powerMod: 0.4
     onSendHooks:
       m_PersistentCalls:
         m_Calls: []
+    deliveryNVect2: {x: 0, y: 0}
   school: -1
-  prefabScale: {x: 1, y: 1, z: 1}
+  prefabScale: {x: 2.7, y: 2.7, z: 1}
   aoePrefab: {fileID: 8996080988287052582, guid: db84afa691c19434ebddff6db2a82936, type: 3}
