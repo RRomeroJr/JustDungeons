@@ -28,6 +28,7 @@ public class TransportSwitcher : MonoBehaviour
         CustomNetworkManager.singleton.transport = kcpTrans;
         Transport.active = kcpTrans;
         Debug.Log("KcpTransport Active");
+        MsgBox.DisplayMsg("Local/ Direct mode active");
     }
     public void SwitchToSteam()
     {
@@ -60,6 +61,7 @@ public class TransportSwitcher : MonoBehaviour
         CustomNetworkManager.singleton.transport = _fizzySteam;
         Transport.active = _fizzySteam;
         Debug.Log("FizzySteamworks Active");
+        MsgBox.DisplayMsg("Steamworks mode active");
     }
     void Update()
     {
