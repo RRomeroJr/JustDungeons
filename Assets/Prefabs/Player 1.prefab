@@ -115,9 +115,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   showDebug: 1
-  actorName: Deoscillate
-  health: 2147483647
-  maxHealth: 2147483647
+  actorName: Player
+  health: 3500
+  maxHealth: 3500
   <Role>k__BackingField: 0
   unitColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
   mobId: -1
@@ -129,6 +129,7 @@ MonoBehaviour:
   nameplate: {fileID: 0}
   classResources: []
   state: 0
+  canMove: 1
   inCombat: 0
   combatLocked: 0
   attackerList: []
@@ -252,7 +253,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8df7b41371839cf40a06f4cad97dca7e, type: 2}
   - {fileID: 11400000, guid: 5018719afa2dee746bbd7247a8802f72, type: 2}
   - {fileID: 11400000, guid: 789ee262ef9ad0c418009477bd594f0d, type: 2}
-  moveSpeed: 65
+  moveSpeed: 55
   moveSpeedModifier: 1
   facingDirection: {x: 0, y: 0}
   holdDirection: 0
@@ -260,7 +261,8 @@ MonoBehaviour:
   autoAttacking: 0
   resolvingMoveTo: 0
   autoAttackRequest: 0
-  state: 0
+  circling: 0
+  buffHandler: {fileID: 0}
   tabableTargets: []
   lastTabVector: {x: 0, y: 0}
   currentTabVector: {x: 0, y: 0}
