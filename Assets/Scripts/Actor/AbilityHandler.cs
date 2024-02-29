@@ -73,6 +73,14 @@ public class AbilityHandler : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.PageDown))
+        {
+            try
+            {
+                CastAbility3(AbilityData.instance.findByName("Tester Heal"));
+            }
+            catch{}
+        }
         UpdateCast();
         UpdateCooldowns();
 
@@ -135,6 +143,10 @@ public class AbilityHandler : NetworkBehaviour
         if (!actor.CanCast)
         {
             //Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is {2}!", actorName, _ability, EffectState);
+            if(isLocalPlayer)
+            {
+                MsgBox.CantDoThatRightNow();
+            }
             return false;
         }
         // if(_ability.getCastTime() > 0.0f && _ability.castWhileMoving == false && actor.controller.TryingToMove)
@@ -144,18 +156,30 @@ public class AbilityHandler : NetworkBehaviour
         // }
         if (IsChanneling)
         {
-            Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is CHANNELING and also somehow free to act!", actor.ActorName, _ability);
+            Debug.LogFormat("Actor.castAbility3(): {0} try to cast {1}, but is CHANNELING!", actor.ActorName, _ability);
+            if(isLocalPlayer)
+            {
+                MsgBox.CantDoThatRightNow();
+            }
             return false;
         }
         if (CheckCooldownAndGCD(_ability))
         {
             Debug.LogFormat("Actor.castAbility3(): {0}'s {1} ability on cooldown", actor.ActorName, _ability);
+            // if(isLocalPlayer)
+            // {
+            //     MsgBox.OnCooldown();
+            // }
             return false;
         }
         // MirrorTestTools._inst.ClientDebugLog(_ability.getName() + "| Not on cool down or GCD");
         if (!actor.HasTheResources(_ability))
         {
             Debug.LogFormat("Actor.castAbility3(): {0} does not have the resources", actor.ActorName);
+            if(isLocalPlayer)
+            {
+                MsgBox.NotEnoughResources();
+            }
             return false;
         }
 
@@ -169,6 +193,10 @@ public class AbilityHandler : NetworkBehaviour
             if (_target == null)
             {
                 Debug.Log("No suitable target found");
+                if(isLocalPlayer)
+                {
+                    MsgBox.NeedTarget();
+                }
                 return false;
             }
             else
@@ -178,6 +206,10 @@ public class AbilityHandler : NetworkBehaviour
                     if (showDebug)
                     {
                         //Debug.Log("You are out of range");
+                    }
+                    if(isLocalPlayer && _ability.id != 0)
+                    {
+                        MsgBox.NotInRange();
                     }
                     return false;
                 }
@@ -201,6 +233,10 @@ public class AbilityHandler : NetworkBehaviour
             if (_relWP == null)
             {
                 Debug.Log("No suitable WP found");
+                if(isLocalPlayer)
+                {
+                    MsgBox.NeedTarget();
+                }
                 return false;
             }
             else
@@ -210,6 +246,10 @@ public class AbilityHandler : NetworkBehaviour
                     if (showDebug)
                     {
                         Debug.Log("You are out of range");
+                    }
+                    if(isLocalPlayer)
+                    {
+                        MsgBox.NotInRange();
                     }
                     return false;
                 }

@@ -374,6 +374,10 @@ public class PlayerController : Controller
                 if (HBCTools.areHostle(transform, hitActor.transform))
                 {
                     autoAttacking = true;
+                    if(Vector2.Distance(transform.position, hitActor.transform.position) > Ability_V2.meleeRange)
+                    {
+                        MsgBox.NotInRange();
+                    }
                 }
                 else
                 {
