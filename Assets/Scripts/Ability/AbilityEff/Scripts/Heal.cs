@@ -30,7 +30,9 @@ public class Heal : AbilityEff
         power = _power;
         school = _school;
     }
-    public Heal(){}
+    public Heal(){
+        isHostile = false;
+    }
     public override AbilityEff clone()
     {
         Heal temp_ref = ScriptableObject.CreateInstance(typeof (Heal)) as Heal;
