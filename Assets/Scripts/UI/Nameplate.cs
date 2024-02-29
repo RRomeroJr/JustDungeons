@@ -40,6 +40,13 @@ public class Nameplate : MonoBehaviour
             castBar.caster = actor.abilityHandler;
             actor.abilityHandler.OnCastStarted.AddListener(OnCastStarted);
             actorRenderer = actor.GetComponent<Renderer>();
+            
+            try
+            {
+                Color resourceColor = actor.getResource(0).crType.color;
+                resourceBar.GetComponentInChildren<Image>().color = resourceColor;
+            }
+            catch{}
         }
         else
         {
