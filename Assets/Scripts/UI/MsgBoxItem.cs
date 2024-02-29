@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 
 public class MsgBoxItem : MonoBehaviour
 {
-  const float CLEARTIMER = 5.0f;
+  const float CLEARTIMER = 2.4f;
   public TextMeshProUGUI tmpUi;
   public float timer = 0.0f;
   void Awake()

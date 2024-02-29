@@ -38,4 +38,28 @@ public class MsgBox : MonoBehaviour
     instance.mbiList[0].StartDisplaying(_in);
 
   }
+  public static void CantDoThatRightNow()
+  {
+    DisplayMsg("You can't do that right now.");
+  }
+  public static void NotReadyYet()
+  {
+    DisplayMsg("That isn't ready yet.");
+  }
+  public static void NotInRange()
+  {
+    DisplayMsg("You're not in range.");
+  }
+  public static void OnCooldown()
+  {
+    DisplayMsg("That is on cooldown.");
+  }
+  public static void NotEnoughResources()
+  {
+    DisplayMsg("Not enough resources.");
+  }
+  public static void NeedTarget()
+  {
+    DisplayMsg("You lack a target.");
+  }
 }
