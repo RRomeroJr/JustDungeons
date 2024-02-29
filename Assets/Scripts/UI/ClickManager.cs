@@ -78,10 +78,10 @@ public class ClickManager : NetworkBehaviour
         switch (_buttonId)
         {
             case (0):
-                return Input.GetMouseButtonUp(0) && (clickData0.CalcHoldTime() < clickWindow);
+                return Input.GetMouseButtonUp(0) && (clickData0.CalcHoldTime() < clickWindow) && (clickData0.CalcTravel() < clickTravelWindow);
                 break;
             case (1):
-                return Input.GetMouseButtonUp(1) && (clickData1.CalcHoldTime() < clickWindow);
+                return Input.GetMouseButtonUp(1) && (clickData1.CalcHoldTime() < clickWindow) && (clickData1.CalcTravel() < clickTravelWindow);
                 break;
             default:
                 Debug.LogError("Unknown mouse button for click");
