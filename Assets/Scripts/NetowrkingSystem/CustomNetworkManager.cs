@@ -545,7 +545,11 @@ public class CustomNetworkManager : NetworkManager
         var playerActor = gameplayerInstance.GetComponent<Actor>();
         playerActor.ActorName = _pd.name;
         // 2/6/24 the default class is set by setting it in the Player 1 prefab
-        playerActor.combatClass ??= Resources.Load<CombatClass>(_pd.combatClass);
+        var loadResult = Resources.Load<CombatClass>(_pd.combatClass);
+        if(loadResult)
+        {
+            playerActor.combatClass = loadResult;
+        }
         
 
         return gameplayerInstance.gameObject;
