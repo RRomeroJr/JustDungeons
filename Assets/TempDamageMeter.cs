@@ -9,8 +9,26 @@ public class TempDamageMeter : MonoBehaviour
     // interate over player's cooldowns
     // display them in the textmeshpro.SetText
     public TextMeshProUGUI tmpGUI;
-    public static List<MeterEntry> entryList;
+    public List<MeterEntry> entryList;
     public float timePassed = 0.01f;
+    public static TempDamageMeter instance;
+
+    void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+            //DontDestroyOnLoad(gameObject);         
+        }
+        else
+        {
+            if(LevelManager.instance == this)
+            {
+                LevelManager.instance = null;
+            }
+            Destroy(this);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -38,8 +56,12 @@ public class TempDamageMeter : MonoBehaviour
         timePassed += Time.deltaTime;
     }
     public static void addToEntry(Actor _actor, int _amount){
+        if(!instance || !instance.enabled)
+        {
+            return;
+        }
         bool found = false;
-        foreach(MeterEntry me in entryList){
+        foreach(MeterEntry me in instance.entryList){
             if(me.actor == _actor){
                 me.total += _amount;
                 found = true;
@@ -48,7 +70,7 @@ public class TempDamageMeter : MonoBehaviour
         if(!found){
             MeterEntry meRef = new MeterEntry(_actor);
             meRef.total += _amount;
-            entryList.Add(meRef);
+            instance.entryList.Add(meRef);
         }
     }
 }
