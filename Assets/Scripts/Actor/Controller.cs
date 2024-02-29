@@ -6,8 +6,8 @@ using UnityEngine.AI;
 
 public class Controller : NetworkBehaviour
 {
-    public Vector2 moveView;
-    public float moveViewMag;
+    // public Vector2 moveView;
+    // public float moveViewMag;
     [Header("For Now Needs To Be Assigned")]
     public Ability_V2 autoAttackClone;
 
@@ -152,8 +152,8 @@ public class Controller : NetworkBehaviour
         Vector2 _vect = _speed * _direction;
         // Debug.DrawLine(transform.position, (transform.position + (Vector3)(1f *_direction)), Color.cyan);
         Rigidbody2D _rb = GetComponent<Rigidbody2D>();
-        moveView = _vect;
-        moveViewMag = _vect.magnitude;
+        // moveView = _vect;
+        // moveViewMag = _vect.magnitude;
         _rb.AddForce(_vect);
     }
 
@@ -164,15 +164,27 @@ public class Controller : NetworkBehaviour
             return;
         }
         HBCTools.Quadrant newVectQuad;
-        newVectQuad = HBCTools.GetQuadrant(moveDirection.Value);
-        if ((moveDirection.Value.x != 0.0f) && (moveDirection.Value.y != 0.0f))
+        Vector2 newFaceVect = Vector2.zero;
+        newFaceVect.x = moveDirection.Value.x != 0.0f ? moveDirection.Value.x : facingDirection.x;
+        newFaceVect.y = moveDirection.Value.y != 0.0f ? moveDirection.Value.y : facingDirection.y;
+        newVectQuad = HBCTools.GetQuadrant(newFaceVect);
+        if (HBCTools.GetQuadrant(facingDirection) != newVectQuad)
         {
-            if (HBCTools.GetQuadrant(facingDirection) != newVectQuad)
-            {
-                facingDirection = HBCTools.QuadrantToVector(newVectQuad);
-                CmdSetFacingDirection(facingDirection);
-            }
+            facingDirection = HBCTools.QuadrantToVector(newVectQuad);
+            CmdSetFacingDirection(facingDirection);
         }
+
+
+        // if ((moveDirection.Value.x != 0.0f) && (moveDirection.Value.y != 0.0f))
+        // {
+        //     newVectQuad = HBCTools.GetQuadrant(moveDirection.Value);
+        //     if (HBCTools.GetQuadrant(facingDirection) != newVectQuad)
+        //     {
+        //         facingDirection = HBCTools.QuadrantToVector(newVectQuad);
+        //         CmdSetFacingDirection(facingDirection);
+        //     }
+        // }
+  
     }
 
     [Command]
