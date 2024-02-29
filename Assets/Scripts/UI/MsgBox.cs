@@ -62,4 +62,8 @@ public class MsgBox : MonoBehaviour
   {
     DisplayMsg("You lack a target.");
   }
+  public static void NotFacing()
+  {
+    DisplayMsg("You must face your target.");
+  }
 }

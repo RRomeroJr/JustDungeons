@@ -218,6 +218,10 @@ public class AbilityHandler : NetworkBehaviour
                     if (!HBCTools.checkFacing(actor, _target.gameObject))
                     {
                         //Debug.Log("You are not facing target: " + _target.ActorName);
+                        if(isLocalPlayer && _ability.id != 0)
+                        {
+                            MsgBox.NotFacing();
+                        }
                         return false;
                     }
                 }
