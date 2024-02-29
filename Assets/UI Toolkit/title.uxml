@@ -10,6 +10,7 @@
                 <ui:Button text="QUIT" display-tooltip-when-elided="true" name="button-quit" class="title-button" />
             </ui:VisualElement>
         </ui:VisualElement>
+        <ui:Label text="Press F7 for local/ direct IP&#10;Press F8 for steam (Default)" display-tooltip-when-elided="true" name="ConnectionText" style="-unity-text-outline-color: rgb(0, 0, 0); font-size: 100px; color: rgb(255, 255, 255); -unity-font-style: bold; -unity-text-outline-width: 1px; -unity-text-align: upper-center;" />
     </ui:VisualElement>
     <ui:VisualElement name="join-game-container" style="position: absolute; flex-grow: 1; left: 0; top: 0; bottom: 0; right: 0; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, 0.71); display: flex; visibility: hidden; overflow: visible;">
         <ui:VisualElement name="window-join-game" style="background-color: rgb(223, 230, 233); width: 40%; height: auto; border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; padding-left: 2%; padding-right: 2%; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-top: 2%; padding-bottom: 2%;">
