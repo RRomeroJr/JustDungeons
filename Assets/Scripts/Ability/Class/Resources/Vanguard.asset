@@ -30,3 +30,4 @@ MonoBehaviour:
     tickMax: 3
   rac: {fileID: 9100000, guid: e1f616ff8c81c43438198cae0f945f69, type: 2}
   classGlowChecks: []
+  tintColor: {r: 0.6117647, g: 0.78431374, b: 0.99215686, a: 1}

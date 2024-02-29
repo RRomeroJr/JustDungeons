@@ -27,10 +27,10 @@ MonoBehaviour:
   - crType: {fileID: 11400000, guid: 14d8d4dde818cf44396153ffe293ee8d, type: 2}
     max: 10000
     amount: 10000
-    combatRegen: 100
-    outOfCombatRegen: 100
+    combatRegen: 275
+    outOfCombatRegen: 1000
     tickTime: 0
-    tickMax: 5
+    tickMax: 3
   - crType: {fileID: 11400000, guid: 11a7a1aafb0dd204e93f65399831cb70, type: 2}
     max: 3
     amount: 0
@@ -47,3 +47,4 @@ MonoBehaviour:
     tickMax: 0
   rac: {fileID: 0}
   classGlowChecks: []
+  tintColor: {r: 0.7294118, g: 0.9843137, b: 0.79607844, a: 1}

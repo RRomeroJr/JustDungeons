@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64837299a4b9f8747a4e5a95352fd0ac, type: 3}
   m_Name: MenderStats
   m_EditorClassIdentifier: 
-  health: 0
   healthMutliplier: 1
-  mainStat: 20
+  mainStat: 22
   HealingPower: 100

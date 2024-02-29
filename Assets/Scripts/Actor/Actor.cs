@@ -238,19 +238,19 @@ public class Actor : NetworkBehaviour
             if (combatClass.classStats != null)
             {
                 setUpStats(combatClass.classStats);
+            }
+            GetComponent<SpriteRenderer>().color = combatClass.tintColor;
+            // Debug.Log("Before RAC set up");
+            // if (combatClass.rac != null)
+            // {
+            //     Debug.Log("RAC found in class " + combatClass.name);
+            //     GetComponent<Animator>().runtimeAnimatorController = combatClass.rac;
+            // }
+            // else
+            // {
+            //     Debug.Log("NO RAC found in, " + combatClass.name);
 
-            }
-            Debug.Log("Before RAC set up");
-            if (combatClass.rac != null)
-            {
-                Debug.Log("RAC found in class " + combatClass.name);
-                GetComponent<Animator>().runtimeAnimatorController = combatClass.rac;
-            }
-            else
-            {
-                Debug.Log("NO RAC found in, " + combatClass.name);
-
-            }
+            // }
         }
 
         if (!isServer) { return; }
@@ -1123,10 +1123,7 @@ public class Actor : NetworkBehaviour
     [ClientRpc]
     void addDamamgeToMeter(Actor fromActor, int amount)
     {
-        if (TempDamageMeter.entryList != null)
-        {
-            TempDamageMeter.addToEntry(fromActor, amount);
-        }
+        TempDamageMeter.addToEntry(fromActor, amount);
     }
     
     public void LocalPlayerBroadcastTarget(){

@@ -13,6 +13,7 @@ public class CombatClass : ScriptableObject{
     public List<ClassResource> classResources;
     public RuntimeAnimatorController rac;
     public List<GlowCheck> classGlowChecks;
+    public Color tintColor = Color.white;
     
     //public TextAsset defaultBinds;
     public List<Ability_V2> GetClassAbilities(){
