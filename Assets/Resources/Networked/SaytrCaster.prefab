@@ -165,12 +165,13 @@ MonoBehaviour:
   resolvingMoveTo: 0
   autoAttackRequest: 0
   circling: 0
+  buffHandler: {fileID: 0}
   arenaObject: {fileID: 0}
   aggroRadius: 7
   resetPoint: {x: 0, y: 0}
   combatTemperment: 0
   aggroTarget: {fileID: 0}
-  phase: 1
+  phase: 0
   tauntImmune: 0
   ignoreAggro: 0
 --- !u!114 &2096029720338020585
