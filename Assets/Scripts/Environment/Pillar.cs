@@ -7,7 +7,6 @@ public class Pillar : NetworkBehaviour, IDamageable
     [SerializeField] private int health;
     [Tooltip("Time till object is destroyed. If 0, object will not be destroyed over time.")]
     [SerializeField] private float despawnTimer;
-    private float endTime;
 
     public int Health
     {
@@ -27,17 +26,9 @@ public class Pillar : NetworkBehaviour, IDamageable
     private void Start()
     {
         Nameplate.Create(this);
-        endTime = Time.time + despawnTimer;
-    }
-
-    private void Update()
-    {
-        if (!isServer) { return; }
-        // Server only logic below
-
-        if (despawnTimer > 0 && Time.time >= endTime)
+        if (despawnTimer > 0)
         {
-            Die();
+            Destroy(gameObject, despawnTimer);
         }
     }
 
