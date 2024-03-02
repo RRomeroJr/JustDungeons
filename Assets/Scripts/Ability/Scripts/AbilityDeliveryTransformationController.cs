@@ -70,7 +70,7 @@ public sealed class AbilityDeliveryTransformationController
             return;
         }
 
-        if (Type == AbilityType.LineAoe)
+        if (Type is AbilityType.LineAoe)
         {
             Vector3 targetLocation;
             if (Target != null)
