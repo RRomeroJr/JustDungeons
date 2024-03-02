@@ -31,6 +31,18 @@ public sealed class AbilityDeliveryTransformationController
         }
     }
 
+    public void InitialSpawn()
+    {
+        // Set the initial spawn of Aoe type to collider center
+        if (IsAimingAtCollider && Type is AbilityType.Aoe)
+        {
+            if (Target != null && Target.TryGetComponent(out Collider2D targetCollider))
+            {
+                Transform.position = targetCollider.bounds.center;
+            }
+        }
+    }
+
     public void Move()
     {
         if (Type == AbilityType.Normal)
