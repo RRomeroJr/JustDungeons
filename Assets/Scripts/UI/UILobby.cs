@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 
 public class UILobby : MonoBehaviour
 {
@@ -29,7 +30,18 @@ public class UILobby : MonoBehaviour
         buttonLobbyStart = root.Q<Button>("button-start");
         buttonLobbyLeave = root.Q<Button>("button-leave");
         dropdownClass = root.Q<DropdownField>("class-select");
-        dropdownClass.choices = Resources.LoadAll<CombatClass>("").Select(x => x.name).ToList();
+        var classLoad = Resources.LoadAll<CombatClass>("").Select(x => x.name).ToList();
+        var disallowedClasses = new List<string>();
+        disallowedClasses.Add("BuffTestClass");
+        for(int i = 0; i < classLoad.Count; i++ )
+        {
+            if(disallowedClasses.Exists(x => x == classLoad[i]))
+            {
+                classLoad.Remove(classLoad[i]);
+                i--;
+            }
+        }
+        dropdownClass.choices = classLoad;
         dropdownDungeon = root.Q<DropdownField>("dungeon-select");
         dropdownDungeon.choices = getAllSceneNames();
         playerList = new List<VisualElement>
