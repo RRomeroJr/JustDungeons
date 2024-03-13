@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e704cf0d5e7d7f4f9682dbffa48de18, type: 3}
-  m_Name: SaytrAppyDD
+  m_Name: SaytrApplyDD
   m_EditorClassIdentifier: 
-  effectName: SaytrAppyDD
+  effectName: SaytrApplyDD
   id: 90
   power: 0
   powerScale: 1
