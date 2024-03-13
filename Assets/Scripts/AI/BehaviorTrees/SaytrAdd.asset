@@ -251,7 +251,7 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   child: {fileID: -4911573394201159968}
-  chanceToProceed: 0.1
+  chanceToProceed: 0.15
 --- !u!114 &6446018388908770133
 MonoBehaviour:
   m_ObjectHideFlags: 0
