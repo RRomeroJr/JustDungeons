@@ -263,6 +263,12 @@ public class PlayerController : Controller
                     actor.target = TabTargetCycle();
                     actor.LocalPlayerBroadcastTarget();
                     actor.target.nameplate.selectedEvent.Invoke(true);
+                    if(!Input.GetMouseButton(1) && actor.target) // Face tab target: Make option in future?
+                    {
+                        var newFace = HBCTools.ToNearest45(actor.target.transform.position - transform.position);
+                        facingDirection = newFace;
+                        CmdSetFacingDirection(newFace);
+                    }
                 }
                 catch{
 
