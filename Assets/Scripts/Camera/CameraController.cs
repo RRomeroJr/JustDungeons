@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    const float OFFSET_ADJUST = 0.01f;
     public Transform target;
     public float smoothSpeed = 0.125f;
 
@@ -104,7 +105,7 @@ public class CameraController : MonoBehaviour
             if (ele.isLocalPlayer)
             {
                 target = ele.transform;
-                offset.y = -1 * target.GetComponent<Renderer>().bounds.extents.y;
+                offset.y = -1 * target.GetComponent<Renderer>().bounds.extents.y + OFFSET_ADJUST;
                 break;
             }
 
