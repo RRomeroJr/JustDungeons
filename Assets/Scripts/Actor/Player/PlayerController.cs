@@ -387,13 +387,10 @@ public class PlayerController : Controller
         
             actor.SetTarget(hitActor);
         }
-        if(Input.GetMouseButton(1)){
+        if(Input.GetMouseButton(1) && buffHandler.Dizzy <= 0){
 
-            Vector2 mouseMoveVect;
-
-            //mouseMoveVect = (Vector2)Input.mousePosition - mouseStart0; //mode 1
-            mouseMoveVect = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - rendererRef.bounds.BottomCenter(); //mode 2
-            facingDirection = HBCTools.ToNearest45(mouseMoveVect);
+            facingDirection = HBCTools.ToNearest45((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - rendererRef.bounds.BottomCenter());
+            // facingDirection = HBCTools.ToNearest45((Vector2)(Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position));
             CmdSetFacingDirection(facingDirection);
             
         }
