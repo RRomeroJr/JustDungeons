@@ -23,7 +23,7 @@ MonoBehaviour:
     deliveryNVect2: {x: 0, y: 0}
   buffs: []
   castTime: 0
-  cooldown: 0
+  cooldown: 15
   needsActor: 1
   needsWP: 0
   id: 28

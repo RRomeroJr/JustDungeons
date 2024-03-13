@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c893311ec16b744b77cf9683178ae3, type: 3}
   m_Name: Interrupt
   m_EditorClassIdentifier: 
-  duration: 5
+  duration: 7
   tickRate: 0
   stackable: 0
   icon: {fileID: 0}
@@ -23,3 +23,5 @@ MonoBehaviour:
   onHitHooks:
     m_PersistentCalls:
       m_Calls: []
+  isDebuff: 0
+  dispellable: 0
