@@ -131,7 +131,9 @@ public sealed class MovementEffectsController : MonoBehaviour
     {
         indicatorRef = Instantiate(indicatorPrefab, transform);
         //indicatorRef.GetComponent<FolllowObject>().target = this.gameObject;
-        indicatorRef.transform.Rotate(moveDirection);
+        moveDirection = Quaternion.Euler(0, 0, Random.Range(0.0f, 359.0f)) * Vector2.right;
+        // indicatorRef.transform.Rotate(moveDirection);
+        indicatorRef.transform.up = moveDirection;
     }
 
     private void EndDizzy()
