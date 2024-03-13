@@ -833,6 +833,11 @@ public class Actor : NetworkBehaviour
         switch (valueType)
         {
             case 0:
+                if(state == ActorState.Dead)
+                {
+                    // band-aid fix to stop heals from reviving player
+                    return;
+                }
                 if(buffHandler != null){
                     modifiedAmount += (int)(amount * (buffHandler.HealingTakenMod - 1.0f));
                 }
