@@ -106,7 +106,7 @@ public class PlayerController : Controller
                 {
                     // Debug.Log(gameObject.name + "Alive can't move");
                 }
-                MovementFacingDirection();
+                // MovementFacingDirection();
 
                 break;
             case ActorState.Dead:
