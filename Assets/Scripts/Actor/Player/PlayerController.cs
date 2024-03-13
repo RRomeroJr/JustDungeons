@@ -359,12 +359,12 @@ public class PlayerController : Controller
         
     }
     void mouseInput(){
-        if (UIManager.Instance.MouseButtonClick(0) || UIManager.Instance.MouseButtonClick(1))
+        if ((UIManager.Instance.MouseButtonClick(0) && !Input.GetMouseButton(1)) || (UIManager.Instance.MouseButtonClick(1) && !Input.GetMouseButton(0)))
         {
 
             Actor hitActor = Targeting.LookForNewTarget();
 
-            if (hitActor == null) // No target was found
+            if (hitActor == null ) // No target was found
             {
                 tabIndex = 0;
                 autoAttacking = false;
@@ -384,8 +384,9 @@ public class PlayerController : Controller
                     autoAttacking = false;
                 }
             }
-        
+
             actor.SetTarget(hitActor);
+            
         }
         if(Input.GetMouseButton(1) && buffHandler.Dizzy <= 0){
 
