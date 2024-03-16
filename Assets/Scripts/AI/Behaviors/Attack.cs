@@ -11,7 +11,7 @@ public class Attack : ActionNode
     public bool tryOnce = false;
     protected override void OnStart()
     {
-        //castStarted = false;
+        castStarted = false;
         castFinished = false;
         if(!tryOnce)
         {
@@ -28,7 +28,7 @@ public class Attack : ActionNode
 
     protected override State OnUpdate()
     {
-        if(context.actor.IsCasting == false){
+        if(!castStarted){
 
             Transform _target = ContextualTargetToGmObj(contextualTarget).transformSafe();
             
@@ -38,27 +38,16 @@ public class Attack : ActionNode
             }
             else
             {
-                context.actor.castAbility3(ability, _target);
+                castStarted = context.actor.castAbility3(ability, _target);
             }
+        }
+      
+        if(!castFinished){
+            return State.Running;
         }
         else
         {
-            if(tryOnce)
-            {
-                return State.Failure;
-            }
-        }
-        if(castFinished == false){
-            return State.Running;
-        }
-        else{
-            
-            // if((ability.getCastTime() > 0.0)&&(ability.castWhileMoving == false)){
-            //     //Debug.Log("AttkRelWP: agent isStopped to false");
-            //     context.agent.isStopped = false;
-            // }
-                //Debug.Log("Attck: isStopped " + context.agent.isStopped.ToString());
-                return State.Success;
+            return State.Success;
         }
     }
     void checkCastedAbility(int _id){

@@ -13,22 +13,25 @@ public class attack1stOffCD : ActionNode
     {
         Debug.Log("attack1stOffCD START");
         toCast = null;
-        //castStarted = false;
+        castStarted = false;
         castFinished = false;
         
-        if(context.controller.abilities.Count > 0){
-                foreach (Ability_V2 a in context.controller.abilities){
-                    //Debug.Log("checking " + a.getName());
-                    if(context.actor.checkOnCooldown(a) == false){
-                        
-                        toCast = a;
-                        break;
-                    }else{
-                        //Debug.Log(a.getName() + " was on cd");
-                    }
-                    
+        if(context.controller.abilities.Count > 0)
+        {
+            foreach (Ability_V2 a in context.controller.abilities)
+            {
+                //Debug.Log("checking " + a.getName());
+                if(context.actor.checkOnCooldown(a) == false)
+                {
+                    toCast = a;
+                    break;
+                }
+                else
+                {
+                    //Debug.Log(a.getName() + " was on cd");
                 }
             }
+        }
         else{
             Debug.LogError(context.actor.ActorName + " has no abilities!");
         }
@@ -56,28 +59,15 @@ public class attack1stOffCD : ActionNode
             return State.Success;
         }
         
-        if(context.actor.IsCasting == false){
-            
-            // if(toCast.getCastTime() > 0.0){
-            //     context.agent.isStopped = true;
-                
-            // }
-            //Debug.Log(context.controller.target.GetComponent<Actor>().getActorName());
-            
-            context.actor.castAbility3(toCast, context.actor.target.transform);
-            //castStarted = true;
+        if(!castStarted){
+            castStarted = context.actor.castAbility3(toCast, context.actor.target.transform);
         }
         if(castFinished == false){
             return State.Running;
         }
         else{
-            
-            // if(context.agent.isStopped){
-                
-            //     context.agent.isStopped = false;
-            // }
-                //Debug.Log("Attck: isStopped " + context.agent.isStopped.ToString());
-                return State.Success;
+
+            return State.Success;
         }
     }
     void checkCastedAbility(int _id){
