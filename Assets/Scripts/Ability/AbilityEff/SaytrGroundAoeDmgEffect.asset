@@ -15,7 +15,7 @@ MonoBehaviour:
   effectName: SaytrGroundAoeDmgEffect
   id: 75
   power: 0
-  powerScale: 4
+  powerScale: 1.33
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 0
