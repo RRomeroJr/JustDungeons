@@ -122,7 +122,7 @@ MonoBehaviour:
   unitColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
   mobId: -1
   combatClass: {fileID: 11400000, guid: af7e23158c3495640953930651da5fec, type: 2}
-  mainStat: 400
+  mainStat: 100
   healingPower: 10
   target: {fileID: 0}
   abilityHandler: {fileID: 0}
