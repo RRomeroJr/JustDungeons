@@ -1,0 +1,25 @@
+Combatant
+
+Small gen1: 
+Cd:
+Disc:
+x1.15 mainStat and Grant caster 1 Simple5PointResource
+
+Small gen2:
+x1.0 mainStat and Grant caster 1 Simple5PointResource. Damage increased slightly if flanking the target
+
+Spender:
+Cost: 2.25 Simple5PointResource
+x2.25 Main Stat damage increased slightly if behind the target
+
+BigGenerator:
+x2.4 Main Stat and Grant caster 5 Simple5PointResource
+
+PlayerAoe:
+Deal x0.85 Main Stat damage to all enemies around the caster
+
+Kick:
+Interrupt a cast and silence the target for 7s
+
+Filler:
+1.0 mainStat damage increased slightly if behind the target

@@ -1,0 +1,19 @@
+Vanguard
+
+VanguardSTSpd:
+Deal x3 Main Stat damage to the target.
+
+VanguardAoeGen:
+Deal x0.4 Main Stat damage to all nearby enemies. Gain 20 fury.
+
+VanguardAoeSpd:
+Deal x1.5 Main Stat damage to all nearby enemies.
+
+VanguardTaunt:
+Taunt your target to make it attack you.
+
+Insubmission:
+Reduce incoming damage by 30%.
+
+Press the Attack:
+Increase the Main Stat and Healing Power of all nearby allies by 34% for 40s.

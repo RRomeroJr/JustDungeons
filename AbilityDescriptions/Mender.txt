@@ -1,0 +1,28 @@
+Mender
+
+MenderAoeSpam:
+Deal x0.33 Main Stat damage to all enemies around the caster.
+
+MenderSTSpam:
+Deal Main Stat damage to target.
+
+MenderSpSt:
+Heal the target for Healing Power. Gain 1 Special Resource.
+
+MenderSpAoe:
+Heal all allies for x0.4 Healing Power. Gain 1 Special Resource.
+
+MenderSpDmgAoe:
+Consume all Special Resource to deal x4 Main Stat damage to nearby enemies.
+
+MenderHotAbility:
+NOT WORKING…
+
+Heal:
+Heal target for x5.0 Healing Power
+
+AoeHeal:
+Heal allies around the target for x1.67 Healing Power
+
+MenderDispell:
+Remove 1 harmful effect from target ally.
