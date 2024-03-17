@@ -22,7 +22,7 @@ Heal:
 Heal target for x5.0 Healing Power
 
 AoeHeal:
-Heal allies around you for Healing Power (This needs it’s own effect. It’s using Heal right now which is mega OP)
+Heal allies around the target for x1.67 Healing Power
 
 MenderDispell:
 Remove 1 harmful effect from target ally.
