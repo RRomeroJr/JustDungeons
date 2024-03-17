@@ -15,7 +15,7 @@ MonoBehaviour:
   effectName: PlayerAoeDmgEffect
   id: 42
   power: 0
-  powerScale: 0.8
+  powerScale: 0.85
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 0

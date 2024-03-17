@@ -15,7 +15,7 @@ MonoBehaviour:
   effectName: BigGeneratorDmgEffect
   id: 100
   power: 0
-  powerScale: 3
+  powerScale: 2.4
   parentBuff: {fileID: 0}
   parentDelivery: {fileID: 0}
   targetIsSecondary: 0
