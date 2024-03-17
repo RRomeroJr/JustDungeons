@@ -16,13 +16,13 @@ MenderSpDmgAoe:
 Consume all Special Resource to deal x4 Main Stat damage to nearby enemies.
 
 MenderHotAbility:
-NOT WORKING…
+Heals target ally for 720 health over 18s
 
 Heal:
 Heal target for x5.0 Healing Power
 
 AoeHeal:
-Heal allies around the target for x1.67 Healing Power
+Heal allies around you for Healing Power (This needs it’s own effect. It’s using Heal right now which is mega OP)
 
 MenderDispell:
 Remove 1 harmful effect from target ally.

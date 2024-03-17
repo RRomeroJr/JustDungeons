@@ -19,7 +19,7 @@ MonoBehaviour:
   particles: {fileID: 0}
   buffEffectsList:
   - Key: {fileID: 11400000, guid: 569fa40b90f9a144dbacd882574c0456, type: 2}
-    Value: 115
+    Value: 120
   onHitHooks:
     m_PersistentCalls:
       m_Calls: []
