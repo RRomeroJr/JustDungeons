@@ -209,6 +209,7 @@ MonoBehaviour:
   resolvingMoveTo: 0
   autoAttackRequest: 0
   circling: 0
+  buffHandler: {fileID: 0}
   arenaObject: {fileID: 0}
   aggroRadius: 7
   resetPoint: {x: 0, y: 0}
@@ -279,8 +280,8 @@ MonoBehaviour:
   syncInterval: 0.1
   showDebug: 0
   actorName: Dionysus
-  health: 35000
-  maxHealth: 35000
+  health: 32000
+  maxHealth: 32000
   <Role>k__BackingField: 0
   unitColor: {r: 0.62352943, g: 0, b: 0.5058824, a: 0}
   mobId: 1

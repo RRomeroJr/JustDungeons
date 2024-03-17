@@ -81,7 +81,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3505075907121208347, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
       propertyPath: health
-      value: 5000
+      value: 1250
       objectReference: {fileID: 0}
     - target: {fileID: 3505075907121208347, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
       propertyPath: actorName
@@ -89,7 +89,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3505075907121208347, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
       propertyPath: maxHealth
-      value: 5000
+      value: 1250
       objectReference: {fileID: 0}
     - target: {fileID: 3505075907121208347, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
       propertyPath: unitColor.a

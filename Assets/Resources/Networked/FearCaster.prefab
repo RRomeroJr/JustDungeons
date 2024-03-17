@@ -114,9 +114,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   showDebug: 0
-  actorName: Darne
-  health: 500
-  maxHealth: 500
+  actorName: Fear Caster
+  health: 1400
+  maxHealth: 1400
   <Role>k__BackingField: 0
   unitColor: {r: 0.9529412, g: 0.7882353, b: 0.3019608, a: 1}
   mobId: 4
@@ -304,6 +304,7 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   globalCooldown: 0
   abilities:
+  - {fileID: 11400000, guid: ffcc6f7812f9eb54baa273ad03cdd12a, type: 2}
   - {fileID: 11400000, guid: 0be588aa3cf4cba49be09ec3c7eedf8e, type: 2}
   moveSpeed: 420
   moveSpeedModifier: 1
@@ -314,6 +315,7 @@ MonoBehaviour:
   resolvingMoveTo: 0
   autoAttackRequest: 0
   circling: 0
+  buffHandler: {fileID: 0}
   arenaObject: {fileID: 0}
   aggroRadius: 7
   resetPoint: {x: 0, y: 0}

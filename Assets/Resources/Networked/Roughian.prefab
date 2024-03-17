@@ -73,11 +73,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3505075907121208347, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
       propertyPath: health
-      value: 4000
+      value: 1300
+      objectReference: {fileID: 0}
+    - target: {fileID: 3505075907121208347, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
+      propertyPath: actorName
+      value: Roughian
       objectReference: {fileID: 0}
     - target: {fileID: 3505075907121208347, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
       propertyPath: maxHealth
-      value: 4000
+      value: 1300
       objectReference: {fileID: 0}
     - target: {fileID: 3505075907121208347, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
       propertyPath: unitColor.b

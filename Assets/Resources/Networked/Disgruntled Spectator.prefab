@@ -114,8 +114,8 @@ MonoBehaviour:
   syncInterval: 0.1
   showDebug: 0
   actorName: Disgruntled Spectator
-  health: 500
-  maxHealth: 500
+  health: 1200
+  maxHealth: 1200
   <Role>k__BackingField: 0
   unitColor: {r: 0.90588236, g: 0.19215684, b: 0.82922316, a: 1}
   mobId: 2
@@ -312,6 +312,7 @@ MonoBehaviour:
   resolvingMoveTo: 0
   autoAttackRequest: 0
   circling: 0
+  buffHandler: {fileID: 0}
   arenaObject: {fileID: 0}
   aggroRadius: 7
   resetPoint: {x: 0, y: 0}
