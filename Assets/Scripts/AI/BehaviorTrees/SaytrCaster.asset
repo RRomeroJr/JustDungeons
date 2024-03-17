@@ -191,7 +191,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 5f69669baeefeb94bbd531bb6f8e9120
-  position: {x: 363.66367, y: 1522.7999}
+  position: {x: 363.99997, y: 1521}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -675,7 +675,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: e2a3108767963cd4bb3965b7f8b830c2
-  position: {x: 48.463623, y: 1609.9999}
+  position: {x: 48.000015, y: 1634.01}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}
@@ -684,7 +684,7 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   ability: {fileID: 11400000, guid: baa5cf8225fc5984cbc3261c7fe52f44, type: 2}
-  contextualTarget: 4
+  contextualTarget: 2
   tryOnce: 1
 --- !u!114 &-3396178273463529687
 MonoBehaviour:
@@ -817,9 +817,6 @@ MonoBehaviour:
     targets: []
   description: 
   drawGizmos: 0
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 0
   range: 100
   role: 1
 --- !u!114 &-1772798258050120211
@@ -946,9 +943,6 @@ MonoBehaviour:
     targets: []
   description: 
   drawGizmos: 0
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 0
   range: 100
   role: 1
 --- !u!114 &-336318909889377013
@@ -1721,7 +1715,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 303fa1a961279e440b39f844407f7432
-  position: {x: 514.0637, y: 1522.7999}
+  position: {x: 514, y: 1521}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     target: {fileID: 0}

@@ -2628,9 +2628,6 @@ MonoBehaviour:
     targets: []
   description: 
   drawGizmos: 0
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 0
   range: 100
   role: 1
 --- !u!114 &8091953813333295251
