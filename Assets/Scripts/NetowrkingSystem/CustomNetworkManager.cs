@@ -85,35 +85,35 @@ public class CustomNetworkManager : NetworkManager
    
     public override void Update()
     {
-        if(Input.GetKeyDown("n"))
-        {
-            if(playerInfo.Count == 0)
-            {
-                Debug.Log("No entries in playerInfo");
-                MsgBox.DisplayMsg("No entries in playerInfo");
-            }
-            else
-            {
-                foreach(KeyValuePair<NetworkConnectionToClient, PlayerData> entry in playerInfo)
-                {
-                    Debug.Log(entry.Value.name + ": " + entry.Value.combatClass);
-                }
-                Debug.Log("Number of GamePlayers: " + GamePlayers.Count);
-                MsgBox.DisplayMsg("Number of GamePlayers: " + GamePlayers.Count);
-            }
+        // if(Input.GetKeyDown("n"))
+        // {
+        //     if(playerInfo.Count == 0)
+        //     {
+        //         Debug.Log("No entries in playerInfo");
+        //         MsgBox.DisplayMsg("No entries in playerInfo");
+        //     }
+        //     else
+        //     {
+        //         foreach(KeyValuePair<NetworkConnectionToClient, PlayerData> entry in playerInfo)
+        //         {
+        //             Debug.Log(entry.Value.name + ": " + entry.Value.combatClass);
+        //         }
+        //         Debug.Log("Number of GamePlayers: " + GamePlayers.Count);
+        //         MsgBox.DisplayMsg("Number of GamePlayers: " + GamePlayers.Count);
+        //     }
 
-        }
-        if(Input.GetKeyDown(","))
-        {
-            if(playerInfo.Count == 0)
-            {
-                Debug.Log("No entries in playerInfo");
-            }
-            foreach(KeyValuePair<NetworkConnectionToClient, PlayerData> entry in playerInfo)
-            {
-                Respawn(entry.Key);
-            }
-        }
+        // }
+        // if(Input.GetKeyDown(","))
+        // {
+        //     if(playerInfo.Count == 0)
+        //     {
+        //         Debug.Log("No entries in playerInfo");
+        //     }
+        //     foreach(KeyValuePair<NetworkConnectionToClient, PlayerData> entry in playerInfo)
+        //     {
+        //         Respawn(entry.Key);
+        //     }
+        // }
 
     }
 
@@ -426,11 +426,7 @@ public class CustomNetworkManager : NetworkManager
     {
         if (SceneManager.GetActiveScene().path == menuScene)
         {
-            if (!IsReadyToStart())
-            {
-                return;
-            }
-            ServerChangeScene("MMO dungeon");
+            StartGame("MMO dungeon");
         }
     }
     public void StartGame(string _sceneName)
