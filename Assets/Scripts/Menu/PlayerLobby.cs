@@ -189,6 +189,9 @@ public class PlayerLobby : NetworkBehaviour
         {
             return;
         }
+    
+        GameManager.instance.dungeonScalingLevel = uiController.uiLobby.dungeonLevel.index >= 0 ? uiController.uiLobby.dungeonLevel.index : 0;
+       
         if(dungeonSelect.text == ""){
             Room.StartGame();
         }

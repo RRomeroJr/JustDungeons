@@ -13,6 +13,7 @@ public class UILobby : MonoBehaviour
     public Button buttonLobbyLeave;
     public DropdownField dropdownClass;
     public DropdownField dropdownDungeon;
+    public DropdownField dungeonLevel;
     public List<VisualElement> playerList;
     public UIDocument document;
     public VisualTreeAsset lobby;
@@ -41,9 +42,18 @@ public class UILobby : MonoBehaviour
                 i--;
             }
         }
+    
         dropdownClass.choices = classLoad;
         dropdownDungeon = root.Q<DropdownField>("dungeon-select");
         dropdownDungeon.choices = getAllSceneNames();
+
+        dungeonLevel = root.Q<DropdownField>("dungeon-level");
+        dungeonLevel.choices = new List<string>();
+        for(int i = 0; i < GameManager.maxDungeonLevel; i++)
+        {
+            dungeonLevel.choices.Add(i.ToString());
+        }
+        dungeonLevel.index = 0;
         playerList = new List<VisualElement>
         {
             root.Q<VisualElement>("player-1"),
