@@ -103,7 +103,7 @@ MonoBehaviour:
   offset: {x: 0, y: 0, z: -10}
   dragOffset: {x: 0, y: 0}
   dragSens: 0.4
-  dragMax: 2.5
+  dragMax: 3.4
   dragMode: 0
 --- !u!114 &2815740587929831203
 MonoBehaviour:
