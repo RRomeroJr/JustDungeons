@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public UnityEvent<Actor> OnActorLeaveCombat = new UnityEvent<Actor>();
     public UnityEvent AllPlayersLeaveCombat = new UnityEvent();
     public UnityEvent OnDungeonComplete = new UnityEvent();
+    public const int maxDungeonLevel = 20;
     void Awake()
     {
         if(instance == null)
@@ -110,5 +111,21 @@ public class GameManager : MonoBehaviour
         }
 
         AllPlayersLeaveCombat.Invoke();
+    }
+    /// <summary>
+    /// Returns true if atleast one player in combat
+    /// </summary>
+    /// <returns></returns>
+    public static bool PlayersInCombat()
+    {
+        foreach(PlayerGame pg in CustomNetworkManager.singleton.GamePlayers)
+        {
+            if(pg.GetComponent<Actor>().IsInCombat())
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
