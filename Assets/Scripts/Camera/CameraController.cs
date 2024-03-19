@@ -75,7 +75,7 @@ public class CameraController : MonoBehaviour
 
             }
         }
-        if(Input.GetMouseButton(2)){
+        if(Input.GetMouseButton(2) || Input.GetKeyDown(KeyCode.Space)){
             dragOffset = Vector2.zero;
         }
     }
