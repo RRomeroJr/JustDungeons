@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TrainingScene.unity
     guid: 55dcb178c2acca348958c5db0a46427f
+  - enabled: 1
+    path: Assets/Scenes/TEST_MMO dungeon.unity
+    guid: c5ead3daf5ea1874492a632c254fff2b
   m_configObjects: {}

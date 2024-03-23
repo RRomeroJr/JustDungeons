@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using System.IO;
-using System.Security.Cryptography.X509Certificates;
 
 public class UILobby : MonoBehaviour
 {
@@ -46,6 +45,15 @@ public class UILobby : MonoBehaviour
         dropdownClass.choices = classLoad;
         dropdownDungeon = root.Q<DropdownField>("dungeon-select");
         dropdownDungeon.choices = getAllSceneNames();
+        var disallowedScenes = new List<string>();
+        for(int i = 0; i < dropdownDungeon.choices.Count; i++ )
+        {
+            if(dropdownDungeon.choices[i].Contains("TEST"))
+            {
+                dropdownDungeon.choices.Remove(dropdownDungeon.choices[i]);
+                i--;
+            }
+        }
 
         dungeonLevel = root.Q<DropdownField>("dungeon-level");
         dungeonLevel.choices = new List<string>();
