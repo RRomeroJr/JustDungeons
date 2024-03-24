@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 630dbee7393b5314ab79662f009e6568, type: 3}
-  m_Name: BlindingLight
+  m_Name: BlindingLightTrash
   m_EditorClassIdentifier: 
   abilityName: BlindingLight
   eInstructs:
@@ -23,10 +23,10 @@ MonoBehaviour:
     deliveryNVect2: {x: 0, y: 0}
   buffs: []
   castTime: 2
-  cooldown: 0
+  cooldown: 17
   needsActor: 0
   needsWP: 0
-  id: 44
+  id: 69
   abilityTag: 0
   resourceCosts: []
   isChannel: 0

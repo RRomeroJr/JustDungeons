@@ -304,7 +304,7 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   globalCooldown: 0
   abilities:
-  - {fileID: 11400000, guid: ffcc6f7812f9eb54baa273ad03cdd12a, type: 2}
+  - {fileID: 11400000, guid: 49cb8796a48a8d6409a3456247ee3a79, type: 2}
   - {fileID: 11400000, guid: 0be588aa3cf4cba49be09ec3c7eedf8e, type: 2}
   moveSpeed: 420
   moveSpeedModifier: 1
