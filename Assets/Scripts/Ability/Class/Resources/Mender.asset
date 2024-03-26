@@ -27,8 +27,8 @@ MonoBehaviour:
   - crType: {fileID: 11400000, guid: 14d8d4dde818cf44396153ffe293ee8d, type: 2}
     max: 10000
     amount: 10000
-    combatRegen: 275
-    outOfCombatRegen: 1000
+    combatRegen: 450
+    outOfCombatRegen: 1200
     tickTime: 0
     tickMax: 3
   - crType: {fileID: 11400000, guid: 11a7a1aafb0dd204e93f65399831cb70, type: 2}
