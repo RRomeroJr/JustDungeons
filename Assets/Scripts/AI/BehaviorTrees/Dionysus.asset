@@ -635,7 +635,7 @@ MonoBehaviour:
     targets: []
   description: 
   drawGizmos: 0
-  duration: 8
+  duration: 9.3
 --- !u!114 &690001154674892722
 MonoBehaviour:
   m_ObjectHideFlags: 0
