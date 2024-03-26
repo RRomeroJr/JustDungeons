@@ -34,7 +34,7 @@ public enum AbilityHostilty
 [CreateAssetMenu(fileName="Ability_V2", menuName = "HBCsystem/Ability_V2")]
 public class Ability_V2 : ScriptableObject{
     public const float meleeRange = 3.2f;
-    public const float rangedRange = 11.0f;
+    public const float rangedRange = 7.5f;
     
     [SerializeField] protected string abilityName;
     
