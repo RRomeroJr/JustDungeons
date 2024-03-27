@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 630dbee7393b5314ab79662f009e6568, type: 3}
-  m_Name: PierreBossAbility1
+  m_Name: TrackingBeamAbility
   m_EditorClassIdentifier: 
   abilityName: PierreBossAbility1
   eInstructs:
@@ -32,7 +32,7 @@ MonoBehaviour:
   isChannel: 0
   channelDuration: 0
   numberOfTicks: 0
-  offGDC: 0
+  offGDC: 1
   rangeClass: 0
   range: Infinity
   interruptable: 1

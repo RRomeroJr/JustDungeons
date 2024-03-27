@@ -63,6 +63,10 @@ PrefabInstance:
       propertyPath: _assetId
       value: 3180541423
       objectReference: {fileID: 0}
+    - target: {fileID: 1963600566536989270, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
+      propertyPath: autoAttackClone
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2453500296045010687, guid: def51ec02809c8c40a07ed5d3f5fb216, type: 3}
       propertyPath: m_Size.x
       value: 1.1875

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -82,9 +82,19 @@ public static class Extensions
 
         toReturn.x = _bounds.center.x;
         toReturn.y = _bounds.min.y;
-
+        
         return toReturn;
     }
+
+    public static Vector2 TopCenter(this Bounds bounds)
+    {
+        return new Vector2()
+        {
+            x = bounds.center.x,
+            y = bounds.max.y
+        };
+    }
+
     public static bool RemoveRandom<T>(this IList<T> _listToCheck, Predicate<T> _matchExpression)
     {
 

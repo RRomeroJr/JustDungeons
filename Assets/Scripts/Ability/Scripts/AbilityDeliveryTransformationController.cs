@@ -16,6 +16,7 @@ public sealed class AbilityDeliveryTransformationController
     private Vector3 WorldPointTarget => _abilityDelivery.worldPointTarget;
     private float RotationsPerSecond => _rotationSequence[_rotationIndex].RotationsPerSecond;
     private bool IsTracking => _abilityDelivery.trackTarget;
+    private bool IsAimingAtCollider => _abilityDelivery.aimAtCollider && Target != null;
 
     public AbilityDeliveryTransformationController(AbilityDelivery abilityDelivery, List<RotationElement> rotationSequence)
     {
@@ -27,6 +28,18 @@ public sealed class AbilityDeliveryTransformationController
             _isRotating = true;
             _remainingRotationTime = rotationSequence[0].Duration;
             _rotationIndex = 0;
+        }
+    }
+
+    public void InitialSpawn()
+    {
+        // Set the initial spawn of Aoe type to collider center
+        if (IsAimingAtCollider && Type is AbilityType.Aoe)
+        {
+            if (Target != null && Target.TryGetComponent(out Collider2D targetCollider))
+            {
+                Transform.position = targetCollider.bounds.center;
+            }
         }
     }
 
@@ -57,9 +70,25 @@ public sealed class AbilityDeliveryTransformationController
             return;
         }
 
-        if (Type == AbilityType.LineAoe)
+        if (Type is AbilityType.LineAoe)
         {
-            Vector3 targetLocation = Target != null ? Target.position : WorldPointTarget;
+            Vector3 targetLocation;
+            if (Target != null)
+            {
+                if (IsAimingAtCollider && Target.TryGetComponent(out Collider2D targetCollider))
+                {
+                    targetLocation = targetCollider.bounds.center;
+                }
+                else
+                {
+                    targetLocation = Target.position;
+                }
+            }
+            else
+            {
+                targetLocation = WorldPointTarget;
+            }
+
             if (targetLocation != null)
             {
                 Transform.right = Vector3.Normalize(targetLocation - Transform.position);

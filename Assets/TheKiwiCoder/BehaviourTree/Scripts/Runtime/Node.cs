@@ -90,8 +90,11 @@ namespace TheKiwiCoder {
                     }
                     break;
                 case HBCTools.ContextualTarget.Blackboard:
-                    return blackboard.target.gameObject;
-                    break;
+                    if (blackboard.target != null)
+                    {
+                        return blackboard.target.gameObject;
+                    }
+                    return null;
             }
             return null;
         }

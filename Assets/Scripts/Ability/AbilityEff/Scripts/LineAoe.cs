@@ -11,39 +11,29 @@ public class LineAoe : Aoe
     public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
         try
-        {        //Debug.Log("Ring Aoe start effect");
-        //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
-        //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
-        //Debug.Log(_targetWP == null ? "RingAoe: No targetWP" : ("RingAoe: wp = " + _targetWP.Value.ToString()));
-        GameObject ability = Instantiate(aoePrefab, _caster.transform.position, Quaternion.identity);
-        if (ability.TryGetComponent(out BeamBuilder beam))
-        {
-            beam.Length = Length;
-        }
+        {   //Debug.Log("Ring Aoe start effect");
+            //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
+            //Debug.Log("Caster " + _caster.getActorName() + " currently has target " + _caster.target.getActorName());
+            //Debug.Log(_targetWP == null ? "RingAoe: No targetWP" : ("RingAoe: wp = " + _targetWP.Value.ToString()));
+            GameObject ability = Instantiate(aoePrefab, _caster.transform.position, Quaternion.identity);
 
-        AbilityDelivery abilityDelivery = ability.GetComponent<AbilityDelivery>();
-        abilityDelivery.Target = _target;
-        abilityDelivery.Caster = _caster;
-        abilityDelivery.worldPointTarget = _targetWP.Value;
+            if (ability.TryGetComponent(out BeamBuilder beam))
+            {
+                beam.Length = Length;
+            }
 
-        //  A LineAoe with no caster doesn't make much sense to me
-        //  Feel like you would just use a normal aoe
-        //  vv so I'll leave this unsafe vv
-        abilityDelivery.transform.position = _caster.transform.position;
-
-        abilityDelivery.eInstructs = eInstructs;
-        abilityDelivery.type = AbilityType.LineAoe;
-        if (_target != null)
-        {
-            abilityDelivery.transform.right = Vector3.Normalize(_target.position - abilityDelivery.transform.position);
+            AbilityDelivery abilityDelivery = ability.GetComponent<AbilityDelivery>();
+            abilityDelivery.Target = _target;
+            abilityDelivery.Caster = _caster;
+            if (_targetWP != null)
+            {
+                abilityDelivery.worldPointTarget = _targetWP.Value;
+            }
+            abilityDelivery.eInstructs = eInstructs;
+            abilityDelivery.type = AbilityType.LineAoe;
+            NetworkServer.Spawn(ability);
         }
-        else
-        {
-            abilityDelivery.transform.right = Vector3.Normalize(_targetWP.Value - abilityDelivery.transform.position);
-        }
-        NetworkServer.Spawn(ability);
-        }
-        catch{}
+        catch { }
     }
 
     public LineAoe(string _effectName, GameObject _aoePrefab, int _id = -1, float _power = 0, int _school = -1)

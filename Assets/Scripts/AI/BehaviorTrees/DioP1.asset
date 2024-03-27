@@ -24,7 +24,7 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   ability: {fileID: 11400000, guid: 4ab42603cefb69643b9deea4be861e99, type: 2}
-  targetSelf: 0
+  contextualTarget: 4
   tryOnce: 0
 --- !u!114 &-8096393940002067977
 MonoBehaviour:

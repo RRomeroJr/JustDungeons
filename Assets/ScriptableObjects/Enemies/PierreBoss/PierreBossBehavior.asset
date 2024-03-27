@@ -1,0 +1,690 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7298173315819256661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72d2a05cfcc6ec842b74ff141d31990f, type: 3}
+  m_Name: AttackRelativeWP
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 742d1a561491d5b40ba552cc84083dcd
+  position: {x: 87.99996, y: 1067.3501}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: North
+  drawGizmos: 0
+  ability: {fileID: 11400000, guid: fa5e2a011eac8c344bb7ee3f55ac856d, type: 2}
+  relativePoint: {x: 0, y: 1}
+  relativePoint2: {x: 0, y: 0}
+  relativeTo: 1
+  castStarted: 0
+  castFinished: 0
+  randomRange: 0
+  plusMinusX: 0
+  plusMinusY: 0
+--- !u!114 &-7029540247113692354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
+  m_Name: Wait
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 94d3cfaccca3a524bbef6cbf07410156
+  position: {x: -662, y: 903}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: 
+  drawGizmos: 0
+  duration: 7
+--- !u!114 &-5258285066693889644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
+  m_Name: Wait
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: a95f8cd5924925241a0e787e94c66ce8
+  position: {x: -700, y: 711}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: 
+  drawGizmos: 0
+  duration: 3
+--- !u!114 &-3680992415268464273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72aed89b344f4e54e9ec45419e0bf631, type: 3}
+  m_Name: ExecuteCustomMethod
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 6891438c9392f474cbe75678ecf7e912
+  position: {x: 388, y: 343}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: 
+  drawGizmos: 0
+  methodName: Test
+--- !u!114 &-2680943000493578539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72d2a05cfcc6ec842b74ff141d31990f, type: 3}
+  m_Name: AttackRelativeWP
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 9642bfe6957a23b4fadcdbf7f314f122
+  position: {x: 387.9999, y: 1067.3501}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: West
+  drawGizmos: 0
+  ability: {fileID: 11400000, guid: fa5e2a011eac8c344bb7ee3f55ac856d, type: 2}
+  relativePoint: {x: -1, y: 0}
+  relativePoint2: {x: 0, y: 0}
+  relativeTo: 1
+  castStarted: 0
+  castFinished: 0
+  randomRange: 0
+  plusMinusX: 0
+  plusMinusY: 0
+--- !u!114 &-2010433453855865578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30649352142fbf844844a856f459f6ea, type: 3}
+  m_Name: AttackMultiple
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 71bb50e6ebbf9ed4e9cbb1b0b1ea5ff5
+  position: {x: 594, y: 681}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: 
+  drawGizmos: 0
+  ability: {fileID: 11400000, guid: fa5e2a011eac8c344bb7ee3f55ac856d, type: 2}
+  castFinished: 0
+  numOfTargets: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d285eb63c2cdd74180de7cfceaa96ad, type: 3}
+  m_Name: PierreBossBehavior
+  m_EditorClassIdentifier: 
+  rootNode: {fileID: 1057030606057929666}
+  treeState: 0
+  nodes:
+  - {fileID: 1057030606057929666}
+  - {fileID: 2330012211627212399}
+  - {fileID: -7298173315819256661}
+  - {fileID: 8793821359793828911}
+  - {fileID: 6529558641871066623}
+  - {fileID: -2680943000493578539}
+  - {fileID: 1541580482825622265}
+  - {fileID: 1874597844182344975}
+  - {fileID: 2568221094044597751}
+  - {fileID: 2572761505473826237}
+  - {fileID: 4357244325002234540}
+  - {fileID: 7964305717487636647}
+  - {fileID: 7613531887405039271}
+  - {fileID: 1346851888343892285}
+  - {fileID: 4921186112392793410}
+  - {fileID: -7029540247113692354}
+  - {fileID: 4329055942748967529}
+  - {fileID: -5258285066693889644}
+  - {fileID: 5514256097181907129}
+  - {fileID: 148140905568197289}
+  - {fileID: 363361440453164974}
+  - {fileID: 3486752584021064602}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+--- !u!114 &148140905568197289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bd5f608b3bd8144ab24ae29b8d34853, type: 3}
+  m_Name: Attack
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: e935fc5def0345642ad42bca84c60434
+  position: {x: 270, y: 470.99997}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: 
+  drawGizmos: 0
+  ability: {fileID: 11400000, guid: 9f2a48b6fcd5c2d4ab3a59a40bb79435, type: 2}
+  contextualTarget: 4
+  tryOnce: 0
+--- !u!114 &363361440453164974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7302d8b8c9a258408e8b0829db973ae, type: 3}
+  m_Name: FindTargets
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: fe7e6455b548b0d4a82c9e427616a848
+  position: {x: 87.99993, y: 470.99997}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: 
+  drawGizmos: 0
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 64
+  range: 10
+--- !u!114 &1057030606057929666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 163c147d123e4a945b688eddc64e3ea5, type: 3}
+  m_Name: RootNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: e22652c60345afe458a01ea08ff1d995
+  position: {x: -44, y: 37}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: 
+  drawGizmos: 0
+  child: {fileID: 2330012211627212399}
+--- !u!114 &1346851888343892285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f93e2d251ad3fef41ba034be78e05143, type: 3}
+  m_Name: SpawnPrefab
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: b0fd2d23ff8b3864c875bc8687ad8e01
+  position: {x: -829, y: 839}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: SouthWest
+  drawGizmos: 0
+  prefab: {fileID: 2546371400904314547, guid: 66bcf0f307da84a4fb2745e18f86ec22, type: 3}
+  relativePosition: {x: -4, y: -4}
+  name: PillarSW
+--- !u!114 &1541580482825622265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 66f48bfccd378ad4cb44c3284bf8bdd2
+  position: {x: 313, y: 927.2502}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: Spinning Beam attack cardinal directions
+  drawGizmos: 0
+  children:
+  - {fileID: -7298173315819256661}
+  - {fileID: 8793821359793828911}
+  - {fileID: -2680943000493578539}
+  - {fileID: 6529558641871066623}
+--- !u!114 &1874597844182344975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7302d8b8c9a258408e8b0829db973ae, type: 3}
+  m_Name: FindTargets
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 17fd12f9e9ac3c141a5e4a5e8097b03c
+  position: {x: -690, y: 775}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: 
+  drawGizmos: 0
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 64
+  range: 10
+--- !u!114 &2330012211627212399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb5496e8cd973748a10b3e3ef436ebd, type: 3}
+  m_Name: Repeat
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 477bba3de397e5f4bb8292563460b776
+  position: {x: -44.000015, y: 194.55002}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: 
+  drawGizmos: 0
+  child: {fileID: 5514256097181907129}
+  restartOnSuccess: 1
+  restartOnFailure: 1
+--- !u!114 &2568221094044597751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87cbc434c0f85f144a78c4db1775bd73, type: 3}
+  m_Name: AttackAll
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 414a3cb288e738b44839d902b9788f7c
+  position: {x: -679, y: 839}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: 
+  drawGizmos: 0
+  ability: {fileID: 11400000, guid: bf0e4816f34446b4f90bb26fc106549c, type: 2}
+--- !u!114 &2572761505473826237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8b2b3e3551c72145a60bb2642ef1a4c, type: 3}
+  m_Name: AboveHealthPercent
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 90eda0866bafe314bb5d431a27778f8f
+  position: {x: -703.00006, y: 318.99997}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: 
+  drawGizmos: 0
+  child: {fileID: 4357244325002234540}
+  percentage: 0.7
+  mustComplete: 0
+--- !u!114 &3486752584021064602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
+  m_Name: Wait
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: cfb9a9bd35f8e074e903eaac189c4da9
+  position: {x: -82, y: 471}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: 
+  drawGizmos: 0
+  duration: 2
+--- !u!114 &4329055942748967529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460be9e34c566ea45b9e282b1adcb028, type: 3}
+  m_Name: Selector
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 40d7ac08c7687624185666eccc2b2c0c
+  position: {x: -44.000015, y: 318.99994}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: 2572761505473826237}
+--- !u!114 &4357244325002234540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 456d4d8941ad2cd428bc4338773f8c1b
+  position: {x: -775, y: 585}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: Spawn Pillars
+  drawGizmos: 0
+  children:
+  - {fileID: 7964305717487636647}
+  - {fileID: 7613531887405039271}
+  - {fileID: 1346851888343892285}
+  - {fileID: 4921186112392793410}
+  - {fileID: -5258285066693889644}
+  - {fileID: 1874597844182344975}
+  - {fileID: 2568221094044597751}
+  - {fileID: -7029540247113692354}
+--- !u!114 &4921186112392793410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f93e2d251ad3fef41ba034be78e05143, type: 3}
+  m_Name: SpawnPrefab
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 3ba0f1016cb24114caf4a90fc5734d35
+  position: {x: -812, y: 903}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: SouthEast
+  drawGizmos: 0
+  prefab: {fileID: 2546371400904314547, guid: 66bcf0f307da84a4fb2745e18f86ec22, type: 3}
+  relativePosition: {x: 4, y: -4}
+  name: PillarSE
+--- !u!114 &5514256097181907129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 18a1064c2a891f047b6102ce512908b4
+  position: {x: 237.99994, y: 283.00003}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: Fire bomb attack
+  drawGizmos: 0
+  children:
+  - {fileID: 3486752584021064602}
+  - {fileID: 363361440453164974}
+  - {fileID: 148140905568197289}
+--- !u!114 &6529558641871066623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72d2a05cfcc6ec842b74ff141d31990f, type: 3}
+  m_Name: AttackRelativeWP
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: d8624fb7284df884c9ebddf3dc7362b2
+  position: {x: 538, y: 1067.3501}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: East
+  drawGizmos: 0
+  ability: {fileID: 11400000, guid: fa5e2a011eac8c344bb7ee3f55ac856d, type: 2}
+  relativePoint: {x: 1, y: 0}
+  relativePoint2: {x: 0, y: 0}
+  relativeTo: 1
+  castStarted: 0
+  castFinished: 0
+  randomRange: 0
+  plusMinusX: 0
+  plusMinusY: 0
+--- !u!114 &7613531887405039271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f93e2d251ad3fef41ba034be78e05143, type: 3}
+  m_Name: SpawnPrefab
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: c93de5a1cc3994a4095d2263f5cb21e9
+  position: {x: -840, y: 775}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: NorthEast
+  drawGizmos: 0
+  prefab: {fileID: 2546371400904314547, guid: 66bcf0f307da84a4fb2745e18f86ec22, type: 3}
+  relativePosition: {x: 4, y: 4}
+  name: PillarNE
+--- !u!114 &7964305717487636647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f93e2d251ad3fef41ba034be78e05143, type: 3}
+  m_Name: SpawnPrefab
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: e2cf99ba33f909d44838431525c83781
+  position: {x: -850, y: 711}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: NorthWest
+  drawGizmos: 0
+  prefab: {fileID: 2546371400904314547, guid: 66bcf0f307da84a4fb2745e18f86ec22, type: 3}
+  relativePosition: {x: -4, y: 4}
+  name: PillarNW
+--- !u!114 &8793821359793828911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72d2a05cfcc6ec842b74ff141d31990f, type: 3}
+  m_Name: AttackRelativeWP
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 61e2570d9965937408d5be92b8ed96f8
+  position: {x: 238.00002, y: 1067.3501}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    target: {fileID: 0}
+    targetPrev: {fileID: 0}
+    targets: []
+  description: South
+  drawGizmos: 0
+  ability: {fileID: 11400000, guid: fa5e2a011eac8c344bb7ee3f55ac856d, type: 2}
+  relativePoint: {x: 0, y: -1}
+  relativePoint2: {x: 0, y: 0}
+  relativeTo: 1
+  castStarted: 0
+  castFinished: 0
+  randomRange: 0
+  plusMinusX: 0
+  plusMinusY: 0

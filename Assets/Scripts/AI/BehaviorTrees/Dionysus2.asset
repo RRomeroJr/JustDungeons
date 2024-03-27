@@ -113,9 +113,6 @@ MonoBehaviour:
   - {fileID: 2378364929552231038}
   - {fileID: 2378364929552231038}
   - {fileID: 2378364929552231038}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: -3880612269553372546}
   - {fileID: -3880612269553372546}
   - {fileID: -3880612269553372546}
@@ -343,7 +340,7 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   ability: {fileID: 11400000, guid: 794222b41b160d344a1822a6d5a2972a, type: 2}
-  targetSelf: 0
+  contextualTarget: 4
   tryOnce: 0
 --- !u!114 &3045520618055739901
 MonoBehaviour:
@@ -393,7 +390,7 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   ability: {fileID: 0}
-  targetSelf: 0
+  contextualTarget: 4
   tryOnce: 0
 --- !u!114 &5818769147343427658
 MonoBehaviour:

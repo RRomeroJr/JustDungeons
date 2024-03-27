@@ -75,11 +75,19 @@ public class Nameplate : MonoBehaviour
         npRef.actor = _actor;
         return npRef;
     }
-
+    
     public static Nameplate Create(IDamageable d)
     {
-        Nameplate npRef = Instantiate(UIManager.nameplatePrefab, (d as MonoBehaviour).transform).GetComponentInChildren<Nameplate>();
-        npRef.transform.position += (Vector3)npRef.offset;
+        MonoBehaviour damageableObject = d as MonoBehaviour;
+        Nameplate npRef = Instantiate(UIManager.nameplatePrefab, damageableObject.transform).GetComponentInChildren<Nameplate>();
+        if (damageableObject.TryGetComponent(out Collider2D damageableCollider))
+        {
+            npRef.transform.position = (Vector3)damageableCollider.bounds.TopCenter() + new Vector3(0f, 0.25f);
+        }
+        else
+        {
+            npRef.transform.position += (Vector3)npRef.offset;
+        }
         npRef.damageable = d;
         return npRef;
     }

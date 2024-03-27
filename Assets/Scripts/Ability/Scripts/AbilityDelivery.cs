@@ -71,6 +71,7 @@ public class AbilityDelivery : NetworkBehaviour
     public bool hitFriendly = true;
     public bool canHitSelf = false;
     public bool checkAtFeet = false;
+    public bool aimAtCollider = false;
     public bool onlyHitTarget = false;
 
     [SerializeField] private List<RotationElement> rotationSequence;
@@ -114,6 +115,9 @@ public class AbilityDelivery : NetworkBehaviour
             gameObject.transform.position = Vector2.MoveTowards(Caster.transform.position, worldPointTarget, tempDist);
         }
         _movementController = new AbilityDeliveryTransformationController(this, rotationSequence);
+        _movementController.InitialSpawn();
+        _movementController.TrackTarget();
+        _movementController.Rotate();
     }
 
     void Update()
@@ -434,9 +438,9 @@ public class AbilityDelivery : NetworkBehaviour
         aoeActorIgnore.Add(new TargetCooldown(_target, _remainingtime));
     }
 
-    void AddToAoeIgnore(IDamageable target, float remainingtime)
+    void AddToAoeIgnore(IDamageable target, float remainingTime)
     {
-        aoeDamageableIgnore.Add(new DamageableCooldown(target, remainingtime));
+        aoeDamageableIgnore.Add(new DamageableCooldown(target, remainingTime));
     }
 
     void UpdateTargetCooldowns()

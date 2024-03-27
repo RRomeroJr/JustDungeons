@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0fabf0550d62678469539a6a6393e7a8, type: 3}
-  m_Name: PierreBossLineAoe
+  m_Name: TrackingBeamLineAoe
   m_EditorClassIdentifier: 
   effectName: PierreBossBeam
   id: 80
@@ -37,4 +37,4 @@ MonoBehaviour:
   school: 0
   prefabScale: {x: 1, y: 1, z: 1}
   aoePrefab: {fileID: 2685400126559208735, guid: 13abc002491244444ac0797007d7a294, type: 3}
-  Length: 5
+  Length: 10
