@@ -41,6 +41,12 @@ public sealed class AbilityDeliveryTransformationController
                 Transform.position = targetCollider.bounds.center;
             }
         }
+
+        // Set the initial direction of LineAoe type to target
+        if (Type is AbilityType.LineAoe)
+        {
+            AimAtTarget();
+        }
     }
 
     public void Move()
