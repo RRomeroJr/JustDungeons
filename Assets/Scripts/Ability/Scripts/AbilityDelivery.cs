@@ -64,7 +64,6 @@ public class AbilityDelivery : NetworkBehaviour
     public bool ignoreDuration = true;
     public float innerCircleRadius;
     public Vector2 safeZoneCenter;
-    public Vector2 skillshotvector;
     public LayerMask hitMask = 192; //Should be player | enemy
 
     public bool hitHostile = true;
@@ -99,15 +98,6 @@ public class AbilityDelivery : NetworkBehaviour
         foreach (EffectInstruction eI in eInstructs)
         {
             eI.effect.parentDelivery = this;
-        }
-        if (type == AbilityType.Skillshot)
-        {
-            skillshotvector = worldPointTarget - transform.position;
-            //Debug.Log(worldPointTarget - transform.position);
-            skillshotvector.Normalize();
-            skillshotvector = speed * skillshotvector;
-            //Debug.Log(gameObject.name + "| skillshot wpT " + worldPointTarget);
-            //Debug.Log(gameObject.name + "| skillshotvector set:" + worldPointTarget + " + " + transform.position);
         }
         if (connectedToCaster)
         {

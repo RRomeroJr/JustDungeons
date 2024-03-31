@@ -5,6 +5,7 @@ public sealed class AbilityDeliveryTransformationController
 {
     private float _remainingRotationTime;
     private int _rotationIndex;
+    public Vector2 _skillShotVector;
     private readonly bool _isRotating;
     private readonly List<RotationElement> _rotationSequence;
     private readonly AbilityDelivery _abilityDelivery;
@@ -17,6 +18,7 @@ public sealed class AbilityDeliveryTransformationController
     private float RotationsPerSecond => _rotationSequence[_rotationIndex].RotationsPerSecond;
     private bool IsTracking => _abilityDelivery.trackTarget;
     private bool IsAimingAtCollider => _abilityDelivery.aimAtCollider && Target != null;
+    private float Speed => _abilityDelivery.speed;
 
     public AbilityDeliveryTransformationController(AbilityDelivery abilityDelivery, List<RotationElement> rotationSequence)
     {
@@ -34,18 +36,23 @@ public sealed class AbilityDeliveryTransformationController
     public void InitialSpawn()
     {
         // Set the initial spawn of Aoe type to collider center
-        if (IsAimingAtCollider && Type is AbilityType.Aoe)
+        if (Type is AbilityType.Aoe && IsAimingAtCollider)
         {
             if (Target.TryGetComponent(out Collider2D targetCollider))
             {
                 Transform.position = targetCollider.bounds.center;
             }
         }
-
         // Set the initial direction of LineAoe type to target
-        if (Type is AbilityType.LineAoe)
+        else if (Type is AbilityType.LineAoe)
         {
             AimAtTarget();
+        }
+        else if (Type is AbilityType.Skillshot)
+        {
+            _skillShotVector = WorldPointTarget - Transform.position;
+            _skillShotVector.Normalize();
+            _skillShotVector = Speed * _skillShotVector;
         }
     }
 
@@ -57,7 +64,7 @@ public sealed class AbilityDeliveryTransformationController
         }
         else if (Type == AbilityType.Skillshot)
         {
-            Transform.position = (Vector2)Transform.position + _abilityDelivery.skillshotvector;
+            Transform.position = (Vector2)Transform.position + _skillShotVector;
         }
         else if (_abilityDelivery.followCaster && Caster != null)
         {
