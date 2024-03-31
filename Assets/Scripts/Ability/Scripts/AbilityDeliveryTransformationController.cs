@@ -72,27 +72,7 @@ public sealed class AbilityDeliveryTransformationController
 
         if (Type is AbilityType.LineAoe)
         {
-            Vector3 targetLocation;
-            if (Target != null)
-            {
-                if (IsAimingAtCollider && Target.TryGetComponent(out Collider2D targetCollider))
-                {
-                    targetLocation = targetCollider.bounds.center;
-                }
-                else
-                {
-                    targetLocation = Target.position;
-                }
-            }
-            else
-            {
-                targetLocation = WorldPointTarget;
-            }
-
-            if (targetLocation != null)
-            {
-                Transform.right = Vector3.Normalize(targetLocation - Transform.position);
-            }
+            AimAtTarget();
         }
     }
 
@@ -131,5 +111,27 @@ public sealed class AbilityDeliveryTransformationController
             }
             _remainingRotationTime += _rotationSequence[_rotationIndex].Duration;
         }
+    }
+
+    private void AimAtTarget()
+    {
+        Vector3 targetLocation;
+        if (Target != null)
+        {
+            if (IsAimingAtCollider && Target.TryGetComponent(out Collider2D targetCollider))
+            {
+                targetLocation = targetCollider.bounds.center;
+            }
+            else
+            {
+                targetLocation = Target.position;
+            }
+        }
+        else
+        {
+            targetLocation = WorldPointTarget;
+        }
+
+        Transform.right = Vector3.Normalize(targetLocation - Transform.position);
     }
 }
