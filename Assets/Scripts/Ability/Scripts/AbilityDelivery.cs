@@ -116,8 +116,6 @@ public class AbilityDelivery : NetworkBehaviour
         }
         _movementController = new AbilityDeliveryTransformationController(this, rotationSequence);
         _movementController.InitialSpawn();
-        _movementController.TrackTarget();
-        _movementController.Rotate();
     }
 
     void Update()
