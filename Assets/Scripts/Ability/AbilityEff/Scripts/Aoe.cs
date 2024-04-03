@@ -12,7 +12,7 @@ public class Aoe : DeliveryEff
     public GameObject aoePrefab;
     
     
-    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    public override GameObject startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
         try
         {            
@@ -27,13 +27,13 @@ public class Aoe : DeliveryEff
             delivery.transform.localScale = Vector3.Scale(delivery.transform.localScale, prefabScale);
             
             NetworkServer.Spawn(delivery);
-
+            return delivery;
             /*
                 RR: this works bc the prefab already has variables in AbilityDelivery set to what I want.
                 Not sure if this is the best way but it seems to work fine
             */
         }
-        catch{}
+        catch{ return null; }
        
     }
     public Aoe(string _effectName, GameObject _aoePrefab, int _id = -1, float _power = 0, int _school = -1){

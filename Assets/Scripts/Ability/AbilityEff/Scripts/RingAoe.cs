@@ -11,7 +11,7 @@ public class RingAoe : Aoe
     public Vector2 innerCirclePosistion; //relative to parent
     public bool usePosition = false;
     
-    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    public override GameObject startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
         try
         {        //Debug.Log("Ring Aoe start effect");
@@ -32,17 +32,17 @@ public class RingAoe : Aoe
             delivery.GetComponent<AbilityDelivery>().SetSafeZonePosistion((Vector2)delivery.transform.position + innerCirclePosistion);
             // delivery.transform.GetChild(0).transform.position = (Vector2)delivery.transform.position + innerCirclePosistion;
         }
+            return delivery;
+            //Debug.Log("adding " + eInstructs.Count.ToString() + " to delivery" );
+            //delivery.GetComponent<AbilityDelivery>().safeZoneCenter = innerCirclePosistion;
 
-        //Debug.Log("adding " + eInstructs.Count.ToString() + " to delivery" );
-        //delivery.GetComponent<AbilityDelivery>().safeZoneCenter = innerCirclePosistion;
 
-
-        /*
-            RR: this works bc the prefab already has variables in AbilityDelivery set to what I want.
-            Not sure if this is the best way but it seems to work fine
-        */
+            /*
+                RR: this works bc the prefab already has variables in AbilityDelivery set to what I want.
+                Not sure if this is the best way but it seems to work fine
+            */
         }
-        catch{}
+        catch{ return null; }
     
     }
     public RingAoe(string _effectName, GameObject _aoePrefab, int _id = -1, float _power = 0, int _school = -1){

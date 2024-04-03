@@ -493,14 +493,14 @@ public class AbilityHandler : NetworkBehaviour
     }
 
     [Server]
-    public void FireCast(Ability_V2 _ability, Transform _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null)
+    public List<GameObject> FireCast(Ability_V2 _ability, Transform _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null)
     {
         // EI_Clones will be passed into an event that will allow them to be modified as need by other effects, stats, Buffs, etc.
         // Debug.Log("FireCast()");
         if (_ability.isChannel)
         {
             StartChannel(_ability, _target, _relWP, _relWP2);
-            return;
+            return null;
         }
 
         // if(MirrorTestTools._inst != null)
@@ -532,7 +532,9 @@ public class AbilityHandler : NetworkBehaviour
             }
         }
 
-        if (!isServer) { return; }
+        if (!isServer) { return null; }
+
+        List<GameObject> spawnedObjects = new List<GameObject>();
 
         //Debug.Log("firecast -> isServer");
         if (actor.HasTheResources(_ability))
@@ -545,7 +547,7 @@ public class AbilityHandler : NetworkBehaviour
 
             foreach (EffectInstruction eI in EI_clones)
             {
-                eI.sendToActor(_target, actor.GetRealWPOrNull(_relWP), actor, inTargetWP2: actor.GetRealWPOrNull(_relWP2));
+                spawnedObjects.Add(eI.sendToActor(_target, actor.GetRealWPOrNull(_relWP), actor, inTargetWP2: actor.GetRealWPOrNull(_relWP2)));
             }
             if(_target)
             {
@@ -585,6 +587,7 @@ public class AbilityHandler : NetworkBehaviour
         {
             GetComponent<Controller>().autoAttacking = true;
         }
+        return spawnedObjects;
     }
 
     public void StartChannel(Ability_V2 _ability, Transform _target = null, NullibleVector3 _relWP = null, NullibleVector3 _relWP2 = null)

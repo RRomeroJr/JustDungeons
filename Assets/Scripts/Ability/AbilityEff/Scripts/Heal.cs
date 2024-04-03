@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -9,7 +9,7 @@ public class Heal : AbilityEff
 {   
     public int school;
     public ActorStats scaleStat = ActorStats.HealingPower;
-    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
+    public override GameObject startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
         try
         {
             if(target == null){
@@ -21,8 +21,9 @@ public class Heal : AbilityEff
         else{
             target.restoreValue((int)power);
         }
+            return null;
         }
-        catch{}
+        catch{ return null; }
     }
     public Heal(string _effectName, int _id = -1, float _power = 0, int _school = -1){
         effectName = _effectName;

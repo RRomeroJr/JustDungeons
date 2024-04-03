@@ -12,7 +12,7 @@ public class ApplyBuff : AbilityEff
     // [SerializeField]protected Buff buffID; //Make this actually an id in the future
     [SerializeField]protected BuffScriptableObject buffSO;
     
-    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    public override GameObject startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
         try
         {        // Debug.Log("Apply Buff");
@@ -20,15 +20,16 @@ public class ApplyBuff : AbilityEff
 
         _target.GetComponent<IBuff>().AddBuff(buffSO);
 
-        // Buff tempBuff_ref = buffID.clone();
-        // tempBuff_ref.target = _secondaryTarget;
-        // tempBuff_ref.caster = _caster;
-        // _target.applyBuff(tempBuff_ref);
+            // Buff tempBuff_ref = buffID.clone();
+            // tempBuff_ref.target = _secondaryTarget;
+            // tempBuff_ref.caster = _caster;
+            // _target.applyBuff(tempBuff_ref);
 
-        //below wasn't used
-        //tempBuff_ref.eInstructs = eInstructs;
+            //below wasn't used
+            //tempBuff_ref.eInstructs = eInstructs;
+            return null;
         }
-        catch{}
+        catch{ return null; }
     }
     
     public ApplyBuff(){}

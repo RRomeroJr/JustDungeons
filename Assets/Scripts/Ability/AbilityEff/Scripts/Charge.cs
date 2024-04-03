@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -9,7 +9,7 @@ using UnityEngine.AI;
 public class Charge : AbilityEff
 {   
     public int school = -1;
-    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    public override GameObject startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
         try
         {       //parentBuff.actor.transform.position = Vector2.MoveTowards(parentBuff.actor.transform.position, parentBuff.target.transform.position, power);
@@ -18,8 +18,9 @@ public class Charge : AbilityEff
         if(Vector2.Distance(parentBuff.actor.transform.position, parentBuff.target.transform.position) < 1.8f){
             parentBuff.onFinish();
         }
+            return null;
         }
-        catch{}
+        catch{ return null; }
     }
     public override void buffStartEffect()
     {

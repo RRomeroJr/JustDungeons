@@ -15,7 +15,7 @@ public class Missile : DeliveryEff
     public float duration;
 
     
-    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    public override GameObject startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
         try
         {        //Debug.Log("Actor " + _caster.getActorName() + ": casting Missile at " + _target.getActorName());
@@ -58,13 +58,13 @@ public class Missile : DeliveryEff
         
         
         NetworkServer.Spawn(delivery);
-        
-        /*
-            RR: this works bc the prefab already has variable set to what I want.
-            Not sure if this is the best way but it seems to work fine
-        */
+            return delivery;
+            /*
+                RR: this works bc the prefab already has variable set to what I want.
+                Not sure if this is the best way but it seems to work fine
+            */
         }
-        catch{}
+        catch{ return null; }
     }
     public Missile(string _effectName, GameObject _misslePrefab, int _id = -1, float _power = 0, int _school = -1){
         effectName = _effectName;

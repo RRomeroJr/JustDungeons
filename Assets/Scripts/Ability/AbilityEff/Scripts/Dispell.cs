@@ -10,15 +10,16 @@ public class Dispell : AbilityEff
 {
     
     
-    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
+    public override GameObject startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
         try
         {// Debug.Log("Apply Buff");
         if (_target.TryGetComponent(out IBuff buffHandler))
         {
             buffHandler.RemoveRandomBuff(b => (b.BuffSO.isDebuff == true) && b.BuffSO.dispellable);
         }
+            return null;
         }
-        catch{}
+        catch{ return null; }
     }
     
     public Dispell(){

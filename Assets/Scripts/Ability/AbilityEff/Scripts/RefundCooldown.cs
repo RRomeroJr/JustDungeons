@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,12 +9,13 @@ public class RefundCooldown : AbilityEff
     public int school;
     public Ability_V2 ability;
 	
-    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    public override GameObject startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
         try
         {        target.RefundCooldown(ability, power);
+            return null;
         }
-        catch{}
+        catch{ return null; }
     }
     public override void clientEffect()
     {

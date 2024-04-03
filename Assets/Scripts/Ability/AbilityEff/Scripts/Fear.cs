@@ -13,7 +13,7 @@ public class Fear : AbilityEff
     public float navMeshSpeed = 3.0f; //in the future this should change the moveSpeedMod
     bool hasAuthOverNT = false;
     
-    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    public override GameObject startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
         try
         {       if(hasAuthOverNT){
@@ -33,9 +33,11 @@ public class Fear : AbilityEff
                 
                 
             }
+
        }
-       }
-        catch{}
+            return null;
+        }
+        catch{ return null; }
     }
     public override void buffStartEffect()
     {

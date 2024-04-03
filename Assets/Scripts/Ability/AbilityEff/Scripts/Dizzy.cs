@@ -12,7 +12,7 @@ public class Dizzy : AbilityEff
     public Vector2 moveDirection = Vector2.right;
     public GameObject indicatorPrefab;
     GameObject indicatorRef;
-    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    public override GameObject startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
         try
         {       
@@ -21,8 +21,9 @@ public class Dizzy : AbilityEff
         //indicatorRef.transform.position = parentBuff.actor.transform.position;
         
         clientEffect();
+            return null;
         }
-        catch{}
+        catch{ return null; }
     }
     public override void clientEffect()
     {

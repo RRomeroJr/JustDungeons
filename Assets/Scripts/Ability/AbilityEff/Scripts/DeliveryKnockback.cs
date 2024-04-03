@@ -8,7 +8,7 @@ using UnityEngine;
 public class DeliveryKnockback : AbilityEff
 {   
     public int school = -1;
-    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    public override GameObject startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
         try
         {       
@@ -21,8 +21,9 @@ public class DeliveryKnockback : AbilityEff
         {
             targetActor.Knockback(force);
         }
+            return null;
         }
-        catch{}
+        catch{ return null; }
 
     }
     public DeliveryKnockback(string _effectName, int _id = -1, float _power = 0, int _school = -1){

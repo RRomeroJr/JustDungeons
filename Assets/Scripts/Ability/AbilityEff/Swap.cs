@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,22 +8,23 @@ public class Swap : AbilityEff
 {
     public int school;
 	
-    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    public override GameObject startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
         try
         {
        
             if(target == null){
-                return;
+                return null;
             }
             if(caster == null){
-                return;
+                return null;
             }
             Vector3 casterPos = caster.transform.position;
             caster.transform.position = target.transform.position;
             target.transform.position = casterPos;
+            return null;
         }
-        catch{}
+        catch{ return null; }
         
     }
     public override void clientEffect()

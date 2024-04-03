@@ -9,7 +9,7 @@ public class SchoolDamage : AbilityEff
 {   
     public int school = -1;
     public ActorStats scaleStat = ActorStats.MainStat;
-    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
+    public override GameObject startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
         try
         {
             if(caster != null){
@@ -18,10 +18,11 @@ public class SchoolDamage : AbilityEff
             else{
                 target.damageValue((int)power);
             }
+            return null;
         }
         catch
         {
-            // DebugMsgs(_target, _caster: _caster);
+            return null;
         }
     //    Debug.Log(power.ToString() + " + " + caster.mainStat.ToString() + " * " + powerScale.ToString());
     }

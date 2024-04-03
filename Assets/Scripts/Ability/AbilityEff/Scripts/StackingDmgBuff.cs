@@ -10,13 +10,13 @@ public class StackingDmgBuff : AbilityEff
     public int school;
 
     //                          in this case target is the actor the buff is on
-    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    public override GameObject startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
         try
         {        if (!_target.TryGetComponent(out Actor targetActor))
         {
-            return;
-        }
+                return null;
+            }
         
         if (parentBuff != null){
             //Debug.Log("Increased dmg: " + ((int)((power) * (float)parentBuff.stacks)).ToString());
@@ -25,8 +25,9 @@ public class StackingDmgBuff : AbilityEff
             //Debug.Log("Ticking normal dmg");
             targetActor.damageValue((int)(power));
         }
+            return null;
         }
-        catch{}
+        catch{ return null; }
     }
     public StackingDmgBuff(string _effectName, int _id = -1, float _power = 0, int _school = -1){
         effectName = _effectName;

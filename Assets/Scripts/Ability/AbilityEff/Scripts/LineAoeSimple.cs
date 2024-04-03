@@ -8,7 +8,7 @@ public class LineAoeSimple : Aoe
 {
     public float Length;
 
-    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    public override GameObject startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
         try
         {        //Debug.Log("Ring Aoe start effect");
@@ -27,8 +27,9 @@ public class LineAoeSimple : Aoe
         //Debug.Log(delivery.transform.localScale + "|" + length );
         abilityDelivery.eInstructs = eInstructs;
         NetworkServer.Spawn(ability);
+            return ability;
         }
-        catch{}
+        catch{ return null; }
     }
 
     public LineAoeSimple(string _effectName, GameObject _aoePrefab, int _id = -1, float _power = 0, int _school = -1)

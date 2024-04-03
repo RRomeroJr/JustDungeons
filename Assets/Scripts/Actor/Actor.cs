@@ -450,7 +450,7 @@ public class Actor : NetworkBehaviour
     }
 
     // Casting: AbilityEff handling---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    public void ReceiveEffect(EffectInstruction _eInstruct, NullibleVector3 _relWP, Actor _caster, Actor _secondaryTarget = null)
+    public GameObject ReceiveEffect(EffectInstruction _eInstruct, NullibleVector3 _relWP, Actor _caster, Actor _secondaryTarget = null)
     {
         OnEffectRecieved.Invoke(_eInstruct);
         foreach (var buff in buffs)
@@ -468,11 +468,12 @@ public class Actor : NetworkBehaviour
 
         //Debug.Log(actorName + " is starting eI for effect (" + _eInstruct.effect.effectName + ") From: " + (_caster != null ? _caster.actorName : "none"));
         //Debug.Log("recieveEffect " + _eInstruct.effect.effectName +"| caster:" + (_caster != null ? _caster.getActorName() : "_caster is null"));
-        _eInstruct.startEffect(transform, _relWP, _caster, _secondaryTarget);
+        GameObject spawnedObject = _eInstruct.startEffect(transform, _relWP, _caster, _secondaryTarget);
         if (_eInstruct.effect.isHostile && _caster != null)
         {
             CheckStartCombatWith(_caster);
         }
+        return spawnedObject;
     }
 
     #region OldBuff
@@ -1284,7 +1285,13 @@ public class Actor : NetworkBehaviour
     {
         return abilityHandler.CastAbilityRealWPs(_ability, _target, _WP, _WP2);
     }
-    
+
+    [Server]
+    public List<GameObject> FireCast(Ability_V2 _ability, Transform _target = null, NullibleVector3 _WP = null, NullibleVector3 _WP2 = null)
+    {
+        return abilityHandler.FireCast(_ability, _target, _WP, _WP2);
+    }
+
     bool HostiltyMatch(Ability_V2 _ability, Transform _target)
     {
         if(_target == null){

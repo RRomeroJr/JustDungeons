@@ -10,15 +10,16 @@ public class RestoreClassResource : AbilityEff
     public int school = -1;
     public ClassResourceType crt;
 
-    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    public override GameObject startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
         try
         {        if (_target.TryGetComponent(out Actor targetActor))
         {
             targetActor.restoreResource(crt, (int)power);
         }
+            return null;
         }
-        catch{}
+        catch{ return null; }
     }
     public RestoreClassResource(string _effectName, int _id = -1, float _power = 0, int _school = -1){
         effectName = _effectName;

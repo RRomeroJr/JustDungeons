@@ -10,7 +10,7 @@ public class Summon : AbilityEff
     public int school;
     public GameObject mobPrefab;
 	
-    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    public override GameObject startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
         try
         {        
@@ -32,9 +32,9 @@ public class Summon : AbilityEff
             }
             _sc.summoner = caster;
             NetworkServer.Spawn(inst);
-            
+            return inst;
         }
-        catch{}
+        catch{ return null; }
     }
     // public override void clientEffect()
     // {

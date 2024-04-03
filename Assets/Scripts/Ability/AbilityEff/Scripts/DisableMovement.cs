@@ -10,12 +10,13 @@ public class DisableMovement : AbilityEff
 {   
     public int school = -1;
     
-    public override void startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
+    public override GameObject startEffect(Transform _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null)
     {
         try
         {
+            return null;
         }
-        catch{}  
+        catch{ return null; }  
         
     }
     public override void buffStartEffect()

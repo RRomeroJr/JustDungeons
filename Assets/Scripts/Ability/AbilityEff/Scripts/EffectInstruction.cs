@@ -13,10 +13,10 @@ public class EffectInstruction
     public UnityEvent<EffectInstruction> onSendHooks;
     public Vector2 deliveryNVect2;
     
-    public void startEffect(Transform inTarget = null, NullibleVector3 inTargetWP = null, Actor inCaster = null, Actor inSecondaryTarget = null){
+    public GameObject startEffect(Transform inTarget = null, NullibleVector3 inTargetWP = null, Actor inCaster = null, Actor inSecondaryTarget = null){
         //Debug.Log(inTargetWP == null ? "eInstruct: No targetWP" : ("eInstruct: wp = " + inTargetWP.Value.ToString()));
 
-        effect.startEffect(inTarget, inTargetWP, inCaster, inSecondaryTarget);
+        return effect.startEffect(inTarget, inTargetWP, inCaster, inSecondaryTarget);
     }
     Actor getTarget(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null){
         switch(targetArg){
@@ -31,7 +31,7 @@ public class EffectInstruction
                 break;
         }
     }
-    public void sendToActor(Transform inTarget = null, NullibleVector3 inTargetWP = null, Actor inCaster = null, Actor inSecondaryTarget = null, NullibleVector3 inTargetWP2 = null){
+    public GameObject sendToActor(Transform inTarget = null, NullibleVector3 inTargetWP = null, Actor inCaster = null, Actor inSecondaryTarget = null, NullibleVector3 inTargetWP2 = null){
         //Debug.Log(inTargetWP == null ? "eInstruct: No targetWP" : ("eInstruct: wp = " + inTargetWP.Value.ToString()));
         
         switch(targetArg){
@@ -65,16 +65,19 @@ public class EffectInstruction
         effect.targetWP = inTargetWP;
         effect.caster = inCaster;
         effect.targetWP2 = inTargetWP2;
+
+        GameObject effectObject = null;
         if(onSendHooks != null){
             onSendHooks.Invoke(this);
         }
         if (effect.target == null)
         {
-            effect.startEffect(inTarget, inTargetWP, inCaster, inSecondaryTarget);
+            effectObject = effect.startEffect(inTarget, inTargetWP, inCaster, inSecondaryTarget);
         }
         else if (targetArg >= 0){
-            effect.target.ReceiveEffect(this, inTargetWP, inCaster, inSecondaryTarget);
+            effectObject = effect.target.ReceiveEffect(this, inTargetWP, inCaster, inSecondaryTarget);
         }
+        return effectObject;
     }
     public EffectInstruction(){
 
