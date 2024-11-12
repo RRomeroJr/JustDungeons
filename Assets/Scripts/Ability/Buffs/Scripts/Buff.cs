@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using Mono.Cecil.Cil;
+using Mirror;
+using Unity.Mathematics;
+
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditor.Callbacks;
+#endif
 
 namespace OldBuff
 {
@@ -10,7 +18,8 @@ namespace OldBuff
     [CreateAssetMenu(fileName = "Buff", menuName = "HBCsystem/Buff")]
     public class Buff : ScriptableObject
     {
-
+        
+        public BuffTemplate buffTemplate;
         [SerializeField] public string effectName;
         [SerializeField] public float duration;
         [SerializeField] public float tickRate; // for now will be rounded
@@ -34,9 +43,7 @@ namespace OldBuff
         [SerializeField] public List<Ability_V2> MakeGlow;
         
         [SerializeField] public List<GlowCheck> GlowChecks;
-
-
-
+        
 
 
         public virtual void update()
@@ -83,21 +90,25 @@ namespace OldBuff
         }
         public virtual void OnTick()
         {
-            foreach (var eI in eInstructs)
-            {
-                eI.startEffect(actor.transform, null, caster);
-            }
+            // foreach (var eI in eInstructs)
+            // {
+            //     eI.startEffect(actor.transform, null, caster);
+            // }
+            // if(buffEff == null)
+            // {
+            //     return;
+            // }
+            // buffEff.BuffTickEffect();
         }
         public virtual void onStart()
         {
+            // foreach (var eI in eInstructs)
+            // {
+            //     eI.effect.target = actor;
+            //     eI.effect.caster = caster;
 
-            foreach (var eI in eInstructs)
-            {
-                eI.effect.target = actor;
-                eI.effect.caster = caster;
-
-                eI.effect.buffStartEffect();
-            }
+            //     eI.effect.buffStartEffect();
+            // }
             foreach(Ability_V2 _a in MakeGlow){
                 UIManager.Instance.StartAbiltyGlow.Invoke(_a);
             }
@@ -105,11 +116,34 @@ namespace OldBuff
                 if(_gc.active){
                     UIManager.Instance.glowList.Add(_gc.ability);
                 }
-                
             }
 
         }
+        [Server]
         public virtual void onFinish()
+        {
+            //List<Buff> list_ref = actor.getBuffs();
+
+            //Find this buff in actor's List<> and remove it
+            // Debug.Log(effectName+ ": list rm");
+            //list_ref.Remove(list_ref.Find(x => x ==  this)); //This needs to be tested
+            if (actor.isServer)
+            {
+                if(actor.TryGetComponent<BuffHandler_V2>(out BuffHandler_V2 bh)){
+                    bh.RemoveBuff(this);
+                }
+                else
+                {
+                    Debug.LogError("No BuffHandler_V2 found on gameobject " + actor.gameObject.name);
+                }
+            }
+            else
+            {
+                // actor.ClientRemoveBuff(this);
+            }
+            Debug.Log(effectName + ": onFinish complete");
+        }
+        public virtual void OnRemoveFromList()
         {
             foreach (var eI in eInstructs)
             {
@@ -122,25 +156,9 @@ namespace OldBuff
                 if(_gc.active){
                     UIManager.Instance.glowList.Remove(_gc.ability);
                 }
-                
             }
-            Debug.Log(effectName + ": onFinish complete");
-            //List<Buff> list_ref = actor.getBuffs();
-
-            //Find this buff in actor's List<> and remove it
-            // Debug.Log(effectName+ ": list rm");
-            //list_ref.Remove(list_ref.Find(x => x ==  this)); //This needs to be tested
-            if (actor.isServer)
-            {
-                actor.removeBuff(this);
-            }
-            else
-            {
-                actor.ClientRemoveBuff(this);
-            }
-
         }
-        public virtual void OnRemove()
+        public virtual void OnDispell()
         {
 
         }
@@ -275,7 +293,7 @@ namespace OldBuff
             duration = _duration;
             //effects = _effects;
 
-            //remainingTime = duration;
+            remainingTime = duration;
 
             tickRate = _tickRate;
             id = _id;
@@ -299,7 +317,7 @@ namespace OldBuff
             duration = _duration;
 
             eInstructs = _eInstructs;
-            //remainingTime = duration;
+            remainingTime = duration;
 
             tickRate = _tickRate;
             id = _id;
@@ -314,12 +332,12 @@ namespace OldBuff
 
         }
 
-        public Buff clone()
+        public virtual Buff clone()
         {
             // Creates an editable version of the input Ability Effect
 
             var temp_ref = CreateInstance(typeof(Buff)) as Buff;
-
+            temp_ref.name = name + " (clone)";
             temp_ref.Init(string.Copy(effectName), duration, eInstructs.cloneInstructs(),
              tickRate, id, stackable, refreshable, stacks, particles);
             temp_ref.onCastHooks = onCastHooks;
@@ -329,6 +347,25 @@ namespace OldBuff
             //  temp_ref.caster = caster;
             //  temp_ref.target = target;
             return temp_ref;
+        }
+        public void ApplyBuffOverrides(IApplyBuff _iab)
+        {
+            if(_iab.RemainingTimeOverride != null)
+            {
+                remainingTime = _iab.RemainingTimeOverride.Value;
+            }
+            else
+            {
+                remainingTime = duration;
+            }
+            if(_iab.TickRateOverride != null)
+            {
+                remainingTime = _iab.TickRateOverride.Value;
+            }
+            if(_iab.StacksOverride != null && stackable)
+            {
+                remainingTime = _iab.StacksOverride.Value;
+            }
         }
     }
 }

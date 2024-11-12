@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using OldBuff;
+using Unity.VisualScripting;
 
 public static class CustomReadWriteFuctions
 {
@@ -66,6 +67,7 @@ public static class CustomReadWriteFuctions
     {
         
         NetworkIdentity networkIdentity = reader.ReadNetworkIdentity();
+       
         // if(networkIdentity == null){
         //     Debug.Log("network ID null");
         // }
@@ -79,7 +81,13 @@ public static class CustomReadWriteFuctions
     }
     public static void WriteBuff(this NetworkWriter writer, Buff buff)
     {
-        writer.WriteInt(buff.id); // get what buff it is
+        /*
+            New philosophy the client doesn't need to much of anything but
+            Name, duration, tickrate, stacks
+        */
+        // writer.WriteInt(buff.id); // get what buff it is
+        writer.WriteBuffTemplate(buff.buffTemplate);
+        writer.WriteString(buff.name);
 
         //get the rest of the important information
         writer.WriteFloat(buff.getDuration());
@@ -101,27 +109,13 @@ public static class CustomReadWriteFuctions
         //Debug.Log("ReadAbility");
         //Debug.Log(AbilityData.instance == null ? "No ad" : "Read Ability: ad found");
         //Debug.Log(reader == null ? "reader null" : "reader OK");
-        int buffID = reader.ReadInt();
-        Buff result = null;
-        if(BuffData.instance != null){
-            if(BuffData.instance.buffList != null){
-                if(buffID < BuffData.instance.buffList.Count){
-                    result = BuffData.instance.find(buffID);
-                    
-                }
-                else{
-                    Debug.LogError("buffID > than the length of buffList");
-                }
-            }else{
-                Debug.LogError("No buffList in BuffData");
-            }
-        }else{
-            Debug.LogError("BuffData instance == NULL");
-        }
+        var bt = reader.ReadBuffTemplate();
         Buff buffClone;
-        buffClone = result.clone();
-        //Debug.Log("ad result: " + (result != null ? (result.getName() + " id: " + result.id.ToString()) : "NULL"));
+        buffClone = bt.CreateBuff(); //BuffTemplate name
 
+        string buffname = reader.ReadString();
+        Debug.Log(buffClone != null ? string.Format("Recieved {0} buff over network type {1}", buffClone.GetType().ToString(), buffClone.name) : "buffClone recieved was null!" );
+        //Debug.Log("ad result: " + (result != null ? (result.getName() + " id: " + result.id.ToString()) : "NULL"));
         buffClone.setDuration(reader.ReadFloat());
         buffClone.setTickRate(reader.ReadFloat());
         buffClone.stackable = reader.ReadBool();
@@ -140,6 +134,19 @@ public static class CustomReadWriteFuctions
         return buffClone;
     }
 
+    public static void WriteBuffTemplate(this NetworkWriter writer, OldBuff.BuffTemplate bt)
+    {
+        Debug.Log(bt != null ? "bt there" : "no bt to send");
+        writer.WriteString(bt.name);
+    }
+
+    public static OldBuff.BuffTemplate ReadBuffTemplate(this NetworkReader reader)
+    {
+        var inStr = reader.ReadString();
+        var res = Resources.Load<OldBuff.BuffTemplate>("BuffTemplates/" + inStr);
+        Debug.Log(res != null ? "have res" : "no bt result aft read: " + inStr);
+        return res;
+    }
     public static void WriteBuffSO(this NetworkWriter writer, BuffScriptableObject buff)
     {
         writer.WriteString(buff.name);
