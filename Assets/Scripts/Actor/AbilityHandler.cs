@@ -505,6 +505,19 @@ public class AbilityHandler : NetworkBehaviour
 
         // if(MirrorTestTools._inst != null)
         //     MirrorTestTools._inst.ClientDebugLog(_ability.getName()+ "| Host Starting fireCast");
+
+        DebugEx.LogNull(_ability, nameof(_ability));
+        DebugEx.LogNull(_ability.abilityEff, nameof(_ability.abilityEff));
+        AbilityEff_V2 afClone = null;
+        if(_ability.abilityEff != null){
+            afClone = _ability.abilityEff.clone();
+            afClone.caster = actor;
+            afClone.target = _target.GetComponentSafe<Actor>();
+            afClone.targetWP = actor.GetRealWPOrNull(_relWP);
+            afClone.targetWP2 = actor.GetRealWPOrNull(_relWP2);
+
+        }
+
         List<EffectInstruction> EI_clones = _ability.getEffectInstructions().cloneInstructs();
         if (buffs != null)
         {
@@ -542,7 +555,10 @@ public class AbilityHandler : NetworkBehaviour
                 actor.damageResource(ar.crType, ar.amount);
             }
             // MirrorTestTools._inst.ClientDebugLog(_ability.getName() + " sending effects in fireCast");
-
+            if(afClone != null)
+            {
+                afClone.OnSendEffect();
+            }
             foreach (EffectInstruction eI in EI_clones)
             {
                 eI.sendToActor(_target, actor.GetRealWPOrNull(_relWP), actor, inTargetWP2: actor.GetRealWPOrNull(_relWP2));

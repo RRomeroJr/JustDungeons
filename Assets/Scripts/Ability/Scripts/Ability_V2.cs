@@ -67,6 +67,7 @@ public class Ability_V2 : ScriptableObject{
     public Sprite hotbuttonImage;
     public Color hotbuttonColor = Color.white;
     public AbilityHostilty hostilty = AbilityHostilty.Neutral;
+    public AbilityEff_V2 abilityEff;
     
 
     
@@ -157,7 +158,6 @@ public class Ability_V2 : ScriptableObject{
         }
         return tempList_ref;
     }*/
-
     public void setCastTime(float _castTime){
         if(canEdit){
             castTime = _castTime;      

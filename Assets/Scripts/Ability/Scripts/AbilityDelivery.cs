@@ -72,6 +72,7 @@ public class AbilityDelivery : NetworkBehaviour
     public bool canHitSelf = false;
     public bool checkAtFeet = false;
     public bool onlyHitTarget = false;
+    public AbilityEff_V2 abilityEff;
 
     [SerializeField] private List<RotationElement> rotationSequence;
 
@@ -218,10 +219,7 @@ public class AbilityDelivery : NetworkBehaviour
 
         if (CheckIgnoreTarget(hitActor) == false)
         {
-            foreach (EffectInstruction eI in eInstructs)
-            {
-                eI.sendToActor(hitActor.transform, null, Caster);
-            }
+            Hit(hitActor);
             Destroy(gameObject);
         }
     }
@@ -336,6 +334,7 @@ public class AbilityDelivery : NetworkBehaviour
 
     void Hit(Actor _target)
     {
+        _target.ReceiveEffect(abilityEff, abilityEff.targetWP, abilityEff.caster);
         foreach (EffectInstruction eI in eInstructs)
         {
             eI.sendToActor(_target.transform, null, Caster);

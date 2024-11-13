@@ -474,6 +474,30 @@ public class Actor : NetworkBehaviour
             CheckStartCombatWith(_caster);
         }
     }
+    public void ReceiveEffect(AbilityEff_V2 _ae, NullibleVector3 _relWP, Actor _caster, Actor _secondaryTarget = null)
+    {
+        // OnEffectRecieved.Invoke(_eInstruct);
+        // foreach (var buff in buffs)
+        // {
+        //     var buffhitHooks = buff.onHitHooks;
+        //     if (buffhitHooks != null)
+        //     {
+        //         if (buffhitHooks.GetPersistentEventCount() > 0)
+        //         {
+        //             Debug.Log("Invokeing onHitHooks: " + buff.getEffectName());
+        //             buffhitHooks.Invoke(buff, _eInstruct);
+        //         }
+        //     }
+        // }
+
+        //Debug.Log(actorName + " is starting eI for effect (" + _eInstruct.effect.effectName + ") From: " + (_caster != null ? _caster.actorName : "none"));
+        //Debug.Log("recieveEffect " + _eInstruct.effect.effectName +"| caster:" + (_caster != null ? _caster.getActorName() : "_caster is null"));
+        _ae.startEffect(transform, _relWP, _caster, _secondaryTarget);
+        if (_ae.isHostile && _caster != null)
+        {
+            CheckStartCombatWith(_caster);
+        }
+    }
 
     #region OldBuff
 
