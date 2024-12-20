@@ -24,7 +24,7 @@ namespace OldBuff
         [SerializeField] public GameObject particles;
 
         [SerializeField] public bool stackable = false;
-        [SerializeField] public bool refreshable = true;
+    [SerializeField] public bool refreshable = true;
         [SerializeField] public uint stacks = 1;
 
         public List<EffectInstruction> eInstructs;
@@ -55,7 +55,6 @@ namespace OldBuff
             temp_ref.onHitHooks = onHitHooks;
             temp_ref.MakeGlow = MakeGlow;
             temp_ref.GlowChecks = GlowChecks;
-            temp_ref.buffTemplate = this;
             // Debug.Log(temp_ref == null? "base temp_ref IS NULL" : "got something from base: " + temp_ref.name);
             return temp_ref;
         }
