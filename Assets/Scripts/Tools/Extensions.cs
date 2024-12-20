@@ -9,6 +9,19 @@ using Mirror;
 
 public static class Extensions
 {
+    public static bool IsA<T>(this object _obj){
+        return _obj.GetType() == typeof(T);
+    }
+    public static bool IsSubTypeOf<T>(this object _obj){
+        return (_obj.GetType() == typeof(T)) || _obj.GetType().IsSubclassOf(typeof(T));
+    }
+    /// <summary>
+    ///	Returns true if the obj is a subtype of the type
+    /// </summary>
+    public static bool IsAKindOf<T>(this object _obj){
+        return (_obj.GetType() == typeof(T)) || _obj.GetType().IsSubclassOf(typeof(T));
+    }
+    
     public static List<AbilityEff> cloneEffects(this List<AbilityEff> AE_list){
         List<AbilityEff> listToReturn = new List<AbilityEff>();
         if(AE_list.Count > 0){
