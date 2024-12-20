@@ -7,12 +7,13 @@ using Mirror;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using System.IO;
+using System.Linq;
 public static class SOAssetTools
 {
     /// <summary>
     ///	Gets the path to a SO asset. Will return null if not found.
     /// </summary>
-    public static string GetSOAssetPath(Type _soType)
+    public static string GetSOAssetPath(Type _soType, string[] _debugOpts = null)
     {
         if(!_soType.IsSubclassOf(typeof(ScriptableObject)))
         {
@@ -27,7 +28,10 @@ public static class SOAssetTools
             if(found)
             {
                 path = AssetDatabase.GUIDToAssetPath(s);
-                Debug.Log("Asset found at: " + path);
+                if((_debugOpts != null) && (_debugOpts.Contains("found")))
+                {
+                    Debug.Log("Asset found at: " + path);
+                }
                 break;
             }
         }
@@ -37,7 +41,7 @@ public static class SOAssetTools
     /// <summary>
     ///	Will create the SO asset then return the ref to created SO.
     /// </summary>
-    public static string CreateSOAsset(Type _soType, string _creationPath)
+    public static string CreateSOAsset(Type _soType, string _creationPath, string[] _debugOpts = null)
     {
 
         // Debug.LogError(_so.GetType().ToString() + " scriptable object not found in project. Creating new one..");
@@ -66,10 +70,17 @@ public static class SOAssetTools
         return path;
     
     }
-    public static ScriptableObject MakeOrGetSOAsset(Type _soType, string _creationPath){
-        var assetPath = GetSOAssetPath(_soType);
+    /// <summary>
+    ///	Get a reference to an SO asset. See method for debug opts.
+    /// </summary>
+    public static ScriptableObject MakeOrGetSOAsset(Type _soType, string _creationPath, string[] _debugOpts = null){
+        /*
+            Debug Opts:
+                found - log when the object is found.
+        */
+        var assetPath = GetSOAssetPath(_soType, _debugOpts);
         if(assetPath == null){
-            assetPath = CreateSOAsset(_soType, _creationPath);
+            assetPath = CreateSOAsset(_soType, _creationPath, _debugOpts);
         }
         
         if(assetPath == null)
