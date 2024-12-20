@@ -4,18 +4,62 @@ using UnityEngine;
 using Mirror;
 using OldBuff;
 using Unity.VisualScripting;
+using System;
 
 public static class CustomReadWriteFuctions
 {
+    public static void WriteAbilityEff_V2(this NetworkWriter writer, AbilityEff_V2 effect)
+    {
+       writer.WriteString(effect.GetType().Name);
+
+       writer.WriteFloat(effect.power);
+        writer.WriteFloat(effect.powerScale);
+        writer.WriteNetworkIdentity(
+            effect.parentDelivery != null
+            ? effect.parentDelivery.gameObject.GetComponent<NetworkIdentity>()
+            : null
+            );
+        writer.WriteActor(effect.target);
+        writer.WriteActor(effect.caster);
+        writer.WriteVector3Nullable(effect.targetWP != null ? effect.targetWP.Value : null);
+        writer.WriteVector3Nullable(effect.targetWP2 != null ? effect.targetWP2.Value : null);
+
+        effect.OnWrite(writer);
+    }
+
+    public static AbilityEff_V2 ReadAbilityEff_V2(this NetworkReader reader)
+    {
+        try
+        {
+            var _ref = ScriptableObject.CreateInstance(Type.GetType(reader.ReadString())) as AbilityEff_V2;
+
+            _ref.power = reader.ReadFloat();
+            _ref.powerScale = reader.ReadFloat();
+            var pdId = reader.ReadNetworkIdentity();
+            _ref.parentDelivery = pdId != null? pdId.GetComponent<AbilityDelivery>() : null;
+            _ref.target = reader.ReadActor();
+            _ref.caster = reader.ReadActor();
+            var wp = reader.ReadVector3Nullable();
+            _ref.targetWP = wp != null? new NullibleVector3(wp.Value) : null;
+            var wp2 = reader.ReadVector3Nullable();
+            _ref.targetWP = wp2 != null? new NullibleVector3(wp2.Value) : null;
+
+            _ref.OnRead(reader);
+            return _ref;
+        }
+        catch(NullReferenceException e)
+        {
+            Debug.LogError(e);
+            return null;
+        }
+    }
     public static void WriteAbilityEff(this NetworkWriter writer, AbilityEff effect)
     {
-       
        writer.WriteInt(effect.id);
     }
 
     public static AbilityEff ReadAbilityEff(this NetworkReader reader)
     {
-   
         return AbilityEffectData.instance.find(reader.ReadInt());
     }
     public static void WriteAbility(this NetworkWriter writer, Ability_V2 ability){
@@ -86,7 +130,6 @@ public static class CustomReadWriteFuctions
             Name, duration, tickrate, stacks
         */
         // writer.WriteInt(buff.id); // get what buff it is
-        writer.WriteBuffTemplate(buff.buffTemplate);
         writer.WriteString(buff.name);
 
         //get the rest of the important information
@@ -103,18 +146,16 @@ public static class CustomReadWriteFuctions
         writer.WriteActor(buff.getActor());
         writer.WriteActor(buff.target);
         writer.WriteUInt(buff.getStacks());
+        writer.WriteAbilityEff_V2(buff.abilityEff as AbilityEff_V2);
 
     }
     public static Buff ReadBuff(this NetworkReader reader){
         //Debug.Log("ReadAbility");
         //Debug.Log(AbilityData.instance == null ? "No ad" : "Read Ability: ad found");
         //Debug.Log(reader == null ? "reader null" : "reader OK");
-        var bt = reader.ReadBuffTemplate();
-        Buff buffClone;
-        buffClone = bt.CreateBuff(); //BuffTemplate name
+        Buff buffClone = new OldBuff.Buff();
 
         string buffname = reader.ReadString();
-        Debug.Log(buffClone != null ? string.Format("Recieved {0} buff over network type {1}", buffClone.GetType().ToString(), buffClone.name) : "buffClone recieved was null!" );
         //Debug.Log("ad result: " + (result != null ? (result.getName() + " id: " + result.id.ToString()) : "NULL"));
         buffClone.setDuration(reader.ReadFloat());
         buffClone.setTickRate(reader.ReadFloat());
@@ -130,7 +171,7 @@ public static class CustomReadWriteFuctions
         buffClone.setActor(buffActor);
         buffClone.target = reader.ReadActor();
         buffClone.setStacks(reader.ReadUInt());
-
+        buffClone.abilityEff = reader.ReadAbilityEff_V2() as IBuffEff;
         return buffClone;
     }
 
