@@ -354,7 +354,7 @@ public class EnemyController : Controller
     }
     public IEnumerator Reset()
     {
-        if(gameObject.TryGetComponent(out BuffHandler _comp))
+        if(gameObject.TryGetComponent(out BuffHandler_V3 _comp))
         {
             _comp.RemoveAll();
         }

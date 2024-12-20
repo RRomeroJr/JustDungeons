@@ -24,7 +24,7 @@ public sealed class MovementEffectsController : MonoBehaviour
     {
         currentEffectState = StatusEffectState.None;
         moveDirection = Vector2.right;
-        var buffHandler = GetComponent<BuffHandler>();
+        var buffHandler = GetComponent<BuffHandler_V3>();
         buffHandler.StatusEffectChanged += HandleEffectChanged;
         agent = GetComponent<NavMeshAgent>();
     }

@@ -59,7 +59,7 @@ public class Actor : NetworkBehaviour
 
     [Header("Debug Values. Do NOT change in editor.")]
     public Actor target;
-    public IAllBuffs buffHandler = null;
+    public BuffHandler_V3 buffHandler = null;
     private List<OldBuff.Buff> buffs;
     public AbilityHandler abilityHandler;
     public Nameplate nameplate;
@@ -197,7 +197,7 @@ public class Actor : NetworkBehaviour
     }
     private void Awake()
     {
-        buffHandler = GetComponent<IAllBuffs>();
+        buffHandler = GetComponent<BuffHandler_V3>();
         abilityHandler = GetComponent<AbilityHandler>();
         OnEnterCombat = new UnityEvent();
         OnLeaveCombat = new UnityEvent();
@@ -256,7 +256,7 @@ public class Actor : NetworkBehaviour
         if (!isServer) { return; }
         // Server only logic below
 
-        if (buffHandler is BuffHandler b)
+        if (buffHandler is BuffHandler_V3 b)
         {
             b.StatusEffectChanged += HandleStatusEffectChanged;
             b.Interrupted += abilityHandler.InterruptCast;
@@ -599,6 +599,7 @@ public class Actor : NetworkBehaviour
                 {
                     //Debug.Log("Refreshable");
                     tempBuff_Ref.setRemainingTime(tempBuff_Ref.getDuration()); // Add pandemic time?
+                    tempBuff_Ref.onStart();
                     return;
                 }
             }
@@ -1211,7 +1212,7 @@ public class Actor : NetworkBehaviour
     public void Revive()
     {
         // Debug.Log(name + "Revive");
-        (buffHandler as BuffHandler).RemoveAll();
+        buffHandler.RemoveAll();
         // state = ActorState.Alive;
         // canAttack = true;
         // canMove = true;

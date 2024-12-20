@@ -41,7 +41,7 @@ public class Controller : NetworkBehaviour
     public bool resolvingMoveTo;
     public bool autoAttackRequest = false;
     public bool circling = false;
-    public BuffHandler buffHandler;
+    public BuffHandler_V3 buffHandler;
 
     public virtual bool TryingToMove
     {
@@ -63,7 +63,7 @@ public class Controller : NetworkBehaviour
         actor = GetComponent<Actor>();
         rb2d = GetComponent<Rigidbody2D>();
         abilityHandler = GetComponent<AbilityHandler>();
-        buffHandler = GetComponent<BuffHandler>();
+        buffHandler = GetComponent<BuffHandler_V3>();
         // GetComponent<AbilityHandler>().OnRequestingCast.AddListener(StopAgentToCast);
     }
 
@@ -75,7 +75,7 @@ public class Controller : NetworkBehaviour
         if (!isServer) { return; }
         // Server only logic below
 
-        if (TryGetComponent(out BuffHandler b))
+        if (TryGetComponent(out BuffHandler_V3 b))
         {
             b.SpeedChanged += HandleSpeedChanged;
         }
