@@ -24,6 +24,7 @@ public class BuffHandler_V2 : NetworkBehaviour
         Debug.Log("AddBuff");
         var bef = buffList.Count;
         OnBuffUpdate.AddListener(_buffClone.update);
+        _buffClone.actor = GetComponent<Actor>();
         buffList.Add(_buffClone);
         Debug.Log(_buffClone.name + "added");
         RpcAddBuff(_buffClone);
@@ -57,29 +58,33 @@ public class BuffHandler_V2 : NetworkBehaviour
     }
     
     [Server]
-    public void RemoveBuff(OldBuff.Buff _callingBuff)
+    public void RemoveBuff(OldBuff.Buff _buff)
     {
-        int buffIndex = buffList.FindIndex(x => x == _callingBuff);
-
-        // buffList.RemoveAt(buffIndex);
+        int buffIndex = buffList.FindIndex(x => x == _buff);
+        RemoveBuffLogic(buffIndex);
         Debug.Log("Rpc-ing to remove index: " + buffIndex);
-
         RpcRemoveBuffIndex(buffIndex);
     }
-
+        
     [ClientRpc]
     void RpcRemoveBuffIndex(int hostIndex)
     {
         Debug.Log("Host saying to remove buff index: " + hostIndex);
-        buffList[hostIndex].OnRemoveFromList();
-        // var before = OnBuffUpdate.GetPersistentEventCount();
-        var buffRef = buffList[hostIndex];
-        OnBuffUpdate.RemoveListener(buffRef.update);
-        // var after = OnBuffUpdate.GetPersistentEventCount();
-        // Debug.Log("before: " + before +  "after: " + after);
-        buffList.RemoveAt(hostIndex);
-        Destroy(buffRef);
+        if(isServer)
+        {
+            return; //We did it already
+        }
+        RemoveBuffLogic(hostIndex);
 
+    }
+    public void RemoveBuffLogic(int _buffIndex) // Actual removal logic
+    {
+        buffList[_buffIndex].OnRemoveFromList();
+
+        var buffRef = buffList[_buffIndex];
+        OnBuffUpdate.RemoveListener(buffRef.update);
+        buffList.RemoveAt(_buffIndex);
+        Destroy(buffRef);
     }
 
 
