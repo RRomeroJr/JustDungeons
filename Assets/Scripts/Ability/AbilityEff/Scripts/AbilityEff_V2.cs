@@ -47,11 +47,23 @@ public abstract class AbilityEff_V2: ScriptableObject
     public virtual void buffStartEffect(){
 
     }
+    public virtual void OnBuffTick(){
+
+    }
     public virtual void dispellEffect(Actor _target = null, NullibleVector3 _targetWP = null, Actor _caster = null, Actor _secondaryTarget = null){
 
     }
     public virtual void clientEffect(){
         
+    }
+    public virtual void OnWrite(NetworkWriter _writer){
+        // Override this if you have an effect that needs to expose values to a client
+    }
+    public virtual void OnRead(NetworkReader _reader){
+        // Override this if you have an effect that needs to expose values to a client
+    }
+    public virtual void OnUpdateData(BuffUpdateData _bud)
+    {
     }
 
     public abstract AbilityEff_V2 clone();
@@ -62,6 +74,11 @@ public abstract class AbilityEff_V2: ScriptableObject
         _clone.powerScale = powerScale;
         _clone.targetIsSecondary = targetIsSecondary;
         _clone.isHostile = isHostile;
+        Debug.Log("New stuff in copyBase");
+        _clone.target = target;
+        _clone.caster = caster;
+        _clone.targetWP = targetWP;
+        _clone.targetWP2 = targetWP2;
     }
 
 }

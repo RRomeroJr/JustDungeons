@@ -19,7 +19,7 @@ namespace OldBuff
     public class Buff : ScriptableObject
     {
         
-        public BuffTemplate buffTemplate;
+        // public BuffTemplate buffTemplate;
         [SerializeField] public string effectName;
         [SerializeField] public float duration;
         [SerializeField] public float tickRate; // for now will be rounded
@@ -43,9 +43,10 @@ namespace OldBuff
         [SerializeField] public List<Ability_V2> MakeGlow;
         
         [SerializeField] public List<GlowCheck> GlowChecks;
-        
-
-
+        public IBuffEff abilityEff;
+        public bool isDebuff = false;
+        public bool dispellable = true;
+        public bool ignoreDuration = false;
         public virtual void update()
         {
             if (firstFrame)
@@ -67,11 +68,13 @@ namespace OldBuff
                 }
 
             }
-            foreach(GlowCheck gi in GlowChecks){
-              
-                gi.glowChecks.Invoke();
+            if(GlowChecks != null){
+                foreach(GlowCheck gi in GlowChecks){
+                
+                    gi.glowChecks.Invoke();
+                }
             }
-            if (lastTick >= tickRate)
+            if ((tickRate >= 0.0f) && (lastTick >= tickRate))
             {
                 if (particles != null)
                 {
@@ -80,16 +83,29 @@ namespace OldBuff
                 OnTick();
                 lastTick -= tickRate;
             }
-            if (remainingTime <= 0)
+            if ((remainingTime <= 0) && !ignoreDuration)
             {
                 if (actor.isServer)
                 {
+                    Debug.Log($"{name} before onFinish in update()");
                     onFinish();
                 }
             }
         }
         public virtual void OnTick()
         {
+            Debug.Log($"{name} onTick");
+            var eff = abilityEff as AbilityEff_V2;
+            if (eff == null)
+            {
+                Debug.LogError("abilityEff cannot be cast to AbilityEff_V2");
+            }
+            else
+            {
+                Debug.Log("calling OnBuffTick");
+                eff.OnBuffTick();
+            }
+            // (abilityEff as AbilityEff_V2)?.OnBuffTick();
             // foreach (var eI in eInstructs)
             // {
             //     eI.startEffect(actor.transform, null, caster);
@@ -109,14 +125,21 @@ namespace OldBuff
 
             //     eI.effect.buffStartEffect();
             // }
-            foreach(Ability_V2 _a in MakeGlow){
-                UIManager.Instance.StartAbiltyGlow.Invoke(_a);
-            }
-            foreach(GlowCheck _gc in GlowChecks){
-                if(_gc.active){
-                    UIManager.Instance.glowList.Add(_gc.ability);
+            if(MakeGlow != null)
+            {
+                foreach(Ability_V2 _a in MakeGlow){
+                    UIManager.Instance.StartAbiltyGlow.Invoke(_a);
                 }
             }
+            if(GlowChecks != null)
+            {
+                foreach(GlowCheck _gc in GlowChecks){
+                    if(_gc.active){
+                        UIManager.Instance.glowList.Add(_gc.ability);
+                    }
+                }
+            }
+            (abilityEff as AbilityEff_V2).buffStartEffect();
 
         }
         [Server]
@@ -127,14 +150,16 @@ namespace OldBuff
             //Find this buff in actor's List<> and remove it
             // Debug.Log(effectName+ ": list rm");
             //list_ref.Remove(list_ref.Find(x => x ==  this)); //This needs to be tested
+            
+            Debug.Log($"{name} calling onFinish");
             if (actor.isServer)
             {
-                if(actor.TryGetComponent<BuffHandler_V2>(out BuffHandler_V2 bh)){
+                if(actor.TryGetComponent<BuffHandler_V3>(out BuffHandler_V3 bh)){
                     bh.RemoveBuff(this);
                 }
                 else
                 {
-                    Debug.LogError("No BuffHandler_V2 found on gameobject " + actor.gameObject.name);
+                    Debug.LogError("No BuffHandler_V3 found on gameobject " + actor.gameObject.name);
                 }
             }
             else
@@ -145,16 +170,25 @@ namespace OldBuff
         }
         public virtual void OnRemoveFromList()
         {
-            foreach (var eI in eInstructs)
+            // if(eInstructs != null){
+            //     foreach (var eI in eInstructs)
+            //     {
+            //         eI.effect.buffEndEffect();
+            //     }
+            // }
+            (abilityEff as AbilityEff_V2).buffEndEffect();
+            if(MakeGlow != null)
             {
-                eI.effect.buffEndEffect();
+                foreach(Ability_V2 _a in MakeGlow){
+                    UIManager.Instance.EndAbilityGlow.Invoke(_a);
+                }
             }
-            foreach(Ability_V2 _a in MakeGlow){
-                UIManager.Instance.EndAbilityGlow.Invoke(_a);
-            }
-            foreach(GlowCheck _gc in GlowChecks){
-                if(_gc.active){
-                    UIManager.Instance.glowList.Remove(_gc.ability);
+            if(GlowChecks != null)
+            {
+                foreach(GlowCheck _gc in GlowChecks){
+                    if(_gc.active){
+                        UIManager.Instance.glowList.Remove(_gc.ability);
+                    }
                 }
             }
         }
@@ -344,11 +378,14 @@ namespace OldBuff
             temp_ref.onHitHooks = onHitHooks;
             temp_ref.MakeGlow = MakeGlow;
             temp_ref.GlowChecks = GlowChecks;
+            temp_ref.isDebuff = isDebuff;
+            temp_ref.dispellable = dispellable;
+            temp_ref.ignoreDuration = ignoreDuration;
             //  temp_ref.caster = caster;
             //  temp_ref.target = target;
             return temp_ref;
         }
-        public void ApplyBuffOverrides(IApplyBuff _iab)
+        public void ApplyBuffOverrides(IBuffEff _iab)
         {
             if(_iab.RemainingTimeOverride != null)
             {
@@ -360,12 +397,22 @@ namespace OldBuff
             }
             if(_iab.TickRateOverride != null)
             {
-                remainingTime = _iab.TickRateOverride.Value;
+                tickRate = _iab.TickRateOverride.Value;
             }
             if(_iab.StacksOverride != null && stackable)
             {
-                remainingTime = _iab.StacksOverride.Value;
+                stacks =_iab.StacksOverride.Value;
             }
         }
+        public static OldBuff.Buff CreateClone<T>()
+        {
+            if (!typeof(T).IsSubclassOf(typeof(OldBuff.Buff)))
+            {
+                throw new Exception($"Cannot create clone from type: {typeof(T).Name}");
+            }
+            var res = ScriptableObject.CreateInstance(typeof(T)) as OldBuff.Buff;
+            return res;
+        }
+
     }
 }
