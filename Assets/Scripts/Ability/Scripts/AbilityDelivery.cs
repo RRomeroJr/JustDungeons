@@ -377,7 +377,7 @@ public class AbilityDelivery : NetworkBehaviour
         {
             return true;
         }
-        if ((canHitSelf == false) && (_hitActor == Caster))
+        if (!canHitSelf && (_hitActor == Caster))
         {
             return true;
         }
@@ -389,20 +389,16 @@ public class AbilityDelivery : NetworkBehaviour
         }
         if (Caster != null)
         {
-            if (hitHostile && HBCTools.areHostle(Caster.transform, _hitActor.transform) == true)
+            if (!hitHostile && HBCTools.areHostle(Caster.transform, _hitActor.transform))
             {
                 //Debug.Log(caster.getActorName() + " & " + _hitActor.getActorName() + " are not hostile");
-                return false;
+                return true;
             }
-            if (hitFriendly && HBCTools.areHostle(Caster.transform, _hitActor.transform) == false)
+            if (!hitFriendly && !HBCTools.areHostle(Caster.transform, _hitActor.transform))
             {
                 //Debug.Log(caster.getActorName() + " & " + _hitActor.getActorName() + " are not friendly");
-                return false;
+                return true;
             }
-        }
-        else
-        {
-            return false;
         }
 
         if ((!hitHostile) && (!hitFriendly))
@@ -410,7 +406,7 @@ public class AbilityDelivery : NetworkBehaviour
             Debug.Log("Warning delivery " + gameObject.name + " doesn't hit hostiles or friendlies");
         }
 
-        return true;
+        return false;
     }
 
     bool CheckHitFeet(Actor _hitActor)
