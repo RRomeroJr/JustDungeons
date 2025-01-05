@@ -4,7 +4,26 @@ using BuffSystem;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
+public struct UpdateBuffMessage : NetworkMessage
+{
+    public int buffIndex;
+    public BuffUpdateData ubd;
 
+}
+public class BuffUpdateData
+{
+    public virtual void OnWrite(NetworkWriter _nw)
+    {}
+    public virtual void OnRead(NetworkReader _nr)
+    {}
+    public UpdateBuffMessage WrapData()
+    {
+        return new UpdateBuffMessage()
+        {
+            ubd = this
+        };
+    }
+}
 /// <summary>
 /// General purpose buff container which implements every buff in the game
 /// </summary>
@@ -63,7 +82,10 @@ public class BuffHandler_V3 : NetworkBehaviour
     #endregion
 
     #region EventRaised
+    public void OnUpdateBuff()
+    {
 
+    }
     protected virtual void OnStatusEffectChanged(StatusEffectChangedEventArgs e)
     {
         StatusEffectChanged?.Invoke(this, e);
@@ -228,7 +250,17 @@ public class BuffHandler_V3 : NetworkBehaviour
     // public SyncList<Buff> Buffs => buffs;
 
     #endregion
-
+    public void HandleUpdateBuffMessage(UpdateBuffMessage _msg)
+    {
+        try
+        {
+            (buffs[_msg.buffIndex].abilityEff as AbilityEff_V2).OnUpdateData(_msg.ubd);
+        }
+        catch (NullReferenceException e)
+        {
+            Debug.LogException(e);
+        }
+    }
     private void Start()
     {
         stunned = 0;
@@ -245,6 +277,7 @@ public class BuffHandler_V3 : NetworkBehaviour
         // {
         //     buffs.Callback += OnBuffsUpdated;
         // }
+        NetworkClient.RegisterHandler<UpdateBuffMessage>(HandleUpdateBuffMessage);
     }
 
     private void Update()
@@ -270,6 +303,7 @@ public class BuffHandler_V3 : NetworkBehaviour
         var bef = buffs.Count;
         OnBuffUpdate.AddListener(_buffClone.update);
         _buffClone.actor = GetComponent<Actor>();
+        (_buffClone.abilityEff as AbilityEff_V2).parentBuff = _buffClone;
         buffs.Add(_buffClone);
         Debug.Log(_buffClone.name + "added");
         RpcAddBuff(_buffClone);

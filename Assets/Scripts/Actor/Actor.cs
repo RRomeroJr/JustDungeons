@@ -240,6 +240,17 @@ public class Actor : NetworkBehaviour
                 setUpStats(combatClass.classStats);
             }
             GetComponent<SpriteRenderer>().color = combatClass.tintColor;
+            if (isServer) 
+            {
+                foreach (AbilityEff_V2 _ae in combatClass.passiveEffects)
+                {
+                    var buffRef = ScriptableObject.CreateInstance(typeof(OldBuff.Buff)) as OldBuff.Buff;
+                    buffRef.ignoreDuration = true;
+                    buffRef.tickRate = -1.0f;
+                    buffRef.abilityEff = _ae.clone() as IBuffEff;
+                    buffHandler.AddBuff(buffRef);
+                }
+            }
             // Debug.Log("Before RAC set up");
             // if (combatClass.rac != null)
             // {
@@ -489,7 +500,7 @@ public class Actor : NetworkBehaviour
         //         }
         //     }
         // }
-
+        _ae.target = this;
         //Debug.Log(actorName + " is starting eI for effect (" + _eInstruct.effect.effectName + ") From: " + (_caster != null ? _caster.actorName : "none"));
         //Debug.Log("recieveEffect " + _eInstruct.effect.effectName +"| caster:" + (_caster != null ? _caster.getActorName() : "_caster is null"));
         _ae.startEffect(transform, _relWP, _caster, _secondaryTarget);

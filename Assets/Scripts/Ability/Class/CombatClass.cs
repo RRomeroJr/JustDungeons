@@ -14,6 +14,7 @@ public class CombatClass : ScriptableObject{
     public RuntimeAnimatorController rac;
     public List<GlowCheck> classGlowChecks;
     public Color tintColor = Color.white;
+    public List<AbilityEff_V2> passiveEffects;
     
     //public TextAsset defaultBinds;
     public List<Ability_V2> GetClassAbilities(){

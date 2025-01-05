@@ -235,4 +235,23 @@ public static class CustomReadWriteFuctions
 
         return result;
     }
+    public static void WriteBuffUpdateData(this NetworkWriter _nw, BuffUpdateData _ubm)
+    {
+        _nw.WriteString(_ubm.GetType().Name);
+        _ubm.OnWrite(_nw);
+    }
+    public static BuffUpdateData ReadBuffUpdateData(this NetworkReader _nr)
+    {
+        try
+        {
+            var res = Activator.CreateInstance(Type.GetType(_nr.ReadString())) as BuffUpdateData;
+            res.OnRead(_nr);
+            return res;
+        }
+        catch
+        {
+            Debug.LogError("Couldn't read incoming UpdateData of type");
+            return null;
+        }
+    }
 }

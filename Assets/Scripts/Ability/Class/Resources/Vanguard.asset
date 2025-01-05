@@ -20,6 +20,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 664045ab61cc4a440977bcb237c7b148, type: 2}
   - {fileID: 11400000, guid: 7b08b3fe64231904295125dd04f79726, type: 2}
   - {fileID: 11400000, guid: f2efd72cf47972847af005ca724876c6, type: 2}
+  - {fileID: 11400000, guid: 664045ab61cc4a440977bcb237c7b148, type: 2}
+  - {fileID: 11400000, guid: 73e125cd1048c394cbfcbb4536fc7b86, type: 2}
   classResources:
   - crType: {fileID: 11400000, guid: 55f627c33b30c14489770a8e971ecee4, type: 2}
     max: 120
@@ -31,3 +33,5 @@ MonoBehaviour:
   rac: {fileID: 9100000, guid: e1f616ff8c81c43438198cae0f945f69, type: 2}
   classGlowChecks: []
   tintColor: {r: 0.6117647, g: 0.78431374, b: 0.99215686, a: 1}
+  passiveEffects:
+  - {fileID: 11400000, guid: 1158752d1f6cc184a923174968d464a3, type: 2}
