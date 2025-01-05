@@ -792,7 +792,7 @@ public class Actor : NetworkBehaviour
 
     // Setter/ Getters---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    public void damageValue(int amount, int valueType = 0, Actor fromActor = null)
+    public int damageValue(int amount, int valueType = 0, Actor fromActor = null)
     {
         // Right now this only damages health, but, maybe in the future,
         // This could take an extra param to indicate a different value to "damage"
@@ -802,8 +802,7 @@ public class Actor : NetworkBehaviour
         if (amount < 0)
         {
             Debug.Log("Amount was Neg calling to restoreValue instead");
-            restoreValue(-1 * amount, valueType); //if negative call restore instead with amount's sign flipped
-            return;
+            return restoreValue(-1 * amount, valueType); //if negative call restore instead with amount's sign flipped
         }
         int modifiedAmount = amount;
         switch (valueType)
@@ -841,9 +840,10 @@ public class Actor : NetworkBehaviour
             default:
                 break;
         }
+        return modifiedAmount;
     }
 
-    public void restoreValue(int amount, int valueType = 0, Actor fromActor = null){
+    public int restoreValue(int amount, int valueType = 0, Actor fromActor = null){
         // This would be the opposite of damageValue(). Look at that for more details
         //  Maybe in the future calcing healing may have diff formula to calcing damage taken
 
@@ -851,7 +851,7 @@ public class Actor : NetworkBehaviour
         if (amount < 0)
         {
             Debug.Log("Amount was Neg calling to damageValue instead");
-            damageValue(-1 * amount, valueType); // if negative call damage instead with amount's sign flipped
+            return damageValue(-1 * amount, valueType); // if negative call damage instead with amount's sign flipped
         }
 
         int modifiedAmount = amount;
@@ -861,7 +861,7 @@ public class Actor : NetworkBehaviour
                 if(state == ActorState.Dead)
                 {
                     // band-aid fix to stop heals from reviving player
-                    return;
+                    return 0;
                 }
                 if(buffHandler != null){
                     modifiedAmount += (int)(amount * (buffHandler.HealingTakenMod - 1.0f));
@@ -895,6 +895,7 @@ public class Actor : NetworkBehaviour
             default:
                 break;
         }
+        return modifiedAmount;
     }
 
     public int getResourceAmount(int index){
