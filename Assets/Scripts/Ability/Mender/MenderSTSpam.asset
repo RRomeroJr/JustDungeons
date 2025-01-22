@@ -27,7 +27,7 @@ MonoBehaviour:
   needsActor: 1
   needsWP: 0
   id: 46
-  abilityTag: 0
+  abilityTag: 2
   resourceCosts:
   - amount: 400
     crType: {fileID: 11400000, guid: 14d8d4dde818cf44396153ffe293ee8d, type: 2}
@@ -36,7 +36,7 @@ MonoBehaviour:
   numberOfTicks: 0
   offGDC: 0
   rangeClass: 2
-  range: 11
+  range: 7.5
   interruptable: 1
   castWhileMoving: 0
   mustBeFacing: 1

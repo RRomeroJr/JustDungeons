@@ -27,7 +27,7 @@ MonoBehaviour:
   needsActor: 0
   needsWP: 0
   id: 63
-  abilityTag: 0
+  abilityTag: 2
   resourceCosts: []
   isChannel: 0
   channelDuration: 0

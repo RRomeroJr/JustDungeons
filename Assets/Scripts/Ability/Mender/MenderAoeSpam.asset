@@ -27,7 +27,7 @@ MonoBehaviour:
   needsActor: 0
   needsWP: 0
   id: 49
-  abilityTag: 0
+  abilityTag: 2
   resourceCosts:
   - amount: 400
     crType: {fileID: 11400000, guid: 14d8d4dde818cf44396153ffe293ee8d, type: 2}

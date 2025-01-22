@@ -25,6 +25,10 @@ public class CameraController : MonoBehaviour
         CustomNetworkManager.singleton.GamePlayers.CollectionChanged -= HandlePlayerAdded;
     }
     void LateUpdate(){
+        if(UIManager.Instance.blockCameraControls)
+        {
+            return;
+        }
 
         if(Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)){
             if( Input.GetMouseButton(0) && Input.GetMouseButton(1))
@@ -81,6 +85,10 @@ public class CameraController : MonoBehaviour
     }
     void FixedUpdate()
     {
+        // if(UIManager.Instance.blockCameraControls)
+        // {
+        //     return;
+        // }
         if (target != null)
         {
             Vector3 targetPos = target.position + (Vector3)dragOffset +

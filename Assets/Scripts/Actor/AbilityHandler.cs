@@ -916,14 +916,23 @@ public class AbilityHandler : NetworkBehaviour
     void AnimateAbility(Ability_V2 _ability)
     {
         //animator.SetInteger("abilityType", ((int)_ability.abilityTag));
-        if (_ability.abilityTag == AbilityTags.Weapon)
-        {
-            animator.SetTrigger("abilityCast");
-        }
-        if (_ability.abilityTag == AbilityTags.SpecialWeapon)
-        {
-            animator.SetTrigger("SpecialWeapon");
-        }
+        animator.SetTrigger("abilityCast");
+        // if (_ability.abilityTag == AbilityTags.Weapon)
+        // {
+        //     animator.SetTrigger("abilityCast");
+        // }
+        // else if (_ability.abilityTag == AbilityTags.SpecialWeapon)
+        // {
+        //     animator.SetTrigger("SpecialWeapon");
+        // }
+        // else if (_ability.abilityTag == AbilityTags.Spell)
+        // {
+        //     animator.SetTrigger("abilityCast");
+        // }
+        // else if (_ability.abilityTag == AbilityTags.SpecialWeapon)
+        // {
+        //     animator.SetTrigger("SpecialWeapon");
+        // }
     }
     [ClientRpc]
     void PlaySounds(Ability_V2 _ability)
@@ -932,9 +941,18 @@ public class AbilityHandler : NetworkBehaviour
         // Sound s = AudioManager.instance.testSound;
 
         // GetComponent<AudioSource>().PlayOneShot(s.audioClip, s.baseVol * AudioManager.instance.GetChannelVolume(s.soundTag));
-        AudioSource _as = GetComponent<AudioSource>(); 
-        if(_as){
+        // AudioSource _as = GetComponent<AudioSource>(); 
+        if(!TryGetComponent(out AudioSource _as))
+        {
+            return;
+        }
+        if((_ability.abilityTag == AbilityTags.Weapon) || (_ability.abilityTag == AbilityTags.SpecialWeapon))
+        {
             AudioManager.PlayFromSource(GetComponent<AudioSource>(), "mixkit-sword-slash-swoosh-1476");
+        }
+        else if((_ability.abilityTag == AbilityTags.Spell) || (_ability.abilityTag == AbilityTags.SpecialSpell))
+        {
+            AudioManager.PlayFromSource(GetComponent<AudioSource>(), "715784__dustywind__magic-whoosh");
         }
 
     }

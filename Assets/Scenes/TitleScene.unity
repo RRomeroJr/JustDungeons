@@ -733,15 +733,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1e4d14b33a17a14791cee7e24970b1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sfxVol: 1
-  musicVol: 1
-  uiVol: 1
+  sfxVol: 0.3
+  musicVol: 0.3
+  uiVol: 0.3
   testSound:
     audioClip: {fileID: 8300000, guid: 28d6334728df0a14ca0ec8b419842a8e, type: 3}
     baseVol: 1
     soundTag: 0
   sounds:
   - audioClip: {fileID: 8300000, guid: cccffe7660f5b074e9d89264d6151567, type: 3}
+    baseVol: 1
+    soundTag: 0
+  - audioClip: {fileID: 8300000, guid: aa31b69ac6aab4d4c87ff2a3c3e20760, type: 3}
     baseVol: 1
     soundTag: 0
 --- !u!4 &587273956 stripped

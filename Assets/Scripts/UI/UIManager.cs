@@ -44,6 +44,7 @@ public class UIManager : MonoBehaviour
     public bool draggingObject = false;
     public ClickManager clickManager;
     public GameObject buffBar;
+    public bool blockCameraControls = false;
 
     public void SpawnBuffBar()
     {
