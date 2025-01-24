@@ -55,7 +55,7 @@ public class AudioManager : MonoBehaviour
     public List<Sound> sounds = new List<Sound>();
     private void OnValidate()
     {
-        SavePrefs();
+        // SavePrefs();
     }
     void Awake()
     {

@@ -9,12 +9,19 @@ using UnityEngine.UI;
 public class InGameMenu : MonoBehaviour
 {
   #region Options
-  public GameObject SFXSlider;
   #endregion
   void OnEnable()
   {
     UIManager.Instance.blockCameraControls = true;
-    SFXSlider.GetComponent<Slider>().value = AudioManager.instance.SFXVol;
+    if (AudioManager.instance == null)
+    {
+      MsgBox.DisplayMsg("Error reading game settings");
+      return;
+    }
+    transform.Find("OptionsMenu/SFX_Vol/Slider").GetComponent<Slider>().value = AudioManager.instance.SFXVol;
+    transform.Find("OptionsMenu/Music_Vol/Slider").GetComponent<Slider>().value = AudioManager.instance.MusicVol;
+    transform.Find("OptionsMenu/UI_Vol/Slider").GetComponent<Slider>().value = AudioManager.instance.UIVol;
+    
   }
   void OnDisable()
   {
@@ -41,5 +48,13 @@ public class InGameMenu : MonoBehaviour
   public void ChangeSFXVolume(float _val)
   {
       AudioManager.instance.SFXVol = _val;
+  }
+  public void ChangeMusicVolume(float _val)
+  {
+      AudioManager.instance.MusicVol = _val;
+  }
+  public void ChangeUIVolume(float _val)
+  {
+      AudioManager.instance.UIVol = _val;
   }
 }
