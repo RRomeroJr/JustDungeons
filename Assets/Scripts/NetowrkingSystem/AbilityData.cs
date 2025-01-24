@@ -69,6 +69,9 @@ public class AbilityData : ScriptableObject
             }
             return null;
     }
+    /// <summary>
+    ///	Searchs by the ability's UnityEngine.Object name
+    /// </summary>>
     public Ability_V2 findByName(string _name){
             foreach(Ability_V2 ability in abilityList){
                 if(ability.name == _name){

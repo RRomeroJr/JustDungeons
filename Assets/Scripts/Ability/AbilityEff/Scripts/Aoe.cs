@@ -33,7 +33,11 @@ public class Aoe : DeliveryEff
                 Not sure if this is the best way but it seems to work fine
             */
         }
-        catch{ return null; }
+        catch(Exception e)
+        {
+            Debug.LogException(e);
+            return null;
+        }
        
     }
     public Aoe(string _effectName, GameObject _aoePrefab, int _id = -1, float _power = 0, int _school = -1){

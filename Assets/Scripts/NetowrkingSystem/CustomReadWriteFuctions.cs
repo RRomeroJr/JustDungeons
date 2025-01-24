@@ -35,7 +35,7 @@ public static class CustomReadWriteFuctions
                     
                 }
                 else{
-                    Debug.LogError("abilityID > than the length of abilityaList");
+                    Debug.LogError($"abilityID: {abilityID} > than the length of abilityaList");
                 }
             }else{
                 Debug.LogError("No abilityList in ad");
