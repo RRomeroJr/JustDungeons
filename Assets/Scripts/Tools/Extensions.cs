@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using TMPro.EditorUtilities;
 
 
 //May need a namespace here in the future but for now it seems to work fine
@@ -208,6 +209,20 @@ public static class Extensions
 
         _someComp = default(T);
         return false;
+    }
+    /// <summary>
+    ///	Convient way to scale vectors. Output is new vector
+    /// </summary>
+    public static Vector2 QuickScale(this Vector2 _vect, float _x, float _y)
+    {
+        return new Vector2(_vect.x * _x, _vect.y * _y);
+    }
+    /// <summary>
+    ///	Convient way to scale vectors. Output is new vector
+    /// </summary>
+    public static Vector3 QuickScale(this Vector3 _vect, float _x, float _y, float _z)
+    {
+        return new Vector3(_vect.x * _x, _vect.y * _y, _vect.z * _z);
     }
 
 }
