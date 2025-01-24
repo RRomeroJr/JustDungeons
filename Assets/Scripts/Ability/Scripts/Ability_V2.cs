@@ -67,11 +67,18 @@ public class Ability_V2 : ScriptableObject{
     public Sprite hotbuttonImage;
     public Color hotbuttonColor = Color.white;
     public AbilityHostilty hostilty = AbilityHostilty.Neutral;
-    
+
 
     
     void OnValidate(){
        setRangeFromType();
+        if (AbilityData.instance == null)
+            return;
+        if (AbilityData.instance.findByName(name))
+        {
+            return;
+        }
+        AbilityData.instance.abilityList.Add(this);
     }
     public static float getRange(AbilityRanges _inputRange){
         if(_inputRange == AbilityRanges.Melee){
