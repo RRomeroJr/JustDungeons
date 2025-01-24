@@ -396,7 +396,7 @@ public class PlayerController : Controller
         }
         if(Input.GetMouseButton(1) && buffHandler.Dizzy <= 0){
 
-            facingDirection = HBCTools.ToNearest45((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - rendererRef.bounds.BottomCenter());
+            facingDirection = HBCTools.ToNearest45(Camera.main.ScreenToWorldPoint(Input.mousePosition) - rendererRef.bounds.center);
             // facingDirection = HBCTools.ToNearest45((Vector2)(Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position));
             CmdSetFacingDirection(facingDirection);
             

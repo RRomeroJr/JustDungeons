@@ -83,16 +83,17 @@ public class CameraController : MonoBehaviour
     {
         if (target != null)
         {
-            Vector3 targetPos = target.position + (Vector3)dragOffset + offset;
+            Vector3 targetPos = target.position + (Vector3)dragOffset +
+                offset;
             Vector3 newTargetPos;
             Vector3 smoothedPos = Vector3.Lerp(transform.position, targetPos, smoothSpeed);
-            Vector2 mousePos = HBCTools.GetMousePosWP();
-            if((mousePos - (Vector2)targetPos).magnitude < 4.0f){
-                newTargetPos = mousePos;
-            }
-            else{
-                newTargetPos = (Vector3)Vector2.ClampMagnitude((mousePos - (Vector2)targetPos), 4.0f) + targetPos;
-            }
+            // Vector2 mousePos = HBCTools.GetMousePosWP();
+            // if((mousePos - (Vector2)targetPos).magnitude < 4.0f){
+            //     newTargetPos = mousePos;
+            // }
+            // else{
+            //     newTargetPos = (Vector3)Vector2.ClampMagnitude((mousePos - (Vector2)targetPos), 4.0f) + targetPos;
+            // }
             //Debug.DrawLine(target.position, newTargetPos, Color.red);
             transform.position = smoothedPos;
         }
@@ -105,7 +106,7 @@ public class CameraController : MonoBehaviour
             if (ele.isLocalPlayer)
             {
                 target = ele.transform;
-                offset.y = -1 * target.GetComponent<Renderer>().bounds.extents.y + OFFSET_ADJUST;
+                // offset.y = -1 * target.GetComponent<Renderer>().bounds.extents.y + OFFSET_ADJUST;
                 break;
             }
 
