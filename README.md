@@ -1,4 +1,4 @@
-# 2d MMO Dungeon
+# Just Dungeons
 
 Multiplayer 2D MMO-style dungeon experience similar in style to modern WoW or FF14, but without the systems that waste your time.
 No leveling, no gear, just dungeons.
