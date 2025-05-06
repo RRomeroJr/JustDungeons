@@ -52,3 +52,9 @@
 **/*.prefab linguist-generated
 **/*.unity linguist-generated
 **/*.aar filter=lfs diff=lfs merge=lfs -text
+
+# vv In theroy this should work but I can't test it rn vv
+# ignore everything but the build zip
+** export-ignore
+JustDungeons_v0_2_5.zip -export-ignore
+# maybe in the future JustDungeons_v.*_.*_.*.zip ?
